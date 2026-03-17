@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Matplotlib Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#58a6ff}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Line Plot</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Bar Chart</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Scatter Plot</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Histogram</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Subplots</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Figure Customization</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Pie &amp; Donut Chart</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Heatmap with imshow/pcolor</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Twin Axes &amp; Secondary Y-Axis</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Saving Figures &amp; Style Sheets</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. 3D Plotting</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Custom Styles &amp; Themes</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Annotations &amp; Text Elements</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Animations &amp; GIF Export</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Publication-Quality Figures</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Custom Colormaps &amp; Color Science</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Matplotlib</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Line Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.</p><div class="code-block"><div class="ch"><span>Simple line plot</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2 * np.pi, 200)
+y = np.sin(x)
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, color=&#x27;steelblue&#x27;, linewidth=2, label=&#x27;sin(x)&#x27;)
+plt.xlabel(&#x27;x&#x27;)
+plt.ylabel(&#x27;y&#x27;)
+plt.title(&#x27;Sine Wave&#x27;)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;line_simple.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved line_simple.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Multiple lines</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2 * np.pi, 200)
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, np.sin(x),     label=&#x27;sin(x)&#x27;,    linewidth=2)
+plt.plot(x, np.cos(x),     label=&#x27;cos(x)&#x27;,    linewidth=2, linestyle=&#x27;--&#x27;)
+plt.plot(x, np.sin(2 * x), label=&#x27;sin(2x)&#x27;,   linewidth=1, alpha=0.7)
+plt.xlabel(&#x27;x&#x27;)
+plt.ylabel(&#x27;y&#x27;)
+plt.title(&#x27;Trig Functions&#x27;)
+plt.legend()
+plt.axhline(0, color=&#x27;gray&#x27;, linewidth=0.8)
+plt.tight_layout()
+plt.savefig(&#x27;line_multi.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved line_multi.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Line styles, markers, and fill_between</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(0)
+x = np.linspace(0, 10, 50)
+y1 = np.sin(x) + np.random.randn(50) * 0.1
+y2 = np.cos(x) + np.random.randn(50) * 0.1
+err = np.abs(np.random.randn(50) * 0.15)
+
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.plot(x, y1, &#x27;o-&#x27;, color=&#x27;steelblue&#x27;, markersize=4, linewidth=1.5, label=&#x27;Signal A&#x27;)
+ax.plot(x, y2, &#x27;s--&#x27;, color=&#x27;tomato&#x27;, markersize=4, linewidth=1.5, label=&#x27;Signal B&#x27;)
+# Confidence band around Signal A
+ax.fill_between(x, y1 - err, y1 + err, alpha=0.2, color=&#x27;steelblue&#x27;, label=&#x27;±1σ band&#x27;)
+ax.axhline(0, color=&#x27;gray&#x27;, linewidth=0.7, linestyle=&#x27;:&#x27;)
+ax.set_xlabel(&#x27;Time&#x27;); ax.set_ylabel(&#x27;Amplitude&#x27;)
+ax.set_title(&#x27;Line Styles, Markers &amp; Confidence Band&#x27;)
+ax.legend(fontsize=9); ax.grid(True, alpha=0.25)
+plt.tight_layout()
+plt.savefig(&#x27;line_styles.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved line_styles.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Step plot and errorbar</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(4)
+x = np.arange(1, 13)
+y = np.array([5, 8, 6, 10, 13, 11, 15, 14, 17, 16, 20, 22], dtype=float)
+yerr = np.random.uniform(0.5, 2.0, 12)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+# Step plot — useful for histograms, digital signals, and discrete data
+ax1.step(x, y, where=&#x27;mid&#x27;, color=&#x27;steelblue&#x27;, linewidth=2, label=&#x27;Step (mid)&#x27;)
+ax1.step(x, y + 3, where=&#x27;post&#x27;, color=&#x27;tomato&#x27;, linewidth=2,
+         linestyle=&#x27;--&#x27;, label=&#x27;Step (post)&#x27;)
+ax1.fill_between(x, y, step=&#x27;mid&#x27;, alpha=0.15, color=&#x27;steelblue&#x27;)
+ax1.set_xlabel(&#x27;Month&#x27;); ax1.set_ylabel(&#x27;Value&#x27;)
+ax1.set_title(&#x27;Step Plot Variants&#x27;)
+ax1.legend(fontsize=9); ax1.grid(True, alpha=0.25)
+
+# Errorbar plot — shows measurement uncertainty
+ax2.errorbar(x, y, yerr=yerr, fmt=&#x27;o-&#x27;, color=&#x27;#2ecc71&#x27;, ecolor=&#x27;gray&#x27;,
+             elinewidth=1.5, capsize=4, capthick=1.5, linewidth=2,
+             markersize=6, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2,
+             label=&#x27;Mean ± std&#x27;)
+ax2.set_xlabel(&#x27;Month&#x27;); ax2.set_ylabel(&#x27;Measurement&#x27;)
+ax2.set_title(&#x27;Errorbar Plot&#x27;)
+ax2.legend(fontsize=9); ax2.grid(True, alpha=0.25)
+
+plt.tight_layout()
+plt.savefig(&#x27;line_step_errorbar.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved line_step_errorbar.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Website Traffic Trend</div><div class="rd">A marketing analyst plots 30-day daily visitor counts with a 7-day moving average to spot trends.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+days    = np.arange(1, 31)
+traffic = 1000 + np.cumsum(np.random.randn(30) * 50) + np.random.randn(30) * 80
+ma7     = np.convolve(traffic, np.ones(7)/7, mode=&#x27;same&#x27;)
+
+fig, ax = plt.subplots(figsize=(10, 4))
+ax.plot(days, traffic, alpha=0.4, color=&#x27;steelblue&#x27;, label=&#x27;Daily visitors&#x27;)
+ax.plot(days, ma7,     color=&#x27;steelblue&#x27;, linewidth=2.5, label=&#x27;7-day MA&#x27;)
+ax.fill_between(days, traffic, alpha=0.1, color=&#x27;steelblue&#x27;)
+ax.set_xlabel(&#x27;Day of Month&#x27;)
+ax.set_ylabel(&#x27;Visitors&#x27;)
+ax.set_title(&#x27;Website Traffic — January 2024&#x27;)
+ax.legend()
+ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;traffic_trend.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved traffic_trend.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Lines with Different Styles</div><div class="pd">Plot sin(x), sin(2x), and sin(3x) on the same axes over [0, 2π]. Each line should use a different color, linestyle, and marker. Add a legend, axis labels, title, and a horizontal dashed line at y=0. Save the figure as &#x27;practice_lines.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2 * np.pi, 200)
+
+fig, ax = plt.subplots(figsize=(9, 4))
+
+# TODO: plot sin(x) — solid line, circle markers, steelblue
+# ax.plot(x, np.sin(x), ...)
+
+# TODO: plot sin(2x) — dashed line, square markers, tomato
+# ax.plot(x, np.sin(2*x), ...)
+
+# TODO: plot sin(3x) — dotted line, triangle markers, green
+# ax.plot(x, np.sin(3*x), ...)
+
+# TODO: add horizontal dashed line at y=0
+# ax.axhline(...)
+
+# TODO: labels, title, legend, grid
+ax.set_xlabel(&#x27;x&#x27;)
+ax.set_ylabel(&#x27;y&#x27;)
+# ax.set_title(...)
+# ax.legend()
+# ax.grid(...)
+
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_lines.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bar charts compare discrete categories. Use plt.bar() for vertical and plt.barh() for horizontal. Add value labels for clarity.</p><div class="code-block"><div class="ch"><span>Vertical bar chart</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+categories = [&#x27;Python&#x27;, &#x27;JavaScript&#x27;, &#x27;Java&#x27;, &#x27;C++&#x27;, &#x27;Rust&#x27;]
+values     = [67.4, 63.6, 35.4, 24.1, 13.2]
+colors     = [&#x27;#4C72B0&#x27;,&#x27;#DD8452&#x27;,&#x27;#55A868&#x27;,&#x27;#C44E52&#x27;,&#x27;#8172B2&#x27;]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+bars = ax.bar(categories, values, color=colors, edgecolor=&#x27;white&#x27;, linewidth=0.5)
+
+# Add value labels on top
+for bar, val in zip(bars, values):
+    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
+            f&#x27;{val}%&#x27;, ha=&#x27;center&#x27;, va=&#x27;bottom&#x27;, fontsize=9)
+
+ax.set_ylabel(&#x27;Popularity (%)&#x27;)
+ax.set_title(&#x27;Most Popular Programming Languages 2024&#x27;)
+ax.set_ylim(0, 80)
+ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;bar_vertical.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved bar_vertical.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Grouped and stacked bar chart</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+quarters = [&#x27;Q1&#x27;, &#x27;Q2&#x27;, &#x27;Q3&#x27;, &#x27;Q4&#x27;]
+product_a = [120, 150, 180, 210]
+product_b = [80,  95,  110, 130]
+x = np.arange(len(quarters))
+w = 0.35
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+# Grouped
+axes[0].bar(x - w/2, product_a, w, label=&#x27;Product A&#x27;, color=&#x27;#4C72B0&#x27;)
+axes[0].bar(x + w/2, product_b, w, label=&#x27;Product B&#x27;, color=&#x27;#DD8452&#x27;)
+axes[0].set_xticks(x); axes[0].set_xticklabels(quarters)
+axes[0].set_title(&#x27;Grouped&#x27;); axes[0].legend()
+
+# Stacked
+axes[1].bar(quarters, product_a, label=&#x27;Product A&#x27;, color=&#x27;#4C72B0&#x27;)
+axes[1].bar(quarters, product_b, bottom=product_a, label=&#x27;Product B&#x27;, color=&#x27;#DD8452&#x27;)
+axes[1].set_title(&#x27;Stacked&#x27;); axes[1].legend()
+
+plt.tight_layout()
+plt.savefig(&#x27;bar_grouped_stacked.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved bar_grouped_stacked.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Horizontal bar chart with value labels</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+skills  = [&#x27;Python&#x27;, &#x27;SQL&#x27;, &#x27;Machine Learning&#x27;, &#x27;Data Viz&#x27;, &#x27;Statistics&#x27;, &#x27;Deep Learning&#x27;]
+scores  = [92, 85, 78, 70, 65, 55]
+colors  = [&#x27;#4C72B0&#x27; if s &gt;= 80 else &#x27;#DD8452&#x27; if s &gt;= 65 else &#x27;#C44E52&#x27; for s in scores]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+bars = ax.barh(skills, scores, color=colors, edgecolor=&#x27;white&#x27;, linewidth=0.5)
+
+for bar, val in zip(bars, scores):
+    ax.text(val + 0.5, bar.get_y() + bar.get_height()/2,
+            f&#x27;{val}%&#x27;, va=&#x27;center&#x27;, fontsize=9)
+
+ax.set_xlabel(&#x27;Proficiency Score (%)&#x27;)
+ax.set_title(&#x27;Data Science Skill Assessment&#x27;)
+ax.set_xlim(0, 105)
+ax.axvline(80, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=1, alpha=0.6, label=&#x27;Expert threshold&#x27;)
+ax.legend(fontsize=9); ax.grid(True, axis=&#x27;x&#x27;, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;bar_horizontal.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved bar_horizontal.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Bar chart with error bars and significance markers</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(21)
+conditions = [&#x27;Control&#x27;, &#x27;Treatment A&#x27;, &#x27;Treatment B&#x27;, &#x27;Treatment C&#x27;]
+means  = np.array([45.2, 52.7, 61.3, 58.9])
+errors = np.array([3.1,  4.2,  3.8,  4.5])   # standard deviations
+colors = [&#x27;#8172B2&#x27;, &#x27;#4C72B0&#x27;, &#x27;#55A868&#x27;, &#x27;#DD8452&#x27;]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+x = np.arange(len(conditions))
+
+bars = ax.bar(x, means, yerr=errors, color=colors, edgecolor=&#x27;white&#x27;,
+              linewidth=0.5, capsize=6, error_kw=dict(elinewidth=1.5, ecolor=&#x27;black&#x27;))
+
+# Add significance stars between bars
+pairs = [(0, 2, &#x27;***&#x27;), (1, 2, &#x27;*&#x27;)]   # (bar_i, bar_j, label)
+y_max = (means + errors).max()
+for i, j, sig in pairs:
+    y = y_max + 4 + pairs.index((i, j, sig)) * 5
+    ax.annotate(&#x27;&#x27;, xy=(j, y), xytext=(i, y),
+                arrowprops=dict(arrowstyle=&#x27;-&#x27;, color=&#x27;black&#x27;, lw=1.2))
+    ax.text((i + j) / 2, y + 0.3, sig, ha=&#x27;center&#x27;, va=&#x27;bottom&#x27;, fontsize=11)
+
+# Value labels above each bar
+for bar, m, e in zip(bars, means, errors):
+    ax.text(bar.get_x() + bar.get_width()/2, m + e + 0.8,
+            f&#x27;{m:.1f}&#x27;, ha=&#x27;center&#x27;, va=&#x27;bottom&#x27;, fontsize=9)
+
+ax.set_xticks(x); ax.set_xticklabels(conditions)
+ax.set_ylabel(&#x27;Response Score&#x27;); ax.set_title(&#x27;Experimental Results with Error Bars&#x27;)
+ax.set_ylim(0, y_max + 18); ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;bar_errorbars.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved bar_errorbars.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Quarterly Sales by Region</div><div class="rd">A sales director compares quarterly revenue across four regions with a horizontal bar chart for a board presentation.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+regions = [&#x27;APAC&#x27;, &#x27;EMEA&#x27;, &#x27;LATAM&#x27;, &#x27;North America&#x27;]
+q1 = [2.1, 3.4, 1.2, 5.6]
+q2 = [2.5, 3.8, 1.5, 6.1]
+y  = np.arange(len(regions))
+h  = 0.35
+
+fig, ax = plt.subplots(figsize=(9, 4))
+b1 = ax.barh(y + h/2, q1, h, label=&#x27;Q1 2024&#x27;, color=&#x27;#4C72B0&#x27;)
+b2 = ax.barh(y - h/2, q2, h, label=&#x27;Q2 2024&#x27;, color=&#x27;#55A868&#x27;)
+
+for bar in list(b1) + list(b2):
+    w = bar.get_width()
+    ax.text(w + 0.05, bar.get_y() + bar.get_height()/2,
+            f&#x27;${w:.1f}M&#x27;, va=&#x27;center&#x27;, fontsize=8)
+
+ax.set_yticks(y); ax.set_yticklabels(regions)
+ax.set_xlabel(&#x27;Revenue (USD millions)&#x27;)
+ax.set_title(&#x27;Q1 vs Q2 2024 Revenue by Region&#x27;)
+ax.legend(); ax.grid(True, axis=&#x27;x&#x27;, alpha=0.3)
+ax.set_xlim(0, 8)
+plt.tight_layout()
+plt.savefig(&#x27;bar_region.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved bar_region.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar Chart</div><div class="pd">Create a grouped bar chart comparing sales of 3 products (A, B, C) across 4 quarters (Q1-Q4). Use distinct colors per product, offset the bars within each group, add value labels on top, and include a legend. Save as &#x27;practice_grouped_bar.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+quarters  = [&#x27;Q1&#x27;, &#x27;Q2&#x27;, &#x27;Q3&#x27;, &#x27;Q4&#x27;]
+product_a = [45, 60, 55, 80]
+product_b = [30, 45, 70, 65]
+product_c = [20, 35, 40, 55]
+
+x = np.arange(len(quarters))
+w = 0.25   # bar width
+
+fig, ax = plt.subplots(figsize=(9, 5))
+
+# TODO: plot three groups of bars, offset by -w, 0, +w
+# bars_a = ax.bar(x - w, product_a, w, label=&#x27;Product A&#x27;, color=&#x27;#4C72B0&#x27;)
+# bars_b = ax.bar(x,     product_b, w, label=&#x27;Product B&#x27;, color=&#x27;#DD8452&#x27;)
+# bars_c = ax.bar(x + w, product_c, w, label=&#x27;Product C&#x27;, color=&#x27;#55A868&#x27;)
+
+# TODO: add value labels on top of each bar
+# for bars in [bars_a, bars_b, bars_c]:
+#     for bar in bars:
+#         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
+#                 str(int(bar.get_height())), ha=&#x27;center&#x27;, va=&#x27;bottom&#x27;, fontsize=8)
+
+ax.set_xticks(x)
+ax.set_xticklabels(quarters)
+# TODO: ax.set_xlabel(...), ax.set_ylabel(...), ax.set_title(...)
+# TODO: ax.legend()
+ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_grouped_bar.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Scatter Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Scatter plots reveal relationships between two numeric variables. Control color, size, and alpha to encode extra dimensions.</p><div class="code-block"><div class="ch"><span>Basic scatter and color mapping</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+x = np.random.randn(200)
+y = 0.7 * x + np.random.randn(200) * 0.6
+
+fig, ax = plt.subplots(figsize=(6, 5))
+sc = ax.scatter(x, y, c=y, cmap=&#x27;RdYlGn&#x27;, alpha=0.7, edgecolors=&#x27;white&#x27;, linewidth=0.3)
+plt.colorbar(sc, label=&#x27;y value&#x27;)
+
+# Trend line
+m, b = np.polyfit(x, y, 1)
+xline = np.linspace(x.min(), x.max(), 100)
+ax.plot(xline, m * xline + b, &#x27;k--&#x27;, linewidth=1.5, label=f&#x27;y={m:.2f}x+{b:.2f}&#x27;)
+
+ax.set_xlabel(&#x27;X&#x27;); ax.set_ylabel(&#x27;Y&#x27;)
+ax.set_title(&#x27;Scatter with Trend Line&#x27;)
+ax.legend()
+plt.tight_layout()
+plt.savefig(&#x27;scatter_basic.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved scatter_basic.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Bubble chart (size as 3rd dimension)</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(7)
+n = 20
+x    = np.random.uniform(10, 100, n)
+y    = np.random.uniform(5, 50, n)
+size = np.random.uniform(50, 800, n)   # bubble size
+color= np.random.rand(n)
+
+fig, ax = plt.subplots(figsize=(7, 5))
+sc = ax.scatter(x, y, s=size, c=color, cmap=&#x27;viridis&#x27;, alpha=0.6,
+                edgecolors=&#x27;white&#x27;, linewidth=0.5)
+plt.colorbar(sc, label=&#x27;Category&#x27;)
+ax.set_xlabel(&#x27;Revenue ($K)&#x27;); ax.set_ylabel(&#x27;Profit Margin (%)&#x27;)
+ax.set_title(&#x27;Product Portfolio — Bubble Chart&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;scatter_bubble.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved scatter_bubble.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Color-mapped scatter with categorical legend</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(3)
+n_per_class = 80
+classes = [&#x27;Class A&#x27;, &#x27;Class B&#x27;, &#x27;Class C&#x27;]
+centers = [(-2, -2), (0, 2), (3, 0)]
+colors  = [&#x27;#e74c3c&#x27;, &#x27;#3498db&#x27;, &#x27;#2ecc71&#x27;]
+
+fig, ax = plt.subplots(figsize=(7, 6))
+for cls, center, color in zip(classes, centers, colors):
+    x = np.random.randn(n_per_class) * 0.8 + center[0]
+    y = np.random.randn(n_per_class) * 0.8 + center[1]
+    ax.scatter(x, y, c=color, label=cls, alpha=0.65,
+               edgecolors=&#x27;white&#x27;, linewidth=0.4, s=50)
+
+ax.set_xlabel(&#x27;Feature 1&#x27;); ax.set_ylabel(&#x27;Feature 2&#x27;)
+ax.set_title(&#x27;Multi-Class Scatter Plot&#x27;)
+ax.legend(title=&#x27;Class&#x27;, framealpha=0.8)
+ax.grid(True, alpha=0.2)
+plt.tight_layout()
+plt.savefig(&#x27;scatter_classes.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved scatter_classes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Hexbin density plot with colorbar and size scaling</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(17)
+n = 5000
+# Two overlapping Gaussian clusters
+x = np.concatenate([np.random.randn(n) * 1.2 - 1,
+                    np.random.randn(n) * 0.8 + 2])
+y = np.concatenate([np.random.randn(n) * 1.5 + 0.5,
+                    np.random.randn(n) * 1.0 - 1])
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+# Hexbin — handles large datasets where individual points overlap
+hb = axes[0].hexbin(x, y, gridsize=40, cmap=&#x27;YlOrRd&#x27;, mincnt=1)
+plt.colorbar(hb, ax=axes[0], label=&#x27;Count per bin&#x27;)
+axes[0].set_xlabel(&#x27;X&#x27;); axes[0].set_ylabel(&#x27;Y&#x27;)
+axes[0].set_title(&#x27;Hexbin Density (gridsize=40)&#x27;)
+
+# Scatter with size proportional to local density (estimated via 2D hist)
+H, xedges, yedges = np.histogram2d(x, y, bins=30)
+xi = np.searchsorted(xedges, x, side=&#x27;right&#x27;).clip(1, H.shape[0]) - 1
+yi = np.searchsorted(yedges, y, side=&#x27;right&#x27;).clip(1, H.shape[1]) - 1
+density = H[xi, yi]
+
+sc = axes[1].scatter(x[::5], y[::5], c=density[::5], s=density[::5] * 0.4 + 4,
+                     cmap=&#x27;plasma&#x27;, alpha=0.5, edgecolors=&#x27;none&#x27;)
+plt.colorbar(sc, ax=axes[1], label=&#x27;Local density&#x27;)
+axes[1].set_xlabel(&#x27;X&#x27;); axes[1].set_ylabel(&#x27;Y&#x27;)
+axes[1].set_title(&#x27;Scatter: Size &amp; Color = Density&#x27;)
+
+plt.tight_layout()
+plt.savefig(&#x27;scatter_hexbin_density.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved scatter_hexbin_density.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Housing Price vs. Square Footage</div><div class="rd">A real estate analyst visualizes the relationship between house size and price, coloring by neighborhood.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(10)
+neighborhoods = [&#x27;Downtown&#x27;, &#x27;Suburbs&#x27;, &#x27;Rural&#x27;]
+colors_map    = {&#x27;Downtown&#x27;: &#x27;#e74c3c&#x27;, &#x27;Suburbs&#x27;: &#x27;#3498db&#x27;, &#x27;Rural&#x27;: &#x27;#2ecc71&#x27;}
+
+fig, ax = plt.subplots(figsize=(9, 5))
+
+for nbhd in neighborhoods:
+    n    = 60
+    sqft = np.random.normal({&#x27;Downtown&#x27;:1200,&#x27;Suburbs&#x27;:1800,&#x27;Rural&#x27;:2500}[nbhd], 200, n)
+    base = {&#x27;Downtown&#x27;:600000,&#x27;Suburbs&#x27;:350000,&#x27;Rural&#x27;:180000}[nbhd]
+    price= base + sqft * np.random.uniform(150,250) + np.random.randn(n) * 30000
+    ax.scatter(sqft, price/1000, label=nbhd, alpha=0.6,
+               color=colors_map[nbhd], edgecolors=&#x27;white&#x27;, linewidth=0.3, s=40)
+
+ax.set_xlabel(&#x27;Square Footage&#x27;)
+ax.set_ylabel(&#x27;Price ($K)&#x27;)
+ax.set_title(&#x27;House Price vs. Size by Neighborhood&#x27;)
+ax.legend(); ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;scatter_housing.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved scatter_housing.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color-Mapped Scatter with Colorbar</div><div class="pd">Generate 300 random (x, y) points where y = 0.5*x + noise. Color each point by its distance from the origin (sqrt(x²+y²)) using the &#x27;plasma&#x27; colormap. Add a colorbar labeled &#x27;Distance from origin&#x27;, a regression line, axis labels, and a title. Save as &#x27;practice_scatter.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+x = np.random.randn(300)
+y = 0.5 * x + np.random.randn(300) * 0.8
+
+# TODO: compute distance from origin for each point
+# dist = np.sqrt(x**2 + y**2)
+
+fig, ax = plt.subplots(figsize=(7, 6))
+
+# TODO: scatter with c=dist, cmap=&#x27;plasma&#x27;, alpha=0.7, edgecolors=&#x27;white&#x27;
+# sc = ax.scatter(x, y, c=dist, ...)
+# TODO: plt.colorbar(sc, label=&#x27;Distance from origin&#x27;)
+
+# TODO: fit and plot regression line
+# m, b = np.polyfit(x, y, 1)
+# xline = np.linspace(x.min(), x.max(), 100)
+# ax.plot(xline, m * xline + b, &#x27;k--&#x27;, linewidth=1.5, label=f&#x27;fit&#x27;)
+
+ax.set_xlabel(&#x27;X&#x27;)
+ax.set_ylabel(&#x27;Y&#x27;)
+# TODO: ax.set_title(...)
+# TODO: ax.legend()
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_scatter.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Histogram</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Histograms show the distribution of a single variable. Control bins and density to compare distributions or estimate PDFs.</p><div class="code-block"><div class="ch"><span>Basic histogram with density</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+data = np.random.normal(170, 10, 1000)   # heights in cm
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.hist(data, bins=30, density=True, color=&#x27;steelblue&#x27;,
+        edgecolor=&#x27;white&#x27;, linewidth=0.4, alpha=0.7, label=&#x27;Data&#x27;)
+
+# Overlay normal PDF manually (no scipy needed)
+xr = np.linspace(data.min(), data.max(), 200)
+pdf = (1 / (data.std() * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((xr - data.mean()) / data.std())**2)
+ax.plot(xr, pdf, color=&#x27;navy&#x27;, linewidth=2, label=&#x27;Normal PDF&#x27;)
+
+ax.axvline(data.mean(), color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, label=f&#x27;Mean={data.mean():.1f}&#x27;)
+ax.set_xlabel(&#x27;Height (cm)&#x27;); ax.set_ylabel(&#x27;Density&#x27;)
+ax.set_title(&#x27;Height Distribution&#x27;); ax.legend()
+plt.tight_layout()
+plt.savefig(&#x27;hist_basic.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_basic.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Overlapping histograms for comparison</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(0)
+group_a = np.random.normal(100, 15, 500)
+group_b = np.random.normal(115, 12, 500)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.hist(group_a, bins=30, alpha=0.6, label=&#x27;Group A&#x27;, color=&#x27;steelblue&#x27;, edgecolor=&#x27;white&#x27;)
+ax.hist(group_b, bins=30, alpha=0.6, label=&#x27;Group B&#x27;, color=&#x27;tomato&#x27;,    edgecolor=&#x27;white&#x27;)
+ax.axvline(group_a.mean(), color=&#x27;steelblue&#x27;, linestyle=&#x27;--&#x27;, linewidth=1.5)
+ax.axvline(group_b.mean(), color=&#x27;tomato&#x27;,    linestyle=&#x27;--&#x27;, linewidth=1.5)
+ax.set_xlabel(&#x27;Score&#x27;); ax.set_ylabel(&#x27;Count&#x27;)
+ax.set_title(&#x27;Score Distribution by Group&#x27;)
+ax.legend()
+plt.tight_layout()
+plt.savefig(&#x27;hist_compare.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_compare.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Histogram with cumulative distribution</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(5)
+data = np.random.exponential(scale=2.0, size=800)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
+
+# Regular histogram
+ax1.hist(data, bins=35, color=&#x27;#DD8452&#x27;, edgecolor=&#x27;white&#x27;, linewidth=0.4, alpha=0.8)
+ax1.set_xlabel(&#x27;Value&#x27;); ax1.set_ylabel(&#x27;Count&#x27;)
+ax1.set_title(&#x27;Exponential Distribution&#x27;)
+ax1.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+# Cumulative histogram (ECDF style)
+ax2.hist(data, bins=35, cumulative=True, density=True,
+         color=&#x27;#4C72B0&#x27;, edgecolor=&#x27;white&#x27;, linewidth=0.4, alpha=0.7, label=&#x27;ECDF&#x27;)
+# Overlay theoretical CDF: 1 - exp(-x/scale)
+xr = np.linspace(0, data.max(), 200)
+ax2.plot(xr, 1 - np.exp(-xr / 2.0), &#x27;r-&#x27;, linewidth=2, label=&#x27;Theoretical CDF&#x27;)
+ax2.set_xlabel(&#x27;Value&#x27;); ax2.set_ylabel(&#x27;Cumulative Probability&#x27;)
+ax2.set_title(&#x27;Cumulative Distribution&#x27;)
+ax2.legend(); ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(&#x27;hist_cumulative.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_cumulative.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Step histogram and density=True comparison</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(13)
+data_a = np.random.normal(60, 12, 600)
+data_b = np.random.normal(75, 10, 600)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# Filled histogram (counts)
+axes[0].hist(data_a, bins=30, alpha=0.6, color=&#x27;steelblue&#x27;,
+             edgecolor=&#x27;white&#x27;, label=&#x27;Group A&#x27;)
+axes[0].hist(data_b, bins=30, alpha=0.6, color=&#x27;tomato&#x27;,
+             edgecolor=&#x27;white&#x27;, label=&#x27;Group B&#x27;)
+axes[0].set_title(&#x27;Filled — Count&#x27;); axes[0].legend()
+axes[0].set_xlabel(&#x27;Value&#x27;); axes[0].set_ylabel(&#x27;Count&#x27;)
+axes[0].grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+# Step histogram (unfilled outline)
+axes[1].hist(data_a, bins=30, histtype=&#x27;step&#x27;, linewidth=2,
+             color=&#x27;steelblue&#x27;, label=&#x27;Group A&#x27;)
+axes[1].hist(data_b, bins=30, histtype=&#x27;step&#x27;, linewidth=2,
+             color=&#x27;tomato&#x27;, label=&#x27;Group B&#x27;)
+axes[1].set_title(&#x27;Step — Count&#x27;); axes[1].legend()
+axes[1].set_xlabel(&#x27;Value&#x27;); axes[1].set_ylabel(&#x27;Count&#x27;)
+axes[1].grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+# Density=True — normalised to probability density
+axes[2].hist(data_a, bins=30, density=True, histtype=&#x27;stepfilled&#x27;,
+             alpha=0.5, color=&#x27;steelblue&#x27;, edgecolor=&#x27;steelblue&#x27;,
+             linewidth=1.5, label=&#x27;Group A&#x27;)
+axes[2].hist(data_b, bins=30, density=True, histtype=&#x27;stepfilled&#x27;,
+             alpha=0.5, color=&#x27;tomato&#x27;, edgecolor=&#x27;tomato&#x27;,
+             linewidth=1.5, label=&#x27;Group B&#x27;)
+# Overlay normal PDFs
+for data, col in [(data_a, &#x27;steelblue&#x27;), (data_b, &#x27;tomato&#x27;)]:
+    xr = np.linspace(data.min(), data.max(), 200)
+    pdf = (1 / (data.std() * np.sqrt(2*np.pi))) * np.exp(
+          -0.5 * ((xr - data.mean()) / data.std())**2)
+    axes[2].plot(xr, pdf, color=col, linewidth=2.5)
+axes[2].set_title(&#x27;Step-Filled — Density&#x27;); axes[2].legend()
+axes[2].set_xlabel(&#x27;Value&#x27;); axes[2].set_ylabel(&#x27;Probability Density&#x27;)
+axes[2].grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+plt.suptitle(&#x27;Histogram Style Comparison&#x27;, fontsize=12, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;hist_styles_comparison.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_styles_comparison.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Loan Application Risk Distribution</div><div class="rd">A credit risk analyst plots the distribution of applicant credit scores to set approval thresholds.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(3)
+# Simulate credit score distribution (skewed left — more mid/high scores)
+approved = np.random.normal(700, 60, 800).clip(580, 850)
+rejected = np.random.normal(580, 50, 400).clip(300, 680)
+
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.hist(approved, bins=30, alpha=0.6, color=&#x27;#2ecc71&#x27;, label=&#x27;Approved&#x27;, edgecolor=&#x27;white&#x27;)
+ax.hist(rejected, bins=30, alpha=0.6, color=&#x27;#e74c3c&#x27;, label=&#x27;Rejected&#x27;, edgecolor=&#x27;white&#x27;)
+
+# Threshold line
+ax.axvline(620, color=&#x27;black&#x27;, linestyle=&#x27;--&#x27;, linewidth=2, label=&#x27;Threshold: 620&#x27;)
+ax.set_xlabel(&#x27;Credit Score&#x27;); ax.set_ylabel(&#x27;Applicants&#x27;)
+ax.set_title(&#x27;Credit Score Distribution by Decision&#x27;)
+ax.legend(); ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+# Annotation
+ax.annotate(&#x27;High risk zone&#x27;, xy=(550, 30), fontsize=9, color=&#x27;#e74c3c&#x27;)
+ax.annotate(&#x27;Low risk zone&#x27;,  xy=(720, 60), fontsize=9, color=&#x27;#2ecc71&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;hist_credit.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_credit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram with Density Curve</div><div class="pd">Generate 1000 samples from a normal distribution (mean=50, std=12). Plot a histogram with density=True (30 bins, steelblue). Overlay a manually computed normal PDF curve (no scipy). Add vertical lines for mean and ±1 std. Label axes, add title and legend. Save as &#x27;practice_hist.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(7)
+data = np.random.normal(50, 12, 1000)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+# TODO: plot histogram with density=True, bins=30, steelblue
+# ax.hist(data, bins=30, density=True, ...)
+
+# TODO: compute and overlay normal PDF
+# xr = np.linspace(data.min(), data.max(), 200)
+# mu, sigma = data.mean(), data.std()
+# pdf = (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((xr - mu) / sigma)**2)
+# ax.plot(xr, pdf, color=&#x27;navy&#x27;, linewidth=2, label=&#x27;Normal PDF&#x27;)
+
+# TODO: add vertical lines for mean and ±1 std
+# ax.axvline(mu, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, label=f&#x27;Mean={mu:.1f}&#x27;)
+# ax.axvline(mu - sigma, color=&#x27;orange&#x27;, linestyle=&#x27;:&#x27;, label=&#x27;-1σ&#x27;)
+# ax.axvline(mu + sigma, color=&#x27;orange&#x27;, linestyle=&#x27;:&#x27;, label=&#x27;+1σ&#x27;)
+
+ax.set_xlabel(&#x27;Value&#x27;)
+ax.set_ylabel(&#x27;Density&#x27;)
+# TODO: ax.set_title(...)
+# TODO: ax.legend()
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_hist.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plt.subplots() creates a grid of axes in a single figure. Essential for dashboards and side-by-side comparisons.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+x = np.linspace(0, 10, 200)
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+
+axes[0,0].plot(x, np.sin(x), color=&#x27;steelblue&#x27;)
+axes[0,0].set_title(&#x27;Line: sin(x)&#x27;)
+
+axes[0,1].bar([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;], [23,45,12,67], color=&#x27;#DD8452&#x27;)
+axes[0,1].set_title(&#x27;Bar Chart&#x27;)
+
+axes[1,0].scatter(np.random.randn(100), np.random.randn(100), alpha=0.5)
+axes[1,0].set_title(&#x27;Scatter&#x27;)
+
+axes[1,1].hist(np.random.randn(500), bins=25, color=&#x27;#55A868&#x27;)
+axes[1,1].set_title(&#x27;Histogram&#x27;)
+
+# Global title and spacing
+fig.suptitle(&#x27;Dashboard Overview&#x27;, fontsize=14, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;subplots_2x2.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved subplots_2x2.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Shared axes and different sizes</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(5)
+dates  = np.arange(30)
+price  = 100 + np.cumsum(np.random.randn(30))
+volume = np.random.randint(1000, 5000, 30)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6),
+                                 sharex=True,
+                                 gridspec_kw={&#x27;height_ratios&#x27;: [3, 1]})
+ax1.plot(dates, price, color=&#x27;steelblue&#x27;, linewidth=2)
+ax1.set_ylabel(&#x27;Price ($)&#x27;); ax1.set_title(&#x27;Stock Price &amp; Volume&#x27;)
+ax1.grid(True, alpha=0.3)
+
+ax2.bar(dates, volume, color=&#x27;gray&#x27;, alpha=0.5)
+ax2.set_ylabel(&#x27;Volume&#x27;); ax2.set_xlabel(&#x27;Day&#x27;)
+
+plt.tight_layout()
+plt.savefig(&#x27;subplots_shared.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved subplots_shared.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>GridSpec for irregular subplot layouts</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import numpy as np
+
+np.random.seed(8)
+fig = plt.figure(figsize=(11, 7))
+gs  = gridspec.GridSpec(2, 3, figure=fig, hspace=0.35, wspace=0.3)
+
+# Wide top plot spanning all 3 columns
+ax_top = fig.add_subplot(gs[0, :])
+x = np.linspace(0, 10, 200)
+ax_top.plot(x, np.sin(x) * np.exp(-0.1*x), color=&#x27;steelblue&#x27;, linewidth=2)
+ax_top.set_title(&#x27;Wide Top: Damped Sine&#x27;); ax_top.grid(True, alpha=0.25)
+
+# Three smaller bottom plots
+for col, (title, color) in enumerate([(&#x27;Scatter&#x27;,&#x27;#DD8452&#x27;),(&#x27;Bar&#x27;,&#x27;#55A868&#x27;),(&#x27;Hist&#x27;,&#x27;#8172B2&#x27;)]):
+    ax = fig.add_subplot(gs[1, col])
+    if title == &#x27;Scatter&#x27;:
+        ax.scatter(np.random.randn(50), np.random.randn(50), color=color, alpha=0.6, s=25)
+    elif title == &#x27;Bar&#x27;:
+        ax.bar([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;], [4, 7, 5], color=color)
+    else:
+        ax.hist(np.random.randn(200), bins=20, color=color, edgecolor=&#x27;white&#x27;, linewidth=0.4)
+    ax.set_title(title)
+
+fig.suptitle(&#x27;GridSpec Layout&#x27;, fontsize=13, fontweight=&#x27;bold&#x27;)
+plt.savefig(&#x27;subplots_gridspec.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved subplots_gridspec.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>subplot2grid for asymmetric dashboard layouts</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(22)
+fig = plt.figure(figsize=(12, 7))
+
+# subplot2grid(shape, loc, rowspan, colspan) — place cells in a grid manually
+ax_main  = plt.subplot2grid((3, 4), (0, 0), rowspan=2, colspan=3)  # big left
+ax_right = plt.subplot2grid((3, 4), (0, 3), rowspan=3, colspan=1)  # tall right
+ax_bot1  = plt.subplot2grid((3, 4), (2, 0), rowspan=1, colspan=1)  # bottom row
+ax_bot2  = plt.subplot2grid((3, 4), (2, 1), rowspan=1, colspan=1)
+ax_bot3  = plt.subplot2grid((3, 4), (2, 2), rowspan=1, colspan=1)
+
+# Main panel — time series
+t = np.linspace(0, 4 * np.pi, 300)
+ax_main.plot(t, np.sin(t), color=&#x27;steelblue&#x27;, linewidth=2, label=&#x27;sin&#x27;)
+ax_main.plot(t, np.cos(t), color=&#x27;tomato&#x27;, linewidth=2, linestyle=&#x27;--&#x27;, label=&#x27;cos&#x27;)
+ax_main.fill_between(t, np.sin(t), np.cos(t), alpha=0.08, color=&#x27;gray&#x27;)
+ax_main.set_title(&#x27;Main — Trig Functions&#x27;); ax_main.legend(fontsize=8)
+ax_main.grid(True, alpha=0.25)
+
+# Tall right panel — horizontal bars (KPIs)
+kpis   = [&#x27;KPI A&#x27;, &#x27;KPI B&#x27;, &#x27;KPI C&#x27;, &#x27;KPI D&#x27;, &#x27;KPI E&#x27;]
+values = np.random.uniform(40, 95, 5)
+colors = [&#x27;#2ecc71&#x27; if v &gt;= 70 else &#x27;#e74c3c&#x27; for v in values]
+ax_right.barh(kpis, values, color=colors, edgecolor=&#x27;white&#x27;, linewidth=0.5)
+ax_right.set_xlim(0, 100)
+ax_right.axvline(70, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=0.8)
+ax_right.set_title(&#x27;KPIs&#x27;, fontsize=9)
+ax_right.tick_params(labelsize=7)
+
+# Bottom three mini-panels
+for ax, title, color in zip([ax_bot1, ax_bot2, ax_bot3],
+                              [&#x27;Alpha&#x27;, &#x27;Beta&#x27;, &#x27;Gamma&#x27;],
+                              [&#x27;#4C72B0&#x27;, &#x27;#DD8452&#x27;, &#x27;#55A868&#x27;]):
+    data = np.random.randn(120)
+    ax.hist(data, bins=15, color=color, edgecolor=&#x27;white&#x27;, linewidth=0.3, alpha=0.8)
+    ax.set_title(title, fontsize=8); ax.tick_params(labelsize=6)
+    ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
+
+fig.suptitle(&#x27;subplot2grid — Asymmetric Dashboard&#x27;, fontsize=12, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;subplots_subplot2grid.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved subplots_subplot2grid.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: ML Model Evaluation Dashboard</div><div class="rd">A data scientist creates a 4-panel figure showing loss curves, accuracy, confusion matrix, and prediction distribution.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+epochs    = np.arange(1, 51)
+train_loss= 1.5 * np.exp(-0.06 * epochs) + np.random.randn(50) * 0.02
+val_loss  = 1.5 * np.exp(-0.05 * epochs) + 0.05 + np.random.randn(50) * 0.03
+train_acc = 1 - train_loss / 1.5 + 0.3
+val_acc   = 1 - val_loss   / 1.5 + 0.28
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+
+# Loss curves
+axes[0].plot(epochs, train_loss, label=&#x27;Train&#x27;,  color=&#x27;steelblue&#x27;)
+axes[0].plot(epochs, val_loss,   label=&#x27;Val&#x27;,    color=&#x27;tomato&#x27;, linestyle=&#x27;--&#x27;)
+axes[0].set_title(&#x27;Loss&#x27;); axes[0].set_xlabel(&#x27;Epoch&#x27;)
+axes[0].legend(); axes[0].grid(True, alpha=0.3)
+
+# Accuracy curves
+axes[1].plot(epochs, train_acc.clip(0,1), label=&#x27;Train&#x27;, color=&#x27;steelblue&#x27;)
+axes[1].plot(epochs, val_acc.clip(0,1),   label=&#x27;Val&#x27;,   color=&#x27;tomato&#x27;, linestyle=&#x27;--&#x27;)
+axes[1].set_title(&#x27;Accuracy&#x27;); axes[1].set_xlabel(&#x27;Epoch&#x27;)
+axes[1].legend(); axes[1].grid(True, alpha=0.3)
+
+# Prediction histogram
+preds = np.random.beta(2, 2, 500)
+axes[2].hist(preds, bins=25, color=&#x27;#55A868&#x27;, edgecolor=&#x27;white&#x27;)
+axes[2].axvline(0.5, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, label=&#x27;Threshold&#x27;)
+axes[2].set_title(&#x27;Prediction Scores&#x27;); axes[2].set_xlabel(&#x27;Score&#x27;)
+axes[2].legend()
+
+fig.suptitle(&#x27;Model Evaluation Dashboard&#x27;, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;subplots_ml_dashboard.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved subplots_ml_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x2 Subplot Grid</div><div class="pd">Create a 2x2 subplot figure. Top-left: line plot of cos(x) over [0, 4π]. Top-right: scatter of 100 random points colored by angle. Bottom-left: bar chart of 5 random categories. Bottom-right: histogram of 500 standard normal samples. Add individual titles, a global suptitle, and save as &#x27;practice_subplots.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+
+# Top-left: line plot of cos(x)
+x = np.linspace(0, 4 * np.pi, 300)
+# TODO: axes[0,0].plot(x, np.cos(x), ...)
+# TODO: axes[0,0].set_title(&#x27;...&#x27;)
+
+# Top-right: scatter of 100 random points, colored by angle
+pts = np.random.randn(100, 2)
+angles = np.arctan2(pts[:, 1], pts[:, 0])
+# TODO: sc = axes[0,1].scatter(pts[:,0], pts[:,1], c=angles, cmap=&#x27;hsv&#x27;, alpha=0.7)
+# TODO: plt.colorbar(sc, ax=axes[0,1])
+# TODO: axes[0,1].set_title(&#x27;...&#x27;)
+
+# Bottom-left: bar chart of 5 categories
+cats   = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;]
+values = np.random.randint(10, 80, 5)
+# TODO: axes[1,0].bar(cats, values, ...)
+# TODO: axes[1,0].set_title(&#x27;...&#x27;)
+
+# Bottom-right: histogram of 500 normal samples
+data = np.random.randn(500)
+# TODO: axes[1,1].hist(data, bins=25, ...)
+# TODO: axes[1,1].set_title(&#x27;...&#x27;)
+
+# TODO: fig.suptitle(&#x27;2x2 Dashboard&#x27;, fontsize=14, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_subplots.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Figure Customization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Control colors, line styles, markers, fonts, spines, and tick formatting. Good styling makes charts publication-ready.</p><div class="code-block"><div class="ch"><span>Markers, styles, colors, spines</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x  = np.arange(1, 8)
+y1 = [3, 7, 5, 9, 6, 8, 10]
+y2 = [1, 4, 3, 6, 4, 7, 8]
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(x, y1, &#x27;o-&#x27;, color=&#x27;steelblue&#x27;, markersize=8,
+        linewidth=2, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2, label=&#x27;Series A&#x27;)
+ax.plot(x, y2, &#x27;s--&#x27;, color=&#x27;tomato&#x27;,    markersize=7,
+        linewidth=2, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2, label=&#x27;Series B&#x27;)
+
+# Remove top/right spines
+ax.spines[&#x27;top&#x27;].set_visible(False)
+ax.spines[&#x27;right&#x27;].set_visible(False)
+ax.set_xticks(x)
+ax.set_xticklabels([f&#x27;Day {i}&#x27; for i in x], rotation=30, ha=&#x27;right&#x27;)
+ax.set_title(&#x27;Weekly Performance&#x27;, fontsize=13, fontweight=&#x27;bold&#x27;, pad=12)
+ax.legend(frameon=False); ax.grid(True, alpha=0.2)
+plt.tight_layout()
+plt.savefig(&#x27;custom_markers.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved custom_markers.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Annotations and text</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(1)
+x = np.linspace(0, 10, 100)
+y = np.sin(x) * np.exp(-0.1 * x)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(x, y, color=&#x27;steelblue&#x27;, linewidth=2)
+
+# Peak annotation
+peak_idx = np.argmax(y)
+ax.annotate(f&#x27;Peak ({x[peak_idx]:.1f}, {y[peak_idx]:.2f})&#x27;,
+            xy=(x[peak_idx], y[peak_idx]),
+            xytext=(x[peak_idx]+1.5, y[peak_idx]+0.1),
+            arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;, color=&#x27;red&#x27;),
+            color=&#x27;red&#x27;, fontsize=9)
+
+ax.axhline(0, color=&#x27;gray&#x27;, linewidth=0.8, linestyle=&#x27;--&#x27;)
+ax.fill_between(x, y, where=(y &gt; 0), alpha=0.15, color=&#x27;steelblue&#x27;)
+ax.fill_between(x, y, where=(y &lt; 0), alpha=0.15, color=&#x27;tomato&#x27;)
+ax.set_title(&#x27;Damped Sine Wave&#x27;); ax.set_xlabel(&#x27;x&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;custom_annotations.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved custom_annotations.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Tick formatting and color-coded regions</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+
+np.random.seed(2)
+months = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = np.array([42, 38, 51, 47, 59, 65, 70, 62, 55, 68, 75, 88]) * 1000
+
+fig, ax = plt.subplots(figsize=(11, 4))
+ax.plot(range(12), revenue, &#x27;o-&#x27;, color=&#x27;#1a73e8&#x27;, linewidth=2.5,
+        markersize=7, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2)
+ax.fill_between(range(12), revenue, alpha=0.1, color=&#x27;#1a73e8&#x27;)
+
+# Format y-axis as currency
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f&#x27;${v/1000:.0f}K&#x27;))
+
+# Color background by quarter
+colors = [&#x27;#fff9f0&#x27;,&#x27;#f0fff4&#x27;,&#x27;#f0f4ff&#x27;,&#x27;#fff0f4&#x27;]
+for q, color in enumerate(colors):
+    ax.axvspan(q*3 - 0.5, q*3 + 2.5, alpha=0.25, color=color, zorder=0)
+
+# Annotate max
+best_idx = int(np.argmax(revenue))
+ax.annotate(f&#x27;Best: ${revenue[best_idx]/1000:.0f}K&#x27;, xy=(best_idx, revenue[best_idx]),
+            xytext=(best_idx - 2, revenue[best_idx] + 4000),
+            arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;, color=&#x27;green&#x27;), color=&#x27;green&#x27;, fontsize=9)
+
+ax.set_xticks(range(12)); ax.set_xticklabels(months)
+ax.spines[&#x27;top&#x27;].set_visible(False); ax.spines[&#x27;right&#x27;].set_visible(False)
+ax.set_title(&#x27;Monthly Revenue with Quarter Shading&#x27;, fontsize=13, fontweight=&#x27;bold&#x27;)
+ax.grid(True, axis=&#x27;y&#x27;, alpha=0.25)
+plt.tight_layout()
+plt.savefig(&#x27;custom_tick_format.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved custom_tick_format.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Executive KPI Summary Chart</div><div class="rd">A BI developer creates a polished, publication-ready monthly KPI chart with branded colors and annotations.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+months  = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = [4.2, 3.8, 5.1, 5.8, 6.2, 7.0, 6.5, 7.8, 8.1, 7.5, 9.2, 10.4]
+target  = [5.0] * 12
+
+fig, ax = plt.subplots(figsize=(11, 5))
+
+ax.plot(months, revenue, &#x27;o-&#x27;, color=&#x27;#1a73e8&#x27;, linewidth=2.5,
+        markersize=7, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2.5, label=&#x27;Actual Revenue&#x27;)
+ax.plot(months, target, &#x27;--&#x27;, color=&#x27;#ea4335&#x27;, linewidth=1.5,
+        alpha=0.7, label=&#x27;Monthly Target ($5M)&#x27;)
+ax.fill_between(months, revenue, target,
+                where=[r &gt;= t for r, t in zip(revenue, target)],
+                alpha=0.1, color=&#x27;green&#x27;, label=&#x27;Above target&#x27;)
+ax.fill_between(months, revenue, target,
+                where=[r &lt; t for r, t in zip(revenue, target)],
+                alpha=0.1, color=&#x27;red&#x27;, label=&#x27;Below target&#x27;)
+
+# Annotate best month
+best = months[revenue.index(max(revenue))]
+ax.annotate(f&#x27;Best: ${max(revenue):.1f}M&#x27;, xy=(best, max(revenue)),
+            xytext=(best, max(revenue)+0.4),
+            ha=&#x27;center&#x27;, fontsize=9, color=&#x27;green&#x27;, fontweight=&#x27;bold&#x27;)
+
+ax.spines[&#x27;top&#x27;].set_visible(False); ax.spines[&#x27;right&#x27;].set_visible(False)
+ax.set_ylabel(&#x27;Revenue (USD millions)&#x27;); ax.set_title(&#x27;2024 Monthly Revenue vs Target&#x27;,
+                                                       fontsize=14, fontweight=&#x27;bold&#x27;)
+ax.legend(frameon=False, loc=&#x27;upper left&#x27;); ax.grid(True, axis=&#x27;y&#x27;, alpha=0.2)
+plt.tight_layout()
+plt.savefig(&#x27;custom_kpi.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved custom_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Full Professional Chart</div><div class="pd">Plot monthly sales data for two products over 12 months. Customize: remove top/right spines, use circle and square markers with white fill, format y-axis as dollars (e.g. &#x27;$42K&#x27;), rotate x-tick labels, add an annotation arrow pointing to the peak month, and a shaded region between the two lines. Save as &#x27;practice_custom.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+
+months   = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+sales_a  = np.array([42, 38, 51, 47, 59, 65, 70, 62, 55, 68, 75, 88]) * 1000
+sales_b  = np.array([30, 35, 40, 38, 45, 50, 55, 52, 48, 58, 62, 70]) * 1000
+x        = np.arange(12)
+
+fig, ax = plt.subplots(figsize=(11, 5))
+
+# TODO: plot sales_a with &#x27;o-&#x27; markers, steelblue, markerfacecolor=&#x27;white&#x27;
+# ax.plot(x, sales_a, &#x27;o-&#x27;, ...)
+
+# TODO: plot sales_b with &#x27;s--&#x27; markers, tomato, markerfacecolor=&#x27;white&#x27;
+# ax.plot(x, sales_b, &#x27;s--&#x27;, ...)
+
+# TODO: shade region between the two lines
+# ax.fill_between(x, sales_a, sales_b, alpha=0.1, color=&#x27;gray&#x27;)
+
+# TODO: remove top/right spines
+# ax.spines[&#x27;top&#x27;].set_visible(False)
+# ax.spines[&#x27;right&#x27;].set_visible(False)
+
+# TODO: format y-axis as &#x27;$XK&#x27;
+# ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f&#x27;${v/1000:.0f}K&#x27;))
+
+# TODO: annotate peak of sales_a with arrow
+# best = int(np.argmax(sales_a))
+# ax.annotate(...)
+
+ax.set_xticks(x)
+ax.set_xticklabels(months, rotation=30, ha=&#x27;right&#x27;)
+# TODO: ax.set_title(...), ax.legend(), ax.grid(...)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_custom.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pie &amp; Donut Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pie charts show part-to-whole relationships. Donut charts are a modern alternative. Avoid too many slices — use 5 or fewer.</p><div class="code-block"><div class="ch"><span>Pie chart with explode</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+labels  = [&#x27;Python&#x27;, &#x27;JavaScript&#x27;, &#x27;Java&#x27;, &#x27;C++&#x27;, &#x27;Other&#x27;]
+sizes   = [30, 25, 20, 15, 10]
+explode = [0.05, 0, 0, 0, 0]   # pull out the first slice
+colors  = [&#x27;#4C72B0&#x27;,&#x27;#DD8452&#x27;,&#x27;#55A868&#x27;,&#x27;#C44E52&#x27;,&#x27;#8172B2&#x27;]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+wedges, texts, autotexts = ax.pie(
+    sizes, labels=labels, explode=explode, colors=colors,
+    autopct=&#x27;%1.1f%%&#x27;, startangle=140,
+    wedgeprops=dict(edgecolor=&#x27;white&#x27;, linewidth=2)
+)
+for t in autotexts: t.set_fontsize(9)
+ax.set_title(&#x27;Language Market Share&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;pie_basic.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved pie_basic.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Donut chart</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+labels = [&#x27;Organic&#x27;, &#x27;Paid Search&#x27;, &#x27;Social&#x27;, &#x27;Email&#x27;, &#x27;Direct&#x27;]
+sizes  = [35, 25, 20, 12, 8]
+colors = [&#x27;#2ecc71&#x27;,&#x27;#3498db&#x27;,&#x27;#e74c3c&#x27;,&#x27;#f39c12&#x27;,&#x27;#9b59b6&#x27;]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+wedges, texts, autotexts = ax.pie(
+    sizes, labels=labels, colors=colors,
+    autopct=&#x27;%1.0f%%&#x27;, startangle=90,
+    wedgeprops=dict(width=0.5, edgecolor=&#x27;white&#x27;, linewidth=2)   # donut!
+)
+for t in autotexts: t.set_fontsize(9)
+ax.text(0, 0, &#x27;Traffic\nSources&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;,
+        fontsize=11, fontweight=&#x27;bold&#x27;)
+ax.set_title(&#x27;Website Traffic Sources&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;pie_donut.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved pie_donut.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Nested donut / ring chart</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Outer ring: main categories
+outer_labels = [&#x27;Engineering&#x27;, &#x27;Sales&#x27;, &#x27;Marketing&#x27;, &#x27;Other&#x27;]
+outer_sizes  = [40, 30, 20, 10]
+outer_colors = [&#x27;#4C72B0&#x27;, &#x27;#DD8452&#x27;, &#x27;#55A868&#x27;, &#x27;#C44E52&#x27;]
+
+# Inner ring: sub-breakdown for Engineering and Sales only (simplified)
+inner_labels = [&#x27;FE&#x27;, &#x27;BE&#x27;, &#x27;DevOps&#x27;, &#x27;Inside&#x27;, &#x27;Field&#x27;, &#x27;Mkt-A&#x27;, &#x27;Mkt-B&#x27;, &#x27;Misc&#x27;]
+inner_sizes  = [15, 15, 10, 18, 12, 12, 8, 10]
+inner_colors = [&#x27;#6B9BE8&#x27;, &#x27;#8BB2F0&#x27;, &#x27;#AACCFF&#x27;,
+                &#x27;#F0A875&#x27;, &#x27;#F5C49A&#x27;,
+                &#x27;#7DC88A&#x27;, &#x27;#A5DDB0&#x27;,
+                &#x27;#E88A8A&#x27;]
+
+fig, ax = plt.subplots(figsize=(8, 7))
+ax.pie(outer_sizes, labels=outer_labels, colors=outer_colors,
+       radius=1.0, startangle=90,
+       wedgeprops=dict(width=0.35, edgecolor=&#x27;white&#x27;, linewidth=2),
+       autopct=&#x27;%1.0f%%&#x27;, pctdistance=0.82)
+ax.pie(inner_sizes, colors=inner_colors,
+       radius=0.65, startangle=90,
+       wedgeprops=dict(width=0.35, edgecolor=&#x27;white&#x27;, linewidth=1))
+ax.set_title(&#x27;Headcount — Nested Donut&#x27;, fontsize=13, fontweight=&#x27;bold&#x27;, pad=15)
+plt.tight_layout()
+plt.savefig(&#x27;pie_nested.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved pie_nested.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Waffle chart with matplotlib patches</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
+categories = [&#x27;Completed&#x27;, &#x27;In Progress&#x27;, &#x27;Blocked&#x27;, &#x27;Not Started&#x27;]
+values     = [45, 30, 10, 15]
+colors     = [&#x27;#2e7d32&#x27;, &#x27;#1565c0&#x27;, &#x27;#b71c1c&#x27;, &#x27;#9e9e9e&#x27;]
+
+total   = sum(values)
+squares = [round(v / total * 100) for v in values]
+squares[-1] += 100 - sum(squares)
+
+grid = []
+for color, count in zip(colors, squares):
+    grid.extend([color] * count)
+
+fig, ax = plt.subplots(figsize=(8, 8))
+for i, color in enumerate(grid):
+    row, col = divmod(i, 10)
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (col * 1.1, (9 - row) * 1.1), 1.0, 1.0,
+        boxstyle=&#x27;round,pad=0.05&#x27;, fc=color, ec=&#x27;white&#x27;, lw=2))
+
+ax.set_xlim(-0.1, 11.1); ax.set_ylim(-0.1, 11.1)
+ax.set_aspect(&#x27;equal&#x27;); ax.axis(&#x27;off&#x27;)
+ax.set_title(&#x27;Project Task Status (Waffle Chart)&#x27;, fontsize=13, pad=15)
+
+legend_patches = [mpatches.Patch(fc=c, label=f&#x27;{l} ({v}%)&#x27;)
+                  for c, l, v in zip(colors, categories, squares)]
+ax.legend(handles=legend_patches, loc=&#x27;lower center&#x27;,
+          ncol=2, frameon=False, fontsize=11,
+          bbox_to_anchor=(0.5, -0.05))
+plt.tight_layout()
+plt.savefig(&#x27;waffle_chart.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved waffle_chart.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Budget Allocation Dashboard</div><div class="rd">A CFO uses a donut chart to present department budget allocation for a board presentation.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+depts  = [&#x27;Engineering&#x27;, &#x27;Sales&#x27;, &#x27;Marketing&#x27;, &#x27;Operations&#x27;, &#x27;HR&#x27;, &#x27;R&amp;D&#x27;]
+budget = [32, 22, 18, 12, 8, 8]
+colors = [&#x27;#1a73e8&#x27;,&#x27;#34a853&#x27;,&#x27;#fbbc04&#x27;,&#x27;#ea4335&#x27;,&#x27;#9c27b0&#x27;,&#x27;#00bcd4&#x27;]
+total  = sum(budget)
+
+fig, ax = plt.subplots(figsize=(8, 6))
+wedges, texts, autotexts = ax.pie(
+    budget, labels=depts, colors=colors,
+    autopct=lambda p: f&#x27;${p*total/100:.0f}M\n({p:.0f}%)&#x27;,
+    startangle=120,
+    wedgeprops=dict(width=0.55, edgecolor=&#x27;white&#x27;, linewidth=2)
+)
+for t in autotexts: t.set_fontsize(8)
+ax.text(0, 0, f&#x27;Total\n${total}M&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;,
+        fontsize=12, fontweight=&#x27;bold&#x27;)
+ax.set_title(&#x27;FY2024 Budget Allocation by Department&#x27;,
+             fontsize=13, fontweight=&#x27;bold&#x27;, pad=20)
+plt.tight_layout()
+plt.savefig(&#x27;pie_budget.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved pie_budget.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Donut Chart</div><div class="pd">Create a donut chart (width=0.45) showing 5 product categories: Electronics 35%, Clothing 25%, Food 20%, Books 12%, Other 8%. Use a custom color palette, display percentages inside the wedges, add a center label showing &#x27;Sales\n2024&#x27;, and a title. Save as &#x27;practice_donut.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+labels = [&#x27;Electronics&#x27;, &#x27;Clothing&#x27;, &#x27;Food&#x27;, &#x27;Books&#x27;, &#x27;Other&#x27;]
+sizes  = [35, 25, 20, 12, 8]
+# TODO: choose 5 colors
+colors = [&#x27;#4C72B0&#x27;, &#x27;#DD8452&#x27;, &#x27;#55A868&#x27;, &#x27;#C44E52&#x27;, &#x27;#8172B2&#x27;]
+
+fig, ax = plt.subplots(figsize=(7, 6))
+
+# TODO: create donut chart using ax.pie with wedgeprops=dict(width=0.45, ...)
+# wedges, texts, autotexts = ax.pie(
+#     sizes, labels=labels, colors=colors,
+#     autopct=&#x27;%1.0f%%&#x27;, startangle=90,
+#     wedgeprops=dict(width=0.45, edgecolor=&#x27;white&#x27;, linewidth=2)
+# )
+
+# TODO: resize autopct text
+# for t in autotexts: t.set_fontsize(9)
+
+# TODO: add center label
+# ax.text(0, 0, &#x27;Sales\n2024&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=12, fontweight=&#x27;bold&#x27;)
+
+# TODO: ax.set_title(...)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_donut.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Heatmap with imshow/pcolor</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Heatmaps encode a 2D matrix as color intensities. Great for correlation matrices, confusion matrices, and time×metric data.</p><div class="code-block"><div class="ch"><span>Correlation heatmap</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+data = np.random.randn(100, 5)
+labels = [&#x27;Age&#x27;, &#x27;Income&#x27;, &#x27;Score&#x27;, &#x27;Tenure&#x27;, &#x27;Spend&#x27;]
+
+corr = np.corrcoef(data.T)
+
+fig, ax = plt.subplots(figsize=(6, 5))
+im = ax.imshow(corr, cmap=&#x27;RdBu_r&#x27;, vmin=-1, vmax=1)
+plt.colorbar(im, ax=ax)
+
+ax.set_xticks(range(5)); ax.set_yticks(range(5))
+ax.set_xticklabels(labels, rotation=45, ha=&#x27;right&#x27;)
+ax.set_yticklabels(labels)
+
+# Annotate values
+for i in range(5):
+    for j in range(5):
+        ax.text(j, i, f&#x27;{corr[i,j]:.2f}&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;,
+                fontsize=8, color=&#x27;black&#x27; if abs(corr[i,j]) &lt; 0.6 else &#x27;white&#x27;)
+
+ax.set_title(&#x27;Feature Correlation Matrix&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;heatmap_corr.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved heatmap_corr.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Calendar heatmap (day × hour)</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(7)
+# 7 days × 24 hours activity matrix
+activity = np.random.poisson(lam=5, size=(7, 24)).astype(float)
+activity[1:5, 9:17] += 15   # weekday work hours spike
+
+days  = [&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]
+hours = [f&#x27;{h:02d}:00&#x27; for h in range(24)]
+
+fig, ax = plt.subplots(figsize=(14, 4))
+im = ax.imshow(activity, cmap=&#x27;YlOrRd&#x27;, aspect=&#x27;auto&#x27;)
+plt.colorbar(im, label=&#x27;Requests/hr&#x27;)
+ax.set_yticks(range(7)); ax.set_yticklabels(days)
+ax.set_xticks(range(0, 24, 2)); ax.set_xticklabels(hours[::2], rotation=45, ha=&#x27;right&#x27;)
+ax.set_title(&#x27;API Request Heatmap — Weekday vs Weekend&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;heatmap_calendar.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved heatmap_calendar.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>pcolormesh with diverging colormap</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(3)
+# 10 assets x 12 months return matrix (%)
+n_assets, n_months = 10, 12
+returns = np.random.randn(n_assets, n_months) * 5   # % monthly returns
+asset_names = [f&#x27;Asset {i+1}&#x27; for i in range(n_assets)]
+month_names = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+
+fig, ax = plt.subplots(figsize=(13, 5))
+mesh = ax.pcolormesh(returns, cmap=&#x27;RdYlGn&#x27;, vmin=-12, vmax=12)
+plt.colorbar(mesh, label=&#x27;Monthly Return (%)&#x27;, ax=ax)
+
+# Annotate cells
+for i in range(n_assets):
+    for j in range(n_months):
+        color = &#x27;white&#x27; if abs(returns[i, j]) &gt; 8 else &#x27;black&#x27;
+        ax.text(j + 0.5, i + 0.5, f&#x27;{returns[i,j]:+.1f}&#x27;,
+                ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=7, color=color)
+
+ax.set_xticks(np.arange(n_months) + 0.5); ax.set_xticklabels(month_names)
+ax.set_yticks(np.arange(n_assets) + 0.5); ax.set_yticklabels(asset_names)
+ax.set_title(&#x27;Asset Monthly Returns Heatmap (%)&#x27;, fontweight=&#x27;bold&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;heatmap_pcolormesh.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved heatmap_pcolormesh.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Calendar heatmap (GitHub-style)</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import numpy as np
+import datetime
+
+rng   = np.random.default_rng(42)
+days  = 365
+start = datetime.date(2024, 1, 1)
+counts = rng.integers(0, 20, days)
+for i in range(days):
+    if (start + datetime.timedelta(i)).weekday() &gt;= 5:
+        counts[i] = max(0, int(counts[i] * 0.3))
+
+padding = (start.weekday() + 1) % 7
+padded  = np.concatenate([np.zeros(padding, dtype=int), counts])
+n_pad   = 7 - len(padded) % 7 if len(padded) % 7 else 0
+padded  = np.concatenate([padded, np.zeros(n_pad)])
+grid    = padded.reshape(-1, 7).T
+
+cmap = mcolors.LinearSegmentedColormap.from_list(
+    &#x27;gh&#x27;, [&#x27;#ebedf0&#x27;,&#x27;#9be9a8&#x27;,&#x27;#40c463&#x27;,&#x27;#30a14e&#x27;,&#x27;#216e39&#x27;])
+
+fig, ax = plt.subplots(figsize=(16, 3))
+im = ax.imshow(grid, cmap=cmap, aspect=&#x27;auto&#x27;, vmin=0, vmax=counts.max())
+ax.set_yticks(range(7))
+ax.set_yticklabels([&#x27;Sun&#x27;,&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;], fontsize=9)
+ax.set_xticks([]); ax.set_title(&#x27;2024 Activity Calendar&#x27;, fontsize=12)
+fig.colorbar(im, ax=ax, orientation=&#x27;horizontal&#x27;, fraction=0.02,
+             pad=0.15, label=&#x27;Activity count&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;calendar_heatmap.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved calendar_heatmap.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Confusion Matrix Visualization</div><div class="rd">A ML engineer visualizes the confusion matrix of a multi-class classifier to identify which classes are most confused.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Simulated confusion matrix: 5 classes
+classes = [&#x27;Cat&#x27;,&#x27;Dog&#x27;,&#x27;Bird&#x27;,&#x27;Fish&#x27;,&#x27;Rabbit&#x27;]
+cm = np.array([
+    [85,  5,  3,  2,  5],
+    [ 4, 88,  2,  1,  5],
+    [ 3,  2, 82,  8,  5],
+    [ 1,  2,  6, 89,  2],
+    [ 6,  4,  3,  2, 85],
+])
+
+fig, ax = plt.subplots(figsize=(7, 6))
+im = ax.imshow(cm, cmap=&#x27;Blues&#x27;)
+plt.colorbar(im, ax=ax)
+
+ax.set_xticks(range(5)); ax.set_yticks(range(5))
+ax.set_xticklabels(classes, rotation=45, ha=&#x27;right&#x27;)
+ax.set_yticklabels(classes)
+ax.set_xlabel(&#x27;Predicted&#x27;); ax.set_ylabel(&#x27;Actual&#x27;)
+ax.set_title(&#x27;Confusion Matrix — Animal Classifier&#x27;)
+
+for i in range(5):
+    for j in range(5):
+        color = &#x27;white&#x27; if cm[i,j] &gt; 50 else &#x27;black&#x27;
+        ax.text(j, i, str(cm[i,j]), ha=&#x27;center&#x27;, va=&#x27;center&#x27;,
+                fontsize=11, color=color, fontweight=&#x27;bold&#x27;)
+
+# Overall accuracy
+acc = cm.diagonal().sum() / cm.sum()
+ax.set_xlabel(f&#x27;Predicted    (Accuracy: {acc:.1%})&#x27;, fontsize=10)
+plt.tight_layout()
+plt.savefig(&#x27;heatmap_confusion.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved heatmap_confusion.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix Heatmap</div><div class="pd">Generate a (200, 6) random dataset with manually introduced correlations between columns. Compute the 6x6 correlation matrix, display it as a heatmap using imshow with the &#x27;coolwarm&#x27; colormap (vmin=-1, vmax=1), annotate each cell with its correlation value (2 decimal places), and rotate x-tick labels 45 degrees. Save as &#x27;practice_heatmap.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+n = 200
+# Build correlated dataset
+x1 = np.random.randn(n)
+x2 = 0.8 * x1 + np.random.randn(n) * 0.4       # correlated with x1
+x3 = -0.5 * x1 + np.random.randn(n) * 0.7      # negatively correlated
+x4 = np.random.randn(n)                          # independent
+x5 = 0.6 * x2 + np.random.randn(n) * 0.5       # correlated with x2
+x6 = np.random.randn(n)                          # independent
+
+data   = np.column_stack([x1, x2, x3, x4, x5, x6])
+labels = [&#x27;X1&#x27;, &#x27;X2&#x27;, &#x27;X3&#x27;, &#x27;X4&#x27;, &#x27;X5&#x27;, &#x27;X6&#x27;]
+
+# TODO: corr = np.corrcoef(data.T)
+
+fig, ax = plt.subplots(figsize=(7, 6))
+
+# TODO: im = ax.imshow(corr, cmap=&#x27;coolwarm&#x27;, vmin=-1, vmax=1)
+# TODO: plt.colorbar(im, ax=ax)
+
+# TODO: set tick labels (rotated 45 for x-axis)
+# ax.set_xticks(range(6)); ax.set_xticklabels(labels, rotation=45, ha=&#x27;right&#x27;)
+# ax.set_yticks(range(6)); ax.set_yticklabels(labels)
+
+# TODO: annotate each cell with corr value
+# for i in range(6):
+#     for j in range(6):
+#         color = &#x27;white&#x27; if abs(corr[i,j]) &gt; 0.6 else &#x27;black&#x27;
+#         ax.text(j, i, f&#x27;{corr[i,j]:.2f}&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=8, color=color)
+
+# TODO: ax.set_title(...)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_heatmap.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Twin Axes &amp; Secondary Y-Axis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">twinx() creates a second y-axis sharing the same x-axis — essential when two variables have different scales.</p><div class="code-block"><div class="ch"><span>Dual y-axis line + bar</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+months  = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;]
+revenue = [120, 135, 128, 155, 162, 180]
+margin  = [22.1, 21.5, 23.0, 24.2, 23.8, 25.5]
+
+fig, ax1 = plt.subplots(figsize=(9, 4))
+ax2 = ax1.twinx()
+
+bars = ax1.bar(months, revenue, color=&#x27;steelblue&#x27;, alpha=0.7, label=&#x27;Revenue ($K)&#x27;)
+line = ax2.plot(months, margin, &#x27;o-&#x27;, color=&#x27;tomato&#x27;, linewidth=2.5,
+                markersize=7, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2, label=&#x27;Margin %&#x27;)
+
+ax1.set_ylabel(&#x27;Revenue ($K)&#x27;,    color=&#x27;steelblue&#x27;)
+ax2.set_ylabel(&#x27;Gross Margin (%)&#x27;, color=&#x27;tomato&#x27;)
+ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;steelblue&#x27;)
+ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;tomato&#x27;)
+
+lines  = line
+labels = [l.get_label() for l in lines]
+ax1.legend(bars, [&#x27;Revenue ($K)&#x27;], loc=&#x27;upper left&#x27;)
+ax2.legend(lines, labels, loc=&#x27;lower right&#x27;)
+
+ax1.set_title(&#x27;Revenue &amp; Gross Margin&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;twin_bar_line.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved twin_bar_line.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Temperature and humidity dual axis</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(9)
+hours    = np.arange(24)
+temp     = 20 + 8 * np.sin((hours - 6) * np.pi / 12) + np.random.randn(24)
+humidity = 60 - 20 * np.sin((hours - 6) * np.pi / 12) + np.random.randn(24) * 3
+
+fig, ax1 = plt.subplots(figsize=(10, 4))
+ax2 = ax1.twinx()
+
+ax1.plot(hours, temp, color=&#x27;#e74c3c&#x27;, linewidth=2, label=&#x27;Temp (°C)&#x27;)
+ax1.fill_between(hours, temp, alpha=0.1, color=&#x27;#e74c3c&#x27;)
+ax2.plot(hours, humidity, color=&#x27;#3498db&#x27;, linewidth=2,
+         linestyle=&#x27;--&#x27;, label=&#x27;Humidity (%)&#x27;)
+
+ax1.set_xlabel(&#x27;Hour of Day&#x27;); ax1.set_ylabel(&#x27;Temperature (°C)&#x27;, color=&#x27;#e74c3c&#x27;)
+ax2.set_ylabel(&#x27;Humidity (%)&#x27;, color=&#x27;#3498db&#x27;)
+ax1.set_title(&#x27;24-Hour Weather Profile&#x27;)
+ax1.grid(True, alpha=0.2)
+plt.tight_layout()
+plt.savefig(&#x27;twin_weather.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved twin_weather.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Three-axis plot with twiny and twinx</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(11)
+months   = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+x        = np.arange(12)
+revenue  = np.array([42, 38, 51, 47, 59, 65, 70, 62, 55, 68, 75, 88])
+cost     = np.array([30, 29, 36, 34, 41, 44, 48, 43, 40, 46, 51, 59])
+margin   = (revenue - cost) / revenue * 100
+
+fig, ax1 = plt.subplots(figsize=(11, 5))
+ax2 = ax1.twinx()
+
+# Stacked area (revenue, cost on ax1)
+ax1.fill_between(x, cost,    alpha=0.35, color=&#x27;#C44E52&#x27;, label=&#x27;Cost ($K)&#x27;)
+ax1.fill_between(x, revenue, cost, alpha=0.35, color=&#x27;#55A868&#x27;, label=&#x27;Profit ($K)&#x27;)
+ax1.plot(x, revenue, &#x27;o-&#x27;, color=&#x27;#4C72B0&#x27;, linewidth=2,
+         markersize=5, markerfacecolor=&#x27;white&#x27;, markeredgewidth=1.5, label=&#x27;Revenue ($K)&#x27;)
+
+# Margin % on secondary axis
+ax2.plot(x, margin, &#x27;s--&#x27;, color=&#x27;#DD8452&#x27;, linewidth=1.8,
+         markersize=6, markerfacecolor=&#x27;white&#x27;, markeredgewidth=1.5, label=&#x27;Margin %&#x27;)
+ax2.set_ylabel(&#x27;Gross Margin (%)&#x27;, color=&#x27;#DD8452&#x27;)
+ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;#DD8452&#x27;)
+ax2.set_ylim(0, 50)
+
+ax1.set_xticks(x); ax1.set_xticklabels(months, rotation=30, ha=&#x27;right&#x27;)
+ax1.set_ylabel(&#x27;Amount ($K)&#x27;, color=&#x27;#4C72B0&#x27;)
+ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;#4C72B0&#x27;)
+ax1.set_title(&#x27;Revenue, Cost &amp; Margin — Full Year&#x27;, fontweight=&#x27;bold&#x27;)
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1 + lines2, labels1 + labels2, loc=&#x27;upper left&#x27;, fontsize=8)
+ax1.grid(True, axis=&#x27;y&#x27;, alpha=0.2)
+plt.tight_layout()
+plt.savefig(&#x27;twin_three_axis.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved twin_three_axis.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Event annotation with axvspan and annotate</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+rng = np.random.default_rng(0)
+t   = np.linspace(0, 365, 365)
+revenue = 1000 + 2*t + 150*np.sin(2*np.pi*t/365) + rng.normal(0, 30, 365)
+traffic = 5000 + 10*t + rng.normal(0, 200, 365)
+
+fig, ax1 = plt.subplots(figsize=(12, 5))
+ax2 = ax1.twinx()
+
+l1, = ax1.plot(t, revenue, color=&#x27;steelblue&#x27;, lw=1.5, label=&#x27;Revenue ($)&#x27;)
+l2, = ax2.plot(t, traffic, color=&#x27;tomato&#x27;,    lw=1.2, alpha=0.7, label=&#x27;Traffic&#x27;)
+
+# Highlight events
+events = [(90,  120, &#x27;#ffffcc&#x27;, &#x27;Summer\nPromo&#x27;),
+          (200, 220, &#x27;#e8f5e9&#x27;, &#x27;Product\nLaunch&#x27;),
+          (300, 340, &#x27;#fce4ec&#x27;, &#x27;Holiday\nSale&#x27;)]
+for start, end, color, label in events:
+    ax1.axvspan(start, end, alpha=0.4, color=color)
+    ax1.annotate(label, xy=((start+end)/2, revenue.max()*0.95),
+                 ha=&#x27;center&#x27;, fontsize=9, fontweight=&#x27;bold&#x27;)
+
+ax1.set(xlabel=&#x27;Day of Year&#x27;, ylabel=&#x27;Revenue ($)&#x27;, title=&#x27;Revenue &amp; Traffic with Event Annotations&#x27;)
+ax2.set_ylabel(&#x27;Daily Traffic&#x27;, color=&#x27;tomato&#x27;)
+ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;tomato&#x27;)
+ax1.legend(handles=[l1, l2], loc=&#x27;upper left&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;twin_annotated.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved twin_annotated.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: E-Commerce Sales &amp; Conversion Rate</div><div class="rd">A growth analyst overlays daily order volume and conversion rate to find days where traffic didn&#x27;t convert well.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(12)
+days     = np.arange(1, 31)
+orders   = (500 + np.cumsum(np.random.randn(30)*20) +
+            np.random.randn(30)*30).clip(400, 900).astype(int)
+cvr      = (3.5 + np.random.randn(30)*0.4 +
+            np.sin(days/5) * 0.3).clip(2.5, 5.0)
+
+fig, ax1 = plt.subplots(figsize=(12, 4))
+ax2 = ax1.twinx()
+
+ax1.bar(days, orders, color=&#x27;#4C72B0&#x27;, alpha=0.5, label=&#x27;Orders&#x27;)
+ax2.plot(days, cvr, &#x27;o-&#x27;, color=&#x27;#DD8452&#x27;, linewidth=2,
+         markersize=5, markerfacecolor=&#x27;white&#x27;, markeredgewidth=1.5,
+         label=&#x27;Conversion Rate (%)&#x27;)
+
+# Flag low-CVR days
+low_cvr = days[cvr &lt; 3.0]
+for d in low_cvr:
+    ax1.axvspan(d-0.5, d+0.5, color=&#x27;red&#x27;, alpha=0.1)
+
+ax1.set_xlabel(&#x27;Day of Month&#x27;)
+ax1.set_ylabel(&#x27;Orders&#x27;, color=&#x27;#4C72B0&#x27;)
+ax2.set_ylabel(&#x27;Conversion Rate (%)&#x27;, color=&#x27;#DD8452&#x27;)
+ax1.set_title(&#x27;January 2024 — Orders &amp; Conversion Rate&#x27;)
+ax1.legend(loc=&#x27;upper left&#x27;, frameon=False)
+ax2.legend(loc=&#x27;upper right&#x27;, frameon=False)
+plt.tight_layout()
+plt.savefig(&#x27;twin_ecommerce.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved twin_ecommerce.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dual-Axis Sales &amp; Growth Rate Chart</div><div class="pd">Create a dual-axis chart for 12 months of data: bar chart of monthly revenue on the left y-axis (steelblue bars), and a line of month-over-month growth rate (%) on the right y-axis (tomato line with markers). Color-code the left y-axis label steelblue and right y-axis label tomato. Add legends for both axes. Save as &#x27;practice_twin.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+months  = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = np.array([42, 38, 51, 47, 59, 65, 70, 62, 55, 68, 75, 88])
+# TODO: compute MoM growth rate (%)
+# growth = np.concatenate([[0], np.diff(revenue) / revenue[:-1] * 100])
+
+fig, ax1 = plt.subplots(figsize=(11, 5))
+ax2 = ax1.twinx()
+
+# TODO: ax1.bar(months, revenue, color=&#x27;steelblue&#x27;, alpha=0.7, label=&#x27;Revenue ($K)&#x27;)
+# TODO: ax2.plot(months, growth, &#x27;o-&#x27;, color=&#x27;tomato&#x27;, ...)
+
+# TODO: color y-axis labels
+# ax1.set_ylabel(&#x27;Revenue ($K)&#x27;, color=&#x27;steelblue&#x27;)
+# ax2.set_ylabel(&#x27;MoM Growth (%)&#x27;, color=&#x27;tomato&#x27;)
+# ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;steelblue&#x27;)
+# ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;tomato&#x27;)
+
+# TODO: add a horizontal dashed line at growth=0 on ax2
+# ax2.axhline(0, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=0.8)
+
+# TODO: legends for both axes
+ax1.set_title(&#x27;Monthly Revenue &amp; Growth Rate&#x27;)
+plt.tight_layout()
+# TODO: plt.savefig(&#x27;practice_twin.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Saving Figures &amp; Style Sheets</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save plots as PNG, PDF, SVG, or EPS with savefig(). Use plt.style.use() or rcParams to apply consistent styling across all charts.</p><div class="code-block"><div class="ch"><span>Saving figures with savefig</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+fig, ax = plt.subplots(figsize=(8, 4))
+x = np.linspace(0, 10, 100)
+ax.plot(x, np.sin(x), linewidth=2)
+ax.set_title(&#x27;Saved Figure Example&#x27;)
+ax.set_xlabel(&#x27;x&#x27;); ax.set_ylabel(&#x27;sin(x)&#x27;)
+
+# Save as PNG (high DPI for print)
+fig.savefig(&#x27;plot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;, facecolor=&#x27;white&#x27;)
+# Save as PDF (vector — best for papers)
+fig.savefig(&#x27;plot.pdf&#x27;, bbox_inches=&#x27;tight&#x27;)
+# Save as SVG (scalable for web)
+fig.savefig(&#x27;plot.svg&#x27;, bbox_inches=&#x27;tight&#x27;)
+
+print(&#x27;Saved: plot.png, plot.pdf, plot.svg&#x27;)
+plt.close()
+
+for f in [&#x27;plot.png&#x27;,&#x27;plot.pdf&#x27;,&#x27;plot.svg&#x27;]:
+    if os.path.exists(f): os.remove(f)
+print(&#x27;Cleaned up.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Style sheets and rcParams</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+print(&quot;Available styles (first 5):&quot;, plt.style.available[:5], &quot;...&quot;)
+
+# Apply a style
+with plt.style.context(&#x27;seaborn-v0_8-whitegrid&#x27;):
+    fig, ax = plt.subplots(figsize=(8, 4))
+    x = np.linspace(0, 10, 100)
+    ax.plot(x, np.sin(x), linewidth=2, label=&#x27;sin(x)&#x27;)
+    ax.plot(x, np.cos(x), linewidth=2, label=&#x27;cos(x)&#x27;)
+    ax.set_title(&#x27;Seaborn Whitegrid Style&#x27;)
+    ax.legend()
+    plt.tight_layout()
+    fig.savefig(&#x27;style_whitegrid.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+    plt.close()
+    print(&#x27;Saved style_whitegrid.png&#x27;)
+
+# Custom rcParams for global defaults
+plt.rcParams.update({
+    &#x27;font.size&#x27;: 12,
+    &#x27;axes.titlesize&#x27;: 14,
+    &#x27;figure.facecolor&#x27;: &#x27;white&#x27;,
+})
+print(&#x27;rcParams updated.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Batch export: saving multiple figures to files</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+plt.rcParams.update({
+    &#x27;font.size&#x27;: 10,
+    &#x27;axes.spines.top&#x27;: False,
+    &#x27;axes.spines.right&#x27;: False,
+    &#x27;grid.alpha&#x27;: 0.3,
+})
+
+np.random.seed(42)
+datasets = {
+    &#x27;alpha&#x27;: np.random.randn(300) * 2 + 5,
+    &#x27;beta&#x27;:  np.random.exponential(2, 300),
+    &#x27;gamma&#x27;: np.random.uniform(0, 10, 300),
+}
+
+saved = []
+for name, data in datasets.items():
+    fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+
+    axes[0].hist(data, bins=25, color=&#x27;steelblue&#x27;, edgecolor=&#x27;white&#x27;, linewidth=0.4)
+    axes[0].set_title(f&#x27;{name.capitalize()} — Histogram&#x27;)
+    axes[0].axvline(data.mean(), color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, linewidth=1.2, label=f&#x27;mean={data.mean():.2f}&#x27;)
+    axes[0].legend(fontsize=8)
+
+    axes[1].boxplot(data, vert=True, patch_artist=True,
+                    boxprops=dict(facecolor=&#x27;steelblue&#x27;, alpha=0.5))
+    axes[1].set_title(f&#x27;{name.capitalize()} — Boxplot&#x27;)
+    axes[1].set_ylabel(&#x27;Value&#x27;)
+
+    fname = f&#x27;report_{name}.png&#x27;
+    fig.tight_layout()
+    fig.savefig(fname, dpi=120, bbox_inches=&#x27;tight&#x27;, facecolor=&#x27;white&#x27;)
+    plt.close(fig)
+    saved.append(fname)
+    print(f&#x27;  Saved {fname}  ({os.path.getsize(fname)//1024} KB)&#x27;)
+
+# Clean up
+for f in saved:
+    if os.path.exists(f): os.remove(f)
+print(&#x27;Batch export complete.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Animation with FuncAnimation (bouncing ball)</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.set_xlim(0, 10); ax.set_ylim(0, 10)
+ax.set_aspect(&#x27;equal&#x27;); ax.set_title(&#x27;Bouncing Ball Animation&#x27;)
+ax.set_facecolor(&#x27;#1a1a2e&#x27;)
+
+ball, = ax.plot([], [], &#x27;o&#x27;, color=&#x27;#ffa600&#x27;, ms=18)
+trail_x, trail_y = [], []
+trail, = ax.plot([], [], &#x27;-&#x27;, color=&#x27;#ffa600&#x27;, alpha=0.3, lw=2)
+
+x, y = 5.0, 8.0
+vx, vy = 0.15, -0.12
+
+def init():
+    ball.set_data([], []); trail.set_data([], [])
+    return ball, trail
+
+def update(frame):
+    global x, y, vx, vy
+    x += vx; y += vy
+    vy -= 0.005          # gravity
+    if x &lt;= 0 or x &gt;= 10: vx *= -1
+    if y &lt;= 0: vy = abs(vy) * 0.92; y = 0
+    trail_x.append(x); trail_y.append(y)
+    if len(trail_x) &gt; 40:
+        trail_x.pop(0); trail_y.pop(0)
+    ball.set_data([x], [y])
+    trail.set_data(trail_x, trail_y)
+    return ball, trail
+
+ani = animation.FuncAnimation(fig, update, frames=80, init_func=init,
+                               interval=40, blit=True)
+ani.save(&#x27;bouncing_ball.gif&#x27;, writer=&#x27;pillow&#x27;, fps=25, dpi=80)
+plt.close()
+print(&#x27;Saved bouncing_ball.gif&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Automated Report Figure Export</div><div class="rd">A data engineering pipeline generates standardized PNG charts nightly and attaches them to an email report.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+import os
+
+# Apply consistent branding
+plt.rcParams.update({
+    &#x27;font.family&#x27;:      &#x27;DejaVu Sans&#x27;,
+    &#x27;font.size&#x27;:        10,
+    &#x27;axes.titlesize&#x27;:   12,
+    &#x27;axes.titleweight&#x27;: &#x27;bold&#x27;,
+    &#x27;axes.spines.top&#x27;:  False,
+    &#x27;axes.spines.right&#x27;:False,
+    &#x27;grid.alpha&#x27;:       0.3,
+})
+
+def save_kpi_chart(metric, values, labels, filename, color=&#x27;steelblue&#x27;):
+    fig, ax = plt.subplots(figsize=(8, 3))
+    ax.plot(range(len(values)), values, &#x27;o-&#x27;, color=color,
+            linewidth=2, markersize=6, markerfacecolor=&#x27;white&#x27;, markeredgewidth=2)
+    ax.fill_between(range(len(values)), values, alpha=0.1, color=color)
+    ax.set_xticks(range(len(labels)))
+    ax.set_xticklabels(labels, rotation=30, ha=&#x27;right&#x27;)
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x,_: f&#x27;${x:,.0f}&#x27;))
+    ax.set_title(metric); ax.grid(True)
+    fig.tight_layout()
+    fig.savefig(filename, dpi=120, bbox_inches=&#x27;tight&#x27;, facecolor=&#x27;white&#x27;)
+    plt.close(fig)
+    print(f&#x27;Saved {filename}  ({os.path.getsize(filename)//1024} KB)&#x27;)
+
+months = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;]
+rev    = [42000, 38500, 51000, 47200, 59800, 65600]
+save_kpi_chart(&#x27;Monthly Revenue&#x27;, rev, months, &#x27;revenue_report.png&#x27;)
+
+if os.path.exists(&#x27;revenue_report.png&#x27;):
+    os.remove(&#x27;revenue_report.png&#x27;)
+    print(&#x27;Cleaned up.&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Saving to PNG and SVG</div><div class="pd">Create a figure with two subplots side-by-side: (left) a line plot of sin(x) styled with &#x27;seaborn-v0_8-whitegrid&#x27;, and (right) a bar chart of 5 categories. Apply rcParams to set font.size=11. Save the figure as both &#x27;practice_output.png&#x27; (dpi=150) and &#x27;practice_output.svg&#x27;. Print the file sizes. Then clean up both files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+# TODO: update rcParams (font.size=11, figure.facecolor=&#x27;white&#x27;)
+# plt.rcParams.update({...})
+
+x      = np.linspace(0, 2 * np.pi, 200)
+cats   = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;]
+values = [23, 45, 17, 38, 29]
+
+# TODO: use plt.style.context(&#x27;seaborn-v0_8-whitegrid&#x27;) to create the figure
+# with plt.style.context(&#x27;seaborn-v0_8-whitegrid&#x27;):
+#     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+#
+#     # left: line plot of sin(x)
+#     ax1.plot(x, np.sin(x), color=&#x27;steelblue&#x27;, linewidth=2)
+#     ax1.set_title(&#x27;sin(x)&#x27;); ax1.set_xlabel(&#x27;x&#x27;); ax1.set_ylabel(&#x27;y&#x27;)
+#
+#     # right: bar chart
+#     ax2.bar(cats, values, color=&#x27;#DD8452&#x27;, edgecolor=&#x27;white&#x27;)
+#     ax2.set_title(&#x27;Category Values&#x27;); ax2.set_ylabel(&#x27;Count&#x27;)
+#
+#     plt.tight_layout()
+#
+#     # TODO: save as PNG and SVG
+#     # fig.savefig(&#x27;practice_output.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;, facecolor=&#x27;white&#x27;)
+#     # fig.savefig(&#x27;practice_output.svg&#x27;, bbox_inches=&#x27;tight&#x27;)
+#     plt.close()
+
+# TODO: print file sizes
+# for f in [&#x27;practice_output.png&#x27;, &#x27;practice_output.svg&#x27;]:
+#     print(f&#x27;{f}: {os.path.getsize(f)//1024} KB&#x27;)
+
+# TODO: clean up both files
+# for f in [&#x27;practice_output.png&#x27;, &#x27;practice_output.svg&#x27;]:
+#     if os.path.exists(f): os.remove(f)
+print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Plotting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create 3D visualizations with Axes3D — surface plots, wireframes, 3D scatter plots, and line trajectories that reveal multi-dimensional structure.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+np.random.seed(42)
+x, y, z = np.random.randn(3, 100)
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection=&#x27;3d&#x27;)
+sc = ax.scatter(x, y, z, c=z, cmap=&#x27;plasma&#x27;, s=50)
+plt.colorbar(sc, ax=ax, label=&#x27;Z value&#x27;)
+ax.set_xlabel(&#x27;X&#x27;); ax.set_ylabel(&#x27;Y&#x27;); ax.set_zlabel(&#x27;Z&#x27;)
+ax.set_title(&#x27;3D Scatter Plot&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;3d_scatter.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved 3d_scatter.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Surface plot with meshgrid</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-3, 3, 50)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2))
+
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection=&#x27;3d&#x27;)
+surf = ax.plot_surface(X, Y, Z, cmap=&#x27;viridis&#x27;, alpha=0.9)
+plt.colorbar(surf, ax=ax, shrink=0.5, label=&#x27;sin(r)&#x27;)
+ax.set_title(&#x27;3D Surface: sin(sqrt(x^2+y^2))&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;surface3d.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved surface3d.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Wireframe and contour overlay</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+x = np.linspace(-2, 2, 30)
+y = np.linspace(-2, 2, 30)
+X, Y = np.meshgrid(x, y)
+Z = X**2 - Y**2
+
+fig = plt.figure(figsize=(12, 5))
+ax1 = fig.add_subplot(121, projection=&#x27;3d&#x27;)
+ax1.plot_wireframe(X, Y, Z, rstride=3, cstride=3, color=&#x27;teal&#x27;, linewidth=0.5)
+ax1.set_title(&#x27;Wireframe: x^2 - y^2&#x27;)
+
+ax2 = fig.add_subplot(122, projection=&#x27;3d&#x27;)
+ax2.plot_surface(X, Y, Z, cmap=&#x27;coolwarm&#x27;, alpha=0.7)
+ax2.contour(X, Y, Z, zdir=&#x27;z&#x27;, offset=Z.min(), cmap=&#x27;coolwarm&#x27;)
+ax2.set_title(&#x27;Surface + Contour&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;wireframe3d.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved wireframe3d.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>3D line trajectory</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+t = np.linspace(0, 4*np.pi, 300)
+x = np.sin(t)
+y = np.cos(t)
+z = t / (4*np.pi)
+
+fig = plt.figure(figsize=(7, 6))
+ax = fig.add_subplot(111, projection=&#x27;3d&#x27;)
+for i in range(len(t)-1):
+    ax.plot(x[i:i+2], y[i:i+2], z[i:i+2], color=plt.cm.plasma(z[i]), linewidth=2)
+ax.set_xlabel(&#x27;X&#x27;); ax.set_ylabel(&#x27;Y&#x27;); ax.set_zlabel(&#x27;Height&#x27;)
+ax.set_title(&#x27;3D Helix Trajectory&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;helix3d.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved helix3d.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rosenbrock Surface</div><div class="pd">Plot the Rosenbrock function f(x,y)=(1-x)^2 + 100(y-x^2)^2 as a 3D surface (clipped at 2500). Overlay a contour at z=0. Mark the global minimum at (1,1,0) with a red dot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+x = np.linspace(-2, 2, 100)
+y = np.linspace(-1, 3, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.clip((1-X)**2 + 100*(Y-X**2)**2, 0, 2500)
+
+# TODO: create 3D surface plot
+# TODO: mark minimum at (1, 1, 0)
+# TODO: save to &#x27;rosenbrock.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Custom Styles &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make publication-quality figures with style sheets, rcParams, custom color cycles, and reusable theming functions.</p><div class="code-block"><div class="ch"><span>Built-in style sheets</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+print(&#x27;Available styles (sample):&#x27;, plt.style.available[:8])
+
+styles = [&#x27;seaborn-v0_8-darkgrid&#x27;, &#x27;ggplot&#x27;, &#x27;bmh&#x27;]
+x = np.linspace(0, 2*np.pi, 100)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+for ax, style in zip(axes, styles):
+    with plt.style.context(style):
+        for i in range(3):
+            ax.plot(x, np.sin(x + i*np.pi/3))
+        ax.set_title(style.split(&#x27;-&#x27;)[-1])
+plt.tight_layout()
+plt.savefig(&#x27;styles.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved styles.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Custom rcParams dark theme</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+custom = {
+    &#x27;figure.facecolor&#x27;: &#x27;#1e1e2e&#x27;, &#x27;axes.facecolor&#x27;: &#x27;#1e1e2e&#x27;,
+    &#x27;axes.edgecolor&#x27;: &#x27;#6e6e8e&#x27;, &#x27;axes.labelcolor&#x27;: &#x27;#cdd6f4&#x27;,
+    &#x27;xtick.color&#x27;: &#x27;#cdd6f4&#x27;, &#x27;ytick.color&#x27;: &#x27;#cdd6f4&#x27;,
+    &#x27;text.color&#x27;: &#x27;#cdd6f4&#x27;, &#x27;grid.color&#x27;: &#x27;#313244&#x27;,
+    &#x27;axes.prop_cycle&#x27;: matplotlib.cycler(&#x27;color&#x27;, [&#x27;#89b4fa&#x27;,&#x27;#f38ba8&#x27;,&#x27;#a6e3a1&#x27;,&#x27;#fab387&#x27;]),
+    &#x27;font.size&#x27;: 12,
+}
+plt.rcParams.update(custom)
+x = np.linspace(0, 4*np.pi, 200)
+fig, ax = plt.subplots(figsize=(9, 5))
+for i, label in enumerate([&#x27;sin&#x27;, &#x27;cos&#x27;, &#x27;sin2&#x27;]):
+    y = np.sin(x)*np.sin(x) if i==2 else (np.sin(x) if i==0 else np.cos(x))
+    ax.plot(x, y, linewidth=2, label=label)
+ax.legend(facecolor=&#x27;#313244&#x27;); ax.set_title(&#x27;Dark Theme&#x27;); ax.grid(True)
+plt.tight_layout()
+plt.savefig(&#x27;dark_theme.png&#x27;, dpi=80, facecolor=fig.get_facecolor()); plt.close()
+plt.rcParams.update(plt.rcParamsDefault)
+print(&#x27;Saved dark_theme.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Custom color cycles and grouped charts</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+PALETTE = [&#x27;#e41a1c&#x27;,&#x27;#377eb8&#x27;,&#x27;#4daf4a&#x27;,&#x27;#984ea3&#x27;,&#x27;#ff7f00&#x27;]
+plt.rcParams[&#x27;axes.prop_cycle&#x27;] = matplotlib.cycler(&#x27;color&#x27;, PALETTE)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+categories = [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]; x = np.arange(len(categories)); width=0.25
+for i, grp in enumerate([&#x27;G1&#x27;,&#x27;G2&#x27;,&#x27;G3&#x27;]):
+    axes[0].bar(x+i*width, np.random.randint(10,50,4), width, label=grp)
+axes[0].set_xticks(x+width); axes[0].set_xticklabels(categories)
+axes[0].legend(); axes[0].set_title(&#x27;Custom Colors — Bars&#x27;)
+
+t = np.linspace(0,10,200)
+for i in range(5):
+    axes[1].plot(t, np.sin(t+i)*np.exp(-0.1*t), label=f&#x27;S{i+1}&#x27;)
+axes[1].legend(fontsize=8); axes[1].set_title(&#x27;Custom Colors — Lines&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;colors.png&#x27;, dpi=80); plt.close()
+plt.rcParams.update(plt.rcParamsDefault)
+print(&#x27;Saved colors.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Reusable publication-style context manager</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+from contextlib import contextmanager
+
+@contextmanager
+def pub_style(w=8, h=5):
+    params = {
+        &#x27;font.size&#x27;: 12, &#x27;axes.titlesize&#x27;: 14, &#x27;axes.labelsize&#x27;: 12,
+        &#x27;lines.linewidth&#x27;: 2, &#x27;axes.spines.top&#x27;: False, &#x27;axes.spines.right&#x27;: False,
+    }
+    with plt.style.context(&#x27;seaborn-v0_8-whitegrid&#x27;):
+        plt.rcParams.update(params)
+        fig, ax = plt.subplots(figsize=(w, h))
+        yield fig, ax
+        plt.tight_layout()
+
+x = np.linspace(0, 10, 200)
+with pub_style() as (fig, ax):
+    ax.plot(x, np.sin(x), label=&#x27;sin(x)&#x27;)
+    ax.plot(x, np.cos(x), &#x27;--&#x27;, label=&#x27;cos(x)&#x27;)
+    ax.set_xlabel(&#x27;x&#x27;); ax.set_ylabel(&#x27;Amplitude&#x27;)
+    ax.set_title(&#x27;Publication-Ready Figure&#x27;); ax.legend()
+    fig.savefig(&#x27;publication.png&#x27;, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved publication.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Themed Dashboard</div><div class="pd">Create a 2x2 subplot figure with a dark background. Include: scatter (colored by magnitude), multi-line chart, bar chart, and histogram. Use a consistent 4-color palette.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+# TODO: set dark rcParams
+# TODO: 2x2 subplots
+# TODO: top-left: scatter (x,y normal, color=magnitude)
+# TODO: top-right: 3 sine waves
+# TODO: bottom-left: 12-bar monthly sales
+# TODO: bottom-right: histogram 500 samples, 30 bins
+# TODO: suptitle and save to &#x27;dark_dashboard.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Annotations &amp; Text Elements</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Add rich annotations — arrows, text boxes, spans, and LaTeX math expressions — to communicate insights directly on the plot.</p><div class="code-block"><div class="ch"><span>Arrow and text annotations</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 4*np.pi, 300)
+y = np.sin(x)
+fig, ax = plt.subplots(figsize=(10, 5))
+ax.plot(x, y, &#x27;steelblue&#x27;, linewidth=2)
+
+# Annotate maximum
+max_idx = y.argmax()
+ax.annotate(&#x27;Global Max&#x27;, xy=(x[max_idx], y[max_idx]),
+            xytext=(x[max_idx]+1, 0.6),
+            arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;, color=&#x27;red&#x27;, lw=2),
+            fontsize=11, color=&#x27;red&#x27;, fontweight=&#x27;bold&#x27;)
+
+# Annotate minimum
+min_idx = y.argmin()
+ax.annotate(&#x27;Global Min&#x27;, xy=(x[min_idx], y[min_idx]),
+            xytext=(x[min_idx]-1.5, -0.6),
+            arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;, color=&#x27;orange&#x27;, lw=2),
+            fontsize=11, color=&#x27;orange&#x27;)
+
+ax.set_title(&#x27;sin(x) with Annotations&#x27;); ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;annotated_sine.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved annotated_sine.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Text boxes and callout styles</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 200)
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.plot(x, np.exp(-0.3*x)*np.sin(x*2), linewidth=2)
+
+box_styles = [(&#x27;round,pad=0.3&#x27;, &#x27;lightblue&#x27;, &#x27;navy&#x27;),
+              (&#x27;round4,pad=0.4&#x27;, &#x27;lightyellow&#x27;, &#x27;darkorange&#x27;),
+              (&#x27;sawtooth,pad=0.3&#x27;, &#x27;lightgreen&#x27;, &#x27;darkgreen&#x27;)]
+
+for i, (style, fc, ec) in enumerate(box_styles):
+    ax.text(2+i*3, 0.5-i*0.3, f&#x27;Style: {style.split(&quot;,&quot;)[0]}&#x27;,
+            fontsize=10, ha=&#x27;center&#x27;,
+            bbox=dict(boxstyle=style, facecolor=fc, edgecolor=ec, alpha=0.9))
+
+ax.set_title(&#x27;Text Box Styles&#x27;); ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;textboxes.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved textboxes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>axvspan and axhspan for region highlighting</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+dates = np.arange(60)
+prices = 100 + np.cumsum(np.random.randn(60))
+
+fig, ax = plt.subplots(figsize=(11, 5))
+ax.plot(dates, prices, &#x27;steelblue&#x27;, linewidth=1.5)
+
+# Shade event regions
+ax.axvspan(10, 20, color=&#x27;red&#x27;,   alpha=0.15, label=&#x27;Crash period&#x27;)
+ax.axvspan(35, 45, color=&#x27;green&#x27;, alpha=0.15, label=&#x27;Recovery period&#x27;)
+ax.axhline(prices.mean(), color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=1, label=&#x27;Mean price&#x27;)
+
+# Annotate events
+ax.text(15, ax.get_ylim()[1]*0.98, &#x27;Crash&#x27;, ha=&#x27;center&#x27;, color=&#x27;darkred&#x27;, fontsize=10)
+ax.text(40, ax.get_ylim()[1]*0.98, &#x27;Recovery&#x27;, ha=&#x27;center&#x27;, color=&#x27;darkgreen&#x27;, fontsize=10)
+
+ax.legend(); ax.set_xlabel(&#x27;Day&#x27;); ax.set_ylabel(&#x27;Price&#x27;)
+ax.set_title(&#x27;Price Series with Event Annotations&#x27;)
+plt.tight_layout()
+plt.savefig(&#x27;event_regions.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved event_regions.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>LaTeX math in labels and annotations</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-3, 3, 300)
+mu, sigma = 0, 1
+y = (1/(sigma*np.sqrt(2*np.pi))) * np.exp(-0.5*((x-mu)/sigma)**2)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(x, y, &#x27;steelblue&#x27;, linewidth=2.5)
+ax.fill_between(x, y, where=(x&gt;=-1)&amp;(x&lt;=1), alpha=0.3, color=&#x27;steelblue&#x27;, label=r&#x27;$\pm 1\sigma$ (68.3%)&#x27;)
+
+# LaTeX in axis labels
+ax.set_xlabel(r&#x27;$x$&#x27;, fontsize=14)
+ax.set_ylabel(r&#x27;$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$&#x27;, fontsize=11)
+ax.set_title(r&#x27;Normal Distribution $\mathcal{N}(\mu=0, \sigma=1)$&#x27;, fontsize=13)
+
+# LaTeX annotation
+ax.annotate(r&#x27;$\mu = 0$&#x27;, xy=(0, y.max()), xytext=(1.2, y.max()*0.9),
+            arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;), fontsize=12)
+ax.legend(fontsize=11)
+plt.tight_layout()
+plt.savefig(&#x27;latex_plot.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved latex_plot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Confidence Interval</div><div class="pd">Plot a regression line y=2x+1 with noise. Add shaded 95% confidence band, annotate the slope with an arrow and LaTeX label, and shade the extrapolation region (x&gt;8) in red.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+x = np.linspace(0, 10, 50)
+y = 2*x + 1 + np.random.randn(50) * 2
+x_fit = np.linspace(0, 12, 200)
+y_fit = 2*x_fit + 1
+
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.scatter(x, y, alpha=0.6, label=&#x27;Data&#x27;)
+ax.plot(x_fit, y_fit, &#x27;r-&#x27;, label=&#x27;Fit&#x27;)
+# TODO: add shaded CI band (y_fit +/- 2 units)
+# TODO: shade extrapolation x&gt;8 with axvspan
+# TODO: annotate slope with arrow and r&#x27;$\hat{\beta}_1 = 2$&#x27;
+# TODO: save to &#x27;ci_plot.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Animations &amp; GIF Export</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>FuncAnimation — rolling sine wave</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 3))
+x = np.linspace(0, 2*np.pi, 200)
+line, = ax.plot(x, np.sin(x))
+ax.set_ylim(-1.3, 1.3)
+
+def update(frame):
+    line.set_ydata(np.sin(x + frame * 0.15))
+    return line,
+
+ani = animation.FuncAnimation(fig, update, frames=40, interval=60, blit=True)
+try:
+    ani.save(&#x27;sine_anim.gif&#x27;, writer=&#x27;pillow&#x27;, fps=15)
+    print(&#x27;Saved sine_anim.gif&#x27;)
+except Exception as e:
+    print(f&#x27;pillow not installed ({e}) — animation built ok&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>Random walk particle animation</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+np.random.seed(42)
+n = 20
+pos = np.random.randn(n, 2)
+fig, ax = plt.subplots(figsize=(5, 5))
+sc = ax.scatter(pos[:, 0], pos[:, 1], c=range(n), cmap=&#x27;hsv&#x27;, s=50)
+ax.set_xlim(-5, 5); ax.set_ylim(-5, 5)
+ax.set_title(&#x27;Random Walk Particles&#x27;)
+
+def update(frame):
+    global pos
+    pos += np.random.randn(n, 2) * 0.15
+    pos = np.clip(pos, -4.5, 4.5)
+    sc.set_offsets(pos)
+    return sc,
+
+ani = animation.FuncAnimation(fig, update, frames=50, interval=80, blit=True)
+try:
+    ani.save(&#x27;particles.gif&#x27;, writer=&#x27;pillow&#x27;, fps=12)
+    print(&#x27;Saved particles.gif&#x27;)
+except Exception as e:
+    print(f&#x27;pillow not found ({e})&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>Dual-subplot animation (sin &amp; cos)</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+x = np.linspace(0, 2*np.pi, 200)
+l1, = ax1.plot(x, np.sin(x), &#x27;b-&#x27;)
+l2, = ax2.plot(x, np.cos(x), &#x27;r-&#x27;)
+ax1.set_title(&#x27;sin(x+t)&#x27;); ax2.set_title(&#x27;cos(x-t)&#x27;)
+
+def update(frame):
+    t = frame * 0.12
+    l1.set_ydata(np.sin(x + t))
+    l2.set_ydata(np.cos(x - t))
+    return l1, l2
+
+ani = animation.FuncAnimation(fig, update, frames=50, blit=True)
+try:
+    ani.save(&#x27;dual_anim.gif&#x27;, writer=&#x27;pillow&#x27;, fps=15)
+    print(&#x27;Saved dual_anim.gif&#x27;)
+except:
+    print(&#x27;Animation created (pillow needed to save)&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>ArtistAnimation with histogram frames</span><button onclick="cp('c13_3')">Copy</button></div><pre><code id="c13_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+np.random.seed(0)
+frames = []
+for i in range(10):
+    data = np.random.randn(50) + i * 0.5
+    hist = ax.hist(data, bins=20, range=(-3, 9),
+                  color=plt.cm.viridis(i/10), alpha=0.7)
+    title = ax.text(0.5, 1.01, f&#x27;Shift = {i*0.5:.1f}&#x27;,
+                   transform=ax.transAxes, ha=&#x27;center&#x27;)
+    frames.append(hist[2].tolist() + [title])
+ani = animation.ArtistAnimation(fig, frames, interval=300, blit=True)
+try:
+    ani.save(&#x27;hist_anim.gif&#x27;, writer=&#x27;pillow&#x27;, fps=3)
+    print(&#x27;Saved hist_anim.gif&#x27;)
+except:
+    print(&#x27;ArtistAnimation built (pillow needed to save)&#x27;)
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bouncing Ball Animation</div><div class="pd">Animate a ball under gravity (g=9.8). Start at y=5, vy=0. Update position each frame with dt=0.05. Reverse vy on bounce at y=0. Save 100 frames to &#x27;bounce.gif&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(4, 6))
+ax.set_xlim(0, 1); ax.set_ylim(-0.2, 5.5)
+ball, = ax.plot([0.5], [5], &#x27;bo&#x27;, ms=15)
+dt = 0.05; g = 9.8
+y, vy = 5.0, 0.0
+
+# TODO: define update(frame) that applies gravity, reverses on bounce
+# TODO: FuncAnimation for 100 frames
+# TODO: save to &#x27;bounce.gif&#x27; with pillow</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Publication-Quality Figures</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Style sheets comparison</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 4*np.pi, 200)
+styles = [&#x27;seaborn-v0_8-paper&#x27;, &#x27;ggplot&#x27;, &#x27;bmh&#x27;]
+fig, axes = plt.subplots(1, 3, figsize=(13, 4))
+for ax, style in zip(axes, styles):
+    with plt.style.context(style):
+        ax.plot(x, np.sin(x), label=&#x27;sin&#x27;)
+        ax.plot(x, np.cos(x), label=&#x27;cos&#x27;)
+        ax.set_title(style.split(&#x27;_&#x27;)[-1])
+        ax.legend(fontsize=8)
+fig.tight_layout()
+fig.savefig(&#x27;styles_compare.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved styles_compare.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>LaTeX math in axis labels and titles</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+x = np.linspace(0.1, 3, 200)
+ax.plot(x, np.exp(-x**2), label=r&#x27;$f(x) = e^{-x^2}$&#x27;, lw=2)
+ax.plot(x, 1/(1+x**2), label=r&#x27;$g(x) = \frac{1}{1+x^2}$&#x27;, lw=2, ls=&#x27;--&#x27;)
+ax.set_xlabel(r&#x27;$x$ (normalized)&#x27;, fontsize=12)
+ax.set_ylabel(r&#x27;$f(x)$&#x27;, fontsize=12)
+ax.set_title(r&#x27;Gaussian vs Lorentzian decay&#x27;, fontsize=13)
+ax.legend(fontsize=11); ax.grid(True, alpha=0.3)
+fig.tight_layout()
+fig.savefig(&#x27;latex_labels.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved latex_labels.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>Shared-axes multi-panel figure</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
+fig, axes = plt.subplots(2, 3, figsize=(12, 7), sharex=True, sharey=True)
+for i, ax in enumerate(axes.flat):
+    data = np.random.normal(i, 1.2, 80)
+    ax.hist(data, bins=18, edgecolor=&#x27;k&#x27;, alpha=0.7)
+    ax.axvline(data.mean(), color=&#x27;red&#x27;, ls=&#x27;--&#x27;, lw=1.2)
+    ax.set_title(f&#x27;Group {i+1} (μ={i})&#x27;, fontsize=10)
+fig.suptitle(&#x27;Shared-Axis Multi-Panel&#x27;, fontsize=14, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;multi_panel.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved multi_panel.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>High-DPI export with serif fonts</span><button onclick="cp('c14_3')">Copy</button></div><pre><code id="c14_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.rcParams.update({&#x27;font.family&#x27;: &#x27;serif&#x27;, &#x27;font.size&#x27;: 10,
+                     &#x27;axes.linewidth&#x27;: 1.2, &#x27;xtick.major.width&#x27;: 1.2})
+np.random.seed(42)
+groups = [&#x27;Control&#x27;, &#x27;Drug A&#x27;, &#x27;Drug B&#x27;]
+means = [2.1, 3.4, 2.9]; stds = [0.3, 0.4, 0.35]
+fig, ax = plt.subplots(figsize=(4.5, 3.5))
+bars = ax.bar(groups, means, yerr=stds, capsize=5,
+              color=[&#x27;#4878D0&#x27;,&#x27;#EE854A&#x27;,&#x27;#6ACC65&#x27;], edgecolor=&#x27;k&#x27;, lw=0.8)
+for b, m in zip(bars, means):
+    ax.text(b.get_x()+b.get_width()/2, b.get_height()+0.06,
+            f&#x27;{m:.1f}&#x27;, ha=&#x27;center&#x27;, fontsize=9)
+ax.set_ylabel(r&#x27;Response ($μmol/L)&#x27;, fontsize=11)
+ax.set_title(&#x27;Treatment Effect&#x27;, fontsize=12)
+ax.spines[[&#x27;top&#x27;,&#x27;right&#x27;]].set_visible(False)
+fig.tight_layout()
+fig.savefig(&#x27;publication_fig.png&#x27;, dpi=300, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved publication_fig.png at 300 DPI&#x27;)
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2-Panel with Inset Zoom</div><div class="pd">Plot y = e^{-0.1t}*sin(2t) on linear and log scales. Add an inset zoom on t=[0,2] in the linear panel. Use seaborn-v0_8-paper style, serif fonts, and export at 300 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
+import numpy as np
+
+t = np.linspace(0, 20, 500)
+y = np.exp(-0.1*t) * np.sin(2*t)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
+# TODO: ax1 linear plot + inset zoom t in [0,2]
+# TODO: ax2 semilogy plot
+# TODO: seaborn-v0_8-paper style, 300 DPI export</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Custom Colormaps &amp; Color Science</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>LinearSegmentedColormap from color list</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import numpy as np
+
+colors = [&#x27;#1a1a2e&#x27;,&#x27;#16213e&#x27;,&#x27;#0f3460&#x27;,&#x27;#e94560&#x27;]
+cmap = mcolors.LinearSegmentedColormap.from_list(&#x27;dark_red&#x27;, colors, N=256)
+np.random.seed(0)
+data = np.random.randn(40, 40).cumsum(axis=0)
+fig, ax = plt.subplots(figsize=(6, 4))
+im = ax.imshow(data, cmap=cmap, aspect=&#x27;auto&#x27;)
+plt.colorbar(im, ax=ax, label=&#x27;Value&#x27;)
+ax.set_title(&#x27;Custom Dark-Red Colormap&#x27;)
+fig.savefig(&#x27;custom_cmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved custom_cmap.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>TwoSlopeNorm for asymmetric diverging maps</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import numpy as np
+
+np.random.seed(42)
+data = np.random.randn(20, 20) * 3 + 1
+vmax = max(abs(data.min()), abs(data.max()))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
+im1 = ax1.imshow(data, cmap=&#x27;RdBu_r&#x27;, vmin=-vmax, vmax=vmax)
+ax1.set_title(&#x27;Symmetric Norm&#x27;); plt.colorbar(im1, ax=ax1)
+norm = mcolors.TwoSlopeNorm(vmin=data.min(), vcenter=0, vmax=data.max())
+im2 = ax2.imshow(data, cmap=&#x27;RdBu_r&#x27;, norm=norm)
+ax2.set_title(&#x27;TwoSlopeNorm&#x27;); plt.colorbar(im2, ax=ax2)
+fig.tight_layout()
+fig.savefig(&#x27;diverging_norm.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved diverging_norm.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>Discrete colorbar with BoundaryNorm</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import numpy as np
+
+bounds = [0, 1, 2, 3, 4, 5]
+cmap = plt.get_cmap(&#x27;RdYlGn&#x27;, len(bounds)-1)
+norm = mcolors.BoundaryNorm(bounds, cmap.N)
+levels = [&#x27;None&#x27;,&#x27;Low&#x27;,&#x27;Med&#x27;,&#x27;High&#x27;,&#x27;Max&#x27;]
+np.random.seed(7)
+data = np.random.randint(0, 5, (8, 10))
+fig, ax = plt.subplots(figsize=(9, 5))
+im = ax.imshow(data, cmap=cmap, norm=norm)
+cbar = plt.colorbar(im, ax=ax, boundaries=bounds, ticks=[0.5,1.5,2.5,3.5,4.5])
+cbar.set_ticklabels(levels)
+for i in range(data.shape[0]):
+    for j in range(data.shape[1]):
+        ax.text(j, i, levels[data[i,j]][:3],
+                ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=8)
+ax.set_title(&#x27;Discrete Risk Heatmap&#x27;)
+fig.savefig(&#x27;discrete_cmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved discrete_cmap.png&#x27;)
+plt.close()</code></pre></div><div class="code-block"><div class="ch"><span>Perceptually uniform colormap comparison</span><button onclick="cp('c15_3')">Copy</button></div><pre><code id="c15_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import numpy as np
+
+cmaps = [&#x27;viridis&#x27;, &#x27;plasma&#x27;, &#x27;inferno&#x27;, &#x27;cividis&#x27;]
+x = y = np.linspace(-np.pi, np.pi, 200)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(X) * np.cos(Y)
+fig, axes = plt.subplots(1, 4, figsize=(14, 3.5))
+for ax, cm in zip(axes, cmaps):
+    im = ax.imshow(Z, cmap=cm, aspect=&#x27;auto&#x27;)
+    ax.set_title(cm)
+    plt.colorbar(im, ax=ax, fraction=0.046)
+fig.suptitle(&#x27;Perceptually Uniform Colormaps&#x27;, fontsize=12)
+fig.tight_layout()
+fig.savefig(&#x27;perceptual_cmaps.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved perceptual_cmaps.png&#x27;)
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Terrain Colormap</div><div class="pd">Create a colormap: blue → green → yellow → brown → white. Apply to a sin(X)*cos(Y) surface. Add a colorbar with 5 ticks labeled: Sea, Lowland, Hills, Mountain, Snow.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import numpy as np
+
+colors = [&#x27;#1a6b9a&#x27;,&#x27;#2ecc71&#x27;,&#x27;#f1c40f&#x27;,&#x27;#8b5e3c&#x27;,&#x27;#f5f5f5&#x27;]
+cmap = mcolors.LinearSegmentedColormap.from_list(&#x27;terrain_custom&#x27;, colors)
+x = y = np.linspace(-3, 3, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(X) + np.cos(Y)
+# TODO: imshow with custom cmap
+# TODO: colorbar with 5 labeled ticks
+# TODO: save &#x27;terrain.png&#x27; at 150 DPI</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

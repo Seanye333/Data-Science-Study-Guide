@@ -1,0 +1,2685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🐼 Pandas Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --sidebar-bg: #161b22;
+    --card-bg: #1c2128;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #f78166;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --tag-bg: #21262d;
+    --code-header: #161b22;
+    --sidebar-w: 280px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── Sidebar ─────────────────────────────────────────────────── */
+  #sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: var(--sidebar-bg); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 20px 16px 14px; border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h1 { font-size: 17px; font-weight: 700; color: var(--text); }
+  .sidebar-header p  { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  #search-box {
+    margin: 10px 12px 8px;
+    padding: 7px 12px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg);
+    color: var(--text); font-size: 13px; width: calc(100% - 24px);
+    outline: none;
+  }
+  #search-box:focus { border-color: var(--accent); }
+
+  #nav { overflow-y: auto; flex: 1; padding: 6px 0 16px; }
+  .nav-section { padding: 8px 16px 4px; font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; color: var(--text-muted); text-transform: uppercase; }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 16px; cursor: pointer; font-size: 13px; color: var(--text-muted);
+    border-left: 2px solid transparent; transition: all .15s;
+    text-decoration: none;
+  }
+  .nav-item:hover  { color: var(--text); background: var(--tag-bg); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(88,166,255,.08); }
+  .nav-num { font-size: 11px; color: var(--border); min-width: 20px; }
+
+  /* ── Main ────────────────────────────────────────────────────── */
+  #main { flex: 1; overflow-y: auto; }
+  .content { max-width: 900px; margin: 0 auto; padding: 32px 32px 80px; }
+
+  .hero {
+    background: linear-gradient(135deg, #1c2128 0%, #161b22 100%);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px 36px; margin-bottom: 40px;
+  }
+  .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p  { color: var(--text-muted); font-size: 15px; line-height: 1.6; max-width: 600px; }
+  .hero-stats { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .stat { background: var(--tag-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 18px; text-align: center; }
+  .stat-n { font-size: 24px; font-weight: 700; color: var(--accent2); }
+  .stat-l { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── Topic Card ──────────────────────────────────────────────── */
+  .topic {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 28px; overflow: hidden;
+    scroll-margin-top: 20px;
+  }
+  .topic-header {
+    display: flex; align-items: center; gap: 12px; padding: 16px 20px;
+    background: var(--code-header); border-bottom: 1px solid var(--border);
+    cursor: pointer; user-select: none;
+  }
+  .topic-header:hover { background: #1d2230; }
+  .topic-num { font-size: 11px; font-weight: 700; color: var(--accent); background: rgba(88,166,255,.12);
+    border: 1px solid rgba(88,166,255,.25); border-radius: 4px; padding: 2px 7px; }
+  .topic-title { font-size: 15px; font-weight: 600; flex: 1; }
+  .topic-tag { font-size: 10px; background: var(--tag-bg); color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 20px; padding: 2px 8px; }
+  .chevron { color: var(--text-muted); transition: transform .2s; font-size: 12px; }
+  .collapsed .chevron { transform: rotate(-90deg); }
+
+  .topic-body { padding: 0; }
+  .collapsed .topic-body { display: none; }
+
+  .topic-desc { padding: 14px 20px; color: var(--text-muted); font-size: 13.5px;
+    line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .topic-desc code { background: var(--tag-bg); padding: 1px 5px; border-radius: 3px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 12px; color: var(--accent3); }
+
+  /* ── Code Block ──────────────────────────────────────────────── */
+  .code-block { position: relative; }
+  .code-label {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 14px; background: #0d1117; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-muted);
+  }
+  .copy-btn {
+    cursor: pointer; background: var(--tag-bg); border: 1px solid var(--border);
+    color: var(--text-muted); font-size: 11px; border-radius: 5px; padding: 3px 9px;
+    transition: all .15s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .copy-btn.copied { color: var(--accent2); border-color: var(--accent2); }
+
+  .code-block pre { margin: 0 !important; border-radius: 0 !important; }
+  .code-block pre code.hljs { padding: 18px 20px !important; font-size: 13px !important;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace !important;
+    line-height: 1.6 !important; background: #0d1117 !important; }
+
+  /* ── Output box ──────────────────────────────────────────────── */
+  .output-box {
+    background: #0d1117; border-top: 1px solid var(--border);
+    padding: 12px 20px; font-family: 'Cascadia Code','Fira Code','Consolas',monospace;
+    font-size: 12px; color: #adbac7; line-height: 1.7; white-space: pre;
+    overflow-x: auto;
+  }
+  .output-label { font-size: 10px; color: var(--text-muted); margin-bottom: 6px; font-family: sans-serif; }
+
+  /* ── Cheatsheet Table ────────────────────────────────────────── */
+  .cheatsheet { padding: 20px; }
+  .cheatsheet h3 { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; background: var(--tag-bg);
+    color: var(--text-muted); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  td code { background: var(--tag-bg); padding: 2px 6px; border-radius: 3px;
+    font-family: 'Cascadia Code','Fira Code','Consolas',monospace; font-size: 12px; color: #79c0ff; }
+  tr:hover td { background: rgba(255,255,255,.02); }
+
+
+  /* ── Real-World Use Case Blocks ──────────────────────────────── */
+  .rw-block { border-top: 2px solid rgba(63,185,80,.18); }
+  .rw-header {
+    padding: 9px 20px 8px;
+    font-size: 11.5px; font-weight: 700; letter-spacing:.04em;
+    color: var(--accent2);
+    background: rgba(63,185,80,.07);
+    border-bottom: 1px solid rgba(63,185,80,.18);
+  }
+  .rw-desc {
+    padding: 10px 20px 12px;
+    font-size: 13px; color: var(--text-muted); line-height: 1.65;
+    border-bottom: 1px solid var(--border);
+  }
+  .rw-desc strong { color: var(--text); }
+
+  /* ── Scrollbar ───────────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Responsive ──────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    #sidebar { display: none; }
+    .content { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ SIDEBAR ════════════════════════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <h1>🐼 Pandas Guide</h1>
+    <p>32 topics · Interactive examples</p>
+  </div>
+  <input id="search-box" type="text" placeholder="🔍  Search topics…" oninput="filterNav(this.value)"/>
+  <nav id="nav">
+    <div class="nav-section">Fundamentals</div>
+    <a class="nav-item active" href="#t1"  onclick="activate(this)"><span class="nav-num">01</span>Installation &amp; Import</a>
+    <a class="nav-item" href="#t2"  onclick="activate(this)"><span class="nav-num">02</span>Series</a>
+    <a class="nav-item" href="#t3"  onclick="activate(this)"><span class="nav-num">03</span>DataFrame Basics</a>
+    <a class="nav-item" href="#t4"  onclick="activate(this)"><span class="nav-num">04</span>Reading &amp; Writing Data</a>
+    <a class="nav-item" href="#t5"  onclick="activate(this)"><span class="nav-num">05</span>Viewing &amp; Inspecting</a>
+
+    <div class="nav-section">Selection</div>
+    <a class="nav-item" href="#t6"  onclick="activate(this)"><span class="nav-num">06</span>Selecting &amp; Indexing</a>
+    <a class="nav-item" href="#t7"  onclick="activate(this)"><span class="nav-num">07</span>Filtering Data</a>
+
+    <div class="nav-section">Manipulation</div>
+    <a class="nav-item" href="#t8"  onclick="activate(this)"><span class="nav-num">08</span>Add / Remove Cols &amp; Rows</a>
+    <a class="nav-item" href="#t9"  onclick="activate(this)"><span class="nav-num">09</span>Missing Data</a>
+    <a class="nav-item" href="#t10" onclick="activate(this)"><span class="nav-num">10</span>Data Types &amp; Conversion</a>
+    <a class="nav-item" href="#t11" onclick="activate(this)"><span class="nav-num">11</span>Sorting</a>
+    <a class="nav-item" href="#t21" onclick="activate(this)"><span class="nav-num">21</span>Duplicate Handling</a>
+    <a class="nav-item" href="#t22" onclick="activate(this)"><span class="nav-num">22</span>Binning cut() &amp; qcut()</a>
+
+    <div class="nav-section">Aggregation</div>
+    <a class="nav-item" href="#t12" onclick="activate(this)"><span class="nav-num">12</span>GroupBy &amp; Aggregation</a>
+    <a class="nav-item" href="#t13" onclick="activate(this)"><span class="nav-num">13</span>Merge / Join / Concat</a>
+    <a class="nav-item" href="#t14" onclick="activate(this)"><span class="nav-num">14</span>Pivot Tables &amp; Crosstab</a>
+
+    <div class="nav-section">Advanced</div>
+    <a class="nav-item" href="#t15" onclick="activate(this)"><span class="nav-num">15</span>String Operations</a>
+    <a class="nav-item" href="#t16" onclick="activate(this)"><span class="nav-num">16</span>DateTime Operations</a>
+    <a class="nav-item" href="#t17" onclick="activate(this)"><span class="nav-num">17</span>Apply, Map &amp; Lambda</a>
+    <a class="nav-item" href="#t18" onclick="activate(this)"><span class="nav-num">18</span>Reshaping Data</a>
+    <a class="nav-item" href="#t19" onclick="activate(this)"><span class="nav-num">19</span>Statistical Functions</a>
+    <a class="nav-item" href="#t23" onclick="activate(this)"><span class="nav-num">23</span>assign(), pipe(), Chaining</a>
+    <a class="nav-item" href="#t24" onclick="activate(this)"><span class="nav-num">24</span>eval() &amp; Advanced query()</a>
+    <a class="nav-item" href="#t25" onclick="activate(this)"><span class="nav-num">25</span>MultiIndex</a>
+    <a class="nav-item" href="#t26" onclick="activate(this)"><span class="nav-num">26</span>Categorical Data</a>
+    <a class="nav-item" href="#t27" onclick="activate(this)"><span class="nav-num">27</span>Window Functions</a>
+    <a class="nav-item" href="#t28" onclick="activate(this)"><span class="nav-num">28</span>DataFrame Styling</a>
+    <a class="nav-item" href="#t29" onclick="activate(this)"><span class="nav-num">29</span>Memory Optimization</a>
+    <a class="nav-item" href="#t30" onclick="activate(this)"><span class="nav-num">30</span>Sampling &amp; Random</a>
+    <a class="nav-item" href="#t31" onclick="activate(this)"><span class="nav-num">31</span>shift() &amp; diff()</a>
+    <a class="nav-item" href="#t32" onclick="activate(this)"><span class="nav-num">32</span>explode() List Columns</a>
+
+    <div class="nav-section">Visualization</div>
+    <a class="nav-item" href="#t20" onclick="activate(this)"><span class="nav-num">20</span>Plotting with Pandas</a>
+
+    <div class="nav-section">Reference</div>
+    <a class="nav-item" href="#cheatsheet" onclick="activate(this)"><span class="nav-num">★</span>Cheatsheet</a>
+  </nav>
+</aside>
+
+<!-- ════════════════════════════════ MAIN ═══════════════════════════════════ -->
+<main id="main">
+<div class="content">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>🐼 <span>Pandas</span> Study Guide</h1>
+    <p>A complete interactive reference for the pandas library. Each topic includes
+       explanation, runnable code examples, and expected output.
+       Open <code>pandas_study_guide.ipynb</code> to run examples in Jupyter.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">32</div><div class="stat-l">Topics</div></div>
+      <div class="stat"><div class="stat-n">100+</div><div class="stat-l">Code Examples</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Notebook File</div></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 1 ─────────────────────────── -->
+  <div class="topic" id="t1">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">01</span>
+      <span class="topic-title">Installation &amp; Import</span>
+      <span class="topic-tag">setup</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Install pandas and import the standard data science stack. <code>pd</code> is the conventional alias for pandas.</div>
+      <div class="code-block">
+        <div class="code-label"><span>python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Install (run in terminal)
+# pip install pandas numpy matplotlib openpyxl
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+print(f"Pandas version: {pd.__version__}")
+print(f"NumPy  version: {np.__version__}")</code></pre>
+      </div>
+      <div class="output-box"><span class="output-label">Output</span>Pandas version: 2.x.x
+NumPy  version: 1.x.x</div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Setting Up a Data Analysis Project</div>
+        <div class="rw-desc">A junior analyst at a retail company sets up their Python environment before analysing 12 months of sales data.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Helpful display settings for wide DataFrames
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.max_rows", 100)
+pd.set_option("display.float_format", "{:,.2f}".format)
+pd.set_option("display.width", 120)
+
+print(f"pandas {pd.__version__}  |  numpy {np.__version__}")
+print("Environment ready for sales analysis.")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 2 ─────────────────────────── -->
+  <div class="topic" id="t2">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">02</span>
+      <span class="topic-title">Series</span>
+      <span class="topic-tag">fundamentals</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">A <code>Series</code> is a 1-D labeled array — like a single spreadsheet column. Each element has an index label.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Creating a Series</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># From a list
+s1 = pd.Series([10, 20, 30, 40, 50])
+
+# Custom index
+s2 = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
+
+# From dict
+s3 = pd.Series({'apples': 5, 'bananas': 3, 'cherries': 8})
+print(s3)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Accessing &amp; Attributes</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">print(s2['b'])           # element by label
+print(s2.iloc[1])        # element by position
+print(s2.values)         # numpy array
+print(s2.index.tolist()) # ['a', 'b', 'c']
+print(s2.dtype)          # int64</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Arithmetic</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s = pd.Series([1, 2, 3, 4, 5])
+print((s * 2).tolist())      # [2, 4, 6, 8, 10]
+print((s + 10).tolist())     # [11, 12, 13, 14, 15]
+print((s ** 2).tolist())     # [1, 4, 9, 16, 25]
+print(s.sum(), s.mean())     # 15  3.0</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Daily Stock Price Tracker</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A quant stores 10 days of AAPL closing prices and needs daily returns, best/worst day, and annualised volatility.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+aapl = pd.Series(
+    [182.5, 184.1, 180.3, 185.7, 188.0,
+     186.4, 190.2, 192.5, 189.8, 194.0],
+    index=pd.date_range("2024-01-01", periods=10, freq="B"),
+    name="AAPL_Close"
+)
+
+daily_ret  = aapl.pct_change()
+total_ret  = (aapl.iloc[-1] / aapl.iloc[0] - 1) * 100
+volatility = daily_ret.std() * (252 ** 0.5) * 100   # annualised
+best_day   = daily_ret.idxmax()
+
+print(f"Total return   : {total_ret:.2f}%")
+print(f"Best day       : {best_day.date()}  (+{daily_ret[best_day]*100:.2f}%)")
+print(f"Worst day      : {daily_ret.idxmin().date()}")
+print(f"Ann. volatility: {volatility:.1f}%")
+print(f"52-wk high so far: {aapl.max():.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 3 ─────────────────────────── -->
+  <div class="topic" id="t3">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">03</span>
+      <span class="topic-title">DataFrame Basics</span>
+      <span class="topic-tag">fundamentals</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">A <code>DataFrame</code> is a 2-D table with labeled rows and columns. Think of it as an Excel spreadsheet in Python.</div>
+      <div class="code-block">
+        <div class="code-label"><span>From dict of lists</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df = pd.DataFrame({
+    'Name':   ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'],
+    'Age':    [25, 30, 35, 28, 22],
+    'City':   ['NYC', 'LA', 'Chicago', 'NYC', 'Houston'],
+    'Salary': [70000, 85000, 90000, 72000, 65000],
+    'Score':  [88.5, 92.0, 78.3, 95.1, 85.6]
+})</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>From list of dicts &amp; NumPy array</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># From list of dicts (records format)
+records = [
+    {'product': 'Apple',  'price': 1.2,  'qty': 50},
+    {'product': 'Banana', 'price': 0.5,  'qty': 100},
+]
+pd.DataFrame(records)
+
+# From 2D NumPy array
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+pd.DataFrame(arr, columns=['A', 'B', 'C'])</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; E-Commerce Product Catalog</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A developer loads a product catalogue to answer instant business questions: stock-outs, top-rated items, and total inventory value.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+products = pd.DataFrame({
+    "sku":      ["WGT-001","GDG-042","DNT-007","WGT-002","GDG-099"],
+    "name":     ["Blue Widget","Smart Gadget","Donut Maker","Red Widget","Super Gadget"],
+    "category": ["Widgets","Gadgets","Kitchen","Widgets","Gadgets"],
+    "price":    [29.99, 149.99, 49.99, 34.99, 199.99],
+    "stock":    [120, 45, 80, 0, 23],
+    "rating":   [4.5, 4.8, 3.9, 4.2, 4.7],
+})
+
+out_of_stock   = products[products["stock"] == 0][["sku","name"]]
+top_rated      = products.nlargest(3, "rating")[["name","rating"]]
+inventory_val  = (products["price"] * products["stock"]).sum()
+
+print("Out of stock:\n", out_of_stock.to_string(index=False))
+print("\nTop-rated products:\n", top_rated.to_string(index=False))
+print(f"\nTotal inventory value: ${inventory_val:,.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 4 ─────────────────────────── -->
+  <div class="topic" id="t4">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">04</span>
+      <span class="topic-title">Reading &amp; Writing Data</span>
+      <span class="topic-tag">I/O</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Pandas supports CSV, JSON, Excel, Parquet, SQL and many more formats out of the box.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Write to files</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.to_csv('data.csv', index=False)
+df.to_json('data.json', orient='records', indent=2)
+df.to_excel('data.xlsx', index=False)   # pip install openpyxl
+df.to_parquet('data.parquet')           # pip install pyarrow</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Read from files</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df = pd.read_csv('data.csv')
+df = pd.read_json('data.json')
+df = pd.read_excel('data.xlsx', sheet_name='Sheet1')
+
+# Useful read_csv options
+df = pd.read_csv(
+    'data.csv',
+    sep=';',              # delimiter
+    header=0,             # row to use as column names
+    index_col='ID',       # set index column
+    usecols=['A', 'B'],   # only load these columns
+    nrows=1000,           # max rows to read
+    skiprows=2,           # skip first N rows
+    dtype={'col': str},   # force dtype
+    parse_dates=['date']  # auto-parse dates
+)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Loading a Messy Monthly Sales Report</div>
+        <div class="rw-desc"><strong>Scenario:</strong> The finance team sends a CSV with a custom delimiter, 3 junk header rows, European date format, and an ID column that must stay as a string.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+from io import StringIO
+
+# Simulates the messy file (semicolon-delimited, 3 junk header rows)
+raw = (
+    "Report generated: 2024-04-01\n"
+    "Source: CRM Export v2.3\n"
+    "\n"
+    "order_id;customer;order_date;amount;status\n"
+    "1001;Alice;01/03/2024;250.00;completed\n"
+    "1002;Bob;15/03/2024;89.50;completed\n"
+    "1003;Charlie;22/03/2024;430.75;pending\n"
+    "1004;Diana;28/03/2024;120.00;cancelled"
+)
+
+df = pd.read_csv(
+    StringIO(raw),
+    sep=";",
+    skiprows=3,                # skip the 3 junk lines
+    parse_dates=["order_date"],
+    dayfirst=True,             # European DD/MM/YYYY
+    dtype={"order_id": str},   # keep leading zeros
+)
+print(df)
+print("\nDtypes:\n", df.dtypes)
+print(f"\nTotal revenue: ${df['amount'].sum():,.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 5 ─────────────────────────── -->
+  <div class="topic" id="t5">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">05</span>
+      <span class="topic-title">Viewing &amp; Inspecting Data</span>
+      <span class="topic-tag">exploration</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">First things to do when you load a new dataset — understand its shape, types, and distribution.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Quick look</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.head(5)          # first 5 rows
+df.tail(3)          # last 3 rows
+df.sample(5)        # 5 random rows
+df.shape            # (rows, cols)
+df.columns.tolist() # column names
+df.dtypes           # data type per column
+df.index            # row labels</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Info &amp; Statistics</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.info()           # dtype + non-null counts + memory
+df.describe()       # count, mean, std, min, quartiles, max
+df.describe(include='all')  # include categorical cols too
+
+df['City'].value_counts()   # frequency of each value
+df['City'].value_counts(normalize=True)  # proportions
+df.nunique()        # unique count per column
+df['City'].unique() # array of unique values</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; First Look at a New Customer Dataset</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data scientist receives a CRM extract for a churn prediction project. They run a structured exploration before any modelling.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+customers = pd.DataFrame({
+    "cust_id":        range(1001, 1011),
+    "segment":        ["Gold","Silver","Bronze","Gold","Silver",
+                       "Bronze","Gold","Silver","Bronze","Gold"],
+    "age":            [34, 28, 45, np.nan, 52, 29, 38, 41, np.nan, 55],
+    "monthly_spend":  [450, 120, 85, 700, 60, np.nan, 390, 200, 95, 820],
+    "tenure_months":  [24, 6, 48, 36, 12, 3, 60, 18, 9, 84],
+    "churned":        [0, 0, 1, 0, 1, 0, 0, 1, 0, 0],
+})
+
+print(f"Shape: {customers.shape}")
+print("\nMissing values:\n", customers.isnull().sum())
+print(f"\nChurn rate: {customers['churned'].mean()*100:.0f}%")
+print("\nSegment mix:\n", customers["segment"].value_counts())
+print("\nNumeric summary:\n", customers.describe().round(1))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 6 ─────────────────────────── -->
+  <div class="topic" id="t6">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">06</span>
+      <span class="topic-title">Selecting &amp; Indexing</span>
+      <span class="topic-tag">selection</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>loc</code> selects by <strong>label</strong>; <code>iloc</code> selects by <strong>integer position</strong>. Master these two and you can access anything.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Column selection</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['Name']                   # single column → Series
+df[['Name', 'Salary']]       # multiple columns → DataFrame
+df.Name                      # dot notation (no spaces in name)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>loc — label based</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.loc[0]                    # row by label
+df.loc[0:2]                  # rows 0,1,2 (inclusive!)
+df.loc[1, ['Name', 'Age']]   # row 1, specific cols
+df.loc[0:2, 'Name':'City']   # slice rows & cols by label</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>iloc — position based</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.iloc[0]                   # first row
+df.iloc[:3, :2]              # first 3 rows, first 2 cols
+df.iloc[2, 3]                # row 2, col 3 (scalar)
+df.iloc[::2]                 # every other row
+df.iloc[-1]                  # last row</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Index management</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.set_index('Name')         # use Name as row index
+df.reset_index()             # move index back to column
+df.set_index('Name').loc['Alice']  # access by name</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Extracting an Account Manager's Report</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A BI analyst pulls only Sarah's client accounts with specific columns for her weekly review, then flags contracts expiring within 3 months.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+accounts = pd.DataFrame({
+    "account_id":   ["ACC001","ACC002","ACC003","ACC004","ACC005"],
+    "client":       ["Acme Corp","Beta LLC","Gamma Inc","Delta Co","Epsilon Ltd"],
+    "manager":      ["Sarah","John","Sarah","John","Sarah"],
+    "revenue":      [45000, 32000, 78000, 12000, 56000],
+    "health_score": [82, 65, 91, 44, 77],
+    "contract_end": ["2025-06","2024-12","2025-03","2024-11","2025-09"],
+})
+
+# Select Sarah's accounts — specific columns only
+sarahs = (
+    accounts
+    .loc[accounts["manager"] == "Sarah", ["client","revenue","health_score","contract_end"]]
+    .sort_values("revenue", ascending=False)
+    .reset_index(drop=True)
+)
+# iloc: pull just the revenue column as a quick sum check
+sarahs["renew_soon"] = sarahs["contract_end"] &lt;= "2025-03"
+
+print(sarahs.to_string(index=False))
+print(f"\nTotal revenue managed: ${sarahs['revenue'].sum():,}")
+print(f"Contracts expiring soon: {sarahs['renew_soon'].sum()}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 7 ─────────────────────────── -->
+  <div class="topic" id="t7">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">07</span>
+      <span class="topic-title">Filtering Data</span>
+      <span class="topic-tag">selection</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Use boolean masks or <code>query()</code> to filter rows. Always wrap multiple conditions in parentheses.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Boolean masks</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df[df['Age'] > 27]                           # single cond
+df[(df['Age'] > 25) & (df['Salary'] > 70000)]  # AND
+df[(df['City'] == 'NYC') | (df['City'] == 'LA')]  # OR
+df[~(df['City'] == 'NYC')]                   # NOT
+
+df[df['City'].isin(['NYC', 'LA'])]           # isin
+df[~df['City'].isin(['NYC', 'LA'])]          # not isin
+
+df[df['Name'].str.startswith('A')]           # string filter</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>query() — readable syntax</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.query('Age > 25 and Salary > 70000')
+df.query('City in ["NYC", "LA"]')
+df.query('Age > 25 or City == "Houston"')
+
+# Use @ to reference a Python variable
+min_salary = 75000
+df.query('Salary > @min_salary')</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Finding High-Value Customers at Churn Risk</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A customer-success team needs to identify Premium/Enterprise users who have been inactive for 30+ days OR gave a low NPS score, so they can intervene.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+users = pd.DataFrame({
+    "user_id":        range(101, 111),
+    "plan":           ["Premium","Basic","Premium","Enterprise","Basic",
+                       "Premium","Basic","Enterprise","Basic","Premium"],
+    "days_inactive":  [35, 5, 12, 42, 8, 60, 3, 28, 15, 7],
+    "monthly_spend":  [500, 50, 520, 2100, 45, 480, 55, 1950, 48, 510],
+    "nps_score":      [3, 8, 9, 2, 7, 1, 8, 4, 6, 9],
+})
+
+# Churn risk: paid plan AND (inactive 30+ days OR low NPS)
+at_risk = users[
+    users["plan"].isin(["Premium","Enterprise"]) &amp;
+    ((users["days_inactive"] &gt;= 30) | (users["nps_score"] &lt;= 3))
+]
+
+print("At-risk customers:")
+print(at_risk[["user_id","plan","days_inactive","nps_score","monthly_spend"]])
+print(f"\nAt-risk monthly revenue  : ${at_risk['monthly_spend'].sum():,}")
+print(f"At-risk annualised revenue: ${at_risk['monthly_spend'].sum()*12:,}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 8 ─────────────────────────── -->
+  <div class="topic" id="t8">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">08</span>
+      <span class="topic-title">Adding &amp; Removing Columns / Rows</span>
+      <span class="topic-tag">manipulation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Add computed columns directly, or use <code>assign()</code> for method chaining. Remove with <code>drop()</code>.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Add &amp; remove columns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['Tax']       = df['Salary'] * 0.2          # add
+df['NetSalary'] = df['Salary'] - df['Tax']    # derived
+df.insert(1, 'ID', range(len(df)))            # at position
+df.drop(columns=['Tax'], inplace=True)        # remove
+df.rename(columns={'Name': 'FullName'})       # rename</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Add &amp; remove rows</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">new_row = pd.DataFrame([{'Name': 'Frank', 'Age': 40,
+                          'City': 'Boston', 'Salary': 95000}])
+df = pd.concat([df, new_row], ignore_index=True)  # add row
+
+df.drop(index=[0, 1])        # remove rows 0 and 1
+df.drop(index=df[df['Age'] < 23].index)  # remove by condition</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Building a Profit & Loss Report</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A finance analyst enriches raw sales figures with gross profit, margin %, operating profit, and YoY growth columns before exporting to the CFO.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+sales = pd.DataFrame({
+    "product":      ["Widget A","Widget B","Gadget X","Gadget Y","Service Z"],
+    "revenue_2024": [120000, 85000, 220000,  95000, 180000],
+    "revenue_2023": [100000, 90000, 195000,  82000, 150000],
+    "cogs":         [ 60000, 55000, 110000,  65000,  45000],
+    "opex":         [ 20000, 15000,  40000,  20000,  25000],
+})
+
+sales["gross_profit"]     = sales["revenue_2024"] - sales["cogs"]
+sales["gross_margin_pct"] = (sales["gross_profit"] / sales["revenue_2024"] * 100).round(1)
+sales["operating_profit"] = sales["gross_profit"] - sales["opex"]
+sales["yoy_growth_pct"]   = ((sales["revenue_2024"] - sales["revenue_2023"])
+                              / sales["revenue_2023"] * 100).round(1)
+sales["is_growing"]       = sales["yoy_growth_pct"] &gt; 0
+
+# Drop raw columns before sharing
+report = sales.drop(columns=["cogs","opex","revenue_2023"])
+print(report.to_string(index=False))
+print(f"\nAvg gross margin: {sales['gross_margin_pct'].mean():.1f}%")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 9 ─────────────────────────── -->
+  <div class="topic" id="t9">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">09</span>
+      <span class="topic-title">Handling Missing Data</span>
+      <span class="topic-tag">cleaning</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Missing values are represented as <code>NaN</code> (Not a Number). Pandas provides tools to detect, remove, and fill them.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Detect &amp; count</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.isnull()                  # True where NaN
+df.isnull().sum()            # count NaN per column
+df.isnull().sum().sum()      # total NaN in whole df
+df.notnull()                 # True where not NaN
+df['col'].isna().any()       # True if any NaN in column</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Drop &amp; fill</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.dropna()                          # drop rows with ANY NaN
+df.dropna(how='all')                 # drop rows ALL NaN
+df.dropna(subset=['A', 'B'])         # NaN in specific cols
+df.dropna(thresh=3)                  # keep rows with ≥3 non-NaN
+
+df.fillna(0)                         # fill all with 0
+df['A'].fillna(df['A'].mean())       # fill with column mean
+df.fillna(method='ffill')            # forward fill
+df.ffill()                           # same, newer API
+df.bfill()                           # backward fill
+df.fillna({'A': 0, 'B': 'Unknown'}) # per-column fill</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Cleaning Employee Satisfaction Survey Data</div>
+        <div class="rw-desc"><strong>Scenario:</strong> HR receives a quarterly survey with many blank responses. Numeric gaps are filled with the department median; categorical gaps become 'Unknown'.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+survey = pd.DataFrame({
+    "emp_id":          [101,102,103,104,105,106,107,108],
+    "department":      ["Eng","Mkt","Eng","HR","Mkt","Eng","HR","Mkt"],
+    "satisfaction":    [8, np.nan, 6, 9, np.nan, 7, np.nan, 5],
+    "would_recommend": ["Yes","No",np.nan,"Yes","Yes",np.nan,"No","No"],
+    "years_at_co":     [3, np.nan, 7, 1, 2, 5, np.nan, 4],
+})
+
+print("Missing before:\n", survey.isnull().sum())
+
+# Fill numeric with department median (fairer than global mean)
+survey["satisfaction"] = (
+    survey.groupby("department")["satisfaction"]
+          .transform(lambda x: x.fillna(x.median()))
+)
+survey["years_at_co"] = survey["years_at_co"].fillna(survey["years_at_co"].median())
+
+# Fill categorical with explicit "Unknown"
+survey["would_recommend"] = survey["would_recommend"].fillna("Unknown")
+
+print("\nCleaned survey:\n", survey)
+print(f"\nCompany satisfaction avg: {survey['satisfaction'].mean():.1f}/10")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 10 ─────────────────────────── -->
+  <div class="topic" id="t10">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">10</span>
+      <span class="topic-title">Data Types &amp; Conversion</span>
+      <span class="topic-tag">cleaning</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Wrong dtypes are a common source of bugs. Always verify types after loading data and convert early.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Type conversion</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['id']    = df['id'].astype(int)
+df['price'] = df['price'].astype(float)
+df['flag']  = df['flag'].astype(bool)
+df['cat']   = df['cat'].astype('category')   # memory efficient!
+
+# Safe numeric conversion (bad values → NaN)
+df['num'] = pd.to_numeric(df['num'], errors='coerce')
+
+# Date parsing
+df['date'] = pd.to_datetime(df['date_str'])
+df['date'] = pd.to_datetime(df['date_str'], format='%d/%m/%Y')</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Fixing a Bank Transaction CSV Import</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A fintech developer imports a bank statement where amounts have currency symbols, dates are US-format strings, and transaction type is high-cardinality text.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+from io import StringIO
+
+raw = (
+    "date,description,amount,type\n"
+    "01/15/2024,AMAZON.COM,-$45.99,debit\n"
+    "01/16/2024,PAYROLL DEP,+$3500.00,credit\n"
+    "01/17/2024,NETFLIX,-$15.99,debit\n"
+    "01/18/2024,ATM WITHDR,-$200.00,debit\n"
+    "01/19/2024,WHOLE FOOD,-$87.30,debit"
+)
+
+df = pd.read_csv(StringIO(raw))
+
+# Fix amount: strip $  and +, parse as float
+df["amount"] = (
+    df["amount"]
+    .str.replace(r"[$+]", "", regex=True)
+    .astype(float)
+)
+
+# Parse dates
+df["date"] = pd.to_datetime(df["date"])
+
+# Categorical for low-cardinality column (saves memory)
+df["type"] = df["type"].astype("category")
+
+# Derived columns
+df["abs_amount"] = df["amount"].abs()
+df["month"]      = df["date"].dt.month_name()
+
+print(df)
+print(f"\nTotal debits : ${df[df['type']=='debit']['abs_amount'].sum():.2f}")
+print(f"Total credits: ${df[df['type']=='credit']['abs_amount'].sum():.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 11 ─────────────────────────── -->
+  <div class="topic" id="t11">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">11</span>
+      <span class="topic-title">Sorting</span>
+      <span class="topic-tag">manipulation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="code-block">
+        <div class="code-label"><span>sort_values &amp; sort_index</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.sort_values('Age')                              # ascending
+df.sort_values('Salary', ascending=False)          # descending
+df.sort_values(['City', 'Salary'],                 # multi-col
+               ascending=[True, False])
+df.sort_index()                                    # by index
+df.sort_index(ascending=False)
+
+# nlargest / nsmallest — faster than sort + head
+df.nlargest(3, 'Salary')     # top 3 salaries
+df.nsmallest(3, 'Age')       # 3 youngest</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Q4 Sales Leaderboard</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A sales manager builds a ranked leaderboard to share at the all-hands, highlighting top performers and biggest improvers.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+reps = pd.DataFrame({
+    "rep":      ["Alice","Bob","Charlie","Diana","Eve","Frank","Grace"],
+    "region":   ["East","West","East","North","West","North","East"],
+    "q4_deals": [42, 38, 55, 29, 47, 33, 61],
+    "q4_rev":   [210000,185000,275000,140000,230000,160000,305000],
+    "q3_rev":   [195000,200000,250000,130000,215000,145000,280000],
+})
+
+reps["yoy_growth"]  = ((reps["q4_rev"] - reps["q3_rev"]) / reps["q3_rev"] * 100).round(1)
+reps["rank"]        = reps["q4_rev"].rank(ascending=False).astype(int)
+
+# Leaderboard: sorted by revenue
+leaderboard = reps.sort_values("q4_rev", ascending=False).reset_index(drop=True)
+leaderboard.index += 1  # 1-based rank
+
+print("=== Q4 Leaderboard ===")
+print(leaderboard[["rep","region","q4_deals","q4_rev","yoy_growth"]].to_string())
+
+print("\n=== Top 3 Improvers ===")
+print(reps.nlargest(3, "yoy_growth")[["rep","q4_rev","yoy_growth"]].to_string(index=False))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 12 ─────────────────────────── -->
+  <div class="topic" id="t12">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">12</span>
+      <span class="topic-title">GroupBy &amp; Aggregation</span>
+      <span class="topic-tag">aggregation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>groupby</code> splits the data, applies a function, and combines results (split-apply-combine pattern).</div>
+      <div class="code-block">
+        <div class="code-label"><span>Basic groupby</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.groupby('Region')['Sales'].sum()
+df.groupby('Region')['Sales'].mean()
+df.groupby(['Region', 'Product'])['Sales'].sum()</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Multiple aggregations with agg()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Multiple functions on one column
+df.groupby('Region')['Sales'].agg(['sum', 'mean', 'count'])
+
+# Different functions per column
+df.groupby('Region').agg({
+    'Sales':    ['sum', 'mean'],
+    'Quantity': 'sum',
+    'Score':    ['min', 'max']
+})
+
+# Named aggregations (pandas 0.25+)
+df.groupby('Region').agg(
+    total_sales = ('Sales', 'sum'),
+    avg_sales   = ('Sales', 'mean'),
+    num_orders  = ('Sales', 'count')
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>transform &amp; filter</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># transform: returns same-shape (add group stat to original df)
+df['RegionTotal'] = df.groupby('Region')['Sales'].transform('sum')
+df['SalesShare']  = df['Sales'] / df['RegionTotal']
+
+# filter: keep only groups meeting a condition
+df.groupby('Region').filter(lambda g: g['Sales'].sum() > 500)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Monthly Revenue Analysis by Department</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A business analyst produces a department-level P&L summary using named aggregations and then adds a computed profit column.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+orders = pd.DataFrame({
+    "month":     ["Jan","Jan","Jan","Feb","Feb","Feb","Mar","Mar","Mar"],
+    "dept":      ["Engineering","Marketing","Sales"] * 3,
+    "revenue":   [45000,32000,78000, 48000,35000,82000, 51000,29000,90000],
+    "cost":      [28000,18000,42000, 30000,20000,45000, 32000,16000,48000],
+    "headcount": [12, 8, 15, 12, 8, 16, 13, 7, 16],
+})
+
+summary = orders.groupby("dept").agg(
+    total_revenue = ("revenue",   "sum"),
+    total_cost    = ("cost",      "sum"),
+    avg_headcount = ("headcount", "mean"),
+    months        = ("revenue",   "count"),
+).round(0)
+
+summary["gross_profit"] = summary["total_revenue"] - summary["total_cost"]
+summary["margin_pct"]   = (summary["gross_profit"] / summary["total_revenue"] * 100).round(1)
+summary = summary.sort_values("gross_profit", ascending=False)
+
+print(summary.to_string())
+print(f"\nTotal company revenue: ${orders['revenue'].sum():,}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 13 ─────────────────────────── -->
+  <div class="topic" id="t13">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">13</span>
+      <span class="topic-title">Merge, Join &amp; Concat</span>
+      <span class="topic-tag">aggregation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>pd.merge()</code> works like SQL joins. <code>pd.concat()</code> stacks DataFrames vertically or horizontally.</div>
+      <div class="code-block">
+        <div class="code-label"><span>merge (SQL-style joins)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">pd.merge(left, right, on='id', how='inner')   # matching only
+pd.merge(left, right, on='id', how='left')    # all from left
+pd.merge(left, right, on='id', how='right')   # all from right
+pd.merge(left, right, on='id', how='outer')   # all rows
+
+# Different column names
+pd.merge(emp, dept,
+         left_on='emp_id', right_on='dept_emp_id')
+
+# Merge on index
+pd.merge(left, right, left_index=True, right_index=True)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>concat</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">pd.concat([df1, df2], ignore_index=True)       # stack vertically
+pd.concat([df1, df2], axis=1)                  # side by side
+pd.concat([df1, df2], keys=['2023', '2024'])   # add key labels</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; 360° Customer View — Profile + Purchase History</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A CRM analyst joins the customer table with orders to compute CLV, average order value, and days since last purchase.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+customers = pd.DataFrame({
+    "cust_id": [101,102,103,104,105],
+    "name":    ["Alice","Bob","Charlie","Diana","Eve"],
+    "segment": ["Gold","Silver","Bronze","Gold","Silver"],
+})
+
+orders = pd.DataFrame({
+    "order_id": [1,2,3,4,5,6,7,8],
+    "cust_id":  [101,102,101,103,104,101,105,102],
+    "amount":   [250,180,320,90,450,280,75,220],
+    "date":     pd.to_datetime(["2024-01-15","2024-01-20","2024-02-01",
+                                "2024-02-10","2024-02-15","2024-03-01",
+                                "2024-03-10","2024-03-15"]),
+})
+
+clv = (
+    orders.groupby("cust_id")
+    .agg(total_spend=("amount","sum"),
+         order_count=("order_id","count"),
+         last_order =("date","max"))
+    .reset_index()
+)
+
+full = pd.merge(customers, clv, on="cust_id", how="left").fillna(0)
+full["avg_order_value"] = (full["total_spend"] / full["order_count"].replace(0,1)).round(2)
+today = pd.Timestamp("2024-03-20")
+full["days_since_purchase"] = (today - full["last_order"]).dt.days
+
+print(full[["name","segment","total_spend","order_count","avg_order_value","days_since_purchase"]])</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 14 ─────────────────────────── -->
+  <div class="topic" id="t14">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">14</span>
+      <span class="topic-title">Pivot Tables &amp; Crosstab</span>
+      <span class="topic-tag">aggregation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="code-block">
+        <div class="code-label"><span>pivot_table</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">pd.pivot_table(
+    df,
+    values='Sales',       # what to aggregate
+    index='Region',       # row grouping
+    columns='Product',    # column grouping
+    aggfunc='sum',        # how to aggregate
+    fill_value=0,         # replace NaN
+    margins=True          # add totals row/col
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>crosstab — frequency table</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">pd.crosstab(df['Region'], df['Product'])               # counts
+pd.crosstab(df['Region'], df['Product'],
+            normalize='index')                          # row %
+pd.crosstab(df['Region'], df['Product'],
+            values=df['Sales'], aggfunc='sum')           # sum</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Regional Revenue Matrix for the Board Meeting</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A VP of Sales needs a matrix showing quarterly revenue by region with row/column totals, formatted as a one-slide PowerPoint insert.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+sales = pd.DataFrame({
+    "region":  ["East","West","East","North","West","East","North","West","North"],
+    "quarter": ["Q1","Q1","Q2","Q1","Q2","Q3","Q2","Q3","Q3"],
+    "revenue": [120000,95000,130000,88000,105000,140000,92000,110000,98000],
+})
+
+matrix = pd.pivot_table(
+    sales,
+    values="revenue",
+    index="region",
+    columns="quarter",
+    aggfunc="sum",
+    fill_value=0,
+    margins=True,
+    margins_name="TOTAL",
+)
+
+# Format as $ thousands
+fmt = matrix.applymap(lambda x: f"${x/1000:.0f}K")
+print("=== Revenue by Region &amp; Quarter ===")
+print(fmt.to_string())
+
+# Best quarter per region
+best_q = matrix.drop("TOTAL").drop("TOTAL", axis=1).idxmax(axis=1)
+print("\nBest quarter per region:\n", best_q.to_string())</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 15 ─────────────────────────── -->
+  <div class="topic" id="t15">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">15</span>
+      <span class="topic-title">String Operations</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">The <code>.str</code> accessor lets you apply string methods to a whole Series at once, including regex.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Common str methods</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s.str.lower()                           # lowercase
+s.str.upper()                           # uppercase
+s.str.strip()                           # remove whitespace
+s.str.len()                             # length of each string
+s.str.contains('pattern', case=False)  # regex or literal
+s.str.startswith('prefix')
+s.str.endswith('suffix')
+s.str.replace('old', 'new', regex=False)
+s.str.split(',', expand=True)          # split → DataFrame
+s.str.extract(r'(\d+)')                # first regex group
+s.str.extractall(r'(\w+)')             # all matches
+s.str.count('a')                       # count occurrences
+s.str.zfill(5)                         # pad with zeros: '42' → '00042'</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Standardising Messy CRM Contact Data</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data engineer cleans names with random casing, emails with extra spaces, and phone numbers in mixed formats before loading into the company database.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+contacts = pd.DataFrame({
+    "full_name": ["  alice johnson  ","BOB SMITH","charlie BROWN","DIANA Prince "],
+    "email":     ["Alice@Gmail.COM ", " bob.smith@YAHOO.com","charlie@outlook.com","diana@corp.IO"],
+    "phone":     ["(555) 123-4567","555.987.6543","555 246 8101","+1-555-369-2580"],
+    "company":   ["Acme Corp.","BETA LLC","gamma inc","Delta Co"],
+})
+
+contacts["full_name"]   = contacts["full_name"].str.strip().str.title()
+contacts["email"]       = contacts["email"].str.strip().str.lower()
+contacts["email_domain"]= contacts["email"].str.extract(r"@([\w.]+)")[0]
+contacts["phone_clean"] = contacts["phone"].str.replace(r"[^\d]", "", regex=True)
+contacts["company"]     = contacts["company"].str.strip().str.title()
+
+# Flag non-corporate emails
+corp_domains = ["gmail.com","yahoo.com","outlook.com","hotmail.com"]
+contacts["is_personal_email"] = contacts["email_domain"].isin(corp_domains)
+
+print(contacts[["full_name","email","phone_clean","email_domain","is_personal_email"]].to_string(index=False))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 16 ─────────────────────────── -->
+  <div class="topic" id="t16">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">16</span>
+      <span class="topic-title">DateTime Operations</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">The <code>.dt</code> accessor exposes all datetime properties. Always parse dates on load with <code>parse_dates</code>.</div>
+      <div class="code-block">
+        <div class="code-label"><span>dt accessor</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">ds = pd.to_datetime(pd.Series(['2024-01-15', '2024-07-04']))
+
+ds.dt.year          # [2024, 2024]
+ds.dt.month         # [1, 7]
+ds.dt.day           # [15, 4]
+ds.dt.day_name()    # ['Monday', 'Thursday']
+ds.dt.quarter       # [1, 3]
+ds.dt.week          # week number
+ds.dt.is_month_end  # bool
+ds.dt.normalize()   # truncate to midnight</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Date arithmetic &amp; ranges</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">today = pd.Timestamp('2025-01-01')
+today + pd.Timedelta(days=30)
+today + pd.DateOffset(months=3)
+
+pd.date_range('2024-01-01', '2024-12-31', freq='ME')  # month end
+pd.date_range('2024-01-01', periods=5, freq='B')       # business days</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Resample (time series)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">ts = pd.Series(..., index=pd.date_range('2024', periods=365, freq='D'))
+
+ts.resample('ME').sum()    # daily → monthly total
+ts.resample('W').mean()    # daily → weekly average
+ts.resample('QE').last()   # daily → quarterly last value</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Subscription Analytics — Tenure & Renewal Pipeline</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A SaaS analyst calculates customer tenure, flags subscriptions expiring in 30 days, and identifies loyal customers for a renewal discount campaign.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+today = pd.Timestamp("2025-03-01")
+
+subs = pd.DataFrame({
+    "sub_id":    ["S001","S002","S003","S004","S005"],
+    "customer":  ["Acme","Beta","Gamma","Delta","Epsilon"],
+    "plan":      ["Pro","Basic","Enterprise","Pro","Basic"],
+    "start_date":pd.to_datetime(["2022-01-15","2024-09-01","2020-06-01","2023-03-15","2025-01-10"]),
+    "end_date":  pd.to_datetime(["2025-03-15","2025-06-01","2025-02-28","2025-04-01","2026-01-10"]),
+    "mrr":       [500, 99, 2000, 500, 99],
+})
+
+subs["tenure_months"]  = ((today - subs["start_date"]).dt.days / 30).astype(int)
+subs["days_to_end"]    = (subs["end_date"] - today).dt.days
+subs["renewing_soon"]  = subs["days_to_end"].between(0, 30)
+subs["loyal"]          = subs["tenure_months"] &gt;= 24
+subs["expired"]        = subs["days_to_end"] &lt; 0
+
+print(subs[["customer","plan","tenure_months","days_to_end","renewing_soon","loyal"]].to_string(index=False))
+print(f"\nAt-risk MRR (renewing ≤30d): ${subs[subs['renewing_soon']]['mrr'].sum():,}")
+print(f"Loyal customers: {subs['loyal'].sum()}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 17 ─────────────────────────── -->
+  <div class="topic" id="t17">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">17</span>
+      <span class="topic-title">Apply, Map &amp; Lambda</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Use <code>apply()</code> for custom logic, <code>map()</code> for element lookups, and <code>np.where()</code> for fast vectorized if-else.</div>
+      <div class="code-block">
+        <div class="code-label"><span>apply on Series</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">def classify(age):
+    if age < 25:   return 'Young'
+    elif age < 35: return 'Mid'
+    else:          return 'Senior'
+
+df['AgeGroup'] = df['Age'].apply(classify)
+df['SalaryK']  = df['Salary'].apply(lambda x: f'${x/1000:.0f}K')</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>apply on DataFrame (row-wise)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['Label'] = df.apply(
+    lambda row: f"{row['Name']} - {row['City']}", axis=1
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>map &amp; np.where</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># map: element-wise lookup
+city_map = {'NYC': 'Northeast', 'LA': 'West', 'Chicago': 'Midwest'}
+df['Region'] = df['City'].map(city_map)
+
+# np.where: vectorized if-else (much faster than apply for simple conditions)
+df['HighEarner'] = np.where(df['Salary'] >= 80000, 'Yes', 'No')
+
+# pd.cut alternative to nested np.where
+df['Band'] = pd.cut(df['Salary'],
+                    bins=[0, 70000, 85000, float('inf')],
+                    labels=['Low', 'Mid', 'High'])</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Tiered Discount Engine for an Order System</div>
+        <div class="rw-desc"><strong>Scenario:</strong> An e-commerce backend applies tiered discounts: >$500 = 15%, $200-$500 = 10%, <$200 = 5%. VIP customers get an extra 5% on top.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+orders = pd.DataFrame({
+    "order_id": [1001,1002,1003,1004,1005,1006],
+    "customer": ["Alice","Bob","Charlie","Diana","Eve","Frank"],
+    "subtotal": [650.00, 320.00, 95.00, 1200.00, 185.00, 480.00],
+    "vip":      [True, False, False, True, False, True],
+})
+
+def discount_rate(row):
+    base = 0.15 if row["subtotal"] &gt;= 500 else (0.10 if row["subtotal"] &gt;= 200 else 0.05)
+    return base + (0.05 if row["vip"] else 0.0)
+
+orders["discount_pct"] = orders.apply(discount_rate, axis=1)
+orders["discount_amt"] = (orders["subtotal"] * orders["discount_pct"]).round(2)
+orders["final_price"]  = (orders["subtotal"] - orders["discount_amt"]).round(2)
+
+# Vectorised alternative using np.where (faster for large DataFrames)
+orders["tier"] = np.where(orders["subtotal"] &gt;= 500, "Premium",
+                 np.where(orders["subtotal"] &gt;= 200, "Standard", "Basic"))
+
+print(orders[["order_id","customer","subtotal","discount_pct","discount_amt","final_price","tier"]].to_string(index=False))
+print(f"\nTotal discounts given: ${orders['discount_amt'].sum():.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 18 ─────────────────────────── -->
+  <div class="topic" id="t18">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">18</span>
+      <span class="topic-title">Reshaping Data</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Switch between wide and long formats. Most plotting libraries prefer long format; most people read wide format.</div>
+      <div class="code-block">
+        <div class="code-label"><span>melt: wide → long</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">wide = pd.DataFrame({
+    'Name': ['Alice', 'Bob'],
+    'Math': [90, 75], 'English': [80, 88], 'Science': [95, 70]
+})
+
+long = pd.melt(wide, id_vars=['Name'],
+               var_name='Subject', value_name='Score')
+#    Name   Subject  Score
+# 0  Alice  Math      90
+# 1  Bob    Math      75 ...</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>pivot: long → wide</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">long.pivot(index='Name', columns='Subject', values='Score')</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>stack / unstack</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.stack()    # columns → innermost index level (wide→long)
+df.unstack()  # innermost index level → columns (long→wide)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Reshaping Survey Data for a Heatmap</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A UX researcher melts wide-format feature-ratings into long format for seaborn, then pivots back to a per-feature summary.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+# Wide: each row = respondent, each column = feature score
+survey = pd.DataFrame({
+    "user_id":      [101,102,103,104,105],
+    "checkout_flow":[4, 5, 3, 4, 5],
+    "search_bar":   [3, 4, 5, 2, 3],
+    "mobile_app":   [5, 5, 4, 5, 4],
+    "payment_page": [2, 3, 2, 4, 3],
+    "help_center":  [4, 2, 3, 3, 5],
+})
+
+# Melt to long (required by seaborn / most viz libraries)
+long = pd.melt(survey, id_vars=["user_id"],
+               var_name="feature", value_name="rating")
+print("Long format (first 6 rows):")
+print(long.head(6))
+
+# Per-feature averages
+avg = long.groupby("feature")["rating"].agg(["mean","count","std"]).round(2)
+avg = avg.sort_values("mean", ascending=False)
+print("\nFeature ratings (ranked):")
+print(avg)
+
+# Back to wide for the heatmap matrix
+heatmap_data = long.pivot(index="feature", columns="user_id", values="rating")
+print("\nHeatmap matrix shape:", heatmap_data.shape)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 19 ─────────────────────────── -->
+  <div class="topic" id="t19">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">19</span>
+      <span class="topic-title">Statistical Functions</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="code-block">
+        <div class="code-label"><span>Basic stats</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.mean()    # mean per column
+df.median()  # median per column
+df.std()     # standard deviation
+df.var()     # variance
+df.min()     # minimum
+df.max()     # maximum
+df.sum()     # sum
+
+df.corr()    # correlation matrix
+df.cov()     # covariance matrix
+
+df['col'].quantile([0.25, 0.5, 0.75])
+df['col'].rank(pct=True)         # percentile rank</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Cumulative &amp; rolling</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s.cumsum()          # running total
+s.cumprod()         # running product
+s.cummax()          # running maximum
+s.cummin()          # running minimum
+s.pct_change()      # % change from previous row
+
+s.rolling(7).mean()   # 7-period moving average
+s.rolling(7).std()    # 7-period moving std
+s.rolling(7).sum()</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; A/B Test Analysis for a Landing Page</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A growth team ran a landing page A/B test. They analyse conversion rates, compute lift, and check correlations to decide which variant wins.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(42)
+n = 500  # visitors per variant
+
+ab = pd.DataFrame({
+    "variant":     ["A"] * n + ["B"] * n,
+    "converted":   np.concatenate([
+                       np.random.binomial(1, 0.12, n),   # A: 12% CVR
+                       np.random.binomial(1, 0.155, n),  # B: 15.5% CVR
+                   ]),
+    "time_on_page":np.concatenate([
+                       np.random.normal(45, 15, n),
+                       np.random.normal(52, 18, n),
+                   ]).round(1),
+})
+
+summary = ab.groupby("variant").agg(
+    visitors    = ("converted", "count"),
+    conversions = ("converted", "sum"),
+    cvr_pct     = ("converted", lambda x: round(x.mean()*100, 2)),
+    avg_time_s  = ("time_on_page", "mean"),
+).round(2)
+
+print(summary)
+
+cvr_a = summary.loc["A","cvr_pct"]
+cvr_b = summary.loc["B","cvr_pct"]
+lift  = (cvr_b - cvr_a) / cvr_a * 100
+print(f"\nLift (B vs A): +{lift:.1f}%")
+print(f"Revenue impact (1M visitors, $50 AOV): ${1e6 * (cvr_b-cvr_a)/100 * 50:,.0f}")
+print(f"Time→convert corr: {ab['time_on_page'].corr(ab['converted']):.3f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 20 ─────────────────────────── -->
+  <div class="topic" id="t20">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">20</span>
+      <span class="topic-title">Plotting with Pandas</span>
+      <span class="topic-tag">visualization</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Pandas wraps matplotlib to provide quick-and-easy plotting directly from DataFrames and Series.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Chart types</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import matplotlib.pyplot as plt
+
+df['Salary'].plot(kind='bar')                # bar
+df['Salary'].plot(kind='barh')               # horizontal bar
+df['Salary'].plot(kind='hist', bins=10)      # histogram
+df['Salary'].plot(kind='box')                # box plot
+df['Salary'].plot(kind='line', marker='o')   # line
+df['Salary'].plot(kind='kde')                # density
+
+# Scatter
+df.plot(kind='scatter', x='Age', y='Salary', c='Score',
+        cmap='viridis', s=80)
+
+# Pie
+df.set_index('Name')['Salary'].plot(kind='pie', autopct='%1.0f%%')
+
+plt.tight_layout()
+plt.savefig('chart.png', dpi=120)
+plt.show()</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; 6-Month Revenue Dashboard</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data analyst builds a 3-panel matplotlib dashboard — revenue vs target, mix by category, and MoM growth — for the company all-hands.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+import matplotlib.pyplot as plt
+
+monthly = pd.DataFrame({
+    "Month":    pd.date_range("2024-01", periods=6, freq="ME"),
+    "Revenue":  [185000,210000,195000,240000,228000,265000],
+    "Target":   [200000,200000,200000,220000,220000,250000],
+    "SaaS":     [ 80000, 95000, 88000,110000,105000,125000],
+    "Services": [ 70000, 80000, 75000, 90000, 85000, 95000],
+    "Hardware": [ 35000, 35000, 32000, 40000, 38000, 45000],
+})
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 4))
+fig.suptitle("H1 2024 Revenue Dashboard", fontsize=14, fontweight="bold")
+
+monthly.set_index("Month")[["Revenue","Target"]].plot(
+    ax=axes[0], marker="o", title="Revenue vs Target")
+
+monthly.set_index("Month")[["SaaS","Services","Hardware"]].plot(
+    kind="bar", stacked=True, ax=axes[1], title="Revenue Mix")
+axes[1].set_xticklabels([d.strftime("%b") for d in monthly["Month"]], rotation=30)
+
+monthly["MoM"] = monthly["Revenue"].pct_change() * 100
+colors = ["#2ecc71" if x &gt; 0 else "#e74c3c" for x in monthly["MoM"].fillna(0)]
+monthly.set_index("Month")["MoM"].plot(kind="bar", ax=axes[2], color=colors, title="MoM Growth %")
+
+plt.tight_layout()
+plt.savefig("revenue_dashboard.png", dpi=100, bbox_inches="tight")
+plt.show()
+print("Dashboard saved.")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 21 ─────────────────────────── -->
+  <div class="topic" id="t21">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">21</span>
+      <span class="topic-title">Duplicate Handling</span>
+      <span class="topic-tag">cleaning</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="code-block">
+        <div class="code-label"><span>Detect duplicates</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.duplicated()                        # mask: True for duplicate rows
+df.duplicated(subset=['Name'])         # only check these columns
+df.duplicated(keep='last')             # mark earlier occurrences
+
+df[df.duplicated()]                    # show duplicate rows
+df.duplicated().sum()                  # count duplicates</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Drop duplicates</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.drop_duplicates()                         # keep first of each
+df.drop_duplicates(subset=['Name'])          # unique by Name
+df.drop_duplicates(subset=['Name'],
+                   keep='last')              # keep last
+df.drop_duplicates(subset=['Name'],
+                   keep=False)              # drop ALL duplicated rows
+df.drop_duplicates(inplace=True)            # modify in place</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Deduplicating a CRM Customer Export</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data-ops team merges two CRM systems and finds duplicate customers caused by the migration. They keep the most recently updated record per email address.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+crm = pd.DataFrame({
+    "email":        ["alice@co.com","bob@co.com","alice@co.com","charlie@co.com","bob@co.com"],
+    "name":         ["Alice Smith","Bob Jones","Alice Smith","Charlie Brown","Bob Jones"],
+    "plan":         ["Pro","Basic","Pro","Enterprise","Pro"],  # plan changed in v2!
+    "last_updated": ["2024-03-01","2024-01-15","2024-03-20","2024-02-10","2024-03-18"],
+    "source":       ["CRM_v1","CRM_v1","CRM_v2","CRM_v1","CRM_v2"],
+})
+
+print(f"Before: {len(crm)} rows, {crm['email'].nunique()} unique customers")
+print(f"Duplicated emails: {crm.duplicated(subset=['email']).sum()}")
+
+# Sort by date so latest is last, then keep last per email
+crm_clean = (
+    crm
+    .sort_values("last_updated")
+    .drop_duplicates(subset=["email"], keep="last")
+    .reset_index(drop=True)
+)
+
+print(f"\nAfter: {len(crm_clean)} rows")
+print(crm_clean[["email","name","plan","last_updated","source"]].to_string(index=False))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 22 ─────────────────────────── -->
+  <div class="topic" id="t22">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">22</span>
+      <span class="topic-title">Binning with cut() and qcut()</span>
+      <span class="topic-tag">manipulation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>cut()</code> creates equal-width bins. <code>qcut()</code> creates equal-frequency (quantile) bins.</div>
+      <div class="code-block">
+        <div class="code-label"><span>pd.cut — equal width</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">ages = pd.Series([22, 25, 29, 31, 35, 40, 45, 52, 60, 70])
+
+# Automatic bins
+pd.cut(ages, bins=3)
+
+# Custom bin edges with labels
+pd.cut(ages,
+       bins=[0, 25, 40, 100],
+       labels=['Young', 'Middle', 'Senior'],
+       right=True)    # intervals are (left, right]
+
+# Get bin counts
+pd.cut(ages, bins=3).value_counts()</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>pd.qcut — equal frequency</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">salaries = pd.Series([65000, 70000, 72000, 85000, 90000, 95000])
+
+pd.qcut(salaries, q=4)                            # 4 quartiles
+pd.qcut(salaries, q=4, labels=['Q1','Q2','Q3','Q4'])
+
+# Attach to DataFrame
+df['SalaryBand'] = pd.cut(df['Salary'],
+                           bins=3, labels=['Low','Mid','High'])
+df['SalaryQuartile'] = pd.qcut(df['Salary'], q=4,
+                                labels=['Q1','Q2','Q3','Q4'])</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Customer Lifetime Value (CLV) Segmentation</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A marketing analyst segments customers into spend tiers for campaign targeting: Low → re-engagement email, Mid → upsell offer, High → VIP white-glove treatment.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+customers = pd.DataFrame({
+    "customer_id": range(1001, 1011),
+    "total_spent": [1250, 320, 4500, 89, 780, 2100, 560, 3800, 150, 920],
+    "age":         [34, 52, 28, 19, 45, 37, 61, 29, 24, 42],
+})
+
+# CLV tier by spend (equal-width bins)
+customers["clv_tier"] = pd.cut(
+    customers["total_spent"],
+    bins=[0, 500, 1500, 5000],
+    labels=["Low", "Mid", "High"],
+)
+
+# Age group by quantile (equal-frequency — same number per bucket)
+customers["age_group"] = pd.qcut(
+    customers["age"], q=3,
+    labels=["18-30", "31-45", "46+"],
+)
+
+# Revenue share per tier
+tier_stats = customers.groupby("clv_tier", observed=True).agg(
+    count     = ("customer_id", "count"),
+    avg_spend = ("total_spent",  "mean"),
+    pct_rev   = ("total_spent",  lambda x: x.sum() / customers["total_spent"].sum() * 100),
+).round(1)
+
+print(customers[["customer_id","total_spent","clv_tier","age_group"]])
+print("\nTier revenue breakdown:")
+print(tier_stats)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 23 ─────────────────────────── -->
+  <div class="topic" id="t23">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">23</span>
+      <span class="topic-title">assign(), pipe() &amp; Method Chaining</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>assign()</code> adds columns without mutating the original. <code>pipe()</code> integrates custom functions into chains. Chaining makes code readable and functional.</div>
+      <div class="code-block">
+        <div class="code-label"><span>assign()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># assign returns a new DataFrame — original unchanged
+result = df.assign(
+    Tax      = lambda x: x['Salary'] * 0.2,
+    NetPay   = lambda x: x['Salary'] - x['Salary'] * 0.2,
+    Grade    = lambda x: pd.cut(x['Score'],
+                                bins=[0, 75, 85, 100],
+                                labels=['C', 'B', 'A'])
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>pipe() for clean chaining</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">def normalize(df, col):
+    df = df.copy()
+    df[col + '_z'] = (df[col] - df[col].mean()) / df[col].std()
+    return df
+
+def flag_outliers(df, col, threshold=2):
+    df = df.copy()
+    df['is_outlier'] = df[col + '_z'].abs() > threshold
+    return df
+
+result = (
+    df
+    .query('Age >= 25')
+    .assign(SalaryK = lambda x: x['Salary'] / 1000)
+    .pipe(normalize, col='Salary')
+    .pipe(flag_outliers, col='Salary')
+    .sort_values('Salary', ascending=False)
+    .reset_index(drop=True)
+)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Reusable ETL Pipeline for Raw Sales Data</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data engineer builds a composable, readable pipeline using pipe() that takes messy raw order exports and produces clean analysis-ready DataFrames.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+raw = pd.DataFrame({
+    "order_id": ["ORD-001","ORD-002","ORD-003","ORD-004","ORD-005"],
+    "customer": ["  alice  ","BOB","charlie","  DIANA  ","eve"],
+    "amount":   [250.0, -99.0, 430.0, np.nan, 185.0],
+    "quantity": [2, 1, 3, 1, 2],
+    "date":     ["2024-01-15","2024-01-16","2024-01-16","2024-01-17","2024-01-18"],
+    "status":   ["completed","cancelled","completed","pending","completed"],
+})
+
+# Composable pipeline functions
+def clean_strings(df):
+    df = df.copy()
+    df["customer"] = df["customer"].str.strip().str.title()
+    return df
+
+def remove_bad_orders(df):
+    return df[(df["amount"] &gt; 0) &amp; df["amount"].notna()]
+
+def enrich(df):
+    return df.assign(
+        date        = pd.to_datetime(df["date"]),
+        revenue     = df["amount"] * df["quantity"],
+        day_of_week = lambda x: x["date"].dt.day_name(),
+        is_weekend  = lambda x: x["date"].dt.dayofweek &gt;= 5,
+    )
+
+# Chain everything with .pipe()
+clean = (
+    raw
+    .pipe(clean_strings)
+    .pipe(remove_bad_orders)
+    .pipe(enrich)
+    .query("status == 'completed'")
+    .sort_values("revenue", ascending=False)
+    .reset_index(drop=True)
+)
+
+print(clean[["order_id","customer","amount","quantity","revenue","day_of_week"]])</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 24 ─────────────────────────── -->
+  <div class="topic" id="t24">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">24</span>
+      <span class="topic-title">eval() &amp; Advanced query()</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>eval()</code> evaluates string expressions against DataFrame columns — faster than regular Python for large DataFrames.</div>
+      <div class="code-block">
+        <div class="code-label"><span>df.eval()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Returns a Series
+df.eval('A + B * 2')
+
+# Add a column in-place
+df.eval('D = A + B + C', inplace=True)
+df.eval('E = A ** 2 + B ** 2', inplace=True)
+
+# Boolean expression (returns mask)
+mask = df.eval('A > 2 and B < 50')
+df[mask]</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>query() with @variables</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">min_age    = 25
+max_salary = 90000
+
+df.query('Age > @min_age and Salary < @max_salary')
+df.query('City.str.startswith("N")', engine='python')
+df.query('index > 2')  # filter on index</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Fast Financial Ratio Calculations</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A financial analyst computes multiple P&L ratios across 1,000 companies. eval() is faster than chained column assignments and keeps the code readable.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(0)
+n = 1000
+fin = pd.DataFrame({
+    "company": [f"CO_{i:04d}" for i in range(n)],
+    "revenue":    np.random.uniform(1e6, 100e6, n),
+    "cogs_pct":   np.random.uniform(0.30, 0.65, n),
+    "opex_pct":   np.random.uniform(0.10, 0.25, n),
+    "interest_pct": np.random.uniform(0.01, 0.05, n),
+    "tax_rate":   np.random.uniform(0.20, 0.30, n),
+})
+
+# Build P&amp;L with eval (compiles to fast bytecode)
+fin.eval("cogs           = revenue * cogs_pct",       inplace=True)
+fin.eval("gross_profit   = revenue - cogs",           inplace=True)
+fin.eval("opex           = revenue * opex_pct",       inplace=True)
+fin.eval("ebit           = gross_profit - opex",      inplace=True)
+fin.eval("interest_exp   = revenue * interest_pct",   inplace=True)
+fin.eval("ebt            = ebit - interest_exp",      inplace=True)
+fin.eval("net_income     = ebt * (1 - tax_rate)",     inplace=True)
+fin.eval("gross_margin   = gross_profit / revenue",   inplace=True)
+fin.eval("net_margin     = net_income   / revenue",   inplace=True)
+
+# Filter: profitable companies with gross margin &gt; 50%
+profitable = fin.query("net_income &gt; 0 and gross_margin &gt; 0.50")
+print(f"Profitable high-margin companies: {len(profitable)}/{n}")
+print(profitable[["company","revenue","gross_margin","net_margin"]].nlargest(5,"net_margin").round(3).to_string(index=False))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 25 ─────────────────────────── -->
+  <div class="topic" id="t25">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">25</span>
+      <span class="topic-title">MultiIndex (Hierarchical Indexing)</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">MultiIndex allows multiple levels of row or column labels — great for panel data, time series by group, and hierarchical reporting.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Creating MultiIndex</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># From arrays
+arrays = [['East','East','West','West'], ['Q1','Q2','Q1','Q2']]
+idx = pd.MultiIndex.from_arrays(arrays, names=['Region','Quarter'])
+
+# From product (all combinations)
+idx = pd.MultiIndex.from_product(
+    [['East','West'], ['Q1','Q2','Q3']],
+    names=['Region', 'Quarter']
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Selecting from MultiIndex</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s['East']                    # all East rows
+s['East']['Q1']              # East → Q1
+s.loc[('East', 'Q1')]        # tuple access
+
+# xs: cross-section (select a level value)
+s.xs('Q1', level='Quarter')  # all Q1 regardless of Region
+df.xs('East', level='Region')
+
+# Unstack inner level → columns
+df['Sales'].unstack(level='Quarter')   # Region as rows, Q as cols</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>GroupBy on MultiIndex</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.groupby(level='Region').sum()
+df.groupby(level='Quarter').mean()
+df.swaplevel().sort_index()         # swap the two levels</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Multi-Store Quarterly Inventory Report</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A retail chain analyst uses MultiIndex to track inventory across 3 stores and 4 quarters, enabling instant cross-sectional slicing.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+stores   = ["NYC", "LA", "Chicago"]
+quarters = ["Q1", "Q2", "Q3", "Q4"]
+idx = pd.MultiIndex.from_product([stores, quarters], names=["store","quarter"])
+
+np.random.seed(0)
+inv = pd.DataFrame({
+    "units_sold":   np.random.randint(200, 800, len(idx)),
+    "units_ordered":np.random.randint(300, 700, len(idx)),
+    "revenue":      np.random.randint(10000, 60000, len(idx)),
+}, index=idx)
+
+inv["net_stock"] = inv["units_ordered"] - inv["units_sold"]
+
+print("=== NYC performance all quarters ===")
+print(inv.loc["NYC"])
+
+print("\n=== All stores, Q4 only ===")
+print(inv.xs("Q4", level="quarter"))
+
+print("\n=== Annual revenue per store ===")
+print(inv.groupby(level="store")["revenue"].sum().sort_values(ascending=False))
+
+print("\n=== Revenue matrix (stores × quarters) ===")
+print(inv["revenue"].unstack(level="quarter"))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 26 ─────────────────────────── -->
+  <div class="topic" id="t26">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">26</span>
+      <span class="topic-title">Categorical Data</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Categorical dtype stores low-cardinality string columns efficiently as integers internally. It also enables ordered comparisons.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Creating &amp; comparing</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">sizes = pd.Categorical(
+    ['M', 'L', 'S', 'XL', 'M'],
+    categories=['S', 'M', 'L', 'XL'],
+    ordered=True             # enables < > comparisons
+)
+print(sizes.codes)           # [1, 2, 0, 3, 1] — integer encoding
+print(sizes > 'M')           # [False, True, False, True, False]</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>In a DataFrame</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['Size'] = pd.Categorical(df['Size'],
+    categories=['S', 'M', 'L', 'XL'], ordered=True)
+
+# Sorting respects category order (not alphabet)
+df.sort_values('Size')
+
+# groupby includes all categories (even empty ones)
+df.groupby('Size', observed=False)['Sales'].sum()
+
+# Memory comparison
+df['str_col'].memory_usage(deep=True)
+df['str_col'].astype('category').memory_usage(deep=True)  # much less!</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; NPS Survey Analysis with Ordered Ratings</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A product team classifies 0–10 NPS responses into Detractor/Passive/Promoter ordered categories so they sort and group correctly, and empty categories still appear.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+survey = pd.DataFrame({
+    "respondent": range(1, 11),
+    "product":    ["App","App","Web","App","Web","App","Web","App","Web","Web"],
+    "nps_score":  [9, 6, 8, 10, 4, 7, 9, 3, 8, 6],
+    "plan":       ["Pro","Basic","Pro","Enterprise","Basic",
+                   "Pro","Basic","Pro","Enterprise","Basic"],
+})
+
+def nps_label(score):
+    return "Promoter" if score &gt;= 9 else ("Passive" if score &gt;= 7 else "Detractor")
+
+survey["nps_cat"] = pd.Categorical(
+    survey["nps_score"].apply(nps_label),
+    categories=["Detractor","Passive","Promoter"],
+    ordered=True,
+)
+
+# groupby with observed=False shows all categories even if empty
+breakdown = survey.groupby("nps_cat", observed=False).agg(
+    count     = ("respondent", "count"),
+    avg_score = ("nps_score", "mean"),
+).round(2)
+
+n = len(survey)
+breakdown["pct"] = (breakdown["count"] / n * 100).round(1)
+
+nps_idx = breakdown.loc["Promoter","pct"] - breakdown.loc["Detractor","pct"]
+print(breakdown)
+print(f"\nNPS Index: {nps_idx:.0f}  (range -100 to +100)")
+print("\nSorts correctly by category order:")
+print(survey.sort_values("nps_cat")[["respondent","nps_score","nps_cat"]].to_string(index=False))</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 27 ─────────────────────────── -->
+  <div class="topic" id="t27">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">27</span>
+      <span class="topic-title">Window Functions: expanding &amp; ewm</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Beyond <code>rolling()</code>, pandas offers <code>expanding()</code> (growing window from start) and <code>ewm()</code> (exponentially weighted, recent data gets more weight).</div>
+      <div class="code-block">
+        <div class="code-label"><span>expanding()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s = pd.Series([10, 12, 11, 14, 13, 16, 15, 18])
+
+s.expanding().mean()   # cumulative average
+s.expanding().max()    # running maximum
+s.expanding().sum()    # cumulative sum
+s.expanding().std()    # expanding std dev
+s.expanding(min_periods=3).mean()  # require at least 3 points</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>ewm() — Exponential Weighted Moving Average</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">s.ewm(span=3).mean()     # span=N behaves like rolling(N) but weighted
+s.ewm(alpha=0.3).mean()  # explicit smoothing factor (0–1)
+s.ewm(halflife=2).mean() # weight halves every 2 periods
+s.ewm(com=2).mean()      # center of mass
+
+# EWM vs Rolling: EWM never has NaN at the start
+compare = pd.DataFrame({
+    'original': s,
+    'rolling3': s.rolling(3).mean(),
+    'ewm_span3': s.ewm(span=3).mean()
+})</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Stock Technical Analysis — SMA, EMA & Bollinger Bands</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A quant analyst computes SMA-20, EMA-12, MACD, and Bollinger Bands to generate buy/sell signals on a simulated stock.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(42)
+n = 60
+price = pd.Series(
+    100 + np.cumsum(np.random.normal(0.2, 2.0, n)),
+    index=pd.date_range("2024-01-01", periods=n, freq="B"),
+    name="Close",
+)
+
+ta = pd.DataFrame({"Close": price})
+
+# Simple &amp; Exponential Moving Averages
+ta["SMA_20"]    = price.rolling(20).mean()
+ta["EMA_12"]    = price.ewm(span=12).mean()
+ta["EMA_26"]    = price.ewm(span=26).mean()
+
+# MACD indicator
+ta["MACD"]      = ta["EMA_12"] - ta["EMA_26"]
+ta["Signal"]    = ta["MACD"].ewm(span=9).mean()
+ta["Histogram"] = ta["MACD"] - ta["Signal"]
+
+# Bollinger Bands (2 standard deviations)
+rolling_std      = price.rolling(20).std()
+ta["BB_upper"]   = ta["SMA_20"] + 2 * rolling_std
+ta["BB_lower"]   = ta["SMA_20"] - 2 * rolling_std
+
+# Expanding all-time-high
+ta["ATH"]        = price.expanding().max()
+
+# Buy signal: price below lower Bollinger Band
+ta["buy_signal"] = price &lt; ta["BB_lower"]
+
+print(ta.tail(10).round(2))
+print(f"\nBuy signals triggered: {ta['buy_signal'].sum()} days")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 28 ─────────────────────────── -->
+  <div class="topic" id="t28">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">28</span>
+      <span class="topic-title">DataFrame Styling</span>
+      <span class="topic-tag">visualization</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">The <code>.style</code> API renders styled HTML tables in Jupyter. Great for dashboards and reports.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Number formatting</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.style.format({
+    'Salary': '${:,.0f}',
+    'Score':  '{:.1f}%',
+    'Date':   '{:%Y-%m-%d}'
+})</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Highlighting &amp; gradients</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">(df.style
+ .format({'Salary': '${:,.0f}'})
+ .highlight_max(subset=['Salary', 'Score'], color='#90EE90')
+ .highlight_min(subset=['Salary', 'Score'], color='#FFB6C1')
+ .background_gradient(subset=['Score'], cmap='RdYlGn')
+ .bar(subset=['Salary'], color='lightblue')
+ .set_caption('Performance Table')
+ .hide(axis='index')           # hide row numbers
+)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Export to HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">html = df.style.to_html()
+with open('table.html', 'w') as f:
+    f.write(html)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Color-Coded Weekly KPI Report for Management</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A BI analyst creates a styled HTML table with conditional formatting — green/red cells and data bars — for the weekly business review.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+kpis = pd.DataFrame({
+    "Metric":      ["Revenue","New Customers","Churn Rate","NPS","Avg Order Value","Support CSAT"],
+    "This Week":   [285000, 142, 2.1, 48, 210, 91],
+    "Last Week":   [262000, 128, 2.8, 44, 198, 88],
+    "Target":      [275000, 150, 2.0, 50, 205, 90],
+})
+
+kpis["vs Target %"] = ((kpis["This Week"] - kpis["Target"]) / kpis["Target"] * 100).round(1)
+kpis["WoW %"]       = ((kpis["This Week"] - kpis["Last Week"]) / kpis["Last Week"] * 100).round(1)
+
+styled = (
+    kpis.style
+    .format({"This Week": "{:,.0f}", "Last Week": "{:,.0f}",
+             "Target":    "{:,.0f}", "vs Target %": "{:+.1f}%", "WoW %": "{:+.1f}%"})
+    .background_gradient(subset=["vs Target %"], cmap="RdYlGn", vmin=-10, vmax=10)
+    .background_gradient(subset=["WoW %"],       cmap="RdYlGn", vmin=-10, vmax=10)
+    .bar(subset=["This Week"], color="#4a90d9")
+    .set_caption("Weekly KPIs — w/e 7 Mar 2025")
+    .hide(axis="index")
+)
+
+# In Jupyter, `styled` renders the HTML table. Here we print insights:
+print(kpis[["Metric","This Week","Target","vs Target %"]].to_string(index=False))
+# Export to HTML for email
+html_table = styled.to_html()
+with open("weekly_kpis.html", "w") as f:
+    f.write(html_table)
+print("\nHTML table saved to weekly_kpis.html")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 29 ─────────────────────────── -->
+  <div class="topic" id="t29">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">29</span>
+      <span class="topic-title">Memory Optimization</span>
+      <span class="topic-tag">performance</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc">Large DataFrames can easily use gigabytes of RAM. A few type changes can reduce memory 60-90%.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Measure &amp; optimize</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Check memory usage (deep=True for actual string sizes)
+df.memory_usage(deep=True).sum() / 1e6   # in MB
+
+# Downcast integer types
+df['id']    = pd.to_numeric(df['id'], downcast='unsigned')  # int64 → uint8/16/32
+df['count'] = pd.to_numeric(df['count'], downcast='integer')
+
+# Downcast float
+df['value'] = df['value'].astype('float32')   # 64→32 bit
+
+# Categorical for low-cardinality strings
+df['status']   = df['status'].astype('category')
+df['country']  = df['country'].astype('category')
+
+# Use int8 for flags/booleans
+df['flag'] = df['flag'].astype('int8')   # 8x smaller than int64</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Read optimizations</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Only load columns you need
+df = pd.read_csv('big.csv', usecols=['id', 'value', 'date'])
+
+# Read in chunks for very large files
+chunks = pd.read_csv('huge.csv', chunksize=100_000)
+result = pd.concat([process(chunk) for chunk in chunks])
+
+# Parquet is much more memory-efficient than CSV
+df.to_parquet('data.parquet')
+df = pd.read_parquet('data.parquet')</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Optimising a 500K-Row Transaction Log</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data engineer processes a large e-commerce transaction log that is consuming too much RAM. Type downcast + categorical columns reduce memory by ~75%.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(0)
+n = 500_000
+
+txn = pd.DataFrame({
+    "txn_id":     np.arange(n),
+    "user_id":    np.random.randint(1, 100_000, n),
+    "product_id": np.random.randint(1, 10_000,  n),
+    "category":   np.random.choice(["Electronics","Clothing","Books","Food","Sports"], n),
+    "country":    np.random.choice(["US","UK","CA","AU","DE"], n),
+    "amount":     np.random.uniform(1.0, 500.0, n),
+    "quantity":   np.random.randint(1, 10, n),
+    "returned":   np.random.randint(0, 2, n),
+})
+
+before_mb = txn.memory_usage(deep=True).sum() / 1e6
+print(f"Before: {before_mb:.1f} MB  |  dtypes: {txn.dtypes.value_counts().to_dict()}")
+
+# Downcast integers
+txn["txn_id"]     = txn["txn_id"].astype("uint32")
+txn["user_id"]    = txn["user_id"].astype("uint32")
+txn["product_id"] = txn["product_id"].astype("uint16")
+txn["quantity"]   = txn["quantity"].astype("int8")
+txn["returned"]   = txn["returned"].astype("int8")
+
+# Float32 instead of float64
+txn["amount"]     = txn["amount"].astype("float32")
+
+# Categorical for low-cardinality strings (5 unique values each!)
+txn["category"]   = txn["category"].astype("category")
+txn["country"]    = txn["country"].astype("category")
+
+after_mb = txn.memory_usage(deep=True).sum() / 1e6
+print(f"After:  {after_mb:.1f} MB")
+print(f"Saved:  {(1 - after_mb/before_mb)*100:.0f}%  ✓")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 30 ─────────────────────────── -->
+  <div class="topic" id="t30">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">30</span>
+      <span class="topic-title">Sampling &amp; Random Operations</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="code-block">
+        <div class="code-label"><span>sample()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df.sample(n=5)                        # 5 random rows
+df.sample(frac=0.2, random_state=42)  # 20% sample (reproducible)
+df.sample(frac=1).reset_index(drop=True)  # shuffle entire df
+
+# Weighted sampling (higher weight = more likely to appear)
+df.sample(n=3, weights='Salary')
+
+# Sample columns
+df.sample(n=3, axis=1)               # 3 random columns</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Stratified sampling</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python"># Same proportion from each group
+stratified = df.groupby('Dept', group_keys=False).apply(
+    lambda x: x.sample(frac=0.5, random_state=42)
+)
+
+# Train/test split
+train = df.sample(frac=0.8, random_state=42)
+test  = df.drop(train.index)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Stratified Train / Validation / Test Split for a Churn Model</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A ML engineer needs reproducible train/val/test splits that preserve the 20% churn rate (class imbalance) in every split.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(42)
+n = 1000
+
+df = pd.DataFrame({
+    "cust_id":     range(1, n+1),
+    "tenure":      np.random.randint(1, 72, n),
+    "spend":       np.random.uniform(20, 500, n).round(2),
+    "calls":       np.random.randint(0, 15, n),
+    "churn":       np.random.choice([0, 1], n, p=[0.80, 0.20]),
+})
+
+print(f"Full dataset  churn rate: {df['churn'].mean():.1%}  ({n} rows)")
+
+def stratified_split(df, label, train=0.70, val=0.15, seed=42):
+    tr = df.groupby(label, group_keys=False).apply(
+             lambda x: x.sample(frac=train, random_state=seed))
+    rem = df.drop(tr.index)
+    va  = rem.groupby(label, group_keys=False).apply(
+              lambda x: x.sample(frac=val/(1-train), random_state=seed))
+    te  = rem.drop(va.index)
+    return tr.reset_index(drop=True), va.reset_index(drop=True), te.reset_index(drop=True)
+
+train, val, test = stratified_split(df, "churn")
+
+for name, split in [("Train", train), ("Val", val), ("Test", test)]:
+    print(f"{name:5s}  rows={len(split):4d}  churn={split['churn'].mean():.1%}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 31 ─────────────────────────── -->
+  <div class="topic" id="t31">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">31</span>
+      <span class="topic-title">shift() &amp; diff() for Time Series</span>
+      <span class="topic-tag">advanced</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>shift()</code> creates lag/lead features. <code>diff()</code> computes differences. Essential for time series feature engineering.</div>
+      <div class="code-block">
+        <div class="code-label"><span>shift — lag &amp; lead</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['prev_close'] = df['Close'].shift(1)    # lag 1 period
+df['next_close'] = df['Close'].shift(-1)   # lead 1 period
+df['prev_7day']  = df['Close'].shift(7)    # lag 7 periods
+
+# Time-based shift with DateOffset
+ts.shift(1, freq='D')   # shift by 1 day (moves the index)</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>diff — differences</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['change']     = df['Close'].diff(1)       # day-over-day
+df['weekly_chg'] = df['Close'].diff(5)       # 5-period difference
+df['pct_change'] = df['Close'].pct_change()  # % change
+
+# Direction
+df['direction'] = np.where(df['change'] > 0, 'UP',
+                  np.where(df['change'] < 0, 'DOWN', 'FLAT'))
+
+# Combine for a feature-rich time series DataFrame
+df = df.assign(
+    lag1   = df['Close'].shift(1),
+    lag5   = df['Close'].shift(5),
+    diff1  = df['Close'].diff(1),
+    pct    = df['Close'].pct_change(),
+    ma7    = df['Close'].rolling(7).mean(),
+    ewm7   = df['Close'].ewm(span=7).mean(),
+)</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; Portfolio Daily Returns & Drawdown Analysis</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A portfolio manager calculates daily log-returns, cumulative NAV growth, maximum drawdown, and annualised Sharpe ratio.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+
+np.random.seed(1)
+nav = pd.Series(
+    [10000] + list(10000 * np.cumprod(1 + np.random.normal(0.0005, 0.015, 59))),
+    index=pd.date_range("2024-01-02", periods=60, freq="B"),
+    name="NAV",
+)
+
+pf = pd.DataFrame({"NAV": nav})
+
+pf["daily_return"]  = pf["NAV"].pct_change()
+pf["log_return"]    = np.log(pf["NAV"] / pf["NAV"].shift(1))
+pf["cum_return_pct"]= (pf["NAV"] / pf["NAV"].iloc[0] - 1) * 100
+pf["rolling_max"]   = pf["NAV"].expanding().max()
+pf["drawdown_pct"]  = (pf["NAV"] - pf["rolling_max"]) / pf["rolling_max"] * 100
+pf["vol_10d_ann"]   = pf["daily_return"].rolling(10).std() * np.sqrt(252) * 100
+
+max_dd  = pf["drawdown_pct"].min()
+total_r = pf["cum_return_pct"].iloc[-1]
+sharpe  = (pf["daily_return"].mean() / pf["daily_return"].std()) * np.sqrt(252)
+
+print(pf[["NAV","daily_return","cum_return_pct","drawdown_pct"]].tail(10).round(3).to_string())
+print(f"\nTotal return : {total_r:+.2f}%")
+print(f"Max drawdown : {max_dd:.2f}%")
+print(f"Sharpe ratio : {sharpe:.2f}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── TOPIC 32 ─────────────────────────── -->
+  <div class="topic" id="t32">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">32</span>
+      <span class="topic-title">explode() for List Columns</span>
+      <span class="topic-tag">manipulation</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-desc"><code>explode()</code> transforms each list element into its own row — essential when a column contains lists or arrays.</div>
+      <div class="code-block">
+        <div class="code-label"><span>Basic explode</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df = pd.DataFrame({
+    'OrderID': [1, 2, 3],
+    'Items':   [['Apple', 'Banana'], ['Cherry'], ['Apple', 'Cherry', 'Donut']]
+})
+
+df.explode('Items').reset_index(drop=True)
+#    OrderID   Items
+# 0        1   Apple
+# 1        1   Banana
+# 2        2   Cherry
+# 3        3   Apple
+# 4        3   Cherry
+# 5        3   Donut</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-label"><span>Split string → explode</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">df['TagList'] = df['Tags'].str.split(',')
+df_exploded   = df.explode('TagList').drop(columns='Tags')
+
+# Count tag frequency
+df_exploded['TagList'].value_counts()
+
+# Explode multiple columns at once (pandas 1.3+)
+df.explode(['col1', 'col2'])</code></pre>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; E-Commerce: Expand Cart Items for Co-Purchase Analysis</div>
+        <div class="rw-desc"><strong>Scenario:</strong> An analyst needs to find the most frequently purchased products. Raw orders store items as lists — explode() unpacks them for item-level analysis.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd
+
+orders = pd.DataFrame({
+    "order_id":    [5001, 5002, 5003, 5004, 5005],
+    "customer":    ["Alice","Bob","Alice","Charlie","Bob"],
+    "items":       [["USB-Hub","Webcam","Mouse"],
+                    ["Keyboard","Mouse"],
+                    ["Monitor","USB-Hub","Webcam","Headphones"],
+                    ["Mouse","Keyboard","USB-Hub"],
+                    ["Webcam","Headphones"]],
+    "order_value": [89.50, 125.00, 349.99, 210.00, 75.50],
+})
+
+# Explode: one row per item (order_value is repeated per item)
+items = orders.explode("items").rename(columns={"items":"product"}).reset_index(drop=True)
+
+print("Exploded (first 8 rows):")
+print(items.head(8))
+
+print("\nTop products by frequency:")
+print(items["product"].value_counts())
+
+# Co-purchase: how often does Webcam appear with Mouse?
+webcam_orders = items[items["product"]=="Webcam"]["order_id"]
+print("\nProducts bought with Webcam:")
+print(items[items["order_id"].isin(webcam_orders)]["product"].value_counts())</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ CHEATSHEET ════════════════════ -->
+  <div class="topic" id="cheatsheet">
+    <div class="topic-header" onclick="toggle(this)">
+      <span class="topic-num">★</span>
+      <span class="topic-title">Complete Cheatsheet</span>
+      <span class="topic-tag">reference</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="cheatsheet">
+        <h3>All 32 Topics — Quick Reference</h3>
+        <table>
+          <tr><th>Task</th><th>Code</th></tr>
+          <tr><td>Create DataFrame</td><td><code>pd.DataFrame({'col': [...]})</code></td></tr>
+          <tr><td>Read CSV</td><td><code>pd.read_csv('file.csv')</code></td></tr>
+          <tr><td>Select column</td><td><code>df['col']</code> or <code>df[['a','b']]</code></td></tr>
+          <tr><td>Label select</td><td><code>df.loc[0:5, 'col1':'col3']</code></td></tr>
+          <tr><td>Position select</td><td><code>df.iloc[:5, :3]</code></td></tr>
+          <tr><td>Filter rows</td><td><code>df[df['col'] > 10]</code> or <code>df.query('col > 10')</code></td></tr>
+          <tr><td>Add column</td><td><code>df['new'] = df['a'] + df['b']</code></td></tr>
+          <tr><td>Remove column</td><td><code>df.drop(columns=['col'])</code></td></tr>
+          <tr><td>Rename</td><td><code>df.rename(columns={'old': 'new'})</code></td></tr>
+          <tr><td>Missing count</td><td><code>df.isnull().sum()</code></td></tr>
+          <tr><td>Fill NaN</td><td><code>df.fillna(0)</code> / <code>df.ffill()</code></td></tr>
+          <tr><td>Drop NaN</td><td><code>df.dropna(subset=['col'])</code></td></tr>
+          <tr><td>Convert type</td><td><code>df['col'].astype('int32')</code></td></tr>
+          <tr><td>Parse dates</td><td><code>pd.to_datetime(df['col'])</code></td></tr>
+          <tr><td>Sort</td><td><code>df.sort_values('col', ascending=False)</code></td></tr>
+          <tr><td>GroupBy + agg</td><td><code>df.groupby('col').agg({'a': 'sum', 'b': 'mean'})</code></td></tr>
+          <tr><td>GroupBy transform</td><td><code>df.groupby('g')['col'].transform('sum')</code></td></tr>
+          <tr><td>Merge</td><td><code>pd.merge(left, right, on='id', how='inner')</code></td></tr>
+          <tr><td>Concat</td><td><code>pd.concat([df1, df2], ignore_index=True)</code></td></tr>
+          <tr><td>Pivot table</td><td><code>pd.pivot_table(df, values='v', index='r', columns='c')</code></td></tr>
+          <tr><td>String ops</td><td><code>df['col'].str.lower()</code> / <code>.str.contains('pat')</code></td></tr>
+          <tr><td>Date parts</td><td><code>df['date'].dt.year</code> / <code>.dt.month_name()</code></td></tr>
+          <tr><td>Apply func</td><td><code>df['col'].apply(func)</code></td></tr>
+          <tr><td>Vectorized if</td><td><code>np.where(cond, 'yes', 'no')</code></td></tr>
+          <tr><td>Wide → Long</td><td><code>pd.melt(df, id_vars=['id'], var_name='k', value_name='v')</code></td></tr>
+          <tr><td>Long → Wide</td><td><code>df.pivot(index='i', columns='c', values='v')</code></td></tr>
+          <tr><td>Correlation</td><td><code>df.corr()</code></td></tr>
+          <tr><td>Rolling mean</td><td><code>df['col'].rolling(7).mean()</code></td></tr>
+          <tr><td>EWM</td><td><code>df['col'].ewm(span=7).mean()</code></td></tr>
+          <tr><td>Duplicates</td><td><code>df.drop_duplicates(subset=['col'])</code></td></tr>
+          <tr><td>Binning</td><td><code>pd.cut(s, bins=3)</code> / <code>pd.qcut(s, q=4)</code></td></tr>
+          <tr><td>Assign col</td><td><code>df.assign(Tax=lambda x: x.Salary * 0.2)</code></td></tr>
+          <tr><td>Pipe func</td><td><code>df.pipe(my_func).pipe(other_func)</code></td></tr>
+          <tr><td>eval expr</td><td><code>df.eval('C = A + B', inplace=True)</code></td></tr>
+          <tr><td>MultiIndex</td><td><code>df.xs('Q1', level='Quarter')</code></td></tr>
+          <tr><td>Categorical</td><td><code>pd.Categorical(s, categories=[...], ordered=True)</code></td></tr>
+          <tr><td>Style table</td><td><code>df.style.background_gradient().highlight_max()</code></td></tr>
+          <tr><td>Memory</td><td><code>df.memory_usage(deep=True)</code></td></tr>
+          <tr><td>Sample</td><td><code>df.sample(frac=0.2, random_state=42)</code></td></tr>
+          <tr><td>Lag / lead</td><td><code>df['col'].shift(1)</code> / <code>.shift(-1)</code></td></tr>
+          <tr><td>Diff</td><td><code>df['col'].diff(1)</code> / <code>.pct_change()</code></td></tr>
+          <tr><td>Explode list</td><td><code>df.explode('list_col').reset_index(drop=True)</code></td></tr>
+          <tr><td>Plot</td><td><code>df.plot(kind='bar')</code> / <code>df.plot(kind='scatter', x=, y=)</code></td></tr>
+        </table>
+      </div>
+    
+      <div class="rw-block">
+        <div class="rw-header">&#128205; Real-World Use Case &mdash; End-to-End Data Pipeline in 30 Lines</div>
+        <div class="rw-desc"><strong>Scenario:</strong> A data analyst takes raw data from ingestion to a final analytical summary — combining all major pandas techniques in one concise workflow.</div>
+        <div class="code-block">
+          <div class="code-label"><span>use-case example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code class="language-python">import pandas as pd, numpy as np
+from io import StringIO
+
+# 1. Simulate raw CSV data (replace with pd.read_csv("sales.csv") in real life)
+raw = StringIO(
+    "order_id,customer,date,amount,product,region\n"
+    "001,Alice,2024-01-10,250,Widget A,East\n"
+    "002,Bob,2024-01-15,180,Gadget X,West\n"
+    "002,Bob,2024-01-15,180,Gadget X,West\n"     # duplicate!
+    "003,Charlie,2024-02-01,430,Widget B,East\n"
+    "004,Diana,2024-02-20,,Service Z,North\n"    # missing amount
+    "005,Alice,2024-03-05,520,Widget A,East\n"
+)
+
+# 2. Load
+df = pd.read_csv(raw, dtype={"order_id": str}, parse_dates=["date"])
+
+# 3. Clean
+df = (df
+      .dropna(subset=["amount"])
+      .drop_duplicates(subset=["order_id"])
+      .assign(customer=lambda x: x["customer"].str.title()))
+
+# 4. Enrich
+df = df.assign(
+    month      = df["date"].dt.to_period("M").astype(str),
+    quarter    = "Q" + df["date"].dt.quarter.astype(str),
+    revenue_k  = (df["amount"] / 1000).round(2),
+    value_band = pd.cut(df["amount"], bins=[0,200,400,9999], labels=["Low","Mid","High"]),
+)
+
+# 5. Analyse
+summary = df.groupby(["region","quarter"]).agg(
+    orders     = ("order_id", "count"),
+    total_rev  = ("amount",   "sum"),
+    avg_order  = ("amount",   "mean"),
+).round(1)
+print(summary)
+
+# 6. Save
+df.to_csv("clean_sales.csv", index=False)
+print(f"\nClean data saved ({len(df)} orders).")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .content -->
+</main>
+
+<script>
+hljs.highlightAll();
+
+function toggle(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+function activate(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function filterNav(q) {
+  const items = document.querySelectorAll('.nav-item');
+  items.forEach(item => {
+    item.style.display = item.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+  const sections = document.querySelectorAll('.nav-section');
+  sections.forEach(s => s.style.display = q ? 'none' : '');
+}
+
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Highlight active nav item on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      const link = document.querySelector(`.nav-item[href="#${id}"]`);
+      if (link) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        link.classList.add('active');
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.topic').forEach(t => observer.observe(t));
+</script>
+</body>
+</html>

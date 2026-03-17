@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Time Series Analysis Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#fb923c}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. DateTime Indexing</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Resampling &amp; Frequency Conversion</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Rolling &amp; Expanding Windows</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Time Series Visualization</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Trend &amp; Seasonality Decomposition</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Stationarity &amp; Differencing</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. ARIMA Modeling</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Exponential Smoothing</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Feature Engineering for Time Series</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Forecasting Evaluation</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. Prophet Forecasting</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Anomaly Detection in Time Series</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Neural Forecasting Fundamentals</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Wavelet Analysis for Time Series</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Multivariate Time Series &amp; VAR Models</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Real-Time Streaming &amp; Online Learning</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Time Series Analysis</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. DateTime Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas DatetimeIndex enables powerful time-based selection, alignment, and operations. Use pd.to_datetime() to parse dates and set_index() to create a time series.</p><div class="code-block"><div class="ch"><span>Creating a DatetimeIndex</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=10, freq=&#x27;D&#x27;)
+s = pd.Series(rng.integers(100, 500, 10), index=dates)
+print(s)
+print(&#x27;\nIndex type:&#x27;, type(s.index))
+print(&#x27;Freq:&#x27;, s.index.freq)
+print(&#x27;First date:&#x27;, s.index[0])
+print(&#x27;Last date:&#x27;, s.index[-1])</code></pre></div><div class="code-block"><div class="ch"><span>Parsing and indexing with pd.to_datetime</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(7)
+df = pd.DataFrame({
+    &#x27;date&#x27;:    [&#x27;2024-01-15&#x27;, &#x27;2024-02-20&#x27;, &#x27;2024-03-05&#x27;, &#x27;2024-04-10&#x27;],
+    &#x27;revenue&#x27;: rng.integers(1000, 9999, 4),
+    &#x27;units&#x27;:   rng.integers(10, 200, 4),
+})
+df[&#x27;date&#x27;] = pd.to_datetime(df[&#x27;date&#x27;])
+df = df.set_index(&#x27;date&#x27;)
+print(df)
+print(&#x27;\n.dt accessor on a column:&#x27;)
+df2 = df.reset_index()
+df2[&#x27;year&#x27;]  = df2[&#x27;date&#x27;].dt.year
+df2[&#x27;month&#x27;] = df2[&#x27;date&#x27;].dt.month
+df2[&#x27;dow&#x27;]   = df2[&#x27;date&#x27;].dt.day_name()
+print(df2[[&#x27;date&#x27;,&#x27;year&#x27;,&#x27;month&#x27;,&#x27;dow&#x27;]])</code></pre></div><div class="code-block"><div class="ch"><span>Time-based slicing and selection</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+idx = pd.date_range(&#x27;2023-01-01&#x27;, &#x27;2024-12-31&#x27;, freq=&#x27;D&#x27;)
+ts = pd.Series(rng.normal(100, 15, len(idx)), index=idx)
+
+# Slice by string
+print(&#x27;Jan 2024:&#x27;, ts[&#x27;2024-01&#x27;].shape)
+print(&#x27;Q1 2024:&#x27;, ts[&#x27;2024-01&#x27;:&#x27;2024-03&#x27;].shape)
+print(&#x27;A specific week:&#x27;, ts[&#x27;2024-06-10&#x27;:&#x27;2024-06-16&#x27;].values.round(2))
+
+# Boolean mask
+print(&#x27;\nDays with value &gt; 130:&#x27;, (ts &gt; 130).sum())
+print(&#x27;Weekend values mean:&#x27;, ts[ts.index.dayofweek &gt;= 5].mean().round(2))</code></pre></div><div class="code-block"><div class="ch"><span>Time zones and date arithmetic</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import pandas as pd
+import numpy as np
+
+# Create UTC series and convert timezone
+idx = pd.date_range(&#x27;2024-01-01 00:00&#x27;, periods=6, freq=&#x27;6h&#x27;, tz=&#x27;UTC&#x27;)
+ts = pd.Series(range(6), index=idx)
+print(&#x27;UTC:&#x27;)
+print(ts)
+
+# Convert to US/Eastern
+ts_eastern = ts.tz_convert(&#x27;US/Eastern&#x27;)
+print(&#x27;\nUS/Eastern:&#x27;)
+print(ts_eastern)
+
+# Date arithmetic
+today = pd.Timestamp(&#x27;2024-06-15&#x27;)
+print(&#x27;\n30 days later:&#x27;, today + pd.Timedelta(days=30))
+print(&#x27;Next Monday:&#x27;, today + pd.offsets.Week(weekday=0))
+print(&#x27;End of month:&#x27;, today + pd.offsets.MonthEnd(0))
+
+# Period vs Timestamp
+period = pd.Period(&#x27;2024-Q2&#x27;, freq=&#x27;Q&#x27;)
+print(&#x27;\nQ2 2024 start:&#x27;, period.start_time)
+print(&#x27;Q2 2024 end:  &#x27;, period.end_time)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An e-commerce analyst needs to parse mixed-format sales timestamps, localize to UTC, and create a clean DatetimeIndex for downstream aggregation.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw0')">Copy</button></div><pre><code id="rw0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+raw = pd.DataFrame({
+    &#x27;timestamp&#x27;: [&#x27;2024-01-15 09:32&#x27;, &#x27;2024/02/20 14:05&#x27;, &#x27;March 5, 2024 11:00&#x27;, &#x27;2024-04-10T08:45:00&#x27;],
+    &#x27;store&#x27;:     [&#x27;NYC&#x27;, &#x27;LA&#x27;, &#x27;CHI&#x27;, &#x27;HOU&#x27;],
+    &#x27;amount&#x27;:    rng.uniform(50, 500, 4).round(2),
+})
+
+# Parse mixed formats
+raw[&#x27;ts_parsed&#x27;] = pd.to_datetime(raw[&#x27;timestamp&#x27;], infer_datetime_format=True)
+raw = raw.set_index(&#x27;ts_parsed&#x27;).sort_index()
+raw.index = raw.index.tz_localize(&#x27;US/Eastern&#x27;).tz_convert(&#x27;UTC&#x27;)
+
+print(&#x27;Cleaned time series:&#x27;)
+print(raw[[&#x27;store&#x27;, &#x27;amount&#x27;]])
+print(&#x27;\nIndex timezone:&#x27;, raw.index.tz)
+print(&#x27;Date range:&#x27;, raw.index[0], &#x27;to&#x27;, raw.index[-1])</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom DatetimeIndex</div><div class="pd">Create a DatetimeIndex for every Monday in 2024. Build a Series with random weekly sales (uniform 1000-5000). Print the total sales per quarter using .resample(&#x27;QE&#x27;).sum().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+# TODO: create weekly DatetimeIndex (Mondays only) for 2024
+# Hint: pd.date_range(..., freq=&#x27;W-MON&#x27;)
+
+# TODO: create Series with random sales
+
+# TODO: resample to quarterly and print
+</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Resampling &amp; Frequency Conversion</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Resampling changes the time frequency of a series — downsampling aggregates to lower frequency, upsampling interpolates to higher frequency.</p><div class="code-block"><div class="ch"><span>Downsampling with resample()</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+daily = pd.Series(rng.uniform(100, 500, 365), index=idx, name=&#x27;sales&#x27;)
+
+# Downsample to different frequencies
+print(&#x27;Weekly sum (first 4):&#x27;)
+print(daily.resample(&#x27;W&#x27;).sum().head(4).round(2))
+
+print(&#x27;\nMonthly stats:&#x27;)
+monthly = daily.resample(&#x27;ME&#x27;).agg([&#x27;sum&#x27;,&#x27;mean&#x27;,&#x27;max&#x27;,&#x27;min&#x27;])
+print(monthly.round(2))
+
+print(&#x27;\nQuarterly mean:&#x27;)
+print(daily.resample(&#x27;QE&#x27;).mean().round(2))</code></pre></div><div class="code-block"><div class="ch"><span>OHLC resampling for financial data</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+price = 100 + np.cumsum(rng.normal(0, 1.5, 365))
+ts = pd.Series(price, index=idx, name=&#x27;price&#x27;)
+
+# OHLC aggregation
+weekly_ohlc = ts.resample(&#x27;W&#x27;).ohlc()
+print(&#x27;Weekly OHLC (first 5):&#x27;)
+print(weekly_ohlc.head().round(2))
+
+# Custom aggregation
+monthly_custom = ts.resample(&#x27;ME&#x27;).agg(
+    open  = (&#x27;first&#x27;),
+    close = (&#x27;last&#x27;),
+    high  = (&#x27;max&#x27;),
+    low   = (&#x27;min&#x27;),
+    range = (lambda x: x.max() - x.min()),
+)
+print(&#x27;\nMonthly custom agg:&#x27;)
+print(monthly_custom.round(2))</code></pre></div><div class="code-block"><div class="ch"><span>Upsampling and interpolation</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(7)
+# Monthly data → daily via upsampling
+monthly_idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=6, freq=&#x27;ME&#x27;)
+monthly = pd.Series([120, 135, 128, 142, 156, 149], index=monthly_idx, name=&#x27;revenue&#x27;)
+
+# Forward fill
+daily_ffill = monthly.resample(&#x27;D&#x27;).ffill()
+# Linear interpolation
+daily_interp = monthly.resample(&#x27;D&#x27;).interpolate(&#x27;linear&#x27;)
+# Cubic interpolation
+daily_cubic = monthly.resample(&#x27;D&#x27;).interpolate(&#x27;cubic&#x27;)
+
+print(&#x27;Monthly original:&#x27;)
+print(monthly)
+print(&#x27;\nDaily (first 10, forward fill):&#x27;)
+print(daily_ffill.head(10).round(2))
+print(&#x27;\nDaily (first 10, linear interp):&#x27;)
+print(daily_interp.head(10).round(2))</code></pre></div><div class="code-block"><div class="ch"><span>asfreq() vs resample() and timezone-aware resampling</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=24*7, freq=&#x27;h&#x27;, tz=&#x27;UTC&#x27;)
+hourly = pd.Series(rng.uniform(10, 100, len(idx)), index=idx)
+
+# asfreq — select existing values at new frequency (no aggregation)
+every_6h = hourly.asfreq(&#x27;6h&#x27;)
+print(&#x27;asfreq every 6h (first 8):&#x27;)
+print(every_6h.head(8).round(2))
+
+# Resample by time-of-day
+hourly_mean = hourly.groupby(hourly.index.hour).mean()
+print(&#x27;\nMean by hour of day:&#x27;)
+for h, v in hourly_mean.items():
+    bar = &#x27;█&#x27; * int(v / 10)
+    print(f&#x27;  {h:02d}h: {v:5.1f} {bar}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A retail analyst has daily transaction data for 3 years and needs to compute weekly, monthly, and quarterly revenue summaries with growth rates for an executive report.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw1')">Copy</button></div><pre><code id="rw1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2022-01-01&#x27;, &#x27;2024-12-31&#x27;, freq=&#x27;D&#x27;)
+noise = rng.normal(0, 20, len(idx))
+trend = np.linspace(500, 800, len(idx))
+seasonal = 80 * np.sin(2 * np.pi * np.arange(len(idx)) / 365)
+daily = pd.Series(trend + seasonal + noise, index=idx, name=&#x27;revenue&#x27;).clip(0)
+
+# Aggregate
+weekly  = daily.resample(&#x27;W&#x27;).sum()
+monthly = daily.resample(&#x27;ME&#x27;).sum()
+quarterly = daily.resample(&#x27;QE&#x27;).sum()
+
+# Growth rates
+monthly_growth = monthly.pct_change() * 100
+quarterly_growth = quarterly.pct_change() * 100
+
+print(&#x27;Monthly revenue with MoM growth (last 6):&#x27;)
+report = pd.DataFrame({&#x27;revenue&#x27;: monthly, &#x27;mom_growth_%&#x27;: monthly_growth}).tail(6)
+print(report.round(2))
+print(&#x27;\nQuarterly totals with QoQ growth:&#x27;)
+print(pd.DataFrame({&#x27;revenue&#x27;: quarterly, &#x27;qoq_%&#x27;: quarterly_growth}).round(2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resample and Compare</div><div class="pd">Generate hourly temperature data for January 2024 (mean=5°C, std=8°C, with a sine wave daily cycle). Resample to daily min/mean/max. Find the coldest and warmest day.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, &#x27;2024-01-31 23:00&#x27;, freq=&#x27;h&#x27;)
+# TODO: create hourly temp with sine daily cycle + noise
+
+# TODO: resample to daily min/mean/max
+
+# TODO: print coldest and warmest day
+</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Rolling &amp; Expanding Windows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Rolling windows compute statistics over a sliding fixed-length window. Expanding windows grow from the start of the series. Both are essential for smoothing and feature engineering.</p><div class="code-block"><div class="ch"><span>Rolling mean and standard deviation</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=30, freq=&#x27;D&#x27;)
+ts = pd.Series(rng.normal(100, 15, 30), index=idx, name=&#x27;value&#x27;)
+
+rm7  = ts.rolling(7).mean()
+rm14 = ts.rolling(14).mean()
+std7 = ts.rolling(7).std()
+
+result = pd.DataFrame({&#x27;raw&#x27;: ts, &#x27;ma7&#x27;: rm7, &#x27;ma14&#x27;: rm14, &#x27;std7&#x27;: std7})
+print(result.tail(10).round(2))
+print(&#x27;\nNaN count from rolling(7):&#x27;, rm7.isna().sum())</code></pre></div><div class="code-block"><div class="ch"><span>Rolling min_periods and center</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+ts = pd.Series(rng.normal(50, 10, 20), name=&#x27;signal&#x27;)
+
+# min_periods: require at least 3 valid values
+r_minp = ts.rolling(7, min_periods=3).mean()
+# center=True: window centered on current observation
+r_center = ts.rolling(7, center=True).mean()
+
+print(&#x27;Standard rolling(7): first 7 values&#x27;)
+print(ts.rolling(7).mean().head(7).round(2).tolist())
+print(&#x27;\nWith min_periods=3: first 7 values&#x27;)
+print(r_minp.head(7).round(2).tolist())
+print(&#x27;\nCentered rolling(7): first 7 values&#x27;)
+print(r_center.head(7).round(2).tolist())
+
+# Rolling correlation between two series
+s2 = pd.Series(rng.normal(50, 10, 20))
+print(&#x27;\nRolling correlation (last 5):&#x27;)
+print(ts.rolling(5).corr(s2).tail().round(3).tolist())</code></pre></div><div class="code-block"><div class="ch"><span>Expanding windows and cumulative stats</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(7)
+ts = pd.Series(rng.exponential(100, 20), name=&#x27;revenue&#x27;)
+
+exp_mean = ts.expanding().mean()
+exp_std  = ts.expanding().std()
+exp_max  = ts.expanding().max()
+cumsum   = ts.cumsum()
+
+result = pd.DataFrame({
+    &#x27;revenue&#x27;:    ts.round(2),
+    &#x27;cum_mean&#x27;:   exp_mean.round(2),
+    &#x27;cum_std&#x27;:    exp_std.round(2),
+    &#x27;cum_max&#x27;:    exp_max.round(2),
+    &#x27;cumsum&#x27;:     cumsum.round(2),
+})
+print(result)</code></pre></div><div class="code-block"><div class="ch"><span>Exponentially weighted moving average (EWMA)</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=30, freq=&#x27;D&#x27;)
+ts = pd.Series(rng.normal(100, 20, 30) + np.linspace(0, 30, 30), index=idx)
+
+# EWM with different spans
+ewm5  = ts.ewm(span=5,  adjust=False).mean()
+ewm14 = ts.ewm(span=14, adjust=False).mean()
+# EWM with alpha (decay factor directly)
+ewm_a = ts.ewm(alpha=0.3, adjust=False).mean()
+
+result = pd.DataFrame({&#x27;raw&#x27;: ts, &#x27;ewm5&#x27;: ewm5, &#x27;ewm14&#x27;: ewm14, &#x27;ewm_a0.3&#x27;: ewm_a})
+print(result.round(2))
+print(&#x27;\nEWM vs SMA final values:&#x27;)
+print(f&#x27;  EWM(span=5):  {ewm5.iloc[-1]:.2f}&#x27;)
+print(f&#x27;  SMA(window=5):{ts.rolling(5).mean().iloc[-1]:.2f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A supply chain analyst needs to flag anomalous daily order volumes by computing a 14-day rolling mean and standard deviation, then marking any day beyond 2 standard deviations as an outlier.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw2')">Copy</button></div><pre><code id="rw2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=90, freq=&#x27;D&#x27;)
+orders = pd.Series(rng.normal(500, 60, 90), index=idx, name=&#x27;orders&#x27;)
+# Inject anomalies
+orders.iloc[15] = 950
+orders.iloc[45] = 120
+orders.iloc[72] = 880
+
+roll = orders.rolling(14)
+rm   = roll.mean()
+rs   = roll.std()
+upper = rm + 2 * rs
+lower = rm - 2 * rs
+
+anomalies = orders[(orders &gt; upper) | (orders &lt; lower)]
+print(f&#x27;Total days: {len(orders)}, Anomalies detected: {len(anomalies)}&#x27;)
+print(&#x27;\nAnomalous days:&#x27;)
+for date, val in anomalies.items():
+    print(f&#x27;  {date.date()}: {val:.0f} orders (mean={rm[date]:.0f}, &#x27;
+          f&#x27;bounds=[{lower[date]:.0f}, {upper[date]:.0f}])&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bollinger Bands</div><div class="pd">Generate 60 days of synthetic stock price data starting at $100 with daily returns from N(0.001, 0.02). Compute 20-day SMA and 2-std Bollinger Bands. Print the last 10 rows showing price, upper band, lower band, and whether the price is outside the bands.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=60, freq=&#x27;B&#x27;)
+# TODO: create price series with cumulative returns
+
+# TODO: compute 20-day SMA and Bollinger Bands
+
+# TODO: flag days outside bands and print last 10 rows
+</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Time Series Visualization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualizing time series reveals trends, seasonality, and anomalies. Key plots include line charts, seasonal decomposition, ACF/PACF correlograms, and lag plots.</p><div class="code-block"><div class="ch"><span>Basic time series plot with annotations</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2023-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+ts = pd.Series(
+    100 + np.linspace(0, 50, 365) + 20 * np.sin(2*np.pi*np.arange(365)/365) + rng.normal(0, 5, 365),
+    index=idx, name=&#x27;sales&#x27;
+)
+
+fig, ax = plt.subplots(figsize=(12, 4))
+ax.plot(ts.index, ts.values, lw=1, color=&#x27;steelblue&#x27;, label=&#x27;Daily&#x27;)
+ax.plot(ts.rolling(30).mean().index, ts.rolling(30).mean(), lw=2, color=&#x27;tomato&#x27;, label=&#x27;30-day MA&#x27;)
+ax.axvline(pd.Timestamp(&#x27;2023-06-21&#x27;), color=&#x27;green&#x27;, ls=&#x27;--&#x27;, lw=1.5, label=&#x27;Summer Solstice&#x27;)
+ax.fill_between(ts.index, ts.rolling(30).mean() - ts.rolling(30).std(),
+                ts.rolling(30).mean() + ts.rolling(30).std(), alpha=0.2, color=&#x27;tomato&#x27;)
+ax.set(title=&#x27;Sales Time Series with 30-Day Moving Average&#x27;, xlabel=&#x27;Date&#x27;, ylabel=&#x27;Sales&#x27;)
+ax.legend(); ax.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig(&#x27;ts_basic.png&#x27;, dpi=100)
+plt.close()
+print(&#x27;Saved ts_basic.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Seasonal subseries plot</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+idx = pd.date_range(&#x27;2022-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+monthly = pd.Series(
+    200 + 50*np.sin(2*np.pi*np.arange(36)/12) + rng.normal(0, 10, 36),
+    index=idx, name=&#x27;revenue&#x27;
+)
+
+fig, axes = plt.subplots(3, 4, figsize=(14, 8), sharey=True)
+month_names = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+for m in range(1, 13):
+    ax = axes[(m-1)//4][(m-1)%4]
+    data = monthly[monthly.index.month == m]
+    ax.bar(range(len(data)), data.values, color=&#x27;steelblue&#x27;, alpha=0.7)
+    ax.axhline(data.mean(), color=&#x27;tomato&#x27;, lw=2)
+    ax.set_title(month_names[m-1], fontsize=10)
+    ax.set_xticks([])
+plt.suptitle(&#x27;Seasonal Subseries Plot — Monthly Revenue&#x27;, fontsize=13)
+plt.tight_layout()
+plt.savefig(&#x27;ts_seasonal_sub.png&#x27;, dpi=100)
+plt.close()
+print(&#x27;Saved ts_seasonal_sub.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>ACF and PACF correlograms</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+    rng = np.random.default_rng(42)
+    # AR(2) process: y_t = 0.7*y_{t-1} - 0.3*y_{t-2} + noise
+    n = 200
+    y = np.zeros(n)
+    eps = rng.normal(0, 1, n)
+    for t in range(2, n):
+        y[t] = 0.7*y[t-1] - 0.3*y[t-2] + eps[t]
+    ts = pd.Series(y)
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    plot_acf(ts, lags=20, ax=axes[0], title=&#x27;ACF — AR(2) Process&#x27;)
+    plot_pacf(ts, lags=20, ax=axes[1], title=&#x27;PACF — AR(2) Process&#x27;, method=&#x27;ywm&#x27;)
+    plt.tight_layout()
+    plt.savefig(&#x27;ts_acf.png&#x27;, dpi=100)
+    plt.close()
+    print(&#x27;Saved ts_acf.png&#x27;)
+    print(&#x27;ACF at lag 1:&#x27;, round(ts.autocorr(1), 3))
+    print(&#x27;ACF at lag 2:&#x27;, round(ts.autocorr(2), 3))
+except ImportError:
+    print(&#x27;statsmodels not installed — pip install statsmodels&#x27;)
+    import pandas as pd, numpy as np
+    ts = pd.Series(np.random.randn(100))
+    print(&#x27;Manual ACF at lags 1-5:&#x27;)
+    for lag in range(1, 6):
+        print(f&#x27;  lag {lag}: {ts.autocorr(lag):.3f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Lag plot and return distribution</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=100, freq=&#x27;B&#x27;)
+price = 100 + np.cumsum(rng.normal(0, 1.5, 100))
+ts = pd.Series(price, index=idx)
+returns = ts.pct_change().dropna() * 100
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+# Lag plot
+axes[0].scatter(ts.values[:-1], ts.values[1:], alpha=0.5, s=20, color=&#x27;steelblue&#x27;)
+axes[0].set(title=&#x27;Lag Plot (lag=1)&#x27;, xlabel=&#x27;Price(t)&#x27;, ylabel=&#x27;Price(t+1)&#x27;)
+
+# Return distribution
+axes[1].hist(returns, bins=20, color=&#x27;coral&#x27;, edgecolor=&#x27;white&#x27;, alpha=0.8)
+axes[1].set(title=&#x27;Daily Return Distribution&#x27;, xlabel=&#x27;Return (%)&#x27;, ylabel=&#x27;Count&#x27;)
+
+# Rolling volatility
+vol = returns.rolling(10).std()
+axes[2].plot(vol.index, vol, color=&#x27;purple&#x27;, lw=1.5)
+axes[2].set(title=&#x27;10-Day Rolling Volatility&#x27;, xlabel=&#x27;Date&#x27;, ylabel=&#x27;Std Dev (%)&#x27;)
+axes[2].tick_params(axis=&#x27;x&#x27;, rotation=45)
+
+plt.tight_layout()
+plt.savefig(&#x27;ts_lag_dist.png&#x27;, dpi=100)
+plt.close()
+print(&#x27;Saved ts_lag_dist.png&#x27;)
+print(f&#x27;Return stats: mean={returns.mean():.2f}%, std={returns.std():.2f}%, skew={returns.skew():.2f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A business analyst needs to visualize 2 years of weekly e-commerce sales showing trend, seasonality, rolling average, and year-over-year comparison in a single dashboard.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw3')">Copy</button></div><pre><code id="rw3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2023-01-02&#x27;, periods=104, freq=&#x27;W-MON&#x27;)
+trend = np.linspace(5000, 8000, 104)
+seasonal = 1500 * np.sin(2*np.pi*np.arange(104)/52)
+sales = pd.Series(trend + seasonal + rng.normal(0, 200, 104), index=idx, name=&#x27;sales&#x27;)
+
+y2023 = sales[&#x27;2023&#x27;].values
+y2024 = sales[&#x27;2024&#x27;].values[:len(y2023)]
+
+fig, axes = plt.subplots(2, 1, figsize=(14, 8))
+axes[0].plot(sales.index, sales, alpha=0.4, lw=1, color=&#x27;steelblue&#x27;, label=&#x27;Weekly&#x27;)
+axes[0].plot(sales.rolling(8).mean().index, sales.rolling(8).mean(), lw=2, color=&#x27;tomato&#x27;, label=&#x27;8-wk MA&#x27;)
+axes[0].set(title=&#x27;Weekly E-Commerce Sales (2023-2024)&#x27;, ylabel=&#x27;Sales ($)&#x27;)
+axes[0].legend(); axes[0].grid(alpha=0.3)
+
+weeks = range(1, min(len(y2023), len(y2024))+1)
+axes[1].plot(weeks, y2023[:len(weeks)], label=&#x27;2023&#x27;, color=&#x27;steelblue&#x27;, lw=2)
+axes[1].plot(weeks, y2024[:len(weeks)], label=&#x27;2024&#x27;, color=&#x27;tomato&#x27;, lw=2)
+axes[1].set(title=&#x27;Year-over-Year Comparison&#x27;, xlabel=&#x27;Week&#x27;, ylabel=&#x27;Sales ($)&#x27;)
+axes[1].legend(); axes[1].grid(alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(&#x27;ts_dashboard.png&#x27;, dpi=100)
+plt.close()
+print(&#x27;Saved ts_dashboard.png&#x27;)
+yoy_growth = (y2024.mean() / y2023.mean() - 1) * 100
+print(f&#x27;YoY growth: {yoy_growth:+.1f}%&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Series Time Plot</div><div class="pd">Generate 52 weeks of data for three products (A, B, C) with different trends and seasonalities. Plot all three on the same axis with a legend. Add a 4-week rolling average for each. Save as &#x27;practice_ts.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=52, freq=&#x27;W&#x27;)
+# TODO: create 3 product series with different patterns
+
+# TODO: plot all 3 with rolling averages
+
+plt.savefig(&#x27;practice_ts.png&#x27;, dpi=100)
+plt.close()
+print(&#x27;Saved practice_ts.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Trend &amp; Seasonality Decomposition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decomposition separates a time series into trend, seasonal, and residual components. Additive decomposition (Y = T + S + R) works for constant amplitude seasonality; multiplicative (Y = T × S × R) for growing amplitude.</p><div class="code-block"><div class="ch"><span>Classical decomposition with statsmodels</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.seasonal import seasonal_decompose
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2021-01-01&#x27;, periods=48, freq=&#x27;ME&#x27;)
+    trend_comp = np.linspace(100, 180, 48)
+    seasonal_comp = 20 * np.sin(2*np.pi*np.arange(48)/12)
+    noise = rng.normal(0, 5, 48)
+    ts = pd.Series(trend_comp + seasonal_comp + noise, index=idx)
+
+    result = seasonal_decompose(ts, model=&#x27;additive&#x27;, period=12)
+    print(&#x27;Decomposition components (first 6 months):&#x27;)
+    df = pd.DataFrame({
+        &#x27;observed&#x27;: result.observed,
+        &#x27;trend&#x27;:    result.trend,
+        &#x27;seasonal&#x27;: result.seasonal,
+        &#x27;resid&#x27;:    result.resid,
+    }).dropna()
+    print(df.head(6).round(2))
+    print(f&#x27;\nTrend range: {result.trend.dropna().min():.1f} - {result.trend.dropna().max():.1f}&#x27;)
+    print(f&#x27;Seasonal amplitude: {result.seasonal.max():.1f}&#x27;)
+    print(f&#x27;Residual std: {result.resid.dropna().std():.2f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Additive vs multiplicative decomposition</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.seasonal import seasonal_decompose
+    rng = np.random.default_rng(0)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    t = np.arange(60)
+    trend = 100 + 2*t
+    seasonal = 0.3 * np.sin(2*np.pi*t/12)  # proportional to trend
+
+    additive_ts = pd.Series(trend + 20*np.sin(2*np.pi*t/12) + rng.normal(0,3,60), index=idx)
+    multiplicative_ts = pd.Series(trend * (1 + seasonal) + rng.normal(0,3,60), index=idx)
+
+    for name, ts, model in [(&#x27;Additive TS&#x27;, additive_ts, &#x27;additive&#x27;),
+                             (&#x27;Multiplicative TS&#x27;, multiplicative_ts, &#x27;multiplicative&#x27;)]:
+        dec = seasonal_decompose(ts, model=model, period=12)
+        resid_std = dec.resid.dropna().std()
+        print(f&#x27;{name} ({model}): residual std = {resid_std:.3f}&#x27;)
+        print(f&#x27;  Seasonal max = {dec.seasonal.max():.3f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)
+    import numpy as np
+    t = np.arange(60)
+    ts = 100 + 2*t + 20*np.sin(2*np.pi*t/12) + np.random.normal(0,3,60)
+    print(&#x27;Manual trend (linear fit):&#x27;)
+    coeffs = np.polyfit(t, ts, 1)
+    print(f&#x27;  slope={coeffs[0]:.2f}, intercept={coeffs[1]:.2f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>STL decomposition (robust to outliers)</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.seasonal import STL
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        100 + np.linspace(0, 40, 60) + 15*np.sin(2*np.pi*np.arange(60)/12) + rng.normal(0, 4, 60),
+        index=idx
+    )
+    # Add outlier
+    ts.iloc[24] = 250
+
+    stl = STL(ts, period=12, robust=True)
+    result = stl.fit()
+    print(&#x27;STL Decomposition (robust=True):&#x27;)
+    df = pd.DataFrame({&#x27;trend&#x27;: result.trend, &#x27;seasonal&#x27;: result.seasonal, &#x27;resid&#x27;: result.resid})
+    print(df.tail(6).round(2))
+    print(f&#x27;\nMax residual (outlier detected at): {result.resid.abs().idxmax().date()}&#x27;)
+    print(f&#x27;Residual value: {result.resid.abs().max():.1f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Extracting and using trend for forecasting</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(7)
+idx = pd.date_range(&#x27;2022-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+t = np.arange(36)
+ts = pd.Series(100 + 3*t + 15*np.sin(2*np.pi*t/12) + rng.normal(0, 5, 36), index=idx)
+
+# Fit linear trend
+coeffs = np.polyfit(t, ts, 1)
+trend  = np.polyval(coeffs, t)
+detrended = ts.values - trend
+
+# Seasonal component (average over each month)
+seasonal = np.zeros(12)
+for m in range(12):
+    seasonal[m] = detrended[m::12].mean()
+
+# Reconstruct and forecast next 6 months
+t_fut = np.arange(36, 42)
+trend_fut    = np.polyval(coeffs, t_fut)
+seasonal_fut = seasonal[t_fut % 12]
+forecast     = trend_fut + seasonal_fut
+
+print(f&#x27;Trend: slope={coeffs[0]:.2f}/month, intercept={coeffs[1]:.2f}&#x27;)
+print(&#x27;\nSeasonal pattern (monthly avg deviation):&#x27;)
+months = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+for m, (name, val) in enumerate(zip(months, seasonal)):
+    print(f&#x27;  {name}: {val:+.1f}&#x27;)
+print(&#x27;\nForecast (next 6 months):&#x27;)
+fut_idx = pd.date_range(&#x27;2025-01-01&#x27;, periods=6, freq=&#x27;ME&#x27;)
+for d, v in zip(fut_idx, forecast):
+    print(f&#x27;  {d.strftime(&quot;%b %Y&quot;)}: {v:.1f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An energy analyst decomposes hourly electricity consumption data to isolate the weekly seasonal pattern, long-term trend, and irregular spikes for demand forecasting.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw4')">Copy</button></div><pre><code id="rw4" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.seasonal import STL
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=52*7, freq=&#x27;D&#x27;)
+    t = np.arange(len(idx))
+    trend_comp   = 500 + 0.3 * t
+    weekly_seas  = 80 * np.sin(2*np.pi*t/7)
+    annual_seas  = 120 * np.sin(2*np.pi*t/365)
+    consumption  = pd.Series(trend_comp + weekly_seas + annual_seas + rng.normal(0, 15, len(t)), index=idx)
+
+    stl = STL(consumption, period=7, robust=True)
+    res = stl.fit()
+
+    weekly_pattern = pd.Series(res.seasonal).groupby(pd.date_range(&#x27;2024-01-01&#x27;, periods=len(idx), freq=&#x27;D&#x27;).dayofweek).mean()
+    days = [&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]
+    print(&#x27;Weekly consumption pattern (avg deviation from trend):&#x27;)
+    for d, v in zip(days, weekly_pattern.reindex(range(7))):
+        bar = &#x27;█&#x27; * int(abs(v) / 10)
+        print(f&#x27;  {d}: {v:+.1f} kWh {bar}&#x27;)
+    print(f&#x27;\nOverall trend: +{(res.trend.iloc[-1] - res.trend.iloc[0]):.1f} kWh over the period&#x27;)
+    print(f&#x27;Residual std (noise): {res.resid.std():.1f} kWh&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Decompose and Evaluate</div><div class="pd">Generate 3 years of monthly sales data with an upward trend and strong December seasonality (add 200 to December values). Use seasonal_decompose with period=12. Print the seasonal indices for each month. Which month has the highest seasonal component?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2022-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+# TODO: create monthly sales with trend + December spike
+
+# TODO: decompose
+
+# TODO: print seasonal indices by month
+</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Stationarity &amp; Differencing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stationarity means constant mean, variance, and autocorrelation over time. Most statistical forecasting models require stationary input. Use the ADF test to check, and differencing to achieve stationarity.</p><div class="code-block"><div class="ch"><span>ADF test for stationarity</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.stattools import adfuller
+    rng = np.random.default_rng(42)
+    # Non-stationary: random walk
+    rw = pd.Series(np.cumsum(rng.normal(0, 1, 100)))
+    # Stationary: white noise
+    wn = pd.Series(rng.normal(0, 1, 100))
+
+    for name, ts in [(&#x27;Random Walk&#x27;, rw), (&#x27;White Noise&#x27;, wn)]:
+        result = adfuller(ts, autolag=&#x27;AIC&#x27;)
+        print(f&#x27;{name}:&#x27;)
+        print(f&#x27;  ADF Statistic: {result[0]:.4f}&#x27;)
+        print(f&#x27;  p-value:       {result[1]:.4f}&#x27;)
+        print(f&#x27;  Critical 5%:   {result[4][&quot;5%&quot;]:.4f}&#x27;)
+        conclusion = &#x27;STATIONARY&#x27; if result[1] &lt; 0.05 else &#x27;NON-STATIONARY&#x27;
+        print(f&#x27;  Conclusion:    {conclusion}&#x27;)
+        print()
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)
+    import numpy as np
+    rng = np.random.default_rng(42)
+    ts = np.cumsum(rng.normal(0, 1, 100))
+    # Simple manual check: variance of first vs second half
+    print(&#x27;Variance first half:&#x27;, np.var(ts[:50]).round(2))
+    print(&#x27;Variance second half:&#x27;, np.var(ts[50:]).round(2))</code></pre></div><div class="code-block"><div class="ch"><span>First and second differencing</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.stattools import adfuller
+    rng = np.random.default_rng(0)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    # Trend + noise (non-stationary)
+    ts = pd.Series(100 + 2*np.arange(60) + rng.normal(0, 5, 60), index=idx)
+
+    diff1 = ts.diff().dropna()
+    diff2 = ts.diff().diff().dropna()
+
+    for name, series in [(&#x27;Original&#x27;, ts), (&#x27;1st Diff&#x27;, diff1), (&#x27;2nd Diff&#x27;, diff2)]:
+        adf = adfuller(series, autolag=&#x27;AIC&#x27;)
+        stat = &#x27;STATIONARY&#x27; if adf[1] &lt; 0.05 else &#x27;NON-STATIONARY&#x27;
+        print(f&#x27;{name:10s}: ADF={adf[0]:7.3f}, p={adf[1]:.4f} → {stat}&#x27;)
+
+    print(&#x27;\nDescriptive stats after 1st differencing:&#x27;)
+    print(diff1.describe().round(3))
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)
+    import numpy as np
+    ts = np.cumsum(np.random.randn(60)) + np.arange(60)
+    diff1 = np.diff(ts)
+    print(f&#x27;Original mean: {ts.mean():.2f}, Diff mean: {diff1.mean():.2f}&#x27;)
+    print(f&#x27;Original std:  {ts.std():.2f}, Diff std:  {diff1.std():.2f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Log transform for variance stabilization</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=48, freq=&#x27;ME&#x27;)
+# Growing variance (multiplicative process)
+t = np.arange(48)
+ts = pd.Series(100 * np.exp(0.05*t + rng.normal(0, 0.1, 48)), index=idx)
+
+log_ts  = np.log(ts)
+diff_ts = ts.diff().dropna()
+log_diff = log_ts.diff().dropna()  # log returns
+
+print(&#x27;Original series stats:&#x27;)
+print(f&#x27;  Std first half: {ts[:24].std():.2f}&#x27;)
+print(f&#x27;  Std second half: {ts[24:].std():.2f}&#x27;)
+print(&#x27;\nLog-transformed stats:&#x27;)
+print(f&#x27;  Std first half: {log_ts[:24].std():.4f}&#x27;)
+print(f&#x27;  Std second half: {log_ts[24:].std():.4f}&#x27;)
+print(&#x27;\nLog-differenced (log returns) first 5:&#x27;)
+print(log_diff.head().round(4))
+print(f&#x27;Annualized log return: {log_diff.mean() * 12:.3f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Seasonal differencing</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.stattools import adfuller, kpss
+    rng = np.random.default_rng(7)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        100 + np.linspace(0, 20, 60) + 30*np.sin(2*np.pi*np.arange(60)/12) + rng.normal(0, 3, 60),
+        index=idx
+    )
+    # Seasonal differencing (lag=12)
+    seasonal_diff = ts.diff(12).dropna()
+    # Then first difference to remove trend
+    both_diff = seasonal_diff.diff().dropna()
+
+    for name, s in [(&#x27;Original&#x27;, ts), (&#x27;Seasonal diff(12)&#x27;, seasonal_diff), (&#x27;Both diffs&#x27;, both_diff)]:
+        adf_p = adfuller(s)[1]
+        print(f&#x27;{name:20s}: ADF p={adf_p:.4f} → {&quot;stationary&quot; if adf_p &lt; 0.05 else &quot;non-stationary&quot;}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)
+    import numpy as np
+    ts = np.array([100 + 30*np.sin(2*np.pi*i/12) for i in range(60)])
+    sdiff = ts[12:] - ts[:-12]
+    print(&#x27;Seasonal diff mean:&#x27;, sdiff.mean().round(2))
+    print(&#x27;Seasonal diff std:&#x27;, sdiff.std().round(2))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A data scientist needs to prepare monthly website traffic data for ARIMA modeling — check stationarity, apply appropriate transformations, and verify the result.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw5')">Copy</button></div><pre><code id="rw5" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.stattools import adfuller
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2021-01-01&#x27;, periods=48, freq=&#x27;ME&#x27;)
+    traffic = pd.Series(
+        5000 * np.exp(0.02 * np.arange(48)) +
+        2000 * np.sin(2*np.pi*np.arange(48)/12) +
+        rng.normal(0, 300, 48),
+        index=idx, name=&#x27;visitors&#x27;
+    )
+
+    def check_stationarity(series, name):
+        adf = adfuller(series.dropna())
+        stationary = adf[1] &lt; 0.05
+        print(f&#x27;{name}: p={adf[1]:.4f} | {&quot;✓ stationary&quot; if stationary else &quot;✗ non-stationary&quot;}&#x27;)
+        return stationary
+
+    # Step 1: check original
+    check_stationarity(traffic, &#x27;Original&#x27;)
+    # Step 2: log transform
+    log_traffic = np.log(traffic)
+    check_stationarity(log_traffic, &#x27;Log-transformed&#x27;)
+    # Step 3: seasonal diff
+    log_sdiff = log_traffic.diff(12)
+    check_stationarity(log_sdiff, &#x27;Log + seasonal diff(12)&#x27;)
+    # Step 4: regular diff
+    log_sdiff_diff = log_sdiff.diff()
+    check_stationarity(log_sdiff_diff, &#x27;Log + sdiff + diff&#x27;)
+    print(&#x27;\nFinal series ready for ARIMA:&#x27;)
+    print(log_sdiff_diff.dropna().describe().round(4))
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make It Stationary</div><div class="pd">Generate 60 months of quarterly sales data: base=500, trend=+5/month, seasonal amplitude=100, noise std=20. Apply the minimum number of transformations to make it stationary (ADF p &lt; 0.05). Print the ADF result at each step.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.stattools import adfuller
+    rng = np.random.default_rng(0)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    # TODO: create series with trend + seasonality
+
+    # TODO: apply transformations until stationary
+
+    # TODO: print ADF result at each step
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. ARIMA Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA(p,d,q) combines AutoRegression (p lags), Integration (d differences for stationarity), and Moving Average (q lagged forecast errors). SARIMA extends this with seasonal components.</p><div class="code-block"><div class="ch"><span>Fitting ARIMA with statsmodels</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+    rng = np.random.default_rng(42)
+    # AR(1) process
+    n = 100
+    y = np.zeros(n)
+    eps = rng.normal(0, 1, n)
+    for t in range(1, n):
+        y[t] = 0.7 * y[t-1] + eps[t]
+    ts = pd.Series(y)
+
+    model = ARIMA(ts, order=(1, 0, 0))
+    result = model.fit()
+    print(result.summary().tables[1])
+    print(f&#x27;\nAIC: {result.aic:.2f}&#x27;)
+    print(f&#x27;BIC: {result.bic:.2f}&#x27;)
+    forecast = result.forecast(steps=5)
+    print(&#x27;\nForecast (next 5 steps):&#x27;)
+    print(forecast.round(3).tolist())
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Selecting ARIMA order with AIC</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(0)
+    ts = pd.Series(np.cumsum(rng.normal(0, 1, 80)))  # random walk → d=1
+
+    best_aic = float(&#x27;inf&#x27;)
+    best_order = None
+    results = []
+    for p in range(3):
+        for q in range(3):
+            try:
+                m = ARIMA(ts, order=(p, 1, q)).fit()
+                results.append((p, 1, q, m.aic))
+                if m.aic &lt; best_aic:
+                    best_aic, best_order = m.aic, (p, 1, q)
+            except:
+                pass
+    results.sort(key=lambda x: x[3])
+    print(&#x27;Top 5 ARIMA orders by AIC:&#x27;)
+    for p, d, q, aic in results[:5]:
+        mark = &#x27;&lt;-- best&#x27; if (p,d,q) == best_order else &#x27;&#x27;
+        print(f&#x27;  ARIMA({p},{d},{q}): AIC={aic:.2f} {mark}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>ARIMA forecast with confidence intervals</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2023-01-01&#x27;, periods=60, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        50 + np.linspace(0, 20, 60) + rng.normal(0, 4, 60),
+        index=idx
+    )
+    train, test = ts[:48], ts[48:]
+    model  = ARIMA(train, order=(1, 1, 1)).fit()
+    fc     = model.get_forecast(steps=12)
+    fc_df  = fc.summary_frame(alpha=0.05)
+
+    print(&#x27;Forecast vs Actual (last 6 months):&#x27;)
+    comparison = pd.DataFrame({
+        &#x27;actual&#x27;:   test.values,
+        &#x27;forecast&#x27;: fc_df[&#x27;mean&#x27;].values,
+        &#x27;lower_95&#x27;: fc_df[&#x27;mean_ci_lower&#x27;].values,
+        &#x27;upper_95&#x27;: fc_df[&#x27;mean_ci_upper&#x27;].values,
+    }, index=test.index)
+    print(comparison.round(2))
+    from sklearn.metrics import mean_absolute_error
+    mae = mean_absolute_error(test, fc_df[&#x27;mean&#x27;])
+    print(f&#x27;\nMAE: {mae:.2f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels scikit-learn&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>SARIMA for seasonal data</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.statespace.sarimax import SARIMAX
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(7)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=48, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        100 + np.linspace(0, 20, 48) + 25*np.sin(2*np.pi*np.arange(48)/12) + rng.normal(0, 4, 48),
+        index=idx
+    )
+    train = ts[:36]
+    # SARIMA(1,1,1)(1,1,0,12)
+    model  = SARIMAX(train, order=(1,1,1), seasonal_order=(1,1,0,12)).fit(disp=False)
+    fc     = model.forecast(steps=12)
+    actual = ts[36:]
+
+    print(&#x27;SARIMA Forecast vs Actual:&#x27;)
+    for d, f, a in zip(fc.index, fc.values, actual.values):
+        err = f - a
+        print(f&#x27;  {d.strftime(&quot;%b %Y&quot;)}: forecast={f:.1f}, actual={a:.1f}, error={err:+.1f}&#x27;)
+    rmse = np.sqrt(np.mean((fc.values - actual.values)**2))
+    print(f&#x27;\nRMSE: {rmse:.2f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A demand planner needs to forecast next 3 months of product demand using historical monthly data. They fit SARIMA, evaluate on a holdout set, and report RMSE and MAPE.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw6')">Copy</button></div><pre><code id="rw6" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.statespace.sarimax import SARIMAX
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2021-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+    demand = pd.Series(
+        500 + np.linspace(0, 100, 36) +
+        150 * np.sin(2*np.pi*np.arange(36)/12) +
+        rng.normal(0, 20, 36),
+        index=idx
+    ).clip(0)
+
+    train, test = demand[:30], demand[30:]
+    model  = SARIMAX(train, order=(1,1,1), seasonal_order=(1,1,0,12)).fit(disp=False)
+    fc     = model.forecast(steps=6)
+
+    mape = np.mean(np.abs((test.values - fc.values) / test.values)) * 100
+    rmse = np.sqrt(np.mean((test.values - fc.values)**2))
+    print(&#x27;3-Month Demand Forecast:&#x27;)
+    for d, f, a in zip(fc.index, fc.values, test.values):
+        print(f&#x27;  {d.strftime(&quot;%b %Y&quot;)}: forecast={f:.0f}, actual={a:.0f}&#x27;)
+    print(f&#x27;\nMAPE: {mape:.1f}%&#x27;)
+    print(f&#x27;RMSE: {rmse:.1f} units&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fit and Forecast</div><div class="pd">Generate 48 months of AR(2) data: y_t = 0.6*y_{t-1} - 0.2*y_{t-2} + noise. Use ARIMA(2,0,0) on the first 36 months. Forecast the last 12 months and compute MAE. Print forecast vs actual.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    # TODO: generate AR(2) process
+
+    # TODO: split train/test, fit ARIMA(2,0,0)
+
+    # TODO: forecast and compute MAE
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Exponential Smoothing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt&#x27;s adds trend; Holt-Winters adds seasonality. These are fast, interpretable, and competitive with ARIMA.</p><div class="code-block"><div class="ch"><span>Simple Exponential Smoothing</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+    rng = np.random.default_rng(42)
+    ts = pd.Series(rng.normal(100, 10, 30))
+
+    for alpha in [0.1, 0.3, 0.7]:
+        model = SimpleExpSmoothing(ts, initialization_method=&#x27;estimated&#x27;).fit(smoothing_level=alpha, optimized=False)
+        fc = model.forecast(3)
+        print(f&#x27;alpha={alpha}: last fitted={model.fittedvalues.iloc[-1]:.2f}, forecast={fc.values.round(2).tolist()}&#x27;)
+
+    # Optimal alpha
+    optimal = SimpleExpSmoothing(ts, initialization_method=&#x27;estimated&#x27;).fit(optimized=True)
+    print(f&#x27;\nOptimal alpha: {optimal.params[&quot;smoothing_level&quot;]:.4f}&#x27;)
+    print(f&#x27;Optimal forecast: {optimal.forecast(3).values.round(2).tolist()}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Holt&#x27;s Linear Trend Method</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import Holt
+    rng = np.random.default_rng(0)
+    idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=24, freq=&#x27;ME&#x27;)
+    ts = pd.Series(50 + 2*np.arange(24) + rng.normal(0, 3, 24), index=idx)
+
+    # Holt&#x27;s with additive trend
+    for trend in [&#x27;add&#x27;, &#x27;mul&#x27;]:
+        try:
+            model = Holt(ts, exponential=(trend==&#x27;mul&#x27;), initialization_method=&#x27;estimated&#x27;).fit(optimized=True)
+            fc    = model.forecast(6)
+            print(f&#x27;Holt ({trend} trend):&#x27;)
+            print(f&#x27;  alpha={model.params[&quot;smoothing_level&quot;]:.3f}, beta={model.params[&quot;smoothing_trend&quot;]:.3f}&#x27;)
+            print(f&#x27;  Forecast: {fc.values.round(1).tolist()}&#x27;)
+        except:
+            pass
+    print(&#x27;\nActual last 3:&#x27;, ts.tail(3).values.round(1).tolist())
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Holt-Winters Triple Exponential Smoothing</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import ExponentialSmoothing
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2020-01-01&#x27;, periods=48, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        100 + np.linspace(0, 30, 48) + 25*np.sin(2*np.pi*np.arange(48)/12) + rng.normal(0, 4, 48),
+        index=idx
+    )
+    train, test = ts[:36], ts[36:]
+
+    model = ExponentialSmoothing(
+        train, trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=12,
+        initialization_method=&#x27;estimated&#x27;
+    ).fit(optimized=True)
+
+    fc = model.forecast(12)
+    mape = np.mean(np.abs((test.values - fc.values) / test.values)) * 100
+    rmse = np.sqrt(np.mean((test.values - fc.values)**2))
+    print(&#x27;Holt-Winters forecast:&#x27;)
+    print(f&#x27;  Alpha (level): {model.params[&quot;smoothing_level&quot;]:.3f}&#x27;)
+    print(f&#x27;  Beta (trend):  {model.params[&quot;smoothing_trend&quot;]:.3f}&#x27;)
+    print(f&#x27;  Gamma (season):{model.params[&quot;smoothing_seasonal&quot;]:.3f}&#x27;)
+    print(f&#x27;\nMAPE: {mape:.2f}%&#x27;)
+    print(f&#x27;RMSE: {rmse:.2f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Comparing ES methods on same data</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import SimpleExpSmoothing, Holt, ExponentialSmoothing
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(7)
+    idx = pd.date_range(&#x27;2021-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+    ts = pd.Series(
+        200 + np.linspace(0, 50, 36) + 30*np.sin(2*np.pi*np.arange(36)/12) + rng.normal(0, 8, 36),
+        index=idx
+    )
+    train, test = ts[:30], ts[30:]
+    n_fc = 6
+
+    models = {
+        &#x27;SES&#x27;:   SimpleExpSmoothing(train, initialization_method=&#x27;estimated&#x27;).fit(optimized=True),
+        &#x27;Holt&#x27;:  Holt(train, initialization_method=&#x27;estimated&#x27;).fit(optimized=True),
+        &#x27;HW&#x27;:    ExponentialSmoothing(train, trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=12,
+                                      initialization_method=&#x27;estimated&#x27;).fit(optimized=True),
+    }
+    print(f&#x27;{&quot;Method&quot;:&lt;8} {&quot;RMSE&quot;:&gt;8} {&quot;MAPE%&quot;:&gt;8}&#x27;)
+    print(&#x27;-&#x27; * 28)
+    for name, m in models.items():
+        fc  = m.forecast(n_fc)
+        rmse = np.sqrt(np.mean((test.values - fc.values)**2))
+        mape = np.mean(np.abs((test.values - fc.values) / test.values)) * 100
+        print(f&#x27;{name:&lt;8} {rmse:&gt;8.2f} {mape:&gt;8.2f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A retail company applies Holt-Winters to forecast daily store traffic for the next 30 days, accounting for weekly seasonality and a gradual upward trend.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw7')">Copy</button></div><pre><code id="rw7" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import ExponentialSmoothing
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=90, freq=&#x27;D&#x27;)
+    traffic = pd.Series(
+        500 + np.linspace(0, 50, 90) +
+        100 * np.sin(2*np.pi*np.arange(90)/7) +
+        rng.normal(0, 20, 90),
+        index=idx
+    ).clip(0).round()
+
+    train, test = traffic[:75], traffic[75:]
+    model = ExponentialSmoothing(
+        train, trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=7,
+        initialization_method=&#x27;estimated&#x27;
+    ).fit(optimized=True)
+
+    fc = model.forecast(15)
+    mae  = np.mean(np.abs(test.values - fc.values))
+    mape = np.mean(np.abs((test.values - fc.values) / test.values)) * 100
+
+    print(&#x27;Holt-Winters Daily Traffic Forecast:&#x27;)
+    print(f&#x27;  Params: alpha={model.params[&quot;smoothing_level&quot;]:.3f}, &#x27;
+          f&#x27;beta={model.params[&quot;smoothing_trend&quot;]:.3f}, &#x27;
+          f&#x27;gamma={model.params[&quot;smoothing_seasonal&quot;]:.3f}&#x27;)
+    print(f&#x27;\nForecast (next 15 days):&#x27;)
+    days = [&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]
+    for d, f, a in zip(fc.index, fc.values, test.values):
+        print(f&#x27;  {d.strftime(&quot;%a %b %d&quot;)}: forecast={f:.0f}, actual={a:.0f}&#x27;)
+    print(f&#x27;\nMAE: {mae:.1f} | MAPE: {mape:.1f}%&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holt-Winters Tuning</div><div class="pd">Generate 3 years of monthly retail sales with trend and seasonality. Compare Holt-Winters additive vs multiplicative seasonal on a 6-month holdout. Print RMSE for both. Which model wins?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import ExponentialSmoothing
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+    rng = np.random.default_rng(42)
+    idx = pd.date_range(&#x27;2021-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
+    # TODO: create monthly sales with additive or multiplicative seasonality
+
+    # TODO: split and fit both models
+
+    # TODO: compare RMSE
+except ImportError:
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Feature Engineering for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Transforming raw time series into supervised learning features enables ML models (XGBoost, LightGBM) to forecast. Key features: lag values, rolling stats, calendar attributes, and cyclical encoding.</p><div class="code-block"><div class="ch"><span>Lag features</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=30, freq=&#x27;D&#x27;)
+ts = pd.Series(rng.normal(100, 10, 30), index=idx, name=&#x27;demand&#x27;)
+df = ts.to_frame()
+
+# Create lag features
+for lag in [1, 2, 3, 7, 14]:
+    df[f&#x27;lag_{lag}&#x27;] = df[&#x27;demand&#x27;].shift(lag)
+
+df.dropna(inplace=True)
+print(f&#x27;Feature matrix shape: {df.shape}&#x27;)
+print(df.head(5).round(2))
+
+# Correlation with target
+corr = df.corr()[&#x27;demand&#x27;].drop(&#x27;demand&#x27;)
+print(&#x27;\nLag correlations with demand:&#x27;)
+print(corr.round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Rolling statistical features</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=60, freq=&#x27;D&#x27;)
+ts = pd.Series(rng.normal(500, 80, 60) + np.linspace(0, 50, 60), index=idx, name=&#x27;sales&#x27;)
+df = ts.to_frame()
+
+# Rolling features
+for w in [7, 14]:
+    roll = ts.rolling(w)
+    df[f&#x27;roll_{w}_mean&#x27;] = roll.mean()
+    df[f&#x27;roll_{w}_std&#x27;]  = roll.std()
+    df[f&#x27;roll_{w}_min&#x27;]  = roll.min()
+    df[f&#x27;roll_{w}_max&#x27;]  = roll.max()
+
+# Expanding mean
+df[&#x27;expanding_mean&#x27;] = ts.expanding().mean()
+
+df.dropna(inplace=True)
+print(f&#x27;Feature shape: {df.shape}&#x27;)
+print(df.tail(5).round(1))</code></pre></div><div class="code-block"><div class="ch"><span>Calendar and cyclical features</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(7)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+df = pd.DataFrame({&#x27;sales&#x27;: rng.normal(100, 15, 365)}, index=idx)
+
+# Calendar features
+df[&#x27;day_of_week&#x27;]  = df.index.dayofweek
+df[&#x27;day_of_month&#x27;] = df.index.day
+df[&#x27;month&#x27;]        = df.index.month
+df[&#x27;quarter&#x27;]      = df.index.quarter
+df[&#x27;is_weekend&#x27;]   = (df.index.dayofweek &gt;= 5).astype(int)
+df[&#x27;is_month_end&#x27;] = df.index.is_month_end.astype(int)
+
+# Cyclical encoding (preserves periodicity)
+df[&#x27;dow_sin&#x27;] = np.sin(2 * np.pi * df[&#x27;day_of_week&#x27;] / 7)
+df[&#x27;dow_cos&#x27;] = np.cos(2 * np.pi * df[&#x27;day_of_week&#x27;] / 7)
+df[&#x27;month_sin&#x27;] = np.sin(2 * np.pi * (df[&#x27;month&#x27;] - 1) / 12)
+df[&#x27;month_cos&#x27;] = np.cos(2 * np.pi * (df[&#x27;month&#x27;] - 1) / 12)
+
+print(&#x27;Feature matrix (first 5 rows):&#x27;)
+print(df.head(5).round(3))
+print(f&#x27;\nTotal features: {df.shape[1]-1}&#x27;)
+print(&#x27;Weekend mean:&#x27;, df[df[&#x27;is_weekend&#x27;]==1][&#x27;sales&#x27;].mean().round(2))
+print(&#x27;Weekday mean:&#x27;, df[df[&#x27;is_weekend&#x27;]==0][&#x27;sales&#x27;].mean().round(2))</code></pre></div><div class="code-block"><div class="ch"><span>ML forecasting pipeline with lag features</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2023-01-01&#x27;, periods=200, freq=&#x27;D&#x27;)
+ts = pd.Series(
+    100 + np.linspace(0, 30, 200) + 20*np.sin(2*np.pi*np.arange(200)/7) + rng.normal(0, 5, 200),
+    index=idx, name=&#x27;demand&#x27;
+)
+
+df = ts.to_frame()
+# Lag + rolling features
+for lag in [1, 2, 3, 7]: df[f&#x27;lag_{lag}&#x27;] = ts.shift(lag)
+df[&#x27;roll7_mean&#x27;] = ts.rolling(7).mean()
+df[&#x27;roll7_std&#x27;]  = ts.rolling(7).std()
+df[&#x27;dow&#x27;] = ts.index.dayofweek
+df[&#x27;dow_sin&#x27;] = np.sin(2*np.pi*df[&#x27;dow&#x27;]/7)
+df[&#x27;dow_cos&#x27;] = np.cos(2*np.pi*df[&#x27;dow&#x27;]/7)
+df.dropna(inplace=True)
+
+X = df.drop(columns=&#x27;demand&#x27;)
+y = df[&#x27;demand&#x27;]
+split = int(len(df) * 0.8)
+X_train, X_test = X.iloc[:split], X.iloc[split:]
+y_train, y_test = y.iloc[:split], y.iloc[split:]
+
+model = GradientBoostingRegressor(n_estimators=100, max_depth=4, random_state=42)
+model.fit(X_train, y_train)
+preds = model.predict(X_test)
+
+mae  = mean_absolute_error(y_test, preds)
+rmse = np.sqrt(mean_squared_error(y_test, preds))
+print(f&#x27;GBM Forecast: MAE={mae:.2f}, RMSE={rmse:.2f}&#x27;)
+print(&#x27;\nTop feature importances:&#x27;)
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+for feat, imp in fi.head(5).items():
+    print(f&#x27;  {feat:15s}: {imp:.4f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A logistics company builds an ML forecasting model for package delivery volumes using lag features, rolling statistics, and calendar effects as inputs to a gradient boosting model.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw8')">Copy</button></div><pre><code id="rw8" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2023-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+volume = pd.Series(
+    3000 + np.linspace(0, 500, 365) +
+    800 * np.sin(2*np.pi*np.arange(365)/7) +
+    500 * (idx.month == 12).astype(float) +  # December peak
+    rng.normal(0, 100, 365),
+    index=idx
+).clip(0)
+
+df = volume.to_frame(name=&#x27;volume&#x27;)
+for lag in [1, 2, 3, 7, 14]: df[f&#x27;lag_{lag}&#x27;] = volume.shift(lag)
+for w in [7, 14]: df[f&#x27;roll_{w}_mean&#x27;] = volume.rolling(w).mean()
+df[&#x27;dow&#x27;]       = volume.index.dayofweek
+df[&#x27;month&#x27;]     = volume.index.month
+df[&#x27;is_weekend&#x27;]= (df[&#x27;dow&#x27;] &gt;= 5).astype(int)
+df[&#x27;dow_sin&#x27;]   = np.sin(2*np.pi*df[&#x27;dow&#x27;]/7)
+df[&#x27;dow_cos&#x27;]   = np.cos(2*np.pi*df[&#x27;dow&#x27;]/7)
+df.dropna(inplace=True)
+
+X, y = df.drop(&#x27;volume&#x27;, axis=1), df[&#x27;volume&#x27;]
+split = 300
+model = GradientBoostingRegressor(n_estimators=200, max_depth=4, random_state=42)
+model.fit(X.iloc[:split], y.iloc[:split])
+preds = model.predict(X.iloc[split:])
+mae = mean_absolute_error(y.iloc[split:], preds)
+print(f&#x27;MAE: {mae:.0f} packages/day&#x27;)
+fi = pd.Series(model.feature_importances_, index=X.columns).nlargest(5)
+print(&#x27;\nTop features:&#x27;)
+for f, v in fi.items():
+    print(f&#x27;  {f}: {v:.4f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Matrix</div><div class="pd">Use the hourly energy dataset (simulate: 7 days × 24 hours = 168 hourly readings with daily cycle). Create: lag_1, lag_24 (same hour yesterday), roll_24_mean, hour_of_day, is_weekday. Train a LinearRegression model and print RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=168, freq=&#x27;h&#x27;)
+# TODO: create hourly energy with daily cycle
+
+# TODO: build feature matrix
+
+# TODO: train LinearRegression and print RMSE
+</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Forecasting Evaluation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Proper evaluation of time series forecasts requires time-ordered splits (no leakage), multiple metrics (MAE, RMSE, MAPE), and ideally walk-forward validation to simulate real deployment.</p><div class="code-block"><div class="ch"><span>MAE, RMSE, MAPE, and SMAPE</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
+
+actual   = np.array([100, 120, 130, 115, 140, 125, 160, 155, 170, 180])
+forecast = np.array([105, 115, 135, 110, 145, 130, 150, 160, 165, 185])
+
+mae   = np.mean(np.abs(actual - forecast))
+mse   = np.mean((actual - forecast)**2)
+rmse  = np.sqrt(mse)
+mape  = np.mean(np.abs((actual - forecast) / actual)) * 100
+smape = np.mean(2 * np.abs(actual - forecast) / (np.abs(actual) + np.abs(forecast))) * 100
+# R-squared
+ss_res = np.sum((actual - forecast)**2)
+ss_tot = np.sum((actual - actual.mean())**2)
+r2 = 1 - ss_res / ss_tot
+
+print(f&#x27;MAE:   {mae:.2f}&#x27;)
+print(f&#x27;RMSE:  {rmse:.2f}&#x27;)
+print(f&#x27;MAPE:  {mape:.2f}%&#x27;)
+print(f&#x27;sMAPE: {smape:.2f}%&#x27;)
+print(f&#x27;R²:    {r2:.4f}&#x27;)
+print(f&#x27;\nBias (mean error): {(forecast - actual).mean():.2f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Train/test split for time series</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import Ridge
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2023-01-01&#x27;, periods=200, freq=&#x27;D&#x27;)
+ts  = pd.Series(100 + np.linspace(0,30,200) + rng.normal(0, 8, 200), index=idx)
+
+df = ts.to_frame(name=&#x27;y&#x27;)
+for lag in [1, 7, 14]: df[f&#x27;lag_{lag}&#x27;] = ts.shift(lag)
+df.dropna(inplace=True)
+
+X = df.drop(&#x27;y&#x27;, axis=1).values
+y = df[&#x27;y&#x27;].values
+
+# Time-ordered split (NEVER random split for time series!)
+n = len(X)
+split = int(n * 0.8)
+X_train, X_test = X[:split], X[split:]
+y_train, y_test = y[:split], y[split:]
+
+model = Ridge().fit(X_train, y_train)
+preds = model.predict(X_test)
+mae   = np.mean(np.abs(y_test - preds))
+rmse  = np.sqrt(np.mean((y_test - preds)**2))
+print(f&#x27;Train size: {split}, Test size: {n - split}&#x27;)
+print(f&#x27;MAE:  {mae:.2f}&#x27;)
+print(f&#x27;RMSE: {rmse:.2f}&#x27;)
+print(&#x27;\nNEVER use random train_test_split for time series!&#x27;)
+print(&#x27;This leaks future information into training data.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Walk-forward (expanding window) validation</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import Ridge
+
+rng = np.random.default_rng(42)
+n   = 120
+ts  = pd.Series(100 + np.linspace(0, 20, n) + rng.normal(0, 6, n))
+
+df = ts.to_frame(name=&#x27;y&#x27;)
+for lag in [1, 2, 3, 7]: df[f&#x27;lag_{lag}&#x27;] = ts.shift(lag)
+df.dropna(inplace=True)
+
+X = df.drop(&#x27;y&#x27;, axis=1).values
+y = df[&#x27;y&#x27;].values
+
+# Walk-forward validation
+min_train = 30
+step = 5
+errors = []
+for test_start in range(min_train, len(X) - step + 1, step):
+    X_train, y_train = X[:test_start], y[:test_start]
+    X_test,  y_test  = X[test_start:test_start+step], y[test_start:test_start+step]
+    model = Ridge().fit(X_train, y_train)
+    preds = model.predict(X_test)
+    errors.extend(np.abs(y_test - preds).tolist())
+
+print(f&#x27;Walk-forward CV ({len(errors)} predictions):&#x27;)
+print(f&#x27;  MAE:  {np.mean(errors):.2f}&#x27;)
+print(f&#x27;  RMSE: {np.sqrt(np.mean(np.array(errors)**2)):.2f}&#x27;)
+print(f&#x27;  Std:  {np.std(errors):.2f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>TimeSeriesSplit cross-validation with sklearn</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.model_selection import TimeSeriesSplit, cross_val_score
+from sklearn.ensemble import GradientBoostingRegressor
+
+rng = np.random.default_rng(42)
+n   = 200
+ts  = pd.Series(100 + np.linspace(0,40,n) + rng.normal(0,8,n))
+
+df = ts.to_frame(name=&#x27;y&#x27;)
+for lag in [1,2,3,7]: df[f&#x27;lag_{lag}&#x27;] = ts.shift(lag)
+df[&#x27;roll7&#x27;] = ts.rolling(7).mean()
+df.dropna(inplace=True)
+
+X = df.drop(&#x27;y&#x27;, axis=1)
+y = df[&#x27;y&#x27;]
+
+tscv = TimeSeriesSplit(n_splits=5, gap=0)
+model = GradientBoostingRegressor(n_estimators=50, max_depth=3, random_state=42)
+scores = cross_val_score(model, X, y, cv=tscv, scoring=&#x27;neg_mean_absolute_error&#x27;)
+maes = -scores
+
+print(&#x27;TimeSeriesSplit CV results (5 folds):&#x27;)
+for i, (mae, (tr, te)) in enumerate(zip(maes, tscv.split(X)), 1):
+    print(f&#x27;  Fold {i}: train={len(tr)}, test={len(te)}, MAE={mae:.2f}&#x27;)
+print(f&#x27;\nMean MAE: {maes.mean():.2f} ± {maes.std():.2f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A data science team evaluates three forecasting models (ARIMA, Holt-Winters, GBM) on 1 year of daily data using walk-forward validation to select the production model.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw9')">Copy</button></div><pre><code id="rw9" class="language-python">import pandas as pd
+import numpy as np
+
+try:
+    from statsmodels.tsa.holtwinters import ExponentialSmoothing
+    from statsmodels.tsa.arima.model import ARIMA
+    from sklearn.ensemble import GradientBoostingRegressor
+    import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
+
+    rng = np.random.default_rng(42)
+    n   = 200
+    idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=n, freq=&#x27;D&#x27;)
+    ts  = pd.Series(
+        300 + np.linspace(0,50,n) + 60*np.sin(2*np.pi*np.arange(n)/7) + rng.normal(0,15,n),
+        index=idx
+    )
+
+    train, test = ts[:160], ts[160:]
+    results = {}
+
+    # Holt-Winters
+    hw = ExponentialSmoothing(train, trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=7, initialization_method=&#x27;estimated&#x27;).fit(optimized=True)
+    results[&#x27;Holt-Winters&#x27;] = hw.forecast(40)
+
+    # GBM with lag features
+    df = ts.to_frame(name=&#x27;y&#x27;)
+    for lag in [1,2,7]: df[f&#x27;lag_{lag}&#x27;] = ts.shift(lag)
+    df.dropna(inplace=True)
+    X, y = df.drop(&#x27;y&#x27;,axis=1), df[&#x27;y&#x27;]
+    split = len(train) - 7  # adjust for lag
+    gbm = GradientBoostingRegressor(n_estimators=100, random_state=42)
+    gbm.fit(X.iloc[:split], y.iloc[:split])
+    results[&#x27;GBM&#x27;] = pd.Series(gbm.predict(X.iloc[split:split+40]), index=test.index[:40])
+
+    actual = test.values[:40]
+    print(&#x27;Model Comparison (40-day holdout):&#x27;)
+    print(f&#x27;{&quot;Model&quot;:&lt;15} {&quot;MAE&quot;:&gt;7} {&quot;RMSE&quot;:&gt;7} {&quot;MAPE%&quot;:&gt;7}&#x27;)
+    print(&#x27;-&#x27; * 38)
+    for name, fc in results.items():
+        fc_v = fc.values[:40]
+        mae  = np.mean(np.abs(actual - fc_v))
+        rmse = np.sqrt(np.mean((actual - fc_v)**2))
+        mape = np.mean(np.abs((actual - fc_v)/actual))*100
+        print(f&#x27;{name:&lt;15} {mae:&gt;7.1f} {rmse:&gt;7.1f} {mape:&gt;7.1f}&#x27;)
+except ImportError:
+    print(&#x27;pip install statsmodels scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validate a Forecast</div><div class="pd">Generate 180 days of daily demand data with weekly seasonality. Use TimeSeriesSplit with 5 folds on lag features. Test Ridge, GradientBoosting, and a naive (last value) baseline. Print mean MAE per model.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.linear_model import Ridge
+from sklearn.ensemble import GradientBoostingRegressor
+
+rng = np.random.default_rng(42)
+idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=180, freq=&#x27;D&#x27;)
+# TODO: create demand series
+
+# TODO: create feature matrix
+
+# TODO: cross-validate all three models
+</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Prophet Forecasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use Facebook Prophet for additive time series forecasting with automatic trend, seasonality, and holiday effects. Handle changepoints and produce uncertainty intervals.</p><div class="code-block"><div class="ch"><span>Basic Prophet fit and forecast</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import pandas as pd
+import numpy as np
+
+# Simulate daily data with trend + weekly seasonality (Prophet-ready format)
+np.random.seed(42)
+dates = pd.date_range(&#x27;2022-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+trend = np.linspace(100, 200, 365)
+weekly = 10 * np.sin(2 * np.pi * np.arange(365) / 7)
+noise = np.random.normal(0, 5, 365)
+y = trend + weekly + noise
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;y&#x27;: y})
+print(&#x27;Prophet input format:&#x27;)
+print(df.head())
+print(f&#x27;\nShape: {df.shape}&#x27;)
+print(f&#x27;Date range: {df.ds.min().date()} to {df.ds.max().date()}&#x27;)
+print(f&#x27;y stats: mean={df.y.mean():.1f}, std={df.y.std():.1f}&#x27;)
+
+# Without Prophet installed, demonstrate the workflow:
+print(&#x27;\nProphet workflow:&#x27;)
+print(&#x27;  from prophet import Prophet&#x27;)
+print(&#x27;  m = Prophet(yearly_seasonality=False, weekly_seasonality=True)&#x27;)
+print(&#x27;  m.fit(df)&#x27;)
+print(&#x27;  future = m.make_future_dataframe(periods=30)&#x27;)
+print(&#x27;  forecast = m.predict(future)&#x27;)
+print(&#x27;  m.plot(forecast)&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Manual additive decomposition as Prophet substitute</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+dates = pd.date_range(&#x27;2022-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+trend = np.linspace(100, 200, 365)
+weekly = 8 * np.sin(2 * np.pi * np.arange(365) / 7)
+noise = np.random.normal(0, 5, 365)
+y = trend + weekly + noise
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;y&#x27;: y})
+df[&#x27;dow&#x27;] = df[&#x27;ds&#x27;].dt.dayofweek
+
+# Fit trend with linear regression
+from sklearn.linear_model import LinearRegression
+t = np.arange(len(df)).reshape(-1, 1)
+lr = LinearRegression().fit(t, df[&#x27;y&#x27;])
+df[&#x27;trend_fit&#x27;] = lr.predict(t)
+
+# Fit weekly seasonality as day-of-week means on residuals
+df[&#x27;resid&#x27;] = df[&#x27;y&#x27;] - df[&#x27;trend_fit&#x27;]
+dow_effect = df.groupby(&#x27;dow&#x27;)[&#x27;resid&#x27;].mean()
+df[&#x27;seasonal&#x27;] = df[&#x27;dow&#x27;].map(dow_effect)
+df[&#x27;yhat&#x27;] = df[&#x27;trend_fit&#x27;] + df[&#x27;seasonal&#x27;]
+
+mse = ((df[&#x27;y&#x27;] - df[&#x27;yhat&#x27;])**2).mean()**0.5
+print(f&#x27;RMSE (train): {mse:.2f}&#x27;)
+fig, axes = plt.subplots(3, 1, figsize=(10, 8))
+axes[0].plot(df[&#x27;ds&#x27;], df[&#x27;y&#x27;], alpha=0.5, label=&#x27;actual&#x27;); axes[0].plot(df[&#x27;ds&#x27;], df[&#x27;yhat&#x27;], label=&#x27;fit&#x27;); axes[0].legend(); axes[0].set_title(&#x27;Additive Model Fit&#x27;)
+axes[1].plot(df[&#x27;ds&#x27;], df[&#x27;trend_fit&#x27;]); axes[1].set_title(&#x27;Trend Component&#x27;)
+axes[2].bar(range(7), dow_effect.values); axes[2].set_xticks(range(7)); axes[2].set_xticklabels([&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]); axes[2].set_title(&#x27;Weekly Seasonality&#x27;)
+plt.tight_layout(); plt.savefig(&#x27;prophet_decomp.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved prophet_decomp.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Changepoint detection with PELT algorithm</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import numpy as np
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+# Simulate series with structural breaks
+np.random.seed(42)
+n = 300
+t = np.arange(n)
+# Three regimes: flat, upward, downward
+y = np.concatenate([
+    np.random.normal(10, 2, 100),
+    np.random.normal(25, 2, 100),
+    np.random.normal(15, 2, 100)
+])
+
+# Simple CUSUM-based changepoint detection
+def cusum_changepoints(series, threshold=10):
+    mu = series.mean()
+    cusum_pos = np.zeros(len(series))
+    cusum_neg = np.zeros(len(series))
+    changepoints = []
+    for i in range(1, len(series)):
+        cusum_pos[i] = max(0, cusum_pos[i-1] + series[i] - mu - 0.5)
+        cusum_neg[i] = max(0, cusum_neg[i-1] - series[i] + mu - 0.5)
+        if cusum_pos[i] &gt; threshold or cusum_neg[i] &gt; threshold:
+            changepoints.append(i)
+            cusum_pos[i] = cusum_neg[i] = 0
+    return changepoints
+
+cps = cusum_changepoints(y, threshold=15)
+print(f&#x27;Detected changepoints at indices: {cps}&#x27;)
+fig, ax = plt.subplots(figsize=(10, 4))
+ax.plot(t, y, alpha=0.7)
+for cp in cps:
+    ax.axvline(cp, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, linewidth=2, label=f&#x27;CP at {cp}&#x27; if cp == cps[0] else &#x27;&#x27;)
+ax.set_title(&#x27;CUSUM Changepoint Detection&#x27;); ax.legend()
+plt.tight_layout(); plt.savefig(&#x27;changepoints.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved changepoints.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Cross-validation for forecasting (walk-forward)</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import Ridge
+
+np.random.seed(42)
+dates = pd.date_range(&#x27;2022-01-01&#x27;, periods=200, freq=&#x27;D&#x27;)
+trend = np.linspace(0, 50, 200)
+weekly = 5 * np.sin(2 * np.pi * np.arange(200) / 7)
+noise = np.random.normal(0, 3, 200)
+y = trend + weekly + noise
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;y&#x27;: y})
+df[&#x27;t&#x27;] = np.arange(len(df))
+df[&#x27;dow&#x27;] = df[&#x27;ds&#x27;].dt.dayofweek
+# Encode day-of-week as dummies
+for d in range(7):
+    df[f&#x27;dow_{d}&#x27;] = (df[&#x27;dow&#x27;] == d).astype(int)
+
+feat_cols = [&#x27;t&#x27;] + [f&#x27;dow_{d}&#x27; for d in range(7)]
+X = df[feat_cols].values
+
+# Walk-forward validation: train on first 60%, then expand
+initial = 120; horizon = 7; errors = []
+for start in range(initial, len(df) - horizon, horizon):
+    X_tr, y_tr = X[:start], y[:start]
+    X_te, y_te = X[start:start+horizon], y[start:start+horizon]
+    m = Ridge().fit(X_tr, y_tr)
+    preds = m.predict(X_te)
+    errors.append(np.sqrt(((y_te - preds)**2).mean()))
+
+print(f&#x27;Walk-forward validation ({len(errors)} folds):&#x27;)
+print(f&#x27;  Mean RMSE: {np.mean(errors):.2f}&#x27;)
+print(f&#x27;  Std  RMSE: {np.std(errors):.2f}&#x27;)
+print(f&#x27;  Min  RMSE: {min(errors):.2f}, Max: {max(errors):.2f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Forecast retail store daily sales for next 30 days using historical 2 years of data. The data has weekly patterns (lower on Mondays, peak on weekends), a monthly pay-cycle boost, and a gradual upward trend. Produce point forecasts and 80% prediction intervals.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw10')">Copy</button></div><pre><code id="rw10" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
+
+np.random.seed(0)
+dates = pd.date_range(&#x27;2022-01-01&#x27;, periods=730, freq=&#x27;D&#x27;)
+trend = np.linspace(500, 700, 730)
+weekly = 40 * np.sin(2 * np.pi * np.arange(730) / 7 - np.pi)
+monthly = 30 * np.sin(2 * np.pi * np.arange(730) / 30)
+noise = np.random.normal(0, 15, 730)
+y = trend + weekly + monthly + noise
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;y&#x27;: y})
+df[&#x27;t&#x27;] = np.arange(len(df))
+df[&#x27;dow&#x27;] = df[&#x27;ds&#x27;].dt.dayofweek
+df[&#x27;dom&#x27;] = df[&#x27;ds&#x27;].dt.day
+for d in range(7): df[f&#x27;dow_{d}&#x27;] = (df[&#x27;dow&#x27;] == d).astype(int)
+
+feat_cols = [&#x27;t&#x27;] + [f&#x27;dow_{d}&#x27; for d in range(7)] + [&#x27;dom&#x27;]
+X = df[feat_cols].values
+train = df[df[&#x27;ds&#x27;] &lt; &#x27;2023-07-01&#x27;]; test = df[df[&#x27;ds&#x27;] &gt;= &#x27;2023-07-01&#x27;]
+idx_tr = df[&#x27;ds&#x27;] &lt; &#x27;2023-07-01&#x27;
+
+sc = StandardScaler().fit(X[idx_tr])
+m = Ridge(alpha=1.0).fit(sc.transform(X[idx_tr]), y[idx_tr])
+
+resid = y[idx_tr] - m.predict(sc.transform(X[idx_tr]))
+pred = m.predict(sc.transform(X[~idx_tr]))
+print(f&#x27;Forecast RMSE: {np.sqrt(((y[~idx_tr]-pred)**2).mean()):.2f}&#x27;)
+print(f&#x27;80% PI: ±{1.28*resid.std():.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Forecast Weekly Revenue with Confidence Intervals</div><div class="pd">Given 2 years of weekly revenue data with trend and seasonality, build a feature-based Ridge model (lag features + time index + month dummies). Perform walk-forward validation with 4-week horizons. Report average RMSE and generate 80% prediction intervals using residual std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.linear_model import Ridge
+
+np.random.seed(7)
+weeks = pd.date_range(&#x27;2022-01-03&#x27;, periods=104, freq=&#x27;W&#x27;)
+trend = np.linspace(10000, 15000, 104)
+seasonality = 1500 * np.sin(2 * np.pi * np.arange(104) / 52)
+noise = np.random.normal(0, 300, 104)
+y = trend + seasonality + noise
+df = pd.DataFrame({&#x27;ds&#x27;: weeks, &#x27;revenue&#x27;: y})
+
+# TODO: Create features (t index, month dummies, lag-1)
+# TODO: Walk-forward cross-validation with 4-week horizon
+# TODO: Report average RMSE and 80% PI width
+</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Anomaly Detection in Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Detect outliers and anomalies in sequential data using statistical thresholds, isolation forests, and autoencoder-style reconstruction errors.</p><div class="code-block"><div class="ch"><span>Z-score and IQR rolling anomaly detection</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=100, freq=&#x27;D&#x27;)
+y = np.sin(np.arange(100) * 0.3) * 10 + np.random.normal(0, 1, 100) + 50
+# Inject anomalies
+y[[20, 45, 70, 85]] += [25, -20, 30, -15]
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;y&#x27;: y})
+
+# Rolling z-score
+win = 14
+df[&#x27;roll_mean&#x27;] = df[&#x27;y&#x27;].rolling(win, min_periods=1).mean()
+df[&#x27;roll_std&#x27;]  = df[&#x27;y&#x27;].rolling(win, min_periods=1).std().fillna(1)
+df[&#x27;zscore&#x27;]    = (df[&#x27;y&#x27;] - df[&#x27;roll_mean&#x27;]) / df[&#x27;roll_std&#x27;]
+df[&#x27;anomaly_z&#x27;] = df[&#x27;zscore&#x27;].abs() &gt; 2.5
+
+print(f&#x27;Z-score anomalies: {df[&quot;anomaly_z&quot;].sum()} detected&#x27;)
+print(df[df[&#x27;anomaly_z&#x27;]][[&#x27;ds&#x27;,&#x27;y&#x27;,&#x27;zscore&#x27;]].to_string())
+fig, ax = plt.subplots(figsize=(12, 4))
+ax.plot(df[&#x27;ds&#x27;], df[&#x27;y&#x27;], label=&#x27;series&#x27;)
+ax.scatter(df[df[&#x27;anomaly_z&#x27;]][&#x27;ds&#x27;], df[df[&#x27;anomaly_z&#x27;]][&#x27;y&#x27;],
+           color=&#x27;red&#x27;, s=80, zorder=5, label=&#x27;anomaly&#x27;)
+ax.set_title(&#x27;Rolling Z-score Anomaly Detection&#x27;); ax.legend()
+plt.tight_layout(); plt.savefig(&#x27;anomaly_zscore.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved anomaly_zscore.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Isolation Forest for multivariate anomalies</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+n = 200
+dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=n, freq=&#x27;H&#x27;)
+cpu    = np.random.normal(40, 10, n)
+memory = cpu * 1.5 + np.random.normal(0, 5, n)
+# Inject anomalies
+cpu[[50, 100, 150]] = [95, 5, 98]
+memory[[50, 100, 150]] = [30, 120, 25]
+
+df = pd.DataFrame({&#x27;ds&#x27;: dates, &#x27;cpu&#x27;: cpu, &#x27;memory&#x27;: memory})
+X = df[[&#x27;cpu&#x27;, &#x27;memory&#x27;]].values
+
+iso = IsolationForest(contamination=0.05, random_state=42)
+df[&#x27;anomaly&#x27;] = iso.fit_predict(X) == -1
+df[&#x27;score&#x27;]   = iso.score_samples(X)
+
+print(f&#x27;Anomalies detected: {df[&quot;anomaly&quot;].sum()}&#x27;)
+print(df[df[&#x27;anomaly&#x27;]][[&#x27;ds&#x27;,&#x27;cpu&#x27;,&#x27;memory&#x27;,&#x27;score&#x27;]].to_string())
+fig, axes = plt.subplots(2, 1, figsize=(12, 6))
+for i, col in enumerate([&#x27;cpu&#x27;, &#x27;memory&#x27;]):
+    axes[i].plot(df[&#x27;ds&#x27;], df[col], alpha=0.7)
+    axes[i].scatter(df[df[&#x27;anomaly&#x27;]][&#x27;ds&#x27;], df[df[&#x27;anomaly&#x27;]][col],
+                    color=&#x27;red&#x27;, s=60, zorder=5)
+    axes[i].set_ylabel(col)
+plt.suptitle(&#x27;Isolation Forest Anomaly Detection&#x27;); plt.tight_layout()
+plt.savefig(&#x27;anomaly_iforest.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved anomaly_iforest.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>LSTM autoencoder reconstruction error</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import numpy as np
+
+np.random.seed(42)
+# Simulate normal signal
+t = np.linspace(0, 20*np.pi, 500)
+normal = np.sin(t) + 0.1 * np.random.randn(500)
+# Inject anomaly window
+anom = normal.copy()
+anom[200:220] += 5  # spike
+
+# Simple threshold-based reconstruction error (PCA substitute)
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# Create sliding windows
+def make_windows(x, w=20):
+    return np.array([x[i:i+w] for i in range(len(x)-w)])
+
+X = make_windows(normal, 20)
+X_anom = make_windows(anom, 20)
+
+sc = StandardScaler().fit(X)
+X_sc = sc.transform(X)
+X_anom_sc = sc.transform(X_anom)
+
+pca = PCA(n_components=5).fit(X_sc)
+rec = pca.inverse_transform(pca.transform(X_anom_sc))
+errors = ((X_anom_sc - rec)**2).mean(axis=1)
+
+threshold = np.percentile(errors, 95)
+print(f&#x27;Reconstruction error threshold (95th pct): {threshold:.4f}&#x27;)
+print(f&#x27;Anomaly windows detected: {(errors &gt; threshold).sum()}&#x27;)
+print(f&#x27;Max error at index: {errors.argmax()} (injected at 200:220)&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>STL-based anomaly detection</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import pandas as pd
+import numpy as np
+from statsmodels.tsa.seasonal import STL
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+dates = pd.date_range(&#x27;2023-01-01&#x27;, periods=365, freq=&#x27;D&#x27;)
+trend = np.linspace(0, 30, 365)
+seasonal = 10 * np.sin(2 * np.pi * np.arange(365) / 7)
+noise = np.random.normal(0, 2, 365)
+y = trend + seasonal + noise
+
+# Inject point anomalies
+injected = [80, 160, 250, 320]
+y_anom = y.copy()
+for idx in injected:
+    y_anom[idx] += np.random.choice([-25, 25])
+
+series = pd.Series(y_anom, index=dates)
+stl = STL(series, period=7, robust=True)
+result = stl.fit()
+residual = result.resid
+
+thresh = 3 * residual.std()
+anomalies = series[residual.abs() &gt; thresh]
+print(f&#x27;STL anomalies detected: {len(anomalies)}&#x27;)
+print(f&#x27;Injected at: {injected}&#x27;)
+print(f&#x27;Detected at: {list(anomalies.index.dayofyear)}&#x27;)
+fig, axes = plt.subplots(2, 1, figsize=(12, 6))
+axes[0].plot(series.index, series, alpha=0.6); axes[0].scatter(anomalies.index, anomalies, color=&#x27;red&#x27;, s=60, zorder=5, label=&#x27;anomaly&#x27;); axes[0].legend(); axes[0].set_title(&#x27;STL Anomaly Detection&#x27;)
+axes[1].plot(residual.index, residual); axes[1].axhline(thresh, color=&#x27;r&#x27;, linestyle=&#x27;--&#x27;); axes[1].axhline(-thresh, color=&#x27;r&#x27;, linestyle=&#x27;--&#x27;); axes[1].set_title(&#x27;STL Residual&#x27;)
+plt.tight_layout(); plt.savefig(&#x27;stl_anomaly.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved stl_anomaly.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Monitor server CPU usage (sampled every 5 minutes) to automatically alert when anomalies occur. The signal has daily patterns (low at night, high during business hours). You must detect both sudden spikes and sustained elevated periods while minimizing false alarms.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw11')">Copy</button></div><pre><code id="rw11" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+
+np.random.seed(1)
+# 2 weeks of 5-min samples = 4032 points
+t = np.arange(4032)
+daily = 20 * np.sin(2*np.pi*t / 288 - np.pi/2) + 50  # 288 samples/day
+noise = np.random.normal(0, 3, 4032)
+cpu = np.clip(daily + noise, 5, 100)
+# Inject anomalies
+cpu[500:510]  += 40  # spike
+cpu[1200:1230] += 30  # sustained high
+
+times = pd.date_range(&#x27;2024-01-01&#x27;, periods=4032, freq=&#x27;5min&#x27;)
+df = pd.DataFrame({&#x27;time&#x27;: times, &#x27;cpu&#x27;: cpu})
+df[&#x27;hour&#x27;] = df[&#x27;time&#x27;].dt.hour
+df[&#x27;roll_mean&#x27;] = df[&#x27;cpu&#x27;].rolling(12).mean().fillna(method=&#x27;bfill&#x27;)
+df[&#x27;roll_std&#x27;]  = df[&#x27;cpu&#x27;].rolling(12).std().fillna(1)
+
+# Isolation Forest on features
+X = df[[&#x27;cpu&#x27;, &#x27;hour&#x27;, &#x27;roll_mean&#x27;, &#x27;roll_std&#x27;]].values
+iso = IsolationForest(contamination=0.01, random_state=42)
+df[&#x27;anomaly&#x27;] = iso.fit_predict(X) == -1
+print(f&#x27;Anomalies detected: {df[&quot;anomaly&quot;].sum()} of {len(df)} points ({df[&quot;anomaly&quot;].mean():.1%})&#x27;)
+print(df[df[&#x27;anomaly&#x27;]].groupby(df[df[&#x27;anomaly&#x27;]][&#x27;time&#x27;].dt.date)[&#x27;anomaly&#x27;].count())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Detect Order Volume Anomalies</div><div class="pd">Given hourly e-commerce order counts with weekly seasonality, detect anomalies using rolling z-score (window=24h, threshold=3). Also apply Isolation Forest on (count, hour, day_of_week) features. Compare which method catches more of the injected spikes (3 injected anomalies) with fewer false positives.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+
+np.random.seed(99)
+hours = pd.date_range(&#x27;2024-01-01&#x27;, periods=336, freq=&#x27;H&#x27;)  # 2 weeks
+base = 100 + 50 * np.sin(2*np.pi*np.arange(336)/24 - np.pi)
+noise = np.random.normal(0, 8, 336)
+orders = np.clip(base + noise, 0, None)
+orders[[100, 200, 280]] += [150, -80, 200]  # inject anomalies
+df = pd.DataFrame({&#x27;time&#x27;: hours, &#x27;orders&#x27;: orders})
+
+# TODO: Rolling z-score anomaly detection (window=24, thresh=3)
+# TODO: Isolation Forest on (orders, hour, dayofweek)
+# TODO: Compare detected anomaly counts and false positive rates
+</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Neural Forecasting Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply LSTM, Temporal Convolutional Networks (TCN), and N-BEATS-style architectures using PyTorch or Keras for sequence forecasting tasks.</p><div class="code-block"><div class="ch"><span>Univariate LSTM forecasting (NumPy / PyTorch-free)</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
+
+# Demonstrate the lag-feature approach that underlies RNN forecasting
+np.random.seed(42)
+n = 300
+t = np.arange(n)
+y = np.sin(0.2*t) * 10 + 0.1*t + np.random.normal(0, 1, n)
+
+def make_supervised(series, lags=10):
+    X, Y = [], []
+    for i in range(lags, len(series)):
+        X.append(series[i-lags:i])
+        Y.append(series[i])
+    return np.array(X), np.array(Y)
+
+X, Y = make_supervised(y, lags=20)
+split = int(0.8 * len(X))
+X_tr, X_te = X[:split], X[split:]
+Y_tr, Y_te = Y[:split], Y[split:]
+
+sc_x = StandardScaler().fit(X_tr)
+sc_y = StandardScaler().fit(Y_tr.reshape(-1,1))
+
+model = Ridge(alpha=0.1)
+model.fit(sc_x.transform(X_tr), sc_y.transform(Y_tr.reshape(-1,1)).ravel())
+
+pred_sc = model.predict(sc_x.transform(X_te))
+pred = sc_y.inverse_transform(pred_sc.reshape(-1,1)).ravel()
+
+rmse = np.sqrt(((Y_te - pred)**2).mean())
+print(f&#x27;Lag-20 linear model RMSE: {rmse:.3f}&#x27;)
+print(f&#x27;Baseline (mean) RMSE:     {np.sqrt(((Y_te - Y_tr.mean())**2).mean()):.3f}&#x27;)
+print(&#x27;This is the feature-engineering equivalent of an LSTM cell state.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Sequence-to-sequence multi-step forecasting</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import numpy as np
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+
+np.random.seed(42)
+n = 400
+t = np.arange(n)
+y = 20 * np.sin(0.1*t) + 0.05*t + np.random.normal(0, 2, n)
+
+def make_seq2seq(series, lookback=30, horizon=7):
+    X, Y = [], []
+    for i in range(lookback, len(series) - horizon + 1):
+        X.append(series[i-lookback:i])
+        Y.append(series[i:i+horizon])
+    return np.array(X), np.array(Y)
+
+X, Y = make_seq2seq(y, lookback=30, horizon=7)
+split = int(0.8 * len(X))
+X_tr, X_te = X[:split], X[split:]
+Y_tr, Y_te = Y[:split], Y[split:]
+
+# Multi-output regression (equivalent to decoder in seq2seq)
+model = MultiOutputRegressor(GradientBoostingRegressor(n_estimators=50, random_state=0))
+model.fit(X_tr, Y_tr)
+pred = model.predict(X_te)
+
+rmse_by_step = np.sqrt(((Y_te - pred)**2).mean(axis=0))
+print(&#x27;RMSE by forecast horizon step:&#x27;)
+for step, r in enumerate(rmse_by_step, 1):
+    print(f&#x27;  Step {step}: {r:.3f}&#x27;)
+print(f&#x27;Overall RMSE: {rmse_by_step.mean():.3f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Attention-weighted feature importance for time series</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import numpy as np
+
+np.random.seed(42)
+n = 500
+t = np.arange(n)
+y = 15*np.sin(0.15*t) + 5*np.sin(0.05*t) + np.random.normal(0, 1, n)
+
+def make_windows(series, w=20):
+    X = np.array([series[i-w:i] for i in range(w, len(series))])
+    Y = series[w:]
+    return X, Y
+
+X, Y = make_windows(y, 20)
+
+# Simulate attention: weight lags by their correlation with target
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
+
+sc_x = StandardScaler().fit(X)
+sc_y = StandardScaler().fit(Y.reshape(-1,1))
+X_sc = sc_x.transform(X)
+Y_sc = sc_y.transform(Y.reshape(-1,1)).ravel()
+
+# Attention weights = absolute Ridge coefficients (softmax)
+model = Ridge(alpha=0.01).fit(X_sc, Y_sc)
+raw_weights = np.abs(model.coef_)
+attention = raw_weights / raw_weights.sum()  # softmax-like
+
+print(&#x27;Attention weights by lag (most recent = lag 1):&#x27;)
+for lag in range(1, 6):
+    print(f&#x27;  Lag {lag:2d}: {attention[-lag]:.4f} ({&quot;high&quot; if attention[-lag] &gt; attention.mean() else &quot;low&quot;})&#x27;)
+print(f&#x27;Top-3 most attended lags: {(-attention).argsort()[:3] + 1}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>N-BEATS-inspired basis expansion forecasting</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">import numpy as np
+from sklearn.linear_model import Ridge
+
+np.random.seed(0)
+n = 300
+t = np.arange(n)
+y = 10*np.sin(0.2*t) + 0.1*t + np.random.normal(0, 1.5, n)
+
+# N-BEATS idea: decompose into trend + seasonality bases
+def trend_basis(T, degree=3):
+    &quot;&quot;&quot;Polynomial trend basis for N-BEATS trend block.&quot;&quot;&quot;
+    t_norm = np.linspace(0, 1, T)
+    return np.column_stack([t_norm**k for k in range(degree+1)])
+
+def fourier_basis(T, harmonics=5):
+    &quot;&quot;&quot;Fourier seasonality basis for N-BEATS seasonality block.&quot;&quot;&quot;
+    t = np.linspace(0, 2*np.pi, T)
+    cols = []
+    for k in range(1, harmonics+1):
+        cols.extend([np.cos(k*t), np.sin(k*t)])
+    return np.column_stack(cols)
+
+LB = 30  # lookback
+X, Y = [], []
+for i in range(LB, n - 7):
+    window = y[i-LB:i]
+    trend_feats  = trend_basis(LB, degree=2).T @ window / LB
+    season_feats = fourier_basis(LB, harmonics=3).T @ window / LB
+    X.append(np.concatenate([trend_feats, season_feats]))
+    Y.append(y[i:i+7].mean())
+X, Y = np.array(X), np.array(Y)
+
+split = int(0.8*len(X))
+model = Ridge(alpha=0.1).fit(X[:split], Y[:split])
+pred  = model.predict(X[split:])
+rmse  = np.sqrt(((Y[split:] - pred)**2).mean())
+print(f&#x27;N-BEATS basis expansion RMSE: {rmse:.3f}&#x27;)
+print(f&#x27;Trend features: {trend_basis(LB, 2).shape[1]}, Fourier features: {fourier_basis(LB, 3).shape[1]}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Build a multi-step electricity demand forecasting system that predicts next 24 hours (hourly) using the previous 7 days of data. Features include lagged values, hour-of-day, day-of-week, temperature. Compare gradient boosting seq2seq vs naive persistence baseline.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw12')">Copy</button></div><pre><code id="rw12" class="language-python">import numpy as np
+import pandas as pd
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+
+np.random.seed(5)
+hours = pd.date_range(&#x27;2023-01-01&#x27;, periods=8760, freq=&#x27;H&#x27;)
+daily = 500 + 200*np.sin(2*np.pi*np.arange(8760)/24 - np.pi)
+weekly= 50 *np.sin(2*np.pi*np.arange(8760)/(24*7))
+noise = np.random.normal(0, 20, 8760)
+demand = daily + weekly + noise
+
+df = pd.DataFrame({&#x27;time&#x27;: hours, &#x27;demand&#x27;: demand, &#x27;hour&#x27;: hours.hour, &#x27;dow&#x27;: hours.dayofweek})
+
+LB, H = 24*7, 24  # 7-day lookback, 24h horizon
+X, Y = [], []
+for i in range(LB, len(df)-H):
+    feats = list(df[&#x27;demand&#x27;].values[i-LB:i])
+    feats += [df[&#x27;hour&#x27;].iloc[i], df[&#x27;dow&#x27;].iloc[i]]
+    X.append(feats)
+    Y.append(df[&#x27;demand&#x27;].values[i:i+H])
+X, Y = np.array(X), np.array(Y)
+
+split = int(0.85*len(X))
+model = MultiOutputRegressor(GradientBoostingRegressor(n_estimators=30, random_state=0), n_jobs=-1)
+model.fit(X[:split], Y[:split])
+pred = model.predict(X[split:])
+rmse = np.sqrt(((Y[split:]-pred)**2).mean())
+baseline = np.sqrt(((Y[split:]-Y[split-1:-1])**2).mean())  # persistence
+print(f&#x27;GBM RMSE: {rmse:.2f}, Persistence RMSE: {baseline:.2f}&#x27;)
+print(f&#x27;Improvement: {(baseline-rmse)/baseline:.1%}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Seq2Seq Solar Power Forecasting</div><div class="pd">Using 1 year of hourly solar generation data (sinusoidal with daily pattern, zero at night), build a seq2seq GBM model with 48-hour lookback and 12-hour horizon. Compare RMSE for the first 4 steps vs last 4 steps. Also implement a simple attention weighting by computing per-lag correlations with the target.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+import pandas as pd
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+
+np.random.seed(3)
+hours = pd.date_range(&#x27;2023-01-01&#x27;, periods=8760, freq=&#x27;H&#x27;)
+raw = np.maximum(0, np.sin(2*np.pi*np.arange(8760)/24 - np.pi/2))
+solar = raw * 1000 + np.random.normal(0, 30, 8760)
+df = pd.DataFrame({&#x27;time&#x27;: hours, &#x27;solar&#x27;: solar})
+
+LB, H = 48, 12
+# TODO: Build (X, Y) windows with lookback=48, horizon=12
+# TODO: Train GBM MultiOutputRegressor
+# TODO: Report RMSE for steps 1-4 vs steps 9-12
+# TODO: Compute attention weights via per-lag correlation
+</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Wavelet Analysis for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Discrete Wavelet Transform (DWT)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+import pywt
+np.random.seed(0)
+t = np.linspace(0, 8*np.pi, 512)
+signal = (np.sin(t) + 0.5*np.sin(5*t) + np.random.normal(0, 0.2, 512))
+wavelet = &#x27;db4&#x27;
+level = 4
+coeffs = pywt.wavedec(signal, wavelet, level=level)
+print(f&quot;Decomposition levels: {len(coeffs)-1}&quot;)
+print(f&quot;Approximation coeff shape: {coeffs[0].shape}&quot;)
+for i, c in enumerate(coeffs[1:], 1):
+    print(f&quot;  Detail level {i}: shape={c.shape}, energy={np.sum(c**2):.2f}&quot;)
+# Denoise: zero out small detail coefficients
+threshold = 0.3
+coeffs_denoised = [coeffs[0]] + [pywt.threshold(c, threshold, mode=&#x27;soft&#x27;) for c in coeffs[1:]]
+denoised = pywt.waverec(coeffs_denoised, wavelet)[:len(signal)]
+mse = np.mean((signal - denoised)**2)
+print(f&quot;Denoising MSE: {mse:.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Continuous Wavelet Transform (CWT) Scalogram</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import numpy as np
+import pywt
+np.random.seed(1)
+fs = 100  # Hz
+t = np.arange(0, 4, 1/fs)
+# Chirp: frequency increases from 5 to 20 Hz
+freq = 5 + 15*t/4
+signal = np.sin(2*np.pi*freq*t) + np.random.normal(0, 0.1, len(t))
+widths = np.arange(1, 64)
+cwt_matrix, freqs = pywt.cwt(signal, widths, &#x27;morl&#x27;, sampling_period=1/fs)
+power = np.abs(cwt_matrix)**2
+# Peak frequency at start vs end
+t_start = slice(0, 50); t_end = slice(350, 400)
+peak_freq_start = freqs[np.argmax(power[:, t_start].mean(axis=1))]
+peak_freq_end   = freqs[np.argmax(power[:, t_end].mean(axis=1))]
+print(f&quot;Dominant frequency (start): {peak_freq_start:.1f} Hz&quot;)
+print(f&quot;Dominant frequency (end):   {peak_freq_end:.1f} Hz&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Wavelet-Based Anomaly Detection</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">import numpy as np
+import pywt
+np.random.seed(42)
+n = 1000
+ts = np.sin(2*np.pi*np.arange(n)/50) + np.random.normal(0, 0.1, n)
+# Inject anomalies
+ts[300:310] += 3.0
+ts[700] -= 4.0
+# DWT anomaly detection via reconstruction error per window
+coeffs = pywt.wavedec(ts, &#x27;haar&#x27;, level=3)
+# Zero out detail at level 1 (high-freq noise)
+coeffs[1] = np.zeros_like(coeffs[1])
+reconstructed = pywt.waverec(coeffs, &#x27;haar&#x27;)[:n]
+residuals = np.abs(ts - reconstructed)
+threshold = residuals.mean() + 3*residuals.std()
+anomaly_idx = np.where(residuals &gt; threshold)[0]
+print(f&quot;Anomalies detected at indices: {anomaly_idx[:10]}&quot;)
+print(f&quot;True anomaly regions: 300-310, 700&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Manufacturing: use wavelet decomposition to separate machine vibration signals by frequency band, detect bearing faults (high-frequency detail) while ignoring normal operational frequencies.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw13')">Copy</button></div><pre><code id="rw13" class="language-python">import numpy as np
+import pywt
+np.random.seed(7)
+fs = 1000  # 1 kHz sampling
+t = np.arange(0, 2, 1/fs)  # 2 seconds
+# Normal operation: 10 Hz fundamental + harmonics
+normal = (np.sin(2*np.pi*10*t) + 0.3*np.sin(2*np.pi*20*t) +
+          np.random.normal(0, 0.05, len(t)))
+# Fault: adds 150 Hz bearing frequency
+fault  = normal + 0.5*np.sin(2*np.pi*150*t)
+for label, sig in [(&#x27;Normal&#x27;, normal), (&#x27;Fault&#x27;, fault)]:
+    coeffs = pywt.wavedec(sig, &#x27;db4&#x27;, level=5)
+    # Level 1 detail captures highest frequencies
+    hf_energy = np.sum(coeffs[1]**2) / np.sum(sig**2)
+    print(f&quot;{label}: high-freq energy ratio = {hf_energy:.4f}&quot;)
+    energies = [np.sum(c**2) / np.sum(sig**2) for c in coeffs]
+    print(f&quot;  Energy by level: &quot; + &quot;, &quot;.join(f&quot;L{i}={e:.3f}&quot; for i, e in enumerate(energies)))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EEG Brainwave Analysis</div><div class="pd">Given a simulated EEG signal (1-second, 256 Hz) with delta (1-4 Hz), alpha (8-13 Hz), and beta (13-30 Hz) components, use wavelet decomposition to extract each band. Report the relative power of each band. Inject a 50ms epileptic spike at t=0.5s and detect it using wavelet residuals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+import pywt
+fs = 256  # Hz
+t = np.arange(0, 1, 1/fs)
+# Multi-band EEG signal
+delta = 0.5 * np.sin(2*np.pi*2*t)
+alpha = 0.3 * np.sin(2*np.pi*10*t)
+beta  = 0.2 * np.sin(2*np.pi*20*t)
+noise = np.random.normal(0, 0.05, len(t))
+eeg = delta + alpha + beta + noise
+# Inject spike
+spike_start = int(0.5 * fs)
+eeg[spike_start:spike_start+13] += 3.0
+# TODO: DWT decomposition with &#x27;db4&#x27;, level=5
+# TODO: Identify which detail levels correspond to each EEG band
+# TODO: Compute relative band powers
+# TODO: Detect spike using reconstruction error
+</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Multivariate Time Series &amp; VAR Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Vector Autoregression (VAR)</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
+import pandas as pd
+from statsmodels.tsa.vector_ar.var_model import VAR
+np.random.seed(42)
+n = 200
+e1, e2 = np.random.normal(0, 1, n), np.random.normal(0, 1, n)
+y1, y2 = np.zeros(n), np.zeros(n)
+for t in range(1, n):
+    y1[t] = 0.6*y1[t-1] + 0.2*y2[t-1] + e1[t]
+    y2[t] = 0.1*y1[t-1] + 0.7*y2[t-1] + e2[t]
+df = pd.DataFrame({&#x27;y1&#x27;: y1, &#x27;y2&#x27;: y2})
+model = VAR(df)
+results = model.fit(maxlags=4, ic=&#x27;aic&#x27;)
+print(f&quot;Selected lag order: {results.k_ar}&quot;)
+forecast = results.forecast(df.values[-results.k_ar:], steps=5)
+print(&quot;5-step forecast:&quot;); print(forecast.round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Granger Causality Test</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import numpy as np
+import pandas as pd
+from statsmodels.tsa.stattools import grangercausalitytests
+np.random.seed(1)
+n = 300
+eps1 = np.random.normal(0, 1, n)
+eps2 = np.random.normal(0, 1, n)
+x = np.zeros(n); y = np.zeros(n)
+for t in range(2, n):
+    x[t] = 0.5*x[t-1] + eps1[t]
+    y[t] = 0.4*x[t-1] + 0.3*y[t-1] + eps2[t]  # x Granger-causes y
+df = pd.DataFrame({&#x27;y&#x27;: y, &#x27;x&#x27;: x})
+max_lag = 4
+print(&quot;Granger causality (x -&gt; y):&quot;)
+res = grangercausalitytests(df[[&#x27;y&#x27;,&#x27;x&#x27;]], maxlag=max_lag, verbose=False)
+for lag, r in res.items():
+    f_stat = r[0][&#x27;ssr_ftest&#x27;][0]
+    p_val  = r[0][&#x27;ssr_ftest&#x27;][1]
+    print(f&quot;  Lag {lag}: F={f_stat:.3f}, p={p_val:.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Cointegration &amp; Error Correction</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import numpy as np
+import pandas as pd
+from statsmodels.tsa.stattools import coint
+from statsmodels.regression.linear_model import OLS
+np.random.seed(5)
+n = 500
+common_trend = np.cumsum(np.random.normal(0, 1, n))
+y1 = common_trend + np.random.normal(0, 0.5, n)
+y2 = 0.8 * common_trend + 1.2 + np.random.normal(0, 0.5, n)
+score, pvalue, _ = coint(y1, y2)
+print(f&quot;Cointegration test: t={score:.4f}, p={pvalue:.4f}&quot;)
+# Estimate cointegrating vector
+beta = OLS(y1, np.column_stack([np.ones(n), y2])).fit().params
+spread = y1 - beta[1]*y2 - beta[0]
+z_spread = (spread - spread.mean()) / spread.std()
+print(f&quot;Spread mean-reversion: current z-score = {z_spread[-1]:.3f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Macroeconomic forecasting: model GDP, inflation, and interest rates jointly using VAR to capture cross-variable dynamics and produce scenario forecasts for monetary policy analysis.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw14')">Copy</button></div><pre><code id="rw14" class="language-python">import numpy as np
+import pandas as pd
+from statsmodels.tsa.vector_ar.var_model import VAR
+from statsmodels.tsa.stattools import grangercausalitytests
+np.random.seed(10)
+n = 120  # 10 years monthly
+# Simulate: interest rate affects inflation with lag, both affect GDP
+ir = np.cumsum(np.random.normal(0, 0.1, n)) + 3.0
+inf = 0.5*np.roll(ir, 2) + np.cumsum(np.random.normal(0, 0.05, n)) + 2.0
+gdp = -0.3*np.roll(ir, 3) + 0.4*np.roll(inf, 1) + np.cumsum(np.random.normal(0, 0.08, n)) + 2.5
+df = pd.DataFrame({&#x27;gdp&#x27;: gdp, &#x27;inflation&#x27;: inf, &#x27;interest_rate&#x27;: ir})
+df = df.diff().dropna()  # difference to achieve stationarity
+model = VAR(df)
+res = model.fit(maxlags=6, ic=&#x27;aic&#x27;)
+print(f&quot;VAR lag order: {res.k_ar}&quot;)
+forecast = res.forecast(df.values[-res.k_ar:], steps=12)
+print(f&quot;12-month GDP forecast range: {forecast[:,0].min():.3f} to {forecast[:,0].max():.3f}&quot;)
+# Impulse response
+irf = res.irf(10)
+print(f&quot;GDP response to interest shock at lag 3: {irf.orth_irfs[3, 0, 2]:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairs Trading Signal</div><div class="pd">Using two simulated stock price series that are cointegrated (sharing a common random walk), implement a pairs trading strategy: (1) verify cointegration with Engle-Granger test, (2) estimate the spread, (3) generate long/short signals when z-score &gt; 2 or &lt; -2, (4) backtest and report Sharpe ratio and max drawdown.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import numpy as np
+import pandas as pd
+from statsmodels.tsa.stattools import coint
+from statsmodels.regression.linear_model import OLS
+np.random.seed(3)
+n = 500
+common = np.cumsum(np.random.normal(0, 1, n))
+price_a = common + np.random.normal(0, 0.5, n) + 50
+price_b = 0.9*common + np.random.normal(0, 0.5, n) + 45
+# TODO: Cointegration test
+# TODO: Compute hedge ratio and spread
+# TODO: Z-score of spread
+# TODO: Generate trading signals (long A-short B when z&lt;-2, vice versa)
+# TODO: Compute daily P&amp;L, Sharpe ratio, max drawdown
+</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Real-Time Streaming &amp; Online Learning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Online Learning with River</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python"># pip install river
+from river import linear_model, preprocessing, metrics, stream
+import numpy as np
+np.random.seed(0)
+n = 1000
+X_data = np.column_stack([np.random.randn(n), np.arange(n)/n])
+y_data = 3*X_data[:,0] - 2*X_data[:,1] + 0.5 + np.random.normal(0, 0.3, n)
+model = preprocessing.StandardScaler() | linear_model.LinearRegression()
+metric = metrics.RMSE()
+for i, (xi, yi) in enumerate(zip(X_data, y_data)):
+    x_dict = {&#x27;f0&#x27;: xi[0], &#x27;f1&#x27;: xi[1]}
+    y_pred = model.predict_one(x_dict)
+    if y_pred is not None:
+        metric.update(yi, y_pred)
+    model.learn_one(x_dict, yi)
+    if i % 200 == 0 and y_pred is not None:
+        print(f&quot;  n={i}: running RMSE={metric.get():.4f}&quot;)
+print(f&quot;Final RMSE: {metric.get():.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Concept Drift Detection (ADWIN)</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python"># pip install river
+from river import drift
+import numpy as np
+np.random.seed(7)
+detector = drift.ADWIN()
+stream = np.concatenate([
+    np.random.normal(0, 1, 500),
+    np.random.normal(3, 1, 500)  # sudden drift at t=500
+])
+drifts = []
+for i, x in enumerate(stream):
+    detector.update(x)
+    if detector.drift_detected:
+        drifts.append(i)
+        detector = drift.ADWIN()  # reset
+print(f&quot;Drift detected at sample(s): {drifts}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Sliding Window Streaming Statistics</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import numpy as np
+from collections import deque
+class StreamStats:
+    def __init__(self, window=100):
+        self.w = deque(maxlen=window)
+        self.n = 0
+    def update(self, x):
+        self.w.append(x)
+        self.n += 1
+        return self.mean(), self.std()
+    def mean(self): return np.mean(self.w)
+    def std(self):  return np.std(self.w, ddof=1) if len(self.w) &gt; 1 else 0.0
+np.random.seed(1)
+ss = StreamStats(window=50)
+for i in range(300):
+    val = np.random.normal(5 if i &lt; 150 else 8, 1)
+    mean, std = ss.update(val)
+    if i % 50 == 49:
+        print(f&quot;  t={i+1}: window mean={mean:.3f}, std={std:.3f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">IoT sensor network: process a continuous stream of temperature readings at 10 Hz from 50 sensors, detect anomalies in real-time using sliding window statistics, and adapt the baseline when ADWIN detects environmental regime changes.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw15')">Copy</button></div><pre><code id="rw15" class="language-python">import numpy as np
+from collections import deque
+np.random.seed(42)
+n_sensors, n_steps = 5, 1000
+window = 60
+baselines = [deque(maxlen=window) for _ in range(n_sensors)]
+alerts = {i: [] for i in range(n_sensors)}
+# Inject drift at step 600 for sensor 2
+for t in range(n_steps):
+    readings = np.random.normal(22, 0.5, n_sensors)
+    if t &gt;= 600:
+        readings[2] += 4.0  # sensor 2 drifts
+    for s in range(n_sensors):
+        baselines[s].append(readings[s])
+        if len(baselines[s]) &gt;= 20:
+            mu = np.mean(baselines[s])
+            sigma = np.std(baselines[s], ddof=1)
+            z = (readings[s] - mu) / max(sigma, 1e-6)
+            if abs(z) &gt; 3:
+                alerts[s].append(t)
+for s in range(n_sensors):
+    if alerts[s]:
+        print(f&quot;Sensor {s}: {len(alerts[s])} alerts, first at t={alerts[s][0]}&quot;)
+    else:
+        print(f&quot;Sensor {s}: no alerts&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real-Time Fraud Score Streaming</div><div class="pd">Simulate a stream of 2000 credit card transactions (amount, time_since_last, is_weekend). Use online logistic regression (River) trained incrementally. At t=1000, inject a concept drift (fraudsters change behavior). Detect drift using ADWIN on prediction errors. Report AUC before and after drift, and adaptation speed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python"># pip install river
+from river import linear_model, preprocessing, metrics, drift, stream as rv_stream
+import numpy as np
+np.random.seed(99)
+n = 2000
+# Generate transactions
+amounts = np.random.exponential(50, n)
+gaps = np.random.exponential(10, n)
+is_weekend = np.random.randint(0, 2, n)
+# Fraud rule: changes at t=1000
+fraud_prob_before = 1 / (1 + np.exp(-(amounts/100 - 0.5)))
+fraud_prob_after  = 1 / (1 + np.exp(-(gaps/5 - 1.0)))  # different pattern
+y = np.array([
+    np.random.binomial(1, fraud_prob_before[i]) if i &lt; 1000
+    else np.random.binomial(1, fraud_prob_after[i])
+    for i in range(n)
+])
+# TODO: Online logistic regression with River
+# TODO: ADWIN drift detection on binary prediction errors
+# TODO: Report AUC in windows before drift, at drift, after adaptation
+</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

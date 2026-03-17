@@ -1,0 +1,18 @@
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axes = plt.subplots(2, 3, figsize=(12, 7), sharex=True, sharey=True)
+datasets = [np.random.randn(50) + i for i in range(6)]
+titles = [f'Group {i+1}' for i in range(6)]
+
+for ax, data, title in zip(axes.flat, datasets, titles):
+    ax.hist(data, bins=15, edgecolor='black', alpha=0.7)
+    ax.set_title(title, fontsize=10)
+    ax.axvline(np.mean(data), color='red', linestyle='--', linewidth=1)
+
+fig.suptitle('Multi-panel Histograms (shared axes)', fontsize=13, fontweight='bold')
+fig.tight_layout()
+fig.savefig('multi_panel.png', dpi=150, bbox_inches='tight')
+print("Multi-panel figure saved")

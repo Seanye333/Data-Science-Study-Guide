@@ -1,0 +1,2808 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python Basics Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#ffa657}
+*{box-sizing:border-box;margin:0;padding:0}
+body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}
+.sbh h2{font-size:1.05rem;color:var(--acc)}
+.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}
+#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}
+.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}
+.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}
+.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}
+.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}
+.arr{color:var(--mut);transition:transform .2s}
+.tb{display:none;padding:18px;border-top:1px solid var(--brd)}
+.tb.open{display:block}
+.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}
+.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}
+.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}
+.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
+.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}
+.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+</style></head><body>
+<aside class="sidebar">
+  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 18 topics</p>
+    <input id="q" placeholder="Search..." oninput="filt(this.value)">
+  </div>
+  <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Variables &amp; Data Types</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Strings</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Lists</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Tuples, Sets &amp; Dictionaries</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Control Flow</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Loops</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Functions</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Classes &amp; OOP</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Error Handling</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. File I/O</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. List Comprehensions &amp; Generators</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Modules &amp; Useful Built-ins</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Context Managers</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Regular Expressions</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Type Hints &amp; Dataclasses</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Concurrency &amp; Async</a></li>
+    <li><a href="#s16" onclick="act(this,event)">17. Design Patterns</a></li>
+    <li><a href="#s17" onclick="act(this,event)">18. Testing with pytest</a></li></ul>
+</aside>
+<main class="main">
+  <h1 class="pt">🐍 Python Basics</h1>
+  <p class="ps">18 topics &bull; Click any card to expand</p>
+  <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Variables &amp; Data Types</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python is dynamically typed — you don&#x27;t declare types, Python infers them. The core types are int, float, str, bool, and NoneType.</p><div class="code-block"><div class="ch"><span>Basic types and type checking</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># Integers
+age    = 25
+year   = 2024
+
+# Floats
+price  = 9.99
+pi     = 3.14159
+
+# String
+name   = &quot;Alice&quot;
+
+# Boolean
+active = True
+done   = False
+
+# NoneType
+result = None
+
+# Check types
+print(type(age))       # &lt;class &#x27;int&#x27;&gt;
+print(type(price))     # &lt;class &#x27;float&#x27;&gt;
+print(type(name))      # &lt;class &#x27;str&#x27;&gt;
+print(type(active))    # &lt;class &#x27;bool&#x27;&gt;
+print(type(result))    # &lt;class &#x27;NoneType&#x27;&gt;</code></pre></div><div class="code-block"><div class="ch"><span>Type conversion (casting)</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python"># Convert between types
+x = &quot;42&quot;
+print(int(x) + 8)          # 50  (str → int)
+print(float(x) * 1.5)      # 63.0
+
+n = 3.9
+print(int(n))              # 3   (truncates, not rounds)
+print(round(n))            # 4   (rounds)
+
+print(str(100) + &quot; items&quot;) # &quot;100 items&quot;
+print(bool(0))             # False
+print(bool(&quot;&quot;))            # False
+print(bool(&quot;hello&quot;))       # True
+print(bool(42))            # True</code></pre></div><div class="code-block"><div class="ch"><span>Multiple assignment and augmented operators</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python"># Multiple assignment
+a, b, c = 10, 20, 30
+x = y = z = 0
+print(a, b, c)   # 10 20 30
+print(x, y, z)   # 0 0 0
+
+# Swap without temp variable
+a, b = b, a
+print(a, b)      # 20 10
+
+# Augmented assignment operators
+score = 100
+score += 15    # 115
+score -= 5     # 110
+score *= 2     # 220
+score //= 3    # 73
+score **= 2    # 5329
+print(&quot;Score:&quot;, score)
+
+# Readable large numbers
+population = 8_100_000_000
+pi_approx  = 3.141_592_653
+print(f&quot;Population: {population:,}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Complex numbers, None checks, and type introspection</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python"># Complex numbers
+z1 = 3 + 4j
+z2 = complex(1, -2)
+print(f&quot;z1 = {z1},  real={z1.real}, imag={z1.imag}&quot;)
+print(f&quot;|z1| = {abs(z1)}&quot;)          # magnitude: 5.0
+print(f&quot;z1 + z2 = {z1 + z2}&quot;)
+print(f&quot;z1 * z2 = {z1 * z2}&quot;)
+
+# None checks — always use &#x27;is&#x27; / &#x27;is not&#x27;, never ==
+result = None
+if result is None:
+    print(&quot;result is None&quot;)
+
+data = [0, &quot;&quot;, None, False, 42, &quot;hello&quot;]
+for item in data:
+    falsy = &quot;falsy&quot; if not item else &quot;truthy&quot;
+    none_check = &quot; (is None)&quot; if item is None else &quot;&quot;
+    print(f&quot;  {str(item):8s} -&gt; {falsy}{none_check}&quot;)
+
+# isinstance — safer than type() ==
+values = [42, 3.14, &quot;hi&quot;, True, None, [1,2]]
+for v in values:
+    print(f&quot;  {str(v):8s}  int={isinstance(v, int)}  &quot;
+          f&quot;float={isinstance(v, float)}  str={isinstance(v, str)}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: User Input Validation</div><div class="rd">A CLI app reads user input and converts it to the correct type before processing.</div><pre><code class="language-python"># Simulating user input processing
+def parse_order(quantity_str, price_str, discount_str):
+    try:
+        quantity = int(quantity_str)
+        price    = float(price_str)
+        discount = float(discount_str) / 100
+    except ValueError as e:
+        return f&quot;Invalid input: {e}&quot;
+
+    subtotal = quantity * price
+    total    = subtotal * (1 - discount)
+    return {
+        &quot;quantity&quot;: quantity,
+        &quot;price&quot;:    price,
+        &quot;discount&quot;: f&quot;{discount:.0%}&quot;,
+        &quot;total&quot;:    round(total, 2)
+    }
+
+print(parse_order(&quot;3&quot;, &quot;29.99&quot;, &quot;10&quot;))
+print(parse_order(&quot;abc&quot;, &quot;9.99&quot;, &quot;5&quot;))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Variable Juggling</div><div class="pd">Create name (str), age (int), height (float). Swap age and height using tuple unpacking. Check if original age is between 18 and 65 (inclusive). Print a formatted f-string summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">name   = &quot;YOUR_NAME&quot;
+age    = 25          # set your age
+height = 1.75        # set height in meters
+
+# TODO: swap age and height using one line
+# age, height = ???
+
+# TODO: check if the original age (now stored in height) is 18-65
+is_working_age = ???
+
+# Expected: &quot;Alice | Age: 1.75 | Height: 25m | Working age: True&quot;
+print(f&quot;{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}&quot;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Strings</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Strings are sequences of characters. Python provides rich built-in methods for slicing, formatting, searching, and transforming text.</p><div class="code-block"><div class="ch"><span>String methods and slicing</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">text = &quot;  Hello, World!  &quot;
+
+print(text.strip())           # remove whitespace
+print(text.lower())           # lowercase
+print(text.upper())           # uppercase
+print(text.replace(&quot;World&quot;, &quot;Python&quot;))
+print(text.strip().split(&quot;, &quot;))  # [&#x27;Hello&#x27;, &#x27;World!&#x27;]
+
+# Slicing
+s = &quot;Python&quot;
+print(s[0])      # P
+print(s[-1])     # n
+print(s[1:4])    # yth
+print(s[::-1])   # nohtyP  (reverse)
+print(len(s))    # 6</code></pre></div><div class="code-block"><div class="ch"><span>f-strings and formatting</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">name  = &quot;Alice&quot;
+score = 98.567
+rank  = 1
+
+# f-string (recommended)
+print(f&quot;Name: {name}, Score: {score:.2f}, Rank: #{rank}&quot;)
+
+# Padding and alignment
+for item, price in [(&quot;Apple&quot;, 0.5), (&quot;Banana&quot;, 0.25), (&quot;Cherry&quot;, 1.99)]:
+    print(f&quot;{item:&lt;10} ${price:&gt;6.2f}&quot;)
+
+# Multi-line string
+message = (
+    f&quot;Congratulations {name}!
+&quot;
+    f&quot;Your score of {score:.1f} earned rank #{rank}.&quot;
+)
+print(message)</code></pre></div><div class="code-block"><div class="ch"><span>String searching, splitting, and joining</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">sentence = &quot;Python is powerful, Python is readable, Python is fun&quot;
+
+print(sentence.count(&quot;Python&quot;))       # 3
+print(sentence.find(&quot;readable&quot;))      # index of first match
+print(sentence.startswith(&quot;Python&quot;))  # True
+print(sentence.endswith(&quot;fun&quot;))       # True
+
+# Split and join
+parts    = sentence.split(&quot;, &quot;)
+rejoined = &quot; | &quot;.join(parts)
+print(rejoined)
+
+# strip variants
+messy = &quot;   hello world   &quot;
+print(repr(messy.strip()))    # &#x27;hello world&#x27;
+
+# partition — splits at first match only
+before, sep, after = sentence.partition(&quot; is &quot;)
+print(f&quot;Before: &#x27;{before}&#x27;&quot;)
+print(f&quot;After:  &#x27;{after[:30]}...&#x27;&quot;)
+
+# replace with count limit
+print(sentence.replace(&quot;Python&quot;, &quot;Ruby&quot;, 1))  # only first</code></pre></div><div class="code-block"><div class="ch"><span>f-string advanced: format spec, alignment, padding, expressions</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">import math
+
+# Format spec: [[fill]align][sign][width][grouping][.precision][type]
+pi = math.pi
+print(f&quot;{&#x27;pi&#x27;:&gt;12s}: {pi:&gt;12.6f}&quot;)      # right-align, 6 decimals
+print(f&quot;{&#x27;pi&#x27;:&gt;12s}: {pi:&gt;12.4e}&quot;)      # scientific notation
+print(f&quot;{&#x27;pi&#x27;:&gt;12s}: {pi:&gt;12.2%}&quot;)      # as percentage
+
+# Table with column alignment
+header = f&quot;{&#x27;Name&#x27;:&lt;15} {&#x27;Score&#x27;:&gt;8} {&#x27;Grade&#x27;:&gt;6} {&#x27;Bar&#x27;:}&quot;
+print(header)
+print(&quot;-&quot; * 45)
+students = [(&quot;Alice&quot;, 92.5), (&quot;Bob&quot;, 74.3), (&quot;Carol Marie&quot;, 88.0)]
+for name, score in students:
+    grade = &quot;A&quot; if score &gt;= 90 else &quot;B&quot; if score &gt;= 80 else &quot;C&quot;
+    bar   = &quot;#&quot; * int(score // 10)
+    print(f&quot;{name:&lt;15} {score:&gt;8.1f} {grade:&gt;6}  {bar}&quot;)
+
+# Nested expressions inside f-strings
+items = [3, 1, 4, 1, 5, 9, 2, 6]
+print(f&quot;max={max(items)}, sum={sum(items)}, avg={sum(items)/len(items):.2f}&quot;)
+
+# Debug format (Python 3.8+): variable=value
+x = 42
+print(f&quot;{x=}, {x**2=}, {math.sqrt(x)=:.4f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Log File Parser</div><div class="rd">A DevOps engineer parses and formats structured log messages from an application server.</div><pre><code class="language-python">import datetime
+
+logs = [
+    &quot;[2024-01-15 09:23:11] ERROR   login_service: Invalid credentials for user bob@example.com&quot;,
+    &quot;[2024-01-15 09:24:55] INFO    auth_service:  Token issued for alice@example.com&quot;,
+    &quot;[2024-01-15 09:25:03] WARNING api_gateway:   Rate limit 80% for IP 192.168.1.42&quot;,
+]
+
+print(f&quot;{&#x27;Time&#x27;:9s} {&#x27;Level&#x27;:8s} {&#x27;Service&#x27;:15s} {&#x27;Message&#x27;}&quot;)
+print(&quot;-&quot; * 65)
+for log in logs:
+    # Parse: [datetime] LEVEL  service: message
+    ts      = log[1:20]
+    rest    = log[22:].strip()
+    parts   = rest.split(None, 2)
+    level   = parts[0]
+    service = parts[1].rstrip(&quot;:&quot;)
+    msg     = parts[2] if len(parts) &gt; 2 else &quot;&quot;
+    print(f&quot;{ts[11:]:9s} {level:8s} {service:15s} {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String Cleaning Pipeline</div><div class="pd">Given raw = &#x27;  super-pro Widget X200  &#x27;, clean it: strip whitespace, title-case it, replace hyphens with spaces, check if &#x27;pro&#x27; appears (case-insensitive), and build a 6-char product code from the first 3 + last 3 chars (no spaces) uppercased.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">raw = &quot;  super-pro Widget X200  &quot;
+
+# 1. Strip whitespace and title-case
+clean = raw.strip().title()
+
+# 2. TODO: Replace hyphens with spaces
+# clean = clean.replace(???)
+
+# 3. TODO: Check &#x27;pro&#x27; in original string (case-insensitive)
+# has_pro = &quot;pro&quot; in raw.???()
+
+# 4. TODO: Build 6-char code: first 3 + last 3 of clean (no spaces), uppercase
+# no_spaces = clean.replace(&quot; &quot;, &quot;&quot;)
+# code = (no_spaces[:3] + ???).upper()
+
+print(f&quot;Clean: &#x27;{clean}&#x27;&quot;)
+# print(f&quot;Has pro: {has_pro}&quot;)
+# print(f&quot;Code: &#x27;{code}&#x27;&quot;)
+# Expected: Clean=&#x27;Super Pro Widget X200&#x27;, Code=&#x27;SUP200&#x27;</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Lists</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Lists are ordered, mutable sequences. They&#x27;re the most commonly used Python container — used for collections, stacks, queues, and more.</p><div class="code-block"><div class="ch"><span>Creating, accessing, modifying</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;date&quot;]
+
+print(fruits[0])          # apple
+print(fruits[-1])         # date
+print(fruits[1:3])        # [&#x27;banana&#x27;, &#x27;cherry&#x27;]
+
+# Modify
+fruits.append(&quot;elderberry&quot;)     # add to end
+fruits.insert(1, &quot;avocado&quot;)     # insert at index 1
+fruits.remove(&quot;banana&quot;)         # remove by value
+popped = fruits.pop()           # remove &amp; return last
+print(fruits)
+print(&quot;Popped:&quot;, popped)
+print(&quot;Length:&quot;, len(fruits))</code></pre></div><div class="code-block"><div class="ch"><span>List methods and list comprehension</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">nums = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+
+nums.sort()
+print(&quot;Sorted:&quot;, nums)
+print(&quot;Reversed:&quot;, nums[::-1])
+print(&quot;Count of 5:&quot;, nums.count(5))
+print(&quot;Index of 9:&quot;, nums.index(9))
+print(&quot;Sum:&quot;, sum(nums))
+print(&quot;Max:&quot;, max(nums), &quot;Min:&quot;, min(nums))
+
+# List comprehension
+squares  = [x**2 for x in range(1, 6)]
+evens    = [x for x in range(20) if x % 2 == 0]
+print(&quot;Squares:&quot;, squares)
+print(&quot;Evens:&quot;, evens)</code></pre></div><div class="code-block"><div class="ch"><span>Nested lists, map, filter, and any/all</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python"># Nested list (2D matrix)
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(&quot;Center:&quot;, matrix[1][1])   # 5
+
+# Flatten nested list
+flat = [x for row in matrix for x in row]
+print(&quot;Flat:&quot;, flat)
+
+# Transpose with comprehension
+transposed = [[matrix[r][c] for r in range(3)] for c in range(3)]
+print(&quot;Transposed[0]:&quot;, transposed[0])
+
+# map and filter
+nums = [1, -2, 3, -4, 5, -6]
+doubled   = list(map(lambda x: x * 2, nums))
+positives = list(filter(lambda x: x &gt; 0, nums))
+print(&quot;Doubled:  &quot;, doubled)
+print(&quot;Positives:&quot;, positives)
+
+# any / all
+print(&quot;any &gt; 4:&quot;, any(x &gt; 4 for x in nums))
+print(&quot;all &gt; 0:&quot;, all(x &gt; 0 for x in nums))</code></pre></div><div class="code-block"><div class="ch"><span>sort vs sorted, key=, reverse, and bisect for sorted insertion</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import bisect
+
+# sort() mutates in place; sorted() returns a new list
+nums = [5, 2, 8, 1, 9, 3]
+new_sorted = sorted(nums)           # original unchanged
+nums.sort()                         # in-place
+print(&quot;sorted():&quot;, new_sorted)
+print(&quot;sort() in-place:&quot;, nums)
+
+# key= — sort by custom criteria
+words = [&quot;banana&quot;, &quot;Apple&quot;, &quot;cherry&quot;, &quot;date&quot;, &quot;FIG&quot;]
+print(sorted(words))                          # case-sensitive lexicographic
+print(sorted(words, key=str.lower))           # case-insensitive
+print(sorted(words, key=len))                 # by length
+print(sorted(words, key=lambda w: (-len(w), w.lower())))  # len desc, alpha asc
+
+# Sorting tuples: sort by 2nd element desc, then 1st asc
+people = [(&quot;Bob&quot;,25), (&quot;Alice&quot;,30), (&quot;Carol&quot;,25), (&quot;Dave&quot;,30)]
+print(sorted(people, key=lambda p: (-p[1], p[0])))
+
+# bisect — fast insertion point in a sorted list (binary search)
+scores = [45, 58, 67, 74, 82, 88, 95]
+new_score = 79
+pos = bisect.bisect_left(scores, new_score)
+bisect.insort(scores, new_score)   # inserts in sorted order
+print(f&quot;Inserted {new_score} at index {pos}: {scores}&quot;)
+print(f&quot;Rank from top: {len(scores) - pos} of {len(scores)}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Student Grade Processor</div><div class="rd">A teacher processes a class grade list: compute stats, filter failing students, and build a ranking.</div><pre><code class="language-python">students = [
+    (&quot;Alice&quot;, 92), (&quot;Bob&quot;, 74), (&quot;Carol&quot;, 88),
+    (&quot;Dave&quot;, 51), (&quot;Eve&quot;, 96), (&quot;Frank&quot;, 63),
+    (&quot;Grace&quot;, 85), (&quot;Hank&quot;, 47), (&quot;Iris&quot;, 79),
+]
+
+scores = [s[1] for s in students]
+avg    = sum(scores) / len(scores)
+
+passing = [(n, s) for n, s in students if s &gt;= 60]
+failing = [(n, s) for n, s in students if s  &lt; 60]
+ranked  = sorted(students, key=lambda x: x[1], reverse=True)
+
+print(f&quot;Class average: {avg:.1f}&quot;)
+print(f&quot;Passing ({len(passing)}): {[n for n,_ in passing]}&quot;)
+print(f&quot;Failing ({len(failing)}): {[(n,s) for n,s in failing]}&quot;)
+print(&quot;Top 3:&quot;, ranked[:3])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Temperature Converter</div><div class="pd">Given temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0], convert all to Fahrenheit (F = C*9/5+32) using a list comprehension. Filter hot days (&gt;30°C). Sort descending. Find the min and max.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0]
+
+# 1. TODO: Convert to Fahrenheit using list comprehension
+# temps_f = [??? for t in temps_c]
+
+# 2. TODO: Filter days above 30°C
+# hot_days = [??? for t in temps_c if ???]
+
+# 3. TODO: Sort temps_c descending
+# sorted_desc = sorted(???, reverse=True)
+
+# 4. TODO: Min and max
+# lo, hi = min(temps_c), max(temps_c)
+
+print(&quot;Fahrenheit:&quot;, [round(f, 1) for f in temps_f])
+print(&quot;Hot days:&quot;, sorted(hot_days))
+print(&quot;Sorted desc:&quot;, sorted_desc)
+print(f&quot;Range: {lo}°C — {hi}°C&quot;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Tuples, Sets &amp; Dictionaries</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tuples are immutable sequences; sets are unordered unique collections; dictionaries are key-value mappings.</p><div class="code-block"><div class="ch"><span>Tuples and sets</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python"># Tuple — immutable
+point = (3, 7)
+x, y  = point         # unpacking
+print(f&quot;x={x}, y={y}&quot;)
+
+rgb   = (255, 128, 0)
+print(&quot;Red channel:&quot;, rgb[0])
+
+# Set — unique, unordered
+a = {1, 2, 3, 4, 5}
+b = {3, 4, 5, 6, 7}
+print(&quot;Union:       &quot;, a | b)
+print(&quot;Intersection:&quot;, a &amp; b)
+print(&quot;Difference:  &quot;, a - b)
+
+tags = [&quot;python&quot;, &quot;data&quot;, &quot;python&quot;, &quot;ml&quot;, &quot;data&quot;]
+unique_tags = set(tags)
+print(&quot;Unique tags:&quot;, unique_tags)</code></pre></div><div class="code-block"><div class="ch"><span>Dictionaries</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">person = {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 30, &quot;city&quot;: &quot;NYC&quot;}
+
+print(person[&quot;name&quot;])                 # Alice
+print(person.get(&quot;email&quot;, &quot;N/A&quot;))     # safe get with default
+
+# Add / update
+person[&quot;email&quot;]  = &quot;alice@example.com&quot;
+person[&quot;age&quot;]    = 31
+del person[&quot;city&quot;]
+
+print(person)
+print(&quot;Keys:&quot;,   list(person.keys()))
+print(&quot;Values:&quot;, list(person.values()))
+
+# Iterate
+for k, v in person.items():
+    print(f&quot;  {k}: {v}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Dict comprehension and merging</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python"># Dict comprehension from zip
+students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;, &quot;Dave&quot;]
+scores   = [92, 74, 88, 51]
+
+grade_map = dict(zip(students, scores))
+print(&quot;Grade map:&quot;, grade_map)
+
+# Filter with dict comprehension
+passing = {name: score for name, score in grade_map.items() if score &gt;= 60}
+print(&quot;Passing:&quot;, passing)
+
+# Map scores to letter grades
+def letter(s):
+    return &quot;A&quot; if s &gt;= 90 else &quot;B&quot; if s &gt;= 80 else &quot;C&quot; if s &gt;= 70 else &quot;D&quot; if s &gt;= 60 else &quot;F&quot;
+
+letters = {name: letter(score) for name, score in grade_map.items()}
+print(&quot;Letters:&quot;, letters)
+
+# Dict merging with ** operator (Python 3.5+)
+defaults = {&quot;timeout&quot;: 30, &quot;retries&quot;: 3, &quot;verbose&quot;: False}
+overrides = {&quot;retries&quot;: 5, &quot;verbose&quot;: True}
+config = {**defaults, **overrides}   # overrides wins on conflict
+print(&quot;Config:&quot;, config)
+
+# Python 3.9+ merge operator (| and |=)
+# config = defaults | overrides</code></pre></div><div class="code-block"><div class="ch"><span>OrderedDict, ChainMap, dict views, and set update operations</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">from collections import OrderedDict, ChainMap
+
+# OrderedDict — remembers insertion order (useful for LRU-style caches)
+od = OrderedDict()
+od[&quot;first&quot;]  = 1
+od[&quot;second&quot;] = 2
+od[&quot;third&quot;]  = 3
+od.move_to_end(&quot;first&quot;)           # move &#x27;first&#x27; to the end
+print(&quot;OrderedDict:&quot;, list(od.keys()))
+
+# popitem(last=False) removes from the front (FIFO)
+key, val = od.popitem(last=False)
+print(f&quot;Popped first: {key}={val}, remaining: {list(od.keys())}&quot;)
+
+# ChainMap — single view over multiple dicts (first match wins)
+defaults = {&quot;color&quot;: &quot;blue&quot;, &quot;size&quot;: &quot;M&quot;, &quot;font&quot;: &quot;Arial&quot;}
+user_prefs = {&quot;color&quot;: &quot;red&quot;, &quot;size&quot;: &quot;L&quot;}
+session = {&quot;font&quot;: &quot;Helvetica&quot;}
+merged = ChainMap(session, user_prefs, defaults)
+print(&quot;color:&quot;, merged[&quot;color&quot;])   # &#x27;red&#x27;   (user_prefs wins)
+print(&quot;font:&quot;,  merged[&quot;font&quot;])    # &#x27;Helvetica&#x27; (session wins)
+
+# Dict views are live — they reflect changes
+d = {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3}
+keys_view = d.keys()
+d[&quot;d&quot;] = 4
+print(&quot;Live keys view:&quot;, list(keys_view))  # includes &#x27;d&#x27;
+
+# Set operations with update / intersection_update
+a = {1, 2, 3, 4, 5}
+b = {3, 4, 5, 6, 7}
+a.update({8, 9})                 # union in-place (|=)
+print(&quot;After update:&quot;, sorted(a))
+a.intersection_update(b | {8})   # keep only items in both (a &amp;= ...)
+print(&quot;After intersection_update:&quot;, sorted(a))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Inventory Tracking System</div><div class="rd">A small shop tracks stock levels with a dictionary and uses sets to find products needing reorder.</div><pre><code class="language-python">inventory = {
+    &quot;apple&quot;:   {&quot;qty&quot;: 150, &quot;price&quot;: 0.50, &quot;min_stock&quot;: 50},
+    &quot;banana&quot;:  {&quot;qty&quot;: 30,  &quot;price&quot;: 0.25, &quot;min_stock&quot;: 40},
+    &quot;milk&quot;:    {&quot;qty&quot;: 10,  &quot;price&quot;: 2.99, &quot;min_stock&quot;: 20},
+    &quot;bread&quot;:   {&quot;qty&quot;: 80,  &quot;price&quot;: 3.49, &quot;min_stock&quot;: 15},
+    &quot;cheese&quot;:  {&quot;qty&quot;: 5,   &quot;price&quot;: 5.99, &quot;min_stock&quot;: 10},
+}
+
+reorder = {item for item, data in inventory.items()
+           if data[&quot;qty&quot;] &lt; data[&quot;min_stock&quot;]}
+
+total_value = sum(d[&quot;qty&quot;] * d[&quot;price&quot;] for d in inventory.values())
+
+print(f&quot;Total inventory value: ${total_value:.2f}&quot;)
+print(f&quot;Items to reorder ({len(reorder)}): {reorder}&quot;)
+
+for item in sorted(reorder):
+    d = inventory[item]
+    print(f&quot;  {item:8s} qty={d[&#x27;qty&#x27;]:3d}  min={d[&#x27;min_stock&#x27;]:3d}  (order {d[&#x27;min_stock&#x27;]*2 - d[&#x27;qty&#x27;]} units)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grade Book Manager</div><div class="pd">Create a grade book from two lists using zip, find failed students with a set comprehension, and map scores to letter grades with a dict comprehension.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;, &quot;Dave&quot;, &quot;Eve&quot;, &quot;Frank&quot;]
+scores   = [92, 58, 76, 45, 88, 63]
+
+# TODO: Build grade_book dict from zip(students, scores)
+# grade_book = dict(???)
+
+# TODO: Find failed students (score &lt; 60) using a set comprehension
+# failed = {name for name, score in ???.items() if ???}
+
+# TODO: Map each student to a letter grade with dict comprehension
+# Use: A&gt;=90, B&gt;=80, C&gt;=70, D&gt;=60, F otherwise
+# Hint: define a helper or use nested ternary
+# letter_grades = {name: ??? for name, score in grade_book.items()}
+
+# TODO: Merge grade_book with a &quot;class_info&quot; dict using **
+# class_info = {&quot;class&quot;: &quot;Python 101&quot;, &quot;semester&quot;: &quot;Spring 2024&quot;}
+# full_record = {**class_info, &quot;grades&quot;: letter_grades}
+
+print(&quot;Grade book:&quot;, grade_book)
+print(&quot;Failed:&quot;, failed)
+print(&quot;Letter grades:&quot;, letter_grades)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Control Flow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">if/elif/else controls which code runs. Python uses indentation (4 spaces) instead of curly braces to define blocks.</p><div class="code-block"><div class="ch"><span>if / elif / else</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python"># Basic if-elif-else
+temperature = 28
+
+if temperature &gt; 35:
+    status = &quot;Heat warning&quot;
+elif temperature &gt; 25:
+    status = &quot;Warm&quot;
+elif temperature &gt; 15:
+    status = &quot;Comfortable&quot;
+elif temperature &gt; 5:
+    status = &quot;Cool&quot;
+else:
+    status = &quot;Cold&quot;
+
+print(f&quot;{temperature}°C → {status}&quot;)
+
+# Ternary (one-liner)
+label = &quot;Pass&quot; if temperature &gt; 20 else &quot;Fail&quot;
+print(&quot;Label:&quot;, label)
+
+# Chained comparisons
+x = 15
+if 10 &lt; x &lt; 20:
+    print(f&quot;{x} is between 10 and 20&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Logical operators and truthiness</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python"># and, or, not
+age    = 22
+income = 55000
+
+eligible = age &gt;= 18 and income &gt;= 30000
+print(&quot;Eligible:&quot;, eligible)
+
+username = &quot;&quot;
+display  = username or &quot;Anonymous&quot;
+print(&quot;Display name:&quot;, display)
+
+# in / not in
+role = &quot;editor&quot;
+allowed = [&quot;admin&quot;, &quot;editor&quot;, &quot;moderator&quot;]
+if role in allowed:
+    print(f&quot;{role} has access&quot;)
+
+# Walrus operator (Python 3.8+)
+data = [1, 2, 3]
+if n := len(data):
+    print(f&quot;List has {n} items&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>match statement and password validator</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python"># match statement (Python 3.10+) — structured pattern matching
+def http_status(code):
+    match code:
+        case 200:
+            return &quot;OK&quot;
+        case 201:
+            return &quot;Created&quot;
+        case 400:
+            return &quot;Bad Request&quot;
+        case 401 | 403:
+            return &quot;Auth error&quot;
+        case 404:
+            return &quot;Not Found&quot;
+        case 500:
+            return &quot;Server Error&quot;
+        case _:
+            return f&quot;Unknown ({code})&quot;
+
+for code in [200, 201, 403, 404, 418]:
+    print(f&quot;  {code} → {http_status(code)}&quot;)
+
+# any() / all() for password strength
+def check_password(pw):
+    checks = {
+        &quot;length &gt;= 8&quot;:  len(pw) &gt;= 8,
+        &quot;has uppercase&quot;: any(c.isupper() for c in pw),
+        &quot;has digit&quot;:     any(c.isdigit() for c in pw),
+        &quot;has symbol&quot;:    any(c in &quot;!@#$%^&amp;*()&quot; for c in pw),
+    }
+    for rule, ok in checks.items():
+        print(f&quot;  {&#x27;OK&#x27; if ok else &#x27;FAIL&#x27;:4s}  {rule}&quot;)
+    return all(checks.values())
+
+print(&quot;Strong:&quot;, check_password(&quot;Secure@9&quot;))
+print(&quot;Strong:&quot;, check_password(&quot;weakpass&quot;))</code></pre></div><div class="code-block"><div class="ch"><span>Short-circuit evaluation, assert, and conditional imports</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python"># Short-circuit evaluation
+# &#x27;and&#x27; stops at the first falsy value, &#x27;or&#x27; stops at first truthy
+def expensive():
+    print(&quot;  [expensive() called]&quot;)
+    return True
+
+print(&quot;--- short-circuit AND ---&quot;)
+result = False and expensive()    # expensive() never called
+print(&quot;Result:&quot;, result)
+
+print(&quot;--- short-circuit OR ---&quot;)
+result = True or expensive()      # expensive() never called
+print(&quot;Result:&quot;, result)
+
+# Practical: safe attribute access via short-circuit
+user = None
+name = user and user.get(&quot;name&quot;, &quot;&quot;)   # won&#x27;t crash if user is None
+print(&quot;Name:&quot;, name)                    # None (short-circuited)
+
+user = {&quot;name&quot;: &quot;Alice&quot;, &quot;role&quot;: &quot;admin&quot;}
+name = user and user.get(&quot;name&quot;, &quot;&quot;)
+print(&quot;Name:&quot;, name)                    # &quot;Alice&quot;
+
+# assert — for debugging invariants (disabled with python -O)
+def divide(a, b):
+    assert b != 0, f&quot;Divisor must not be zero, got b={b}&quot;
+    return a / b
+
+print(divide(10, 2))
+try:
+    divide(5, 0)
+except AssertionError as e:
+    print(f&quot;AssertionError: {e}&quot;)
+
+# Conditional import — try fast C lib, fall back to pure Python
+try:
+    import ujson as json_lib          # fast third-party JSON
+    print(&quot;Using ujson&quot;)
+except ImportError:
+    import json as json_lib           # stdlib fallback
+    print(&quot;Using stdlib json&quot;)
+
+data = json_lib.dumps({&quot;key&quot;: &quot;value&quot;, &quot;nums&quot;: [1, 2, 3]})
+print(&quot;Encoded:&quot;, data)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Loan Eligibility Checker</div><div class="rd">A fintech app determines loan eligibility and interest rate tier based on applicant data.</div><pre><code class="language-python">def check_loan(age, income, credit_score, existing_debt):
+    # Basic eligibility
+    if age &lt; 18:
+        return &quot;REJECTED&quot;, &quot;Must be 18+&quot;
+    if income &lt; 20000:
+        return &quot;REJECTED&quot;, &quot;Minimum income $20,000&quot;
+    if credit_score &lt; 580:
+        return &quot;REJECTED&quot;, &quot;Credit score below 580&quot;
+
+    debt_to_income = existing_debt / income
+    if debt_to_income &gt; 0.5:
+        return &quot;REJECTED&quot;, f&quot;Debt-to-income {debt_to_income:.0%} exceeds 50%&quot;
+
+    # Approved — determine tier
+    if credit_score &gt;= 750 and debt_to_income &lt; 0.2:
+        rate = 4.5
+        tier = &quot;Prime&quot;
+    elif credit_score &gt;= 680:
+        rate = 6.9
+        tier = &quot;Standard&quot;
+    else:
+        rate = 11.5
+        tier = &quot;Subprime&quot;
+
+    return &quot;APPROVED&quot;, f&quot;{tier} rate: {rate}%&quot;
+
+applicants = [
+    (25, 65000, 720, 5000),
+    (17, 80000, 800, 0),
+    (35, 90000, 760, 8000),
+    (30, 25000, 620, 15000),
+]
+for a in applicants:
+    status, msg = check_loan(*a)
+    print(f&quot;  Age={a[0]}, Income=${a[1]:,}, Score={a[2]} → {status}: {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Traffic Light Simulator</div><div class="pd">Implement traffic_action(color, has_pedestrian, is_emergency) that returns the correct action string using if/elif/else logic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">def traffic_action(color, has_pedestrian=False, is_emergency=False):
+    # TODO: if is_emergency, all lights should yield — return &quot;All yield for emergency&quot;
+
+    # TODO: use if/elif/else on color:
+    #   &quot;green&quot;  -&gt; &quot;Go&quot; (but if has_pedestrian -&gt; &quot;Go, watch for pedestrians&quot;)
+    #   &quot;yellow&quot; -&gt; &quot;Slow down&quot; (but if has_pedestrian -&gt; &quot;Stop for pedestrians&quot;)
+    #   &quot;red&quot;    -&gt; &quot;Stop&quot; (but if has_pedestrian -&gt; &quot;Stop — pedestrians crossing&quot;)
+    #   default  -&gt; f&quot;Unknown signal: {color}&quot;
+    pass
+
+# Test cases
+print(traffic_action(&quot;green&quot;))                          # Go
+print(traffic_action(&quot;green&quot;,  has_pedestrian=True))    # Go, watch for pedestrians
+print(traffic_action(&quot;yellow&quot;))                         # Slow down
+print(traffic_action(&quot;red&quot;,    has_pedestrian=True))    # Stop — pedestrians crossing
+print(traffic_action(&quot;red&quot;,    is_emergency=True))      # All yield for emergency
+print(traffic_action(&quot;purple&quot;))                         # Unknown signal: purple</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Loops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">for iterates over any iterable (list, range, string, dict). while loops run while a condition is True. Use break, continue, and enumerate for control.</p><div class="code-block"><div class="ch"><span>for loops</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python"># Loop over list
+fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+for fruit in fruits:
+    print(fruit)
+
+# Range
+for i in range(1, 6):
+    print(i, end=&quot; &quot;)
+print()
+
+# enumerate — get index + value
+for i, fruit in enumerate(fruits, start=1):
+    print(f&quot;{i}. {fruit}&quot;)
+
+# zip — loop two lists together
+prices = [0.5, 0.25, 1.99]
+for fruit, price in zip(fruits, prices):
+    print(f&quot;  {fruit}: ${price}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>while, break, continue</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python"># while loop
+count = 0
+total = 0
+while count &lt; 5:
+    total += count
+    count += 1
+print(f&quot;Sum 0..4 = {total}&quot;)
+
+# break — exit early
+for n in range(100):
+    if n * n &gt; 50:
+        print(f&quot;First n where n²&gt;50: {n}&quot;)
+        break
+
+# continue — skip current iteration
+for n in range(10):
+    if n % 2 == 0:
+        continue      # skip even numbers
+    print(n, end=&quot; &quot;)
+print()
+
+# else on for loop (runs if not broken)
+for n in range(2, 10):
+    if 7 % n == 0 and n != 7:
+        print(&quot;7 is not prime&quot;); break
+else:
+    print(&quot;7 is prime&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Nested loops and accumulator pattern</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python"># Multiplication table using nested loops
+print(&quot;Multiplication table (1-5):&quot;)
+for i in range(1, 6):
+    row = &quot;&quot;
+    for j in range(1, 6):
+        row += f&quot;{i*j:4d}&quot;
+    print(row)
+
+# itertools.product — Cartesian product (like nested loops)
+import itertools
+suits  = [&quot;♠&quot;, &quot;♥&quot;, &quot;♦&quot;, &quot;♣&quot;]
+values = [&quot;A&quot;, &quot;K&quot;, &quot;Q&quot;]
+cards  = list(itertools.product(values, suits))
+print(f&quot;\n{len(cards)} high cards:&quot;, cards[:4], &quot;...&quot;)
+
+# Running maximum accumulator pattern
+readings = [12, 7, 25, 18, 30, 14, 42, 9, 36]
+running_max = []
+current_max = float(&quot;-inf&quot;)
+for val in readings:
+    if val &gt; current_max:
+        current_max = val
+    running_max.append(current_max)
+print(&quot;\nReadings:    &quot;, readings)
+print(&quot;Running max: &quot;, running_max)</code></pre></div><div class="code-block"><div class="ch"><span>itertools recipes: chain, islice, takewhile, dropwhile, groupby</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">import itertools
+
+# chain — iterate multiple iterables as one
+a = [1, 2, 3]
+b = (&quot;four&quot;, &quot;five&quot;)
+c = range(6, 9)
+for item in itertools.chain(a, b, c):
+    print(item, end=&quot; &quot;)
+print()
+
+# islice — lazy slice of an iterator (no list copy)
+gen = (x**2 for x in itertools.count(1))   # infinite squares
+first_10 = list(itertools.islice(gen, 10))
+print(&quot;First 10 squares:&quot;, first_10)
+
+# takewhile / dropwhile — conditional iteration
+data = [2, 4, 6, 7, 8, 10, 12]
+taken   = list(itertools.takewhile(lambda x: x % 2 == 0, data))
+dropped = list(itertools.dropwhile(lambda x: x % 2 == 0, data))
+print(&quot;takewhile even:&quot;, taken)    # [2, 4, 6] — stops at 7
+print(&quot;dropwhile even:&quot;, dropped)  # [7, 8, 10, 12] — starts at 7
+
+# groupby — group consecutive items by a key (data must be sorted by key first)
+entries = [
+    (&quot;Alice&quot;, &quot;Engineering&quot;), (&quot;Bob&quot;, &quot;Engineering&quot;),
+    (&quot;Carol&quot;, &quot;Marketing&quot;),   (&quot;Dave&quot;, &quot;Marketing&quot;),
+    (&quot;Eve&quot;,   &quot;Engineering&quot;),
+]
+entries.sort(key=lambda e: e[1])   # sort by department first
+for dept, group in itertools.groupby(entries, key=lambda e: e[1]):
+    names = [name for name, _ in group]
+    print(f&quot;  {dept}: {names}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Report Generator</div><div class="rd">A sales manager loops through weekly data to compute running totals, find best weeks, and flag targets.</div><pre><code class="language-python">weekly_sales = [42000, 38500, 51000, 47200, 29800, 55600, 48900, 61000, 39700, 52300]
+target       = 45000
+best_week    = 0
+best_amount  = 0
+total        = 0
+above_target = 0
+
+for week, sales in enumerate(weekly_sales, start=1):
+    total += sales
+    if sales &gt; best_amount:
+        best_amount = sales
+        best_week   = week
+    status = &quot;✓&quot; if sales &gt;= target else &quot;✗&quot;
+    if sales &gt;= target:
+        above_target += 1
+    print(f&quot;  Week {week:2d}: ${sales:&gt;7,}  {status}&quot;)
+
+avg = total / len(weekly_sales)
+print(f&quot;
+Total:     ${total:&gt;9,}&quot;)
+print(f&quot;Average:   ${avg:&gt;9,.0f}&quot;)
+print(f&quot;Best week: Week {best_week} (${best_amount:,})&quot;)
+print(f&quot;On target: {above_target}/{len(weekly_sales)} weeks&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz Plus</div><div class="pd">Loop from 1 to 30. For each number: if divisible by 3 add &#x27;Fizz&#x27;, by 5 add &#x27;Buzz&#x27;, by 7 add &#x27;Zap&#x27;. Print the composed string, or the number if none apply.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">results = []
+
+for n in range(1, 31):
+    label = &quot;&quot;
+    # TODO: if divisible by 3, add &quot;Fizz&quot; to label
+    # if n % 3 == 0: label += ???
+
+    # TODO: if divisible by 5, add &quot;Buzz&quot; to label
+
+    # TODO: if divisible by 7, add &quot;Zap&quot; to label
+
+    # TODO: if label is still empty, use the number itself
+    # results.append(label if label else str(n))
+    pass
+
+# Print 10 per line
+for i in range(0, 30, 10):
+    print(&quot;  &quot; + &quot;  &quot;.join(f&quot;{v:8s}&quot; for v in results[i:i+10]))
+
+# Expected row 1: 1  2  Fizz  4  Buzz  Fizz  Zap  8  Fizz  Buzz</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Functions let you encapsulate reusable logic. Python supports default arguments, *args, **kwargs, and lambda (anonymous) functions.</p><div class="code-block"><div class="ch"><span>Defining functions and default arguments</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">def greet(name, greeting=&quot;Hello&quot;):
+    # Returns a greeting string
+    return f&quot;{greeting}, {name}!&quot;
+
+print(greet(&quot;Alice&quot;))
+print(greet(&quot;Bob&quot;, &quot;Hi&quot;))
+print(greet(name=&quot;Carol&quot;, greeting=&quot;Hey&quot;))
+
+# Multiple return values (returns a tuple)
+def stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)/len(numbers)
+
+lo, hi, avg = stats([4, 8, 2, 9, 1, 7])
+print(f&quot;min={lo}, max={hi}, avg={avg:.2f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>*args, **kwargs, lambda</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python"># *args — variable positional arguments
+def add_all(*args):
+    return sum(args)
+
+print(add_all(1, 2, 3))            # 6
+print(add_all(10, 20, 30, 40))     # 100
+
+# **kwargs — variable keyword arguments
+def build_profile(**kwargs):
+    return {k: v for k, v in kwargs.items()}
+
+print(build_profile(name=&quot;Alice&quot;, age=30, role=&quot;admin&quot;))
+
+# Lambda (anonymous function)
+square   = lambda x: x ** 2
+multiply = lambda x, y: x * y
+
+nums = [3, 1, 4, 1, 5, 9, 2, 6]
+print(sorted(nums))
+print(sorted(nums, key=lambda x: -x))   # descending</code></pre></div><div class="code-block"><div class="ch"><span>Closures and decorators</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">import time, functools
+
+# Closure — inner function captures outer variable
+def make_counter(start=0):
+    count = [start]  # mutable container so inner fn can modify
+    def counter():
+        count[0] += 1
+        return count[0]
+    return counter
+
+c1 = make_counter()
+c2 = make_counter(10)
+print(c1(), c1(), c1())   # 1 2 3
+print(c2(), c2())          # 11 12  (independent state)
+
+# Decorator — wraps a function to add behaviour
+def timer(func):
+    @functools.wraps(func)   # preserves __name__, __doc__
+    def wrapper(*args, **kwargs):
+        start  = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        print(f&quot;{func.__name__} took {elapsed:.6f}s&quot;)
+        return result
+    return wrapper
+
+@timer
+def slow_sum(n):
+    return sum(range(n))
+
+total = slow_sum(1_000_000)
+print(f&quot;Sum = {total:,}&quot;)
+print(&quot;Function name preserved:&quot;, slow_sum.__name__)</code></pre></div><div class="code-block"><div class="ch"><span>Type hints, functools.reduce, and inspect signatures</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">from typing import List, Dict, Optional, Union, Callable
+import functools, inspect
+
+# Type hints — document intent, checked by mypy (not enforced at runtime)
+def calculate_total(
+    prices: List[float],
+    tax_rate: float = 0.08,
+    discount: Optional[float] = None,
+) -&gt; Dict[str, float]:
+    subtotal = sum(prices)
+    disc_amt  = subtotal * discount if discount else 0.0
+    taxable   = subtotal - disc_amt
+    total     = taxable * (1 + tax_rate)
+    return {&quot;subtotal&quot;: round(subtotal, 2),
+            &quot;discount&quot;: round(disc_amt, 2),
+            &quot;tax&quot;:      round(taxable * tax_rate, 2),
+            &quot;total&quot;:    round(total, 2)}
+
+result = calculate_total([9.99, 24.50, 4.99], discount=0.1)
+for k, v in result.items():
+    print(f&quot;  {k:10s}: ${v:.2f}&quot;)
+
+# functools.reduce — fold sequence into single value
+from functools import reduce
+factorial = reduce(lambda acc, x: acc * x, range(1, 8))  # 7! = 5040
+print(f&quot;7! = {factorial}&quot;)
+
+running_totals = []
+reduce(lambda acc, x: (running_totals.append(acc + x), acc + x)[1],
+       [10, 20, 30, 40], 0)
+print(&quot;Running totals:&quot;, running_totals)
+
+# inspect — introspect function signatures at runtime
+def my_func(a: int, b: float = 3.14, *args, keyword: str = &quot;hi&quot;, **kwargs):
+    pass
+
+sig = inspect.signature(my_func)
+for name, param in sig.parameters.items():
+    kind    = str(param.kind).split(&quot;.&quot;)[-1]
+    default = param.default if param.default is not inspect.Parameter.empty else &quot;required&quot;
+    print(f&quot;  {name:10s} [{kind:20s}] default={default}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Data Cleaning Pipeline</div><div class="rd">A data engineer writes a set of small, composable functions to clean and validate user records.</div><pre><code class="language-python">def clean_name(name):
+    return &quot; &quot;.join(w.capitalize() for w in name.strip().split())
+
+def clean_email(email):
+    return email.strip().lower()
+
+def validate_age(age, min_age=0, max_age=120):
+    try:
+        a = int(age)
+        return a if min_age &lt;= a &lt;= max_age else None
+    except (ValueError, TypeError):
+        return None
+
+def clean_record(record):
+    return {
+        &quot;name&quot;:  clean_name(record.get(&quot;name&quot;, &quot;&quot;)),
+        &quot;email&quot;: clean_email(record.get(&quot;email&quot;, &quot;&quot;)),
+        &quot;age&quot;:   validate_age(record.get(&quot;age&quot;)),
+    }
+
+raw_records = [
+    {&quot;name&quot;: &quot;  alice SMITH &quot;, &quot;email&quot;: &quot;Alice@Example.COM &quot;, &quot;age&quot;: &quot;28&quot;},
+    {&quot;name&quot;: &quot;BOB jones&quot;,      &quot;email&quot;: &quot;bob@company.com&quot;,    &quot;age&quot;: &quot;abc&quot;},
+    {&quot;name&quot;: &quot;carol  White&quot;,   &quot;email&quot;: &quot;  CAROL@test.org&quot;,  &quot;age&quot;: &quot;200&quot;},
+]
+
+for rec in raw_records:
+    cleaned = clean_record(rec)
+    valid = &quot;OK&quot; if cleaned[&quot;age&quot;] is not None else &quot;INVALID AGE&quot;
+    print(f&quot;  {cleaned[&#x27;name&#x27;]:18s} | {cleaned[&#x27;email&#x27;]:25s} | age={cleaned[&#x27;age&#x27;]} {valid}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize Decorator</div><div class="pd">Write a memoize(func) decorator that caches results in a dict keyed by args. Then decorate a recursive fibonacci function and observe the speedup.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">def memoize(func):
+    cache = {}
+    # TODO: define wrapper(*args) that:
+    #   1. checks if args is already in cache
+    #   2. if yes, returns cache[args]
+    #   3. if no, calls func(*args), stores in cache, returns result
+    # TODO: use functools.wraps(func) to preserve metadata
+    # TODO: return wrapper
+    pass
+
+import functools
+
+@memoize
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+# Test: should complete instantly even for large n
+print([fibonacci(i) for i in range(10)])  # [0,1,1,2,3,5,8,13,21,34]
+print(fibonacci(35))                       # 9227465 — fast with memoize!</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Classes &amp; OOP</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Classes define blueprints for objects. Python supports encapsulation, inheritance, and special (dunder) methods like __str__ and __repr__.</p><div class="code-block"><div class="ch"><span>Defining a class with __init__ and methods</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner   = owner
+        self.balance = balance
+        self._history = []        # convention: private
+
+    def deposit(self, amount):
+        if amount &gt; 0:
+            self.balance += amount
+            self._history.append(f&quot;+{amount:.2f}&quot;)
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print(&quot;Insufficient funds&quot;)
+        else:
+            self.balance -= amount
+            self._history.append(f&quot;-{amount:.2f}&quot;)
+
+    def __str__(self):
+        return f&quot;Account({self.owner}, ${self.balance:.2f})&quot;
+
+acc = BankAccount(&quot;Alice&quot;, 1000)
+acc.deposit(500)
+acc.withdraw(200)
+print(acc)
+print(&quot;History:&quot;, acc._history)</code></pre></div><div class="code-block"><div class="ch"><span>Inheritance</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">class Animal:
+    def __init__(self, name, sound):
+        self.name  = name
+        self.sound = sound
+
+    def speak(self):
+        return f&quot;{self.name} says {self.sound}!&quot;
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, &quot;Woof&quot;)
+        self.breed = breed
+
+    def fetch(self, item):
+        return f&quot;{self.name} fetches the {item}!&quot;
+
+class Cat(Animal):
+    def __init__(self, name):
+        super().__init__(name, &quot;Meow&quot;)
+
+    def purr(self):
+        return f&quot;{self.name} purrs...&quot;
+
+dog = Dog(&quot;Rex&quot;, &quot;Labrador&quot;)
+cat = Cat(&quot;Whiskers&quot;)
+print(dog.speak(), dog.fetch(&quot;ball&quot;))
+print(cat.speak(), cat.purr())</code></pre></div><div class="code-block"><div class="ch"><span>Properties, classmethods, and dunder comparison methods</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">class Temperature:
+    def __init__(self, celsius):
+        self._celsius = celsius
+
+    @property
+    def celsius(self):
+        return self._celsius
+
+    @celsius.setter
+    def celsius(self, value):
+        if value &lt; -273.15:
+            raise ValueError(&quot;Temperature below absolute zero!&quot;)
+        self._celsius = value
+
+    @property
+    def fahrenheit(self):
+        return self._celsius * 9/5 + 32
+
+    @classmethod
+    def from_fahrenheit(cls, f):
+        return cls((f - 32) * 5/9)
+
+    def __repr__(self):
+        return f&quot;Temperature({self._celsius:.2f}°C / {self.fahrenheit:.2f}°F)&quot;
+
+    def __lt__(self, other):
+        return self._celsius &lt; other._celsius
+
+    def __eq__(self, other):
+        return self._celsius == other._celsius
+
+    def __add__(self, other):
+        return Temperature(self._celsius + other._celsius)
+
+t1 = Temperature(100)
+t2 = Temperature.from_fahrenheit(32)   # 0°C
+t3 = t1 + t2
+
+print(t1)                  # 100°C / 212°F
+print(t2)                  # 0°C / 32°F
+print(t3)                  # 100°C sum
+print(t2 &lt; t1)             # True
+print(sorted([t1, t2, t3]))</code></pre></div><div class="code-block"><div class="ch"><span>Abstract base classes (ABC), dataclasses, and __slots__</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+import sys
+
+# Abstract Base Class — define an interface that subclasses must implement
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -&gt; float:
+        ...
+    @abstractmethod
+    def perimeter(self) -&gt; float:
+        ...
+    def describe(self):
+        return f&quot;{type(self).__name__}: area={self.area():.2f}, perimeter={self.perimeter():.2f}&quot;
+
+class Circle(Shape):
+    def __init__(self, radius: float):
+        self.radius = radius
+    def area(self):
+        import math; return math.pi * self.radius ** 2
+    def perimeter(self):
+        import math; return 2 * math.pi * self.radius
+
+class Rectangle(Shape):
+    def __init__(self, w: float, h: float):
+        self.w, self.h = w, h
+    def area(self):      return self.w * self.h
+    def perimeter(self): return 2 * (self.w + self.h)
+
+for shape in [Circle(5), Rectangle(4, 6)]:
+    print(shape.describe())
+
+# @dataclass — auto-generates __init__, __repr__, __eq__
+@dataclass(order=True)
+class Point:
+    x: float
+    y: float
+    label: str = field(default=&quot;&quot;, compare=False)
+
+    def distance_to(self, other: &quot;Point&quot;) -&gt; float:
+        return ((self.x - other.x)**2 + (self.y - other.y)**2) ** 0.5
+
+p1 = Point(0, 0, &quot;origin&quot;)
+p2 = Point(3, 4, &quot;target&quot;)
+print(p1, p2)
+print(f&quot;Distance: {p1.distance_to(p2):.2f}&quot;)
+print(&quot;Sorted:&quot;, sorted([p2, p1]))
+
+# __slots__ — restrict attributes, save memory
+class SlottedPoint:
+    __slots__ = (&quot;x&quot;, &quot;y&quot;)
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+sp = SlottedPoint(1, 2)
+print(f&quot;SlottedPoint: ({sp.x}, {sp.y})&quot;)
+try:
+    sp.z = 99    # can&#x27;t add new attributes
+except AttributeError as e:
+    print(f&quot;AttributeError: {e}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: E-Commerce Cart System</div><div class="rd">An online store uses OOP to model products and a shopping cart with discount logic.</div><pre><code class="language-python">class Product:
+    def __init__(self, name, price, category):
+        self.name     = name
+        self.price    = price
+        self.category = category
+
+    def __repr__(self):
+        return f&quot;{self.name} (${self.price:.2f})&quot;
+
+
+class Cart:
+    def __init__(self, user):
+        self.user  = user
+        self.items = []
+
+    def add(self, product, qty=1):
+        self.items.append({&quot;product&quot;: product, &quot;qty&quot;: qty})
+
+    def subtotal(self):
+        return sum(i[&quot;product&quot;].price * i[&quot;qty&quot;] for i in self.items)
+
+    def apply_discount(self, code):
+        discounts = {&quot;SAVE10&quot;: 0.10, &quot;HALF50&quot;: 0.50, &quot;VIP20&quot;: 0.20}
+        return discounts.get(code.upper(), 0)
+
+    def checkout(self, code=&quot;&quot;):
+        sub      = self.subtotal()
+        discount = self.apply_discount(code)
+        total    = sub * (1 - discount)
+        print(f&quot;Cart for {self.user}:&quot;)
+        for i in self.items:
+            print(f&quot;  {i[&#x27;product&#x27;].name:15s} x{i[&#x27;qty&#x27;]}  ${i[&#x27;product&#x27;].price * i[&#x27;qty&#x27;]:.2f}&quot;)
+        print(f&quot;  Subtotal: ${sub:.2f}&quot;)
+        if discount: print(f&quot;  Discount: -{discount:.0%}&quot;)
+        print(f&quot;  Total:    ${total:.2f}&quot;)
+
+cart = Cart(&quot;Alice&quot;)
+cart.add(Product(&quot;Laptop&quot;,  999.99, &quot;Electronics&quot;), 1)
+cart.add(Product(&quot;Mouse&quot;,    29.99, &quot;Electronics&quot;), 2)
+cart.add(Product(&quot;Notebook&quot;,  5.99, &quot;Stationery&quot;),  3)
+cart.checkout(&quot;SAVE10&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Stack</div><div class="pd">Implement a Stack class with push, pop, peek, __len__, and __repr__. The stack should raise IndexError on pop/peek from an empty stack.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">class Stack:
+    def __init__(self):
+        # TODO: initialise internal list self._data = []
+        pass
+
+    def push(self, item):
+        # TODO: append item to self._data
+        pass
+
+    def pop(self):
+        # TODO: raise IndexError(&quot;pop from empty stack&quot;) if empty
+        # TODO: otherwise remove and return the top item
+        pass
+
+    def peek(self):
+        # TODO: raise IndexError(&quot;peek from empty stack&quot;) if empty
+        # TODO: otherwise return top item WITHOUT removing it
+        pass
+
+    def __len__(self):
+        # TODO: return number of items
+        pass
+
+    def __repr__(self):
+        # TODO: return something like Stack([1, 2, 3]) — top is rightmost
+        pass
+
+# Tests
+s = Stack()
+s.push(1); s.push(2); s.push(3)
+print(s)            # Stack([1, 2, 3])
+print(len(s))       # 3
+print(s.peek())     # 3
+print(s.pop())      # 3
+print(s)            # Stack([1, 2])
+try:
+    Stack().pop()
+except IndexError as e:
+    print(f&quot;Caught: {e}&quot;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Error Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use try/except/finally to handle exceptions gracefully. Raise custom exceptions to signal application-level errors.</p><div class="code-block"><div class="ch"><span>try / except / finally</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python"># Basic exception handling
+def safe_divide(a, b):
+    try:
+        result = a / b
+    except ZeroDivisionError:
+        return &quot;Error: cannot divide by zero&quot;
+    except TypeError as e:
+        return f&quot;Error: {e}&quot;
+    else:
+        return result              # runs if no exception
+    finally:
+        print(&quot;safe_divide() called&quot;)  # always runs
+
+print(safe_divide(10, 2))
+print(safe_divide(10, 0))
+print(safe_divide(&quot;x&quot;, 2))</code></pre></div><div class="code-block"><div class="ch"><span>Multiple exceptions and custom exceptions</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">class InsufficientFundsError(Exception):
+    def __init__(self, amount, balance):
+        self.amount  = amount
+        self.balance = balance
+        super().__init__(f&quot;Tried to withdraw ${amount:.2f}, only ${balance:.2f} available&quot;)
+
+def withdraw(balance, amount):
+    if not isinstance(amount, (int, float)):
+        raise TypeError(f&quot;Amount must be a number, got {type(amount).__name__}&quot;)
+    if amount &lt;= 0:
+        raise ValueError(&quot;Amount must be positive&quot;)
+    if amount &gt; balance:
+        raise InsufficientFundsError(amount, balance)
+    return balance - amount
+
+for args in [(100, 30), (100, 200), (100, -10), (100, &quot;abc&quot;)]:
+    try:
+        new_bal = withdraw(*args)
+        print(f&quot;Withdrew {args[1]}, new balance: {new_bal}&quot;)
+    except (InsufficientFundsError, ValueError, TypeError) as e:
+        print(f&quot;Error: {e}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Context managers and exception chaining</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">import time
+
+# Custom context manager using __enter__ / __exit__
+class Timer:
+    def __enter__(self):
+        self.start = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.elapsed = time.perf_counter() - self.start
+        print(f&quot;Elapsed: {self.elapsed:.6f}s&quot;)
+        return False  # don&#x27;t suppress exceptions
+
+with Timer() as t:
+    total = sum(range(500_000))
+print(f&quot;Sum = {total:,}&quot;)
+
+# Exception chaining — raise X from Y
+class DatabaseError(Exception):
+    pass
+
+def fetch_user(user_id, data):
+    try:
+        return data[user_id]
+    except KeyError as e:
+        raise DatabaseError(f&quot;User {user_id} not found&quot;) from e
+
+records = {&quot;alice&quot;: {&quot;age&quot;: 30}, &quot;bob&quot;: {&quot;age&quot;: 25}}
+
+for uid in [&quot;alice&quot;, &quot;carol&quot;]:
+    try:
+        user = fetch_user(uid, records)
+        print(f&quot;Found: {user}&quot;)
+    except DatabaseError as e:
+        print(f&quot;DB Error: {e}&quot;)
+        print(f&quot;  Caused by: {e.__cause__}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>contextlib helpers and logging module basics</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import logging
+import io
+from contextlib import suppress, redirect_stdout, contextmanager
+
+# suppress — silently ignore specific exceptions (replaces try/except/pass)
+with suppress(FileNotFoundError):
+    open(&quot;nonexistent_file.txt&quot;)   # no error raised
+print(&quot;suppress: FileNotFoundError silently ignored&quot;)
+
+# redirect_stdout — capture print() output into a buffer
+buffer = io.StringIO()
+with redirect_stdout(buffer):
+    print(&quot;This goes into the buffer, not the terminal&quot;)
+    print(&quot;So does this line&quot;)
+captured = buffer.getvalue()
+print(f&quot;Captured {len(captured.splitlines())} lines: {captured.splitlines()[0]!r}&quot;)
+
+# @contextmanager — create a context manager with a generator
+@contextmanager
+def managed_resource(name):
+    print(f&quot;  [open]  {name}&quot;)
+    try:
+        yield name.upper()     # value bound to &#x27;as&#x27; target
+    except Exception as e:
+        print(f&quot;  [error] {e}&quot;)
+        raise
+    finally:
+        print(f&quot;  [close] {name}&quot;)
+
+with managed_resource(&quot;database_connection&quot;) as res:
+    print(f&quot;  Using: {res}&quot;)
+
+# logging module basics
+logging.basicConfig(
+    level=logging.DEBUG,
+    format=&quot;%(levelname)-8s %(name)s: %(message)s&quot;
+)
+log = logging.getLogger(&quot;myapp&quot;)
+log.debug(&quot;Debug-level detail (only shown at DEBUG+)&quot;)
+log.info(&quot;Server started on port 8080&quot;)
+log.warning(&quot;Disk usage at 85%%&quot;)
+log.error(&quot;Failed to connect to database&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Robust File &amp; API Data Reader</div><div class="rd">A data pipeline gracefully handles missing files, JSON parse errors, and unexpected data formats.</div><pre><code class="language-python">import json
+
+def read_config(filepath):
+    try:
+        with open(filepath, &quot;r&quot;) as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        print(f&quot;Config file not found: {filepath}&quot;)
+        return {}
+    except json.JSONDecodeError as e:
+        print(f&quot;Invalid JSON in {filepath}: {e}&quot;)
+        return {}
+
+def get_setting(config, key, default=None, required=False):
+    value = config.get(key, default)
+    if required and value is None:
+        raise KeyError(f&quot;Required setting &#x27;{key}&#x27; is missing from config&quot;)
+    return value
+
+# Simulate loading a config
+sample_config = {&quot;db_host&quot;: &quot;localhost&quot;, &quot;db_port&quot;: 5432, &quot;debug&quot;: True}
+
+try:
+    host    = get_setting(sample_config, &quot;db_host&quot;,    required=True)
+    port    = get_setting(sample_config, &quot;db_port&quot;,    required=True)
+    timeout = get_setting(sample_config, &quot;timeout&quot;,    default=30)
+    api_key = get_setting(sample_config, &quot;api_key&quot;,    required=True)
+except KeyError as e:
+    print(f&quot;Configuration error: {e}&quot;)
+    host, port, timeout = &quot;localhost&quot;, 5432, 30
+    print(f&quot;Using defaults: {host}:{port}, timeout={timeout}s&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Data Parser</div><div class="pd">Write parse_record(line) that parses a CSV line like &#x27;Alice,28,92.5&#x27; into a dict with name (str), age (int), score (float). Return None on any error.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">def parse_record(line):
+    # TODO: split line by &quot;,&quot;
+    # TODO: wrap in try/except to catch ValueError and IndexError
+    # TODO: inside try:
+    #   parts = line.split(&quot;,&quot;)
+    #   name  = parts[0].strip()
+    #   age   = int(parts[1].strip())     # may raise ValueError
+    #   score = float(parts[2].strip())   # may raise ValueError
+    #   return {&quot;name&quot;: name, &quot;age&quot;: age, &quot;score&quot;: score}
+    # TODO: on except, return None
+    pass
+
+# Test cases
+test_lines = [
+    &quot;Alice,28,92.5&quot;,      # valid
+    &quot;Bob,thirty,88.0&quot;,    # bad age
+    &quot;Carol,22&quot;,           # missing score (IndexError)
+    &quot;Dave,19,invalid&quot;,    # bad score
+    &quot;&quot;,                   # empty
+]
+
+for line in test_lines:
+    result = parse_record(line)
+    print(f&quot;  {line!r:25s} -&gt; {result}&quot;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. File I/O</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Read and write files using open(). Use the with statement to ensure files are always closed. Python handles text and binary files.</p><div class="code-block"><div class="ch"><span>Reading and writing text files</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import os
+
+# Write a file
+with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Line 1: Hello World
+&quot;)
+    f.write(&quot;Line 2: Python File I/O
+&quot;)
+    f.writelines([&quot;Line 3: data
+&quot;, &quot;Line 4: more data
+&quot;])
+
+# Read entire file
+with open(&quot;demo.txt&quot;, &quot;r&quot;) as f:
+    content = f.read()
+print(&quot;Full content:
+&quot;, content)
+
+# Read line by line
+with open(&quot;demo.txt&quot;, &quot;r&quot;) as f:
+    for i, line in enumerate(f, 1):
+        print(f&quot;  [{i}] {line.rstrip()}&quot;)
+
+os.remove(&quot;demo.txt&quot;)  # cleanup</code></pre></div><div class="code-block"><div class="ch"><span>Working with CSV and JSON</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">import json, csv, io
+
+# JSON
+data = {&quot;name&quot;: &quot;Alice&quot;, &quot;scores&quot;: [95, 87, 91], &quot;active&quot;: True}
+json_str = json.dumps(data, indent=2)
+print(&quot;JSON:
+&quot;, json_str)
+
+loaded = json.loads(json_str)
+print(&quot;Avg score:&quot;, sum(loaded[&quot;scores&quot;]) / len(loaded[&quot;scores&quot;]))
+
+# CSV (using in-memory buffer)
+output = io.StringIO()
+writer = csv.writer(output)
+writer.writerow([&quot;name&quot;, &quot;age&quot;, &quot;city&quot;])
+writer.writerows([[&quot;Alice&quot;,30,&quot;NYC&quot;],[&quot;Bob&quot;,25,&quot;LA&quot;],[&quot;Carol&quot;,35,&quot;Chicago&quot;]])
+
+output.seek(0)
+reader = csv.DictReader(output)
+for row in reader:
+    print(dict(row))</code></pre></div><div class="code-block"><div class="ch"><span>pathlib and binary I/O</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python">import pathlib, io, tempfile
+
+# pathlib — modern, object-oriented path handling
+p = pathlib.Path.home()
+print(&quot;Home dir:&quot;, p)
+print(&quot;Exists:&quot;, p.exists())
+
+# Build paths with / operator
+tmp = pathlib.Path(tempfile.gettempdir())
+data_file = tmp / &quot;demo_data.txt&quot;
+
+# Write and read with pathlib
+data_file.write_text(&quot;Hello from pathlib!\nLine 2\nLine 3\n&quot;, encoding=&quot;utf-8&quot;)
+content = data_file.read_text(encoding=&quot;utf-8&quot;)
+print(&quot;Read back:&quot;, content.splitlines())
+
+# Inspect path parts
+print(&quot;Name:     &quot;, data_file.name)
+print(&quot;Stem:     &quot;, data_file.stem)
+print(&quot;Suffix:   &quot;, data_file.suffix)
+print(&quot;Parent:   &quot;, data_file.parent)
+
+data_file.unlink()  # delete
+
+# io.BytesIO — in-memory binary buffer (like a file but in RAM)
+buf = io.BytesIO()
+buf.write(b&quot;\x89PNG\r\n&quot;)   # fake PNG header bytes
+buf.write(b&quot;binary data here&quot;)
+buf.seek(0)
+header = buf.read(6)
+print(&quot;Bytes header:&quot;, header)
+print(&quot;Buffer size:&quot;, buf.getbuffer().nbytes, &quot;bytes&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>pathlib.Path advanced: glob, rglob, iterdir, and tempfile module</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">import pathlib, tempfile, os
+
+# Create a temporary directory to experiment in
+with tempfile.TemporaryDirectory() as tmpdir:
+    root = pathlib.Path(tmpdir)
+
+    # Create nested structure
+    (root / &quot;src&quot;).mkdir()
+    (root / &quot;src&quot; / &quot;utils&quot;).mkdir()
+    (root / &quot;data&quot;).mkdir()
+    (root / &quot;src&quot; / &quot;main.py&quot;).write_text(&quot;# main&quot;, encoding=&quot;utf-8&quot;)
+    (root / &quot;src&quot; / &quot;helper.py&quot;).write_text(&quot;# helper&quot;, encoding=&quot;utf-8&quot;)
+    (root / &quot;src&quot; / &quot;utils&quot; / &quot;tools.py&quot;).write_text(&quot;# tools&quot;, encoding=&quot;utf-8&quot;)
+    (root / &quot;data&quot; / &quot;report.csv&quot;).write_text(&quot;a,b,c&quot;, encoding=&quot;utf-8&quot;)
+    (root / &quot;data&quot; / &quot;notes.txt&quot;).write_text(&quot;notes&quot;, encoding=&quot;utf-8&quot;)
+    (root / &quot;README.md&quot;).write_text(&quot;# Project&quot;, encoding=&quot;utf-8&quot;)
+
+    # iterdir() — immediate children only (non-recursive)
+    print(&quot;Top-level items:&quot;)
+    for item in sorted(root.iterdir()):
+        kind = &quot;DIR &quot; if item.is_dir() else &quot;FILE&quot;
+        print(f&quot;  {kind}  {item.name}&quot;)
+
+    # glob() — match pattern in direct children
+    print(&quot;\n*.md files (glob):&quot;, [p.name for p in root.glob(&quot;*.md&quot;)])
+
+    # rglob() — recursive glob across all subdirectories
+    print(&quot;All .py files (rglob):&quot;)
+    for py in sorted(root.rglob(&quot;*.py&quot;)):
+        print(f&quot;  {py.relative_to(root)}&quot;)
+
+    print(&quot;All files (rglob **):&quot;)
+    all_files = sorted(root.rglob(&quot;*&quot;))
+    for f in all_files:
+        if f.is_file():
+            print(f&quot;  {f.relative_to(root)}  ({f.stat().st_size} bytes)&quot;)
+
+# tempfile — create named temp files that auto-delete
+with tempfile.NamedTemporaryFile(mode=&quot;w&quot;, suffix=&quot;.json&quot;, delete=False, encoding=&quot;utf-8&quot;) as tf:
+    tf.write(&#x27;{&quot;status&quot;: &quot;ok&quot;}&#x27;)
+    tmp_path = pathlib.Path(tf.name)
+
+print(f&quot;\nTemp file: {tmp_path.name}&quot;)
+print(&quot;Content:&quot;, tmp_path.read_text(encoding=&quot;utf-8&quot;))
+tmp_path.unlink()   # manual cleanup since delete=False
+print(&quot;Temp file deleted:&quot;, not tmp_path.exists())</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Report File Processor</div><div class="rd">A business analyst reads daily sales CSV files, aggregates totals, and writes a JSON summary report.</div><pre><code class="language-python">import csv, json, io
+
+# Simulate CSV content
+csv_data = &quot;
+&quot;.join([
+    &quot;date,product,region,qty,price&quot;,
+    &quot;2024-01-01,Widget,North,10,9.99&quot;,
+    &quot;2024-01-01,Gadget,South,5,49.99&quot;,
+    &quot;2024-01-02,Widget,East,15,9.99&quot;,
+    &quot;2024-01-02,Doohickey,North,8,19.99&quot;,
+    &quot;2024-01-03,Gadget,East,3,49.99&quot;,
+    &quot;2024-01-03,Widget,South,12,9.99&quot;,
+])
+
+reader  = csv.DictReader(io.StringIO(csv_data))
+summary = {}
+
+for row in reader:
+    revenue = float(row[&quot;qty&quot;]) * float(row[&quot;price&quot;])
+    product = row[&quot;product&quot;]
+    region  = row[&quot;region&quot;]
+
+    if product not in summary:
+        summary[product] = {&quot;total_revenue&quot;: 0, &quot;total_qty&quot;: 0, &quot;regions&quot;: {}}
+    summary[product][&quot;total_revenue&quot;] += revenue
+    summary[product][&quot;total_qty&quot;]     += int(row[&quot;qty&quot;])
+    summary[product][&quot;regions&quot;][region] = summary[product][&quot;regions&quot;].get(region, 0) + revenue
+
+report = {k: {&quot;revenue&quot;: round(v[&quot;total_revenue&quot;],2), &quot;qty&quot;: v[&quot;total_qty&quot;],
+              &quot;top_region&quot;: max(v[&quot;regions&quot;], key=v[&quot;regions&quot;].get)}
+          for k, v in summary.items()}
+
+print(json.dumps(report, indent=2))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Analyzer</div><div class="pd">Parse a multi-line log string (via io.StringIO), count occurrences of each log level, and collect all ERROR message lines.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import io
+
+log_data = &quot;&quot;&quot;2024-01-15 INFO    Server started on port 8080
+2024-01-15 DEBUG   Loading config file
+2024-01-15 INFO    Database connected
+2024-01-15 WARNING Disk usage at 80%
+2024-01-15 ERROR   Failed to connect to cache: timeout
+2024-01-15 INFO    Request received: GET /home
+2024-01-15 ERROR   Database query failed: syntax error
+2024-01-15 WARNING Memory usage high: 75%
+2024-01-15 INFO    Request completed in 120ms
+2024-01-15 CRITICAL Disk full — writes disabled&quot;&quot;&quot;
+
+# TODO: create a file-like object from log_data using io.StringIO
+# f = io.StringIO(???)
+
+# TODO: iterate over lines, split each line to get the level (index 1)
+# count level occurrences in a dict: level_counts = {}
+# if the level is &quot;ERROR&quot;, append the full line to error_lines list
+
+# Expected output:
+# Level counts: {&#x27;INFO&#x27;: 4, &#x27;DEBUG&#x27;: 1, &#x27;WARNING&#x27;: 2, &#x27;ERROR&#x27;: 2, &#x27;CRITICAL&#x27;: 1}
+# Error lines:
+#   2024-01-15 ERROR   Failed to connect to cache: timeout
+#   2024-01-15 ERROR   Database query failed: syntax error</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. List Comprehensions &amp; Generators</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Comprehensions create lists, dicts, and sets concisely. Generators produce values lazily, saving memory for large sequences.</p><div class="code-block"><div class="ch"><span>List, dict, and set comprehensions</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python"># List comprehension
+squares = [x**2 for x in range(10)]
+evens   = [x for x in range(20) if x % 2 == 0]
+matrix  = [[i*j for j in range(1,4)] for i in range(1,4)]
+
+print(&quot;Squares:&quot;, squares[:5])
+print(&quot;Evens:&quot;, evens)
+print(&quot;Matrix:&quot;, matrix)
+
+# Dict comprehension
+word   = &quot;mississippi&quot;
+counts = {ch: word.count(ch) for ch in set(word)}
+print(&quot;Char counts:&quot;, dict(sorted(counts.items())))
+
+# Set comprehension
+text  = [&quot;hello&quot;, &quot;world&quot;, &quot;hello&quot;, &quot;python&quot;]
+unique_upper = {w.upper() for w in text}
+print(&quot;Unique upper:&quot;, unique_upper)</code></pre></div><div class="code-block"><div class="ch"><span>Generators and generator expressions</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python"># Generator function (yields values lazily)
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+fibs = list(fibonacci(10))
+print(&quot;Fibonacci:&quot;, fibs)
+
+# Generator expression (lazy list comprehension)
+big_squares = (x**2 for x in range(1_000_000))
+print(&quot;First 5:&quot;, [next(big_squares) for _ in range(5)])
+
+# sum() with generator — no list created in memory
+total = sum(x**2 for x in range(1000))
+print(&quot;Sum of squares 0..999:&quot;, total)</code></pre></div><div class="code-block"><div class="ch"><span>Generator pipeline</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python"># Chain generators together — each processes values lazily
+
+def read_numbers(data):
+    &quot;&quot;&quot;Yield numbers one at a time from a list.&quot;&quot;&quot;
+    for n in data:
+        yield n
+
+def filter_positive(numbers):
+    &quot;&quot;&quot;Yield only positive numbers.&quot;&quot;&quot;
+    for n in numbers:
+        if n &gt; 0:
+            yield n
+
+def square(numbers):
+    &quot;&quot;&quot;Yield squares of numbers.&quot;&quot;&quot;
+    for n in numbers:
+        yield n * n
+
+def running_total(numbers):
+    &quot;&quot;&quot;Yield cumulative sum at each step.&quot;&quot;&quot;
+    total = 0
+    for n in numbers:
+        total += n
+        yield total
+
+# Build the pipeline
+raw      = [-3, 1, -1, 4, 5, -9, 2, 6]
+pipeline = running_total(square(filter_positive(read_numbers(raw))))
+
+print(&quot;Pipeline output:&quot;, list(pipeline))
+# positives: 1,4,5,2,6  squares: 1,16,25,4,36  running: 1,17,42,46,82
+
+# Nested comprehension — flatten a matrix
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flat   = [cell for row in matrix for cell in row]
+print(&quot;Flat matrix:&quot;, flat)
+
+# Nested comprehension — all pairs where i != j
+pairs = [(i, j) for i in range(4) for j in range(4) if i != j]
+print(f&quot;Pairs (i!=j): {len(pairs)} pairs, first 4: {pairs[:4]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>itertools.chain, zip_longest, and starmap</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import itertools
+
+# chain.from_iterable — flatten one level of nested iterables
+nested = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]
+flat   = list(itertools.chain.from_iterable(nested))
+print(&quot;chain.from_iterable:&quot;, flat)
+
+# zip_longest — zip unequal-length iterables, filling with a default
+names  = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;]
+scores = [92, 85]
+grades = [&quot;A&quot;]
+for row in itertools.zip_longest(names, scores, grades, fillvalue=&quot;N/A&quot;):
+    print(f&quot;  {row[0]:8s}  score={row[1]:&gt;4}  grade={row[2]}&quot;)
+
+# starmap — map with argument unpacking (like map but for tuple arguments)
+pairs  = [(2, 10), (3, 4), (10, 2), (5, 3)]
+powers = list(itertools.starmap(pow, pairs))
+print(&quot;starmap(pow, pairs):&quot;, powers)   # [1024, 81, 100, 125]
+
+# Practical: generate a multiplication table with starmap
+import operator
+combos = itertools.product(range(1, 4), range(1, 4))
+table  = list(itertools.starmap(operator.mul, combos))
+print(&quot;3x3 mul table (flat):&quot;, table)
+
+# accumulate — running totals / cumulative operations
+sales   = [1200, 850, 1400, 980, 1100]
+running = list(itertools.accumulate(sales))
+print(&quot;Running sales totals:&quot;, running)
+
+running_max = list(itertools.accumulate(sales, max))
+print(&quot;Running maximums:    &quot;, running_max)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Log File Streaming Processor</div><div class="rd">A data engineer uses generators to process large log files line-by-line without loading everything into memory.</div><pre><code class="language-python">import io
+
+# Simulate a large log file as a generator
+def stream_logs(file_obj, min_level=&quot;WARNING&quot;):
+    levels = {&quot;DEBUG&quot;:0, &quot;INFO&quot;:1, &quot;WARNING&quot;:2, &quot;ERROR&quot;:3, &quot;CRITICAL&quot;:4}
+    min_n  = levels.get(min_level, 0)
+    for line in file_obj:
+        line = line.strip()
+        if not line: continue
+        parts = line.split(None, 3)
+        if len(parts) &lt; 4: continue
+        level = parts[1]
+        if levels.get(level, 0) &gt;= min_n:
+            yield {&quot;ts&quot;: parts[0], &quot;level&quot;: level, &quot;service&quot;: parts[2], &quot;msg&quot;: parts[3]}
+
+sample_log = io.StringIO(&quot;
+&quot;.join([
+    &quot;2024-01-15 DEBUG   db_pool:      Connection acquired&quot;,
+    &quot;2024-01-15 INFO    auth_service: User login alice@co.com&quot;,
+    &quot;2024-01-15 WARNING api_gateway:  Rate limit 90% for 192.168.1.1&quot;,
+    &quot;2024-01-15 ERROR   payment_svc:  Timeout after 30s for order #8821&quot;,
+    &quot;2024-01-15 INFO    cache:        Cache miss for key user:42&quot;,
+    &quot;2024-01-15 CRITICAL db_pool:     Connection pool exhausted!&quot;,
+]))
+
+alerts = list(stream_logs(sample_log, min_level=&quot;WARNING&quot;))
+print(f&quot;Found {len(alerts)} alerts:&quot;)
+for a in alerts:
+    print(f&quot;  [{a[&#x27;level&#x27;]:8s}] {a[&#x27;service&#x27;]:12s} {a[&#x27;msg&#x27;]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Processing Pipeline</div><div class="pd">Implement three chained generators: csv_rows() yields raw lines, parse_sales() parses each to a dict, high_value() keeps only sales above a threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import io
+
+csv_data = &quot;&quot;&quot;date,product,qty,price
+2024-01-01,Widget,10,9.99
+2024-01-02,Gadget,5,49.99
+2024-01-03,Widget,15,9.99
+2024-01-04,SuperGadget,2,199.99
+2024-01-05,Widget,8,9.99
+2024-01-06,Gadget,3,49.99&quot;&quot;&quot;
+
+def csv_rows(text):
+    # TODO: use io.StringIO(text), skip the header line,
+    # yield each remaining non-empty stripped line
+    pass
+
+def parse_sales(rows):
+    # TODO: for each row, split by &quot;,&quot; to get date, product, qty, price
+    # yield dict: {&quot;date&quot;: ..., &quot;product&quot;: ..., &quot;revenue&quot;: int(qty)*float(price)}
+    pass
+
+def high_value(sales, threshold=100):
+    # TODO: yield only sales where revenue &gt; threshold
+    pass
+
+# Chain the pipeline
+pipeline = high_value(parse_sales(csv_rows(csv_data)))
+for sale in pipeline:
+    print(f&quot;  {sale[&#x27;date&#x27;]}  {sale[&#x27;product&#x27;]:12s}  ${sale[&#x27;revenue&#x27;]:.2f}&quot;)</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Modules &amp; Useful Built-ins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s standard library is vast. Key modules: os, sys, datetime, math, random, collections, itertools. Use import to access them.</p><div class="code-block"><div class="ch"><span>os, datetime, math</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import os
+import math
+import datetime
+
+# os — file system and environment
+cwd = os.getcwd()
+print(&quot;CWD:&quot;, cwd)
+print(&quot;Home:&quot;, os.path.expanduser(&quot;~&quot;))
+print(&quot;Path exists:&quot;, os.path.exists(cwd))
+
+# datetime
+today = datetime.date.today()
+now   = datetime.datetime.now()
+delta = datetime.timedelta(days=30)
+print(&quot;Today:&quot;, today)
+print(&quot;In 30 days:&quot;, today + delta)
+print(&quot;Day of week:&quot;, today.strftime(&quot;%A&quot;))
+
+# math
+print(&quot;pi:&quot;,    round(math.pi, 4))
+print(&quot;sqrt(2):&quot;, round(math.sqrt(2), 4))
+print(&quot;log2(1024):&quot;, math.log2(1024))</code></pre></div><div class="code-block"><div class="ch"><span>collections and itertools</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">from collections import Counter, defaultdict, namedtuple
+import itertools
+
+# Counter
+words = &quot;the quick brown fox jumps over the lazy dog the&quot;.split()
+c = Counter(words)
+print(&quot;Most common:&quot;, c.most_common(3))
+
+# defaultdict
+from collections import defaultdict
+group = defaultdict(list)
+data  = [(&quot;fruit&quot;,&quot;apple&quot;),(&quot;veg&quot;,&quot;carrot&quot;),(&quot;fruit&quot;,&quot;banana&quot;),(&quot;veg&quot;,&quot;pea&quot;)]
+for category, item in data:
+    group[category].append(item)
+print(dict(group))
+
+# namedtuple
+Point = namedtuple(&quot;Point&quot;, [&quot;x&quot;, &quot;y&quot;])
+p = Point(3, 7)
+print(f&quot;Point: x={p.x}, y={p.y}&quot;)
+
+# itertools
+pairs = list(itertools.combinations(&quot;ABCD&quot;, 2))
+print(&quot;Combinations:&quot;, pairs)</code></pre></div><div class="code-block"><div class="ch"><span>functools and secrets</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import functools, random, secrets
+
+# functools.reduce — fold a sequence into a single value
+from functools import reduce
+product = reduce(lambda acc, x: acc * x, range(1, 6))  # 5! = 120
+print(&quot;5! =&quot;, product)
+
+# functools.partial — fix some arguments of a function
+def power(base, exponent):
+    return base ** exponent
+
+square = functools.partial(power, exponent=2)
+cube   = functools.partial(power, exponent=3)
+print(&quot;Squares:&quot;, [square(x) for x in range(1, 6)])
+print(&quot;Cubes:  &quot;, [cube(x)   for x in range(1, 6)])
+
+# functools.lru_cache — memoize automatically
+@functools.lru_cache(maxsize=None)
+def fib(n):
+    if n &lt; 2: return n
+    return fib(n-1) + fib(n-2)
+
+print(&quot;fib(35):&quot;, fib(35))
+print(&quot;Cache info:&quot;, fib.cache_info())
+
+# random vs secrets
+# random — reproducible (seeded), for simulations
+random.seed(42)
+sample = random.sample(range(100), 5)
+print(&quot;Random sample:&quot;, sample)
+
+# secrets — cryptographically secure, for tokens/passwords
+token = secrets.token_hex(16)     # 32-char hex string
+print(&quot;Secure token:&quot;, token)
+pin   = secrets.randbelow(10000)  # 0-9999
+print(&quot;Secure PIN: &quot;, str(pin).zfill(4))</code></pre></div><div class="code-block"><div class="ch"><span>importlib, sys.path, __name__ guard, and pprint</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import sys
+import importlib
+import pprint
+
+# sys.path — where Python searches for modules
+print(&quot;sys.path entries (first 3):&quot;)
+for p in sys.argv[0:1]:    # avoid printing too many paths
+    pass
+for path in sys.path[:3]:
+    print(f&quot;  {path!r}&quot;)
+
+# sys.argv — command-line arguments
+print(f&quot;Script name: {sys.argv[0]!r}&quot;)
+
+# sys.version / sys.platform — runtime info
+print(f&quot;Python {sys.version.split()[0]} on {sys.platform}&quot;)
+
+# importlib — dynamic import by string name
+math_mod = importlib.import_module(&quot;math&quot;)
+print(f&quot;math.tau = {math_mod.tau:.6f}&quot;)
+
+json_mod = importlib.import_module(&quot;json&quot;)
+encoded  = json_mod.dumps({&quot;key&quot;: &quot;value&quot;})
+print(&quot;Dynamic json.dumps:&quot;, encoded)
+
+# __name__ == &quot;__main__&quot; pattern
+# This block only runs when the script is executed directly,
+# NOT when it is imported as a module.
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Running as main script — __name__:&quot;, __name__)
+
+# pprint — pretty-print complex nested structures
+data = {
+    &quot;users&quot;: [
+        {&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;, &quot;roles&quot;: [&quot;admin&quot;, &quot;editor&quot;],
+         &quot;prefs&quot;: {&quot;theme&quot;: &quot;dark&quot;, &quot;lang&quot;: &quot;en&quot;}},
+        {&quot;id&quot;: 2, &quot;name&quot;: &quot;Bob&quot;,   &quot;roles&quot;: [&quot;viewer&quot;],
+         &quot;prefs&quot;: {&quot;theme&quot;: &quot;light&quot;, &quot;lang&quot;: &quot;fr&quot;}},
+    ],
+    &quot;meta&quot;: {&quot;version&quot;: &quot;2.1&quot;, &quot;count&quot;: 2}
+}
+print(&quot;\npprint output:&quot;)
+pprint.pprint(data, width=60, sort_dicts=False)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Web Request Log Analysis</div><div class="rd">A backend engineer uses Counter and defaultdict to analyze HTTP access logs and detect suspicious patterns.</div><pre><code class="language-python">from collections import Counter, defaultdict
+import datetime
+
+# Simulated access log entries: (ip, method, path, status, ts)
+logs = [
+    (&quot;192.168.1.10&quot;, &quot;GET&quot;,  &quot;/home&quot;,     200, &quot;2024-01-15 09:00:01&quot;),
+    (&quot;10.0.0.5&quot;,     &quot;POST&quot;, &quot;/login&quot;,    401, &quot;2024-01-15 09:00:03&quot;),
+    (&quot;10.0.0.5&quot;,     &quot;POST&quot;, &quot;/login&quot;,    401, &quot;2024-01-15 09:00:04&quot;),
+    (&quot;10.0.0.5&quot;,     &quot;POST&quot;, &quot;/login&quot;,    401, &quot;2024-01-15 09:00:05&quot;),
+    (&quot;192.168.1.10&quot;, &quot;GET&quot;,  &quot;/products&quot;, 200, &quot;2024-01-15 09:01:00&quot;),
+    (&quot;172.16.0.1&quot;,   &quot;GET&quot;,  &quot;/admin&quot;,    403, &quot;2024-01-15 09:01:30&quot;),
+    (&quot;172.16.0.1&quot;,   &quot;GET&quot;,  &quot;/admin&quot;,    403, &quot;2024-01-15 09:01:32&quot;),
+    (&quot;192.168.1.20&quot;, &quot;GET&quot;,  &quot;/home&quot;,     200, &quot;2024-01-15 09:02:00&quot;),
+    (&quot;10.0.0.5&quot;,     &quot;POST&quot;, &quot;/login&quot;,    200, &quot;2024-01-15 09:02:10&quot;),
+]
+
+status_counts = Counter(entry[3] for entry in logs)
+ip_requests   = Counter(entry[0] for entry in logs)
+failures_by_ip = defaultdict(int)
+
+for ip, method, path, status, ts in logs:
+    if status in (401, 403):
+        failures_by_ip[ip] += 1
+
+print(&quot;Status codes:&quot;, dict(status_counts))
+print(&quot;
+Top IPs:&quot;)
+for ip, count in ip_requests.most_common():
+    fails = failures_by_ip[ip]
+    flag  = &quot; ⚠️ SUSPICIOUS&quot; if fails &gt;= 2 else &quot;&quot;
+    print(f&quot;  {ip:16s} {count:3d} requests, {fails} failures{flag}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Analyze Dataset with Built-ins</div><div class="pd">Use the statistics module and built-in functions to compute mean/median/stdev, find top-5 and bottom-5 scores, and bin scores into letter grade counts with Counter.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import statistics
+from collections import Counter
+
+scores = [72, 88, 95, 63, 79, 91, 55, 84, 76, 90,
+          67, 83, 58, 97, 71, 80, 89, 62, 75, 93]
+
+# TODO: compute mean, median, stdev using statistics module
+# mean   = statistics.mean(scores)
+# median = statistics.median(scores)
+# stdev  = statistics.stdev(scores)
+# print(f&quot;Mean: {mean:.1f}, Median: {median}, StdDev: {stdev:.1f}&quot;)
+
+# TODO: use sorted() to get top_5 (highest) and bottom_5 (lowest)
+# top_5    = sorted(scores, reverse=True)[:5]
+# bottom_5 = sorted(scores)[:5]
+
+# TODO: map each score to a letter grade bin
+# def grade_bin(s): return &quot;A&quot; if s&gt;=90 else &quot;B&quot; if s&gt;=80 else &quot;C&quot; if s&gt;=70 else &quot;D&quot; if s&gt;=60 else &quot;F&quot;
+# bins = Counter(grade_bin(s) for s in scores)
+# print(&quot;Grade bins:&quot;, dict(sorted(bins.items())))
+
+print(&quot;Top 5:   &quot;, top_5)
+print(&quot;Bottom 5:&quot;, bottom_5)</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Context Managers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Manage resources safely and cleanly with the with statement. Guarantee teardown even when exceptions occur.</p><div class="code-block"><div class="ch"><span>File handling with context managers</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import tempfile, pathlib, os
+
+# Bad pattern: manual open/close risks resource leak
+# f = open(&#x27;data.txt&#x27;)
+# data = f.read()  # if this raises, f never closes
+# f.close()
+
+# Good pattern: with statement guarantees close()
+tmp = pathlib.Path(tempfile.mktemp(suffix=&#x27;.txt&#x27;))
+tmp.write_text(&#x27;line 1\nline 2\nline 3&#x27;)
+
+with open(tmp) as f:
+    data = f.read()
+print(&#x27;Read:&#x27;, repr(data))
+
+# Write mode
+with open(tmp, &#x27;a&#x27;) as f:
+    f.write(&#x27;\nline 4&#x27;)
+
+# File is closed here even if an exception happened inside
+
+# Reading line by line (memory-efficient for large files)
+with open(tmp) as f:
+    for i, line in enumerate(f, 1):
+        print(f&#x27;  {i}: {line.rstrip()}&#x27;)
+
+tmp.unlink()</code></pre></div><div class="code-block"><div class="ch"><span>Multiple context managers in one with</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import tempfile, pathlib
+
+src = pathlib.Path(tempfile.mktemp(suffix=&#x27;.txt&#x27;))
+dst = pathlib.Path(tempfile.mktemp(suffix=&#x27;.txt&#x27;))
+src.write_text(&#x27;hello from source&#x27;)
+
+# Open multiple files in one with statement
+with open(src) as fin, open(dst, &#x27;w&#x27;) as fout:
+    for line in fin:
+        fout.write(line.upper())
+
+print(&#x27;Copied and uppercased:&#x27;, dst.read_text())
+src.unlink(); dst.unlink()
+
+# Also works for nested managers of different types
+import io
+with io.StringIO(&#x27;a,b,c\n1,2,3&#x27;) as buf:
+    print(&#x27;StringIO:&#x27;, buf.read())</code></pre></div><div class="code-block"><div class="ch"><span>Custom context manager with __enter__ / __exit__</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import time
+
+class Timer:
+    def __init__(self, name=&#x27;block&#x27;):
+        self.name = name
+
+    def __enter__(self):
+        self.start = time.perf_counter()
+        return self  # value bound to &#x27;as&#x27; variable
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.elapsed = time.perf_counter() - self.start
+        print(f&#x27;[{self.name}] elapsed: {self.elapsed*1000:.2f} ms&#x27;)
+        # Return False (default) to re-raise any exception
+        return False
+
+with Timer(&#x27;sum of squares&#x27;) as t:
+    result = sum(x**2 for x in range(1_000_000))
+
+print(f&#x27;Result: {result:,}, time stored: {t.elapsed*1000:.2f} ms&#x27;)
+
+# Suppress specific exceptions by returning True from __exit__
+class Suppress:
+    def __init__(self, *exc_types):
+        self.exc_types = exc_types
+    def __enter__(self): return self
+    def __exit__(self, exc_type, *_):
+        return exc_type in self.exc_types
+
+with Suppress(ZeroDivisionError):
+    x = 1 / 0  # suppressed!
+print(&#x27;Continued after ZeroDivisionError&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>contextlib.contextmanager decorator</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">from contextlib import contextmanager, suppress
+import tempfile, pathlib
+
+@contextmanager
+def temporary_file(suffix=&#x27;.txt&#x27;, content=&#x27;&#x27;):
+    &quot;&quot;&quot;Create a temp file, yield its path, delete on exit.&quot;&quot;&quot;
+    path = pathlib.Path(tempfile.mktemp(suffix=suffix))
+    path.write_text(content)
+    try:
+        yield path
+    finally:
+        if path.exists():
+            path.unlink()
+        print(f&#x27;Cleaned up {path.name}&#x27;)
+
+@contextmanager
+def log_section(name):
+    print(f&#x27;&gt;&gt;&gt; START: {name}&#x27;)
+    try:
+        yield
+    except Exception as e:
+        print(f&#x27;&gt;&gt;&gt; ERROR in {name}: {e}&#x27;)
+        raise
+    finally:
+        print(f&#x27;&gt;&gt;&gt; END: {name}&#x27;)
+
+with temporary_file(content=&#x27;hello world&#x27;) as tmp:
+    data = tmp.read_text()
+    print(&#x27;File content:&#x27;, data)
+# File is deleted here
+
+with log_section(&#x27;data processing&#x27;):
+    result = [x**2 for x in range(5)]
+    print(&#x27;Result:&#x27;, result)
+
+# contextlib.suppress replaces try/except for known ignorable errors
+with suppress(FileNotFoundError):
+    pathlib.Path(&#x27;nonexistent.txt&#x27;).unlink()
+print(&#x27;Suppressed FileNotFoundError cleanly&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Database Connection Manager</div><div class="pd">Write a context manager class DatabaseConnection that simulates opening/closing a DB connection (print messages). It should auto-rollback (print &#x27;rolling back&#x27;) if an exception occurs inside the with block, and auto-commit otherwise.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">class DatabaseConnection:
+    def __init__(self, url):
+        self.url = url
+        self.connected = False
+
+    def __enter__(self):
+        # TODO: set self.connected = True, print &#x27;Connected to {url}&#x27;
+        # TODO: return self
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # TODO: if exception, print &#x27;Rolling back&#x27;, else print &#x27;Committed&#x27;
+        # TODO: print &#x27;Disconnected&#x27;, set connected = False
+        # TODO: return False to propagate exceptions
+        pass
+
+# Test: should commit
+with DatabaseConnection(&#x27;sqlite:///app.db&#x27;) as db:
+    print(f&#x27;  Using connection (connected={db.connected})&#x27;)
+
+# Test: should rollback
+try:
+    with DatabaseConnection(&#x27;sqlite:///app.db&#x27;) as db:
+        raise ValueError(&#x27;Oops!&#x27;)
+except ValueError:
+    pass</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Regular Expressions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pattern matching and text extraction with the re module — character classes, groups, lookaheads, and real-world parsing patterns.</p><div class="code-block"><div class="ch"><span>Basic patterns — search, match, findall</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import re
+
+text = &#x27;Contact us at support@example.com or sales@company.org for help.&#x27;
+
+# re.search — find first match anywhere in string
+match = re.search(r&#x27;[\w.+-]+@[\w-]+\.[\w.]+&#x27;, text)
+if match:
+    print(&#x27;First email:&#x27;, match.group())
+
+# re.findall — return all matches as list
+emails = re.findall(r&#x27;[\w.+-]+@[\w-]+\.[\w.]+&#x27;, text)
+print(&#x27;All emails:&#x27;, emails)
+
+# re.match — only matches at START of string
+print(&#x27;match at start:&#x27;, re.match(r&#x27;Contact&#x27;, text))    # matches
+print(&#x27;match at start:&#x27;, re.match(r&#x27;support&#x27;, text))   # None
+
+# re.fullmatch — entire string must match
+phone = &#x27;555-1234&#x27;
+valid = re.fullmatch(r&#x27;\d{3}-\d{4}&#x27;, phone)
+print(&#x27;Valid phone:&#x27;, bool(valid))
+
+# Flags: case-insensitive
+print(re.findall(r&#x27;contact&#x27;, text, re.IGNORECASE))</code></pre></div><div class="code-block"><div class="ch"><span>Groups and named groups</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import re
+
+log_line = &#x27;2024-03-15 09:23:41 ERROR [auth] Login failed for user: alice&#x27;
+
+# Named groups with (?P&lt;name&gt;...)
+pattern = r&#x27;(?P&lt;date&gt;\d{4}-\d{2}-\d{2}) (?P&lt;time&gt;\d{2}:\d{2}:\d{2}) (?P&lt;level&gt;\w+) \[(?P&lt;module&gt;\w+)\] (?P&lt;message&gt;.+)&#x27;
+m = re.match(pattern, log_line)
+if m:
+    print(&#x27;Date:   &#x27;, m.group(&#x27;date&#x27;))
+    print(&#x27;Level:  &#x27;, m.group(&#x27;level&#x27;))
+    print(&#x27;Module: &#x27;, m.group(&#x27;module&#x27;))
+    print(&#x27;Message:&#x27;, m.group(&#x27;message&#x27;))
+    print(&#x27;Dict:   &#x27;, m.groupdict())
+
+# Non-capturing groups (?:...)
+urls = [&#x27;http://example.com&#x27;, &#x27;https://secure.org&#x27;, &#x27;ftp://old.net&#x27;]
+for url in urls:
+    m = re.match(r&#x27;(?:https?|ftp)://([\w.-]+)&#x27;, url)
+    if m:
+        print(f&#x27;  Domain: {m.group(1)}&#x27;  # group(1) = first capturing group</code></pre></div><div class="code-block"><div class="ch"><span>Substitution, splitting, and compiling</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">import re
+
+text = &#x27;Call us at (555) 123-4567 or 555.987.6543 today!&#x27;
+
+# re.sub — replace pattern
+cleaned = re.sub(r&#x27;[()\s.-]&#x27;, &#x27;&#x27;, text)
+print(&#x27;Cleaned:&#x27;, cleaned)
+
+# Replace with backreference
+normalized = re.sub(r&#x27;[()\s.-]+?(\d{3})[)\s.-]+(\d{3})[.-](\d{4})&#x27;, r&#x27;\1-\2-\3&#x27;, text)
+print(&#x27;Normalized:&#x27;, normalized)
+
+# re.split — split on pattern
+sentence = &#x27;one, two;   three | four&#x27;
+words = re.split(r&#x27;[,;|]\s*&#x27;, sentence)
+print(&#x27;Split:&#x27;, words)
+
+# Compile for reuse (faster in loops)
+EMAIL_RE = re.compile(r&#x27;[\w.+-]+@[\w-]+\.[\w.]+&#x27;, re.IGNORECASE)
+texts = [&#x27;alice@example.com is admin&#x27;, &#x27;no email here&#x27;, &#x27;bob@test.org rocks&#x27;]
+for t in texts:
+    found = EMAIL_RE.findall(t)
+    if found:
+        print(f&#x27;  Found in &quot;{t}&quot;: {found}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Common patterns — email, URL, date, IP address</span><button onclick="cp('c13_3')">Copy</button></div><pre><code id="c13_3" class="language-python">import re
+
+PATTERNS = {
+    &#x27;email&#x27;:   r&#x27;[\w.+-]+@[\w-]+\.[\w.]{2,}&#x27;,
+    &#x27;url&#x27;:     r&#x27;https?://[\w/:%#\$&amp;\?\(\)~\.=\+\-]+&#x27;,
+    &#x27;date&#x27;:    r&#x27;\b(\d{4})[-/](\d{1,2})[-/](\d{1,2})\b&#x27;,
+    &#x27;phone&#x27;:   r&#x27;\b\d{3}[-.]\d{3}[-.]\d{4}\b&#x27;,
+    &#x27;ipv4&#x27;:    r&#x27;\b(?:\d{1,3}\.){3}\d{1,3}\b&#x27;,
+    &#x27;hashtag&#x27;: r&#x27;#[\w]+&#x27;,
+}
+
+sample = &#x27;&#x27;&#x27;
+Email me at john.doe@example.com by 2024-03-15.
+Visit https://example.com/page?id=42 for details.
+Call 555-123-4567. Server IP: 192.168.1.100
+Twitter: #DataScience #Python
+&#x27;&#x27;&#x27;
+
+for name, pattern in PATTERNS.items():
+    matches = re.findall(pattern, sample)
+    if matches:
+        print(f&#x27;{name:8s}: {matches}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Extractor</div><div class="pd">Write regex patterns to extract all email addresses, US phone numbers (xxx-xxx-xxxx format), and dollar amounts (e.g. $1,234.56) from the sample text below.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import re
+
+text = &#x27;&#x27;&#x27;
+Please contact billing@company.com or support@help.org.
+Call 555-123-4567 or 800-555-9999 for support.
+Invoice total: $1,234.56. Discount applied: $50.00.
+Admin: admin@internal.net | Helpdesk: 312-555-0100
+&#x27;&#x27;&#x27;
+
+EMAIL_PATTERN = re.compile(r&#x27;&#x27;)   # TODO
+PHONE_PATTERN = re.compile(r&#x27;&#x27;)   # TODO
+MONEY_PATTERN = re.compile(r&#x27;&#x27;)   # TODO
+
+print(&#x27;Emails:&#x27;, EMAIL_PATTERN.findall(text))
+print(&#x27;Phones:&#x27;, PHONE_PATTERN.findall(text))
+print(&#x27;Amounts:&#x27;, MONEY_PATTERN.findall(text))</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Type Hints &amp; Dataclasses</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write self-documenting, IDE-friendly code with type annotations and eliminate boilerplate from data containers with @dataclass.</p><div class="code-block"><div class="ch"><span>Basic type hints for functions</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">from typing import Optional, Union, List
+
+def greet(name: str, times: int = 1) -&gt; str:
+    return (&#x27;Hello, &#x27; + name + &#x27;! &#x27;) * times
+
+def parse_int(value: Union[str, int]) -&gt; Optional[int]:
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return None
+
+def process(items: List[Union[int, float]]) -&gt; float:
+    return sum(items) / len(items) if items else 0.0
+
+print(greet(&#x27;Alice&#x27;))
+print(greet(&#x27;Bob&#x27;, 3))
+print(parse_int(&#x27;42&#x27;))
+print(parse_int(&#x27;abc&#x27;))   # returns None
+print(process([1, 2.5, 3, 4]))
+
+# Python 3.10+ union syntax: int | str instead of Union[int, str]
+def modern(x: int | str) -&gt; str:
+    return str(x)
+print(modern(42))</code></pre></div><div class="code-block"><div class="ch"><span>Generic types — List, Dict, Tuple, Callable</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">from typing import Dict, List, Tuple, Callable, TypeVar
+
+T = TypeVar(&#x27;T&#x27;)
+
+def first(items: List[T]) -&gt; Optional[T]:
+    return items[0] if items else None
+
+def apply_all(funcs: List[Callable[[int], int]], value: int) -&gt; List[int]:
+    return [f(value) for f in funcs]
+
+def parse_config(raw: Dict[str, str]) -&gt; Dict[str, int]:
+    return {k: int(v) for k, v in raw.items() if v.isdigit()}
+
+Point = Tuple[float, float]
+def distance(p1: Point, p2: Point) -&gt; float:
+    return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2) ** 0.5
+
+from typing import Optional
+print(first([1, 2, 3]))          # 1
+print(first([]))                 # None
+print(apply_all([lambda x: x*2, lambda x: x+1], 5))  # [10, 6]
+print(parse_config({&#x27;a&#x27;: &#x27;10&#x27;, &#x27;b&#x27;: &#x27;hello&#x27;, &#x27;c&#x27;: &#x27;5&#x27;}))
+print(distance((0.0, 0.0), (3.0, 4.0)))  # 5.0</code></pre></div><div class="code-block"><div class="ch"><span>@dataclass basics — auto-generated methods</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class Point:
+    x: float
+    y: float
+
+    def distance_to(self, other: &#x27;Point&#x27;) -&gt; float:
+        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
+
+@dataclass
+class Product:
+    name: str
+    price: float
+    tags: List[str] = field(default_factory=list)
+    in_stock: bool = True
+
+    def __post_init__(self):
+        if self.price &lt; 0:
+            raise ValueError(f&#x27;Price cannot be negative: {self.price}&#x27;)
+
+p1 = Point(0, 0)
+p2 = Point(3, 4)
+print(p1)               # Point(x=0, y=0)
+print(p2)               # Point(x=3, y=4)
+print(p1 == Point(0,0)) # True — __eq__ auto-generated
+print(p1.distance_to(p2))  # 5.0
+
+laptop = Product(&#x27;Laptop&#x27;, 999.99, [&#x27;electronics&#x27;, &#x27;computers&#x27;])
+print(laptop)
+print(laptop.tags)
+
+try:
+    Product(&#x27;Bad&#x27;, -1)
+except ValueError as e:
+    print(&#x27;Caught:&#x27;, e)</code></pre></div><div class="code-block"><div class="ch"><span>Advanced dataclass — frozen, order, slots</span><button onclick="cp('c14_3')">Copy</button></div><pre><code id="c14_3" class="language-python">from dataclasses import dataclass, field
+from typing import List
+import functools
+
+@dataclass(frozen=True)   # immutable — can be used in sets/dict keys
+class Version:
+    major: int
+    minor: int
+    patch: int = 0
+
+    def __str__(self) -&gt; str:
+        return f&#x27;{self.major}.{self.minor}.{self.patch}&#x27;
+
+@dataclass(order=True)    # auto-generates __lt__, __le__, __gt__, __ge__
+class Employee:
+    sort_index: float = field(init=False, repr=False)
+    name: str
+    salary: float
+    dept: str
+
+    def __post_init__(self):
+        object.__setattr__(self, &#x27;sort_index&#x27;, self.salary) if False else None
+        self.sort_index = self.salary  # used for ordering
+
+v1 = Version(1, 2, 3)
+v2 = Version(1, 2, 3)
+print(v1 == v2)     # True
+print(hash(v1))     # hashable because frozen
+
+try:
+    v1.major = 2    # raises FrozenInstanceError
+except Exception as e:
+    print(type(e).__name__, e)
+
+employees = [Employee(&#x27;Carol&#x27;, 95000, &#x27;Eng&#x27;), Employee(&#x27;Bob&#x27;, 80000, &#x27;Sales&#x27;), Employee(&#x27;Alice&#x27;, 110000, &#x27;Eng&#x27;)]
+employees.sort()
+for e in employees:
+    print(f&#x27;  {e.name}: ${e.salary:,.0f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Typed Address Book</div><div class="pd">Create a Person dataclass (name: str, age: int, email: str, phone: Optional[str] = None). Create an AddressBook dataclass holding a List[Person]. Add methods: add(person), find_by_name(name) -&gt; Optional[Person], adults() -&gt; List[Person] (age &gt;= 18).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">from dataclasses import dataclass, field
+from typing import List, Optional
+
+@dataclass
+class Person:
+    name: str
+    age: int
+    email: str
+    phone: Optional[str] = None
+
+@dataclass
+class AddressBook:
+    contacts: List[Person] = field(default_factory=list)
+
+    def add(self, person: Person) -&gt; None:
+        # TODO
+        pass
+
+    def find_by_name(self, name: str) -&gt; Optional[Person]:
+        # TODO
+        pass
+
+    def adults(self) -&gt; List[Person]:
+        # TODO
+        pass
+
+book = AddressBook()
+book.add(Person(&#x27;Alice&#x27;, 30, &#x27;alice@example.com&#x27;, &#x27;555-1234&#x27;))
+book.add(Person(&#x27;Bob&#x27;, 17, &#x27;bob@example.com&#x27;))
+book.add(Person(&#x27;Carol&#x27;, 25, &#x27;carol@example.com&#x27;, &#x27;555-5678&#x27;))
+
+print(book.find_by_name(&#x27;Alice&#x27;))
+print(&#x27;Adults:&#x27;, [p.name for p in book.adults()])</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Concurrency &amp; Async</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Speed up I/O-bound tasks with threading and asyncio, CPU-bound tasks with multiprocessing, and understand the GIL. Use concurrent.futures for clean parallel execution.</p><div class="code-block"><div class="ch"><span>Threading for I/O-bound tasks</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import threading
+import time
+import random
+
+results = {}
+lock = threading.Lock()
+
+def fetch_data(url_id):
+    &#x27;&#x27;&#x27;Simulate an I/O-bound network call.&#x27;&#x27;&#x27;
+    time.sleep(random.uniform(0.05, 0.15))  # simulate latency
+    data = f&#x27;data_from_endpoint_{url_id}&#x27;
+    with lock:
+        results[url_id] = data
+
+# Sequential (slow)
+t0 = time.perf_counter()
+for i in range(5):
+    fetch_data(i)
+t_seq = time.perf_counter() - t0
+print(f&#x27;Sequential: {t_seq:.3f}s&#x27;)
+
+# Threaded (fast for I/O)
+results.clear()
+threads = [threading.Thread(target=fetch_data, args=(i,)) for i in range(5)]
+t0 = time.perf_counter()
+for th in threads: th.start()
+for th in threads: th.join()
+t_thread = time.perf_counter() - t0
+print(f&#x27;Threaded:   {t_thread:.3f}s  ({t_seq/t_thread:.1f}x faster)&#x27;)
+print(&#x27;Results:&#x27;, list(results.keys()))</code></pre></div><div class="code-block"><div class="ch"><span>concurrent.futures ThreadPool &amp; ProcessPool</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python">from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+import time, math
+
+def cpu_task(n):
+    &#x27;&#x27;&#x27;CPU-bound: compute sum of first n primes.&#x27;&#x27;&#x27;
+    primes, count = [], 2
+    while len(primes) &lt; n:
+        if all(count % p != 0 for p in primes): primes.append(count)
+        count += 1
+    return sum(primes)
+
+def io_task(delay):
+    time.sleep(delay)
+    return f&#x27;done after {delay:.2f}s&#x27;
+
+# ThreadPool for I/O
+delays = [0.05, 0.08, 0.06, 0.07, 0.05]
+t0 = time.perf_counter()
+with ThreadPoolExecutor(max_workers=5) as ex:
+    futures = {ex.submit(io_task, d): d for d in delays}
+    for f in as_completed(futures):
+        pass
+print(f&#x27;ThreadPool I/O: {time.perf_counter()-t0:.3f}s (sum={sum(delays):.2f}s serial)&#x27;)
+
+# ProcessPool for CPU (bypasses GIL)
+tasks = [50, 60, 55, 65, 45]
+t0 = time.perf_counter()
+with ProcessPoolExecutor(max_workers=4) as ex:
+    results = list(ex.map(cpu_task, tasks))
+print(f&#x27;ProcessPool CPU: {time.perf_counter()-t0:.2f}s&#x27;)
+print(&#x27;Sum of primes results:&#x27;, results[:3], &#x27;...&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>asyncio for async I/O</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import asyncio
+import time
+
+async def fetch(session_id, delay):
+    &#x27;&#x27;&#x27;Simulate async HTTP request.&#x27;&#x27;&#x27;
+    await asyncio.sleep(delay)
+    return f&#x27;response_{session_id}&#x27;
+
+async def main():
+    delays = [0.1, 0.05, 0.08, 0.12, 0.06]
+
+    # Sequential async (still fast but ordered)
+    t0 = time.perf_counter()
+    results = []
+    for i, d in enumerate(delays):
+        r = await fetch(i, d)
+        results.append(r)
+    print(f&#x27;Sequential async: {time.perf_counter()-t0:.3f}s&#x27;)
+
+    # Concurrent async (all at once)
+    t0 = time.perf_counter()
+    tasks = [fetch(i, d) for i, d in enumerate(delays)]
+    results = await asyncio.gather(*tasks)
+    print(f&#x27;Concurrent async: {time.perf_counter()-t0:.3f}s&#x27;)
+    print(&#x27;Results:&#x27;, results)
+
+asyncio.run(main())</code></pre></div><div class="code-block"><div class="ch"><span>Queue-based producer-consumer</span><button onclick="cp('c15_3')">Copy</button></div><pre><code id="c15_3" class="language-python">import threading
+import queue
+import time
+import random
+
+def producer(q, n_items):
+    for i in range(n_items):
+        item = f&#x27;item_{i}&#x27;
+        q.put(item)
+        time.sleep(random.uniform(0.01, 0.03))
+    q.put(None)  # sentinel
+
+def consumer(q, results):
+    while True:
+        item = q.get()
+        if item is None:
+            break
+        # Simulate processing
+        time.sleep(random.uniform(0.005, 0.015))
+        results.append(item.upper())
+        q.task_done()
+
+q       = queue.Queue(maxsize=5)
+results = []
+
+t0 = time.perf_counter()
+prod = threading.Thread(target=producer, args=(q, 10))
+cons = threading.Thread(target=consumer, args=(q, results))
+prod.start(); cons.start()
+prod.join(); cons.join()
+print(f&#x27;Processed {len(results)} items in {time.perf_counter()-t0:.3f}s&#x27;)
+print(&#x27;Processed:&#x27;, results[:5], &#x27;...&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parallel Web Scraper Simulation</div><div class="pd">Simulate fetching 15 URLs concurrently with ThreadPoolExecutor. Each &#x27;fetch&#x27; sleeps for a random 0.05–0.3s and returns a fake HTML string. Collect results in order. Measure speedup vs sequential. Also implement a version using asyncio.gather. Report total time for both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">from concurrent.futures import ThreadPoolExecutor
+import asyncio, time, random
+
+URLS = [f&#x27;https://example.com/page/{i}&#x27; for i in range(15)]
+
+def sync_fetch(url):
+    time.sleep(random.uniform(0.05, 0.3))
+    return f&#x27;&lt;html&gt;{url}&lt;/html&gt;&#x27;
+
+async def async_fetch(url):
+    await asyncio.sleep(random.uniform(0.05, 0.3))
+    return f&#x27;&lt;html&gt;{url}&lt;/html&gt;&#x27;
+
+# TODO: (1) ThreadPoolExecutor: fetch all URLs, measure time
+# TODO: (2) asyncio.gather: fetch all URLs, measure time
+# TODO: (3) Print speedup vs sequential (sum of delays)
+</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Design Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply classic Gang-of-Four patterns in Python: Singleton, Factory, Observer, Strategy, and Decorator. Understand when and why to use each.</p><div class="code-block"><div class="ch"><span>Singleton and Factory patterns</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python"># Singleton: one instance per process
+class DatabasePool:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance.connections = []
+            print(&#x27;Creating new DatabasePool&#x27;)
+        return cls._instance
+
+    def connect(self, host):
+        self.connections.append(host)
+        return f&#x27;Connected to {host}&#x27;
+
+pool1 = DatabasePool()
+pool2 = DatabasePool()
+print(&#x27;Same instance:&#x27;, pool1 is pool2)
+pool1.connect(&#x27;db1.server.com&#x27;)
+print(&#x27;Connections visible from pool2:&#x27;, pool2.connections)
+
+# Factory: create objects without knowing exact class
+class Shape:
+    def area(self): raise NotImplementedError
+
+class Circle:
+    def __init__(self, r): self.r = r
+    def area(self): return 3.14159 * self.r**2
+    def __repr__(self): return f&#x27;Circle(r={self.r})&#x27;
+
+class Rectangle:
+    def __init__(self, w, h): self.w, self.h = w, h
+    def area(self): return self.w * self.h
+    def __repr__(self): return f&#x27;Rectangle({self.w}x{self.h})&#x27;
+
+def shape_factory(kind, **kwargs):
+    shapes = {&#x27;circle&#x27;: Circle, &#x27;rectangle&#x27;: Rectangle}
+    if kind not in shapes: raise ValueError(f&#x27;Unknown shape: {kind}&#x27;)
+    return shapes[kind](**kwargs)
+
+for spec in [(&#x27;circle&#x27;, {&#x27;r&#x27;: 5}), (&#x27;rectangle&#x27;, {&#x27;w&#x27;: 4, &#x27;h&#x27;: 6})]:
+    s = shape_factory(spec[0], **spec[1])
+    print(f&#x27;{s}: area={s.area():.2f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Observer pattern (event system)</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">from typing import Callable, Dict, List
+
+class EventBus:
+    &#x27;&#x27;&#x27;Simple publish-subscribe event system.&#x27;&#x27;&#x27;
+    def __init__(self):
+        self._handlers: Dict[str, List[Callable]] = {}
+
+    def subscribe(self, event: str, handler: Callable):
+        self._handlers.setdefault(event, []).append(handler)
+        return self  # fluent API
+
+    def publish(self, event: str, **data):
+        for handler in self._handlers.get(event, []):
+            handler(**data)
+
+    def unsubscribe(self, event: str, handler: Callable):
+        if event in self._handlers:
+            self._handlers[event] = [h for h in self._handlers[event] if h != handler]
+
+# Usage
+bus = EventBus()
+
+def on_order_placed(order_id, amount, user):
+    print(f&#x27;[EMAIL]   Order #{order_id} placed by {user}: ${amount:.2f}&#x27;)
+
+def on_order_placed_analytics(order_id, amount, **_):
+    print(f&#x27;[ANALYTICS] Recorded order #{order_id}, revenue=${amount:.2f}&#x27;)
+
+def on_order_placed_inventory(order_id, **_):
+    print(f&#x27;[INVENTORY] Reducing stock for order #{order_id}&#x27;)
+
+bus.subscribe(&#x27;order.placed&#x27;, on_order_placed)
+bus.subscribe(&#x27;order.placed&#x27;, on_order_placed_analytics)
+bus.subscribe(&#x27;order.placed&#x27;, on_order_placed_inventory)
+
+# Trigger event
+bus.publish(&#x27;order.placed&#x27;, order_id=1042, amount=149.99, user=&#x27;Alice&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Strategy pattern</span><button onclick="cp('c16_2')">Copy</button></div><pre><code id="c16_2" class="language-python">from abc import ABC, abstractmethod
+from typing import List
+
+class SortStrategy(ABC):
+    @abstractmethod
+    def sort(self, data: list) -&gt; list: ...
+
+class BubbleSort(SortStrategy):
+    def sort(self, data):
+        arr = data.copy()
+        n = len(arr)
+        for i in range(n):
+            for j in range(n-i-1):
+                if arr[j] &gt; arr[j+1]:
+                    arr[j], arr[j+1] = arr[j+1], arr[j]
+        return arr
+
+class MergeSort(SortStrategy):
+    def sort(self, data):
+        if len(data) &lt;= 1: return data[:]
+        mid = len(data) // 2
+        L, R = self.sort(data[:mid]), self.sort(data[mid:])
+        result, i, j = [], 0, 0
+        while i &lt; len(L) and j &lt; len(R):
+            if L[i] &lt;= R[j]: result.append(L[i]); i += 1
+            else:             result.append(R[j]); j += 1
+        return result + L[i:] + R[j:]
+
+class Sorter:
+    def __init__(self, strategy: SortStrategy):
+        self._strategy = strategy
+
+    def set_strategy(self, strategy: SortStrategy):
+        self._strategy = strategy
+
+    def sort(self, data: list) -&gt; list:
+        return self._strategy.sort(data)
+
+import time, random
+data = random.sample(range(1000), 20)
+sorter = Sorter(BubbleSort())
+print(&#x27;Bubble:&#x27;, sorter.sort(data)[:5], &#x27;...&#x27;)
+
+sorter.set_strategy(MergeSort())  # swap strategy at runtime
+print(&#x27;Merge: &#x27;, sorter.sort(data)[:5], &#x27;...&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Decorator and Mixin patterns</span><button onclick="cp('c16_3')">Copy</button></div><pre><code id="c16_3" class="language-python">import time, functools
+
+# Function decorator: retry with backoff
+def retry(max_attempts=3, delay=0.01):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts+1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_attempts: raise
+                    print(f&#x27;  Attempt {attempt} failed: {e}. Retrying...&#x27;)
+                    time.sleep(delay)
+        return wrapper
+    return decorator
+
+import random
+@retry(max_attempts=4)
+def flaky_api_call():
+    if random.random() &lt; 0.6: raise ConnectionError(&#x27;Timeout&#x27;)
+    return &#x27;Success!&#x27;
+
+random.seed(42)
+print(&#x27;Result:&#x27;, flaky_api_call())
+
+# Mixin pattern: add logging capability to any class
+class LogMixin:
+    def log(self, msg): print(f&#x27;[{self.__class__.__name__}] {msg}&#x27;)
+
+class TimeMixin:
+    def timed(self, func, *args, **kwargs):
+        t0 = time.perf_counter()
+        result = func(*args, **kwargs)
+        self.log(f&#x27;{func.__name__} took {(time.perf_counter()-t0)*1000:.2f}ms&#x27;)
+        return result
+
+class DataProcessor(LogMixin, TimeMixin):
+    def process(self, data):
+        import math
+        return [math.sqrt(abs(x)) for x in data]
+
+p = DataProcessor()
+p.log(&#x27;Starting processing&#x27;)
+result = p.timed(p.process, list(range(-100, 100)))
+print(&#x27;Sample output:&#x27;, [round(x,2) for x in result[:5]])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Plugin System with Factory + Observer</div><div class="pd">Build a data export plugin system: (1) Factory creates exporter objects (CSV, JSON, Parquet) based on format string. Each implements export(data, path). (2) Observer pattern: attach at least 2 listeners (Logger, FileSizeChecker) that react to &#x27;export_complete&#x27; events. Test with a list of 100 dicts as data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">from abc import ABC, abstractmethod
+
+class BaseExporter(ABC):
+    @abstractmethod
+    def export(self, data, path): ...
+
+class CSVExporter(BaseExporter):
+    def export(self, data, path):
+        # TODO: write CSV using csv module or simple join
+        pass
+
+class JSONExporter(BaseExporter):
+    def export(self, data, path):
+        # TODO: write JSON using json module
+        pass
+
+def exporter_factory(fmt: str) -&gt; BaseExporter:
+    # TODO: return correct exporter based on fmt
+    pass
+
+# TODO: EventBus or simple list of observers
+# TODO: Logger observer: print &#x27;Exported N rows to path&#x27;
+# TODO: FileSizeChecker observer: print file size
+
+data = [{&#x27;id&#x27;: i, &#x27;value&#x27;: i*2, &#x27;name&#x27;: f&#x27;item_{i}&#x27;} for i in range(100)]
+# TODO: export to &#x27;output.csv&#x27; and &#x27;output.json&#x27;, trigger events
+</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Testing with pytest</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write unit tests, parametrized tests, fixtures, and mocks with pytest. Apply TDD principles and measure code coverage.</p><div class="code-block"><div class="ch"><span>Basic pytest structure and assertions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python"># test_math_utils.py  (run with: pytest test_math_utils.py -v)
+# Here we demonstrate by running inline
+import traceback
+
+def add(a, b): return a + b
+def divide(a, b):
+    if b == 0: raise ZeroDivisionError(&#x27;Cannot divide by zero&#x27;)
+    return a / b
+def is_prime(n):
+    if n &lt; 2: return False
+    return all(n % i != 0 for i in range(2, int(n**0.5)+1))
+
+# --- Tests ---
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+    assert add(0, 0) == 0
+
+def test_divide():
+    assert divide(10, 2) == 5.0
+    assert abs(divide(1, 3) - 0.333) &lt; 0.001
+
+def test_divide_by_zero():
+    try:
+        divide(5, 0)
+        assert False, &#x27;Should have raised&#x27;
+    except ZeroDivisionError:
+        pass  # expected
+
+def test_is_prime():
+    primes     = [2, 3, 5, 7, 11, 13]
+    non_primes = [0, 1, 4, 6, 9, 15]
+    assert all(is_prime(p) for p in primes)
+    assert not any(is_prime(n) for n in non_primes)
+
+# Run all tests
+tests = [test_add, test_divide, test_divide_by_zero, test_is_prime]
+for t in tests:
+    try: t(); print(f&#x27;PASS {t.__name__}&#x27;)
+    except AssertionError as e: print(f&#x27;FAIL {t.__name__}: {e}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Fixtures and parametrize</span><button onclick="cp('c17_1')">Copy</button></div><pre><code id="c17_1" class="language-python"># Demonstrate pytest fixture and parametrize patterns
+import os, tempfile
+
+# === Fixture pattern ===
+class FakeDB:
+    def __init__(self):
+        self.data = {}
+    def insert(self, key, val): self.data[key] = val
+    def get(self, key): return self.data.get(key)
+    def count(self): return len(self.data)
+
+# In pytest: @pytest.fixture
+def db_fixture():
+    &#x27;&#x27;&#x27;Provide a fresh DB for each test.&#x27;&#x27;&#x27;
+    return FakeDB()
+
+# === Parametrize pattern ===
+# In pytest: @pytest.mark.parametrize(&#x27;a,b,expected&#x27;, [...])
+def check_multiply(a, b, expected):
+    assert a * b == expected, f&#x27;{a}*{b} should be {expected}&#x27;
+
+params = [(2, 3, 6), (0, 100, 0), (-1, -1, 1), (7, 8, 56)]
+for a, b, exp in params:
+    try: check_multiply(a, b, exp); print(f&#x27;PASS multiply({a},{b})={exp}&#x27;)
+    except AssertionError as e: print(f&#x27;FAIL: {e}&#x27;)
+
+# === Fixture with temp file ===
+def test_file_write():
+    with tempfile.NamedTemporaryFile(mode=&#x27;w&#x27;, suffix=&#x27;.txt&#x27;, delete=False) as f:
+        f.write(&#x27;hello world&#x27;)
+        fname = f.name
+    try:
+        content = open(fname).read()
+        assert content == &#x27;hello world&#x27;
+        print(&#x27;PASS test_file_write&#x27;)
+    finally:
+        os.unlink(fname)
+
+db = db_fixture()
+db.insert(&#x27;user1&#x27;, {&#x27;name&#x27;: &#x27;Alice&#x27;})
+assert db.count() == 1
+assert db.get(&#x27;user1&#x27;)[&#x27;name&#x27;] == &#x27;Alice&#x27;
+print(&#x27;PASS db fixture test&#x27;)
+test_file_write()</code></pre></div><div class="code-block"><div class="ch"><span>Mocking with unittest.mock</span><button onclick="cp('c17_2')">Copy</button></div><pre><code id="c17_2" class="language-python">from unittest.mock import patch, MagicMock, call
+import json
+
+# Function that depends on an external service
+def fetch_user(user_id: int) -&gt; dict:
+    import urllib.request
+    url = f&#x27;https://api.example.com/users/{user_id}&#x27;
+    with urllib.request.urlopen(url) as resp:
+        return json.loads(resp.read())
+
+def process_user(user_id: int) -&gt; str:
+    user = fetch_user(user_id)
+    return f&#x27;{user[&quot;name&quot;]} ({user[&quot;email&quot;]})&#x27;
+
+# Test without hitting real API
+mock_response = MagicMock()
+mock_response.read.return_value = json.dumps({&#x27;name&#x27;: &#x27;Alice&#x27;, &#x27;email&#x27;: &#x27;alice@co.com&#x27;}).encode()
+mock_response.__enter__ = lambda s: s
+mock_response.__exit__ = MagicMock(return_value=False)
+
+with patch(&#x27;urllib.request.urlopen&#x27;, return_value=mock_response):
+    result = process_user(42)
+    print(f&#x27;PASS: process_user(42) = {result!r}&#x27;)
+
+# Test exception handling
+def robust_fetch(user_id):
+    try:
+        return fetch_user(user_id)
+    except Exception as e:
+        return {&#x27;error&#x27;: str(e)}
+
+with patch(&#x27;urllib.request.urlopen&#x27;, side_effect=ConnectionError(&#x27;Network down&#x27;)):
+    r = robust_fetch(99)
+    assert &#x27;error&#x27; in r
+    print(f&#x27;PASS: error handled: {r}&#x27;)
+
+# Verify mock was called correctly
+mock_fn = MagicMock(return_value=42)
+mock_fn(1, 2, key=&#x27;val&#x27;)
+mock_fn(3, 4)
+mock_fn.assert_called_with(3, 4)
+print(&#x27;PASS: mock call verification&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Property-based testing with hypothesis</span><button onclick="cp('c17_3')">Copy</button></div><pre><code id="c17_3" class="language-python">try:
+    from hypothesis import given, strategies as st, settings
+
+    # Property: sort is idempotent
+    @given(st.lists(st.integers(), max_size=50))
+    @settings(max_examples=200)
+    def test_sort_idempotent(lst):
+        sorted_once  = sorted(lst)
+        sorted_twice = sorted(sorted_lst := sorted(lst))
+        assert sorted_once == sorted_twice
+
+    # Property: reversed reversed = original
+    @given(st.lists(st.integers(), max_size=100))
+    def test_reverse_involution(lst):
+        assert list(reversed(list(reversed(lst)))) == lst
+
+    # Property: split+join roundtrip
+    @given(st.text(alphabet=&#x27;abcdefghijklmnopqrstuvwxyz &#x27;, min_size=1, max_size=50))
+    def test_split_join_roundtrip(s):
+        words = s.split()
+        rejoined = &#x27; &#x27;.join(words)
+        assert rejoined == &#x27; &#x27;.join(s.split())
+
+    test_sort_idempotent()
+    test_reverse_involution()
+    test_split_join_roundtrip()
+    print(&#x27;PASS: all hypothesis property tests&#x27;)
+
+except ImportError:
+    print(&#x27;pip install hypothesis&#x27;)
+    print(&#x27;Hypothesis generates hundreds of random inputs automatically.&#x27;)
+    print(&#x27;Properties to test: commutativity, idempotence, round-trips, invariants.&#x27;)
+
+    # Demo without hypothesis: manual property tests
+    import random
+    random.seed(42)
+    for _ in range(100):
+        lst = [random.randint(-100, 100) for _ in range(random.randint(0, 30))]
+        assert sorted(sorted(lst)) == sorted(lst), &#x27;Sort not idempotent!&#x27;
+    print(&#x27;PASS: manual sort idempotence test (100 random lists)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Test a Data Validation Class</div><div class="pd">Implement and test a DataValidator class with methods: validate_types(df) checks column dtypes, validate_ranges(df, rules) checks min/max per column, validate_no_nulls(df, cols) checks specific columns. Write at least 6 tests covering: passing validation, each failure mode, and edge cases (empty df, single row).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import pandas as pd
+import numpy as np
+
+class DataValidator:
+    def validate_types(self, df: pd.DataFrame, expected: dict) -&gt; list:
+        &#x27;&#x27;&#x27;Return list of (col, actual, expected) for mismatches.&#x27;&#x27;&#x27;
+        # TODO: compare df[col].dtype.kind vs expected type chars
+        pass
+
+    def validate_ranges(self, df: pd.DataFrame, rules: dict) -&gt; list:
+        &#x27;&#x27;&#x27;rules = {col: (min, max)}. Return list of violations.&#x27;&#x27;&#x27;
+        # TODO: for each col, check if any values outside range
+        pass
+
+    def validate_no_nulls(self, df: pd.DataFrame, cols: list) -&gt; list:
+        &#x27;&#x27;&#x27;Return cols that contain nulls.&#x27;&#x27;&#x27;
+        # TODO: check each column for nulls
+        pass
+
+# Test functions
+def test_valid_types(): ...  # TODO
+def test_invalid_type(): ...  # TODO
+def test_range_pass(): ...   # TODO
+def test_range_fail(): ...   # TODO
+def test_no_nulls_pass(): ...  # TODO
+def test_no_nulls_fail(): ...  # TODO
+
+# Run all
+for t in [test_valid_types, test_invalid_type, test_range_pass,
+          test_range_fail, test_no_nulls_pass, test_no_nulls_fail]:
+    t()
+</code></pre></div></div></div></div>
+</main>
+<script>
+hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

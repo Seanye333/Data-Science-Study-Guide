@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Science Study Path</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* Hero */
+.hero { text-align: center; margin-bottom: 56px; }
+.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.15; }
+.hero h1 span { background: linear-gradient(90deg,#58a6ff,#f97316,#c084fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { color: var(--muted); font-size: 1.1rem; margin-top: 12px; max-width: 580px; margin-inline: auto; }
+.hero-badges { display: flex; gap: 10px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+.hero-badges span {
+  padding: 4px 14px; border-radius: 20px; font-size: .78rem; font-weight: 600;
+  background: rgba(88,166,255,.1); color: #58a6ff; border: 1px solid rgba(88,166,255,.2);
+}
+
+/* Progress bar */
+.progress-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 40px; }
+.progress-wrap h3 { font-size: .9rem; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.progress-track { background: #21262d; border-radius: 8px; height: 10px; overflow: hidden; }
+.progress-fill {
+  height: 100%; border-radius: 8px;
+  background: linear-gradient(90deg, #58a6ff, #f97316);
+  transition: width .6s ease;
+}
+.progress-label { font-size: .8rem; color: var(--muted); margin-top: 6px; }
+
+/* Section headings */
+.section-label {
+  font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--muted); margin: 36px 0 14px; padding-left: 4px;
+  border-left: 3px solid #30363d; padding-left: 10px;
+}
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent-color);
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.card.done { opacity: .7; }
+.card.done::after {
+  content: '✓ Done';
+  position: absolute; top: 10px; right: 14px;
+  font-size: .68rem; font-weight: 700; color: #3fb950;
+  background: rgba(63,185,80,.12); border: 1px solid rgba(63,185,80,.3);
+  padding: 2px 8px; border-radius: 10px;
+}
+.card.coming {
+  opacity: .5; pointer-events: none; cursor: default;
+}
+.card.coming::after {
+  content: 'Coming Soon';
+  position: absolute; top: 10px; right: 14px;
+  font-size: .68rem; font-weight: 700; color: var(--muted);
+  background: rgba(139,148,158,.1); border: 1px solid rgba(139,148,158,.2);
+  padding: 2px 8px; border-radius: 10px;
+}
+.card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--accent-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.card-meta { flex: 1; }
+.card-num { font-size: .72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.card-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+.card-desc { color: var(--muted); font-size: .85rem; line-height: 1.55; margin-bottom: 14px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  padding: 2px 9px; border-radius: 12px; font-size: .72rem; font-weight: 600;
+  background: var(--accent-bg); color: var(--accent-color); border: 1px solid var(--accent-border);
+}
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.card-stats { font-size: .75rem; color: var(--muted); }
+.card-arrow { color: var(--accent-color); font-size: 1rem; }
+
+/* Footer */
+footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top: 56px; }
+footer a { color: #58a6ff; text-decoration: none; }
+
+@media(max-width:600px){ .hero h1{font-size:2rem;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>Data Science<br><span>Study Path</span></h1>
+    <p>A complete learning journey from Python basics to deep learning — interactive guides with real-world examples and hands-on practice.</p>
+    <div class="hero-badges">
+      <span>14 Guides</span>
+      <span>1 000+ Code Examples</span>
+      <span>Real-World Use Cases</span>
+      <span>Jupyter Notebooks</span>
+      <span>Practice Exercises</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <h3>Learning Path Progress</h3>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="prog-label">0 / 11 completed</div>
+  </div>
+
+  <!-- ── FOUNDATIONS ─────────────────────────────────────── -->
+  <div class="section-label">Foundations</div>
+  <div class="grid">
+
+    <a href="00_python_basics/index.html" class="card" id="card-0" style="--accent-color:#ffa657;--accent-bg:rgba(255,166,87,.1);--accent-border:rgba(255,166,87,.25);" onclick="markDone(0)">
+      <div class="card-top">
+        <div class="card-icon">🐍</div>
+        <div class="card-meta">
+          <div class="card-num">Module 00</div>
+          <div class="card-title">Python Basics</div>
+        </div>
+      </div>
+      <p class="card-desc">Variables, strings, lists, dicts, loops, functions, classes, error handling, comprehensions, and modules.</p>
+      <div class="card-tags">
+        <span class="tag">Variables</span><span class="tag">Functions</span><span class="tag">OOP</span><span class="tag">Files</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 223 cells &bull; 64 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="01_numpy/index.html" class="card" id="card-1" style="--accent-color:#79c0ff;--accent-bg:rgba(121,192,255,.1);--accent-border:rgba(121,192,255,.25);" onclick="markDone(1)">
+      <div class="card-top">
+        <div class="card-icon">🔢</div>
+        <div class="card-meta">
+          <div class="card-num">Module 01</div>
+          <div class="card-title">NumPy</div>
+        </div>
+      </div>
+      <p class="card-desc">Array creation, indexing, broadcasting, math operations, linear algebra, random number generation, and performance.</p>
+      <div class="card-tags">
+        <span class="tag">Arrays</span><span class="tag">Broadcasting</span><span class="tag">Linear Algebra</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 197 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="02_sql/index.html" class="card" id="card-2" style="--accent-color:#f0883e;--accent-bg:rgba(240,136,62,.1);--accent-border:rgba(240,136,62,.25);" onclick="markDone(2)">
+      <div class="card-top">
+        <div class="card-icon">🗄️</div>
+        <div class="card-meta">
+          <div class="card-num">Module 02</div>
+          <div class="card-title">SQL</div>
+        </div>
+      </div>
+      <p class="card-desc">SELECT, WHERE, GROUP BY, JOINs, subqueries, CTEs, window functions, indexes, views, and SQLite with Python.</p>
+      <div class="card-tags">
+        <span class="tag">SELECT</span><span class="tag">JOINs</span><span class="tag">Window Fn</span><span class="tag">CTEs</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 197 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── DATA ANALYSIS ───────────────────────────────────── -->
+  <div class="section-label">Data Analysis</div>
+  <div class="grid">
+
+    <a href="03_pandas/index.html" class="card" id="card-3" style="--accent-color:#4ec9a0;--accent-bg:rgba(78,201,160,.1);--accent-border:rgba(78,201,160,.25);" onclick="markDone(3)">
+      <div class="card-top">
+        <div class="card-icon">🐼</div>
+        <div class="card-meta">
+          <div class="card-num">Module 03</div>
+          <div class="card-title">Pandas</div>
+        </div>
+      </div>
+      <p class="card-desc">The essential data analysis library — Series, DataFrames, cleaning, groupby, merge, datetime, string ops, and plotting.</p>
+      <div class="card-tags">
+        <span class="tag">DataFrame</span><span class="tag">GroupBy</span><span class="tag">Merge</span><span class="tag">32 Topics</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">32 topics &bull; 192 cells &bull; 96+ examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="08_polars/index.html" class="card" id="card-4" style="--accent-color:#cd8b00;--accent-bg:rgba(205,139,0,.1);--accent-border:rgba(205,139,0,.25);" onclick="markDone(4)">
+      <div class="card-top">
+        <div class="card-icon">⚡</div>
+        <div class="card-meta">
+          <div class="card-num">Module 04</div>
+          <div class="card-title">Polars</div>
+        </div>
+      </div>
+      <p class="card-desc">Blazing-fast DataFrames — expressions, lazy API, groupby, joins, string/date ops, Parquet, and Pandas migration.</p>
+      <div class="card-tags">
+        <span class="tag">Lazy API</span><span class="tag">Expressions</span><span class="tag">Parquet</span><span class="tag">vs Pandas</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 64 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="11_statistics/index.html" class="card" id="card-11" style="--accent-color:#60a5fa;--accent-bg:rgba(96,165,250,.1);--accent-border:rgba(96,165,250,.25);" onclick="markDone(11)">
+      <div class="card-top">
+        <div class="card-icon">📐</div>
+        <div class="card-meta">
+          <div class="card-num">Module 05</div>
+          <div class="card-title">Statistics & Probability</div>
+        </div>
+      </div>
+      <p class="card-desc">Descriptive stats, probability distributions, hypothesis testing, confidence intervals, ANOVA, and correlation.</p>
+      <div class="card-tags">
+        <span class="tag">Distributions</span><span class="tag">t-test</span><span class="tag">Chi-Square</span><span class="tag">scipy</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── DATA VISUALIZATION ──────────────────────────────── -->
+  <div class="section-label">Data Visualization</div>
+  <div class="grid">
+
+    <a href="03_matplotlib/index.html" class="card" id="card-5" style="--accent-color:#58a6ff;--accent-bg:rgba(88,166,255,.1);--accent-border:rgba(88,166,255,.25);" onclick="markDone(5)">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-meta">
+          <div class="card-num">Module 06</div>
+          <div class="card-title">Matplotlib</div>
+        </div>
+      </div>
+      <p class="card-desc">Line, bar, scatter, histogram, subplots, customization, heatmaps, twin axes, animations, and style sheets.</p>
+      <div class="card-tags">
+        <span class="tag">Line Chart</span><span class="tag">Subplots</span><span class="tag">Heatmap</span><span class="tag">Animation</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 209 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="04_seaborn/index.html" class="card" id="card-6" style="--accent-color:#c084fc;--accent-bg:rgba(192,132,252,.1);--accent-border:rgba(192,132,252,.25);" onclick="markDone(6)">
+      <div class="card-top">
+        <div class="card-icon">🎨</div>
+        <div class="card-meta">
+          <div class="card-num">Module 07</div>
+          <div class="card-title">Seaborn</div>
+        </div>
+      </div>
+      <p class="card-desc">Statistical visualization — distributions, regression, heatmaps, pair plots, FacetGrid, and themes.</p>
+      <div class="card-tags">
+        <span class="tag">Distribution</span><span class="tag">Regression</span><span class="tag">FacetGrid</span><span class="tag">Clustermap</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 197 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="05_plotly/index.html" class="card" id="card-7" style="--accent-color:#a78bfa;--accent-bg:rgba(167,139,250,.1);--accent-border:rgba(167,139,250,.25);" onclick="markDone(7)">
+      <div class="card-top">
+        <div class="card-icon">✨</div>
+        <div class="card-meta">
+          <div class="card-num">Module 08</div>
+          <div class="card-title">Plotly</div>
+        </div>
+      </div>
+      <p class="card-desc">Interactive charts — scatter, bar, 3D, animations, geographic maps, subplots, funnel, and Sankey diagrams.</p>
+      <div class="card-tags">
+        <span class="tag">Interactive</span><span class="tag">3D Charts</span><span class="tag">Maps</span><span class="tag">Animation</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 199 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── MACHINE LEARNING ────────────────────────────────── -->
+  <div class="section-label">Machine Learning</div>
+  <div class="grid">
+
+    <a href="06_sklearn/index.html" class="card" id="card-8" style="--accent-color:#34d399;--accent-bg:rgba(52,211,153,.1);--accent-border:rgba(52,211,153,.25);" onclick="markDone(8)">
+      <div class="card-top">
+        <div class="card-icon">🤖</div>
+        <div class="card-meta">
+          <div class="card-num">Module 09</div>
+          <div class="card-title">Scikit-learn</div>
+        </div>
+      </div>
+      <p class="card-desc">ML from scratch — regression, classification, clustering, pipelines, evaluation metrics, and hyperparameter tuning.</p>
+      <div class="card-tags">
+        <span class="tag">Regression</span><span class="tag">Random Forest</span><span class="tag">Pipelines</span><span class="tag">PCA</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 205 cells &bull; 64 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="12_time_series/index.html" class="card" id="card-12" style="--accent-color:#fb923c;--accent-bg:rgba(251,146,60,.1);--accent-border:rgba(251,146,60,.25);" onclick="markDone(12)">
+      <div class="card-top">
+        <div class="card-icon">📈</div>
+        <div class="card-meta">
+          <div class="card-num">Module 12</div>
+          <div class="card-title">Time Series Analysis</div>
+        </div>
+      </div>
+      <p class="card-desc">Pandas datetime indexing, resampling, rolling stats, ARIMA, seasonal decomposition, and forecasting evaluation.</p>
+      <div class="card-tags">
+        <span class="tag">ARIMA</span><span class="tag">Resampling</span><span class="tag">STL</span><span class="tag">Forecasting</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="13_nlp/index.html" class="card" id="card-13" style="--accent-color:#e879f9;--accent-bg:rgba(232,121,249,.1);--accent-border:rgba(232,121,249,.25);" onclick="markDone(13)">
+      <div class="card-top">
+        <div class="card-icon">💬</div>
+        <div class="card-meta">
+          <div class="card-num">Module 13</div>
+          <div class="card-title">NLP & Text Processing</div>
+        </div>
+      </div>
+      <p class="card-desc">Text cleaning, tokenization, NER, sentiment analysis, TF-IDF, topic modeling, text classification, and transformers.</p>
+      <div class="card-tags">
+        <span class="tag">NLTK</span><span class="tag">spaCy</span><span class="tag">TF-IDF</span><span class="tag">Transformers</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── DEEP LEARNING & DEPLOYMENT ─────────────────────── -->
+  <div class="section-label">Deep Learning & Deployment</div>
+  <div class="grid">
+
+    <a href="09_deep_learning/index.html" class="card" id="card-9" style="--accent-color:#f97316;--accent-bg:rgba(249,115,22,.1);--accent-border:rgba(249,115,22,.25);" onclick="markDone(9)">
+      <div class="card-top">
+        <div class="card-icon">🧠</div>
+        <div class="card-meta">
+          <div class="card-num">Module 12</div>
+          <div class="card-title">Deep Learning</div>
+        </div>
+      </div>
+      <p class="card-desc">PyTorch from tensors to production — autograd, CNNs, LSTMs, transfer learning, regularization, and model saving.</p>
+      <div class="card-tags">
+        <span class="tag">PyTorch</span><span class="tag">CNNs</span><span class="tag">LSTMs</span><span class="tag">Transfer</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 205 cells &bull; 64 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="07_streamlit/index.html" class="card" id="card-10" style="--accent-color:#ff4b4b;--accent-bg:rgba(255,75,75,.1);--accent-border:rgba(255,75,75,.25);" onclick="markDone(10)">
+      <div class="card-top">
+        <div class="card-icon">🚀</div>
+        <div class="card-meta">
+          <div class="card-num">Module 13</div>
+          <div class="card-title">Streamlit</div>
+        </div>
+      </div>
+      <p class="card-desc">Build data web apps in pure Python — widgets, charts, forms, caching, file upload, session state, and multi-page apps.</p>
+      <div class="card-tags">
+        <span class="tag">Web Apps</span><span class="tag">Widgets</span><span class="tag">Caching</span><span class="tag">Multi-Page</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 64 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="14_mlops/index.html" class="card" id="card-14" style="--accent-color:#4ade80;--accent-bg:rgba(74,222,128,.1);--accent-border:rgba(74,222,128,.25);" onclick="markDone(14)">
+      <div class="card-top">
+        <div class="card-icon">⚙️</div>
+        <div class="card-meta">
+          <div class="card-num">Module 14</div>
+          <div class="card-title">MLOps & Deployment</div>
+        </div>
+      </div>
+      <p class="card-desc">Model saving, FastAPI serving, Docker containers, MLflow experiment tracking, monitoring, CI/CD, A/B testing, and explainability.</p>
+      <div class="card-tags">
+        <span class="tag">FastAPI</span><span class="tag">Docker</span><span class="tag">MLflow</span><span class="tag">SHAP</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-stats">16 topics &bull; 203 cells &bull; 60 examples</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer>
+    <p style="margin-bottom:6px">Data Science Study Path &bull; 14 modules &bull; 1 000+ code examples</p>
+    <p>Each guide has an interactive <strong>index.html</strong> and a <strong>study_guide.ipynb</strong> notebook with practice exercises</p>
+  </footer>
+
+</div>
+
+<script>
+var TOTAL = 14; // clickable guides
+var done  = JSON.parse(localStorage.getItem('ds_done') || '[]');
+
+// Apply done styles on load
+done.forEach(function(i) {
+  var el = document.getElementById('card-' + i);
+  if (el) el.classList.add('done');
+});
+
+function markDone(i) {
+  if (!done.includes(i)) {
+    done.push(i);
+    localStorage.setItem('ds_done', JSON.stringify(done));
+  }
+  var el = document.getElementById('card-' + i);
+  if (el) el.classList.add('done');
+  updateProgress();
+}
+
+function updateProgress() {
+  var pct = Math.round(done.length / TOTAL * 100);
+  document.getElementById('prog-fill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('prog-label').textContent =
+    done.length + ' / ' + TOTAL + ' completed (' + pct + '%)';
+}
+
+updateProgress();
+</script>
+</body>
+</html>

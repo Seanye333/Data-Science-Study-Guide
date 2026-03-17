@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Polars Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{--accent:#cd8b00;--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}
+nav{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}
+nav h2{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}
+nav input{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}
+nav a{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}
+nav a:hover{color:var(--accent);border-left-color:var(--accent);background:rgba(205,139,0,.07);}
+main{flex:1;padding:32px;max-width:900px;}
+header{margin-bottom:32px;}
+header h1{font-size:2rem;font-weight:700;}
+header h1 span{color:var(--accent);}
+header p{color:var(--muted);margin-top:6px;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(205,139,0,.15);color:var(--accent);border:1px solid rgba(205,139,0,.3);margin-top:8px;}
+.card{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+.card-header{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}
+.card-header:hover{background:#1c2128;color:var(--accent);}
+.arrow{transition:transform .25s;color:var(--accent);}
+.card-body{padding:18px;background:#0d1117;border-top:1px solid var(--border);}
+.desc{color:var(--muted);margin-bottom:14px;line-height:1.6;}
+h4{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
+.code-wrap{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}
+pre{margin:0;overflow-x:auto;}
+pre code{font-size:.82rem;padding:14px!important;}
+.copy-btn{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}
+.copy-btn:hover{background:var(--accent);color:#000;}
+.rw{background:rgba(205,139,0,.06);border:1px solid rgba(205,139,0,.25);border-radius:8px;padding:14px;margin-top:16px;}
+.rh{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}
+.rd{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:8px;padding:14px;margin-top:16px;}
+.ph{font-weight:700;color:#58a6ff;margin-bottom:6px;font-size:.85rem;}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:10px;line-height:1.5;}
+@media(max-width:700px){nav{display:none;}main{padding:16px;}}
+</style>
+</head>
+<body>
+<nav>
+  <h2>Polars</h2>
+  <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">
+  <a href="#s0">Setup & DataFrame Creation</a>
+<a href="#s1">Select, With Columns & Expressions</a>
+<a href="#s2">Filtering & Sorting</a>
+<a href="#s3">GroupBy & Aggregations</a>
+<a href="#s4">Joins</a>
+<a href="#s5">String & Date Operations</a>
+<a href="#s6">Lazy API & Query Optimization</a>
+<a href="#s7">Reading & Writing Files</a>
+<a href="#s8">Window Functions</a>
+<a href="#s9">Polars vs Pandas Migration</a>
+<a href="#s10">Lazy Evaluation & Streaming</a>
+<a href="#s11">Window Functions</a>
+<a href="#s12">Performance Tuning</a>
+<a href="#s13">14. Polars LazyFrame & Streaming Optimization</a>
+<a href="#s14">15. Time Series Operations in Polars</a>
+<a href="#s15">16. Polars with Apache Arrow & Parquet</a>
+
+</nav>
+<main>
+<header>
+  <h1>Po<span>lars</span> Study Guide</h1>
+  <p>Blazing-fast DataFrame library — Rust-powered, lazy execution, built for big data.</p>
+  <span class="badge">10 Topics &bull; High-Performance DataFrames</span>
+</header>
+
+<div class="card" id="s0">
+  <div class="card-header" onclick="toggle('s0')">
+    <span>1. Setup & DataFrame Creation</span>
+    <span class="arrow" id="arr-s0">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s0" style="display:none">
+    <p class="desc">Install Polars and create DataFrames from dicts, lists, NumPy arrays, and ranges.</p>
+    <h4>Creating DataFrames</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># pip install polars
+import polars as pl
+import numpy as np
+
+# From dict
+df = pl.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol', 'Dave'],
+    'age': [25, 30, 35, 28],
+    'score': [92.5, 88.0, 95.1, 76.3],
+    'active': [True, False, True, True]
+})
+print(df)
+
+# Schema info
+print(df.schema)
+print(df.dtypes)
+print(df.shape)</code></pre></div>
+    <h4>Series & Data Types</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+# Series
+s = pl.Series('values', [10, 20, 30, 40, 50])
+print(s)
+print('dtype:', s.dtype)
+print('mean:', s.mean())
+
+# Explicit dtypes
+df = pl.DataFrame({
+    'id': pl.Series([1, 2, 3], dtype=pl.Int32),
+    'price': pl.Series([9.99, 14.99, 4.99], dtype=pl.Float32),
+    'label': pl.Series(['a', 'b', 'c'], dtype=pl.Categorical),
+})
+print(df)
+print(df.schema)
+
+# Quick summary
+df2 = pl.DataFrame({'x': range(100), 'y': [i**2 for i in range(100)]})
+print(df2.describe())</code></pre></div>
+    <h4>From CSV String & List of Dicts</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import io
+
+# From a CSV string (in-memory)
+csv_data = 'name,age,score\nAlice,25,92.5\nBob,30,88.0\nCarol,35,95.1'
+df_csv = pl.read_csv(io.StringIO(csv_data))
+print('From CSV string:')
+print(df_csv)
+
+# From list of dicts
+records = [
+    {'product': 'Widget', 'price': 9.99, 'qty': 100},
+    {'product': 'Gadget', 'price': 24.99, 'qty': 50},
+    {'product': 'Doohickey', 'price': 4.99, 'qty': 200},
+]
+df_dicts = pl.DataFrame(records)
+print('From list of dicts:')
+print(df_dicts)
+print('Schema:', df_dicts.schema)</code></pre></div>
+    <h4>pl.from_records, pl.from_arrow & Schema Enforcement</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+# pl.from_records — list of tuples with explicit schema
+records = [(1, 'Alice', 92.5), (2, 'Bob', 88.0), (3, 'Carol', 95.1)]
+schema = {'id': pl.Int32, 'name': pl.Utf8, 'score': pl.Float32}
+df_rec = pl.from_records(records, schema=schema)
+print('from_records:')
+print(df_rec)
+print('dtypes:', df_rec.dtypes)
+
+# pl.from_arrow — zero-copy from PyArrow table
+try:
+    import pyarrow as pa
+    arrow_table = pa.table({'x': [10, 20, 30], 'y': [1.1, 2.2, 3.3]})
+    df_arrow = pl.from_arrow(arrow_table)
+    print('from_arrow:', df_arrow)
+except ImportError:
+    print('pyarrow not installed — skipping from_arrow demo')
+
+# Schema enforcement with dtypes dict
+np.random.seed(42)
+df_typed = pl.DataFrame(
+    {
+        'user_id': np.random.randint(1, 1000, 5).tolist(),
+        'amount': np.random.uniform(10, 500, 5).tolist(),
+        'category': ['food', 'tech', 'food', 'travel', 'tech'],
+    },
+    schema={'user_id': pl.Int32, 'amount': pl.Float64, 'category': pl.Categorical}
+)
+print('Schema-enforced DataFrame:')
+print(df_typed)
+print('Schema:', df_typed.schema)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Data Engineering: Load 10M row transaction records — Polars is 5-10x faster than pandas for initial ingestion.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+
+# Simulate large transaction dataset
+np.random.seed(42)
+n = 500_000
+df = pl.DataFrame({
+    'transaction_id': range(n),
+    'user_id': np.random.randint(1000, 9999, n),
+    'amount': np.random.exponential(50, n).round(2),
+    'category': np.random.choice(['food','tech','travel','health'], n),
+    'status': np.random.choice(['completed','pending','failed'], n, p=[0.8,0.15,0.05])
+})
+
+print(f'Loaded {df.shape[0]:,} rows x {df.shape[1]} cols')
+print(df.schema)
+print(df.head())</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: DataFrame Construction</div><div class="pd">1) Create a DataFrame from a dict with columns: 'city' (5 cities), 'population' (ints), 'area_km2' (floats). 2) Create the same data from a list of dicts. 3) Parse a CSV string with 3 rows and verify the schema. 4) Add a 'density' column (population / area_km2) and print the result.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0" class="language-python">import polars as pl
+import io
+
+# 1. From dict
+# TODO: df = pl.DataFrame({
+#     'city': [...],
+#     'population': [...],
+#     'area_km2': [...]
+# })
+
+# 2. From list of dicts
+# TODO: records = [{'city': ..., 'population': ..., 'area_km2': ...}, ...]
+# TODO: df2 = pl.DataFrame(records)
+
+# 3. Parse CSV string
+csv_str = 'city,pop,area\nTokyo,13960000,2194.0\nParis,2161000,105.4\nLondon,8982000,1572.0'
+# TODO: df3 = pl.read_csv(io.StringIO(csv_str))
+# TODO: print('Schema:', df3.schema)
+
+# 4. Add density column
+# TODO: df4 = df.with_columns(
+#     (pl.col('population') / pl.col('area_km2')).round(1).alias('density')
+# )
+# TODO: print(df4)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s1">
+  <div class="card-header" onclick="toggle('s1')">
+    <span>2. Select, With Columns & Expressions</span>
+    <span class="arrow" id="arr-s1">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s1" style="display:none">
+    <p class="desc">Polars uses an expression API for column operations — composable, lazy-friendly, and fast.</p>
+    <h4>select() and with_columns()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
+    'salary': [60000, 75000, 90000, 55000, 110000],
+    'dept': ['Eng', 'Sales', 'Eng', 'HR', 'Eng'],
+    'years': [3, 5, 8, 2, 12]
+})
+
+# select: pick & transform columns
+print(df.select(['name', 'salary']))
+
+# with_columns: add new columns
+df2 = df.with_columns([
+    (pl.col('salary') * 1.1).alias('new_salary'),
+    (pl.col('salary') / pl.col('years')).alias('salary_per_year'),
+    pl.col('name').str.to_uppercase().alias('name_upper')
+])
+print(df2)</code></pre></div>
+    <h4>Expressions: Arithmetic, Aliases & Chaining</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'x': [1, 2, 3, 4, 5],
+    'y': [10, 20, 30, 40, 50],
+    'label': ['a', 'b', 'a', 'b', 'a']
+})
+
+# Expression chaining
+result = df.select([
+    pl.col('x'),
+    pl.col('y'),
+    (pl.col('x') + pl.col('y')).alias('sum'),
+    (pl.col('y') / pl.col('x')).alias('ratio').round(2),
+    pl.col('x').pow(2).alias('x_squared'),
+    pl.col('label').is_in(['a']).alias('is_a')
+])
+print(result)
+
+# Horizontal operations
+df2 = df.with_columns(
+    pl.max_horizontal('x', 'y').alias('row_max'),
+    pl.sum_horizontal('x', 'y').alias('row_sum')
+)
+print(df2)</code></pre></div>
+    <h4>pl.when / then / otherwise (Conditional Columns)</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
+    'score': [92, 45, 78, 55, 88],
+    'attempts': [1, 3, 2, 4, 1]
+})
+
+# pl.when().then().otherwise() — like np.where but composable
+result = df.with_columns([
+    pl.when(pl.col('score') >= 90)
+      .then(pl.lit('A'))
+      .when(pl.col('score') >= 70)
+      .then(pl.lit('B'))
+      .when(pl.col('score') >= 55)
+      .then(pl.lit('C'))
+      .otherwise(pl.lit('F'))
+      .alias('grade'),
+    pl.when(pl.col('attempts') == 1)
+      .then(pl.lit('First try'))
+      .otherwise(pl.lit('Retried'))
+      .alias('attempt_label')
+])
+print(result)</code></pre></div>
+    <h4>pl.struct, pl.concat_list, unnest & pl.col('*') Patterns</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'first': ['Alice', 'Bob', 'Carol'],
+    'last': ['Smith', 'Jones', 'White'],
+    'score_a': [85, 90, 78],
+    'score_b': [92, 88, 95],
+})
+
+# pl.struct — pack multiple cols into a struct column
+df2 = df.with_columns(
+    pl.struct(['first', 'last']).alias('full_name_struct'),
+    pl.struct(['score_a', 'score_b']).alias('scores_struct')
+)
+print('With struct columns:')
+print(df2.select(['full_name_struct', 'scores_struct']))
+
+# unnest — expand a struct back to individual columns
+df3 = df2.select('scores_struct').unnest('scores_struct')
+print('Unnested scores:')
+print(df3)
+
+# pl.concat_list — combine columns into a list column
+df4 = df.with_columns(
+    pl.concat_list(['score_a', 'score_b']).alias('all_scores')
+)
+print('concat_list result:')
+print(df4.select(['first', 'all_scores']))
+
+# pl.col('*') — select all columns at once
+df5 = df.select(pl.col('*').exclude(['first', 'last']))
+print('All numeric cols via col(*).exclude:')
+print(df5)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">E-commerce: Add derived columns — profit margin, discount flag, and revenue per unit — to a product catalog.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 1000
+products = pl.DataFrame({
+    'product_id': range(n),
+    'cost': np.random.uniform(5, 200, n).round(2),
+    'price': np.random.uniform(10, 400, n).round(2),
+    'units_sold': np.random.randint(0, 500, n),
+    'category': np.random.choice(['Electronics','Clothing','Food','Books'], n)
+})
+
+enriched = products.with_columns([
+    ((pl.col('price') - pl.col('cost')) / pl.col('price') * 100)
+        .round(1).alias('margin_pct'),
+    (pl.col('price') * pl.col('units_sold')).alias('revenue'),
+    (pl.col('cost') > pl.col('price') * 0.8).alias('low_margin_flag')
+])
+
+print(enriched.filter(pl.col('low_margin_flag')).head(5))
+print('Low margin products:', enriched['low_margin_flag'].sum())</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Expressions & Conditional Columns</div><div class="pd">Create a DataFrame with columns: 'employee', 'base_salary', 'bonus_pct', 'years_exp'. 1) Add 'total_comp' = base_salary * (1 + bonus_pct/100). 2) Add 'level' using pl.when: 'Junior' if years_exp < 3, 'Mid' if < 7, 'Senior' otherwise. 3) Use pl.sum_horizontal to sum base_salary and a 10000 raise. 4) Filter to show only Senior employees.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1" class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'employee': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
+    'base_salary': [55000, 72000, 95000, 48000, 110000],
+    'bonus_pct': [5.0, 8.0, 12.0, 3.0, 15.0],
+    'years_exp': [2, 5, 9, 1, 13]
+})
+
+# 1. Add total_comp
+# TODO: df = df.with_columns(
+#     (pl.col('base_salary') * (1 + pl.col('bonus_pct') / 100))
+#         .round(2).alias('total_comp')
+# )
+
+# 2. Add level with pl.when
+# TODO: df = df.with_columns(
+#     pl.when(pl.col('years_exp') < 3).then(pl.lit('Junior'))
+#       .when(pl.col('years_exp') < 7).then(pl.lit('Mid'))
+#       .otherwise(pl.lit('Senior'))
+#       .alias('level')
+# )
+
+# 3. Sum base_salary + 10000 raise using pl.sum_horizontal
+# TODO: df = df.with_columns(
+#     pl.sum_horizontal('base_salary', pl.lit(10000)).alias('salary_with_raise')
+# )
+
+# 4. Filter to Senior only
+# TODO: seniors = df.filter(pl.col('level') == 'Senior')
+# TODO: print(seniors)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s2">
+  <div class="card-header" onclick="toggle('s2')">
+    <span>3. Filtering & Sorting</span>
+    <span class="arrow" id="arr-s2">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s2" style="display:none">
+    <p class="desc">Filter rows with Boolean expressions and sort by one or multiple columns.</p>
+    <h4>filter() with Boolean Expressions</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve', 'Frank'],
+    'age': [25, 42, 35, 19, 55, 30],
+    'city': ['NY', 'LA', 'NY', 'Chicago', 'LA', 'NY'],
+    'salary': [70000, 95000, 80000, 45000, 120000, 65000]
+})
+
+# Single condition
+print(df.filter(pl.col('age') > 30))
+
+# Multiple conditions (AND)
+print(df.filter(
+    (pl.col('city') == 'NY') & (pl.col('salary') > 65000)
+))
+
+# OR condition
+print(df.filter(
+    (pl.col('city') == 'LA') | (pl.col('age') < 25)
+))
+
+# is_in
+print(df.filter(pl.col('city').is_in(['NY', 'LA'])))</code></pre></div>
+    <h4>sort() and top_k()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'product': ['A', 'B', 'C', 'D', 'E'],
+    'sales': [300, 150, 450, 280, 100],
+    'region': ['East', 'West', 'East', 'West', 'East'],
+    'profit': [45.0, 30.0, 90.0, 55.0, 10.0]
+})
+
+# Sort single column
+print(df.sort('sales', descending=True))
+
+# Sort multiple columns
+print(df.sort(['region', 'sales'], descending=[False, True]))
+
+# top_k — faster than sort for large data
+print(df.top_k(3, by='profit'))
+
+# Null handling in sort
+df2 = pl.DataFrame({'val': [3, None, 1, None, 2]})
+print(df2.sort('val', nulls_last=True))</code></pre></div>
+    <h4>Chained Filtering with is_between & str.contains</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'product': ['Widget Pro', 'Gadget Mini', 'Widget Lite', 'Super Gadget', 'Widget Max'],
+    'price': [29.99, 9.99, 14.99, 49.99, 39.99],
+    'rating': [4.5, 3.8, 4.1, 4.9, 4.3],
+    'in_stock': [True, False, True, True, False]
+})
+
+# Chain multiple filter conditions
+result = df.filter(
+    pl.col('product').str.contains('Widget') &
+    pl.col('price').is_between(10.0, 45.0) &
+    pl.col('in_stock') &
+    (pl.col('rating') >= 4.0)
+)
+print('Filtered:', result)
+
+# Negate a filter with ~
+not_widget = df.filter(~pl.col('product').str.contains('Widget'))
+print('Not Widget:', not_widget)</code></pre></div>
+    <h4>is_between, top_k & Multi-Column Sort with nulls_last</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'name': [f'Item_{i}' for i in range(10)],
+    'price': [12.5, None, 45.0, 8.99, None, 99.0, 34.5, 22.0, None, 67.0],
+    'rating': np.round(np.random.uniform(1.0, 5.0, 10), 1).tolist(),
+    'region': ['East','West','East','North','South','West','East','North','South','West'],
+})
+
+# is_between on a column with nulls (nulls excluded automatically)
+mid_range = df.filter(pl.col('price').is_between(10.0, 60.0))
+print('Price between 10 and 60:')
+print(mid_range)
+
+# top_k — fast partial sort (no need to sort the whole frame)
+print('Top 3 by rating (top_k):')
+print(df.top_k(3, by='rating'))
+
+# Sort by multiple cols with nulls_last=True
+print('Sort by region asc, price desc (nulls last):')
+print(df.sort(
+    ['region', 'price'],
+    descending=[False, True],
+    nulls_last=True
+))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Fraud Detection: Filter transactions over $10,000 AND from high-risk countries, sorted by amount descending.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 100_000
+txns = pl.DataFrame({
+    'txn_id': range(n),
+    'amount': np.random.exponential(500, n).round(2),
+    'country': np.random.choice(['US','UK','NG','VN','BR','RU'], n,
+                                p=[0.5,0.2,0.1,0.05,0.1,0.05]),
+    'card_type': np.random.choice(['credit','debit'], n),
+    'hour': np.random.randint(0, 24, n)
+})
+
+HIGH_RISK = ['NG', 'VN', 'RU']
+
+suspects = txns.filter(
+    (pl.col('amount') > 10000) &
+    (pl.col('country').is_in(HIGH_RISK)) &
+    (pl.col('hour').is_between(0, 5))  # odd hours
+).sort('amount', descending=True)
+
+print(f'Suspicious transactions: {len(suspects):,}')
+print(suspects.head(10))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Filter & Sort</div><div class="pd">Create a DataFrame with 'employee', 'dept', 'salary', 'rating' (1.0-5.0), 'remote' (bool). 1) Filter: Engineering dept AND salary > 70000 AND rating >= 4.0. 2) Filter: NOT remote AND salary is_between 50000 and 90000. 3) Sort by dept ascending then salary descending. 4) Get the top-3 rated remote workers.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2" class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 20
+df = pl.DataFrame({
+    'employee': [f'Emp_{i}' for i in range(n)],
+    'dept': np.random.choice(['Engineering','Sales','HR','Marketing'], n),
+    'salary': np.random.randint(45000, 130000, n),
+    'rating': np.round(np.random.uniform(2.5, 5.0, n), 1),
+    'remote': np.random.choice([True, False], n)
+})
+print(df)
+
+# 1. Engineering, salary > 70000, rating >= 4.0
+# TODO: result1 = df.filter(
+#     (pl.col('dept') == 'Engineering') &
+#     (pl.col('salary') > 70000) &
+#     (pl.col('rating') >= 4.0)
+# )
+# print('Filter 1:', result1)
+
+# 2. NOT remote AND salary between 50000 and 90000
+# TODO: result2 = df.filter(
+#     ~pl.col('remote') & pl.col('salary').is_between(50000, 90000)
+# )
+# print('Filter 2:', result2)
+
+# 3. Sort dept asc, salary desc
+# TODO: sorted_df = df.sort(['dept', 'salary'], descending=[False, True])
+# print('Sorted:', sorted_df)
+
+# 4. Top-3 rated remote workers
+# TODO: top_remote = df.filter(pl.col('remote')).top_k(3, by='rating')
+# print('Top remote:', top_remote)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s3">
+  <div class="card-header" onclick="toggle('s3')">
+    <span>4. GroupBy & Aggregations</span>
+    <span class="arrow" id="arr-s3">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s3" style="display:none">
+    <p class="desc">Aggregate data by groups using Polars' expressive and parallel groupby engine.</p>
+    <h4>group_by().agg()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'dept': ['Eng','Eng','Sales','Sales','HR','HR','Eng'],
+    'name': ['Alice','Bob','Carol','Dave','Eve','Frank','Grace'],
+    'salary': [90000, 85000, 70000, 65000, 55000, 58000, 95000],
+    'years': [5, 3, 7, 2, 8, 4, 6]
+})
+
+# Basic aggregation
+print(df.group_by('dept').agg([
+    pl.len().alias('headcount'),
+    pl.col('salary').mean().alias('avg_salary'),
+    pl.col('salary').max().alias('max_salary'),
+    pl.col('years').sum().alias('total_years')
+]))
+
+# Multiple groups
+print(df.group_by(['dept']).agg(
+    pl.col('salary').median().alias('median_salary')
+).sort('median_salary', descending=True))</code></pre></div>
+    <h4>Advanced Aggregations</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'category': np.random.choice(['A','B','C'], 1000),
+    'value': np.random.normal(100, 20, 1000),
+    'qty': np.random.randint(1, 50, 1000)
+})
+
+stats = df.group_by('category').agg([
+    pl.len().alias('count'),
+    pl.col('value').mean().round(2).alias('mean'),
+    pl.col('value').std().round(2).alias('std'),
+    pl.col('value').quantile(0.25).round(2).alias('q25'),
+    pl.col('value').quantile(0.75).round(2).alias('q75'),
+    pl.col('qty').sum().alias('total_qty'),
+    (pl.col('value') * pl.col('qty')).sum().round(2).alias('weighted_sum')
+]).sort('category')
+print(stats)</code></pre></div>
+    <h4>GroupBy with Expressions & Filtering Groups</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(0)
+df = pl.DataFrame({
+    'region': np.random.choice(['North','South','East','West'], 200),
+    'product': np.random.choice(['A','B','C'], 200),
+    'revenue': np.random.exponential(1000, 200).round(2),
+    'units': np.random.randint(1, 50, 200)
+})
+
+# Multi-column groupby with many aggregations
+summary = df.group_by(['region', 'product']).agg([
+    pl.len().alias('count'),
+    pl.col('revenue').sum().round(2).alias('total_revenue'),
+    pl.col('revenue').mean().round(2).alias('avg_revenue'),
+    pl.col('units').sum().alias('total_units'),
+    (pl.col('revenue').sum() / pl.col('units').sum()).round(2).alias('rev_per_unit')
+]).sort(['region', 'product'])
+print(summary)
+
+# Filter groups: only regions where total revenue > 20000
+high_rev = df.group_by('region').agg(
+    pl.col('revenue').sum().alias('total')
+).filter(pl.col('total') > 20000).sort('total', descending=True)
+print('High-revenue regions:', high_rev)</code></pre></div>
+    <h4>group_by_dynamic for Time-Based Grouping & Rolling Aggregations</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+from datetime import datetime, timedelta
+
+np.random.seed(42)
+n = 500
+base = datetime(2024, 1, 1)
+# Build a time-series DataFrame with a proper Datetime column
+df = pl.DataFrame({
+    'ts': [base + timedelta(hours=int(h)) for h in np.random.uniform(0, 24*30, n)],
+    'sales': np.random.exponential(200, n).round(2),
+    'units': np.random.randint(1, 20, n),
+}).sort('ts')
+
+# group_by_dynamic — aggregate by calendar window (daily buckets)
+daily = df.group_by_dynamic('ts', every='1d').agg([
+    pl.col('sales').sum().round(2).alias('daily_revenue'),
+    pl.col('units').sum().alias('daily_units'),
+    pl.len().alias('transactions'),
+])
+print('Daily aggregation (first 7 days):')
+print(daily.head(7))
+
+# Rolling aggregation — 7-day rolling sum over the sorted frame
+rolling = df.with_columns(
+    pl.col('sales').rolling_sum(window_size=7, min_periods=1).alias('rolling_7d_sales')
+)
+print('Rolling 7-day sales sum (last 5 rows):')
+print(rolling.select(['ts', 'sales', 'rolling_7d_sales']).tail(5))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Retail: Compute daily revenue, order count, and average basket size per store for weekly reporting.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+from datetime import date, timedelta
+
+np.random.seed(42)
+n = 50_000
+start = date(2024, 1, 1)
+orders = pl.DataFrame({
+    'order_id': range(n),
+    'store_id': np.random.choice(['S001','S002','S003','S004'], n),
+    'order_date': [str(start + timedelta(days=int(d)))
+                   for d in np.random.randint(0, 90, n)],
+    'amount': np.random.exponential(80, n).round(2),
+    'items': np.random.randint(1, 10, n)
+})
+
+daily = orders.group_by(['store_id', 'order_date']).agg([
+    pl.len().alias('order_count'),
+    pl.col('amount').sum().round(2).alias('revenue'),
+    pl.col('amount').mean().round(2).alias('avg_basket'),
+    pl.col('items').mean().round(1).alias('avg_items')
+]).sort(['store_id', 'order_date'])
+
+print(f'Daily summaries: {daily.shape}')
+print(daily.head(8))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Column GroupBy & Multiple Aggregations</div><div class="pd">Generate a sales DataFrame with 'salesperson', 'region', 'product', 'amount', 'qty'. 1) Group by region AND product, compute count, total amount, avg amount, total qty. 2) Find the salesperson with the highest total sales per region. 3) Filter to only groups where count >= 5 and avg amount > 500.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p3" class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(7)
+n = 150
+df = pl.DataFrame({
+    'salesperson': [f'Rep_{i%10}' for i in range(n)],
+    'region': np.random.choice(['North','South','East','West'], n),
+    'product': np.random.choice(['Widget','Gadget','Doohickey'], n),
+    'amount': np.random.exponential(800, n).round(2),
+    'qty': np.random.randint(1, 20, n)
+})
+
+# 1. GroupBy region + product
+# TODO: summary = df.group_by(['region', 'product']).agg([
+#     pl.len().alias('count'),
+#     pl.col('amount').sum().round(2).alias('total_amount'),
+#     pl.col('amount').mean().round(2).alias('avg_amount'),
+#     pl.col('qty').sum().alias('total_qty')
+# ]).sort(['region', 'product'])
+# print(summary)
+
+# 2. Top salesperson per region
+# TODO: top_reps = df.group_by(['region', 'salesperson']).agg(
+#     pl.col('amount').sum().round(2).alias('total_sales')
+# ).sort('total_sales', descending=True)
+# TODO: print(top_reps.group_by('region').first())
+
+# 3. Filter groups with count >= 5 and avg > 500
+# TODO: filtered = summary.filter(
+#     (pl.col('count') >= 5) & (pl.col('avg_amount') > 500)
+# )
+# print('Qualifying groups:', filtered)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s4">
+  <div class="card-header" onclick="toggle('s4')">
+    <span>5. Joins</span>
+    <span class="arrow" id="arr-s4">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s4" style="display:none">
+    <p class="desc">Combine DataFrames with inner, left, outer, cross, and anti joins — all in parallel.</p>
+    <h4>inner, left & outer joins</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+customers = pl.DataFrame({
+    'id': [1, 2, 3, 4, 5],
+    'name': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve']
+})
+orders = pl.DataFrame({
+    'order_id': [101, 102, 103, 104],
+    'cust_id': [1, 2, 2, 6],  # 6 has no customer
+    'amount': [250, 80, 120, 400]
+})
+
+# Inner join
+print('INNER:')
+print(customers.join(orders, left_on='id', right_on='cust_id', how='inner'))
+
+# Left join
+print('LEFT (all customers):')
+print(customers.join(orders, left_on='id', right_on='cust_id', how='left'))
+
+# Anti join — customers with NO orders
+print('ANTI (no orders):')
+print(customers.join(orders, left_on='id', right_on='cust_id', how='anti'))</code></pre></div>
+    <h4>Semi Join & Concat</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+products = pl.DataFrame({
+    'sku': ['A', 'B', 'C', 'D', 'E'],
+    'price': [10.0, 25.0, 15.0, 8.0, 50.0]
+})
+sold = pl.DataFrame({'sku': ['A', 'C', 'E']})
+
+# Semi join — only rows with a match (no extra columns)
+print('SEMI (sold products):')
+print(products.join(sold, on='sku', how='semi'))
+
+# Vertical concat (stack rows)
+df1 = pl.DataFrame({'a': [1, 2], 'b': ['x', 'y']})
+df2 = pl.DataFrame({'a': [3, 4], 'b': ['z', 'w']})
+print('CONCAT vertical:')
+print(pl.concat([df1, df2]))
+
+# Horizontal concat (side by side)
+df3 = pl.DataFrame({'c': [10, 20], 'd': [30, 40]})
+print('CONCAT horizontal:')
+print(pl.concat([df1, df3], how='horizontal'))</code></pre></div>
+    <h4>Cross Join & Suffix Disambiguation</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+# Cross join — all combinations
+sizes = pl.DataFrame({'size': ['S', 'M', 'L', 'XL']})
+colors = pl.DataFrame({'color': ['Red', 'Blue', 'Green']})
+variants = sizes.join(colors, how='cross')
+print(f'Product variants ({len(variants)} rows):')
+print(variants)
+
+# Join with overlapping column names — use suffix
+orders = pl.DataFrame({
+    'order_id': [1, 2, 3],
+    'amount': [100, 200, 300],
+    'status': ['paid', 'pending', 'paid']
+})
+returns = pl.DataFrame({
+    'order_id': [2, 3],
+    'amount': [200, 150],  # refund amount
+    'status': ['approved', 'partial']
+})
+joined = orders.join(returns, on='order_id', how='left', suffix='_refund')
+print('With suffix disambiguation:')
+print(joined)</code></pre></div>
+    <h4>Semi Join, join with on=, and Asof Join Concept</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+# --- Semi join: keep only left rows that have a match ---
+inventory = pl.DataFrame({
+    'sku': ['A001', 'B002', 'C003', 'D004', 'E005'],
+    'stock': [100, 0, 50, 200, 0]
+})
+ordered_skus = pl.DataFrame({'sku': ['A001', 'C003', 'E005']})
+
+in_stock_orders = inventory.join(ordered_skus, on='sku', how='semi')
+print('Semi join — ordered items in inventory:')
+print(in_stock_orders)
+
+# --- join with on= (same column name on both sides) ---
+employees = pl.DataFrame({
+    'dept_id': [1, 2, 3, 1],
+    'name': ['Alice', 'Bob', 'Carol', 'Dave']
+})
+departments = pl.DataFrame({
+    'dept_id': [1, 2, 3],
+    'dept_name': ['Engineering', 'Sales', 'HR']
+})
+joined = employees.join(departments, on='dept_id', how='inner')
+print('join with on= (shared key name):')
+print(joined)
+
+# --- Asof join concept: join on nearest key ---
+# Match each trade to the most recent quote before it
+quotes = pl.DataFrame({
+    'time': [1, 3, 5, 8, 12],
+    'bid': [100.0, 100.5, 101.0, 101.5, 102.0]
+})
+trades = pl.DataFrame({
+    'time': [2, 4, 9, 11],
+    'qty': [10, 5, 20, 8]
+})
+asof = trades.join_asof(quotes, on='time', strategy='backward')
+print('Asof join (each trade gets most recent bid):')
+print(asof)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">CRM: Enrich customer records with their most recent order and account tier from separate tables.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+customers = pl.DataFrame({
+    'cust_id': range(1000),
+    'name': [f'Customer_{i}' for i in range(1000)],
+    'signup_year': np.random.randint(2018, 2024, 1000)
+})
+tiers = pl.DataFrame({
+    'cust_id': range(1000),
+    'tier': np.random.choice(['Bronze','Silver','Gold','Platinum'], 1000)
+})
+last_orders = pl.DataFrame({
+    'cust_id': np.random.choice(range(900), 800, replace=False),  # 100 never ordered
+    'last_order_amount': np.random.exponential(200, 800).round(2)
+})
+
+enriched = (
+    customers
+    .join(tiers, on='cust_id', how='left')
+    .join(last_orders, on='cust_id', how='left')
+)
+print(f'Enriched: {enriched.shape}')
+print(enriched.head(5))
+print('Never ordered:', enriched['last_order_amount'].is_null().sum())</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Left Join & Anti-Join</div><div class="pd">Create 'students' (id, name, grade) and 'enrollments' (student_id, course, score) DataFrames. 1) Left join to show all students with their courses (nulls for unenrolled). 2) Anti-join to find students with no enrollments. 3) Inner join and compute avg score per student. 4) Cross join students with a list of 3 available courses to show all possible assignments.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p4" class="language-python">import polars as pl
+
+students = pl.DataFrame({
+    'id': [1, 2, 3, 4, 5],
+    'name': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
+    'grade': ['A', 'B', 'A', 'C', 'B']
+})
+enrollments = pl.DataFrame({
+    'student_id': [1, 1, 2, 3, 3, 3],
+    'course': ['Math', 'Science', 'Math', 'English', 'Math', 'Art'],
+    'score': [92, 87, 75, 88, 95, 91]
+})
+
+# 1. Left join — all students with courses
+# TODO: left = students.join(enrollments, left_on='id', right_on='student_id', how='left')
+# TODO: print('Left join:', left)
+
+# 2. Anti join — students with no enrollments
+# TODO: no_courses = students.join(enrollments, left_on='id', right_on='student_id', how='anti')
+# TODO: print('No courses:', no_courses)
+
+# 3. Inner join + avg score per student
+# TODO: inner = students.join(enrollments, left_on='id', right_on='student_id', how='inner')
+# TODO: avg_scores = inner.group_by('name').agg(pl.col('score').mean().round(1).alias('avg_score'))
+# TODO: print('Avg scores:', avg_scores)
+
+# 4. Cross join: each student x each available course
+courses = pl.DataFrame({'available_course': ['Math', 'Science', 'Art']})
+# TODO: assignments = students.select('name').join(courses, how='cross')
+# TODO: print(f'All assignments ({len(assignments)} rows):', assignments)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s5">
+  <div class="card-header" onclick="toggle('s5')">
+    <span>6. String & Date Operations</span>
+    <span class="arrow" id="arr-s5">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s5" style="display:none">
+    <p class="desc">Polars has a rich .str and .dt namespace for vectorized string and datetime manipulations.</p>
+    <h4>String Operations (.str)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'email': ['alice@example.com', 'bob@test.org', 'carol@example.com'],
+    'full_name': ['Alice Smith', 'Bob Jones', 'Carol White'],
+    'code': ['  ABC-123  ', 'DEF-456', ' GHI-789 ']
+})
+
+result = df.with_columns([
+    pl.col('email').str.split('@').list.get(1).alias('domain'),
+    pl.col('email').str.contains('example').alias('is_example'),
+    pl.col('full_name').str.split(' ').list.get(0).alias('first_name'),
+    pl.col('full_name').str.to_lowercase().alias('name_lower'),
+    pl.col('code').str.strip_chars().alias('code_clean'),
+    pl.col('code').str.strip_chars().str.replace('-', '_').alias('code_underscore')
+])
+print(result)</code></pre></div>
+    <h4>Date/Time Operations (.dt)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+from datetime import date
+
+df = pl.DataFrame({
+    'date_str': ['2024-01-15', '2024-03-22', '2024-07-04', '2024-12-31'],
+    'event': ['Q1 Review', 'Sprint End', 'Holiday', 'Year End']
+})
+
+df2 = df.with_columns(
+    pl.col('date_str').str.to_date('%Y-%m-%d').alias('date')
+)
+
+result = df2.with_columns([
+    pl.col('date').dt.year().alias('year'),
+    pl.col('date').dt.month().alias('month'),
+    pl.col('date').dt.day().alias('day'),
+    pl.col('date').dt.weekday().alias('weekday'),  # Mon=1
+    pl.col('date').dt.quarter().alias('quarter'),
+    pl.col('date').dt.strftime('%B %d, %Y').alias('formatted')
+])
+print(result)</code></pre></div>
+    <h4>str.contains, str.split, str.replace & Date Arithmetic</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+from datetime import date
+
+# String operations
+df = pl.DataFrame({
+    'url': ['https://example.com/product/123', 'https://example.com/cart', 'https://shop.io/item/456'],
+    'tags': ['python,data,science', 'ml,ai,deep-learning', 'stats,python,r'],
+})
+
+result = df.with_columns([
+    pl.col('url').str.contains('product').alias('is_product_page'),
+    pl.col('url').str.split('/').list.last().alias('path_end'),
+    pl.col('url').str.replace('https://', '').alias('url_no_scheme'),
+    pl.col('tags').str.split(',').list.len().alias('tag_count'),
+    pl.col('tags').str.contains('python').alias('has_python'),
+])
+print(result)
+
+# Date arithmetic
+df2 = pl.DataFrame({
+    'start': [date(2024, 1, 1), date(2024, 3, 15), date(2024, 6, 30)],
+    'end':   [date(2024, 4, 1), date(2024, 5, 20), date(2024, 12, 31)]
+})
+df3 = df2.with_columns([
+    pl.col('start').dt.strftime('%B %Y').alias('start_label'),
+    (pl.col('end') - pl.col('start')).dt.total_days().alias('duration_days'),
+    pl.col('start').dt.month().alias('start_month'),
+    pl.col('end').dt.year().alias('end_year'),
+])
+print(df3)</code></pre></div>
+    <h4>str.extract with Regex, str.split_exact & dt.truncate</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+from datetime import date
+
+# String regex extraction
+df = pl.DataFrame({'log': [
+    '2024-01-15 ERROR db_pool Connection timeout after 30s',
+    '2024-01-16 INFO  auth_svc User alice logged in',
+    '2024-01-17 WARN  api_gw  Rate limit at 95%',
+]})
+
+result = df.with_columns([
+    pl.col('log').str.extract(r'(\d{4}-\d{2}-\d{2})', 1).alias('date'),
+    pl.col('log').str.extract(r'\d{4}-\d{2}-\d{2} (\w+)', 1).alias('level'),
+    pl.col('log').str.extract(r'\w+ \w+\s+(\w+)\s', 1).alias('service'),
+])
+print('Regex extraction:')
+print(result)
+
+# str.split_exact — fixed number of parts
+df2 = pl.DataFrame({'ts': ['2024-01-15', '2024-06-30', '2024-12-01']})
+split = df2.with_columns(
+    pl.col('ts').str.split_exact('-', 2).alias('parts')
+).unnest('parts').rename({'field_0':'year','field_1':'month','field_2':'day'})
+print('\nSplit date parts:')
+print(split)
+
+# dt.truncate — round dates to month/week
+df3 = pl.DataFrame({'dt': pl.date_range(
+    pl.date(2024, 1, 1), pl.date(2024, 3, 31), interval='11d', eager=True
+)})
+df3 = df3.with_columns([
+    pl.col('dt').dt.truncate('1mo').alias('month_start'),
+    pl.col('dt').dt.truncate('1w').alias('week_start'),
+])
+print('\nDate truncation:')
+print(df3.head(6))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Analytics: Parse raw log timestamps, extract hour/day features, and flag weekend traffic spikes.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+from datetime import datetime, timedelta
+
+np.random.seed(42)
+n = 10_000
+base = datetime(2024, 1, 1)
+logs = pl.DataFrame({
+    'timestamp': [(base + timedelta(hours=int(h))).strftime('%Y-%m-%d %H:%M:%S')
+                  for h in np.random.uniform(0, 24*90, n)],
+    'user_id': np.random.randint(1, 1000, n),
+    'page': np.random.choice(['/home','/product','/cart','/checkout'], n),
+    'response_ms': np.random.exponential(200, n).round(1)
+})
+
+enriched = logs.with_columns(
+    pl.col('timestamp').str.to_datetime('%Y-%m-%d %H:%M:%S').alias('dt')
+).with_columns([
+    pl.col('dt').dt.hour().alias('hour'),
+    pl.col('dt').dt.weekday().alias('weekday'),
+    (pl.col('dt').dt.weekday() >= 6).alias('is_weekend')
+])
+
+hourly = enriched.group_by('hour').agg([
+    pl.len().alias('requests'),
+    pl.col('response_ms').mean().round(1).alias('avg_ms')
+]).sort('hour')
+print('Peak hour:', hourly.top_k(1, by='requests')['hour'][0], 'h')
+print('Weekend traffic:', enriched['is_weekend'].mean().__round__(1))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String & DateTime Feature Engineering</div><div class="pd">Create a DataFrame with 'email', 'signup_date' (str), 'username'. 1) Extract domain from email using str.split. 2) Flag emails from 'gmail.com' or 'yahoo.com' with str.contains. 3) Parse signup_date and extract year, month, weekday. 4) Use dt.strftime to create a formatted label. 5) Compute days since signup (use date(2025,1,1) as today).</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p5" class="language-python">import polars as pl
+from datetime import date
+
+df = pl.DataFrame({
+    'username': ['alice_99', 'bob.smith', 'carol123', 'dave_x', 'eve.m'],
+    'email': ['alice@gmail.com', 'bob@company.org', 'carol@yahoo.com', 'dave@outlook.com', 'eve@gmail.com'],
+    'signup_date': ['2023-03-15', '2022-11-01', '2024-01-20', '2021-07-04', '2023-09-30']
+})
+
+# 1. Extract domain
+# TODO: df = df.with_columns(
+#     pl.col('email').str.split('@').list.get(1).alias('domain')
+# )
+
+# 2. Flag gmail/yahoo
+# TODO: df = df.with_columns(
+#     pl.col('email').str.contains('gmail|yahoo').alias('is_free_email')
+# )
+
+# 3. Parse date and extract features
+# TODO: df = df.with_columns(
+#     pl.col('signup_date').str.to_date('%Y-%m-%d').alias('date')
+# ).with_columns([
+#     pl.col('date').dt.year().alias('year'),
+#     pl.col('date').dt.month().alias('month'),
+#     pl.col('date').dt.weekday().alias('weekday'),
+# ])
+
+# 4. Formatted label
+# TODO: df = df.with_columns(
+#     pl.col('date').dt.strftime('%b %Y').alias('signup_label')
+# )
+
+# 5. Days since signup
+today = date(2025, 1, 1)
+# TODO: df = df.with_columns(
+#     (pl.lit(today) - pl.col('date')).dt.total_days().alias('days_since_signup')
+# )
+# TODO: print(df)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s6">
+  <div class="card-header" onclick="toggle('s6')">
+    <span>7. Lazy API & Query Optimization</span>
+    <span class="arrow" id="arr-s6">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s6" style="display:none">
+    <p class="desc">Use LazyFrame to build a query plan that Polars optimizes and executes in parallel — essential for large data.</p>
+    <h4>LazyFrame Basics</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'id': range(1_000_000),
+    'value': np.random.randn(1_000_000),
+    'group': np.random.choice(['A','B','C','D'], 1_000_000),
+    'score': np.random.randint(0, 100, 1_000_000)
+})
+
+# Convert to LazyFrame
+result = (
+    df.lazy()                            # build query plan
+    .filter(pl.col('score') > 50)        # predicate pushdown
+    .with_columns(
+        (pl.col('value') * 2).alias('value2')
+    )
+    .group_by('group').agg(
+        pl.col('value2').mean().round(4).alias('mean_v2'),
+        pl.len().alias('count')
+    )
+    .sort('group')
+)
+
+# See the query plan
+print(result.explain())
+
+# Execute
+print(result.collect())</code></pre></div>
+    <h4>scan_csv & Streaming</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import tempfile, os, numpy as np
+
+# Write a sample CSV to scan
+np.random.seed(42)
+n = 100_000
+tmp = pl.DataFrame({
+    'a': np.random.randint(0, 100, n),
+    'b': np.random.randn(n),
+    'c': np.random.choice(['X','Y','Z'], n)
+})
+path = os.path.join(tempfile.gettempdir(), 'polars_demo.csv')
+tmp.write_csv(path)
+
+# scan_csv: reads lazily — only loads needed data
+result = (
+    pl.scan_csv(path)
+    .filter(pl.col('c') == 'X')
+    .filter(pl.col('a') > 90)
+    .select(['a', 'b'])
+    .collect()
+)
+print('Filtered result:', result.shape)
+print(result.head())</code></pre></div>
+    <h4>Lazy Pipeline: filter, select, groupby, collect</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+# Build a large DataFrame then use LazyFrame
+df = pl.DataFrame({
+    'user_id': np.random.randint(1, 500, 50_000),
+    'product': np.random.choice(['A','B','C','D','E'], 50_000),
+    'amount': np.random.exponential(100, 50_000).round(2),
+    'returned': np.random.choice([True, False], 50_000, p=[0.05, 0.95])
+})
+
+# Convert to lazy and build a multi-step pipeline
+lazy_result = (
+    df.lazy()
+    .filter(~pl.col('returned'))                   # exclude returns
+    .filter(pl.col('amount') > 10)                 # min order
+    .with_columns(
+        (pl.col('amount') * 1.1).alias('amount_with_tax')
+    )
+    .group_by(['user_id', 'product']).agg([
+        pl.len().alias('orders'),
+        pl.col('amount_with_tax').sum().round(2).alias('total_spent')
+    ])
+    .filter(pl.col('orders') >= 3)                 # frequent buyers
+    .sort('total_spent', descending=True)
+)
+
+# Execute
+result = lazy_result.collect()
+print(f'Frequent buyers: {len(result):,}')
+print(result.head(8))</code></pre></div>
+    <h4>Streaming Mode & LazyFrame Schema Inspection</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+np.random.seed(42)
+n = 500_000
+df = pl.DataFrame({
+    'id':       range(n),
+    'amount':   np.random.exponential(100, n).round(2),
+    'category': np.random.choice(['A','B','C','D'], n),
+    'flag':     np.random.choice([True, False], n),
+})
+pq_path = os.path.join(tempfile.gettempdir(), 'streaming_demo.parquet')
+df.write_parquet(pq_path)
+
+# LazyFrame schema inspection — no data loaded yet
+lf = pl.scan_parquet(pq_path)
+print('Schema (no data loaded):')
+print(lf.schema)
+print('Columns:', lf.columns)
+
+# Build a lazy query
+query = (
+    lf.filter(pl.col('flag') & (pl.col('amount') > 50))
+      .group_by('category')
+      .agg([
+          pl.col('amount').mean().round(2).alias('avg'),
+          pl.len().alias('count')
+      ])
+      .sort('avg', descending=True)
+)
+
+# Show the optimized query plan
+print('\nOptimized plan:')
+query.explain(optimized=True)
+
+# Execute
+result = query.collect()
+print('\nResult:')
+print(result)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Pipeline optimization: Process 5GB of log files lazily — Polars scans, filters, and aggregates without loading everything into memory.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+# Simulate large dataset written to CSV
+np.random.seed(42)
+n = 200_000
+big_df = pl.DataFrame({
+    'ts': np.arange(n),
+    'user': np.random.randint(1, 10000, n),
+    'event': np.random.choice(['click','view','buy','exit'], n),
+    'duration_s': np.random.exponential(30, n).round(1),
+    'country': np.random.choice(['US','UK','DE','JP','BR'], n)
+})
+path = os.path.join(tempfile.gettempdir(), 'events.csv')
+big_df.write_csv(path)
+
+# Lazy pipeline — only loads relevant columns and rows
+summary = (
+    pl.scan_csv(path)
+    .filter(pl.col('event') == 'buy')
+    .filter(pl.col('duration_s') > 5)
+    .group_by('country').agg([
+        pl.len().alias('purchases'),
+        pl.col('duration_s').mean().round(2).alias('avg_duration'),
+        pl.col('user').n_unique().alias('unique_buyers')
+    ])
+    .sort('purchases', descending=True)
+    .collect()
+)
+print('Purchase summary by country:')
+print(summary)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LazyFrame Pipeline with collect()</div><div class="pd">Create a 100k-row DataFrame (in-memory) with 'customer_id', 'category', 'spend', 'is_member'. 1) Convert to lazy. 2) Filter: is_member=True AND spend > 20. 3) Add 'spend_after_discount' = spend * 0.9 for members. 4) GroupBy category: count, total spend, avg spend_after_discount. 5) Sort by total spend descending and collect(). Print the query plan with explain().</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p6" class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(0)
+n = 100_000
+df = pl.DataFrame({
+    'customer_id': np.random.randint(1, 5000, n),
+    'category': np.random.choice(['Food','Tech','Fashion','Home'], n),
+    'spend': np.random.exponential(60, n).round(2),
+    'is_member': np.random.choice([True, False], n, p=[0.4, 0.6])
+})
+
+# Build the lazy pipeline
+# TODO: lazy = df.lazy()
+# TODO: lazy = lazy.filter(pl.col('is_member') & (pl.col('spend') > 20))
+# TODO: lazy = lazy.with_columns(
+#     (pl.col('spend') * 0.9).round(2).alias('spend_after_discount')
+# )
+# TODO: lazy = lazy.group_by('category').agg([
+#     pl.len().alias('count'),
+#     pl.col('spend').sum().round(2).alias('total_spend'),
+#     pl.col('spend_after_discount').mean().round(2).alias('avg_discounted')
+# ])
+# TODO: lazy = lazy.sort('total_spend', descending=True)
+
+# Print query plan and execute
+# TODO: print(lazy.explain())
+# TODO: result = lazy.collect()
+# TODO: print(result)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s7">
+  <div class="card-header" onclick="toggle('s7')">
+    <span>8. Reading & Writing Files</span>
+    <span class="arrow" id="arr-s7">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s7" style="display:none">
+    <p class="desc">Polars natively reads/writes CSV, JSON, Parquet, and Arrow — Parquet is the recommended format.</p>
+    <h4>CSV & JSON</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'id': range(100),
+    'name': [f'Item_{i}' for i in range(100)],
+    'value': np.random.randn(100).round(4),
+    'tag': np.random.choice(['A','B','C'], 100)
+})
+
+tmp = tempfile.gettempdir()
+
+# CSV
+csv_path = os.path.join(tmp, 'demo.csv')
+df.write_csv(csv_path)
+df_csv = pl.read_csv(csv_path)
+print('CSV roundtrip:', df_csv.shape)
+
+# JSON (newline-delimited)
+json_path = os.path.join(tmp, 'demo.ndjson')
+df.write_ndjson(json_path)
+df_json = pl.read_ndjson(json_path)
+print('NDJSON roundtrip:', df_json.shape)</code></pre></div>
+    <h4>Parquet (Recommended Format)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+np.random.seed(42)
+n = 500_000
+df = pl.DataFrame({
+    'id': range(n),
+    'amount': np.random.exponential(200, n).round(2),
+    'category': np.random.choice(['A','B','C','D'], n),
+    'flag': np.random.choice([True, False], n)
+})
+
+tmp = tempfile.gettempdir()
+pq_path = os.path.join(tmp, 'demo.parquet')
+
+# Write Parquet (compressed, columnar)
+df.write_parquet(pq_path, compression='zstd')
+size_mb = os.path.getsize(pq_path) / 1024 / 1024
+print(f'Parquet size: {size_mb:.2f} MB (for {n:,} rows)')
+
+# Read full
+df2 = pl.read_parquet(pq_path)
+print('Read back:', df2.shape)
+
+# Scan (lazy) — column pruning + predicate pushdown
+result = pl.scan_parquet(pq_path).filter(
+    pl.col('category') == 'A'
+).select(['id','amount']).collect()
+print('Filtered parquet:', result.shape)</code></pre></div>
+    <h4>IPC/Arrow Format and In-Memory Read</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os, io
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'id': range(1000),
+    'value': np.random.randn(1000).round(4),
+    'category': np.random.choice(['A','B','C'], 1000)
+})
+
+tmp = tempfile.gettempdir()
+
+# IPC (Arrow) — fastest local I/O format
+ipc_path = os.path.join(tmp, 'demo.arrow')
+df.write_ipc(ipc_path)
+df_ipc = pl.read_ipc(ipc_path)
+size_ipc = os.path.getsize(ipc_path) / 1024
+print(f'IPC size: {size_ipc:.1f} KB, shape: {df_ipc.shape}')
+
+# In-memory CSV read from string
+csv_str = df.write_csv()
+df_str = pl.read_csv(io.StringIO(csv_str))
+print('From string CSV:', df_str.shape)
+
+# Column pruning on Parquet read
+pq_path = os.path.join(tmp, 'pruned_demo.parquet')
+df.write_parquet(pq_path)
+df_cols = pl.read_parquet(pq_path, columns=['id', 'category'])
+print('Column-pruned parquet:', df_cols.shape, df_cols.columns)</code></pre></div>
+    <h4>scan_csv with Schema Override & In-Memory Parquet</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import io
+
+# scan_csv with explicit schema override
+csv_data = 'id,score,grade,active\n1,92.5,A,true\n2,78.0,B,false\n3,85.5,A,true\n'
+schema_override = {
+    'id':     pl.Int32,
+    'score':  pl.Float32,
+    'grade':  pl.Categorical,
+    'active': pl.Boolean,
+}
+df = pl.read_csv(io.StringIO(csv_data), schema_overrides=schema_override)
+print('With schema override:')
+print(df)
+print('Dtypes:', df.dtypes)
+
+# In-memory Parquet (BytesIO — no file system needed)
+import numpy as np
+np.random.seed(0)
+df2 = pl.DataFrame({
+    'x': np.random.randn(1000).astype('float32'),
+    'y': np.random.randint(0, 10, 1000),
+})
+buf = io.BytesIO()
+df2.write_parquet(buf, compression='zstd')
+buf.seek(0)
+size_kb = buf.getbuffer().nbytes / 1024
+df3 = pl.read_parquet(buf)
+print(f'\nIn-memory Parquet: {df2.shape} → {size_kb:.1f} KB')
+print('Read back:', df3.shape)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Data Lake: Store processed transaction data in Parquet partitioned by month — 10x smaller than CSV, 5x faster queries.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+from datetime import date, timedelta
+
+np.random.seed(42)
+n = 100_000
+start = date(2024, 1, 1)
+df = pl.DataFrame({
+    'txn_id': range(n),
+    'date': [str(start + timedelta(days=int(d))) for d in np.random.randint(0, 365, n)],
+    'amount': np.random.exponential(150, n).round(2),
+    'merchant': np.random.choice(['Amazon','Netflix','Uber','Spotify'], n)
+})
+
+# Add month column for partitioning
+df2 = df.with_columns(
+    pl.col('date').str.to_date('%Y-%m-%d').dt.month().alias('month')
+)
+
+tmp = tempfile.gettempdir()
+pq_path = os.path.join(tmp, 'transactions.parquet')
+df2.write_parquet(pq_path, compression='snappy')
+
+# Query Jan only — fast because of column pushdown
+jan = pl.scan_parquet(pq_path).filter(
+    pl.col('month') == 1
+).collect()
+print(f'January transactions: {len(jan):,}')
+print(f'Jan revenue: ${jan["amount"].sum():,.2f}')</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Round-Trip and Parquet Query</div><div class="pd">Write a 10,000-row orders DataFrame to CSV and Parquet. Read the CSV back and verify shape. Use scan_parquet (LazyFrame) to filter one region and select specific columns, then collect.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p7" class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+np.random.seed(42)
+n = 10_000
+df = pl.DataFrame({
+    'order_id': range(n),
+    'customer': [f'cust_{i % 500}' for i in range(n)],
+    'product': np.random.choice(['Widget','Gadget','Doohickey'], n),
+    'amount': np.random.exponential(100, n).round(2),
+    'region': np.random.choice(['North','South','East','West'], n),
+})
+
+tmp = tempfile.gettempdir()
+
+# TODO: Write df to CSV and read it back
+# csv_path = os.path.join(tmp, 'orders.csv')
+# df.write_csv(???)
+# df_csv = pl.read_csv(???)
+# print('CSV roundtrip:', df_csv.shape)
+
+# TODO: Write df to Parquet with 'zstd' compression
+# pq_path = os.path.join(tmp, 'orders.parquet')
+# df.write_parquet(???, compression='zstd')
+
+# TODO: Use scan_parquet (lazy) to filter region == 'North'
+# and select only ['order_id', 'customer', 'amount']
+# result = pl.scan_parquet(pq_path).filter(???).select(???).collect()
+# print('North orders:', result.shape)
+# print('North revenue: ${:.2f}'.format(result['amount'].sum()))</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s8">
+  <div class="card-header" onclick="toggle('s8')">
+    <span>9. Window Functions</span>
+    <span class="arrow" id="arr-s8">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s8" style="display:none">
+    <p class="desc">Compute rolling statistics, cumulative sums, and rank within groups using Polars window expressions.</p>
+    <h4>Rolling & Cumulative</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'day': range(1, 31),
+    'sales': np.random.randint(50, 200, 30)
+})
+
+result = df.with_columns([
+    pl.col('sales').cum_sum().alias('cumulative_sales'),
+    pl.col('sales').rolling_mean(window_size=7).round(1).alias('7d_avg'),
+    pl.col('sales').rolling_max(window_size=7).alias('7d_max'),
+    pl.col('sales').rolling_std(window_size=7).round(2).alias('7d_std'),
+    pl.col('sales').pct_change().round(4).alias('pct_change')
+])
+print(result.tail(10))</code></pre></div>
+    <h4>Group Window Expressions</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({
+    'dept': ['Eng','Eng','Eng','Sales','Sales','HR','HR'],
+    'name': ['Alice','Bob','Carol','Dave','Eve','Frank','Grace'],
+    'salary': [90000, 85000, 95000, 70000, 65000, 55000, 58000]
+})
+
+result = df.with_columns([
+    pl.col('salary').rank('dense').over('dept').alias('rank_in_dept'),
+    pl.col('salary').mean().over('dept').round(0).alias('dept_avg'),
+    (pl.col('salary') - pl.col('salary').mean().over('dept'))
+        .round(0).alias('vs_dept_avg'),
+    pl.col('salary').max().over('dept').alias('dept_max')
+])
+print(result)</code></pre></div>
+    <h4>Lead/Lag and Running Max</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'day': range(1, 21),
+    'sales': np.random.randint(100, 500, 20)
+})
+
+result = df.with_columns([
+    pl.col('sales').shift(1).alias('prev_day'),
+    pl.col('sales').shift(-1).alias('next_day'),
+    (pl.col('sales') - pl.col('sales').shift(1)).alias('day_delta'),
+    pl.col('sales').rolling_mean(window_size=3, min_periods=1).round(1).alias('3d_avg'),
+    pl.col('sales').cum_max().alias('running_max'),
+    (pl.col('sales') / pl.col('sales').max() * 100).round(1).alias('pct_of_max')
+])
+print(result)</code></pre></div>
+    <h4>ewm_mean (Exponential Weighted), rolling_quantile & map_elements</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+df = pl.DataFrame({
+    'day':   range(1, 31),
+    'price': np.random.uniform(95, 105, 30).round(2),
+    'vol':   np.random.randint(1000, 5000, 30),
+})
+
+result = df.with_columns([
+    # Exponential weighted mean (recent values get more weight)
+    pl.col('price').ewm_mean(span=5).round(3).alias('ewm_5'),
+    # Rolling 7-day median (robust to outliers)
+    pl.col('price').rolling_median(window_size=7).round(3).alias('rolling_med_7'),
+    # Rolling 75th percentile
+    pl.col('vol').rolling_quantile(quantile=0.75, window_size=7).alias('vol_q75'),
+])
+print(result.head(10))
+
+# map_elements for custom per-element logic
+df2 = pl.DataFrame({'scores': [[85, 90, 78], [60, 70], [95, 88, 92, 80]]})
+result2 = df2.with_columns(
+    pl.col('scores').map_elements(
+        lambda lst: round(sum(lst) / len(lst), 2),
+        return_dtype=pl.Float64
+    ).alias('avg_score')
+)
+print('\nCustom avg via map_elements:')
+print(result2)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Finance: Compute 30-day rolling average revenue and rank salespeople within each region monthly.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+from datetime import date, timedelta
+
+np.random.seed(42)
+n = 500
+start = date(2024, 1, 1)
+df = pl.DataFrame({
+    'date': [str(start + timedelta(days=i)) for i in range(n)],
+    'region': np.random.choice(['North','South','East','West'], n),
+    'rep': [f'Rep_{np.random.randint(1,6)}' for _ in range(n)],
+    'revenue': np.random.exponential(5000, n).round(2)
+})
+
+result = df.sort('date').with_columns([
+    pl.col('revenue').rolling_mean(window_size=30).round(2).alias('30d_avg_rev'),
+    pl.col('revenue').cum_sum().alias('ytd_revenue'),
+    pl.col('revenue').rank('dense', descending=True).over('region').alias('region_rank')
+])
+
+# Top performer per region
+top = result.filter(pl.col('region_rank') == 1).group_by('region').agg(
+    pl.col('rep').first(),
+    pl.col('revenue').sum().round(2).alias('total_rev')
+).sort('total_rev', descending=True)
+print('Top reps by region:')
+print(top)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Trend Analysis with Windows</div><div class="pd">Given 90 days of daily sales data with product and revenue columns, add: (1) 7-day rolling mean of revenue, (2) cumulative units sold, (3) revenue as % of dataset max, (4) rank within each product group by revenue descending. Then print top 3 days per product.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p8" class="language-python">import polars as pl
+import numpy as np
+from datetime import date, timedelta
+
+np.random.seed(42)
+n = 90
+df = pl.DataFrame({
+    'date': [str(date(2024, 1, 1) + timedelta(days=i)) for i in range(n)],
+    'product': np.random.choice(['Widget', 'Gadget', 'Doohickey'], n),
+    'units_sold': np.random.randint(10, 200, n),
+    'revenue': np.random.exponential(500, n).round(2),
+})
+
+# TODO: Sort by date and add window columns:
+# 1. rolling_mean of revenue (window=7, min_periods=1) -> 'rolling_7d'
+# 2. cum_sum of units_sold -> 'cumulative_units'
+# 3. revenue / max(revenue) * 100 -> 'pct_of_peak'
+# 4. rank of revenue within 'product' group (descending) -> 'product_rank'
+result = df  # TODO: replace
+
+# TODO: Filter product_rank <= 3 and print top days per product
+# top3 = result.filter(pl.col('product_rank') <= 3).sort(['product', 'product_rank'])
+# print(top3)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s9">
+  <div class="card-header" onclick="toggle('s9')">
+    <span>10. Polars vs Pandas Migration</span>
+    <span class="arrow" id="arr-s9">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s9" style="display:none">
+    <p class="desc">Key differences and equivalents between Polars and Pandas — migrate your workflows efficiently.</p>
+    <h4>Side-by-Side Comparison</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import pandas as pd
+
+# Creating a DataFrame
+# Pandas:
+pd_df = pd.DataFrame({'a': [1,2,3], 'b': [4,5,6]})
+
+# Polars:
+pl_df = pl.DataFrame({'a': [1,2,3], 'b': [4,5,6]})
+
+# Filtering
+# Pandas: df[df['a'] > 1]
+# Polars:
+print(pl_df.filter(pl.col('a') > 1))
+
+# Adding column
+# Pandas: df['c'] = df['a'] + df['b']
+# Polars:
+pl_df2 = pl_df.with_columns((pl.col('a') + pl.col('b')).alias('c'))
+print(pl_df2)
+
+# GroupBy
+# Pandas: df.groupby('a')['b'].sum()
+# Polars:
+pl_df3 = pl.DataFrame({'a': ['x','x','y','y'], 'b': [1,2,3,4]})
+print(pl_df3.group_by('a').agg(pl.col('b').sum()))</code></pre></div>
+    <h4>Converting Between Polars & Pandas</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import pandas as pd
+import numpy as np
+
+# Start with Pandas
+pd_df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol'],
+    'score': [92.5, 88.0, 95.1]
+})
+
+# Pandas -> Polars
+pl_df = pl.from_pandas(pd_df)
+print('From pandas:', pl_df)
+
+# Polars -> Pandas
+back_to_pd = pl_df.to_pandas()
+print('Back to pandas:', back_to_pd.dtypes)
+
+# Polars -> NumPy
+arr = pl_df['score'].to_numpy()
+print('NumPy array:', arr)
+
+# Apply pandas where Polars lacks support
+# e.g., complex visualization or sklearn pipelines
+from sklearn.preprocessing import StandardScaler
+X = StandardScaler().fit_transform(pl_df.select('score').to_pandas())
+print('Scaled scores:', X.flatten().round(2))</code></pre></div>
+    <h4>Method Chaining Comparison</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+n = 1000
+data = {
+    'dept': np.random.choice(['Eng', 'Sales', 'HR'], n),
+    'score': np.random.randint(0, 100, n),
+    'active': np.random.choice([True, False], n)
+}
+
+# Pandas: filter + conditional column + groupby
+pd_df = pd.DataFrame(data)
+pd_active = pd_df[pd_df['active']].copy()
+pd_active['grade'] = pd.cut(pd_active['score'], bins=[0,60,80,100], labels=['C','B','A'])
+pd_result = pd_active.groupby(['dept','grade'])['score'].mean().round(2).reset_index()
+print('Pandas:')
+print(pd_result.sort_values(['dept','grade']).head(6))
+
+# Polars equivalent — more explicit, no chained assignment
+pl_df = pl.DataFrame(data)
+pl_result = (
+    pl_df.filter(pl.col('active'))
+    .with_columns(
+        pl.when(pl.col('score') >= 80).then(pl.lit('A'))
+          .when(pl.col('score') >= 60).then(pl.lit('B'))
+          .otherwise(pl.lit('C')).alias('grade')
+    )
+    .group_by(['dept', 'grade'])
+    .agg(pl.col('score').mean().round(2).alias('avg_score'))
+    .sort(['dept', 'grade'])
+)
+print('\nPolars:')
+print(pl_result.head(6))</code></pre></div>
+    <h4>Arrow Zero-Copy Interchange & Categorical dtype</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import pandas as pd
+import numpy as np
+
+# Categorical dtype in Polars (much more efficient than object)
+np.random.seed(42)
+n = 100_000
+df_pl = pl.DataFrame({
+    'product':  pl.Series(np.random.choice(['Widget','Gadget','Doohickey'], n)).cast(pl.Categorical),
+    'region':   pl.Series(np.random.choice(['North','South','East','West'], n)).cast(pl.Categorical),
+    'revenue':  np.random.exponential(200, n).round(2),
+})
+print('Categorical memory usage:')
+print(f'  estimated size: {df_pl.estimated_size("mb"):.2f} MB')
+print(f'  product unique values: {df_pl["product"].n_unique()}')
+
+# Zero-copy to pandas via Arrow
+df_pd = df_pl.to_pandas(use_pyarrow_extension_array=True)
+print('\nArrow-backed pandas dtypes:')
+print(df_pd.dtypes)
+
+# from_pandas preserving categorical
+df_pd2 = pd.DataFrame({
+    'color': pd.Categorical(['red','blue','red','green','blue']),
+    'val':   [1, 2, 3, 4, 5]
+})
+df_pl2 = pl.from_pandas(df_pd2)
+print('\nFrom pandas Categorical:')
+print(df_pl2)
+print('dtype:', df_pl2['color'].dtype)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Migration: Rewrite a slow Pandas ETL pipeline in Polars — same logic, 8x faster on 10M rows.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import pandas as pd
+import numpy as np
+import time
+
+np.random.seed(42)
+n = 500_000
+data = {
+    'user_id': np.random.randint(1, 10000, n),
+    'amount': np.random.exponential(100, n),
+    'category': np.random.choice(['A','B','C'], n)
+}
+
+# PANDAS approach
+t0 = time.time()
+pd_df = pd.DataFrame(data)
+pd_result = (pd_df[pd_df['amount'] > 50]
+             .groupby('category')['amount']
+             .agg(['mean','sum','count'])
+             .reset_index())
+t_pd = time.time() - t0
+
+# POLARS approach
+t0 = time.time()
+pl_df = pl.DataFrame(data)
+pl_result = (pl_df.filter(pl.col('amount') > 50)
+             .group_by('category').agg([
+                 pl.col('amount').mean().round(4).alias('mean'),
+                 pl.col('amount').sum().round(2).alias('sum'),
+                 pl.len().alias('count')
+             ])
+             .sort('category'))
+t_pl = time.time() - t0
+
+print(f'Pandas:  {t_pd:.3f}s')
+print(f'Polars:  {t_pl:.3f}s')
+print(f'Speedup: {t_pd/t_pl:.1f}x')
+print(pl_result)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rewrite a Pandas Pipeline in Polars</div><div class="pd">A Pandas pipeline filters premium users with spend > $50, groups by product, and aggregates mean/sum/count. Rewrite the exact same logic in Polars using filter, group_by, agg, and sort.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p9" class="language-python">import pandas as pd
+import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 50_000
+data = {
+    'user_id': np.random.randint(1, 5000, n),
+    'product': np.random.choice(['A', 'B', 'C', 'D'], n),
+    'spend': np.random.exponential(75, n).round(2),
+    'is_premium': np.random.choice([True, False], n)
+}
+
+# Existing Pandas pipeline (working — do not modify)
+pd_df = pd.DataFrame(data)
+pd_result = (
+    pd_df[pd_df['is_premium'] & (pd_df['spend'] > 50)]
+    .groupby('product')['spend']
+    .agg(['mean', 'sum', 'count'])
+    .reset_index()
+    .sort_values('sum', ascending=False)
+)
+print('Pandas result:')
+print(pd_result)
+
+# TODO: Rewrite in Polars
+pl_df = pl.DataFrame(data)
+pl_result = (
+    pl_df
+    # TODO: .filter(is_premium AND spend > 50)
+    # TODO: .group_by('product').agg(mean, sum, count of 'spend')
+    # TODO: .sort('sum', descending=True)
+)
+print('\nPolars result:')
+# print(pl_result)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s10">
+  <div class="card-header" onclick="toggle('s10')">
+    <span>11. Lazy Evaluation & Streaming</span>
+    <span class="arrow" id="arr-s10">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s10" style="display:none">
+    <p class="desc">Use Polars LazyFrame to build query plans that are optimized before execution. Process datasets larger than RAM with streaming mode.</p>
+    <h4>LazyFrame vs DataFrame</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+data = {
+    'id':       range(100_000),
+    'category': np.random.choice(['A','B','C','D'], 100_000),
+    'value':    np.random.randn(100_000) * 100 + 500,
+    'qty':      np.random.randint(1, 100, 100_000),
+}
+
+# Eager DataFrame
+df = pl.DataFrame(data)
+
+# Lazy: nothing executes yet
+lf = pl.LazyFrame(data)
+plan = (
+    lf
+    .filter(pl.col('value') > 500)
+    .group_by('category')
+    .agg(
+        pl.col('value').mean().alias('avg_val'),
+        pl.col('qty').sum().alias('total_qty'),
+    )
+    .sort('avg_val', descending=True)
+)
+print('Lazy plan (before execution):')
+print(plan.explain())
+result = plan.collect()  # executes query
+print('\nResult after .collect():')
+print(result)</code></pre></div>
+    <h4>Query Optimization with LazyFrame</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+import time
+
+np.random.seed(0)
+n = 500_000
+df = pl.DataFrame({
+    'user_id': np.random.randint(1, 10000, n),
+    'product': np.random.choice(['laptop','phone','tablet','watch'], n),
+    'revenue': np.random.exponential(100, n),
+    'country': np.random.choice(['US','UK','DE','FR','JP'], n),
+})
+
+# Eager: no optimization
+t0 = time.perf_counter()
+eager = (
+    df
+    .filter(pl.col('country') == 'US')
+    .filter(pl.col('revenue') > 50)
+    .group_by('product')
+    .agg(pl.col('revenue').sum())
+)
+t_eager = time.perf_counter() - t0
+
+# Lazy: Polars merges filters and optimizes scan
+t0 = time.perf_counter()
+lazy = (
+    df.lazy()
+    .filter(pl.col('country') == 'US')
+    .filter(pl.col('revenue') > 50)
+    .group_by('product')
+    .agg(pl.col('revenue').sum())
+    .collect()
+)
+t_lazy = time.perf_counter() - t0
+print(f'Eager: {t_eager*1000:.1f}ms | Lazy: {t_lazy*1000:.1f}ms')
+print(lazy.sort('revenue', descending=True))</code></pre></div>
+    <h4>scan_csv for Larger-than-RAM Processing</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import tempfile, os, numpy as np
+
+# Create a sample CSV file
+np.random.seed(42)
+rows = 200_000
+with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+    fname = f.name
+    f.write('id,category,value,qty\n')
+    cats = np.random.choice(['A','B','C'], rows)
+    vals = np.random.randn(rows) * 50 + 200
+    qtys = np.random.randint(1, 50, rows)
+    for i in range(rows):
+        f.write(f'{i},{cats[i]},{vals[i]:.2f},{qtys[i]}\n')
+
+# scan_csv = lazy: doesn't load file yet
+lf = pl.scan_csv(fname)
+print('Schema:', lf.schema)
+
+result = (
+    lf
+    .filter(pl.col('value') > 200)
+    .group_by('category')
+    .agg(
+        pl.col('value').mean().round(2).alias('avg_value'),
+        pl.col('qty').sum().alias('total_qty'),
+        pl.len().alias('count'),
+    )
+    .sort('avg_value', descending=True)
+    .collect(streaming=True)  # streaming=True for large files
+)
+print(result)
+os.unlink(fname)</code></pre></div>
+    <h4>Sink to Parquet (streaming write)</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+np.random.seed(42)
+n = 100_000
+df = pl.DataFrame({
+    'ts':       pl.date_range(
+                    pl.date(2024, 1, 1), pl.date(2024, 12, 31),
+                    interval='1h', eager=True
+                )[:n],
+    'sensor':   np.random.choice(['s1','s2','s3'], n),
+    'reading':  np.random.normal(25, 5, n),
+})
+
+tmpdir = tempfile.mkdtemp()
+out_path = os.path.join(tmpdir, 'out.parquet')
+
+# Write to parquet
+df.write_parquet(out_path)
+
+# Read back with scan_parquet (lazy)
+result = (
+    pl.scan_parquet(out_path)
+    .filter(pl.col('reading') > 25)
+    .group_by('sensor')
+    .agg(pl.col('reading').mean().alias('avg_reading'), pl.len().alias('n'))
+    .collect()
+)
+print(result)
+fsize = os.path.getsize(out_path)
+print(f'Parquet file size: {fsize/1024:.1f} KB for {n:,} rows')
+import shutil; shutil.rmtree(tmpdir)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Process daily clickstream logs (5GB CSV files) to compute daily active users and top 10 products per region. Use scan_csv + LazyFrame to avoid loading the entire file into RAM.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+
+# Simulate a medium CSV log file
+np.random.seed(7)
+n = 500_000
+with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+    fname = f.name
+    f.write('user_id,region,product,event,ts\n')
+    regions  = np.random.choice(['NA','EU','APAC'], n)
+    products = np.random.choice([f'p{i}' for i in range(20)], n)
+    events   = np.random.choice(['click','view','purchase'], n, p=[0.6,0.3,0.1])
+    users    = np.random.randint(1, 10000, n)
+    for i in range(n):
+        f.write(f'{users[i]},{regions[i]},{products[i]},{events[i]},2024-01-{(i%28)+1:02d}\n')
+
+result = (
+    pl.scan_csv(fname)
+    .filter(pl.col('event') == 'purchase')
+    .group_by(['region', 'product'])
+    .agg(pl.len().alias('purchases'))
+    .sort('purchases', descending=True)
+    .collect(streaming=True)
+)
+print('Top purchases by region:')
+print(result.head(10))
+os.unlink(fname)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lazy Pipeline on Large Simulated Dataset</div><div class="pd">Create a 1M-row DataFrame with columns: user_id, country, product_category, revenue. Using LazyFrame, compute: (1) total revenue per country, (2) top 3 categories per country by revenue. Use .explain() to view the query plan. Compare execution time of eager vs lazy.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p10" class="language-python">import polars as pl
+import numpy as np
+import time
+
+np.random.seed(42)
+n = 1_000_000
+df = pl.DataFrame({
+    'user_id':          np.random.randint(1, 100000, n),
+    'country':          np.random.choice(['US','UK','DE','FR','JP','AU'], n),
+    'product_category': np.random.choice(['electronics','clothing','food','books'], n),
+    'revenue':          np.random.exponential(50, n),
+})
+
+# TODO: (1) Total revenue per country using LazyFrame
+# TODO: (2) Top 3 categories per country by revenue
+# TODO: Compare eager vs lazy execution time
+# TODO: print the query plan with .explain()
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s11">
+  <div class="card-header" onclick="toggle('s11')">
+    <span>12. Window Functions</span>
+    <span class="arrow" id="arr-s11">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s11" style="display:none">
+    <p class="desc">Compute rolling statistics, cumulative aggregates, rank-based features, and temporal calculations within groups using Polars window expressions.</p>
+    <h4>Rolling & Expanding Windows</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+dates = pl.date_range(pl.date(2024, 1, 1), pl.date(2024, 12, 31), interval='1d', eager=True)
+df = pl.DataFrame({
+    'date':  dates,
+    'sales': np.random.normal(1000, 200, len(dates)).round(2),
+})
+
+result = df.with_columns([
+    pl.col('sales').rolling_mean(window_size=7).alias('rolling_7d'),
+    pl.col('sales').rolling_mean(window_size=30).alias('rolling_30d'),
+    pl.col('sales').rolling_std(window_size=7).alias('rolling_std_7d'),
+    pl.col('sales').cum_sum().alias('cumulative_sales'),
+    pl.col('sales').rolling_max(window_size=7).alias('rolling_max_7d'),
+])
+print(result.head(35).tail(5))
+print(f'\nTotal annual sales: {result["cumulative_sales"][-1]:,.0f}')
+print(f'Peak 7-day avg: {result["rolling_7d"].max():,.1f}')</code></pre></div>
+    <h4>Rank and Dense Rank</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(0)
+df = pl.DataFrame({
+    'product':  np.random.choice(['A','B','C','D','E'], 50),
+    'region':   np.random.choice(['North','South','East'], 50),
+    'revenue':  np.random.exponential(1000, 50).round(2),
+})
+
+# Global rank
+ranked = df.with_columns([
+    pl.col('revenue').rank(method='dense', descending=True).alias('global_rank'),
+])
+
+# Rank within region
+regional = df.with_columns([
+    pl.col('revenue').rank(method='dense', descending=True)
+      .over('region').alias('region_rank'),
+    pl.col('revenue').rank(method='ordinal', descending=True)
+      .over('region').alias('region_ordinal_rank'),
+])
+
+print('Top 5 by revenue with global rank:')
+print(ranked.sort('global_rank').head())
+print('\nTop 3 per region:')
+print(regional.filter(pl.col('region_rank') <= 3).sort(['region','region_rank']))</code></pre></div>
+    <h4>Group-wise Aggregations with over()</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 200
+df = pl.DataFrame({
+    'employee': [f'emp_{i}' for i in range(n)],
+    'dept':     np.random.choice(['Engineering','Marketing','Sales','HR'], n),
+    'salary':   np.random.normal(80000, 20000, n).round(0),
+    'yrs_exp':  np.random.randint(1, 20, n),
+})
+
+result = df.with_columns([
+    pl.col('salary').mean().over('dept').alias('dept_avg_salary'),
+    pl.col('salary').rank(method='dense', descending=True).over('dept').alias('dept_rank'),
+    (pl.col('salary') - pl.col('salary').mean().over('dept')).alias('salary_vs_dept_avg'),
+    pl.len().over('dept').alias('dept_size'),
+])
+
+print('Employees earning above dept average:')
+above_avg = result.filter(pl.col('salary_vs_dept_avg') > 0)
+print(above_avg.sort('dept').select(['employee','dept','salary','dept_avg_salary','dept_rank']).head(8))</code></pre></div>
+    <h4>Shift & Lag Features for Time Series</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(7)
+dates = pl.date_range(pl.date(2024, 1, 1), pl.date(2024, 6, 30), interval='1d', eager=True)
+stocks = ['AAPL', 'GOOG']
+all_dfs = []
+for stock in stocks:
+    prices = 150 + np.cumsum(np.random.randn(len(dates)) * 2)
+    all_dfs.append(pl.DataFrame({'date': dates, 'stock': stock, 'close': prices.round(2)}))
+df = pl.concat(all_dfs).sort(['stock', 'date'])
+
+result = df.with_columns([
+    pl.col('close').shift(1).over('stock').alias('prev_close'),
+    pl.col('close').shift(7).over('stock').alias('close_7d_ago'),
+    pl.col('close').pct_change().over('stock').alias('daily_return'),
+    pl.col('close').rolling_mean(window_size=5).over('stock').alias('ma5'),
+    pl.col('close').rolling_mean(window_size=20).over('stock').alias('ma20'),
+])
+print(result.filter(pl.col('stock') == 'AAPL').tail(5))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Compute a 30-day rolling average revenue and day-over-day growth rate per product category for a retail dashboard. Also rank categories within each month by revenue.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+dates = pl.date_range(pl.date(2024, 1, 1), pl.date(2024, 12, 31), interval='1d', eager=True)
+cats  = ['Electronics', 'Clothing', 'Food']
+frames = []
+for cat in cats:
+    revenue = 5000 + np.cumsum(np.random.randn(len(dates)) * 200)
+    frames.append(pl.DataFrame({'date': dates, 'category': cat, 'revenue': revenue.round(2)}))
+df = pl.concat(frames).sort(['category','date'])
+
+result = df.with_columns([
+    pl.col('revenue').rolling_mean(window_size=30).over('category').alias('ma30'),
+    pl.col('revenue').pct_change().over('category').alias('dod_growth'),
+    pl.col('date').dt.month().alias('month'),
+])
+monthly = (
+    result
+    .group_by(['month','category'])
+    .agg(pl.col('revenue').sum().alias('monthly_rev'))
+    .with_columns(
+        pl.col('monthly_rev').rank(method='dense', descending=True).over('month').alias('rank')
+    )
+    .sort(['month','rank'])
+)
+print(monthly.head(9))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales KPI Dashboard with Window Functions</div><div class="pd">Given daily sales data for 5 products over 6 months, compute for each product: (1) 7-day and 30-day rolling averages, (2) week-over-week growth rate using shift(7), (3) cumulative sales, (4) rank within each week by daily sales. Output a summary showing each product's peak day and best weekly rank.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p11" class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+dates = pl.date_range(pl.date(2024, 1, 1), pl.date(2024, 6, 30), interval='1d', eager=True)
+prods = ['alpha','beta','gamma','delta','epsilon']
+frames = []
+for p in prods:
+    sales = np.abs(np.random.normal(500, 150, len(dates)))
+    frames.append(pl.DataFrame({'date': dates, 'product': p, 'sales': sales.round(2)}))
+df = pl.concat(frames).sort(['product','date'])
+
+# TODO: Add 7d and 30d rolling means per product
+# TODO: Add wow_growth = (sales - shift(7)) / shift(7) per product
+# TODO: Add cumulative sales per product
+# TODO: Add weekly rank within each week per product
+# TODO: Print peak day and best rank for each product
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s12">
+  <div class="card-header" onclick="toggle('s12')">
+    <span>13. Performance Tuning</span>
+    <span class="arrow" id="arr-s12">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s12" style="display:none">
+    <p class="desc">Maximize Polars performance through parallelism settings, predicate pushdown, schema optimization, and benchmarking against pandas.</p>
+    <h4>Polars vs Pandas Benchmark</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import pandas as pd
+import numpy as np
+import time
+
+np.random.seed(42)
+n = 1_000_000
+data = {
+    'id':       np.random.randint(1, 10000, n),
+    'category': np.random.choice(['A','B','C','D','E'], n),
+    'value':    np.random.randn(n) * 100,
+    'qty':      np.random.randint(1, 50, n),
+}
+
+df_pd = pd.DataFrame(data)
+df_pl = pl.DataFrame(data)
+
+def bench(fn, name, reps=3):
+    times = []
+    for _ in range(reps):
+        t0 = time.perf_counter()
+        fn()
+        times.append(time.perf_counter() - t0)
+    print(f'{name:<30} {min(times)*1000:.1f}ms (best of {reps})')
+
+bench(lambda: df_pd.groupby('category')['value'].agg(['mean','sum','std']), 'Pandas groupby')
+bench(lambda: df_pl.group_by('category').agg(pl.col('value').mean(), pl.col('value').sum(), pl.col('value').std()), 'Polars groupby')
+
+bench(lambda: df_pd.sort_values('value'), 'Pandas sort')
+bench(lambda: df_pl.sort('value'), 'Polars sort')</code></pre></div>
+    <h4>Schema Optimization & Categorical Encoding</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 500_000
+# Default dtype inference
+df_default = pl.DataFrame({
+    'user_id':  np.random.randint(1, 10000, n),
+    'country':  np.random.choice(['US','UK','DE','FR','JP'], n),
+    'product':  np.random.choice([f'prod_{i}' for i in range(100)], n),
+    'revenue':  np.random.exponential(50, n),
+    'quantity': np.random.randint(1, 20, n),
+})
+
+# Optimized dtypes
+df_opt = df_default.with_columns([
+    pl.col('user_id').cast(pl.UInt32),
+    pl.col('country').cast(pl.Categorical),
+    pl.col('product').cast(pl.Categorical),
+    pl.col('revenue').cast(pl.Float32),
+    pl.col('quantity').cast(pl.UInt8),
+])
+
+def mem_mb(df): return df.estimated_size('mb')
+
+print(f'Default schema: {mem_mb(df_default):.1f} MB')
+print(f'Optimized schema: {mem_mb(df_opt):.1f} MB')
+print(f'Reduction: {(1 - mem_mb(df_opt)/mem_mb(df_default))*100:.0f}%')
+print('\nOptimized schema:')
+print(df_opt.schema)</code></pre></div>
+    <h4>Parallelism & Thread Control</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+import time
+
+print(f'Polars version: {pl.__version__}')
+print(f'Available threads: {pl.thread_pool_size()}')
+
+np.random.seed(0)
+n = 2_000_000
+df = pl.DataFrame({
+    'g': np.random.randint(0, 100, n),
+    'v': np.random.randn(n),
+})
+
+# Polars uses multiple threads automatically
+# Demonstrate with a complex query
+t0 = time.perf_counter()
+result = (
+    df.lazy()
+    .group_by('g')
+    .agg([
+        pl.col('v').mean().alias('mean'),
+        pl.col('v').std().alias('std'),
+        pl.col('v').quantile(0.25).alias('q25'),
+        pl.col('v').quantile(0.75).alias('q75'),
+        pl.col('v').max() - pl.col('v').min(),
+    ])
+    .collect()
+)
+t = time.perf_counter() - t0
+print(f'\n{n:,} rows, 100 groups, 5 aggs: {t*1000:.1f}ms')
+print(result.head())</code></pre></div>
+    <h4>Predicate Pushdown & Column Pruning</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+
+np.random.seed(42)
+n = 1_000_000
+df = pl.DataFrame({
+    'id':       np.arange(n),
+    'region':   np.random.choice(['NA','EU','APAC'], n),
+    'product':  np.random.choice(['A','B','C','D'], n),
+    'revenue':  np.random.exponential(200, n),
+    'cost':     np.random.exponential(80, n),
+    'quantity': np.random.randint(1, 100, n),
+    'discount': np.random.uniform(0, 0.3, n),
+})
+
+# Without optimization hints (eager)
+# Polars lazy plan shows predicate/column pushdown
+lf = df.lazy()
+plan = (
+    lf
+    .filter(pl.col('region') == 'EU')
+    .select(['product', 'revenue', 'quantity'])
+    .group_by('product')
+    .agg(
+        pl.col('revenue').sum().alias('total_rev'),
+        pl.col('quantity').mean().alias('avg_qty'),
+    )
+)
+print('Optimized query plan:')
+print(plan.explain(optimized=True))
+result = plan.collect()
+print('\nResult:')
+print(result.sort('total_rev', descending=True))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Optimize a slow daily analytics pipeline that reads a 10GB transaction CSV, computes 15 aggregations per region/product combination, and takes 4 hours. Use Polars lazy evaluation, schema optimization, and predicate pushdown to achieve sub-minute execution.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+import time
+
+np.random.seed(0)
+n = 2_000_000
+df = pl.DataFrame({
+    'region':   np.random.choice(['NA','EU','APAC','LATAM'], n),
+    'product':  np.random.choice([f'p{i}' for i in range(50)], n),
+    'revenue':  np.random.exponential(100, n),
+    'cost':     np.random.exponential(40, n),
+    'quantity': np.random.randint(1, 100, n),
+    'returned': np.random.choice([True, False], n, p=[0.05, 0.95]),
+}).with_columns([
+    pl.col('region').cast(pl.Categorical),
+    pl.col('product').cast(pl.Categorical),
+    pl.col('revenue').cast(pl.Float32),
+    pl.col('cost').cast(pl.Float32),
+    pl.col('quantity').cast(pl.UInt16),
+])
+
+t0 = time.perf_counter()
+result = (
+    df.lazy()
+    .filter(~pl.col('returned'))
+    .group_by(['region', 'product'])
+    .agg([
+        pl.col('revenue').sum().alias('total_revenue'),
+        pl.col('cost').sum().alias('total_cost'),
+        pl.col('quantity').sum().alias('total_qty'),
+        (pl.col('revenue') - pl.col('cost')).mean().alias('avg_margin'),
+        pl.len().alias('transactions'),
+    ])
+    .with_columns((pl.col('total_revenue') - pl.col('total_cost')).alias('profit'))
+    .sort('profit', descending=True)
+    .collect()
+)
+t = time.perf_counter() - t0
+print(f'{n:,} rows processed in {t:.2f}s')
+print(result.head(5))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Optimize a Slow Polars Pipeline</div><div class="pd">Given a 1M-row DataFrame with columns (user_id, country, product, revenue, cost), write two versions of the same query: (1) eager, (2) lazy with schema optimization (cast categoricals, float32). The query: filter out cost>revenue rows, group by country+product, compute total profit and count. Benchmark both and report speedup.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p12" class="language-python">import polars as pl
+import numpy as np
+import time
+
+np.random.seed(42)
+n = 1_000_000
+raw = pl.DataFrame({
+    'user_id': np.random.randint(1, 10000, n),
+    'country': np.random.choice(['US','UK','DE','FR'], n),
+    'product': np.random.choice([f'p{i}' for i in range(20)], n),
+    'revenue': np.random.exponential(100, n),
+    'cost':    np.random.exponential(60, n),
+})
+
+# TODO: (1) Eager version - filter, group_by, agg
+# TODO: (2) Lazy version with schema optimization
+# TODO: Benchmark both with time.perf_counter()
+# TODO: Print speedup ratio
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s13">
+  <div class="card-header" onclick="toggle('s13')">
+    <span>14. 14. Polars LazyFrame & Streaming Optimization</span>
+    <span class="arrow" id="arr-s13">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s13" style="display:none">
+    <p class="desc">LazyFrame enables query optimization through predicate pushdown, projection pushdown, and streaming execution. Build full pipelines before calling .collect() to let Polars optimize the execution plan.</p>
+    <h4>LazyFrame with Query Plan Inspection</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(0)
+n = 1_000_000
+# Build large lazy dataset
+lf = (
+    pl.LazyFrame({
+        "id":       np.arange(n),
+        "category": np.random.choice(["A","B","C","D"], n),
+        "value":    np.random.normal(100, 20, n),
+        "weight":   np.random.uniform(0.5, 2.0, n),
+    })
+    .filter(pl.col("value") > 60)
+    .with_columns([
+        (pl.col("value") * pl.col("weight")).alias("weighted_value"),
+        pl.col("category").cast(pl.Categorical),
+    ])
+    .group_by("category")
+    .agg([
+        pl.col("weighted_value").mean().alias("mean_wv"),
+        pl.col("value").std().alias("std_val"),
+        pl.col("id").count().alias("n"),
+    ])
+    .sort("mean_wv", descending=True)
+)
+# Show the query plan
+print("Query plan:")
+print(lf.explain())
+result = lf.collect()
+print(result)
+</code></pre></div>
+    <h4>Streaming Parquet Processing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(1)
+n = 500_000
+# Streaming scan simulation: process in chunks
+df = pl.DataFrame({
+    "user_id":   np.random.randint(1, 1000, n),
+    "revenue":   np.random.lognormal(3, 1, n),
+    "product":   np.random.choice(["X","Y","Z"], n),
+    "is_premium":np.random.randint(0, 2, n).astype(bool),
+})
+# Save and reload to test scan_parquet streaming
+import tempfile, os
+tmp = tempfile.mktemp(suffix=".parquet")
+df.write_parquet(tmp)
+# Streaming aggregation from parquet
+result = (
+    pl.scan_parquet(tmp)
+    .filter(pl.col("is_premium"))
+    .group_by("product")
+    .agg([
+        pl.col("revenue").sum().alias("total_rev"),
+        pl.col("user_id").n_unique().alias("unique_users"),
+        pl.col("revenue").mean().alias("avg_rev"),
+    ])
+    .sort("total_rev", descending=True)
+    .collect(streaming=True)
+)
+os.unlink(tmp)
+print(result)
+</code></pre></div>
+    <h4>Lazy vs Eager Benchmark</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+import time
+np.random.seed(42)
+n = 200_000
+df = pl.DataFrame({
+    "id":    np.arange(n),
+    "x":     np.random.randn(n),
+    "group": np.random.choice([f"G{i}" for i in range(50)], n),
+})
+# Pattern 1: inefficient (multiple passes)
+t0 = time.perf_counter()
+for _ in range(3):
+    _ = df.filter(pl.col("x") > 0).group_by("group").agg(pl.col("x").mean())
+t1 = time.perf_counter()
+# Pattern 2: single lazy pass with predicate pushdown
+t2 = time.perf_counter()
+for _ in range(3):
+    _ = (pl.LazyFrame(df)
+         .filter(pl.col("x") > 0)
+         .group_by("group")
+         .agg(pl.col("x").mean())
+         .collect())
+t3 = time.perf_counter()
+print(f"Eager repeated passes: {(t1-t0)*1000:.1f} ms")
+print(f"LazyFrame with pushdown: {(t3-t2)*1000:.1f} ms")
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">E-commerce analytics: process 10M order records from Parquet using LazyFrame with streaming=True to compute revenue by product category without loading all data into memory.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os
+np.random.seed(0)
+n = 500_000
+df = pl.DataFrame({
+    "order_id":  np.arange(n),
+    "category":  np.random.choice(["Electronics","Clothing","Food","Sports","Books"], n),
+    "revenue":   np.random.lognormal(4, 1, n),
+    "is_returned":np.random.binomial(1, 0.05, n).astype(bool),
+    "customer_tier":np.random.choice(["gold","silver","bronze"], n),
+})
+tmp = tempfile.mktemp(suffix=".parquet")
+df.write_parquet(tmp)
+result = (
+    pl.scan_parquet(tmp)
+    .filter(~pl.col("is_returned"))
+    .group_by(["category","customer_tier"])
+    .agg([
+        pl.col("revenue").sum().alias("total_rev"),
+        pl.col("revenue").mean().alias("avg_rev"),
+        pl.col("order_id").count().alias("n_orders"),
+    ])
+    .sort("total_rev", descending=True)
+    .collect(streaming=True)
+)
+os.unlink(tmp)
+print(result.head(8))
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fraud Transaction Pipeline</div><div class="pd">Process 2M transaction records with LazyFrame: filter frauds, group by category+day_of_week, compute aggregate metrics. Show the query plan, benchmark eager vs lazy, and use streaming=True for collect. Save results to parquet and verify.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p13" class="language-python">import polars as pl
+import numpy as np
+import time
+np.random.seed(7)
+n = 2_000_000
+df = pl.DataFrame({
+    "transaction_id": np.arange(n),
+    "customer_id":    np.random.randint(1, 10000, n),
+    "amount":         np.random.lognormal(4, 1, n),
+    "category":       np.random.choice(["food","travel","retail","tech","health"], n),
+    "is_fraud":       np.random.binomial(1, 0.02, n).astype(bool),
+    "day_of_week":    np.random.randint(0, 7, n),
+})
+# TODO: Use LazyFrame to filter fraud transactions, group by category+day_of_week
+# TODO: Compute: sum(amount), count, fraud_rate per group
+# TODO: Show query plan with .explain()
+# TODO: Compare timing: eager vs lazy with collect(streaming=True)
+# TODO: Save result to parquet, reload with scan_parquet and verify row count
+
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s14">
+  <div class="card-header" onclick="toggle('s14')">
+    <span>15. 15. Time Series Operations in Polars</span>
+    <span class="arrow" id="arr-s14">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s14" style="display:none">
+    <p class="desc">Polars provides high-performance time series operations: rolling aggregations, resampling with group_by_dynamic, and lag/shift features. Temporal operations run significantly faster than pandas for large datasets.</p>
+    <h4>Rolling Statistics & Time Features</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(0)
+n = 1000
+dates = pl.date_range(
+    pl.date(2022, 1, 1), pl.date(2024, 9, 26), interval="1d", eager=True
+)[:n]
+df = pl.DataFrame({
+    "date":  dates,
+    "value": 100 + np.cumsum(np.random.normal(0, 1, n)),
+    "volume":np.random.poisson(1000, n).astype(float),
+})
+result = (
+    df.with_columns([
+        pl.col("date").dt.year().alias("year"),
+        pl.col("date").dt.month().alias("month"),
+        pl.col("date").dt.weekday().alias("dow"),
+        pl.col("value").rolling_mean(window_size=7).alias("ma7"),
+        pl.col("value").rolling_mean(window_size=30).alias("ma30"),
+        pl.col("value").pct_change().alias("return_1d"),
+    ])
+    .filter(pl.col("ma7").is_not_null())
+)
+print(result.select(["date","value","ma7","ma30","return_1d"]).head(5))
+print(result.select(pl.col("return_1d").std()).item())
+</code></pre></div>
+    <h4>Resampling: Weekly & Monthly OHLC</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(1)
+n = 500
+dates = pl.date_range(pl.date(2023,1,1), pl.date(2024,5,14), interval="1d", eager=True)[:n]
+df = pl.DataFrame({
+    "date":  dates,
+    "price": 50 + np.cumsum(np.random.normal(0, 0.5, n)),
+})
+# Resample to weekly and monthly
+weekly = (
+    df.group_by_dynamic("date", every="1w")
+    .agg([
+        pl.col("price").first().alias("open"),
+        pl.col("price").max().alias("high"),
+        pl.col("price").min().alias("low"),
+        pl.col("price").last().alias("close"),
+        pl.col("price").mean().alias("avg"),
+    ])
+)
+monthly = (
+    df.group_by_dynamic("date", every="1mo")
+    .agg([
+        pl.col("price").last().alias("month_close"),
+        pl.col("price").std().alias("monthly_vol"),
+    ])
+)
+print("Weekly OHLC:"); print(weekly.head(4))
+print("Monthly volatility:"); print(monthly.head(4))
+</code></pre></div>
+    <h4>Lag Features & Rolling Metrics</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(2)
+n = 300
+dates = pl.date_range(pl.date(2023,1,1), pl.date(2023,10,28), interval="1d", eager=True)[:n]
+df = pl.DataFrame({
+    "date":  dates,
+    "value": 100 + np.cumsum(np.random.normal(0, 1.5, n)),
+})
+result = (
+    df.with_columns([
+        pl.col("value").shift(1).alias("lag_1"),
+        pl.col("value").shift(7).alias("lag_7"),
+        pl.col("value").shift(30).alias("lag_30"),
+        pl.col("value").rolling_std(window_size=14).alias("vol_14"),
+        (pl.col("value") / pl.col("value").shift(1) - 1).alias("return_1d"),
+        pl.col("value").rolling_max(window_size=52).alias("rolling_high_52"),
+        pl.col("value").rolling_min(window_size=52).alias("rolling_low_52"),
+    ])
+    .with_columns([
+        ((pl.col("value") - pl.col("rolling_low_52")) /
+         (pl.col("rolling_high_52") - pl.col("rolling_low_52"))).alias("pct_rank_52w"),
+    ])
+    .drop_nulls()
+)
+print(result.select(["date","value","lag_1","vol_14","pct_rank_52w"]).tail(5))
+print(f"Rows after dropna: {len(result)}")
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Retail analytics: compute 7-day and 30-day rolling sales averages, detect anomalies where daily sales deviate from the 30d mean by more than 2 std, and resample to weekly totals for reporting.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import numpy as np
+np.random.seed(1)
+n = 365
+dates = pl.date_range(pl.date(2023,1,1), pl.date(2023,12,31), interval="1d", eager=True)[:n]
+sales = 1000 + 200*np.sin(2*np.pi*np.arange(n)/7) + np.random.normal(0, 80, n)
+sales[100] += 800  # spike anomaly
+df = pl.DataFrame({"date": dates, "sales": sales})
+result = (
+    df.with_columns([
+        pl.col("sales").rolling_mean(window_size=7).alias("ma7"),
+        pl.col("sales").rolling_mean(window_size=30).alias("ma30"),
+        pl.col("sales").rolling_std(window_size=30).alias("std30"),
+    ])
+    .with_columns([
+        ((pl.col("sales") - pl.col("ma30")) / pl.col("std30")).alias("z_score"),
+    ])
+    .with_columns([
+        (pl.col("z_score").abs() > 2).alias("anomaly"),
+    ])
+)
+anomalies = result.filter(pl.col("anomaly"))
+print(f"Anomalies detected: {len(anomalies)}")
+print(anomalies.select(["date","sales","ma30","z_score"]))
+weekly = df.group_by_dynamic("date", every="1w").agg(pl.col("sales").sum().alias("weekly_total"))
+print(weekly.head(5))
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Asset Portfolio Analysis</div><div class="pd">Build a 2-year daily time series for 3 simulated stocks. Add rolling 20/50-day moving averages, daily returns, and 52-week high/low metrics. Resample AAPL to weekly OHLC. Compute monthly summary statistics (avg return, volatility) for all stocks using group_by_dynamic.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p14" class="language-python">import polars as pl
+import numpy as np
+np.random.seed(99)
+n = 730  # 2 years daily
+dates = pl.date_range(pl.date(2022,1,1), pl.date(2023,12,31), interval="1d", eager=True)[:n]
+# Multi-asset time series
+df = pl.DataFrame({
+    "date":  dates,
+    "AAPL":  100 + np.cumsum(np.random.normal(0.05, 1.2, n)),
+    "MSFT":  200 + np.cumsum(np.random.normal(0.08, 1.5, n)),
+    "GOOG":  90  + np.cumsum(np.random.normal(0.03, 1.0, n)),
+})
+# TODO: Add rolling 20d and 50d MA for each stock
+# TODO: Add daily returns for each stock
+# TODO: Resample to weekly OHLC for AAPL
+# TODO: Add 52-week high/low and % distance from 52w high
+# TODO: Monthly summary: avg return and volatility per stock
+
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s15">
+  <div class="card-header" onclick="toggle('s15')">
+    <span>16. 16. Polars with Apache Arrow & Parquet</span>
+    <span class="arrow" id="arr-s15">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s15" style="display:none">
+    <p class="desc">Polars is built on Apache Arrow, enabling zero-copy interop with PyArrow, DuckDB, and other Arrow-native tools. Write partitioned Parquet files for efficient partial reads in production data pipelines.</p>
+    <h4>Polars <-> PyArrow Interoperability</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import pyarrow as pa
+import numpy as np
+np.random.seed(0)
+n = 100_000
+# Create Polars DataFrame and convert to Arrow
+df = pl.DataFrame({
+    "id":      np.arange(n),
+    "score":   np.random.randn(n),
+    "category":np.random.choice(["A","B","C"], n),
+    "amount":  np.random.lognormal(4, 1, n),
+})
+# Polars -> Arrow -> Polars (zero-copy where possible)
+arrow_table = df.to_arrow()
+print(f"Arrow schema: {arrow_table.schema}")
+print(f"Num chunks: {arrow_table.column('score').num_chunks}")
+# Compute with pyarrow
+import pyarrow.compute as pc
+mean_score = pc.mean(arrow_table.column("score"))
+print(f"Mean score via pyarrow: {mean_score.as_py():.6f}")
+# Back to Polars
+df2 = pl.from_arrow(arrow_table)
+print(f"Roundtrip OK: {df.shape == df2.shape}")
+</code></pre></div>
+    <h4>Parquet vs CSV: Speed & Size Benchmark</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+import numpy as np
+import tempfile, os, time
+np.random.seed(1)
+n = 500_000
+df = pl.DataFrame({
+    "id":       np.arange(n),
+    "group":    np.random.choice(["X","Y","Z","W"], n),
+    "value":    np.random.randn(n),
+    "amount":   np.random.lognormal(3, 1.5, n),
+    "flag":     np.random.randint(0, 2, n).astype(bool),
+})
+tmp_parquet = tempfile.mktemp(suffix=".parquet")
+tmp_csv     = tempfile.mktemp(suffix=".csv")
+# Write and read Parquet vs CSV
+t0 = time.perf_counter()
+df.write_parquet(tmp_parquet, compression="snappy")
+t1 = time.perf_counter()
+df.write_csv(tmp_csv)
+t2 = time.perf_counter()
+df_pq = pl.read_parquet(tmp_parquet)
+t3 = time.perf_counter()
+df_csv = pl.read_csv(tmp_csv)
+t4 = time.perf_counter()
+pq_mb  = os.path.getsize(tmp_parquet) / 1e6
+csv_mb = os.path.getsize(tmp_csv) / 1e6
+print(f"Parquet: write={t1-t0:.3f}s read={t3-t2:.3f}s size={pq_mb:.1f}MB")
+print(f"CSV:     write={t2-t1:.3f}s read={t4-t3:.3f}s size={csv_mb:.1f}MB")
+for f in [tmp_parquet, tmp_csv]: os.unlink(f)
+</code></pre></div>
+    <h4>Partitioned Parquet with PyArrow + Polars scan</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+import pyarrow as pa
+import pyarrow.parquet as pq
+import numpy as np
+import tempfile, os
+np.random.seed(2)
+n = 200_000
+df = pl.DataFrame({
+    "year":   np.random.choice([2021,2022,2023], n),
+    "region": np.random.choice(["NA","EU","APAC"], n),
+    "product":np.random.choice(["A","B","C","D"], n),
+    "revenue":np.random.lognormal(5, 1, n),
+    "units":  np.random.poisson(50, n),
+})
+# Write partitioned parquet (by year+region) via pyarrow
+arrow_table = df.to_arrow()
+tmpdir = tempfile.mkdtemp()
+pq.write_to_dataset(arrow_table, root_path=tmpdir,
+                    partition_cols=["year","region"])
+# Read only 2023 NA partition with Polars scan
+result = (
+    pl.scan_parquet(f"{tmpdir}/year=2023/region=NA/**/*.parquet")
+    .group_by("product")
+    .agg(pl.col("revenue").sum(), pl.col("units").sum())
+    .collect()
+)
+print(f"2023 NA partition result:"); print(result)
+import shutil; shutil.rmtree(tmpdir)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Data lake pipeline: store 5 years of IoT sensor readings in Parquet partitioned by year+device_type, then query a single partition with pl.scan_parquet to compute hourly aggregates without reading the full dataset.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+import pyarrow as pa
+import pyarrow.parquet as pq
+import numpy as np
+import tempfile, os, shutil
+np.random.seed(5)
+n = 200_000
+df = pl.DataFrame({
+    "year":        np.random.choice([2021,2022,2023], n),
+    "device_type": np.random.choice(["sensor","camera","gateway"], n),
+    "timestamp_h": np.random.randint(0, 24, n),
+    "temperature": np.random.normal(22, 5, n),
+    "humidity":    np.random.normal(60, 10, n),
+    "power_kw":    np.random.lognormal(1, 0.5, n),
+})
+tmpdir = tempfile.mkdtemp()
+pq.write_to_dataset(df.to_arrow(), root_path=tmpdir,
+                    partition_cols=["year","device_type"])
+# Read only 2023 sensors
+result = (
+    pl.scan_parquet(f"{tmpdir}/year=2023/device_type=sensor/**/*.parquet")
+    .group_by("timestamp_h")
+    .agg([
+        pl.col("temperature").mean().alias("avg_temp"),
+        pl.col("power_kw").sum().alias("total_power"),
+        pl.col("humidity").std().alias("hum_std"),
+    ])
+    .sort("timestamp_h")
+    .collect()
+)
+print(f"2023 sensor hourly aggregates ({len(result)} hours):")
+print(result.head(5))
+shutil.rmtree(tmpdir)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 1M-Row Partitioned Analytics</div><div class="pd">Write 1M rows of sales data partitioned by date+country using PyArrow. Read only the 2024 US partition with pl.scan_parquet and compute margins. Benchmark whole-file read vs partitioned scan. Convert the result to Arrow and compute gross_margin using pyarrow.compute.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p15" class="language-python">import polars as pl
+import pyarrow as pa
+import pyarrow.parquet as pq
+import numpy as np
+import tempfile, os, time
+np.random.seed(33)
+n = 1_000_000
+df = pl.DataFrame({
+    "date":       np.random.choice(["2022","2023","2024"], n),
+    "country":    np.random.choice(["US","UK","DE","FR","JP"], n),
+    "category":   np.random.choice(["A","B","C","D","E"], n),
+    "sales":      np.random.lognormal(4, 1.5, n),
+    "cost":       np.random.lognormal(3.5, 1.2, n),
+    "units":      np.random.poisson(100, n),
+})
+# TODO: Write partitioned parquet by date+country using pyarrow
+# TODO: Read only 2024 US partition using pl.scan_parquet
+# TODO: Compute: total sales, total cost, margin, units per category for 2024 US
+# TODO: Benchmark: read whole parquet vs partitioned scan for single partition
+# TODO: Convert to Arrow table and compute gross_margin with pyarrow.compute
+
+</code></pre></div></div>
+  </div>
+</div>
+</main>
+<script>
+hljs.highlightAll();
+function toggle(id){
+  var b=document.getElementById('body-'+id),a=document.getElementById('arr-'+id);
+  if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)';}
+  else{b.style.display='none';a.style.transform='';}
+}
+function copyCode(btn){
+  var code=btn.nextElementSibling.querySelector('code');
+  navigator.clipboard.writeText(code.innerText).then(function(){
+    btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},1500);
+  });
+}
+function filterNav(q){
+  document.querySelectorAll('nav a').forEach(function(a){
+    a.style.display=a.textContent.toLowerCase().includes(q.toLowerCase())?'block':'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,3526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deep Learning Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{--accent:#f97316;--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}
+nav{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}
+nav h2{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}
+nav input{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}
+nav a{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}
+nav a:hover{color:var(--accent);border-left-color:var(--accent);background:rgba(249,115,22,.06);}
+main{flex:1;padding:32px;max-width:900px;}
+header{margin-bottom:32px;}
+header h1{font-size:2rem;font-weight:700;}
+header h1 span{color:var(--accent);}
+header p{color:var(--muted);margin-top:6px;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.3);margin-top:8px;}
+.card{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+.card-header{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}
+.card-header:hover{background:#1c2128;color:var(--accent);}
+.arrow{transition:transform .25s;color:var(--accent);}
+.card-body{padding:18px;background:#0d1117;border-top:1px solid var(--border);}
+.desc{color:var(--muted);margin-bottom:14px;line-height:1.6;}
+h4{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
+.code-wrap{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}
+pre{margin:0;overflow-x:auto;}
+pre code{font-size:.82rem;padding:14px!important;}
+.copy-btn{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}
+.copy-btn:hover{background:var(--accent);color:#000;}
+.rw{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.25);border-radius:8px;padding:14px;margin-top:16px;}
+.rh{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}
+.rd{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+@media(max-width:700px){nav{display:none;}main{padding:16px;}}
+</style>
+</head>
+<body>
+<nav>
+  <h2>Deep Learning</h2>
+  <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">
+  <a href="#s0">Setup & Tensors</a>
+<a href="#s1">Autograd & Gradients</a>
+<a href="#s2">Building Neural Networks (nn.Module)</a>
+<a href="#s3">Training Loop</a>
+<a href="#s4">Convolutional Neural Networks</a>
+<a href="#s5">Transfer Learning</a>
+<a href="#s6">Custom Datasets & DataLoaders</a>
+<a href="#s7">Regularization Techniques</a>
+<a href="#s8">Saving, Loading & ONNX Export</a>
+<a href="#s9">RNNs, LSTMs & Sequence Models</a>
+<a href="#s10">Attention Mechanisms</a>
+<a href="#s11">Generative Models</a>
+<a href="#s12">Model Interpretability</a>
+<a href="#s13">14. Convolutional Neural Networks (CNNs)</a>
+<a href="#s14">15. Transformer Architecture & Attention Mechanisms</a>
+<a href="#s15">16. Generative Models: VAE & GAN</a>
+
+</nav>
+<main>
+<header>
+  <h1>Deep <span>Learning</span> Study Guide</h1>
+  <p>Neural networks with PyTorch — from tensors to production-ready models.</p>
+  <span class="badge">10 Topics &bull; PyTorch &bull; CNNs / LSTMs / Transfer Learning</span>
+</header>
+
+<div class="card" id="s0">
+  <div class="card-header" onclick="toggle('s0')">
+    <span>1. Setup & Tensors</span>
+    <span class="arrow" id="arr-s0">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s0" style="display:none">
+    <p class="desc">PyTorch tensors are the foundation — multi-dimensional arrays with GPU support and autograd.</p>
+    <h4>Creating & Manipulating Tensors</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># pip install torch torchvision
+import torch
+
+# Create tensors
+t1 = torch.tensor([1.0, 2.0, 3.0])
+t2 = torch.zeros(3, 4)
+t3 = torch.ones(2, 3)
+t4 = torch.rand(3, 3)
+t5 = torch.arange(0, 10, step=2, dtype=torch.float32)
+
+print(&#x27;t1:&#x27;, t1)
+print(&#x27;t2 shape:&#x27;, t2.shape)
+print(&#x27;t4:&#x27;, t4)
+
+# Operations
+a = torch.tensor([[1., 2.], [3., 4.]])
+b = torch.tensor([[5., 6.], [7., 8.]])
+print(&#x27;Add:&#x27;, a + b)
+print(&#x27;Matmul:&#x27;, a @ b)
+print(&#x27;Mean:&#x27;, a.mean())
+
+# Reshape
+x = torch.arange(12, dtype=torch.float32)
+print(&#x27;Reshape:&#x27;, x.reshape(3, 4))</code></pre></div>
+    <h4>Tensor Indexing, Device & NumPy Bridge</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import numpy as np
+
+t = torch.rand(4, 5)
+
+# Indexing (same as NumPy)
+print(&#x27;Row 0:&#x27;, t[0])
+print(&#x27;Col 1:&#x27;, t[:, 1])
+print(&#x27;Slice:&#x27;, t[1:3, 2:4])
+
+# Boolean mask
+print(&#x27;&gt; 0.5:&#x27;, t[t &gt; 0.5][:5])
+
+# NumPy &lt;-&gt; Tensor (shared memory on CPU)
+arr = np.array([1.0, 2.0, 3.0])
+tensor_from_np = torch.from_numpy(arr)
+np_from_tensor = t.numpy()  # only works on CPU tensors
+print(&#x27;From numpy:&#x27;, tensor_from_np)
+
+# Device
+device = &#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;
+print(&#x27;Using device:&#x27;, device)
+t_device = t.to(device)
+print(&#x27;Tensor device:&#x27;, t_device.device)</code></pre></div>
+    <h4>Broadcasting, einsum & GPU Fallback</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+torch.manual_seed(0)
+device = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)
+print(&#x27;Device:&#x27;, device)
+
+# Broadcasting: (3,1) + (1,4) -&gt; (3,4)
+a = torch.randn(3, 1, device=device)
+b = torch.randn(1, 4, device=device)
+c = a + b
+print(&#x27;Broadcast shape:&#x27;, c.shape)  # (3, 4)
+
+# torch.einsum: batch matrix multiply
+# &#x27;bij,bjk-&gt;bik&#x27; = batched matmul
+X = torch.randn(8, 3, 4, device=device)  # batch of 8, (3x4)
+Y = torch.randn(8, 4, 5, device=device)  # batch of 8, (4x5)
+Z = torch.einsum(&#x27;bij,bjk-&gt;bik&#x27;, X, Y)
+print(&#x27;einsum batch matmul:&#x27;, Z.shape)  # (8, 3, 5)
+
+# L2 norm per row
+M = torch.randn(3, 4, device=device)
+row_norms = torch.norm(M, dim=1)
+print(&#x27;Row norms:&#x27;, row_norms)
+
+# Move to CPU and convert to numpy
+M_np = M.cpu().numpy()
+print(&#x27;As numpy shape:&#x27;, M_np.shape)</code></pre></div>
+        <h4>Sparse Tensors & Boolean Mask Indexing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+torch.manual_seed(0)
+
+# --- Sparse Tensors ---
+# Define a sparse COO tensor: indices (2, nnz) and values (nnz,)
+indices = torch.tensor([[0, 1, 2], [1, 0, 3]])  # row, col positions
+values  = torch.tensor([3.0, 5.0, 7.0])
+sparse = torch.sparse_coo_tensor(indices, values, size=(4, 5))
+print(&#x27;Sparse tensor:&#x27;)
+print(sparse.to_dense())
+print(&#x27;nnz (non-zero):&#x27;, sparse._nnz())
+
+# --- Boolean Mask Indexing ---
+x = torch.randn(4, 5)
+print(&#x27;\nOriginal tensor:\n&#x27;, x.round(decimals=2))
+
+# Select elements where value &gt; 0
+mask = x &gt; 0
+print(&#x27;Positive values:&#x27;, x[mask][:6].round(decimals=3))
+
+# Zero-out negatives in-place
+x_clipped = x.clone()
+x_clipped[x_clipped &lt; 0] = 0.0
+print(&#x27;ReLU via mask (min):&#x27;, x_clipped.min().item())
+
+# Row-wise mask: keep rows where row mean &gt; 0
+row_mask = x.mean(dim=1) &gt; 0
+print(&#x27;Rows with positive mean:&#x27;, x[row_mask].shape)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Computer Vision preprocessing: Convert image pixel arrays to normalized float tensors ready for a neural network.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import numpy as np
+
+# Simulate batch of 8 RGB images (224x224)
+np.random.seed(42)
+batch_np = np.random.randint(0, 256, (8, 3, 224, 224), dtype=np.uint8)
+
+# Convert to float tensor and normalize to [0, 1]
+batch = torch.from_numpy(batch_np).float() / 255.0
+
+# ImageNet normalization: mean &amp; std per channel
+mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)
+std  = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1)
+normalized = (batch - mean) / std
+
+print(&#x27;Batch shape:&#x27;, normalized.shape)   # [8, 3, 224, 224]
+print(&#x27;Channel means:&#x27;, normalized.mean(dim=[0, 2, 3]).round(decimals=3))
+print(&#x27;Channel stds: &#x27;, normalized.std(dim=[0, 2, 3]).round(decimals=3))
+print(&#x27;dtype:&#x27;, normalized.dtype)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tensor Operations Challenge</div><div class="pd">Create two tensors A (3x4) and B (4x5) with random values. Compute matrix multiply, L2 norm of each row of A, convert to numpy and back, and check device availability.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0" class="language-python">import torch
+import numpy as np
+
+torch.manual_seed(42)
+device = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)
+print(f&#x27;Using: {device}&#x27;)
+
+# TODO: Create tensor A (3x4) and B (4x5) with random values
+# A = torch.randn(???)
+# B = torch.randn(???)
+
+# TODO: Matrix multiply A @ B
+# C = ???
+# print(&#x27;C shape:&#x27;, C.shape)
+
+# TODO: Compute L2 norm of each row of A
+# norms = torch.norm(A, dim=???)
+# print(&#x27;Row norms:&#x27;, norms)
+
+# TODO: Move A to device and back to CPU numpy
+# A_dev = A.to(device)
+# A_np  = A_dev.cpu().numpy()
+# print(&#x27;Numpy shape:&#x27;, A_np.shape)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s1">
+  <div class="card-header" onclick="toggle('s1')">
+    <span>2. Autograd & Gradients</span>
+    <span class="arrow" id="arr-s1">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s1" style="display:none">
+    <p class="desc">PyTorch's autograd engine automatically computes gradients for backpropagation.</p>
+    <h4>requires_grad & backward()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+# requires_grad=True tracks operations
+x = torch.tensor(3.0, requires_grad=True)
+y = x ** 2 + 2 * x + 1   # y = x^2 + 2x + 1
+print(&#x27;y:&#x27;, y.item())
+
+# Compute dy/dx
+y.backward()
+print(&#x27;dy/dx at x=3:&#x27;, x.grad.item())  # 2x + 2 = 8
+
+# Computation graph example
+a = torch.tensor(2.0, requires_grad=True)
+b = torch.tensor(3.0, requires_grad=True)
+c = a * b + b ** 2    # c = ab + b^2
+c.backward()
+print(&#x27;dc/da:&#x27;, a.grad.item())   # b = 3
+print(&#x27;dc/db:&#x27;, b.grad.item())   # a + 2b = 8
+
+# Stop tracking
+with torch.no_grad():
+    z = a * b
+print(&#x27;z requires_grad:&#x27;, z.requires_grad)</code></pre></div>
+    <h4>Manual Gradient Descent</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+# Fit y = 2x + 1 using gradient descent
+torch.manual_seed(42)
+X = torch.linspace(0, 1, 100).unsqueeze(1)
+y_true = 2 * X + 1 + 0.1 * torch.randn_like(X)
+
+# Parameters to learn
+w = torch.randn(1, requires_grad=True)
+b = torch.randn(1, requires_grad=True)
+
+lr = 0.1
+for epoch in range(200):
+    y_pred = X * w + b
+    loss = ((y_pred - y_true) ** 2).mean()
+    loss.backward()
+
+    with torch.no_grad():
+        w -= lr * w.grad
+        b -= lr * b.grad
+    w.grad.zero_()
+    b.grad.zero_()
+
+    if (epoch + 1) % 50 == 0:
+        print(f&#x27;Epoch {epoch+1}: loss={loss.item():.4f} w={w.item():.3f} b={b.item():.3f}&#x27;)</code></pre></div>
+    <h4>Jacobian & Hessian with autograd.functional</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.autograd.functional import jacobian, hessian
+
+# Scalar function: f(x) = x1^2 + x1*x2 + x2^2
+def f(x):
+    return (x[0]**2 + x[0]*x[1] + x[1]**2).unsqueeze(0)
+
+x0 = torch.tensor([1.0, 2.0])
+
+# Jacobian: df/dx — shape (1, 2)
+J = jacobian(f, x0)
+print(&#x27;Jacobian:&#x27;, J)  # [2x0+x1, x0+2x1] = [4, 5]
+
+# Hessian: d^2f/dx^2 — shape (2, 2)
+def f_scalar(x):
+    return x[0]**2 + x[0]*x[1] + x[1]**2
+
+H = hessian(f_scalar, x0)
+print(&#x27;Hessian:&#x27;)
+print(H)  # [[2, 1], [1, 2]]
+
+# Verify: condition number of Hessian
+eigvals = torch.linalg.eigvalsh(H)
+print(&#x27;Eigenvalues:&#x27;, eigvals)
+print(&#x27;Condition number:&#x27;, (eigvals.max() / eigvals.min()).item())</code></pre></div>
+        <h4>torch.no_grad, Gradient Clipping & register_hook</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+# --- torch.no_grad: disable gradient tracking ---
+x = torch.randn(4, 8, requires_grad=True)
+with torch.no_grad():
+    y = x * 2  # no graph built
+print(&#x27;y requires_grad:&#x27;, y.requires_grad)  # False
+
+# --- Gradient Clipping ---
+model = nn.Linear(8, 4)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+
+# Simulate large gradients
+out = model(x)
+loss = (out * 1000).mean()  # artificially huge loss
+loss.backward()
+
+before = max(p.grad.abs().max().item() for p in model.parameters())
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+after  = max(p.grad.abs().max().item() for p in model.parameters())
+print(f&#x27;Max grad before clip: {before:.2f} | after clip: {after:.4f}&#x27;)
+
+# --- register_hook: inspect gradients during backprop ---
+grad_log = []
+h = torch.randn(3, requires_grad=True)
+h.register_hook(lambda g: grad_log.append(g.clone()))
+
+loss2 = (h ** 2).sum()
+loss2.backward()
+print(&#x27;Gradient via hook:&#x27;, grad_log[0])  # should be 2*h
+print(&#x27;Gradient via .grad:&#x27;, h.grad)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Custom loss optimization: Use autograd to minimize a custom business loss function (e.g., weighted prediction error).</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+
+torch.manual_seed(42)
+n = 200
+X = torch.randn(n, 3)
+true_w = torch.tensor([1.5, -2.0, 0.8])
+y_true = X @ true_w + 0.5 * torch.randn(n)
+
+# Parameters
+w = torch.zeros(3, requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+
+# Custom weighted MSE: penalize under-predictions 3x
+def weighted_loss(pred, target):
+    residuals = pred - target
+    weights = torch.where(residuals &lt; 0, torch.tensor(3.0), torch.tensor(1.0))
+    return (weights * residuals ** 2).mean()
+
+optimizer = torch.optim.Adam([w, b], lr=0.05)
+
+for epoch in range(300):
+    pred = X @ w + b
+    loss = weighted_loss(pred, y_true)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+print(&#x27;True weights:&#x27;, true_w.tolist())
+print(&#x27;Learned:     &#x27;, [round(v, 3) for v in w.tolist()])
+print(&#x27;Final loss:&#x27;, loss.item().__round__(4))</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Manual Gradient Descent on f(x,y)</div><div class="pd">Implement gradient descent manually (no optimizer) to minimize f(x,y) = (x-3)^2 + (y+2)^2 starting from (0,0). Run 50 steps with lr=0.1 and verify convergence to (3, -2).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1" class="language-python">import torch
+
+torch.manual_seed(42)
+
+# TODO: Initialize x and y at (0, 0) with requires_grad=True
+# x = torch.tensor(???, requires_grad=True)
+# y = torch.tensor(???, requires_grad=True)
+
+lr = 0.1
+
+for step in range(50):
+    # TODO: Define f = (x-3)^2 + (y+2)^2
+    # f = ???
+
+    # TODO: Backpropagate
+    # f.backward()
+
+    # TODO: Update x and y manually (use torch.no_grad)
+    # with torch.no_grad():
+    #     x -= lr * x.grad
+    #     y -= lr * y.grad
+    # x.grad.zero_()
+    # y.grad.zero_()
+
+    if step % 10 == 0:
+        pass  # TODO: print step, f.item(), x.item(), y.item()
+
+# TODO: Verify convergence — x should be ~3, y should be ~-2
+# print(f&#x27;Converged to x={x.item():.4f}, y={y.item():.4f}&#x27;)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s2">
+  <div class="card-header" onclick="toggle('s2')">
+    <span>3. Building Neural Networks (nn.Module)</span>
+    <span class="arrow" id="arr-s2">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s2" style="display:none">
+    <p class="desc">Define models by subclassing nn.Module. Stack layers, define forward(), and let PyTorch handle the rest.</p>
+    <h4>Fully Connected Network</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class MLP(nn.Module):
+    def __init__(self, in_features, hidden, out_features):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_features, hidden),
+            nn.ReLU(),
+            nn.Linear(hidden, hidden),
+            nn.ReLU(),
+            nn.Linear(hidden, out_features)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+model = MLP(in_features=10, hidden=64, out_features=1)
+print(model)
+
+# Count parameters
+total = sum(p.numel() for p in model.parameters())
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f&#x27;Total params: {total:,} | Trainable: {trainable:,}&#x27;)
+
+# Test forward pass
+x = torch.randn(32, 10)  # batch of 32
+out = model(x)
+print(&#x27;Output shape:&#x27;, out.shape)</code></pre></div>
+    <h4>Using nn.Sequential & Common Layers</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# Quick model with Sequential
+model = nn.Sequential(
+    nn.Linear(20, 128),
+    nn.BatchNorm1d(128),
+    nn.ReLU(),
+    nn.Dropout(0.3),
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Linear(64, 3)  # 3-class output
+)
+
+x = torch.randn(16, 20)
+logits = model(x)
+print(&#x27;Logits shape:&#x27;, logits.shape)
+
+# Apply softmax for probabilities
+probs = torch.softmax(logits, dim=1)
+print(&#x27;Probs sum per sample:&#x27;, probs.sum(dim=1)[:3].round(decimals=4))
+
+# Loss functions
+targets = torch.randint(0, 3, (16,))
+ce_loss = nn.CrossEntropyLoss()(logits, targets)
+print(&#x27;CrossEntropy loss:&#x27;, ce_loss.item().__round__(4))</code></pre></div>
+    <h4>nn.ModuleList & ModuleDict for Dynamic Architectures</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# nn.ModuleList: dynamic list of layers
+class FlexMLP(nn.Module):
+    def __init__(self, layer_sizes):
+        super().__init__()
+        self.layers = nn.ModuleList([
+            nn.Linear(layer_sizes[i], layer_sizes[i+1])
+            for i in range(len(layer_sizes) - 1)
+        ])
+        self.acts = nn.ModuleList([
+            nn.ReLU() for _ in range(len(layer_sizes) - 2)
+        ])
+
+    def forward(self, x):
+        for i, layer in enumerate(self.layers[:-1]):
+            x = self.acts[i](layer(x))
+        return self.layers[-1](x)
+
+model = FlexMLP([10, 64, 32, 1])
+print(model)
+
+# nn.ModuleDict: named modules
+heads = nn.ModuleDict({
+    &#x27;classifier&#x27;: nn.Linear(64, 5),
+    &#x27;regressor&#x27;:  nn.Linear(64, 1),
+})
+feat = torch.randn(8, 64)
+print(&#x27;Classifier out:&#x27;, heads[&#x27;classifier&#x27;](feat).shape)
+print(&#x27;Regressor out: &#x27;, heads[&#x27;regressor&#x27;](feat).shape)
+
+x = torch.randn(16, 10)
+print(&#x27;FlexMLP output:&#x27;, model(x).shape)</code></pre></div>
+        <h4>Parameter Sharing Between Layers</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+# --- Parameter Sharing: two layers share the SAME weight tensor ---
+class TiedAutoEncoder(nn.Module):
+    &#x27;&#x27;&#x27;Encoder and decoder share the same weight matrix (tied weights).&#x27;&#x27;&#x27;
+    def __init__(self, in_dim, hid_dim):
+        super().__init__()
+        self.encoder = nn.Linear(in_dim, hid_dim, bias=True)
+        # Decoder reuses encoder weight (transposed), has its own bias
+        self.dec_bias = nn.Parameter(torch.zeros(in_dim))
+
+    def encode(self, x):
+        return torch.relu(self.encoder(x))
+
+    def decode(self, h):
+        # W^T h + bias  (tied weights)
+        return h @ self.encoder.weight + self.dec_bias
+
+    def forward(self, x):
+        return self.decode(self.encode(x))
+
+model = TiedAutoEncoder(in_dim=16, hid_dim=8)
+
+# Verify encoder &amp; decoder share the same weight object
+enc_weight = model.encoder.weight
+print(&#x27;Encoder weight shape:&#x27;, enc_weight.shape)  # (8, 16)
+
+x = torch.randn(4, 16)
+recon = model(x)
+print(&#x27;Reconstruction shape:&#x27;, recon.shape)  # (4, 16)
+
+# Count parameters (shared weight counted once)
+total = sum(p.numel() for p in model.parameters())
+print(f&#x27;Total params: {total}&#x27;)  # 8*16 + 8 (enc bias) + 16 (dec bias)
+
+# Gradient flows through the shared weight from both encoder &amp; decoder
+loss = nn.MSELoss()(recon, x)
+loss.backward()
+print(&#x27;Encoder weight grad shape:&#x27;, model.encoder.weight.grad.shape)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Tabular ML: Build a neural net to predict customer lifetime value from 15 demographic and behavioral features.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+
+class CLVNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(15, 256), nn.BatchNorm1d(256), nn.ReLU(), nn.Dropout(0.2),
+            nn.Linear(256, 128), nn.BatchNorm1d(128), nn.ReLU(), nn.Dropout(0.2),
+            nn.Linear(128, 64),  nn.ReLU(),
+            nn.Linear(64, 1)  # predict LTV in dollars
+        )
+
+    def forward(self, x):
+        return self.net(x).squeeze(1)
+
+model = CLVNet()
+print(model)
+
+# Simulate a batch
+torch.manual_seed(42)
+batch_features = torch.randn(64, 15)  # 64 customers, 15 features
+batch_ltv = torch.rand(64) * 5000     # true LTV labels
+
+output = model(batch_features)
+loss = nn.MSELoss()(output, batch_ltv)
+print(&#x27;Output shape:&#x27;, output.shape)
+print(&#x27;Initial MSE loss:&#x27;, loss.item().__round__(2))</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Configurable MLP with Dropout &amp; BatchNorm</div><div class="pd">Build a ConfigMLP class that takes a list of layer sizes (e.g., [128, 64, 32, 1]). Add dropout after each hidden layer and batch norm before activation. Test with input shape (16, 128) and print parameter counts.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2" class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+class ConfigMLP(nn.Module):
+    def __init__(self, layer_sizes, dropout=0.3):
+        super().__init__()
+        layers = []
+        for i in range(len(layer_sizes) - 1):
+            # TODO: Add Linear layer from layer_sizes[i] to layer_sizes[i+1]
+            # layers.append(nn.Linear(???, ???))
+
+            if i &lt; len(layer_sizes) - 2:  # hidden layers only
+                # TODO: Add BatchNorm1d for layer_sizes[i+1]
+                # layers.append(???)
+                # TODO: Add ReLU activation
+                # layers.append(???)
+                # TODO: Add Dropout
+                # layers.append(???)
+        # TODO: Wrap in nn.Sequential
+        # self.net = nn.Sequential(*layers)
+
+    def forward(self, x):
+        # TODO: return self.net(x)
+        pass
+
+# TODO: Instantiate with layer_sizes=[128, 64, 32, 1]
+# model = ConfigMLP([128, 64, 32, 1])
+# print(model)
+
+# TODO: Count total and trainable parameters
+# total = sum(p.numel() for p in model.parameters())
+# trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+# print(f&#x27;Total: {total:,} | Trainable: {trainable:,}&#x27;)
+
+# TODO: Test forward pass with input (16, 128)
+# x = torch.randn(16, 128)
+# out = model(x)
+# print(&#x27;Output shape:&#x27;, out.shape)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s3">
+  <div class="card-header" onclick="toggle('s3')">
+    <span>4. Training Loop</span>
+    <span class="arrow" id="arr-s3">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s3" style="display:none">
+    <p class="desc">The complete training loop: forward pass, loss, backward, optimizer step, and validation.</p>
+    <h4>Full Training Loop</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Data
+X, y = make_classification(n_samples=2000, n_features=10, random_state=42)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_tr = scaler.fit_transform(X_tr)
+X_val = scaler.transform(X_val)
+
+to_tensor = lambda a, t: torch.tensor(a, dtype=t)
+train_ds = TensorDataset(to_tensor(X_tr, torch.float32), to_tensor(y_tr, torch.long))
+val_ds   = TensorDataset(to_tensor(X_val, torch.float32), to_tensor(y_val, torch.long))
+train_dl = DataLoader(train_ds, batch_size=64, shuffle=True)
+val_dl   = DataLoader(val_ds, batch_size=64)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,32), nn.ReLU(), nn.Linear(32,2))
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 6):
+    model.train()
+    train_loss = 0
+    for xb, yb in train_dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
+    model.eval()
+    correct = 0
+    with torch.no_grad():
+        for xb, yb in val_dl:
+            preds = model(xb).argmax(dim=1)
+            correct += (preds == yb).sum().item()
+    acc = correct / len(val_ds)
+    print(f&#x27;Epoch {epoch}: train_loss={train_loss/len(train_dl):.4f} val_acc={acc:.4f}&#x27;)</code></pre></div>
+    <h4>Learning Rate Scheduler</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+model = nn.Sequential(nn.Linear(10, 64), nn.ReLU(), nn.Linear(64, 1))
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+# ReduceLROnPlateau — halve lr when val loss plateaus
+scheduler_plateau = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, mode=&#x27;min&#x27;, factor=0.5, patience=5
+)
+
+# CosineAnnealingLR
+optimizer2 = torch.optim.SGD(model.parameters(), lr=0.1)
+scheduler_cos = torch.optim.lr_scheduler.CosineAnnealingLR(
+    optimizer2, T_max=50, eta_min=1e-4
+)
+
+# Simulate training
+for epoch in range(1, 11):
+    # Fake val loss
+    val_loss = 1.0 / (epoch + 1) + 0.01
+    scheduler_plateau.step(val_loss)
+    scheduler_cos.step()
+    lr1 = optimizer.param_groups[0][&#x27;lr&#x27;]
+    lr2 = optimizer2.param_groups[0][&#x27;lr&#x27;]
+    print(f&#x27;Epoch {epoch:2d}: plateau_lr={lr1:.6f}  cosine_lr={lr2:.5f}&#x27;)</code></pre></div>
+    <h4>Gradient Clipping, CosineAnnealingLR & Early Stopping</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+X = torch.randn(500, 10)
+y = torch.randint(0, 2, (500,))
+dl = DataLoader(TensorDataset(X, y), batch_size=64, shuffle=True)
+
+model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 2)
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+    optimizer, T_max=20, eta_min=1e-5
+)
+criterion = nn.CrossEntropyLoss()
+
+best_loss, patience, wait = float(&#x27;inf&#x27;), 5, 0
+
+for epoch in range(1, 21):
+    model.train()
+    epoch_loss = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        # Gradient clipping: prevent exploding gradients
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+        optimizer.step()
+        epoch_loss += loss.item()
+    scheduler.step()
+    avg = epoch_loss / len(dl)
+    lr  = optimizer.param_groups[0][&#x27;lr&#x27;]
+    if avg &lt; best_loss:
+        best_loss, wait = avg, 0
+    else:
+        wait += 1
+        if wait &gt;= patience:
+            print(f&#x27;Early stop at epoch {epoch}&#x27;)
+            break
+    if epoch &lt;= 3 or epoch % 5 == 0:
+        print(f&#x27;Epoch {epoch:2d}: loss={avg:.4f} lr={lr:.6f} wait={wait}&#x27;)</code></pre></div>
+        <h4>Early Stopping & Linear LR Warmup Scheduler</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+X = torch.randn(600, 10)
+y = torch.randint(0, 2, (600,))
+dl = DataLoader(TensorDataset(X, y), batch_size=64, shuffle=True)
+
+model = nn.Sequential(
+    nn.Linear(10, 32), nn.ReLU(), nn.Linear(32, 2)
+)
+base_lr = 1e-3
+warmup_epochs = 5
+total_epochs  = 25
+optimizer = torch.optim.Adam(model.parameters(), lr=base_lr)
+criterion = nn.CrossEntropyLoss()
+
+# Linear warmup: lr ramps from 0 -&gt; base_lr over warmup_epochs
+def warmup_lambda(epoch):
+    if epoch &lt; warmup_epochs:
+        return (epoch + 1) / warmup_epochs  # ramp up
+    # Cosine decay after warmup
+    progress = (epoch - warmup_epochs) / max(total_epochs - warmup_epochs, 1)
+    return 0.5 * (1 + torch.cos(torch.tensor(3.14159 * progress)).item())
+
+scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warmup_lambda)
+
+# Early stopping state
+best_loss, patience, wait = float(&#x27;inf&#x27;), 6, 0
+
+for epoch in range(1, total_epochs + 1):
+    model.train()
+    epoch_loss = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        epoch_loss += loss.item()
+    scheduler.step()
+    avg = epoch_loss / len(dl)
+    lr  = optimizer.param_groups[0][&#x27;lr&#x27;]
+    # Early stopping check
+    if avg &lt; best_loss - 1e-4:
+        best_loss, wait = avg, 0
+    else:
+        wait += 1
+        if wait &gt;= patience:
+            print(f&#x27;Early stop at epoch {epoch}&#x27;)
+            break
+    if epoch &lt;= warmup_epochs or epoch % 5 == 0:
+        print(f&#x27;Epoch {epoch:2d}: loss={avg:.4f} lr={lr:.6f} wait={wait}&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Insurance: Train a fraud detection neural net on tabular claim data with class imbalance — use weighted loss.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Imbalanced: 5% fraud
+X, y = make_classification(
+    n_samples=5000, weights=[0.95, 0.05],
+    n_features=12, n_informative=8, random_state=42
+)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
+X_tr = StandardScaler().fit_transform(X_tr)
+
+X_t = torch.tensor(X_tr, dtype=torch.float32)
+y_t = torch.tensor(y_tr, dtype=torch.long)
+dl = DataLoader(TensorDataset(X_t, y_t), batch_size=128, shuffle=True)
+
+# Weighted CrossEntropy: penalize fraud misses 19x more
+class_weights = torch.tensor([1.0, 19.0])
+criterion = nn.CrossEntropyLoss(weight=class_weights)
+
+model = nn.Sequential(
+    nn.Linear(12, 64), nn.ReLU(), nn.Dropout(0.3),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 2)
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+for epoch in range(1, 6):
+    model.train()
+    total_loss = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item()
+    print(f&#x27;Epoch {epoch}: loss={total_loss/len(dl):.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Train/Val Loop with Early Stopping</div><div class="pd">Train a 2-layer MLP on make_classification(n_samples=1000) data. Implement train/val split, track both losses per epoch, add early stopping (patience=5). Run for max 50 epochs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3" class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+torch.manual_seed(42)
+
+# TODO: Generate data with make_classification(n_samples=1000, n_features=10, random_state=42)
+# X, y = make_classification(???)
+
+# TODO: Split 80/20, convert to tensors, create DataLoaders
+# X_tr, X_val, y_tr, y_val = train_test_split(???)
+# train_dl = DataLoader(TensorDataset(???), batch_size=32, shuffle=True)
+# val_dl   = DataLoader(TensorDataset(???), batch_size=32)
+
+# TODO: Define a 2-layer MLP (10-&gt;64-&gt;32-&gt;2)
+# model = nn.Sequential(???)
+# optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+# criterion = nn.CrossEntropyLoss()
+
+best_loss, patience, wait = float(&#x27;inf&#x27;), 5, 0
+
+for epoch in range(1, 51):
+    # TODO: Training phase — model.train(), loop over train_dl
+    # model.train()
+    # train_loss = 0
+    # for xb, yb in train_dl: ...
+
+    # TODO: Validation phase — model.eval(), loop over val_dl
+    # model.eval()
+    # val_loss = 0
+    # with torch.no_grad(): ...
+
+    # TODO: Early stopping check
+    # if val_loss &lt; best_loss: best_loss, wait = val_loss, 0
+    # else: wait += 1
+    # if wait &gt;= patience: print(&#x27;Early stop&#x27;); break
+
+    pass  # remove once implemented</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s4">
+  <div class="card-header" onclick="toggle('s4')">
+    <span>5. Convolutional Neural Networks</span>
+    <span class="arrow" id="arr-s4">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s4" style="display:none">
+    <p class="desc">CNNs learn spatial features from images using convolutional filters, pooling, and fully connected heads.</p>
+    <h4>Building a CNN</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class SimpleCNN(nn.Module):
+    def __init__(self, num_classes=10):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(1, 32, kernel_size=3, padding=1),  # grayscale in
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),          # 14x14
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2)           # 7x7
+        )
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 256),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(256, num_classes)
+        )
+
+    def forward(self, x):
+        return self.classifier(self.features(x))
+
+model = SimpleCNN(num_classes=10)
+x = torch.randn(8, 1, 28, 28)  # batch of 8 MNIST-like images
+print(&#x27;Output:&#x27;, model(x).shape)
+total = sum(p.numel() for p in model.parameters())
+print(f&#x27;Parameters: {total:,}&#x27;)</code></pre></div>
+    <h4>CNN Feature Map Visualization</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# Simple edge-detection filters (like early CNN layers learn)
+conv = nn.Conv2d(1, 4, kernel_size=3, padding=1, bias=False)
+
+# Manual: set Sobel-like weights
+with torch.no_grad():
+    # Horizontal edge filter
+    conv.weight[0, 0] = torch.tensor([[-1.,-2.,-1.],[0.,0.,0.],[1.,2.,1.]])
+    # Vertical edge filter
+    conv.weight[1, 0] = torch.tensor([[-1.,0.,1.],[-2.,0.,2.],[-1.,0.,1.]])
+    # Blur
+    conv.weight[2, 0] = torch.ones(3, 3) / 9
+    # Sharpen
+    conv.weight[3, 0] = torch.tensor([[0.,-1.,0.],[-1.,5.,-1.],[0.,-1.,0.]])
+
+# Apply to a synthetic gradient image
+img = torch.linspace(0, 1, 28*28).reshape(1, 1, 28, 28)
+fmaps = conv(img)
+print(&#x27;Input:&#x27;, img.shape)
+print(&#x27;Feature maps:&#x27;, fmaps.shape)  # 4 channels
+for i, name in enumerate([&#x27;Horiz&#x27;,&#x27;Vert&#x27;,&#x27;Blur&#x27;,&#x27;Sharpen&#x27;]):
+    print(f&#x27;  {name}: min={fmaps[0,i].min():.3f} max={fmaps[0,i].max():.3f}&#x27;)</code></pre></div>
+    <h4>Residual Block (Mini ResNet Block)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class ResBlock(nn.Module):
+    &#x27;&#x27;&#x27;Basic residual block: F(x) + x with optional projection.&#x27;&#x27;&#x27;
+    def __init__(self, in_ch, out_ch, stride=1):
+        super().__init__()
+        self.conv1 = nn.Conv2d(in_ch, out_ch, 3, stride=stride, padding=1, bias=False)
+        self.bn1   = nn.BatchNorm2d(out_ch)
+        self.conv2 = nn.Conv2d(out_ch, out_ch, 3, padding=1, bias=False)
+        self.bn2   = nn.BatchNorm2d(out_ch)
+        self.relu  = nn.ReLU(inplace=True)
+        # Skip connection: project if dims change
+        self.skip = nn.Sequential(
+            nn.Conv2d(in_ch, out_ch, 1, stride=stride, bias=False),
+            nn.BatchNorm2d(out_ch)
+        ) if (in_ch != out_ch or stride != 1) else nn.Identity()
+
+    def forward(self, x):
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.bn2(self.conv2(out))
+        return self.relu(out + self.skip(x))  # residual
+
+# Stack residual blocks into a tiny CNN
+model = nn.Sequential(
+    nn.Conv2d(1, 16, 3, padding=1), nn.BatchNorm2d(16), nn.ReLU(),
+    ResBlock(16, 16),
+    ResBlock(16, 32, stride=2),  # downsample
+    ResBlock(32, 32),
+    nn.AdaptiveAvgPool2d(1),
+    nn.Flatten(),
+    nn.Linear(32, 10)
+)
+
+x = torch.randn(4, 1, 28, 28)
+print(&#x27;Output:&#x27;, model(x).shape)
+print(&#x27;Params:&#x27;, sum(p.numel() for p in model.parameters()))</code></pre></div>
+        <h4>Depthwise Separable Convolution & Global Average Pooling</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+# --- Depthwise Separable Convolution ---
+# Standard Conv2d: C_in * C_out * K * K params
+# DW-Sep: C_in * K * K (depthwise) + C_in * C_out (pointwise) — much fewer params
+class DepthwiseSeparableConv(nn.Module):
+    def __init__(self, in_ch, out_ch, kernel_size=3, padding=1):
+        super().__init__()
+        # Depthwise: one filter per channel (groups=in_ch)
+        self.dw = nn.Conv2d(in_ch, in_ch, kernel_size,
+                            padding=padding, groups=in_ch, bias=False)
+        # Pointwise: 1x1 conv to mix channels
+        self.pw = nn.Conv2d(in_ch, out_ch, 1, bias=False)
+        self.bn = nn.BatchNorm2d(out_ch)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        return self.relu(self.bn(self.pw(self.dw(x))))
+
+# Compare parameter counts
+standard = nn.Conv2d(32, 64, 3, padding=1, bias=False)
+dw_sep   = DepthwiseSeparableConv(32, 64)
+std_params = sum(p.numel() for p in standard.parameters())
+dws_params = sum(p.numel() for p in dw_sep.parameters())
+print(f&#x27;Standard Conv  params: {std_params:,}&#x27;)
+print(f&#x27;DW-Sep Conv    params: {dws_params:,}  ({dws_params/std_params:.1%} of standard)&#x27;)
+
+# --- Global Average Pooling vs Flatten ---
+x = torch.randn(4, 64, 7, 7)  # feature maps after conv layers
+gap = nn.AdaptiveAvgPool2d(1)  # collapses spatial dims to 1x1
+out_gap = gap(x).squeeze(-1).squeeze(-1)  # (4, 64)
+out_flat = x.flatten(1)                   # (4, 64*7*7 = 3136)
+print(f&#x27;GAP output shape:     {out_gap.shape}   (no spatial params!)&#x27;)
+print(f&#x27;Flatten output shape: {out_flat.shape}&#x27;)
+
+# Full MobileNet-style block: DWS + GAP + Linear
+backbone = nn.Sequential(
+    DepthwiseSeparableConv(3, 32),
+    DepthwiseSeparableConv(32, 64),
+    nn.AdaptiveAvgPool2d(1),
+    nn.Flatten(),
+    nn.Linear(64, 5)
+)
+x_img = torch.randn(8, 3, 28, 28)
+print(&#x27;Backbone output:&#x27;, backbone(x_img).shape)  # (8, 5)
+print(&#x27;Backbone params:&#x27;, sum(p.numel() for p in backbone.parameters()))</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Quality Control: Train a CNN to classify defective vs normal product images from a factory camera feed.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+
+# Simulate factory image dataset: 3-channel 64x64 images
+n_train, n_val = 800, 200
+X_train = torch.randn(n_train, 3, 64, 64)
+y_train = torch.randint(0, 2, (n_train,))
+X_val   = torch.randn(n_val, 3, 64, 64)
+y_val   = torch.randint(0, 2, (n_val,))
+
+train_dl = DataLoader(TensorDataset(X_train, y_train), batch_size=32, shuffle=True)
+
+class DefectCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(3, 16, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Flatten(),
+            nn.Linear(32 * 16 * 16, 128), nn.ReLU(),
+            nn.Linear(128, 2)
+        )
+    def forward(self, x): return self.net(x)
+
+model = DefectCNN()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 4):
+    model.train()
+    total = 0
+    for xb, yb in train_dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    print(f&#x27;Epoch {epoch}: loss={total/len(train_dl):.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CNN Forward Pass with Shape Tracking</div><div class="pd">Build a CNN for MNIST-like data (1x28x28 input, 10 classes) with 2 conv layers, maxpool, and 2 FC layers. Use synthetic data (batch=8). Print output shape after each layer.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p4" class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+# TODO: Define a CNN with:
+#   Conv2d(1, 16, 3, padding=1) -&gt; ReLU -&gt; MaxPool2d(2)
+#   Conv2d(16, 32, 3, padding=1) -&gt; ReLU -&gt; MaxPool2d(2)
+#   Flatten -&gt; Linear(32*7*7, 64) -&gt; ReLU -&gt; Linear(64, 10)
+class MnistCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # TODO: define self.features and self.classifier
+        pass
+
+    def forward(self, x):
+        # TODO: run through features and classifier
+        # print shape at each step
+        pass
+
+# TODO: Create batch of 8 random (1x28x28) images
+# x = torch.randn(8, 1, 28, 28)
+
+# TODO: Instantiate and run forward pass
+# model = MnistCNN()
+# out = model(x)
+# print(&#x27;Final output shape:&#x27;, out.shape)
+
+# TODO: Compute cross-entropy loss and backpropagate
+# labels = torch.randint(0, 10, (8,))
+# loss = nn.CrossEntropyLoss()(out, labels)
+# loss.backward()
+# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s5">
+  <div class="card-header" onclick="toggle('s5')">
+    <span>6. Transfer Learning</span>
+    <span class="arrow" id="arr-s5">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s5" style="display:none">
+    <p class="desc">Reuse pretrained models (ResNet, ViT, BERT) — fine-tune on your small dataset for state-of-the-art results.</p>
+    <h4>Fine-tuning ResNet18</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# Load pretrained ResNet18
+model = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+
+# Freeze all layers
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace the final FC layer for our task (e.g., 5 classes)
+num_features = model.fc.in_features
+model.fc = nn.Sequential(
+    nn.Linear(num_features, 256),
+    nn.ReLU(),
+    nn.Dropout(0.4),
+    nn.Linear(256, 5)  # 5 output classes
+)
+
+# Only the new head is trainable
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+total = sum(p.numel() for p in model.parameters())
+print(f&#x27;Trainable: {trainable:,} / {total:,} ({trainable/total:.1%})&#x27;)
+
+# Test forward pass
+x = torch.randn(4, 3, 224, 224)
+out = model(x)
+print(&#x27;Output shape:&#x27;, out.shape)</code></pre></div>
+    <h4>Progressive Unfreezing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+model = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+
+# Replace head for 3-class task
+model.fc = nn.Linear(model.fc.in_features, 3)
+
+# Phase 1: only train head
+for param in model.parameters():
+    param.requires_grad = False
+for param in model.fc.parameters():
+    param.requires_grad = True
+
+print(&#x27;Phase 1 trainable params:&#x27;,
+      sum(p.numel() for p in model.parameters() if p.requires_grad))
+
+# Phase 2: unfreeze layer4 + head
+for param in model.layer4.parameters():
+    param.requires_grad = True
+
+print(&#x27;Phase 2 trainable params:&#x27;,
+      sum(p.numel() for p in model.parameters() if p.requires_grad))
+
+# Phase 3: unfreeze all
+for param in model.parameters():
+    param.requires_grad = True
+
+print(&#x27;Phase 3 (all) trainable params:&#x27;,
+      sum(p.numel() for p in model.parameters() if p.requires_grad))</code></pre></div>
+    <h4>Feature Extraction vs Fine-Tuning Last N Layers</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+def count_params(m):
+    total = sum(p.numel() for p in m.parameters())
+    trainable = sum(p.numel() for p in m.parameters() if p.requires_grad)
+    return total, trainable
+
+# --- Mode 1: Feature Extraction (freeze all, new head only) ---
+model_fe = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+for p in model_fe.parameters():
+    p.requires_grad = False
+model_fe.fc = nn.Linear(model_fe.fc.in_features, 4)
+t, tr = count_params(model_fe)
+print(f&#x27;Feature Extraction: {tr:,}/{t:,} trainable ({tr/t:.2%})&#x27;)
+
+# --- Mode 2: Fine-tune last N=2 blocks (layer3, layer4, fc) ---
+model_ft = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+for p in model_ft.parameters():
+    p.requires_grad = False
+for p in model_ft.layer3.parameters():
+    p.requires_grad = True
+for p in model_ft.layer4.parameters():
+    p.requires_grad = True
+model_ft.fc = nn.Linear(model_ft.fc.in_features, 4)
+t, tr = count_params(model_ft)
+print(f&#x27;Fine-tune last 2 blocks: {tr:,}/{t:,} trainable ({tr/t:.2%})&#x27;)
+
+# Both accept same input
+x = torch.randn(2, 3, 224, 224)
+print(&#x27;FE output:&#x27;, model_fe(x).shape)
+print(&#x27;FT output:&#x27;, model_ft(x).shape)</code></pre></div>
+        <h4>Freezing/Unfreezing Layers with Differential Learning Rates</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+torch.manual_seed(42)
+
+# Load pretrained ResNet18
+model = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+model.fc = nn.Linear(model.fc.in_features, 5)
+
+# --- Strategy: differential learning rates ---
+# Early layers: very low lr (already well-trained)
+# Later layers: medium lr
+# New head:     full lr
+param_groups = [
+    {&#x27;params&#x27;: list(model.layer1.parameters()) +
+               list(model.layer2.parameters()), &#x27;lr&#x27;: 1e-5},
+    {&#x27;params&#x27;: list(model.layer3.parameters()) +
+               list(model.layer4.parameters()), &#x27;lr&#x27;: 1e-4},
+    {&#x27;params&#x27;: model.fc.parameters(),            &#x27;lr&#x27;: 1e-3},
+]
+optimizer = torch.optim.Adam(param_groups)
+
+print(&#x27;Param groups:&#x27;)
+for g in optimizer.param_groups:
+    n = sum(p.numel() for p in g[&#x27;params&#x27;])
+    print(f&#x27;  lr={g[&quot;lr&quot;]}  params={n:,}&#x27;)
+
+# --- Freeze then unfreeze on schedule ---
+def set_requires_grad(module, value):
+    for p in module.parameters():
+        p.requires_grad = value
+
+# Phase 1: freeze backbone, train only head
+set_requires_grad(model, False)
+set_requires_grad(model.fc, True)
+phase1_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f&#x27;Phase 1 trainable: {phase1_trainable:,}&#x27;)
+
+# Phase 2: unfreeze layer4 for fine-tuning
+set_requires_grad(model.layer4, True)
+phase2_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f&#x27;Phase 2 trainable: {phase2_trainable:,}&#x27;)
+
+# Verify forward pass works in both phases
+x = torch.randn(2, 3, 224, 224)
+print(&#x27;Output shape:&#x27;, model(x).shape)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Medical Imaging: Fine-tune ResNet to classify chest X-rays (normal vs pneumonia) with only 500 labeled images.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+
+# Simulate small medical image dataset
+n = 500
+X = torch.randn(n, 3, 224, 224)
+y = torch.randint(0, 2, (n,))  # 0=normal, 1=pneumonia
+
+dl = DataLoader(TensorDataset(X, y), batch_size=16, shuffle=True)
+
+# Load ResNet, freeze all, replace head
+model = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+for p in model.parameters():
+    p.requires_grad = False
+model.fc = nn.Sequential(
+    nn.Linear(model.fc.in_features, 64),
+    nn.ReLU(),
+    nn.Linear(64, 2)
+)
+
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+model.train()
+for epoch in range(1, 4):
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    print(f&#x27;Epoch {epoch}: loss={total/len(dl):.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ResNet18 for 5-Class with Frozen Backbone</div><div class="pd">Replace ResNet18&#x27;s final FC layer for 5 classes, freeze all layers except the new head, count trainable vs frozen parameters, and run one forward pass with 4 random (3x224x224) images.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p5" class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+torch.manual_seed(42)
+
+# TODO: Load ResNet18 with pretrained weights
+# model = models.resnet18(weights=&#x27;IMAGENET1K_V1&#x27;)
+
+# TODO: Freeze ALL parameters
+# for p in model.parameters():
+#     p.requires_grad = False
+
+# TODO: Replace model.fc with a new Linear layer for 5 classes
+# model.fc = nn.Linear(???, 5)
+
+# TODO: Count trainable vs frozen parameters
+# trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+# frozen    = sum(p.numel() for p in model.parameters() if not p.requires_grad)
+# print(f&#x27;Trainable: {trainable:,} | Frozen: {frozen:,}&#x27;)
+
+# TODO: Run one forward pass with 4 random (3x224x224) images
+# x = torch.randn(4, 3, 224, 224)
+# out = model(x)
+# print(&#x27;Output shape:&#x27;, out.shape)  # should be (4, 5)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s6">
+  <div class="card-header" onclick="toggle('s6')">
+    <span>7. Custom Datasets & DataLoaders</span>
+    <span class="arrow" id="arr-s6">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s6" style="display:none">
+    <p class="desc">Build custom Dataset classes to load any data efficiently with batching, shuffling, and augmentation.</p>
+    <h4>Custom Dataset Class</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+import numpy as np
+
+class TabularDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.long)
+
+    def __len__(self):
+        return len(self.y)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+# Create dataset
+np.random.seed(42)
+X = np.random.randn(1000, 8)
+y = (X[:, 0] + X[:, 1] &gt; 0).astype(int)
+
+dataset = TabularDataset(X, y)
+print(f&#x27;Dataset size: {len(dataset)}&#x27;)
+print(f&#x27;Sample: {dataset[0]}&#x27;)
+
+# DataLoader: batching + shuffling
+loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=0)
+xb, yb = next(iter(loader))
+print(f&#x27;Batch X: {xb.shape}, y: {yb.shape}&#x27;)</code></pre></div>
+    <h4>Data Augmentation with Transforms</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as T
+
+# Standard ImageNet transforms
+train_transforms = T.Compose([
+    T.ToPILImage(),
+    T.Resize((224, 224)),
+    T.RandomHorizontalFlip(p=0.5),
+    T.RandomRotation(15),
+    T.ColorJitter(brightness=0.2, contrast=0.2),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+val_transforms = T.Compose([
+    T.ToPILImage(),
+    T.Resize((224, 224)),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+
+# Apply to a random image
+import numpy as np
+img_np = np.random.randint(0, 255, (100, 100, 3), dtype=np.uint8)
+tensor_img = train_transforms(img_np)
+print(&#x27;Augmented shape:&#x27;, tensor_img.shape)
+print(&#x27;Value range: [{:.3f}, {:.3f}]&#x27;.format(tensor_img.min().item(), tensor_img.max().item()))</code></pre></div>
+    <h4>Iterable Dataset & collate_fn for Variable-Length Sequences</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import IterableDataset, DataLoader
+import numpy as np
+
+# IterableDataset: useful for streaming / large on-disk data
+class StreamDataset(IterableDataset):
+    def __init__(self, n_samples, n_features, seed=0):
+        self.n = n_samples
+        self.d = n_features
+        self.seed = seed
+
+    def __iter__(self):
+        rng = np.random.default_rng(self.seed)
+        for _ in range(self.n):
+            x = rng.standard_normal(self.d).astype(np.float32)
+            y = int(x[0] &gt; 0)
+            yield torch.tensor(x), torch.tensor(y)
+
+stream_ds = StreamDataset(200, 8)
+dl = DataLoader(stream_ds, batch_size=16)
+xb, yb = next(iter(dl))
+print(&#x27;Streamed batch:&#x27;, xb.shape, yb.shape)
+
+# collate_fn: handle variable-length sequences (pad to max)
+def pad_collate(batch):
+    seqs, labels = zip(*batch)
+    lengths = [s.size(0) for s in seqs]
+    padded = torch.zeros(len(seqs), max(lengths))
+    for i, s in enumerate(seqs):
+        padded[i, :lengths[i]] = s
+    return padded, torch.tensor(labels), torch.tensor(lengths)
+
+var_data = [(torch.randn(np.random.randint(3, 10)), torch.tensor(i % 2))
+            for i in range(8)]
+padded, lbls, lens = pad_collate(var_data)
+print(&#x27;Padded shape:&#x27;, padded.shape)
+print(&#x27;Lengths:&#x27;, lens.tolist())</code></pre></div>
+        <h4>Weighted Random Sampler for Imbalanced Data</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
+import numpy as np
+
+# Simulate imbalanced dataset: 90% class 0, 10% class 1
+np.random.seed(42)
+n = 1000
+X = torch.randn(n, 8)
+y = torch.tensor(np.random.choice([0, 1], n, p=[0.9, 0.1]), dtype=torch.long)
+print(f&#x27;Class distribution: 0={( y==0).sum()}, 1={(y==1).sum()}&#x27;)
+
+class TabularDataset(Dataset):
+    def __init__(self, X, y): self.X, self.y = X, y
+    def __len__(self): return len(self.y)
+    def __getitem__(self, i): return self.X[i], self.y[i]
+
+dataset = TabularDataset(X, y)
+
+# WeightedRandomSampler: oversample minority class
+class_counts   = torch.bincount(y)
+class_weights  = 1.0 / class_counts.float()
+sample_weights = class_weights[y]
+sampler = WeightedRandomSampler(sample_weights, num_samples=500, replacement=True)
+
+loader = DataLoader(dataset, batch_size=32, sampler=sampler)
+# Verify balance in sampled batches
+all_labels = []
+for _, labels in loader:
+    all_labels.extend(labels.tolist())
+sampled_0 = all_labels.count(0)
+sampled_1 = all_labels.count(1)
+print(f&#x27;Sampled class distribution: 0={sampled_0}, 1={sampled_1}&#x27;)
+print(f&#x27;Balance ratio: {sampled_1/max(sampled_0,1):.2f}&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">NLP: Build a custom text dataset that tokenizes sentences on-the-fly for a sentiment classifier.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+
+class SentimentDataset(Dataset):
+    def __init__(self, texts, labels, vocab, max_len=20):
+        self.texts = texts
+        self.labels = labels
+        self.vocab = vocab
+        self.max_len = max_len
+
+    def tokenize(self, text):
+        tokens = [self.vocab.get(w, 1) for w in text.lower().split()]
+        tokens = tokens[:self.max_len]
+        tokens += [0] * (self.max_len - len(tokens))  # pad
+        return torch.tensor(tokens, dtype=torch.long)
+
+    def __len__(self): return len(self.labels)
+    def __getitem__(self, i): return self.tokenize(self.texts[i]), torch.tensor(self.labels[i])
+
+texts = [&#x27;great product love it&#x27;, &#x27;terrible waste of money&#x27;,
+         &#x27;amazing highly recommend&#x27;, &#x27;broken arrived damaged&#x27;,
+         &#x27;best purchase ever&#x27;, &#x27;awful customer service&#x27;]
+labels = [1, 0, 1, 0, 1, 0]
+
+words = set(w for t in texts for w in t.split())
+vocab = {w: i+2 for i, w in enumerate(words)}  # 0=pad, 1=unk
+
+ds = SentimentDataset(texts, labels, vocab)
+dl = DataLoader(ds, batch_size=2, shuffle=True)
+for xb, yb in dl:
+    print(&#x27;Token batch:&#x27;, xb.shape, &#x27;| Labels:&#x27;, yb)
+    break</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TabularDataset with Train/Val DataLoaders</div><div class="pd">Build a TabularDataset wrapping a numpy array. Add __len__ and __getitem__. Create 80/20 train/val DataLoaders, iterate one batch and print shapes. Add a simple normalize transform.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p6" class="language-python">import torch
+import numpy as np
+from torch.utils.data import Dataset, DataLoader
+
+torch.manual_seed(42)
+np.random.seed(42)
+
+# Generate synthetic data
+X = np.random.randn(500, 10).astype(np.float32)
+y = (X[:, 0] + X[:, 1] &gt; 0).astype(np.int64)
+
+# TODO: Define normalization transform
+# mean, std = X.mean(axis=0), X.std(axis=0)
+# def normalize(x): return (x - mean) / (std + 1e-8)
+
+class TabularDataset(Dataset):
+    def __init__(self, X, y, transform=None):
+        # TODO: store X and y as tensors, store transform
+        pass
+
+    def __len__(self):
+        # TODO: return number of samples
+        pass
+
+    def __getitem__(self, idx):
+        # TODO: return (optionally transformed) X[idx], y[idx]
+        pass
+
+# TODO: 80/20 split
+# n_train = int(0.8 * len(X))
+# train_ds = TabularDataset(X[:n_train], y[:n_train], transform=normalize)
+# val_ds   = TabularDataset(X[n_train:], y[n_train:], transform=normalize)
+
+# TODO: Create DataLoaders
+# train_dl = DataLoader(train_ds, batch_size=32, shuffle=True)
+# val_dl   = DataLoader(val_ds,   batch_size=32)
+
+# TODO: Print one batch shapes
+# xb, yb = next(iter(train_dl))
+# print(&#x27;X batch:&#x27;, xb.shape, &#x27;| y batch:&#x27;, yb.shape)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s7">
+  <div class="card-header" onclick="toggle('s7')">
+    <span>8. Regularization Techniques</span>
+    <span class="arrow" id="arr-s7">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s7" style="display:none">
+    <p class="desc">Prevent overfitting with Dropout, Batch Normalization, Weight Decay, and Early Stopping.</p>
+    <h4>Dropout & Batch Normalization</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class RegularizedNet(nn.Module):
+    def __init__(self, dropout_rate=0.3):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(20, 256),
+            nn.BatchNorm1d(256),   # normalize activations
+            nn.ReLU(),
+            nn.Dropout(dropout_rate),  # randomly zero activations
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Dropout(dropout_rate),
+            nn.Linear(128, 1)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+model = RegularizedNet(dropout_rate=0.4)
+
+x = torch.randn(16, 20)
+model.train()  # Dropout ACTIVE
+out_train = model(x)
+model.eval()   # Dropout INACTIVE
+with torch.no_grad():
+    out_eval = model(x)
+print(&#x27;Train std:&#x27;, out_train.std().item().__round__(4))
+print(&#x27;Eval  std:&#x27;, out_eval.std().item().__round__(4))</code></pre></div>
+    <h4>Weight Decay & Early Stopping</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+X = torch.randn(500, 10)
+y = (X[:, 0] &gt; 0).float()
+dl = DataLoader(TensorDataset(X, y), batch_size=32, shuffle=True)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
+
+# weight_decay = L2 regularization
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+criterion = nn.BCEWithLogitsLoss()
+
+# Early stopping
+best_loss, patience, wait = float(&#x27;inf&#x27;), 5, 0
+
+for epoch in range(1, 30):
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb).squeeze(), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    avg = total / len(dl)
+    if avg &lt; best_loss:
+        best_loss, wait = avg, 0
+    else:
+        wait += 1
+    if wait &gt;= patience:
+        print(f&#x27;Early stop at epoch {epoch}&#x27;)
+        break
+    if epoch &lt;= 3 or epoch % 5 == 0:
+        print(f&#x27;Epoch {epoch:2d}: loss={avg:.4f} (wait={wait})&#x27;)</code></pre></div>
+    <h4>Mixup Augmentation & Label Smoothing from Scratch</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+torch.manual_seed(42)
+
+# --- Mixup: blend two samples and their labels ---
+def mixup_batch(x, y, alpha=0.4, num_classes=3):
+    lam = np.random.beta(alpha, alpha)
+    idx = torch.randperm(x.size(0))
+    x_mix = lam * x + (1 - lam) * x[idx]
+    # One-hot then mix
+    y_oh  = torch.zeros(x.size(0), num_classes).scatter_(1, y.unsqueeze(1), 1)
+    y_mix = lam * y_oh + (1 - lam) * y_oh[idx]
+    return x_mix, y_mix
+
+# --- Label Smoothing: soften hard targets ---
+class LabelSmoothingLoss(nn.Module):
+    def __init__(self, num_classes, smoothing=0.1):
+        super().__init__()
+        self.eps = smoothing
+        self.K   = num_classes
+
+    def forward(self, logits, targets):
+        log_probs = torch.log_softmax(logits, dim=1)
+        # Smooth targets: (1-eps)*one_hot + eps/K
+        with torch.no_grad():
+            smooth = torch.zeros_like(log_probs).fill_(self.eps / self.K)
+            smooth.scatter_(1, targets.unsqueeze(1), 1 - self.eps + self.eps / self.K)
+        return -(smooth * log_probs).sum(dim=1).mean()
+
+x = torch.randn(16, 10)
+y = torch.randint(0, 3, (16,))
+x_mix, y_mix = mixup_batch(x, y, num_classes=3)
+print(&#x27;Mixup x shape:&#x27;, x_mix.shape)
+print(&#x27;Mixup y (soft):&#x27;, y_mix[:2].round(decimals=3))
+
+model = nn.Linear(10, 3)
+ls_loss = LabelSmoothingLoss(3, smoothing=0.1)
+ce_loss = nn.CrossEntropyLoss()
+logits = model(x)
+print(&#x27;Label Smoothing loss:&#x27;, ls_loss(logits, y).item().__round__(4))
+print(&#x27;Plain CE loss:       &#x27;, ce_loss(logits, y).item().__round__(4))</code></pre></div>
+        <h4>Focal Loss, Label Smoothing & Weighted Cross-Entropy</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Focal Loss — down-weights easy examples, focuses on hard ones
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=1.0, gamma=2.0):
+        super().__init__()
+        self.alpha, self.gamma = alpha, gamma
+
+    def forward(self, logits, targets):
+        ce   = F.cross_entropy(logits, targets, reduction=&#x27;none&#x27;)
+        pt   = torch.exp(-ce)
+        loss = self.alpha * (1 - pt) ** self.gamma * ce
+        return loss.mean()
+
+# Label smoothing — prevents overconfident predictions
+class LabelSmoothingLoss(nn.Module):
+    def __init__(self, num_classes, smoothing=0.1):
+        super().__init__()
+        self.smoothing = smoothing
+        self.cls = num_classes
+
+    def forward(self, logits, targets):
+        log_probs = F.log_softmax(logits, dim=-1)
+        smooth    = self.smoothing / (self.cls - 1)
+        one_hot   = torch.full_like(log_probs, smooth)
+        one_hot.scatter_(1, targets.unsqueeze(1), 1 - self.smoothing)
+        return -(one_hot * log_probs).sum(dim=-1).mean()
+
+# Compare losses on synthetic predictions
+torch.manual_seed(42)
+logits  = torch.randn(8, 3)   # 8 samples, 3 classes
+targets = torch.randint(0, 3, (8,))
+
+ce_loss = nn.CrossEntropyLoss()(logits, targets)
+fl_loss = FocalLoss(gamma=2.0)(logits, targets)
+ls_loss = LabelSmoothingLoss(3, 0.1)(logits, targets)
+print(f&#x27;CrossEntropy:    {ce_loss.item():.4f}&#x27;)
+print(f&#x27;FocalLoss:       {fl_loss.item():.4f}&#x27;)
+print(f&#x27;LabelSmoothing:  {ls_loss.item():.4f}&#x27;)
+
+# Weighted CrossEntropy for class imbalance
+weights = torch.tensor([1.0, 5.0, 3.0])  # class 1 is rare, upweighted
+wce = nn.CrossEntropyLoss(weight=weights)(logits, targets)
+print(f&#x27;WeightedCE:      {wce.item():.4f}&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Credit scoring: Heavily regularized network to prevent overfitting on small 2,000-sample loan dataset.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+X, y = make_classification(n_samples=2000, n_features=15, random_state=42)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+sc = StandardScaler()
+X_tr = sc.fit_transform(X_tr)
+X_val = sc.transform(X_val)
+
+train_dl = DataLoader(TensorDataset(
+    torch.tensor(X_tr, dtype=torch.float32),
+    torch.tensor(y_tr, dtype=torch.long)
+), batch_size=32, shuffle=True)
+
+model = nn.Sequential(
+    nn.Linear(15, 64), nn.BatchNorm1d(64), nn.ReLU(), nn.Dropout(0.5),
+    nn.Linear(64, 32), nn.BatchNorm1d(32), nn.ReLU(), nn.Dropout(0.4),
+    nn.Linear(32, 2)
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=5e-4, weight_decay=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 6):
+    model.train()
+    total = 0
+    for xb, yb in train_dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    print(f&#x27;Epoch {epoch}: loss={total/len(train_dl):.4f}&#x27;)
+
+model.eval()
+with torch.no_grad():
+    X_v = torch.tensor(X_val, dtype=torch.float32)
+    y_v = torch.tensor(y_val, dtype=torch.long)
+    acc = (model(X_v).argmax(1) == y_v).float().mean()
+    print(f&#x27;Val accuracy: {acc.item():.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Regularized vs Unregularized Networks</div><div class="pd">Train two identical networks on noisy regression data (make_regression, noise=30, n_samples=500): one with dropout + weight_decay, one without. Train both 30 epochs. Compare validation MSE.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7" class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_regression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+torch.manual_seed(42)
+
+# TODO: Generate data
+# X, y = make_regression(n_samples=500, n_features=10, noise=30, random_state=42)
+# X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+# scaler = StandardScaler()
+# X_tr = scaler.fit_transform(X_tr)
+# X_val = scaler.transform(X_val)
+
+# TODO: Build two identical networks — one regularized, one not
+# def make_model(regularized=True):
+#     if regularized:
+#         return nn.Sequential(
+#             nn.Linear(10, 64), nn.ReLU(), nn.Dropout(0.3),
+#             nn.Linear(64, 32), nn.ReLU(), nn.Dropout(0.3),
+#             nn.Linear(32, 1)
+#         )
+#     else:
+#         return nn.Sequential(
+#             nn.Linear(10, 64), nn.ReLU(),
+#             nn.Linear(64, 32), nn.ReLU(),
+#             nn.Linear(32, 1)
+#         )
+
+# TODO: Train both for 30 epochs and compare val MSE
+# For each model, track val_mse_list and print final val MSE
+pass</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s8">
+  <div class="card-header" onclick="toggle('s8')">
+    <span>9. Saving, Loading & ONNX Export</span>
+    <span class="arrow" id="arr-s8">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s8" style="display:none">
+    <p class="desc">Persist trained models with state_dict, checkpoint training progress, and export for deployment.</p>
+    <h4>Save & Load state_dict</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+# Build and &#x27;train&#x27; a model
+model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 3)
+)
+
+tmp = tempfile.gettempdir()
+path = os.path.join(tmp, &#x27;model.pth&#x27;)
+
+# Save weights only (recommended)
+torch.save(model.state_dict(), path)
+size_kb = os.path.getsize(path) / 1024
+print(f&#x27;Saved model: {size_kb:.1f} KB&#x27;)
+
+# Load into same architecture
+loaded = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 3)
+)
+loaded.load_state_dict(torch.load(path, weights_only=True))
+loaded.eval()
+
+x = torch.randn(4, 10)
+print(&#x27;Output:&#x27;, loaded(x).shape)
+print(&#x27;Weights match:&#x27;, torch.allclose(
+    list(model.parameters())[0],
+    list(loaded.parameters())[0]
+))</code></pre></div>
+    <h4>Full Checkpoint (Resume Training)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+model = nn.Linear(10, 1)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+epoch = 5
+best_val_loss = 0.042
+
+tmp = tempfile.gettempdir()
+ckpt_path = os.path.join(tmp, &#x27;checkpoint.pth&#x27;)
+
+# Save full checkpoint
+torch.save({
+    &#x27;epoch&#x27;: epoch,
+    &#x27;model_state_dict&#x27;: model.state_dict(),
+    &#x27;optimizer_state_dict&#x27;: optimizer.state_dict(),
+    &#x27;best_val_loss&#x27;: best_val_loss
+}, ckpt_path)
+print(f&#x27;Checkpoint saved ({os.path.getsize(ckpt_path)/1024:.1f} KB)&#x27;)
+
+# Resume training
+checkpoint = torch.load(ckpt_path, weights_only=False)
+model.load_state_dict(checkpoint[&#x27;model_state_dict&#x27;])
+optimizer.load_state_dict(checkpoint[&#x27;optimizer_state_dict&#x27;])
+start_epoch = checkpoint[&#x27;epoch&#x27;] + 1
+print(f&#x27;Resuming from epoch {start_epoch}&#x27;)
+print(f&#x27;Best val loss was: {checkpoint[&quot;best_val_loss&quot;]}&#x27;)</code></pre></div>
+    <h4>state_dict vs Full Model Save & TorchScript</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+torch.manual_seed(42)
+
+class SmallNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(8, 16)
+        self.fc2 = nn.Linear(16, 1)
+    def forward(self, x):
+        return self.fc2(torch.relu(self.fc1(x)))
+
+model = SmallNet()
+tmp = tempfile.gettempdir()
+
+# Method 1: state_dict (recommended, portable)
+sd_path = os.path.join(tmp, &#x27;net_sd.pth&#x27;)
+torch.save(model.state_dict(), sd_path)
+m2 = SmallNet()
+m2.load_state_dict(torch.load(sd_path, weights_only=True))
+print(&#x27;state_dict load OK&#x27;)
+
+# Method 2: full model save (pickle-based, less portable)
+full_path = os.path.join(tmp, &#x27;net_full.pth&#x27;)
+torch.save(model, full_path)
+m3 = torch.load(full_path, weights_only=False)
+print(&#x27;Full model load OK&#x27;)
+
+# Method 3: TorchScript (portable, no Python needed at inference)
+scripted = torch.jit.script(model)
+ts_path = os.path.join(tmp, &#x27;net_scripted.pt&#x27;)
+scripted.save(ts_path)
+loaded_ts = torch.jit.load(ts_path)
+x = torch.randn(4, 8)
+print(&#x27;TorchScript output:&#x27;, loaded_ts(x).shape)
+print(&#x27;Outputs match:&#x27;, torch.allclose(model(x), loaded_ts(x), atol=1e-5))</code></pre></div>
+        <h4>Model Versioning with State Dict & ONNX-like Summary</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import io
+
+class MLP(nn.Module):
+    def __init__(self, in_f, hidden, out_f):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_f, hidden), nn.ReLU(),
+            nn.Linear(hidden, out_f)
+        )
+    def forward(self, x): return self.net(x)
+
+model = MLP(16, 64, 4)
+
+# Save/load state dict to buffer (no file system needed)
+buf = io.BytesIO()
+torch.save(model.state_dict(), buf)
+buf.seek(0)
+size_kb = buf.getbuffer().nbytes / 1024
+print(f&#x27;State dict size: {size_kb:.2f} KB&#x27;)
+
+# Load into new model
+model2 = MLP(16, 64, 4)
+model2.load_state_dict(torch.load(buf, weights_only=True))
+model2.eval()
+
+# Verify identical outputs
+torch.manual_seed(0)
+x = torch.randn(4, 16)
+with torch.no_grad():
+    out1 = model(x)
+    out2 = model2(x)
+print(f&#x27;Outputs identical: {torch.allclose(out1, out2)}&#x27;)
+
+# Parameter count per layer
+print(&#x27;\nModel parameter summary:&#x27;)
+total = 0
+for name, p in model.named_parameters():
+    n = p.numel()
+    total += n
+    print(f&#x27;  {name:25s}: {list(p.shape)} = {n:,} params&#x27;)
+print(f&#x27;  Total: {total:,} parameters&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">MLOps: Save model checkpoints every 10 epochs during a long training run on a GPU cluster to protect against crashes.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+import os, tempfile
+
+torch.manual_seed(42)
+X = torch.randn(1000, 10)
+y = torch.randint(0, 3, (1000,))
+dl = DataLoader(TensorDataset(X, y), batch_size=64, shuffle=True)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,3))
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+tmp = tempfile.gettempdir()
+best_loss = float(&#x27;inf&#x27;)
+
+for epoch in range(1, 16):
+    model.train()
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    avg_loss = total / len(dl)
+
+    # Save best model
+    if avg_loss &lt; best_loss:
+        best_loss = avg_loss
+        torch.save(model.state_dict(), os.path.join(tmp, &#x27;best_model.pth&#x27;))
+
+    # Periodic checkpoint every 5 epochs
+    if epoch % 5 == 0:
+        ckpt = os.path.join(tmp, f&#x27;ckpt_epoch{epoch}.pth&#x27;)
+        torch.save({&#x27;epoch&#x27;: epoch, &#x27;model&#x27;: model.state_dict(), &#x27;loss&#x27;: avg_loss}, ckpt)
+        print(f&#x27;Epoch {epoch:2d}: loss={avg_loss:.4f} [checkpoint saved]&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Save, Load &amp; Verify Identical Predictions</div><div class="pd">Build a small MLP, train 5 epochs on synthetic data, save state_dict to &#x27;model.pth&#x27;, load into a new instance, and verify predictions are identical before and after loading. Then export as TorchScript.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p8" class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+torch.manual_seed(42)
+
+# TODO: Build a small MLP (input=8, hidden=16, output=1)
+# model = nn.Sequential(???)
+
+# TODO: Generate synthetic data and train for 5 epochs
+# X = torch.randn(200, 8)
+# y = torch.randn(200, 1)
+# optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+# for epoch in range(5):
+#     loss = nn.MSELoss()(model(X), y)
+#     optimizer.zero_grad(); loss.backward(); optimizer.step()
+#     print(f&#x27;Epoch {epoch+1}: loss={loss.item():.4f}&#x27;)
+
+# TODO: Save state_dict
+# path = os.path.join(tempfile.gettempdir(), &#x27;model.pth&#x27;)
+# torch.save(model.state_dict(), path)
+
+# TODO: Create new model, load weights, verify outputs match
+# model2 = nn.Sequential(???)
+# model2.load_state_dict(torch.load(path, weights_only=True))
+# model.eval(); model2.eval()
+# with torch.no_grad():
+#     out1 = model(X[:4])
+#     out2 = model2(X[:4])
+#     print(&#x27;Match:&#x27;, torch.allclose(out1, out2))
+
+# TODO: Export as TorchScript
+# scripted = torch.jit.script(model)
+# scripted.save(os.path.join(tempfile.gettempdir(), &#x27;model_scripted.pt&#x27;))
+# print(&#x27;TorchScript saved&#x27;)</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s9">
+  <div class="card-header" onclick="toggle('s9')">
+    <span>10. RNNs, LSTMs & Sequence Models</span>
+    <span class="arrow" id="arr-s9">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s9" style="display:none">
+    <p class="desc">Process sequential data — time series, text, signals — with RNNs, LSTMs, and GRUs.</p>
+    <h4>LSTM for Sequence Classification</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class LSTMClassifier(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers, num_classes):
+        super().__init__()
+        self.lstm = nn.LSTM(
+            input_size, hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+            dropout=0.2 if num_layers &gt; 1 else 0
+        )
+        self.fc = nn.Linear(hidden_size, num_classes)
+
+    def forward(self, x):
+        # x: [batch, seq_len, input_size]
+        out, (h_n, c_n) = self.lstm(x)
+        return self.fc(out[:, -1, :])  # last timestep
+
+model = LSTMClassifier(
+    input_size=10, hidden_size=64,
+    num_layers=2, num_classes=3
+)
+print(model)
+
+# Batch of 16 sequences, each 30 timesteps, 10 features
+x = torch.randn(16, 30, 10)
+out = model(x)
+print(&#x27;Output shape:&#x27;, out.shape)  # [16, 3]
+print(&#x27;Params:&#x27;, sum(p.numel() for p in model.parameters()))</code></pre></div>
+    <h4>Time Series Forecasting with GRU</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+class GRUForecaster(nn.Module):
+    def __init__(self, input_size=1, hidden=64, horizon=1):
+        super().__init__()
+        self.gru = nn.GRU(input_size, hidden, batch_first=True)
+        self.fc = nn.Linear(hidden, horizon)
+
+    def forward(self, x):
+        out, _ = self.gru(x)
+        return self.fc(out[:, -1, :])
+
+model = GRUForecaster(input_size=1, hidden=64, horizon=1)
+
+# Generate sine wave data
+np.random.seed(42)
+t = np.linspace(0, 20 * np.pi, 1000)
+signal = np.sin(t) + 0.1 * np.random.randn(1000)
+
+# Create sliding window sequences (window=30)
+W = 30
+X = np.array([signal[i:i+W] for i in range(len(signal)-W)])
+y = signal[W:]
+
+X_t = torch.tensor(X, dtype=torch.float32).unsqueeze(2)  # [n, 30, 1]
+y_t = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
+
+out = model(X_t[:8])
+print(&#x27;Forecast shape:&#x27;, out.shape)  # [8, 1]
+loss = nn.MSELoss()(out, y_t[:8])
+print(&#x27;Initial MSE:&#x27;, loss.item().__round__(4))</code></pre></div>
+    <h4>Bidirectional LSTM & PackedSequence</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+
+# Bidirectional LSTM: processes sequence forward AND backward
+class BiLSTM(nn.Module):
+    def __init__(self, input_size, hidden, num_classes):
+        super().__init__()
+        self.lstm = nn.LSTM(
+            input_size, hidden,
+            batch_first=True,
+            bidirectional=True  # 2x hidden size in output
+        )
+        self.fc = nn.Linear(hidden * 2, num_classes)
+
+    def forward(self, x, lengths):
+        # Pack variable-length sequences for efficiency
+        packed = pack_padded_sequence(x, lengths, batch_first=True,
+                                      enforce_sorted=False)
+        out_packed, (h_n, _) = self.lstm(packed)
+        out, _ = pad_packed_sequence(out_packed, batch_first=True)
+        # Concatenate last forward and first backward hidden states
+        last = torch.cat([h_n[0], h_n[1]], dim=1)
+        return self.fc(last)
+
+model = BiLSTM(input_size=8, hidden=32, num_classes=4)
+
+# Variable-length batch (padded)
+batch_size = 6
+max_len = 15
+lengths = torch.tensor([15, 12, 10, 8, 7, 5])
+x = torch.zeros(batch_size, max_len, 8)
+for i, l in enumerate(lengths):
+    x[i, :l] = torch.randn(l, 8)
+
+out = model(x, lengths)
+print(&#x27;BiLSTM output:&#x27;, out.shape)  # [6, 4]
+print(&#x27;Params:&#x27;, sum(p.numel() for p in model.parameters()))</code></pre></div>
+        <h4>Bidirectional LSTM & Packed Sequences</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence, pad_sequence
+
+torch.manual_seed(42)
+
+# Bidirectional LSTM
+bi_lstm = nn.LSTM(input_size=16, hidden_size=32, num_layers=2,
+                  batch_first=True, bidirectional=True, dropout=0.2)
+
+x = torch.randn(8, 20, 16)  # batch=8, seq_len=20, features=16
+out, (h_n, c_n) = bi_lstm(x)
+print(&#x27;Bidirectional LSTM:&#x27;)
+print(f&#x27;  Input:  {list(x.shape)}&#x27;)
+print(f&#x27;  Output: {list(out.shape)}  (hidden*2={32*2} for bidirectional)&#x27;)
+print(f&#x27;  h_n:    {list(h_n.shape)}  (layers*2, batch, hidden)&#x27;)
+
+# Packed sequences — handle variable-length inputs efficiently
+sequences = [torch.randn(length, 8) for length in [10, 7, 5, 3]]
+lengths   = torch.tensor([10, 7, 5, 3])
+padded    = pad_sequence(sequences, batch_first=True)  # (4, 10, 8)
+
+lstm = nn.LSTM(input_size=8, hidden_size=16, batch_first=True)
+packed = pack_padded_sequence(padded, lengths, batch_first=True, enforce_sorted=True)
+out_packed, _ = lstm(packed)
+out_padded, out_lengths = pad_packed_sequence(out_packed, batch_first=True)
+
+print(&#x27;\nPacked sequences:&#x27;)
+print(f&#x27;  Padded input:  {list(padded.shape)}&#x27;)
+print(f&#x27;  Output:        {list(out_padded.shape)}&#x27;)
+print(f&#x27;  Out lengths:   {out_lengths.tolist()}&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">IoT: Use LSTM to detect anomalies in sensor readings from a manufacturing machine — predict next value and flag large deviations.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+torch.manual_seed(42)
+np.random.seed(42)
+
+# Simulate sensor readings (mostly normal, some anomalies)
+n = 2000
+sensor = np.sin(np.linspace(0, 10*np.pi, n)) + 0.05*np.random.randn(n)
+# Inject anomalies at random positions
+anomaly_idx = np.random.choice(n, 20, replace=False)
+sensor[anomaly_idx] += np.random.uniform(2, 4, 20)
+
+W = 20  # lookback window
+X = torch.tensor([sensor[i:i+W] for i in range(n-W)], dtype=torch.float32).unsqueeze(2)
+y = torch.tensor(sensor[W:], dtype=torch.float32).unsqueeze(1)
+
+class AnomalyLSTM(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(1, 32, batch_first=True)
+        self.fc = nn.Linear(32, 1)
+    def forward(self, x):
+        out, _ = self.lstm(x)
+        return self.fc(out[:, -1, :])
+
+net = AnomalyLSTM()
+optim = torch.optim.Adam(net.parameters(), lr=1e-3)
+
+for epoch in range(5):
+    pred = net(X)
+    loss = nn.MSELoss()(pred, y)
+    optim.zero_grad(); loss.backward(); optim.step()
+    if epoch % 2 == 0: print(f&#x27;Epoch {epoch}: MSE={loss.item():.5f}&#x27;)
+
+# Detect anomalies: reconstruction error &gt; threshold
+net.eval()
+with torch.no_grad():
+    errors = (net(X).squeeze() - y.squeeze()).abs()
+threshold = errors.mean() + 3 * errors.std()
+detected = (errors &gt; threshold).sum()
+print(f&#x27;Anomalies detected: {detected.item()} (threshold={threshold.item():.4f})&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LSTM Sequence Classification — Shape Tracking</div><div class="pd">Build an LSTM for sequence classification (seq_len=20, input_size=10, hidden=32, 2 classes). Create a batch of 8 random sequences, run forward pass, compute loss, backprop. Print shapes at each step.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p9" class="language-python">import torch
+import torch.nn as nn
+
+torch.manual_seed(42)
+
+# Hyperparameters
+batch_size = 8
+seq_len    = 20
+input_size = 10
+hidden_size = 32
+num_classes = 2
+
+# TODO: Create batch of random sequences
+# x = torch.randn(batch_size, seq_len, input_size)
+# print(&#x27;Input shape:&#x27;, x.shape)
+
+# TODO: Define LSTM module and FC head
+# lstm = nn.LSTM(input_size, hidden_size, batch_first=True)
+# fc   = nn.Linear(hidden_size, num_classes)
+
+# TODO: Forward pass through LSTM
+# out, (h_n, c_n) = lstm(x)
+# print(&#x27;LSTM output shape:&#x27;, out.shape)        # (batch, seq_len, hidden)
+# print(&#x27;Final hidden shape:&#x27;, h_n.shape)       # (1, batch, hidden)
+
+# TODO: Take last timestep and pass to FC
+# last = out[:, -1, :]           # (batch, hidden)
+# logits = fc(last)              # (batch, num_classes)
+# print(&#x27;Logits shape:&#x27;, logits.shape)
+
+# TODO: Compute cross-entropy loss and backprop
+# labels = torch.randint(0, num_classes, (batch_size,))
+# loss = nn.CrossEntropyLoss()(logits, labels)
+# loss.backward()
+# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s10">
+  <div class="card-header" onclick="toggle('s10')">
+    <span>11. Attention Mechanisms</span>
+    <span class="arrow" id="arr-s10">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s10" style="display:none">
+    <p class="desc">Implement scaled dot-product attention, multi-head attention, and self-attention from scratch. Understand how transformers use attention to model long-range dependencies.</p>
+    <h4>Scaled Dot-Product Attention</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    x = x - x.max(axis=axis, keepdims=True)
+    e = np.exp(x)
+    return e / e.sum(axis=axis, keepdims=True)
+
+def scaled_dot_product_attention(Q, K, V, mask=None):
+    d_k = Q.shape[-1]
+    scores = Q @ K.swapaxes(-2, -1) / np.sqrt(d_k)  # (batch, heads, seq, seq)
+    if mask is not None:
+        scores = np.where(mask, scores, -1e9)
+    weights = softmax(scores, axis=-1)
+    return weights @ V, weights
+
+np.random.seed(42)
+batch, seq_len, d_model = 2, 5, 8
+Q = np.random.randn(batch, seq_len, d_model)
+K = np.random.randn(batch, seq_len, d_model)
+V = np.random.randn(batch, seq_len, d_model)
+
+output, weights = scaled_dot_product_attention(Q, K, V)
+print(&#x27;Q shape:&#x27;, Q.shape)
+print(&#x27;Attention output shape:&#x27;, output.shape)
+print(&#x27;Attention weights shape:&#x27;, weights.shape)
+print(&#x27;Attention weights (sample 0, row 0):&#x27;, weights[0, 0].round(3))
+print(&#x27;Row sum (should be 1.0):&#x27;, weights[0, 0].sum(axis=-1).round(4))</code></pre></div>
+    <h4>Multi-Head Attention from Scratch</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    x -= x.max(axis=axis, keepdims=True)
+    return np.exp(x) / np.exp(x).sum(axis=axis, keepdims=True)
+
+class MultiHeadAttention:
+    def __init__(self, d_model=64, n_heads=4, seed=42):
+        self.h = n_heads
+        self.d_k = d_model // n_heads
+        rng = np.random.default_rng(seed)
+        self.W_Q = rng.standard_normal((d_model, d_model)) * 0.1
+        self.W_K = rng.standard_normal((d_model, d_model)) * 0.1
+        self.W_V = rng.standard_normal((d_model, d_model)) * 0.1
+        self.W_O = rng.standard_normal((d_model, d_model)) * 0.1
+
+    def split_heads(self, x):
+        B, L, D = x.shape
+        return x.reshape(B, L, self.h, self.d_k).transpose(0, 2, 1, 3)
+
+    def forward(self, x):
+        Q = self.split_heads(x @ self.W_Q)
+        K = self.split_heads(x @ self.W_K)
+        V = self.split_heads(x @ self.W_V)
+        scores = Q @ K.swapaxes(-2,-1) / self.d_k**0.5
+        attn   = softmax(scores) @ V
+        concat = attn.transpose(0,2,1,3).reshape(x.shape[0], x.shape[1], -1)
+        return concat @ self.W_O
+
+np.random.seed(0)
+B, L, D = 2, 10, 64
+x = np.random.randn(B, L, D)
+mha = MultiHeadAttention(d_model=D, n_heads=4)
+out = mha.forward(x)
+print(f&#x27;Input:  {x.shape}&#x27;)
+print(f&#x27;Output: {out.shape}&#x27;)
+print(f&#x27;Mean abs output: {np.abs(out).mean():.4f}&#x27;)</code></pre></div>
+    <h4>Causal (Masked) Self-Attention</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    x = x - x.max(axis=axis, keepdims=True)
+    return np.exp(x) / np.exp(x).sum(axis=axis, keepdims=True)
+
+def causal_attention(Q, K, V):
+    d_k = Q.shape[-1]
+    seq = Q.shape[-2]
+    # Causal mask: upper triangle = -inf
+    mask = np.tril(np.ones((seq, seq))).astype(bool)
+    scores = Q @ K.swapaxes(-2,-1) / np.sqrt(d_k)
+    scores = np.where(mask, scores, -1e9)
+    weights = softmax(scores)
+    return weights @ V, weights
+
+np.random.seed(42)
+L, D = 6, 16
+Q = np.random.randn(1, L, D)
+K = np.random.randn(1, L, D)
+V = np.random.randn(1, L, D)
+
+out, attn = causal_attention(Q, K, V)
+print(&#x27;Causal attention weights (6x6):&#x27;)
+print(attn[0].round(3))
+print(&#x27;\nRow sums:&#x27;, attn[0].sum(axis=-1).round(4))
+print(&#x27;Upper triangle is zero (causal mask verified):&#x27;, (attn[0] * np.triu(np.ones((L,L)),1) &lt; 1e-6).all())</code></pre></div>
+        <h4>Attention in PyTorch nn.MultiheadAttention</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">try:
+    import torch
+    import torch.nn as nn
+
+    torch.manual_seed(42)
+    d_model, n_heads = 64, 4
+    mha = nn.MultiheadAttention(embed_dim=d_model, num_heads=n_heads, batch_first=True)
+
+    B, L = 2, 10
+    x = torch.randn(B, L, d_model)
+
+    # Self-attention (Q=K=V=x)
+    out, weights = mha(x, x, x)
+    print(f&#x27;Input:   {tuple(x.shape)}&#x27;)
+    print(f&#x27;Output:  {tuple(out.shape)}&#x27;)
+    print(f&#x27;Weights: {tuple(weights.shape)}&#x27;)
+
+    # Causal (autoregressive) mask
+    mask = torch.triu(torch.ones(L, L), diagonal=1).bool()
+    out_causal, w_causal = mha(x, x, x, attn_mask=mask)
+    print(f&#x27;Causal output: {tuple(out_causal.shape)}&#x27;)
+    print(f&#x27;Params: {sum(p.numel() for p in mha.parameters()):,}&#x27;)
+except ImportError:
+    print(&#x27;pip install torch&#x27;)
+    print(&#x27;nn.MultiheadAttention: built-in PyTorch multi-head attention&#x27;)
+    print(&#x27;batch_first=True: input shape (batch, seq, features)&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Build a document classification transformer encoder that uses multi-head self-attention to classify long support tickets into 5 categories. Use attention weights to explain which words the model focused on.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    x -= x.max(axis=axis, keepdims=True)
+    return np.exp(x) / np.exp(x).sum(axis=axis, keepdims=True)
+
+# Simulate token embeddings for a support ticket
+np.random.seed(42)
+tokens = [&#x27;my&#x27;, &#x27;account&#x27;, &#x27;is&#x27;, &#x27;locked&#x27;, &#x27;I&#x27;, &#x27;cannot&#x27;, &#x27;login&#x27;, &#x27;[PAD]&#x27;]
+d_model = 16
+x = np.random.randn(1, len(tokens), d_model)  # (batch=1, seq=8, d=16)
+
+# Simple 1-head attention
+W_Q = np.random.randn(d_model, d_model) * 0.1
+W_K = np.random.randn(d_model, d_model) * 0.1
+W_V = np.random.randn(d_model, d_model) * 0.1
+
+Q = x @ W_Q
+K = x @ W_K
+V = x @ W_V
+
+scores  = Q @ K.swapaxes(-2,-1) / d_model**0.5
+weights = softmax(scores, axis=-1)
+output  = weights @ V
+
+print(&#x27;Token attention weights from [CLS]-like position (row 0):&#x27;)
+for tok, w in zip(tokens, weights[0, 0]):
+    bar = &#x27;|&#x27; * int(w * 100)
+    print(f&#x27;{tok:12s}: {w:.4f} {bar}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement Scaled Dot-Product Attention</div><div class="pd">Without using any DL framework, implement scaled dot-product attention that supports (1) batch dimensions, (2) an optional causal mask, (3) dropout on attention weights (randomly zero out weights with probability p). Test with batch=2, seq=8, d_k=16. Print attention weight shape and verify rows sum to 1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p10" class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    x = x - x.max(axis=axis, keepdims=True)
+    return np.exp(x) / np.exp(x).sum(axis=axis, keepdims=True)
+
+def attention(Q, K, V, mask=None, dropout=0.0, rng=None):
+    # TODO: compute scaled dot-product attention
+    # TODO: apply mask if provided (causal upper-tri mask)
+    # TODO: apply dropout to weights if dropout &gt; 0
+    # return (output, weights)
+    pass
+
+np.random.seed(42)
+B, L, D = 2, 8, 16
+Q = np.random.randn(B, L, D)
+K = np.random.randn(B, L, D)
+V = np.random.randn(B, L, D)
+
+# Test 1: no mask
+out, w = attention(Q, K, V)
+# print(&#x27;Output shape:&#x27;, out.shape, &#x27;| Weights shape:&#x27;, w.shape)
+# print(&#x27;Row sums (should be 1):&#x27;, w[0,0].sum(axis=-1))
+
+# Test 2: causal mask
+mask = np.tril(np.ones((L, L))).astype(bool)
+out_c, w_c = attention(Q, K, V, mask=mask)
+# print(&#x27;Causal upper triangle is 0:&#x27;, (w_c[0] * np.triu(np.ones((L,L)),1) &lt; 1e-9).all())
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s11">
+  <div class="card-header" onclick="toggle('s11')">
+    <span>12. Generative Models</span>
+    <span class="arrow" id="arr-s11">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s11" style="display:none">
+    <p class="desc">Implement Variational Autoencoders (VAE) and Generative Adversarial Networks (GAN) concepts. Understand reparameterization trick, ELBO loss, and adversarial training.</p>
+    <h4>Autoencoder from Scratch (NumPy)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+def relu(x): return np.maximum(0, x)
+def sigmoid(x): return 1 / (1 + np.exp(-np.clip(x, -100, 100)))
+
+class Autoencoder:
+    def __init__(self, in_dim=28, latent=4, lr=0.01):
+        self.lr = lr
+        # Encoder
+        self.W_enc = np.random.randn(in_dim, 8) * 0.1
+        self.W_lat = np.random.randn(8, latent) * 0.1
+        # Decoder
+        self.W_dec = np.random.randn(latent, 8) * 0.1
+        self.W_out = np.random.randn(8, in_dim) * 0.1
+
+    def encode(self, x):
+        self.h1 = relu(x @ self.W_enc)
+        return self.h1 @ self.W_lat
+
+    def decode(self, z):
+        self.h2 = relu(z @ self.W_dec)
+        return sigmoid(self.h2 @ self.W_out)
+
+    def forward(self, x):
+        self.z   = self.encode(x)
+        self.rec = self.decode(self.z)
+        return self.rec
+
+    def loss(self, x, rec):
+        return -np.mean(x * np.log(rec + 1e-8) + (1-x) * np.log(1-rec + 1e-8))
+
+# Train on random binary data
+X = (np.random.rand(500, 28) &gt; 0.5).astype(float)
+ae = Autoencoder(in_dim=28, latent=4)
+
+for epoch in range(50):
+    rec = ae.forward(X)
+    if epoch % 10 == 0:
+        print(f&#x27;Epoch {epoch}: loss={ae.loss(X, rec):.4f}&#x27;)</code></pre></div>
+    <h4>VAE Reparameterization Trick</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Demonstrate the reparameterization trick
+# Instead of z ~ N(mu, sigma^2), sample:
+# epsilon ~ N(0, 1), then z = mu + sigma * epsilon
+
+def sample_vae(mu, log_var):
+    &quot;&quot;&quot;Reparameterization: z = mu + exp(0.5*log_var) * eps&quot;&quot;&quot;
+    eps = np.random.standard_normal(mu.shape)
+    sigma = np.exp(0.5 * log_var)
+    return mu + sigma * eps
+
+def kl_divergence(mu, log_var):
+    &quot;&quot;&quot;KL(N(mu,sigma) || N(0,1)) in closed form.&quot;&quot;&quot;
+    return -0.5 * np.mean(1 + log_var - mu**2 - np.exp(log_var))
+
+def vae_loss(x, x_rec, mu, log_var):
+    recon = np.mean((x - x_rec)**2)  # MSE reconstruction
+    kl    = kl_divergence(mu, log_var)
+    return recon + kl, recon, kl
+
+# Simulate encoder outputs
+batch, latent = 32, 8
+mu      = np.random.randn(batch, latent) * 0.5
+log_var = np.random.randn(batch, latent) * 0.5 - 1  # log_var &lt; 0 -&gt; small sigma
+
+z = sample_vae(mu, log_var)
+x = np.random.randn(batch, 16)
+x_rec = x + np.random.randn(*x.shape) * 0.3  # simulated reconstruction
+
+total, recon, kl = vae_loss(x, x_rec, mu, log_var)
+print(f&#x27;Total VAE loss: {total:.4f}&#x27;)
+print(f&#x27;Reconstruction: {recon:.4f}&#x27;)
+print(f&#x27;KL divergence:  {kl:.4f}&#x27;)
+print(f&#x27;Latent z shape: {z.shape}&#x27;)</code></pre></div>
+    <h4>GAN Adversarial Training Concept</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+def sigmoid(x): return 1 / (1 + np.exp(-np.clip(x, -10, 10)))
+def bce(y_true, y_pred): return -np.mean(y_true*np.log(y_pred+1e-8) + (1-y_true)*np.log(1-y_pred+1e-8))
+
+# Minimal GAN training loop concept
+# Real distribution: N(4, 0.5)
+real_data = np.random.normal(4, 0.5, (1000, 1))
+
+# Generator: noise -&gt; fake samples
+class Generator:
+    def __init__(self):
+        self.W1 = np.random.randn(1, 8) * 0.1
+        self.W2 = np.random.randn(8, 1) * 0.1
+    def generate(self, z):
+        h = np.tanh(z @ self.W1)
+        return h @ self.W2  # fake samples
+
+# Discriminator: sample -&gt; P(real)
+class Discriminator:
+    def __init__(self):
+        self.W1 = np.random.randn(1, 8) * 0.1
+        self.W2 = np.random.randn(8, 1) * 0.1
+    def discriminate(self, x):
+        h = np.maximum(0, x @ self.W1)
+        return sigmoid(h @ self.W2)
+
+G = Generator(); D = Discriminator()
+batch = 32
+print(&#x27;GAN Training Loop (concepts):&#x27;)
+for step in range(5):
+    # Discriminator: maximize log D(real) + log(1-D(fake))
+    real = real_data[np.random.randint(0, len(real_data), batch)]
+    z    = np.random.randn(batch, 1)
+    fake = G.generate(z)
+    d_real = D.discriminate(real)
+    d_fake = D.discriminate(fake)
+    d_loss = bce(np.ones((batch,1)), d_real) + bce(np.zeros((batch,1)), d_fake)
+    # Generator: maximize log D(fake) = minimize -log D(fake)
+    g_loss = bce(np.ones((batch,1)), d_fake)
+    print(f&#x27;Step {step+1}: D_loss={d_loss:.4f} G_loss={g_loss:.4f} | &#x27;
+          f&#x27;fake_mean={fake.mean():.2f} (target~4.0)&#x27;)</code></pre></div>
+        <h4>VAE in PyTorch</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">try:
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    class VAE(nn.Module):
+        def __init__(self, input_dim=784, latent_dim=20, hidden=256):
+            super().__init__()
+            self.encoder = nn.Sequential(nn.Linear(input_dim, hidden), nn.ReLU())
+            self.mu_layer     = nn.Linear(hidden, latent_dim)
+            self.logvar_layer = nn.Linear(hidden, latent_dim)
+            self.decoder = nn.Sequential(
+                nn.Linear(latent_dim, hidden), nn.ReLU(),
+                nn.Linear(hidden, input_dim), nn.Sigmoid()
+            )
+
+        def reparameterize(self, mu, logvar):
+            std = torch.exp(0.5 * logvar)
+            return mu + std * torch.randn_like(std)
+
+        def forward(self, x):
+            h   = self.encoder(x)
+            mu  = self.mu_layer(h)
+            lv  = self.logvar_layer(h)
+            z   = self.reparameterize(mu, lv)
+            rec = self.decoder(z)
+            kl  = -0.5 * (1 + lv - mu**2 - lv.exp()).mean()
+            return rec, kl
+
+    torch.manual_seed(42)
+    vae = VAE(input_dim=784, latent_dim=16)
+    x = torch.rand(32, 784)
+    rec, kl = vae(x)
+    recon_loss = F.binary_cross_entropy(rec, x, reduction=&#x27;mean&#x27;)
+    loss = recon_loss + kl
+    print(f&#x27;VAE total loss: {loss.item():.4f} (recon={recon_loss.item():.4f}, kl={kl.item():.4f})&#x27;)
+    print(f&#x27;Params: {sum(p.numel() for p in vae.parameters()):,}&#x27;)
+except ImportError:
+    print(&#x27;pip install torch&#x27;)</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Generate synthetic tabular data for privacy-preserving ML: train a VAE on customer transaction records and use it to generate synthetic samples that preserve statistical properties without exposing real customer data.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+# Simulate customer transaction data
+n = 1000
+real_data = np.column_stack([
+    np.random.exponential(100, n),       # transaction_amount
+    np.random.randint(0, 5, n).astype(float),  # category (0-4)
+    np.random.normal(25, 8, n),          # customer_age_proxy
+    np.random.choice([0, 1], n, p=[0.97, 0.03]).astype(float),  # fraud
+])
+
+# Normalize
+mu    = real_data.mean(axis=0)
+sigma = real_data.std(axis=0) + 1e-8
+X     = (real_data - mu) / sigma
+
+# Simulate VAE encoder output (in practice: train the VAE)
+latent_dim = 4
+Z_mu      = X @ np.random.randn(4, latent_dim) * 0.3
+Z_logvar  = np.random.randn(*Z_mu.shape) * 0.5 - 1
+Z_samples = Z_mu + np.exp(0.5 * Z_logvar) * np.random.randn(*Z_mu.shape)
+
+# Simulate decoder
+X_fake = Z_samples @ np.random.randn(latent_dim, 4) * 0.5
+synth  = X_fake * sigma + mu  # de-normalize
+
+print(&#x27;Real data stats:&#x27;); print(f&#x27;  Amount: mean={real_data[:,0].mean():.1f}, std={real_data[:,0].std():.1f}&#x27;)
+print(&#x27;Synthetic stats:&#x27;); print(f&#x27;  Amount: mean={synth[:,0].mean():.1f}, std={synth[:,0].std():.1f}&#x27;)
+print(f&#x27;KL divergence (latent): {(-0.5*(1+Z_logvar-Z_mu**2-np.exp(Z_logvar)).mean()):.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: VAE Loss Components</div><div class="pd">Implement the complete VAE training step (forward pass only): (1) encode input to mu and log_var, (2) sample z using reparameterization, (3) decode z to reconstruction, (4) compute ELBO = reconstruction_loss + beta * KL. Use MSE for reconstruction. Test with batch=16, input_dim=32, latent_dim=4. Print each loss component.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p11" class="language-python">import numpy as np
+
+np.random.seed(42)
+batch, input_dim, latent_dim, hidden = 16, 32, 4, 16
+
+# Network weights (random init)
+W_enc = np.random.randn(input_dim, hidden) * 0.1
+W_mu  = np.random.randn(hidden, latent_dim) * 0.1
+W_lv  = np.random.randn(hidden, latent_dim) * 0.1
+W_dec1 = np.random.randn(latent_dim, hidden) * 0.1
+W_dec2 = np.random.randn(hidden, input_dim) * 0.1
+
+X = np.random.rand(batch, input_dim)  # input data in [0,1]
+
+# TODO: (1) Encode: h = relu(X @ W_enc), mu = h @ W_mu, lv = h @ W_lv
+# TODO: (2) Reparameterize: z = mu + exp(0.5*lv) * eps
+# TODO: (3) Decode: h2 = relu(z @ W_dec1), x_rec = sigmoid(h2 @ W_dec2)
+# TODO: (4) Compute MSE recon loss, KL divergence, total ELBO (beta=0.5)
+# TODO: Print each component
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s12">
+  <div class="card-header" onclick="toggle('s12')">
+    <span>13. Model Interpretability</span>
+    <span class="arrow" id="arr-s12">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s12" style="display:none">
+    <p class="desc">Explain black-box model predictions using SHAP values, integrated gradients, LIME, and attention visualization. Make models auditable and trustworthy.</p>
+    <h4>SHAP Values with TreeExplainer</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">try:
+    import shap
+    import numpy as np
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.datasets import make_classification
+
+    np.random.seed(42)
+    X, y = make_classification(n_samples=1000, n_features=8, n_informative=5, random_state=42)
+    feat_names = [f&#x27;feature_{i}&#x27; for i in range(8)]
+
+    model = GradientBoostingClassifier(n_estimators=50, random_state=0).fit(X, y)
+
+    explainer   = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X[:100])
+
+    print(&#x27;SHAP values shape:&#x27;, shap_values.shape)
+    print(&#x27;\nMean |SHAP| per feature (global importance):&#x27;)
+    importances = np.abs(shap_values).mean(axis=0)
+    for name, imp in sorted(zip(feat_names, importances), key=lambda x: -x[1]):
+        bar = &#x27;|&#x27; * int(imp * 20)
+        print(f&#x27;{name}: {imp:.4f} {bar}&#x27;)
+    print(&#x27;\nSHAP values for sample 0:&#x27;)
+    for name, sv in zip(feat_names, shap_values[0]):
+        print(f&#x27;  {name}: {sv:+.4f}&#x27;)
+except ImportError:
+    print(&#x27;pip install shap&#x27;)</code></pre></div>
+    <h4>Permutation Feature Importance</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.inspection import permutation_importance
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
+
+np.random.seed(42)
+X, y = make_classification(n_samples=2000, n_features=10, n_informative=5, random_state=42)
+feat_names = [f&#x27;f{i}&#x27; for i in range(10)]
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42)
+
+model = GradientBoostingClassifier(n_estimators=50, random_state=0).fit(X_tr, y_tr)
+
+result = permutation_importance(
+    model, X_te, y_te, n_repeats=10, random_state=42, scoring=&#x27;roc_auc&#x27;
+)
+
+print(&#x27;Permutation Feature Importance (ROC-AUC drop):&#x27;)
+print(f&#x27;{&quot;Feature&quot;:&lt;12} {&quot;Mean Drop&quot;:&gt;12} {&quot;Std&quot;:&gt;8}&#x27;)
+print(&#x27;-&#x27; * 35)
+order = np.argsort(-result.importances_mean)
+for i in order:
+    print(f&#x27;{feat_names[i]:&lt;12} {result.importances_mean[i]:&gt;12.4f} {result.importances_std[i]:&gt;8.4f}&#x27;)</code></pre></div>
+    <h4>LIME-style Local Explanations</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+np.random.seed(42)
+X, y = make_classification(n_samples=1000, n_features=8, n_informative=5, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=42)
+model = GradientBoostingClassifier(n_estimators=50, random_state=0).fit(X_tr, y_tr)
+
+def lime_explain(model, x_instance, X_train, n_samples=500, sigma=0.1):
+    &quot;&quot;&quot;Approximate local explanation around x_instance.&quot;&quot;&quot;
+    rng = np.random.default_rng(42)
+    # Sample neighborhood around x_instance
+    X_perturbed = x_instance + rng.normal(0, sigma, (n_samples, len(x_instance)))
+    # Get black-box predictions
+    y_hat = model.predict_proba(X_perturbed)[:, 1]
+    # Weight by distance
+    distances = np.linalg.norm(X_perturbed - x_instance, axis=1)
+    weights = np.exp(-distances / distances.mean())
+    # Fit local linear model
+    local_model = Ridge(alpha=0.1)
+    local_model.fit(X_perturbed, y_hat, sample_weight=weights)
+    return local_model.coef_
+
+x0 = X_te[0]
+coef = lime_explain(model, x0, X_tr)
+feat_names = [f&#x27;f{i}&#x27; for i in range(8)]
+print(f&#x27;Sample 0 prediction: {model.predict_proba(x0.reshape(1,-1))[0,1]:.3f}&#x27;)
+print(&#x27;LIME explanation (local coefficients):&#x27;)
+for name, c in sorted(zip(feat_names, coef), key=lambda x: -abs(x[1])):
+    print(f&#x27;  {name}: {c:+.4f}&#x27;)</code></pre></div>
+        <h4>Saliency Maps & Integrated Gradients (NumPy)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Simulate a simple neural network with gradient computation
+def relu(x): return np.maximum(0, x)
+def relu_grad(x): return (x &gt; 0).astype(float)
+def sigmoid(x): return 1 / (1 + np.exp(-np.clip(x, -10, 10)))
+
+class SimpleNet:
+    def __init__(self, d=8, h=16):
+        self.W1 = np.random.randn(d, h) * 0.1
+        self.W2 = np.random.randn(h, 1) * 0.1
+
+    def forward(self, x):
+        self.x  = x
+        self.h  = relu(x @ self.W1)
+        return sigmoid(self.h @ self.W2)
+
+    def saliency(self, x):
+        out = self.forward(x)
+        # Backprop to input
+        d_out = out * (1 - out)  # sigmoid grad
+        d_h   = d_out @ self.W2.T
+        d_h   *= relu_grad(x @ self.W1)
+        d_x   = d_h @ self.W1.T
+        return np.abs(d_x)
+
+    def integrated_gradients(self, x, n_steps=50):
+        baseline = np.zeros_like(x)
+        alphas   = np.linspace(0, 1, n_steps)
+        grads    = [self.saliency(baseline + a * x) for a in alphas]
+        ig = (x - baseline) * np.mean(grads, axis=0)
+        return ig
+
+net = SimpleNet(d=8)
+x   = np.random.randn(1, 8)
+sal = net.saliency(x)[0]
+ig  = net.integrated_gradients(x)[0]
+print(&#x27;Saliency scores:&#x27;, sal.round(4))
+print(&#x27;Integrated Gradients:&#x27;, ig.round(4))
+print(&#x27;Top feature (saliency):&#x27;, np.argmax(sal))
+print(&#x27;Top feature (IG):&#x27;, np.argmax(np.abs(ig)))</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">A hospital&#x27;s ML loan approval model must explain individual rejections to comply with financial regulations. Compute SHAP values for each rejected application, identify the top 3 contributing factors, and generate a plain-English explanation.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+np.random.seed(42)
+X, y = make_classification(n_samples=2000, n_features=10, n_informative=7, random_state=42)
+feat_names = [&#x27;income&#x27;,&#x27;debt_ratio&#x27;,&#x27;credit_score&#x27;,&#x27;employment_yrs&#x27;,&#x27;loan_amount&#x27;,
+              &#x27;assets&#x27;,&#x27;late_payments&#x27;,&#x27;dependents&#x27;,&#x27;savings&#x27;,&#x27;age&#x27;]
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=42)
+model = GradientBoostingClassifier(n_estimators=100, random_state=0).fit(X_tr, y_tr)
+
+# Compute permutation importance as SHAP proxy
+from sklearn.inspection import permutation_importance
+imp = permutation_importance(model, X_te, y_te, n_repeats=5, random_state=42)
+global_imp = dict(zip(feat_names, imp.importances_mean))
+
+# Explain rejections (predicted 0)
+pred_proba = model.predict_proba(X_te)[:,1]
+rejected   = np.where(pred_proba &lt; 0.3)[0][:3]
+print(f&#x27;Explaining {len(rejected)} rejections:&#x27;)
+for idx in rejected:
+    pred = pred_proba[idx]
+    top3 = sorted(global_imp.items(), key=lambda x: -x[1])[:3]
+    print(f&#x27;  Sample {idx}: P(approve)={pred:.2%}&#x27;)
+    for f, imp_val in top3:
+        print(f&#x27;    {f}: importance={imp_val:.4f}&#x27;)</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Attribution Pipeline</div><div class="pd">Train a GradientBoosting classifier on make_classification (15 features). Compute: (1) built-in feature_importances_, (2) permutation importance (sklearn), (3) LIME-style local explanation for the 5 samples with lowest prediction probability. Compare which features rank consistently across all 3 methods.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p12" class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.inspection import permutation_importance
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+np.random.seed(42)
+X, y = make_classification(n_samples=1500, n_features=15, n_informative=8, random_state=42)
+feat_names = [f&#x27;f{i}&#x27; for i in range(15)]
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25, random_state=42)
+
+model = GradientBoostingClassifier(n_estimators=50, random_state=0).fit(X_tr, y_tr)
+
+# TODO: (1) Extract and rank built-in feature_importances_
+# TODO: (2) Compute permutation importance on test set
+# TODO: (3) Find 5 samples with lowest predict_proba, explain with simple local Ridge
+# TODO: Compare top-5 features across all methods
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s13">
+  <div class="card-header" onclick="toggle('s13')">
+    <span>14. 14. Convolutional Neural Networks (CNNs)</span>
+    <span class="arrow" id="arr-s13">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s13" style="display:none">
+    <p class="desc">CNNs use learnable filters to detect spatial patterns in images. Conv layers extract local features, pooling reduces dimensionality, and residual connections enable training very deep networks by solving the vanishing gradient problem.</p>
+    <h4>Simple CNN Classifier</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+import numpy as np
+
+np.random.seed(42); torch.manual_seed(42)
+# Simulate image-like data
+X = torch.randn(1000, 1, 28, 28)
+y = torch.randint(0, 10, (1000,))
+
+class SimpleCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
+        self.pool  = nn.MaxPool2d(2, 2)
+        self.relu  = nn.ReLU()
+        self.fc1   = nn.Linear(32 * 7 * 7, 128)
+        self.fc2   = nn.Linear(128, 10)
+        self.dropout = nn.Dropout(0.3)
+
+    def forward(self, x):
+        x = self.pool(self.relu(self.conv1(x)))  # -&gt; (16, 14, 14)
+        x = self.pool(self.relu(self.conv2(x)))  # -&gt; (32, 7, 7)
+        x = x.view(x.size(0), -1)
+        x = self.relu(self.fc1(x))
+        x = self.dropout(x)
+        return self.fc2(x)
+
+model = SimpleCNN()
+print(f&quot;Parameters: {sum(p.numel() for p in model.parameters()):,}&quot;)
+loader = DataLoader(TensorDataset(X, y), batch_size=32)
+x_batch, _ = next(iter(loader))
+out = model(x_batch)
+print(f&quot;Output shape: {out.shape}&quot;)
+</code></pre></div>
+    <h4>Residual Block & Skip Connections</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+class ResidualBlock(nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+        self.conv1 = nn.Conv2d(channels, channels, 3, padding=1)
+        self.bn1   = nn.BatchNorm2d(channels)
+        self.conv2 = nn.Conv2d(channels, channels, 3, padding=1)
+        self.bn2   = nn.BatchNorm2d(channels)
+        self.relu  = nn.ReLU()
+
+    def forward(self, x):
+        identity = x
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.bn2(self.conv2(out))
+        return self.relu(out + identity)  # skip connection
+
+class MiniResNet(nn.Module):
+    def __init__(self, n_classes=10):
+        super().__init__()
+        self.stem   = nn.Conv2d(1, 32, 3, padding=1)
+        self.res1   = ResidualBlock(32)
+        self.pool   = nn.AdaptiveAvgPool2d(4)
+        self.fc     = nn.Linear(32 * 4 * 4, n_classes)
+
+    def forward(self, x):
+        x = torch.relu(self.stem(x))
+        x = self.res1(x)
+        x = self.pool(x)
+        return self.fc(x.flatten(1))
+
+model = MiniResNet()
+x = torch.randn(8, 1, 28, 28)
+print(f&quot;Output shape: {model(x).shape}&quot;)
+print(f&quot;Params: {sum(p.numel() for p in model.parameters()):,}&quot;)
+</code></pre></div>
+    <h4>3-Channel CNN with BatchNorm</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+import numpy as np
+
+torch.manual_seed(0); np.random.seed(0)
+# Multi-class classification
+X = torch.randn(2000, 3, 32, 32)
+y = torch.randint(0, 5, (2000,))
+
+class CNN3(nn.Module):
+    def __init__(self, n_classes=5):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(3, 32, 3, padding=1), nn.BatchNorm2d(32), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, 3, padding=1), nn.BatchNorm2d(64), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(),
+            nn.AdaptiveAvgPool2d(2),
+            nn.Flatten(),
+            nn.Linear(128*4, 256), nn.ReLU(), nn.Dropout(0.4),
+            nn.Linear(256, n_classes)
+        )
+    def forward(self, x): return self.net(x)
+
+model = CNN3()
+loader = DataLoader(TensorDataset(X[:200], y[:200]), batch_size=32, shuffle=True)
+opt  = optim.Adam(model.parameters(), lr=1e-3)
+loss_fn = nn.CrossEntropyLoss()
+for epoch in range(3):
+    total_loss = 0
+    for xb, yb in loader:
+        opt.zero_grad()
+        loss = loss_fn(model(xb), yb)
+        loss.backward(); opt.step()
+        total_loss += loss.item()
+    print(f&quot;Epoch {epoch+1}: loss={total_loss/len(loader):.4f}&quot;)
+</code></pre></div>
+        <h4>Transfer Learning: Frozen Backbone</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+# Transfer learning simulation with pretrained-like frozen backbone
+class FrozenBackbone(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Simulated frozen backbone (fixed weights)
+        self.backbone = nn.Sequential(
+            nn.Conv2d(3, 64, 3, padding=1), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(),
+            nn.AdaptiveAvgPool2d(4),
+        )
+        # Freeze backbone
+        for p in self.backbone.parameters():
+            p.requires_grad = False
+        # Trainable head
+        self.head = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(128*16, 256), nn.ReLU(), nn.Dropout(0.3),
+            nn.Linear(256, 3)   # 3 classes
+        )
+    def forward(self, x):
+        with torch.no_grad():
+            features = self.backbone(x)
+        return self.head(features)
+
+model = FrozenBackbone()
+frozen = sum(p.numel() for p in model.parameters() if not p.requires_grad)
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f&quot;Frozen params:    {frozen:,}&quot;)
+print(f&quot;Trainable params: {trainable:,}&quot;)
+x = torch.randn(4, 3, 64, 64)
+print(f&quot;Output: {model(x).shape}&quot;)
+</code></pre></div>
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Medical imaging: classify chest X-rays (pneumonia vs normal) using a CNN with BatchNorm + Dropout. Freeze a pretrained backbone and only train the classification head to maximize data efficiency.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+import numpy as np
+
+torch.manual_seed(7); np.random.seed(7)
+# Simulate chest X-ray binary classification (pneumonia vs normal)
+n_train, n_val = 800, 200
+X_tr = torch.randn(n_train, 1, 64, 64)
+y_tr = torch.randint(0, 2, (n_train,))
+X_va = torch.randn(n_val,   1, 64, 64)
+y_va = torch.randint(0, 2, (n_val,))
+
+class ChestCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(1, 32, 3, padding=1), nn.BatchNorm2d(32), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, 3, padding=1), nn.BatchNorm2d(64), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(), nn.AdaptiveAvgPool2d(4),
+            nn.Flatten(), nn.Linear(128*16, 256), nn.ReLU(), nn.Dropout(0.5),
+            nn.Linear(256, 2)
+        )
+    def forward(self, x): return self.net(x)
+
+model = ChestCNN()
+opt = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+loss_fn = nn.CrossEntropyLoss()
+tr_loader = DataLoader(TensorDataset(X_tr, y_tr), batch_size=32, shuffle=True)
+for epoch in range(3):
+    model.train(); tr_loss = 0
+    for xb, yb in tr_loader:
+        opt.zero_grad(); loss = loss_fn(model(xb), yb)
+        loss.backward(); opt.step(); tr_loss += loss.item()
+    model.eval()
+    with torch.no_grad():
+        val_pred = model(X_va).argmax(1)
+        val_acc = (val_pred == y_va).float().mean()
+    print(f&quot;Epoch {epoch+1}: loss={tr_loss/len(tr_loader):.4f}, val_acc={val_acc:.4f}&quot;)
+</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CIFAR-10 Style CNN</div><div class="pd">Build a CNN for 10-class image classification on 1000 simulated 32x32 RGB images. Include at least 3 conv layers with BatchNorm, one residual connection, and Dropout. Train for 5 epochs. Compare 1e-3 vs 1e-4 learning rates and report train loss + val accuracy.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p13" class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+import numpy as np
+torch.manual_seed(0); np.random.seed(0)
+# CIFAR-10 like: 3-channel 32x32, 10 classes
+X = torch.randn(1000, 3, 32, 32)
+y = torch.randint(0, 10, (1000,))
+X_val = torch.randn(200, 3, 32, 32)
+y_val = torch.randint(0, 10, (200,))
+# TODO: Build CNN with at least 3 conv layers + batch norm + dropout
+# TODO: Add a residual skip connection in one of the layers
+# TODO: Train for 5 epochs, log train loss + val accuracy
+# TODO: Report param count (frozen vs trainable)
+# TODO: Try learning rate 1e-3 vs 1e-4 and compare convergence
+
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s14">
+  <div class="card-header" onclick="toggle('s14')">
+    <span>15. 15. Transformer Architecture & Attention Mechanisms</span>
+    <span class="arrow" id="arr-s14">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s14" style="display:none">
+    <p class="desc">Transformers use self-attention to relate every position to every other position in a sequence. Multi-head attention, positional encoding, and residual connections make them the foundation of modern NLP and vision models.</p>
+    <h4>Transformer Block with Multi-Head Attention</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+class TransformerBlock(nn.Module):
+    def __init__(self, d_model, n_heads, d_ff, dropout=0.1):
+        super().__init__()
+        self.attn  = nn.MultiheadAttention(d_model, n_heads, batch_first=True, dropout=dropout)
+        self.ff    = nn.Sequential(
+            nn.Linear(d_model, d_ff), nn.GELU(), nn.Linear(d_ff, d_model)
+        )
+        self.ln1 = nn.LayerNorm(d_model)
+        self.ln2 = nn.LayerNorm(d_model)
+        self.drop = nn.Dropout(dropout)
+
+    def forward(self, x, mask=None):
+        # Pre-norm formulation
+        attn_out, weights = self.attn(self.ln1(x), self.ln1(x), self.ln1(x))
+        x = x + self.drop(attn_out)
+        x = x + self.drop(self.ff(self.ln2(x)))
+        return x, weights
+
+d_model, n_heads, d_ff = 64, 4, 256
+block = TransformerBlock(d_model, n_heads, d_ff)
+x = torch.randn(8, 20, d_model)  # batch=8, seq_len=20
+out, weights = block(x)
+print(f&quot;Output shape:  {out.shape}&quot;)
+print(f&quot;Attn weights:  {weights.shape}&quot;)
+</code></pre></div>
+    <h4>Text Classification Transformer</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model, max_len=512, dropout=0.1):
+        super().__init__()
+        self.dropout = nn.Dropout(dropout)
+        pe = torch.zeros(max_len, d_model)
+        pos = torch.arange(max_len).unsqueeze(1)
+        div = torch.exp(torch.arange(0, d_model, 2) * (-torch.log(torch.tensor(10000.0)) / d_model))
+        pe[:, 0::2] = torch.sin(pos * div)
+        pe[:, 1::2] = torch.cos(pos * div)
+        self.register_buffer(&quot;pe&quot;, pe.unsqueeze(0))
+
+    def forward(self, x):
+        return self.dropout(x + self.pe[:, :x.size(1)])
+
+class TextTransformer(nn.Module):
+    def __init__(self, vocab_size=1000, d_model=64, n_heads=4, n_layers=2, n_classes=3):
+        super().__init__()
+        self.embed   = nn.Embedding(vocab_size, d_model, padding_idx=0)
+        self.pos_enc = PositionalEncoding(d_model)
+        encoder_layer = nn.TransformerEncoderLayer(d_model, n_heads, dim_feedforward=256,
+                                                    batch_first=True, norm_first=True)
+        self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=n_layers)
+        self.classifier = nn.Linear(d_model, n_classes)
+
+    def forward(self, x, src_key_padding_mask=None):
+        x = self.pos_enc(self.embed(x))
+        x = self.encoder(x, src_key_padding_mask=src_key_padding_mask)
+        return self.classifier(x.mean(dim=1))  # mean pooling
+
+model = TextTransformer()
+tokens = torch.randint(1, 1000, (4, 30))  # batch=4, seq_len=30
+out = model(tokens)
+print(f&quot;Output: {out.shape}, params: {sum(p.numel() for p in model.parameters()):,}&quot;)
+</code></pre></div>
+    <h4>Training a Mini-Transformer on Text</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+torch.manual_seed(0)
+# Text classification with Transformer
+vocab_size, d_model, n_classes = 500, 32, 4
+class MiniTransformer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.embed   = nn.Embedding(vocab_size, d_model, padding_idx=0)
+        layer = nn.TransformerEncoderLayer(d_model, 4, 128, batch_first=True, norm_first=True)
+        self.encoder = nn.TransformerEncoder(layer, num_layers=2)
+        self.head    = nn.Linear(d_model, n_classes)
+    def forward(self, x):
+        mask = (x == 0)
+        return self.head(self.encoder(self.embed(x), src_key_padding_mask=mask).mean(1))
+
+model = MiniTransformer()
+X = torch.randint(0, vocab_size, (200, 20))
+X[:, 15:] = 0  # padding
+y = torch.randint(0, n_classes, (200,))
+loader = torch.utils.data.DataLoader(
+    torch.utils.data.TensorDataset(X, y), batch_size=32, shuffle=True)
+opt = optim.Adam(model.parameters(), lr=3e-4)
+for epoch in range(5):
+    total = 0
+    for xb, yb in loader:
+        opt.zero_grad(); loss = nn.CrossEntropyLoss()(model(xb), yb)
+        loss.backward(); opt.step(); total += loss.item()
+    print(f&quot;Epoch {epoch+1}: loss={total/len(loader):.4f}&quot;)
+</code></pre></div>
+    
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Customer review sentiment: train a 2-layer Transformer encoder on tokenized product reviews (padded to 40 tokens) to classify positive vs negative sentiment with AdamW optimizer.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+torch.manual_seed(42)
+# Sentiment analysis with Transformer on simulated review data
+vocab_size = 2000
+class SentimentTransformer(nn.Module):
+    def __init__(self, d=64, h=4, layers=2):
+        super().__init__()
+        self.embed = nn.Embedding(vocab_size, d, padding_idx=0)
+        enc_layer  = nn.TransformerEncoderLayer(d, h, d*4, batch_first=True, norm_first=True, dropout=0.1)
+        self.encoder = nn.TransformerEncoder(enc_layer, num_layers=layers)
+        self.head = nn.Sequential(nn.Linear(d, 32), nn.ReLU(), nn.Linear(32, 2))
+
+    def forward(self, x):
+        pad_mask = (x == 0)
+        z = self.encoder(self.embed(x), src_key_padding_mask=pad_mask)
+        return self.head(z.mean(dim=1))
+
+model = SentimentTransformer()
+n = 500
+X = torch.randint(1, vocab_size, (n, 40))
+X[:, 35:] = 0  # simulate padding
+y = torch.randint(0, 2, (n,))
+X_val, y_val = X[:100], y[:100]
+X_tr,  y_tr  = X[100:], y[100:]
+loader = torch.utils.data.DataLoader(
+    torch.utils.data.TensorDataset(X_tr, y_tr), batch_size=32, shuffle=True)
+opt = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
+for epoch in range(5):
+    model.train(); tr_loss = 0
+    for xb, yb in loader:
+        opt.zero_grad(); loss = nn.CrossEntropyLoss()(model(xb), yb)
+        loss.backward(); opt.step(); tr_loss += loss.item()
+    model.eval()
+    with torch.no_grad():
+        val_acc = (model(X_val).argmax(1) == y_val).float().mean()
+    print(f&quot;Epoch {epoch+1}: loss={tr_loss/len(loader):.4f}, val_acc={val_acc:.4f}&quot;)
+</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Category Transformer</div><div class="pd">Build a 3-layer Transformer encoder with sinusoidal positional encoding for 4-class news categorization. Use AdamW with cosine LR scheduling. Train for 8 epochs on 500 simulated sequences (length 50, vocab 1000) with padding. Report val accuracy and param count.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p14" class="language-python">import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+torch.manual_seed(3)
+vocab_size = 1000
+# Simulated multi-class text classification (4 categories)
+X = torch.randint(1, vocab_size, (600, 50))
+X[:, 45:] = 0  # padding
+y = torch.randint(0, 4, (600,))
+X_val, y_val = X[:100], y[:100]
+X_tr,  y_tr  = X[100:], y[100:]
+# TODO: Build TransformerEncoder with 3 layers, d_model=64, n_heads=4
+# TODO: Add positional encoding (sinusoidal)
+# TODO: Use mean pooling over sequence before classification head
+# TODO: Train with AdamW + cosine LR schedule for 8 epochs
+# TODO: Report train loss and val accuracy each epoch
+# TODO: Print total parameter count
+
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s15">
+  <div class="card-header" onclick="toggle('s15')">
+    <span>16. 16. Generative Models: VAE & GAN</span>
+    <span class="arrow" id="arr-s15">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s15" style="display:none">
+    <p class="desc">Variational Autoencoders learn a compressed latent distribution and can generate new samples. GANs pit a generator against a discriminator in an adversarial game. Both are used for data augmentation, anomaly detection, and synthetic data generation.</p>
+    <h4>Variational Autoencoder (VAE)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+# Variational Autoencoder (VAE)
+class VAE(nn.Module):
+    def __init__(self, input_dim=784, hidden=256, latent=16):
+        super().__init__()
+        self.encoder = nn.Sequential(nn.Linear(input_dim, hidden), nn.ReLU())
+        self.mu_layer  = nn.Linear(hidden, latent)
+        self.log_var_layer = nn.Linear(hidden, latent)
+        self.decoder = nn.Sequential(
+            nn.Linear(latent, hidden), nn.ReLU(),
+            nn.Linear(hidden, input_dim), nn.Sigmoid()
+        )
+    def encode(self, x):
+        h = self.encoder(x)
+        return self.mu_layer(h), self.log_var_layer(h)
+    def reparameterize(self, mu, log_var):
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return mu + eps * std
+    def forward(self, x):
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)
+        return self.decoder(z), mu, log_var
+
+vae = VAE()
+x = torch.randn(32, 784).clamp(0, 1)
+recon, mu, log_var = vae(x)
+recon_loss = nn.functional.binary_cross_entropy(recon, x, reduction=&quot;sum&quot;)
+kl_loss = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
+loss = recon_loss + kl_loss
+print(f&quot;Recon loss: {recon_loss.item():.2f}, KL loss: {kl_loss.item():.2f}&quot;)
+print(f&quot;Latent shape: {mu.shape}&quot;)
+</code></pre></div>
+    <h4>Generative Adversarial Network (GAN)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+# Simple GAN for 1D distribution
+class Generator(nn.Module):
+    def __init__(self, z_dim=8, out_dim=1):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(z_dim, 32), nn.LeakyReLU(0.2),
+            nn.Linear(32, 64), nn.LeakyReLU(0.2),
+            nn.Linear(64, out_dim)
+        )
+    def forward(self, z): return self.net(z)
+
+class Discriminator(nn.Module):
+    def __init__(self, in_dim=1):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_dim, 64), nn.LeakyReLU(0.2),
+            nn.Linear(64, 32), nn.LeakyReLU(0.2),
+            nn.Linear(32, 1), nn.Sigmoid()
+        )
+    def forward(self, x): return self.net(x)
+
+torch.manual_seed(0)
+G, D = Generator(), Discriminator()
+G_opt = torch.optim.Adam(G.parameters(), lr=2e-4, betas=(0.5, 0.999))
+D_opt = torch.optim.Adam(D.parameters(), lr=2e-4, betas=(0.5, 0.999))
+bce = nn.BCELoss()
+# Target: N(3, 0.5) distribution
+for step in range(300):
+    real = torch.randn(64, 1) * 0.5 + 3.0
+    z = torch.randn(64, 8)
+    fake = G(z)
+    d_loss = bce(D(real), torch.ones(64,1)) + bce(D(fake.detach()), torch.zeros(64,1))
+    D_opt.zero_grad(); d_loss.backward(); D_opt.step()
+    g_loss = bce(D(G(torch.randn(64,8))), torch.ones(64,1))
+    G_opt.zero_grad(); g_loss.backward(); G_opt.step()
+with torch.no_grad():
+    samples = G(torch.randn(1000, 8)).squeeze()
+print(f&quot;Generated: mean={samples.mean():.3f}, std={samples.std():.3f}&quot;)
+print(f&quot;Target:    mean=3.000, std=0.500&quot;)
+</code></pre></div>
+    <h4>Autoencoder for Anomaly Detection</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+# Autoencoder for anomaly detection
+class Autoencoder(nn.Module):
+    def __init__(self, input_dim=20, bottleneck=4):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 12), nn.ReLU(),
+            nn.Linear(12, bottleneck), nn.ReLU()
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(bottleneck, 12), nn.ReLU(),
+            nn.Linear(12, input_dim)
+        )
+    def forward(self, x):
+        return self.decoder(self.encoder(x))
+
+torch.manual_seed(5)
+ae = Autoencoder()
+# Train on normal data
+X_normal = torch.randn(500, 20)
+opt = torch.optim.Adam(ae.parameters(), lr=1e-3)
+loader = torch.utils.data.DataLoader(X_normal, batch_size=32, shuffle=True)
+for epoch in range(20):
+    for xb in loader:
+        recon = ae(xb)
+        loss = nn.MSELoss()(recon, xb)
+        opt.zero_grad(); loss.backward(); opt.step()
+# Anomaly detection
+X_test_normal = torch.randn(50, 20)
+X_test_anomaly = torch.randn(10, 20) * 3  # out-of-distribution
+X_test = torch.cat([X_test_normal, X_test_anomaly])
+labels = torch.cat([torch.zeros(50), torch.ones(10)])
+with torch.no_grad():
+    errors = ((ae(X_test) - X_test)**2).mean(dim=1)
+threshold = errors[:50].mean() + 2*errors[:50].std()
+preds = (errors &gt; threshold).float()
+accuracy = (preds == labels).float().mean()
+print(f&quot;Anomaly threshold: {threshold:.4f}&quot;)
+print(f&quot;Detection accuracy: {accuracy:.4f}&quot;)
+</code></pre></div>
+    
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Manufacturing quality control: train a VAE on 15 sensor readings from normal production runs, then use reconstruction error to detect faulty batches (anomalies) at inference time.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+torch.manual_seed(42)
+# VAE for anomaly detection in manufacturing sensor data
+input_dim, latent_dim = 15, 4
+
+class SensorVAE(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.enc = nn.Sequential(nn.Linear(input_dim, 32), nn.ELU())
+        self.mu  = nn.Linear(32, latent_dim)
+        self.lv  = nn.Linear(32, latent_dim)
+        self.dec = nn.Sequential(
+            nn.Linear(latent_dim, 32), nn.ELU(),
+            nn.Linear(32, input_dim)
+        )
+    def forward(self, x):
+        h = self.enc(x)
+        mu, lv = self.mu(h), self.lv(h)
+        z = mu + torch.exp(0.5*lv) * torch.randn_like(mu)
+        return self.dec(z), mu, lv
+
+vae = SensorVAE()
+X_normal = torch.randn(1000, input_dim)
+loader = torch.utils.data.DataLoader(X_normal, batch_size=64, shuffle=True)
+opt = torch.optim.Adam(vae.parameters(), lr=1e-3)
+for epoch in range(15):
+    total = 0
+    for xb in loader:
+        recon, mu, lv = vae(xb)
+        recon_loss = nn.MSELoss(reduction=&quot;sum&quot;)(recon, xb)
+        kl = -0.5 * torch.sum(1 + lv - mu.pow(2) - lv.exp())
+        loss = recon_loss + 0.1 * kl
+        opt.zero_grad(); loss.backward(); opt.step()
+        total += loss.item()
+    if epoch % 5 == 4:
+        print(f&quot;Epoch {epoch+1}: loss={total/len(loader):.2f}&quot;)
+vae.eval()
+X_test_norm = torch.randn(100, input_dim)
+X_test_anom = torch.randn(20, input_dim) * 4
+X_all = torch.cat([X_test_norm, X_test_anom])
+true_labels = torch.cat([torch.zeros(100), torch.ones(20)])
+with torch.no_grad():
+    recon_all, _, _ = vae(X_all)
+    errors = ((recon_all - X_all)**2).mean(dim=1)
+threshold = errors[:100].mean() + 3*errors[:100].std()
+pred = (errors &gt; threshold).float()
+precision = (pred * true_labels).sum() / pred.sum()
+recall    = (pred * true_labels).sum() / true_labels.sum()
+print(f&quot;Precision: {precision:.3f}, Recall: {recall:.3f}&quot;)
+</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Anomaly Detection VAE</div><div class="pd">Train a VAE (bottleneck=3) on 700 samples from a 10-feature dataset where 80% are normal and 20% are anomalies (3x variance). Use reconstruction error as anomaly score. Choose threshold = mean + 2*std of training errors. Report precision, recall, and F1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p15" class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+torch.manual_seed(7)
+input_dim = 10
+# Generate: 80% normal data, 20% anomalies (higher variance)
+X_normal = torch.randn(800, input_dim)
+X_anomaly = torch.randn(200, input_dim) * 3
+labels = torch.cat([torch.zeros(800), torch.ones(200)])
+# Shuffle
+perm = torch.randperm(1000)
+X_all = torch.cat([X_normal, X_anomaly])[perm]
+y_all = labels[perm]
+X_tr = X_all[:700]  # train on mostly normal (won&#x27;t know ground truth)
+# TODO: Build VAE (encoder-&gt;mu/logvar, decoder) with bottleneck=3
+# TODO: Train for 20 epochs on X_tr
+# TODO: Compute reconstruction error on full dataset
+# TODO: Choose threshold as mean + 2*std of training errors
+# TODO: Report precision, recall, F1 for anomaly detection
+
+</code></pre></div></div>
+  </div>
+</div>
+</main>
+<script>
+hljs.highlightAll();
+function toggle(id){
+  var b=document.getElementById('body-'+id),a=document.getElementById('arr-'+id);
+  if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)';}
+  else{b.style.display='none';a.style.transform='';}
+}
+function copyCode(btn){
+  var code=btn.nextElementSibling.querySelector('code');
+  navigator.clipboard.writeText(code.innerText).then(function(){
+    btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},1500);
+  });
+}
+function filterNav(q){
+  document.querySelectorAll('nav a').forEach(function(a){
+    a.style.display=a.textContent.toLowerCase().includes(q.toLowerCase())?'block':'none';
+  });
+}
+</script>
+</body>
+</html>

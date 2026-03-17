@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deep Learning Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{--accent:#f97316;--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}
+nav{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}
+nav h2{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}
+nav input{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}
+nav a{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}
+nav a:hover{color:var(--accent);border-left-color:var(--accent);background:rgba(249,115,22,.06);}
+main{flex:1;padding:32px;max-width:900px;}
+header{margin-bottom:32px;}
+header h1{font-size:2rem;font-weight:700;}
+header h1 span{color:var(--accent);}
+header p{color:var(--muted);margin-top:6px;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.3);margin-top:8px;}
+.card{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+.card-header{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}
+.card-header:hover{background:#1c2128;color:var(--accent);}
+.arrow{transition:transform .25s;color:var(--accent);}
+.card-body{padding:18px;background:#0d1117;border-top:1px solid var(--border);}
+.desc{color:var(--muted);margin-bottom:14px;line-height:1.6;}
+h4{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
+.code-wrap{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}
+pre{margin:0;overflow-x:auto;}
+pre code{font-size:.82rem;padding:14px!important;}
+.copy-btn{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}
+.copy-btn:hover{background:var(--accent);color:#000;}
+.rw{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.25);border-radius:8px;padding:14px;margin-top:16px;}
+.rh{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}
+.rd{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}
+@media(max-width:700px){nav{display:none;}main{padding:16px;}}
+</style>
+</head>
+<body>
+<nav>
+  <h2>Deep Learning</h2>
+  <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">
+  <a href="#s0">Setup & Tensors</a>
+<a href="#s1">Autograd & Gradients</a>
+<a href="#s2">Building Neural Networks (nn.Module)</a>
+<a href="#s3">Training Loop</a>
+<a href="#s4">Convolutional Neural Networks</a>
+<a href="#s5">Transfer Learning</a>
+<a href="#s6">Custom Datasets & DataLoaders</a>
+<a href="#s7">Regularization Techniques</a>
+<a href="#s8">Saving, Loading & ONNX Export</a>
+<a href="#s9">RNNs, LSTMs & Sequence Models</a>
+
+</nav>
+<main>
+<header>
+  <h1>Deep <span>Learning</span> Study Guide</h1>
+  <p>Neural networks with PyTorch — from tensors to production-ready models.</p>
+  <span class="badge">10 Topics &bull; PyTorch &bull; CNNs / LSTMs / Transfer Learning</span>
+</header>
+
+<div class="card" id="s0">
+  <div class="card-header" onclick="toggle('s0')">
+    <span>1. Setup & Tensors</span>
+    <span class="arrow" id="arr-s0">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s0" style="display:none">
+    <p class="desc">PyTorch tensors are the foundation — multi-dimensional arrays with GPU support and autograd.</p>
+    <h4>Creating & Manipulating Tensors</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># pip install torch torchvision
+import torch
+
+# Create tensors
+t1 = torch.tensor([1.0, 2.0, 3.0])
+t2 = torch.zeros(3, 4)
+t3 = torch.ones(2, 3)
+t4 = torch.rand(3, 3)
+t5 = torch.arange(0, 10, step=2, dtype=torch.float32)
+
+print('t1:', t1)
+print('t2 shape:', t2.shape)
+print('t4:', t4)
+
+# Operations
+a = torch.tensor([[1., 2.], [3., 4.]])
+b = torch.tensor([[5., 6.], [7., 8.]])
+print('Add:', a + b)
+print('Matmul:', a @ b)
+print('Mean:', a.mean())
+
+# Reshape
+x = torch.arange(12, dtype=torch.float32)
+print('Reshape:', x.reshape(3, 4))</code></pre></div>
+    <h4>Tensor Indexing, Device & NumPy Bridge</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import numpy as np
+
+t = torch.rand(4, 5)
+
+# Indexing (same as NumPy)
+print('Row 0:', t[0])
+print('Col 1:', t[:, 1])
+print('Slice:', t[1:3, 2:4])
+
+# Boolean mask
+print('> 0.5:', t[t > 0.5][:5])
+
+# NumPy <-> Tensor (shared memory on CPU)
+arr = np.array([1.0, 2.0, 3.0])
+tensor_from_np = torch.from_numpy(arr)
+np_from_tensor = t.numpy()  # only works on CPU tensors
+print('From numpy:', tensor_from_np)
+
+# Device
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print('Using device:', device)
+t_device = t.to(device)
+print('Tensor device:', t_device.device)</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Computer Vision preprocessing: Convert image pixel arrays to normalized float tensors ready for a neural network.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import numpy as np
+
+# Simulate batch of 8 RGB images (224x224)
+np.random.seed(42)
+batch_np = np.random.randint(0, 256, (8, 3, 224, 224), dtype=np.uint8)
+
+# Convert to float tensor and normalize to [0, 1]
+batch = torch.from_numpy(batch_np).float() / 255.0
+
+# ImageNet normalization: mean & std per channel
+mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)
+std  = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1)
+normalized = (batch - mean) / std
+
+print('Batch shape:', normalized.shape)   # [8, 3, 224, 224]
+print('Channel means:', normalized.mean(dim=[0, 2, 3]).round(decimals=3))
+print('Channel stds: ', normalized.std(dim=[0, 2, 3]).round(decimals=3))
+print('dtype:', normalized.dtype)</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s1">
+  <div class="card-header" onclick="toggle('s1')">
+    <span>2. Autograd & Gradients</span>
+    <span class="arrow" id="arr-s1">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s1" style="display:none">
+    <p class="desc">PyTorch's autograd engine automatically computes gradients for backpropagation.</p>
+    <h4>requires_grad & backward()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+# requires_grad=True tracks operations
+x = torch.tensor(3.0, requires_grad=True)
+y = x ** 2 + 2 * x + 1   # y = x^2 + 2x + 1
+print('y:', y.item())
+
+# Compute dy/dx
+y.backward()
+print('dy/dx at x=3:', x.grad.item())  # 2x + 2 = 8
+
+# Computation graph example
+a = torch.tensor(2.0, requires_grad=True)
+b = torch.tensor(3.0, requires_grad=True)
+c = a * b + b ** 2    # c = ab + b^2
+c.backward()
+print('dc/da:', a.grad.item())   # b = 3
+print('dc/db:', b.grad.item())   # a + 2b = 8
+
+# Stop tracking
+with torch.no_grad():
+    z = a * b
+print('z requires_grad:', z.requires_grad)</code></pre></div>
+    <h4>Manual Gradient Descent</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+
+# Fit y = 2x + 1 using gradient descent
+torch.manual_seed(42)
+X = torch.linspace(0, 1, 100).unsqueeze(1)
+y_true = 2 * X + 1 + 0.1 * torch.randn_like(X)
+
+# Parameters to learn
+w = torch.randn(1, requires_grad=True)
+b = torch.randn(1, requires_grad=True)
+
+lr = 0.1
+for epoch in range(200):
+    y_pred = X * w + b
+    loss = ((y_pred - y_true) ** 2).mean()
+    loss.backward()
+
+    with torch.no_grad():
+        w -= lr * w.grad
+        b -= lr * b.grad
+    w.grad.zero_()
+    b.grad.zero_()
+
+    if (epoch + 1) % 50 == 0:
+        print(f'Epoch {epoch+1}: loss={loss.item():.4f} w={w.item():.3f} b={b.item():.3f}')</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Custom loss optimization: Use autograd to minimize a custom business loss function (e.g., weighted prediction error).</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+
+torch.manual_seed(42)
+n = 200
+X = torch.randn(n, 3)
+true_w = torch.tensor([1.5, -2.0, 0.8])
+y_true = X @ true_w + 0.5 * torch.randn(n)
+
+# Parameters
+w = torch.zeros(3, requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+
+# Custom weighted MSE: penalize under-predictions 3x
+def weighted_loss(pred, target):
+    residuals = pred - target
+    weights = torch.where(residuals < 0, torch.tensor(3.0), torch.tensor(1.0))
+    return (weights * residuals ** 2).mean()
+
+optimizer = torch.optim.Adam([w, b], lr=0.05)
+
+for epoch in range(300):
+    pred = X @ w + b
+    loss = weighted_loss(pred, y_true)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+print('True weights:', true_w.tolist())
+print('Learned:     ', [round(v, 3) for v in w.tolist()])
+print('Final loss:', loss.item().__round__(4))</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s2">
+  <div class="card-header" onclick="toggle('s2')">
+    <span>3. Building Neural Networks (nn.Module)</span>
+    <span class="arrow" id="arr-s2">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s2" style="display:none">
+    <p class="desc">Define models by subclassing nn.Module. Stack layers, define forward(), and let PyTorch handle the rest.</p>
+    <h4>Fully Connected Network</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class MLP(nn.Module):
+    def __init__(self, in_features, hidden, out_features):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_features, hidden),
+            nn.ReLU(),
+            nn.Linear(hidden, hidden),
+            nn.ReLU(),
+            nn.Linear(hidden, out_features)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+model = MLP(in_features=10, hidden=64, out_features=1)
+print(model)
+
+# Count parameters
+total = sum(p.numel() for p in model.parameters())
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f'Total params: {total:,} | Trainable: {trainable:,}')
+
+# Test forward pass
+x = torch.randn(32, 10)  # batch of 32
+out = model(x)
+print('Output shape:', out.shape)</code></pre></div>
+    <h4>Using nn.Sequential & Common Layers</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# Quick model with Sequential
+model = nn.Sequential(
+    nn.Linear(20, 128),
+    nn.BatchNorm1d(128),
+    nn.ReLU(),
+    nn.Dropout(0.3),
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Linear(64, 3)  # 3-class output
+)
+
+x = torch.randn(16, 20)
+logits = model(x)
+print('Logits shape:', logits.shape)
+
+# Apply softmax for probabilities
+probs = torch.softmax(logits, dim=1)
+print('Probs sum per sample:', probs.sum(dim=1)[:3].round(decimals=4))
+
+# Loss functions
+targets = torch.randint(0, 3, (16,))
+ce_loss = nn.CrossEntropyLoss()(logits, targets)
+print('CrossEntropy loss:', ce_loss.item().__round__(4))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Tabular ML: Build a neural net to predict customer lifetime value from 15 demographic and behavioral features.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class CLVNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(15, 256), nn.BatchNorm1d(256), nn.ReLU(), nn.Dropout(0.2),
+            nn.Linear(256, 128), nn.BatchNorm1d(128), nn.ReLU(), nn.Dropout(0.2),
+            nn.Linear(128, 64),  nn.ReLU(),
+            nn.Linear(64, 1)  # predict LTV in dollars
+        )
+
+    def forward(self, x):
+        return self.net(x).squeeze(1)
+
+model = CLVNet()
+print(model)
+
+# Simulate a batch
+torch.manual_seed(42)
+batch_features = torch.randn(64, 15)  # 64 customers, 15 features
+batch_ltv = torch.rand(64) * 5000     # true LTV labels
+
+output = model(batch_features)
+loss = nn.MSELoss()(output, batch_ltv)
+print('Output shape:', output.shape)
+print('Initial MSE loss:', loss.item().__round__(2))</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s3">
+  <div class="card-header" onclick="toggle('s3')">
+    <span>4. Training Loop</span>
+    <span class="arrow" id="arr-s3">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s3" style="display:none">
+    <p class="desc">The complete training loop: forward pass, loss, backward, optimizer step, and validation.</p>
+    <h4>Full Training Loop</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Data
+X, y = make_classification(n_samples=2000, n_features=10, random_state=42)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_tr = scaler.fit_transform(X_tr)
+X_val = scaler.transform(X_val)
+
+to_tensor = lambda a, t: torch.tensor(a, dtype=t)
+train_ds = TensorDataset(to_tensor(X_tr, torch.float32), to_tensor(y_tr, torch.long))
+val_ds   = TensorDataset(to_tensor(X_val, torch.float32), to_tensor(y_val, torch.long))
+train_dl = DataLoader(train_ds, batch_size=64, shuffle=True)
+val_dl   = DataLoader(val_ds, batch_size=64)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,32), nn.ReLU(), nn.Linear(32,2))
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 6):
+    model.train()
+    train_loss = 0
+    for xb, yb in train_dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
+    model.eval()
+    correct = 0
+    with torch.no_grad():
+        for xb, yb in val_dl:
+            preds = model(xb).argmax(dim=1)
+            correct += (preds == yb).sum().item()
+    acc = correct / len(val_ds)
+    print(f'Epoch {epoch}: train_loss={train_loss/len(train_dl):.4f} val_acc={acc:.4f}')</code></pre></div>
+    <h4>Learning Rate Scheduler</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+model = nn.Sequential(nn.Linear(10, 64), nn.ReLU(), nn.Linear(64, 1))
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+# ReduceLROnPlateau — halve lr when val loss plateaus
+scheduler_plateau = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, mode='min', factor=0.5, patience=5
+)
+
+# CosineAnnealingLR
+optimizer2 = torch.optim.SGD(model.parameters(), lr=0.1)
+scheduler_cos = torch.optim.lr_scheduler.CosineAnnealingLR(
+    optimizer2, T_max=50, eta_min=1e-4
+)
+
+# Simulate training
+for epoch in range(1, 11):
+    # Fake val loss
+    val_loss = 1.0 / (epoch + 1) + 0.01
+    scheduler_plateau.step(val_loss)
+    scheduler_cos.step()
+    lr1 = optimizer.param_groups[0]['lr']
+    lr2 = optimizer2.param_groups[0]['lr']
+    print(f'Epoch {epoch:2d}: plateau_lr={lr1:.6f}  cosine_lr={lr2:.5f}')</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Insurance: Train a fraud detection neural net on tabular claim data with class imbalance — use weighted loss.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Imbalanced: 5% fraud
+X, y = make_classification(
+    n_samples=5000, weights=[0.95, 0.05],
+    n_features=12, n_informative=8, random_state=42
+)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
+X_tr = StandardScaler().fit_transform(X_tr)
+
+X_t = torch.tensor(X_tr, dtype=torch.float32)
+y_t = torch.tensor(y_tr, dtype=torch.long)
+dl = DataLoader(TensorDataset(X_t, y_t), batch_size=128, shuffle=True)
+
+# Weighted CrossEntropy: penalize fraud misses 19x more
+class_weights = torch.tensor([1.0, 19.0])
+criterion = nn.CrossEntropyLoss(weight=class_weights)
+
+model = nn.Sequential(
+    nn.Linear(12, 64), nn.ReLU(), nn.Dropout(0.3),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 2)
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+for epoch in range(1, 6):
+    model.train()
+    total_loss = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item()
+    print(f'Epoch {epoch}: loss={total_loss/len(dl):.4f}')</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s4">
+  <div class="card-header" onclick="toggle('s4')">
+    <span>5. Convolutional Neural Networks</span>
+    <span class="arrow" id="arr-s4">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s4" style="display:none">
+    <p class="desc">CNNs learn spatial features from images using convolutional filters, pooling, and fully connected heads.</p>
+    <h4>Building a CNN</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class SimpleCNN(nn.Module):
+    def __init__(self, num_classes=10):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(1, 32, kernel_size=3, padding=1),  # grayscale in
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),          # 14x14
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2)           # 7x7
+        )
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 256),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(256, num_classes)
+        )
+
+    def forward(self, x):
+        return self.classifier(self.features(x))
+
+model = SimpleCNN(num_classes=10)
+x = torch.randn(8, 1, 28, 28)  # batch of 8 MNIST-like images
+print('Output:', model(x).shape)
+total = sum(p.numel() for p in model.parameters())
+print(f'Parameters: {total:,}')</code></pre></div>
+    <h4>CNN Feature Map Visualization</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+# Simple edge-detection filters (like early CNN layers learn)
+conv = nn.Conv2d(1, 4, kernel_size=3, padding=1, bias=False)
+
+# Manual: set Sobel-like weights
+with torch.no_grad():
+    # Horizontal edge filter
+    conv.weight[0, 0] = torch.tensor([[-1.,-2.,-1.],[0.,0.,0.],[1.,2.,1.]])
+    # Vertical edge filter
+    conv.weight[1, 0] = torch.tensor([[-1.,0.,1.],[-2.,0.,2.],[-1.,0.,1.]])
+    # Blur
+    conv.weight[2, 0] = torch.ones(3, 3) / 9
+    # Sharpen
+    conv.weight[3, 0] = torch.tensor([[0.,-1.,0.],[-1.,5.,-1.],[0.,-1.,0.]])
+
+# Apply to a synthetic gradient image
+img = torch.linspace(0, 1, 28*28).reshape(1, 1, 28, 28)
+fmaps = conv(img)
+print('Input:', img.shape)
+print('Feature maps:', fmaps.shape)  # 4 channels
+for i, name in enumerate(['Horiz','Vert','Blur','Sharpen']):
+    print(f'  {name}: min={fmaps[0,i].min():.3f} max={fmaps[0,i].max():.3f}')</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Quality Control: Train a CNN to classify defective vs normal product images from a factory camera feed.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+
+# Simulate factory image dataset: 3-channel 64x64 images
+n_train, n_val = 800, 200
+X_train = torch.randn(n_train, 3, 64, 64)
+y_train = torch.randint(0, 2, (n_train,))
+X_val   = torch.randn(n_val, 3, 64, 64)
+y_val   = torch.randint(0, 2, (n_val,))
+
+train_dl = DataLoader(TensorDataset(X_train, y_train), batch_size=32, shuffle=True)
+
+class DefectCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(3, 16, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Flatten(),
+            nn.Linear(32 * 16 * 16, 128), nn.ReLU(),
+            nn.Linear(128, 2)
+        )
+    def forward(self, x): return self.net(x)
+
+model = DefectCNN()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 4):
+    model.train()
+    total = 0
+    for xb, yb in train_dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    print(f'Epoch {epoch}: loss={total/len(train_dl):.4f}')</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s5">
+  <div class="card-header" onclick="toggle('s5')">
+    <span>6. Transfer Learning</span>
+    <span class="arrow" id="arr-s5">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s5" style="display:none">
+    <p class="desc">Reuse pretrained models (ResNet, ViT, BERT) — fine-tune on your small dataset for state-of-the-art results.</p>
+    <h4>Fine-tuning ResNet18</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# Load pretrained ResNet18
+model = models.resnet18(weights='IMAGENET1K_V1')
+
+# Freeze all layers
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace the final FC layer for our task (e.g., 5 classes)
+num_features = model.fc.in_features
+model.fc = nn.Sequential(
+    nn.Linear(num_features, 256),
+    nn.ReLU(),
+    nn.Dropout(0.4),
+    nn.Linear(256, 5)  # 5 output classes
+)
+
+# Only the new head is trainable
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+total = sum(p.numel() for p in model.parameters())
+print(f'Trainable: {trainable:,} / {total:,} ({trainable/total:.1%})')
+
+# Test forward pass
+x = torch.randn(4, 3, 224, 224)
+out = model(x)
+print('Output shape:', out.shape)</code></pre></div>
+    <h4>Progressive Unfreezing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+
+model = models.resnet18(weights='IMAGENET1K_V1')
+
+# Replace head for 3-class task
+model.fc = nn.Linear(model.fc.in_features, 3)
+
+# Phase 1: only train head
+for param in model.parameters():
+    param.requires_grad = False
+for param in model.fc.parameters():
+    param.requires_grad = True
+
+print('Phase 1 trainable params:',
+      sum(p.numel() for p in model.parameters() if p.requires_grad))
+
+# Phase 2: unfreeze layer4 + head
+for param in model.layer4.parameters():
+    param.requires_grad = True
+
+print('Phase 2 trainable params:',
+      sum(p.numel() for p in model.parameters() if p.requires_grad))
+
+# Phase 3: unfreeze all
+for param in model.parameters():
+    param.requires_grad = True
+
+print('Phase 3 (all) trainable params:',
+      sum(p.numel() for p in model.parameters() if p.requires_grad))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Medical Imaging: Fine-tune ResNet to classify chest X-rays (normal vs pneumonia) with only 500 labeled images.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+import torchvision.models as models
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+
+# Simulate small medical image dataset
+n = 500
+X = torch.randn(n, 3, 224, 224)
+y = torch.randint(0, 2, (n,))  # 0=normal, 1=pneumonia
+
+dl = DataLoader(TensorDataset(X, y), batch_size=16, shuffle=True)
+
+# Load ResNet, freeze all, replace head
+model = models.resnet18(weights='IMAGENET1K_V1')
+for p in model.parameters():
+    p.requires_grad = False
+model.fc = nn.Sequential(
+    nn.Linear(model.fc.in_features, 64),
+    nn.ReLU(),
+    nn.Linear(64, 2)
+)
+
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+model.train()
+for epoch in range(1, 4):
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    print(f'Epoch {epoch}: loss={total/len(dl):.4f}')</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s6">
+  <div class="card-header" onclick="toggle('s6')">
+    <span>7. Custom Datasets & DataLoaders</span>
+    <span class="arrow" id="arr-s6">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s6" style="display:none">
+    <p class="desc">Build custom Dataset classes to load any data efficiently with batching, shuffling, and augmentation.</p>
+    <h4>Custom Dataset Class</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+import numpy as np
+
+class TabularDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.long)
+
+    def __len__(self):
+        return len(self.y)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+# Create dataset
+np.random.seed(42)
+X = np.random.randn(1000, 8)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+dataset = TabularDataset(X, y)
+print(f'Dataset size: {len(dataset)}')
+print(f'Sample: {dataset[0]}')
+
+# DataLoader: batching + shuffling
+loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=0)
+xb, yb = next(iter(loader))
+print(f'Batch X: {xb.shape}, y: {yb.shape}')</code></pre></div>
+    <h4>Data Augmentation with Transforms</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as T
+
+# Standard ImageNet transforms
+train_transforms = T.Compose([
+    T.ToPILImage(),
+    T.Resize((224, 224)),
+    T.RandomHorizontalFlip(p=0.5),
+    T.RandomRotation(15),
+    T.ColorJitter(brightness=0.2, contrast=0.2),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+val_transforms = T.Compose([
+    T.ToPILImage(),
+    T.Resize((224, 224)),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+
+# Apply to a random image
+import numpy as np
+img_np = np.random.randint(0, 255, (100, 100, 3), dtype=np.uint8)
+tensor_img = train_transforms(img_np)
+print('Augmented shape:', tensor_img.shape)
+print('Value range: [{:.3f}, {:.3f}]'.format(tensor_img.min().item(), tensor_img.max().item()))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">NLP: Build a custom text dataset that tokenizes sentences on-the-fly for a sentiment classifier.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+from torch.utils.data import Dataset, DataLoader
+
+class SentimentDataset(Dataset):
+    def __init__(self, texts, labels, vocab, max_len=20):
+        self.texts = texts
+        self.labels = labels
+        self.vocab = vocab
+        self.max_len = max_len
+
+    def tokenize(self, text):
+        tokens = [self.vocab.get(w, 1) for w in text.lower().split()]
+        tokens = tokens[:self.max_len]
+        tokens += [0] * (self.max_len - len(tokens))  # pad
+        return torch.tensor(tokens, dtype=torch.long)
+
+    def __len__(self): return len(self.labels)
+    def __getitem__(self, i): return self.tokenize(self.texts[i]), torch.tensor(self.labels[i])
+
+texts = ['great product love it', 'terrible waste of money',
+         'amazing highly recommend', 'broken arrived damaged',
+         'best purchase ever', 'awful customer service']
+labels = [1, 0, 1, 0, 1, 0]
+
+words = set(w for t in texts for w in t.split())
+vocab = {w: i+2 for i, w in enumerate(words)}  # 0=pad, 1=unk
+
+ds = SentimentDataset(texts, labels, vocab)
+dl = DataLoader(ds, batch_size=2, shuffle=True)
+for xb, yb in dl:
+    print('Token batch:', xb.shape, '| Labels:', yb)
+    break</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s7">
+  <div class="card-header" onclick="toggle('s7')">
+    <span>8. Regularization Techniques</span>
+    <span class="arrow" id="arr-s7">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s7" style="display:none">
+    <p class="desc">Prevent overfitting with Dropout, Batch Normalization, Weight Decay, and Early Stopping.</p>
+    <h4>Dropout & Batch Normalization</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class RegularizedNet(nn.Module):
+    def __init__(self, dropout_rate=0.3):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(20, 256),
+            nn.BatchNorm1d(256),   # normalize activations
+            nn.ReLU(),
+            nn.Dropout(dropout_rate),  # randomly zero activations
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Dropout(dropout_rate),
+            nn.Linear(128, 1)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+model = RegularizedNet(dropout_rate=0.4)
+
+x = torch.randn(16, 20)
+model.train()  # Dropout ACTIVE
+out_train = model(x)
+model.eval()   # Dropout INACTIVE
+with torch.no_grad():
+    out_eval = model(x)
+print('Train std:', out_train.std().item().__round__(4))
+print('Eval  std:', out_eval.std().item().__round__(4))</code></pre></div>
+    <h4>Weight Decay & Early Stopping</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+torch.manual_seed(42)
+X = torch.randn(500, 10)
+y = (X[:, 0] > 0).float()
+dl = DataLoader(TensorDataset(X, y), batch_size=32, shuffle=True)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
+
+# weight_decay = L2 regularization
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+criterion = nn.BCEWithLogitsLoss()
+
+# Early stopping
+best_loss, patience, wait = float('inf'), 5, 0
+
+for epoch in range(1, 30):
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb).squeeze(), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    avg = total / len(dl)
+    if avg < best_loss:
+        best_loss, wait = avg, 0
+    else:
+        wait += 1
+    if wait >= patience:
+        print(f'Early stop at epoch {epoch}')
+        break
+    if epoch <= 3 or epoch % 5 == 0:
+        print(f'Epoch {epoch:2d}: loss={avg:.4f} (wait={wait})')</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Credit scoring: Heavily regularized network to prevent overfitting on small 2,000-sample loan dataset.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.datasets import make_classification
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+X, y = make_classification(n_samples=2000, n_features=15, random_state=42)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+sc = StandardScaler()
+X_tr = sc.fit_transform(X_tr)
+X_val = sc.transform(X_val)
+
+train_dl = DataLoader(TensorDataset(
+    torch.tensor(X_tr, dtype=torch.float32),
+    torch.tensor(y_tr, dtype=torch.long)
+), batch_size=32, shuffle=True)
+
+model = nn.Sequential(
+    nn.Linear(15, 64), nn.BatchNorm1d(64), nn.ReLU(), nn.Dropout(0.5),
+    nn.Linear(64, 32), nn.BatchNorm1d(32), nn.ReLU(), nn.Dropout(0.4),
+    nn.Linear(32, 2)
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=5e-4, weight_decay=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+for epoch in range(1, 6):
+    model.train()
+    total = sum(criterion(model(xb), yb).backward() or
+                (optimizer.step(), optimizer.zero_grad(), criterion(model(xb), yb).item())[2]
+                for xb, yb in train_dl)
+
+# Simpler version:
+model.eval()
+with torch.no_grad():
+    X_v = torch.tensor(X_val, dtype=torch.float32)
+    y_v = torch.tensor(y_val, dtype=torch.long)
+    acc = (model(X_v).argmax(1) == y_v).float().mean()
+    print(f'Val accuracy: {acc.item():.4f}')</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s8">
+  <div class="card-header" onclick="toggle('s8')">
+    <span>9. Saving, Loading & ONNX Export</span>
+    <span class="arrow" id="arr-s8">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s8" style="display:none">
+    <p class="desc">Persist trained models with state_dict, checkpoint training progress, and export for deployment.</p>
+    <h4>Save & Load state_dict</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+# Build and 'train' a model
+model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 3)
+)
+
+tmp = tempfile.gettempdir()
+path = os.path.join(tmp, 'model.pth')
+
+# Save weights only (recommended)
+torch.save(model.state_dict(), path)
+size_kb = os.path.getsize(path) / 1024
+print(f'Saved model: {size_kb:.1f} KB')
+
+# Load into same architecture
+loaded = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 3)
+)
+loaded.load_state_dict(torch.load(path, weights_only=True))
+loaded.eval()
+
+x = torch.randn(4, 10)
+print('Output:', loaded(x).shape)
+print('Weights match:', torch.allclose(
+    list(model.parameters())[0],
+    list(loaded.parameters())[0]
+))</code></pre></div>
+    <h4>Full Checkpoint (Resume Training)</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import os, tempfile
+
+model = nn.Linear(10, 1)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+epoch = 5
+best_val_loss = 0.042
+
+tmp = tempfile.gettempdir()
+ckpt_path = os.path.join(tmp, 'checkpoint.pth')
+
+# Save full checkpoint
+torch.save({
+    'epoch': epoch,
+    'model_state_dict': model.state_dict(),
+    'optimizer_state_dict': optimizer.state_dict(),
+    'best_val_loss': best_val_loss
+}, ckpt_path)
+print(f'Checkpoint saved ({os.path.getsize(ckpt_path)/1024:.1f} KB)')
+
+# Resume training
+checkpoint = torch.load(ckpt_path, weights_only=False)
+model.load_state_dict(checkpoint['model_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+start_epoch = checkpoint['epoch'] + 1
+print(f'Resuming from epoch {start_epoch}')
+print(f'Best val loss was: {checkpoint["best_val_loss"]}')</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">MLOps: Save model checkpoints every 10 epochs during a long training run on a GPU cluster to protect against crashes.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+import os, tempfile
+
+torch.manual_seed(42)
+X = torch.randn(1000, 10)
+y = torch.randint(0, 3, (1000,))
+dl = DataLoader(TensorDataset(X, y), batch_size=64, shuffle=True)
+
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,3))
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+tmp = tempfile.gettempdir()
+best_loss = float('inf')
+
+for epoch in range(1, 16):
+    model.train()
+    total = 0
+    for xb, yb in dl:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+        total += loss.item()
+    avg_loss = total / len(dl)
+
+    # Save best model
+    if avg_loss < best_loss:
+        best_loss = avg_loss
+        torch.save(model.state_dict(), os.path.join(tmp, 'best_model.pth'))
+
+    # Periodic checkpoint every 5 epochs
+    if epoch % 5 == 0:
+        ckpt = os.path.join(tmp, f'ckpt_epoch{epoch}.pth')
+        torch.save({'epoch': epoch, 'model': model.state_dict(), 'loss': avg_loss}, ckpt)
+        print(f'Epoch {epoch:2d}: loss={avg_loss:.4f} [checkpoint saved]')</code></pre></div>
+    </div>
+  </div>
+</div>
+<div class="card" id="s9">
+  <div class="card-header" onclick="toggle('s9')">
+    <span>10. RNNs, LSTMs & Sequence Models</span>
+    <span class="arrow" id="arr-s9">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s9" style="display:none">
+    <p class="desc">Process sequential data — time series, text, signals — with RNNs, LSTMs, and GRUs.</p>
+    <h4>LSTM for Sequence Classification</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class LSTMClassifier(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers, num_classes):
+        super().__init__()
+        self.lstm = nn.LSTM(
+            input_size, hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+            dropout=0.2 if num_layers > 1 else 0
+        )
+        self.fc = nn.Linear(hidden_size, num_classes)
+
+    def forward(self, x):
+        # x: [batch, seq_len, input_size]
+        out, (h_n, c_n) = self.lstm(x)
+        return self.fc(out[:, -1, :])  # last timestep
+
+model = LSTMClassifier(
+    input_size=10, hidden_size=64,
+    num_layers=2, num_classes=3
+)
+print(model)
+
+# Batch of 16 sequences, each 30 timesteps, 10 features
+x = torch.randn(16, 30, 10)
+out = model(x)
+print('Output shape:', out.shape)  # [16, 3]
+print('Params:', sum(p.numel() for p in model.parameters()))</code></pre></div>
+    <h4>Time Series Forecasting with GRU</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+class GRUForecaster(nn.Module):
+    def __init__(self, input_size=1, hidden=64, horizon=1):
+        super().__init__()
+        self.gru = nn.GRU(input_size, hidden, batch_first=True)
+        self.fc = nn.Linear(hidden, horizon)
+
+    def forward(self, x):
+        out, _ = self.gru(x)
+        return self.fc(out[:, -1, :])
+
+model = GRUForecaster(input_size=1, hidden=64, horizon=1)
+
+# Generate sine wave data
+np.random.seed(42)
+t = np.linspace(0, 20 * np.pi, 1000)
+signal = np.sin(t) + 0.1 * np.random.randn(1000)
+
+# Create sliding window sequences (window=30)
+W = 30
+X = np.array([signal[i:i+W] for i in range(len(signal)-W)])
+y = signal[W:]
+
+X_t = torch.tensor(X, dtype=torch.float32).unsqueeze(2)  # [n, 30, 1]
+y_t = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
+
+out = model(X_t[:8])
+print('Forecast shape:', out.shape)  # [8, 1]
+loss = nn.MSELoss()(out, y_t[:8])
+print('Initial MSE:', loss.item().__round__(4))</code></pre></div>
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">IoT: Use LSTM to detect anomalies in sensor readings from a manufacturing machine — predict next value and flag large deviations.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import torch
+import torch.nn as nn
+import numpy as np
+
+torch.manual_seed(42)
+np.random.seed(42)
+
+# Simulate sensor readings (mostly normal, some anomalies)
+n = 2000
+sensor = np.sin(np.linspace(0, 10*np.pi, n)) + 0.05*np.random.randn(n)
+# Inject anomalies at random positions
+anomaly_idx = np.random.choice(n, 20, replace=False)
+sensor[anomaly_idx] += np.random.uniform(2, 4, 20)
+
+W = 20  # lookback window
+X = torch.tensor([sensor[i:i+W] for i in range(n-W)], dtype=torch.float32).unsqueeze(2)
+y = torch.tensor(sensor[W:], dtype=torch.float32).unsqueeze(1)
+
+model = nn.Sequential(
+    nn.GRU(1, 32, batch_first=True),  # returns (out, h)
+)
+
+# Simpler: manual GRU + Linear
+class AnomalyLSTM(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(1, 32, batch_first=True)
+        self.fc = nn.Linear(32, 1)
+    def forward(self, x):
+        out, _ = self.lstm(x)
+        return self.fc(out[:, -1, :])
+
+net = AnomalyLSTM()
+optim = torch.optim.Adam(net.parameters(), lr=1e-3)
+
+for epoch in range(5):
+    pred = net(X)
+    loss = nn.MSELoss()(pred, y)
+    optim.zero_grad(); loss.backward(); optim.step()
+    if epoch % 2 == 0: print(f'Epoch {epoch}: MSE={loss.item():.5f}')
+
+# Detect anomalies: reconstruction error > threshold
+net.eval()
+with torch.no_grad():
+    errors = (net(X).squeeze() - y.squeeze()).abs()
+threshold = errors.mean() + 3 * errors.std()
+detected = (errors > threshold).sum()
+print(f'Anomalies detected: {detected.item()} (threshold={threshold.item():.4f})')</code></pre></div>
+    </div>
+  </div>
+</div>
+</main>
+<script>
+hljs.highlightAll();
+function toggle(id){
+  var b=document.getElementById('body-'+id),a=document.getElementById('arr-'+id);
+  if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)';}
+  else{b.style.display='none';a.style.transform='';}
+}
+function copyCode(btn){
+  var code=btn.nextElementSibling.querySelector('code');
+  navigator.clipboard.writeText(code.innerText).then(function(){
+    btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},1500);
+  });
+}
+function filterNav(q){
+  document.querySelectorAll('nav a').forEach(function(a){
+    a.style.display=a.textContent.toLowerCase().includes(q.toLowerCase())?'block':'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plotly Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#a78bfa}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Plotly Express Basics</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Bar &amp; Pie Charts</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Histogram &amp; Box Plot</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Heatmap &amp; Scatter Matrix</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. 3D Charts</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Subplots with make_subplots</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Customizing Layout &amp; Traces</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Animated Charts</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Maps &amp; Geographic Charts</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Exporting &amp; Sharing</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. 3D Charts</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Geographic Maps</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Animations</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Plotly Dash Fundamentals</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Map Visualizations</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. 3D Plots &amp; Surface Visualizations</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Plotly</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Plotly Express Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.</p><div class="code-block"><div class="ch"><span>First chart: px.scatter</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import plotly.express as px
+
+# Built-in dataset
+df = px.data.gapminder().query(&quot;year == 2007&quot;)
+
+fig = px.scatter(
+    df, x=&#x27;gdpPercap&#x27;, y=&#x27;lifeExp&#x27;,
+    size=&#x27;pop&#x27;, color=&#x27;continent&#x27;,
+    hover_name=&#x27;country&#x27;,
+    log_x=True,
+    title=&#x27;GDP per Capita vs Life Expectancy (2007)&#x27;,
+    labels={&#x27;gdpPercap&#x27;: &#x27;GDP per Capita (log)&#x27;, &#x27;lifeExp&#x27;: &#x27;Life Expectancy&#x27;}
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.line — time series</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import plotly.express as px
+
+df = px.data.gapminder().query(&quot;continent == &#x27;Europe&#x27;&quot;)
+
+fig = px.line(
+    df, x=&#x27;year&#x27;, y=&#x27;lifeExp&#x27;,
+    color=&#x27;country&#x27;,
+    hover_name=&#x27;country&#x27;,
+    title=&#x27;Life Expectancy in Europe Over Time&#x27;,
+    labels={&#x27;lifeExp&#x27;: &#x27;Life Expectancy&#x27;, &#x27;year&#x27;: &#x27;Year&#x27;}
+)
+fig.update_layout(showlegend=False)   # too many countries for legend
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.line with hover_data and markers</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+months = pd.date_range(&#x27;2024-01&#x27;, periods=12, freq=&#x27;MS&#x27;)
+df = pd.DataFrame({
+    &#x27;month&#x27;:   list(months) * 3,
+    &#x27;revenue&#x27;: np.concatenate([
+        100 + np.cumsum(np.random.randn(12) * 5),
+        80  + np.cumsum(np.random.randn(12) * 4),
+        60  + np.cumsum(np.random.randn(12) * 3),
+    ]),
+    &#x27;region&#x27;:  [&#x27;North&#x27;]*12 + [&#x27;South&#x27;]*12 + [&#x27;West&#x27;]*12,
+    &#x27;target&#x27;:  np.concatenate([np.full(12, 110), np.full(12, 85), np.full(12, 65)]),
+})
+df[&#x27;vs_target&#x27;] = (df[&#x27;revenue&#x27;] - df[&#x27;target&#x27;]).round(1)
+
+fig = px.line(
+    df, x=&#x27;month&#x27;, y=&#x27;revenue&#x27;,
+    color=&#x27;region&#x27;, markers=True,
+    hover_data=[&#x27;target&#x27;, &#x27;vs_target&#x27;],
+    title=&#x27;Monthly Revenue by Region with Target Context&#x27;,
+    labels={&#x27;revenue&#x27;: &#x27;Revenue ($K)&#x27;, &#x27;month&#x27;: &#x27;Month&#x27;},
+    color_discrete_sequence=px.colors.qualitative.Bold,
+)
+fig.update_traces(marker=dict(size=8))
+fig.update_layout(height=420, hovermode=&#x27;x unified&#x27;)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Range selector buttons and slider</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(7)
+dates = pd.date_range(&#x27;2020-01-01&#x27;, periods=365*4, freq=&#x27;D&#x27;)
+price = 100 + np.cumsum(np.random.randn(len(dates)) * 1.2)
+
+df = pd.DataFrame({&#x27;date&#x27;: dates, &#x27;price&#x27;: price.round(2)})
+
+fig = px.line(
+    df, x=&#x27;date&#x27;, y=&#x27;price&#x27;,
+    title=&#x27;Stock Price — Interactive Range Selector&#x27;,
+    labels={&#x27;price&#x27;: &#x27;Price ($)&#x27;, &#x27;date&#x27;: &#x27;Date&#x27;},
+)
+fig.update_traces(line=dict(color=&#x27;#636EFA&#x27;, width=1.5))
+
+# Range selector buttons (1M, 3M, 6M, 1Y, All)
+fig.update_xaxes(
+    rangeslider_visible=True,
+    rangeselector=dict(
+        buttons=[
+            dict(count=1,  label=&#x27;1M&#x27;, step=&#x27;month&#x27;, stepmode=&#x27;backward&#x27;),
+            dict(count=3,  label=&#x27;3M&#x27;, step=&#x27;month&#x27;, stepmode=&#x27;backward&#x27;),
+            dict(count=6,  label=&#x27;6M&#x27;, step=&#x27;month&#x27;, stepmode=&#x27;backward&#x27;),
+            dict(count=1,  label=&#x27;1Y&#x27;, step=&#x27;year&#x27;,  stepmode=&#x27;backward&#x27;),
+            dict(step=&#x27;all&#x27;, label=&#x27;All&#x27;),
+        ]
+    )
+)
+fig.update_layout(height=460, xaxis_rangeslider_thickness=0.05)
+fig.show()
+print(&quot;Trace type:&quot;, fig.data[0].type)
+print(&quot;Date range:&quot;, df[&#x27;date&#x27;].min().date(), &quot;to&quot;, df[&#x27;date&#x27;].max().date())</code></pre></div><div class="code-block"><div class="ch"><span>Faceted Box Plot with Outlier Annotations</span><button onclick="cp('c0_4')">Copy</button></div><pre><code id="c0_4" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+n   = 300
+df  = pd.DataFrame({
+    &#x27;department&#x27;: rng.choice([&#x27;Engineering&#x27;,&#x27;Sales&#x27;,&#x27;Marketing&#x27;,&#x27;Finance&#x27;], n),
+    &#x27;level&#x27;:      rng.choice([&#x27;Junior&#x27;,&#x27;Mid&#x27;,&#x27;Senior&#x27;], n),
+    &#x27;salary&#x27;:     rng.normal(85000, 20000, n).clip(40000, 180000),
+})
+
+fig = px.box(
+    df, x=&#x27;level&#x27;, y=&#x27;salary&#x27;,
+    facet_col=&#x27;department&#x27;, facet_col_wrap=2,
+    color=&#x27;level&#x27;,
+    color_discrete_sequence=px.colors.qualitative.Set2,
+    points=&#x27;outliers&#x27;,
+    title=&#x27;Salary Distribution by Department &amp; Level&#x27;,
+    labels={&#x27;salary&#x27;: &#x27;Annual Salary ($)&#x27;, &#x27;level&#x27;: &#x27;Level&#x27;},
+    width=900, height=600,
+    category_orders={&#x27;level&#x27;: [&#x27;Junior&#x27;, &#x27;Mid&#x27;, &#x27;Senior&#x27;]},
+)
+fig.update_traces(marker=dict(size=4, opacity=0.6))
+fig.update_layout(showlegend=False, title_font_size=15)
+fig.show()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales KPI Interactive Dashboard</div><div class="rd">A product manager builds a quick interactive scatter to explore the relationship between marketing spend and revenue by market.</div><pre><code class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+markets = [&#x27;US&#x27;,&#x27;UK&#x27;,&#x27;DE&#x27;,&#x27;FR&#x27;,&#x27;JP&#x27;,&#x27;BR&#x27;,&#x27;IN&#x27;,&#x27;AU&#x27;,&#x27;CA&#x27;,&#x27;MX&#x27;]
+df = pd.DataFrame({
+    &#x27;market&#x27;:       markets,
+    &#x27;ad_spend&#x27;:     np.random.uniform(50, 500, 10).round(1),
+    &#x27;revenue&#x27;:      np.random.uniform(200, 2000, 10).round(1),
+    &#x27;customers&#x27;:    np.random.randint(500, 10000, 10),
+    &#x27;region&#x27;:       [&#x27;Americas&#x27;,&#x27;Europe&#x27;,&#x27;Europe&#x27;,&#x27;Europe&#x27;,
+                     &#x27;Asia&#x27;,&#x27;Americas&#x27;,&#x27;Asia&#x27;,&#x27;Pacific&#x27;,&#x27;Americas&#x27;,&#x27;Americas&#x27;],
+})
+df[&#x27;roi&#x27;] = (df[&#x27;revenue&#x27;] / df[&#x27;ad_spend&#x27;]).round(2)
+
+fig = px.scatter(
+    df, x=&#x27;ad_spend&#x27;, y=&#x27;revenue&#x27;,
+    size=&#x27;customers&#x27;, color=&#x27;region&#x27;,
+    text=&#x27;market&#x27;,
+    hover_data=[&#x27;roi&#x27;, &#x27;customers&#x27;],
+    title=&#x27;Marketing Spend vs Revenue by Market&#x27;,
+    labels={&#x27;ad_spend&#x27;: &#x27;Ad Spend ($K)&#x27;, &#x27;revenue&#x27;: &#x27;Revenue ($K)&#x27;},
+    size_max=50
+)
+fig.update_traces(textposition=&#x27;top center&#x27;, textfont_size=10)
+fig.update_layout(height=450)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Line Chart with Hover Data</div><div class="pd">Using px.data.gapminder(), create a multi-line chart of life expectancy over time for exactly 5 countries of your choice. Add pop and gdpPercap as hover_data. Style the markers and use hovermode=&#x27;x unified&#x27; so all lines show on hover.</div><div class="code-block"><div class="ch"><span>Candlestick Chart with Volume</span><button onclick="cp('pe0_0')">Copy</button></div><pre><code id="pe0_0" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+n   = 60
+dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=n, freq=&#x27;B&#x27;)
+close = 100 + np.cumsum(rng.normal(0, 1.5, n))
+high  = close + rng.uniform(0.5, 3, n)
+low   = close - rng.uniform(0.5, 3, n)
+open_ = close - rng.uniform(-1.5, 1.5, n)
+vol   = rng.integers(500000, 2000000, n)
+
+fig = make_subplots(rows=2, cols=1, shared_xaxes=True,
+                    row_heights=[0.7, 0.3],
+                    vertical_spacing=0.03)
+
+fig.add_trace(go.Candlestick(
+    x=dates, open=open_, high=high, low=low, close=close,
+    name=&#x27;OHLC&#x27;, increasing_line_color=&#x27;#26a69a&#x27;,
+    decreasing_line_color=&#x27;#ef5350&#x27;), row=1, col=1)
+
+colors = [&#x27;#26a69a&#x27; if c &gt;= o else &#x27;#ef5350&#x27;
+          for c, o in zip(close, open_)]
+fig.add_trace(go.Bar(x=dates, y=vol, marker_color=colors,
+                     name=&#x27;Volume&#x27;, opacity=0.7), row=2, col=1)
+
+# 10-day moving average
+ma10 = pd.Series(close).rolling(10).mean()
+fig.add_trace(go.Scatter(x=dates, y=ma10, mode=&#x27;lines&#x27;,
+                         line=dict(color=&#x27;orange&#x27;, width=2, dash=&#x27;dot&#x27;),
+                         name=&#x27;MA10&#x27;), row=1, col=1)
+
+fig.update_layout(title=&#x27;Stock OHLC + Volume&#x27;, xaxis_rangeslider_visible=False,
+                  height=550, template=&#x27;plotly_dark&#x27;,
+                  hovermode=&#x27;x unified&#x27;)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Waterfall Chart for Revenue Analysis</span><button onclick="cp('pe0_1')">Copy</button></div><pre><code id="pe0_1" class="language-python">import plotly.graph_objects as go
+
+items  = [&#x27;Starting Revenue&#x27;,&#x27;Product A&#x27;,  &#x27;Product B&#x27;, &#x27;Churn&#x27;,
+          &#x27;Upsell&#x27;,          &#x27;Discounts&#x27;,  &#x27;Net Revenue&#x27;]
+values = [1000, 250, 180, -120, 90, -60, 0]
+values[-1] = sum(values[:-1])
+
+measure = [&#x27;absolute&#x27;] + [&#x27;relative&#x27;]*(len(items)-2) + [&#x27;total&#x27;]
+
+fig = go.Figure(go.Waterfall(
+    name=&#x27;Revenue&#x27;,
+    orientation=&#x27;v&#x27;,
+    measure=measure,
+    x=items,
+    y=values,
+    text=[f&#x27;${v:+,}&#x27; if v != 0 else f&#x27;${abs(values[-1]):,}&#x27; for v in values],
+    textposition=&#x27;outside&#x27;,
+    connector={&#x27;line&#x27;: {&#x27;color&#x27;: &#x27;rgb(63, 63, 63)&#x27;}},
+    increasing={&#x27;marker&#x27;: {&#x27;color&#x27;: &#x27;#26a69a&#x27;}},
+    decreasing={&#x27;marker&#x27;: {&#x27;color&#x27;: &#x27;#ef5350&#x27;}},
+    totals={&#x27;marker&#x27;: {&#x27;color&#x27;: &#x27;#7e57c2&#x27;}},
+))
+
+fig.update_layout(
+    title=&#x27;Annual Revenue Waterfall Analysis&#x27;,
+    title_font_size=16,
+    yaxis_title=&#x27;Revenue ($K)&#x27;,
+    waterfallgap=0.3,
+    height=500,
+    template=&#x27;plotly_white&#x27;,
+    showlegend=False,
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import plotly.express as px
+
+df = px.data.gapminder()
+
+# Pick 5 countries
+countries = [&#x27;United States&#x27;, &#x27;China&#x27;, &#x27;India&#x27;, &#x27;Brazil&#x27;, &#x27;Germany&#x27;]
+# TODO: filtered = df[df[&#x27;country&#x27;].isin(countries)]
+
+# TODO: fig = px.line(
+#     filtered, x=&#x27;year&#x27;, y=&#x27;lifeExp&#x27;,
+#     color=&#x27;country&#x27;, markers=True,
+#     hover_data=[&#x27;pop&#x27;, &#x27;gdpPercap&#x27;],
+#     title=&#x27;Life Expectancy Trends — 5 Countries&#x27;,
+# )
+# TODO: fig.update_traces(marker=dict(size=8))
+# TODO: fig.update_layout(hovermode=&#x27;x unified&#x27;, height=450)
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar &amp; Pie Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.bar for categorical comparisons; px.pie and px.sunburst for part-to-whole. All support hover, faceting, and animation.</p><div class="code-block"><div class="ch"><span>px.bar with facets</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import plotly.express as px
+
+df = px.data.tips()
+
+fig = px.bar(
+    df, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;,
+    color=&#x27;sex&#x27;, barmode=&#x27;group&#x27;,
+    facet_col=&#x27;time&#x27;,
+    title=&#x27;Total Bill by Day, Gender, and Meal Time&#x27;,
+    labels={&#x27;total_bill&#x27;: &#x27;Total Bill ($)&#x27;, &#x27;day&#x27;: &#x27;Day&#x27;},
+    color_discrete_sequence=px.colors.qualitative.Set2
+)
+fig.update_layout(height=400)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.pie and px.sunburst</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import plotly.express as px
+import pandas as pd
+
+# Pie chart
+df_pie = pd.DataFrame({
+    &#x27;channel&#x27;:  [&#x27;Organic&#x27;, &#x27;Paid Search&#x27;, &#x27;Social&#x27;, &#x27;Email&#x27;, &#x27;Direct&#x27;],
+    &#x27;sessions&#x27;: [35, 25, 20, 12, 8],
+})
+fig1 = px.pie(df_pie, names=&#x27;channel&#x27;, values=&#x27;sessions&#x27;,
+              title=&#x27;Traffic by Channel&#x27;, hole=0.4)
+fig1.show()
+
+# Sunburst — hierarchical
+df_sun = px.data.gapminder().query(&quot;year==2007 and continent in [&#x27;Europe&#x27;,&#x27;Americas&#x27;]&quot;)
+fig2 = px.sunburst(df_sun, path=[&#x27;continent&#x27;,&#x27;country&#x27;],
+                   values=&#x27;pop&#x27;, color=&#x27;lifeExp&#x27;,
+                   color_continuous_scale=&#x27;RdYlGn&#x27;,
+                   title=&#x27;Population &amp; Life Expectancy&#x27;)
+fig2.show()</code></pre></div><div class="code-block"><div class="ch"><span>Grouped and stacked bar comparison</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(7)
+quarters = [&#x27;Q1&#x27;, &#x27;Q2&#x27;, &#x27;Q3&#x27;, &#x27;Q4&#x27;]
+products = [&#x27;Widget&#x27;, &#x27;Gadget&#x27;, &#x27;Gizmo&#x27;]
+
+rows = []
+for q in quarters:
+    for p in products:
+        rows.append({&#x27;quarter&#x27;: q, &#x27;product&#x27;: p,
+                     &#x27;revenue&#x27;: round(np.random.uniform(40, 120), 1)})
+df = pd.DataFrame(rows)
+
+# Grouped bars
+fig1 = px.bar(df, x=&#x27;quarter&#x27;, y=&#x27;revenue&#x27;, color=&#x27;product&#x27;,
+              barmode=&#x27;group&#x27;,
+              title=&#x27;Quarterly Revenue — Grouped&#x27;,
+              color_discrete_sequence=px.colors.qualitative.Pastel)
+fig1.update_layout(height=380)
+fig1.show()
+
+# Stacked bars (same data)
+fig2 = px.bar(df, x=&#x27;quarter&#x27;, y=&#x27;revenue&#x27;, color=&#x27;product&#x27;,
+              barmode=&#x27;stack&#x27;,
+              title=&#x27;Quarterly Revenue — Stacked&#x27;,
+              color_discrete_sequence=px.colors.qualitative.Pastel)
+fig2.update_layout(height=380)
+fig2.show()</code></pre></div><div class="code-block"><div class="ch"><span>Waterfall chart with go.Waterfall</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">import plotly.graph_objects as go
+
+# P&amp;L waterfall: starting revenue, additions, deductions, net
+labels   = [&#x27;Gross Revenue&#x27;, &#x27;COGS&#x27;, &#x27;Gross Profit&#x27;,
+            &#x27;Operating Exp&#x27;, &#x27;EBITDA&#x27;, &#x27;D&amp;A&#x27;, &#x27;Tax&#x27;, &#x27;Net Income&#x27;]
+measures = [&#x27;absolute&#x27;, &#x27;relative&#x27;, &#x27;total&#x27;,
+            &#x27;relative&#x27;,  &#x27;total&#x27;,   &#x27;relative&#x27;, &#x27;relative&#x27;, &#x27;total&#x27;]
+values   = [500, -180, None, -120, None, -30, -42, None]
+
+fig = go.Figure(go.Waterfall(
+    name=&#x27;P&amp;L 2024&#x27;,
+    orientation=&#x27;v&#x27;,
+    measure=measures,
+    x=labels,
+    y=[500, -180, 0, -120, 0, -30, -42, 0],
+    text=[&#x27;+$500&#x27;, &#x27;-$180&#x27;, &#x27;$320&#x27;, &#x27;-$120&#x27;, &#x27;$200&#x27;, &#x27;-$30&#x27;, &#x27;-$42&#x27;, &#x27;$128&#x27;],
+    textposition=&#x27;outside&#x27;,
+    connector=dict(line=dict(color=&#x27;#444&#x27;, width=1, dash=&#x27;dot&#x27;)),
+    increasing=dict(marker=dict(color=&#x27;#00CC96&#x27;)),
+    decreasing=dict(marker=dict(color=&#x27;#EF553B&#x27;)),
+    totals=dict(marker=dict(color=&#x27;#636EFA&#x27;)),
+))
+
+fig.update_layout(
+    title=&#x27;2024 P&amp;L Waterfall Chart&#x27;,
+    yaxis_title=&#x27;Amount ($K)&#x27;,
+    height=450,
+    showlegend=False,
+    plot_bgcolor=&#x27;#1a1a2e&#x27;,
+    paper_bgcolor=&#x27;#16213e&#x27;,
+    font=dict(color=&#x27;#e0e0e0&#x27;),
+    yaxis=dict(gridcolor=&#x27;#333&#x27;),
+)
+fig.show()
+print(&quot;Waterfall traces:&quot;, len(fig.data))
+print(&quot;Net Income: $128K&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Revenue Breakdown by Product &amp; Region</div><div class="rd">A CFO uses an interactive sunburst chart to drill down from region → product category → SKU in the quarterly review.</div><pre><code class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(5)
+regions    = [&#x27;North America&#x27;, &#x27;Europe&#x27;, &#x27;Asia Pacific&#x27;]
+categories = [&#x27;Electronics&#x27;, &#x27;Clothing&#x27;, &#x27;Home&#x27;, &#x27;Food&#x27;]
+skus_per   = 3
+
+rows = []
+for region in regions:
+    for cat in categories:
+        for sku_i in range(1, skus_per + 1):
+            rows.append({
+                &#x27;region&#x27;:   region,
+                &#x27;category&#x27;: cat,
+                &#x27;sku&#x27;:      f&#x27;{cat[:3]}-{sku_i:03d}&#x27;,
+                &#x27;revenue&#x27;:  round(np.random.uniform(50, 500), 1),
+            })
+df = pd.DataFrame(rows)
+
+fig = px.sunburst(
+    df, path=[&#x27;region&#x27;, &#x27;category&#x27;, &#x27;sku&#x27;],
+    values=&#x27;revenue&#x27;,
+    color=&#x27;revenue&#x27;,
+    color_continuous_scale=&#x27;Blues&#x27;,
+    title=&#x27;Q2 2024 Revenue Drill-Down (Region → Category → SKU)&#x27;,
+)
+fig.update_layout(height=550, coloraxis_showscale=False)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sunburst Drill-Down Chart</div><div class="pd">Build a px.sunburst chart using a DataFrame with three levels: continent -&gt; country -&gt; city (invent 2-3 cities per country). Use population as the values column and color by a numeric metric (e.g. GDP). Add a meaningful title and set height=520.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import plotly.express as px
+import pandas as pd
+
+# Build a simple hierarchical dataset
+rows = [
+    # continent, country, city, population, gdp_index
+    (&#x27;Americas&#x27;, &#x27;USA&#x27;, &#x27;New York&#x27;,    8_000_000, 95),
+    (&#x27;Americas&#x27;, &#x27;USA&#x27;, &#x27;Los Angeles&#x27;, 4_000_000, 88),
+    (&#x27;Americas&#x27;, &#x27;Brazil&#x27;, &#x27;Sao Paulo&#x27;,12_000_000, 55),
+    (&#x27;Americas&#x27;, &#x27;Brazil&#x27;, &#x27;Rio&#x27;,       6_500_000, 50),
+    (&#x27;Europe&#x27;,   &#x27;Germany&#x27;, &#x27;Berlin&#x27;,   3_600_000, 82),
+    (&#x27;Europe&#x27;,   &#x27;Germany&#x27;, &#x27;Munich&#x27;,   1_500_000, 90),
+    (&#x27;Europe&#x27;,   &#x27;France&#x27;,  &#x27;Paris&#x27;,    2_100_000, 78),
+    (&#x27;Europe&#x27;,   &#x27;France&#x27;,  &#x27;Lyon&#x27;,       500_000, 70),
+    (&#x27;Asia&#x27;,     &#x27;Japan&#x27;,   &#x27;Tokyo&#x27;,   13_900_000, 87),
+    (&#x27;Asia&#x27;,     &#x27;Japan&#x27;,   &#x27;Osaka&#x27;,    2_700_000, 80),
+    (&#x27;Asia&#x27;,     &#x27;India&#x27;,   &#x27;Mumbai&#x27;,  20_000_000, 42),
+    (&#x27;Asia&#x27;,     &#x27;India&#x27;,   &#x27;Delhi&#x27;,   30_000_000, 38),
+]
+df = pd.DataFrame(rows, columns=[&#x27;continent&#x27;,&#x27;country&#x27;,&#x27;city&#x27;,&#x27;population&#x27;,&#x27;gdp_index&#x27;])
+
+# TODO: fig = px.sunburst(
+#     df, path=[&#x27;continent&#x27;, &#x27;country&#x27;, &#x27;city&#x27;],
+#     values=&#x27;population&#x27;,
+#     color=&#x27;gdp_index&#x27;,
+#     color_continuous_scale=&#x27;Blues&#x27;,
+#     title=&#x27;Population Drill-Down: Continent -&gt; Country -&gt; City&#x27;,
+# )
+# TODO: fig.update_layout(height=520)
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Histogram &amp; Box Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.histogram and px.box create interactive distribution charts. Hover shows exact statistics; click legend to toggle groups.</p><div class="code-block"><div class="ch"><span>px.histogram with marginal</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import plotly.express as px
+
+df = px.data.tips()
+
+fig = px.histogram(
+    df, x=&#x27;total_bill&#x27;,
+    color=&#x27;time&#x27;, barmode=&#x27;overlay&#x27;,
+    marginal=&#x27;box&#x27;,       # adds mini box plot on top
+    opacity=0.7,
+    nbins=25,
+    title=&#x27;Total Bill Distribution by Meal Time&#x27;,
+    labels={&#x27;total_bill&#x27;: &#x27;Total Bill ($)&#x27;},
+    color_discrete_sequence=[&#x27;#636EFA&#x27;,&#x27;#EF553B&#x27;]
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.box and px.violin</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import plotly.express as px
+import pandas as pd
+
+df = px.data.tips()
+
+fig1 = px.box(df, x=&#x27;day&#x27;, y=&#x27;tip&#x27;, color=&#x27;smoker&#x27;,
+              notched=True,
+              title=&#x27;Tip Distribution — Box Plot (notched)&#x27;,
+              labels={&#x27;tip&#x27;: &#x27;Tip ($)&#x27;})
+fig1.show()
+
+fig2 = px.violin(df, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, color=&#x27;sex&#x27;,
+                 box=True, points=&#x27;outliers&#x27;,
+                 title=&#x27;Total Bill — Violin + Box&#x27;,
+                 labels={&#x27;total_bill&#x27;: &#x27;Total Bill ($)&#x27;})
+fig2.show()</code></pre></div><div class="code-block"><div class="ch"><span>Faceted histogram across categories</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">import plotly.express as px
+import numpy as np
+import pandas as pd
+
+np.random.seed(42)
+groups = [&#x27;Group A&#x27;, &#x27;Group B&#x27;, &#x27;Group C&#x27;]
+rows = []
+for g in groups:
+    mean = {&#x27;Group A&#x27;: 50, &#x27;Group B&#x27;: 65, &#x27;Group C&#x27;: 80}[g]
+    vals = np.random.normal(mean, 12, 200)
+    for v in vals:
+        rows.append({&#x27;group&#x27;: g, &#x27;score&#x27;: round(v, 1)})
+df = pd.DataFrame(rows)
+
+fig = px.histogram(
+    df, x=&#x27;score&#x27;, facet_col=&#x27;group&#x27;,
+    color=&#x27;group&#x27;, nbins=30,
+    opacity=0.75,
+    marginal=&#x27;violin&#x27;,
+    title=&#x27;Score Distribution Faceted by Group&#x27;,
+    labels={&#x27;score&#x27;: &#x27;Score&#x27;},
+    color_discrete_sequence=px.colors.qualitative.Set1,
+)
+fig.update_layout(height=420, showlegend=False)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Notched box plot with strip overlay</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+departments = [&#x27;Engineering&#x27;, &#x27;Sales&#x27;, &#x27;Marketing&#x27;, &#x27;Support&#x27;]
+rows = []
+for dept in departments:
+    base = {&#x27;Engineering&#x27;: 95, &#x27;Sales&#x27;: 72, &#x27;Marketing&#x27;: 68, &#x27;Support&#x27;: 60}[dept]
+    scores = np.random.normal(base, 10, 60).clip(0, 100)
+    for s in scores:
+        rows.append({&#x27;department&#x27;: dept, &#x27;score&#x27;: round(s, 1)})
+df = pd.DataFrame(rows)
+
+# Notched violin with embedded box and all points
+fig = px.violin(
+    df, x=&#x27;department&#x27;, y=&#x27;score&#x27;,
+    color=&#x27;department&#x27;,
+    box=True,
+    points=&#x27;all&#x27;,
+    title=&#x27;Performance Score Distribution by Department&#x27;,
+    labels={&#x27;score&#x27;: &#x27;Score&#x27;, &#x27;department&#x27;: &#x27;Department&#x27;},
+    color_discrete_sequence=px.colors.qualitative.Set2,
+)
+fig.update_traces(
+    meanline_visible=True,
+    jitter=0.3,
+    pointpos=-1.5,
+    marker=dict(size=3, opacity=0.5),
+)
+fig.update_layout(height=480, showlegend=False)
+fig.show()
+for dept in departments:
+    vals = df[df[&#x27;department&#x27;]==dept][&#x27;score&#x27;]
+    print(f&quot;{dept}: median={vals.median():.1f}, std={vals.std():.1f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: A/B Test Distribution Explorer</div><div class="rd">A data scientist uses interactive histograms to explore the full distribution of test results across experiment variants.</div><pre><code class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+from scipy import stats
+
+np.random.seed(42)
+control = np.random.normal(45.0, 12, 500)
+variant = np.random.normal(49.5, 11, 500)
+
+df = pd.DataFrame({
+    &#x27;revenue&#x27;:  np.concatenate([control, variant]),
+    &#x27;group&#x27;:    [&#x27;Control&#x27;]*500 + [&#x27;Variant B&#x27;]*500,
+})
+
+t, p = stats.ttest_ind(control, variant)
+
+fig = px.histogram(
+    df, x=&#x27;revenue&#x27;, color=&#x27;group&#x27;,
+    barmode=&#x27;overlay&#x27;, opacity=0.65, nbins=35,
+    marginal=&#x27;violin&#x27;,
+    color_discrete_map={&#x27;Control&#x27;:&#x27;#636EFA&#x27;,&#x27;Variant B&#x27;:&#x27;#EF553B&#x27;},
+    title=f&#x27;A/B Test Revenue Distribution  |  p-value={p:.4f} {&quot;✓ Significant&quot; if p&lt;0.05 else &quot;✗ Not significant&quot;}&#x27;,
+    labels={&#x27;revenue&#x27;: &#x27;Revenue ($)&#x27;},
+)
+fig.add_vline(x=control.mean(), line_dash=&#x27;dash&#x27;, line_color=&#x27;#636EFA&#x27;,
+              annotation_text=f&#x27;Control μ={control.mean():.1f}&#x27;)
+fig.add_vline(x=variant.mean(), line_dash=&#x27;dash&#x27;, line_color=&#x27;#EF553B&#x27;,
+              annotation_text=f&#x27;Variant μ={variant.mean():.1f}&#x27;)
+fig.update_layout(height=450)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Violin Plot</div><div class="pd">Using px.data.tips(), create a violin plot of total_bill grouped by day on the x-axis, colored by smoker (yes/no). Enable box=True and points=&#x27;all&#x27;. Then add a second figure: a faceted histogram of tip amounts, faceted by time (Lunch/Dinner), with a &#x27;rug&#x27; marginal.</div><div class="code-block"><div class="ch"><span>Parallel Coordinates Plot for Multivariate Exploration</span><button onclick="cp('pe2_0')">Copy</button></div><pre><code id="pe2_0" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(0)
+n   = 300
+df  = pd.DataFrame({
+    &#x27;tenure&#x27;:       rng.exponential(24, n).clip(1, 120),
+    &#x27;usage_rate&#x27;:   rng.beta(5, 2, n) * 100,
+    &#x27;support_calls&#x27;:rng.poisson(3, n),
+    &#x27;billing_score&#x27;:rng.normal(75, 15, n).clip(0, 100),
+    &#x27;monthly_spend&#x27;:rng.lognormal(4, 0.5, n),
+    &#x27;churn&#x27;:        rng.choice([0, 1], n, p=[0.75, 0.25]),
+})
+
+fig = px.parallel_coordinates(
+    df,
+    color=&#x27;churn&#x27;,
+    color_continuous_scale=px.colors.diverging.Tealrose,
+    color_continuous_midpoint=0.5,
+    dimensions=[&#x27;tenure&#x27;,&#x27;usage_rate&#x27;,&#x27;support_calls&#x27;,&#x27;billing_score&#x27;,&#x27;monthly_spend&#x27;],
+    labels={
+        &#x27;tenure&#x27;:        &#x27;Tenure (mo)&#x27;,
+        &#x27;usage_rate&#x27;:    &#x27;Usage %&#x27;,
+        &#x27;support_calls&#x27;: &#x27;Support Calls&#x27;,
+        &#x27;billing_score&#x27;: &#x27;Billing Score&#x27;,
+        &#x27;monthly_spend&#x27;: &#x27;Monthly Spend&#x27;,
+    },
+    title=&#x27;Parallel Coordinates: Customer Churn Features&#x27;,
+)
+fig.update_layout(height=450, title_font_size=15,
+                  coloraxis_colorbar=dict(title=&#x27;Churn Risk&#x27;, tickvals=[0,1],
+                                          ticktext=[&#x27;Low&#x27;,&#x27;High&#x27;]))
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Radar / Spider Chart for Multi-Metric Comparison</span><button onclick="cp('pe2_1')">Copy</button></div><pre><code id="pe2_1" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+categories = [&#x27;Speed&#x27;, &#x27;Accuracy&#x27;, &#x27;Recall&#x27;, &#x27;Precision&#x27;, &#x27;F1-Score&#x27;, &#x27;AUC-ROC&#x27;]
+models = {
+    &#x27;Logistic Regression&#x27;: [65, 72, 68, 75, 71, 74],
+    &#x27;Random Forest&#x27;:       [80, 85, 83, 87, 85, 88],
+    &#x27;XGBoost&#x27;:             [88, 90, 89, 91, 90, 92],
+    &#x27;Neural Network&#x27;:      [75, 88, 86, 89, 87, 90],
+}
+colors = [&#x27;#636EFA&#x27;,&#x27;#EF553B&#x27;,&#x27;#00CC96&#x27;,&#x27;#AB63FA&#x27;]
+
+fig = go.Figure()
+for (model, values), color in zip(models.items(), colors):
+    vals = values + [values[0]]  # close the polygon
+    cats = categories + [categories[0]]
+    fig.add_trace(go.Scatterpolar(
+        r=vals, theta=cats, fill=&#x27;toself&#x27;,
+        name=model, line_color=color,
+        fillcolor=color, opacity=0.25,
+        hovertemplate=&#x27;%{theta}: %{r}&lt;extra&gt;&#x27; + model + &#x27;&lt;/extra&gt;&#x27;,
+    ))
+
+fig.update_layout(
+    polar=dict(radialaxis=dict(visible=True, range=[50, 100],
+                                tickfont=dict(size=9))),
+    title=&#x27;Model Performance Radar Chart&#x27;,
+    title_font_size=15,
+    legend=dict(x=1.05, y=0.5),
+    height=500,
+    template=&#x27;plotly_white&#x27;,
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import plotly.express as px
+
+df = px.data.tips()
+
+# 1. Grouped violin: total_bill by day, colored by smoker
+# TODO: fig1 = px.violin(
+#     df, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, color=&#x27;smoker&#x27;,
+#     box=True, points=&#x27;all&#x27;,
+#     title=&#x27;Total Bill Distribution by Day and Smoker Status&#x27;,
+# )
+# TODO: fig1.update_layout(height=450)
+# TODO: fig1.show()
+
+# 2. Faceted histogram: tip by time with rug marginal
+# TODO: fig2 = px.histogram(
+#     df, x=&#x27;tip&#x27;, facet_col=&#x27;time&#x27;,
+#     color=&#x27;time&#x27;, marginal=&#x27;rug&#x27;,
+#     nbins=20, opacity=0.8,
+#     title=&#x27;Tip Distribution: Lunch vs Dinner&#x27;,
+# )
+# TODO: fig2.update_layout(height=400)
+# TODO: fig2.show()</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Heatmap &amp; Scatter Matrix</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.imshow renders 2D matrices as interactive heatmaps. px.scatter_matrix creates an interactive pairplot grid.</p><div class="code-block"><div class="ch"><span>px.imshow — correlation heatmap</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+features = [&#x27;Revenue&#x27;, &#x27;Cost&#x27;, &#x27;Margin&#x27;, &#x27;Customers&#x27;, &#x27;NPS&#x27;]
+n = 200
+data = np.random.randn(n, 5)
+# Add correlations
+data[:, 2] = 0.8*data[:,0] - 0.6*data[:,1] + np.random.randn(n)*0.3
+data[:, 4] = 0.5*data[:,2] + np.random.randn(n)*0.7
+
+df   = pd.DataFrame(data, columns=features)
+corr = df.corr().round(2)
+
+fig = px.imshow(
+    corr,
+    text_auto=True,
+    color_continuous_scale=&#x27;RdBu_r&#x27;,
+    zmin=-1, zmax=1,
+    title=&#x27;Feature Correlation Matrix&#x27;
+)
+fig.update_layout(height=450)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.scatter_matrix</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import plotly.express as px
+
+df = px.data.iris()
+
+fig = px.scatter_matrix(
+    df,
+    dimensions=[&#x27;sepal_length&#x27;,&#x27;sepal_width&#x27;,&#x27;petal_length&#x27;,&#x27;petal_width&#x27;],
+    color=&#x27;species&#x27;,
+    symbol=&#x27;species&#x27;,
+    title=&#x27;Iris Dataset — Interactive Scatter Matrix&#x27;,
+    labels={col: col.replace(&#x27;_&#x27;,&#x27; &#x27;) for col in df.columns}
+)
+fig.update_traces(diagonal_visible=False, showupperhalf=False)
+fig.update_layout(height=600)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Annotated heatmap with go.Heatmap</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(3)
+days    = [&#x27;Mon&#x27;, &#x27;Tue&#x27;, &#x27;Wed&#x27;, &#x27;Thu&#x27;, &#x27;Fri&#x27;]
+hours   = [f&#x27;{h:02d}:00&#x27; for h in range(9, 18)]
+z_data  = np.random.poisson(5, (len(days), len(hours))).astype(float)
+# Simulate peak hours mid-day
+z_data[:, 2:6] += np.random.poisson(8, (len(days), 4))
+
+# Build annotation text
+annotations = []
+for i, day in enumerate(days):
+    for j, hr in enumerate(hours):
+        annotations.append(dict(
+            x=hr, y=day,
+            text=str(int(z_data[i, j])),
+            font=dict(color=&#x27;white&#x27; if z_data[i, j] &gt; 10 else &#x27;black&#x27;, size=11),
+            showarrow=False,
+        ))
+
+fig = go.Figure(data=go.Heatmap(
+    z=z_data, x=hours, y=days,
+    colorscale=&#x27;YlOrRd&#x27;,
+    hoverongaps=False,
+))
+fig.update_layout(
+    title=&#x27;Support Tickets: Day × Hour (with annotations)&#x27;,
+    annotations=annotations,
+    height=380,
+    xaxis_title=&#x27;Hour&#x27;, yaxis_title=&#x27;Day&#x27;,
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Custom colorscale heatmap — monthly sales grid</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(8)
+products = [&#x27;Widget&#x27;, &#x27;Gadget&#x27;, &#x27;Gizmo&#x27;, &#x27;Doohickey&#x27;, &#x27;Thingamajig&#x27;]
+months   = [&#x27;Jan&#x27;, &#x27;Feb&#x27;, &#x27;Mar&#x27;, &#x27;Apr&#x27;, &#x27;May&#x27;, &#x27;Jun&#x27;,
+            &#x27;Jul&#x27;, &#x27;Aug&#x27;, &#x27;Sep&#x27;, &#x27;Oct&#x27;, &#x27;Nov&#x27;, &#x27;Dec&#x27;]
+
+# Simulate seasonal sales data
+z = np.random.uniform(20, 100, (len(products), len(months)))
+# Add seasonality: Q4 boost
+z[:, 9:] *= 1.4
+# Add product-specific trends
+z[0, :] += np.linspace(0, 20, 12)
+z = z.round(1)
+
+# Custom discrete colorscale: red -&gt; yellow -&gt; green
+custom_scale = [
+    [0.0,  &#x27;#d73027&#x27;],
+    [0.25, &#x27;#f46d43&#x27;],
+    [0.5,  &#x27;#ffffbf&#x27;],
+    [0.75, &#x27;#74add1&#x27;],
+    [1.0,  &#x27;#313695&#x27;],
+]
+
+# Build cell annotations
+annotations = []
+for i, prod in enumerate(products):
+    for j, mon in enumerate(months):
+        annotations.append(dict(
+            x=mon, y=prod,
+            text=str(int(z[i, j])),
+            showarrow=False,
+            font=dict(size=9,
+                      color=&#x27;white&#x27; if z[i, j] &gt; 75 or z[i, j] &lt; 35 else &#x27;black&#x27;),
+        ))
+
+fig = go.Figure(data=go.Heatmap(
+    z=z, x=months, y=products,
+    colorscale=custom_scale,
+    colorbar=dict(title=&#x27;Units Sold&#x27;),
+    hovertemplate=&#x27;Product: %{y}&lt;br&gt;Month: %{x}&lt;br&gt;Sales: %{z}&lt;extra&gt;&lt;/extra&gt;&#x27;,
+))
+fig.update_layout(
+    title=&#x27;Monthly Sales Heatmap — Custom Colorscale&#x27;,
+    annotations=annotations,
+    height=380,
+    xaxis_title=&#x27;Month&#x27;,
+    yaxis_title=&#x27;Product&#x27;,
+)
+fig.show()
+print(&quot;Peak month:&quot;, months[int(z.sum(axis=0).argmax())])
+print(&quot;Top product:&quot;, products[int(z.sum(axis=1).argmax())])</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Operations Metrics Heatmap</div><div class="rd">An operations manager visualizes a week × hour activity heatmap to identify peak load periods for staffing.</div><pre><code class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(7)
+hours = list(range(24))
+days  = [&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]
+
+# Simulate ticket volumes: high weekday business hours
+data = np.random.poisson(3, (7, 24)).astype(float)
+data[0:5, 9:18] += np.random.poisson(12, (5, 9))   # weekday 9-18
+data[0:5, 0:6]  *= 0.3                              # overnight low
+data[5:7, :]    *= 0.5                              # weekend lower
+
+df = pd.DataFrame(data.round(0).astype(int),
+                  index=days, columns=[f&#x27;{h:02d}:00&#x27; for h in hours])
+
+fig = px.imshow(
+    df,
+    color_continuous_scale=&#x27;YlOrRd&#x27;,
+    aspect=&#x27;auto&#x27;,
+    title=&#x27;Support Ticket Volume — Week × Hour Heatmap&#x27;,
+    labels=dict(x=&#x27;Hour&#x27;, y=&#x27;Day&#x27;, color=&#x27;Tickets&#x27;)
+)
+fig.update_xaxes(tickangle=45, tickmode=&#x27;array&#x27;,
+                 tickvals=list(range(0,24,2)),
+                 ticktext=[f&#x27;{h:02d}:00&#x27; for h in range(0,24,2)])
+fig.update_layout(height=380)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Correlation Heatmap</div><div class="pd">Load px.data.iris() and compute the correlation matrix of the four numeric columns. Use px.imshow with text_auto=&#x27;.2f&#x27;, the RdBu_r colorscale, and zmin=-1/zmax=1. Then build a second heatmap using go.Heatmap directly, adding manual annotation text showing each correlation value. Compare the two approaches.</div><div class="code-block"><div class="ch"><span>Interactive Treemap with Drill-Down</span><button onclick="cp('pe3_0')">Copy</button></div><pre><code id="pe3_0" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+regions   = [&#x27;North America&#x27;,&#x27;Europe&#x27;,&#x27;Asia Pacific&#x27;,&#x27;Latin America&#x27;]
+countries = {
+    &#x27;North America&#x27;: [&#x27;USA&#x27;,&#x27;Canada&#x27;,&#x27;Mexico&#x27;],
+    &#x27;Europe&#x27;:        [&#x27;Germany&#x27;,&#x27;France&#x27;,&#x27;UK&#x27;,&#x27;Spain&#x27;],
+    &#x27;Asia Pacific&#x27;:  [&#x27;China&#x27;,&#x27;Japan&#x27;,&#x27;India&#x27;,&#x27;Australia&#x27;],
+    &#x27;Latin America&#x27;: [&#x27;Brazil&#x27;,&#x27;Argentina&#x27;,&#x27;Colombia&#x27;],
+}
+rows = []
+for region, clist in countries.items():
+    for country in clist:
+        for product in [&#x27;Software&#x27;,&#x27;Hardware&#x27;,&#x27;Services&#x27;]:
+            rows.append({
+                &#x27;region&#x27;: region, &#x27;country&#x27;: country, &#x27;product&#x27;: product,
+                &#x27;revenue&#x27;: rng.uniform(50, 500),
+                &#x27;growth&#x27;:  rng.uniform(-10, 40),
+            })
+
+df = pd.DataFrame(rows)
+
+fig = px.treemap(
+    df,
+    path=[px.Constant(&#x27;Global&#x27;), &#x27;region&#x27;, &#x27;country&#x27;, &#x27;product&#x27;],
+    values=&#x27;revenue&#x27;,
+    color=&#x27;growth&#x27;,
+    color_continuous_scale=&#x27;RdYlGn&#x27;,
+    color_continuous_midpoint=15,
+    title=&#x27;Global Revenue Treemap — Click to Drill Down&#x27;,
+    hover_data={&#x27;revenue&#x27;: &#x27;:.1f&#x27;, &#x27;growth&#x27;: &#x27;:.1f&#x27;},
+)
+fig.update_traces(textinfo=&#x27;label+value+percent parent&#x27;,
+                  hovertemplate=&#x27;&lt;b&gt;%{label}&lt;/b&gt;&lt;br&gt;Revenue: $%{value:.1f}M&lt;br&gt;Growth: %{color:.1f}%&#x27;)
+fig.update_layout(height=600, title_font_size=15,
+                  coloraxis_colorbar=dict(title=&#x27;Growth %&#x27;))
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Sankey Diagram for Flow Analysis</span><button onclick="cp('pe3_1')">Copy</button></div><pre><code id="pe3_1" class="language-python">import plotly.graph_objects as go
+
+# Marketing funnel flow
+labels = [
+    &#x27;Website Visitors&#x27;,  # 0
+    &#x27;Ad Campaign&#x27;,       # 1
+    &#x27;Organic Search&#x27;,    # 2
+    &#x27;Social Media&#x27;,      # 3
+    &#x27;Product Page&#x27;,      # 4
+    &#x27;Add to Cart&#x27;,       # 5
+    &#x27;Checkout&#x27;,          # 6
+    &#x27;Purchased&#x27;,         # 7
+    &#x27;Abandoned&#x27;,         # 8
+]
+
+source = [0, 0, 0, 1, 2, 3, 4, 5, 6]
+target = [1, 2, 3, 4, 4, 4, 5, 6, 7]
+value  = [3000, 5000, 2000, 2800, 4200, 1500, 4500, 2000, 2500]
+
+link_colors = [&#x27;rgba(100,149,237,0.4)&#x27;] * len(source)
+for i, t in enumerate(target):
+    if t == 8:
+        link_colors[i] = &#x27;rgba(255,99,71,0.4)&#x27;
+
+fig = go.Figure(go.Sankey(
+    arrangement=&#x27;snap&#x27;,
+    node=dict(
+        pad=15, thickness=20,
+        line=dict(color=&#x27;white&#x27;, width=0.5),
+        label=labels,
+        color=[&#x27;#4a90d9&#x27;,&#x27;#5ab4ac&#x27;,&#x27;#d4b483&#x27;,&#x27;#8fc97e&#x27;,
+               &#x27;#feb24c&#x27;,&#x27;#f03b20&#x27;,&#x27;#43a2ca&#x27;,&#x27;#2ca25f&#x27;,&#x27;#ef5350&#x27;],
+    ),
+    link=dict(
+        source=source, target=target, value=value,
+        color=link_colors,
+        hovertemplate=&#x27;%{source.label} → %{target.label}: %{value:,}&lt;extra&gt;&lt;/extra&gt;&#x27;,
+    ),
+))
+fig.update_layout(title_text=&#x27;Marketing Funnel — Sankey Diagram&#x27;,
+                  title_font_size=16, height=500, font_size=12,
+                  template=&#x27;plotly_white&#x27;)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Bubble Chart with Time Slider</span><button onclick="cp('pe3_2')">Copy</button></div><pre><code id="pe3_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+rng = np.random.default_rng(42)
+countries = [&#x27;USA&#x27;,&#x27;China&#x27;,&#x27;India&#x27;,&#x27;Germany&#x27;,&#x27;UK&#x27;,&#x27;France&#x27;,&#x27;Japan&#x27;,&#x27;Brazil&#x27;,&#x27;Canada&#x27;,&#x27;Australia&#x27;]
+years = range(2018, 2025)
+
+rows = []
+for country in countries:
+    gdp   = rng.uniform(1000, 25000)
+    pop   = rng.uniform(50, 1400)
+    for year in years:
+        rows.append({
+            &#x27;country&#x27;:    country,
+            &#x27;year&#x27;:       year,
+            &#x27;gdp_growth&#x27;: rng.normal(2.5, 1.5),
+            &#x27;gdp_pc&#x27;:     gdp * (1 + rng.normal(0.025, 0.01))**(year-2018),
+            &#x27;population&#x27;: pop + rng.normal(0, 2),
+            &#x27;continent&#x27;:  &#x27;Americas&#x27; if country in [&#x27;USA&#x27;,&#x27;Brazil&#x27;,&#x27;Canada&#x27;] else
+                          &#x27;Europe&#x27;   if country in [&#x27;Germany&#x27;,&#x27;UK&#x27;,&#x27;France&#x27;] else
+                          &#x27;Asia&#x27;     if country in [&#x27;China&#x27;,&#x27;India&#x27;,&#x27;Japan&#x27;] else &#x27;Oceania&#x27;,
+        })
+
+df = pd.DataFrame(rows)
+
+fig = px.scatter(
+    df, x=&#x27;gdp_pc&#x27;, y=&#x27;gdp_growth&#x27;,
+    size=&#x27;population&#x27;, color=&#x27;continent&#x27;,
+    animation_frame=&#x27;year&#x27;, animation_group=&#x27;country&#x27;,
+    hover_name=&#x27;country&#x27;,
+    log_x=True,
+    size_max=55,
+    color_discrete_sequence=px.colors.qualitative.Bold,
+    title=&#x27;GDP per Capita vs Growth Rate (2018–2024)&#x27;,
+    labels={&#x27;gdp_pc&#x27;: &#x27;GDP per Capita (USD, log)&#x27;, &#x27;gdp_growth&#x27;: &#x27;GDP Growth (%)&#x27;},
+    range_x=[500, 40000], range_y=[-3, 8],
+)
+fig.update_layout(height=550, title_font_size=15)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
+
+df = px.data.iris()
+cols = [&#x27;sepal_length&#x27;, &#x27;sepal_width&#x27;, &#x27;petal_length&#x27;, &#x27;petal_width&#x27;]
+corr = df[cols].corr().round(2)
+
+# 1. px.imshow version (easy)
+# TODO: fig1 = px.imshow(
+#     corr, text_auto=&#x27;.2f&#x27;,
+#     color_continuous_scale=&#x27;RdBu_r&#x27;, zmin=-1, zmax=1,
+#     title=&#x27;Iris Correlation Matrix (px.imshow)&#x27;,
+# )
+# TODO: fig1.update_layout(height=420)
+# TODO: fig1.show()
+
+# 2. go.Heatmap version with manual annotations
+z = corr.values
+labels = corr.columns.tolist()
+# TODO: annotations = []
+# TODO: for i in range(len(labels)):
+#     for j in range(len(labels)):
+#         annotations.append(dict(
+#             x=labels[j], y=labels[i],
+#             text=str(z[i, j]),
+#             showarrow=False,
+#             font=dict(color=&#x27;white&#x27; if abs(z[i,j]) &gt; 0.5 else &#x27;black&#x27;),
+#         ))
+# TODO: fig2 = go.Figure(data=go.Heatmap(
+#     z=z, x=labels, y=labels,
+#     colorscale=&#x27;RdBu_r&#x27;, zmin=-1, zmax=1,
+# ))
+# TODO: fig2.update_layout(title=&#x27;Iris Correlation (go.Heatmap + annotations)&#x27;,
+#                          annotations=annotations, height=420)
+# TODO: fig2.show()</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly renders true 3D scatter and surface plots in the browser. Drag to rotate, scroll to zoom.</p><div class="code-block"><div class="ch"><span>3D scatter plot</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+df = pd.DataFrame({
+    &#x27;x&#x27;:       np.random.randn(300),
+    &#x27;y&#x27;:       np.random.randn(300),
+    &#x27;z&#x27;:       np.random.randn(300),
+    &#x27;cluster&#x27;: np.random.choice([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;], 300),
+    &#x27;size&#x27;:    np.random.uniform(5, 20, 300),
+})
+# Separate clusters
+df.loc[df.cluster==&#x27;A&#x27;,&#x27;x&#x27;] += 2
+df.loc[df.cluster==&#x27;B&#x27;,&#x27;y&#x27;] += 2
+df.loc[df.cluster==&#x27;C&#x27;,&#x27;z&#x27;] += 2
+
+fig = px.scatter_3d(df, x=&#x27;x&#x27;, y=&#x27;y&#x27;, z=&#x27;z&#x27;,
+                    color=&#x27;cluster&#x27;, size=&#x27;size&#x27;,
+                    opacity=0.7,
+                    title=&#x27;3D Cluster Visualization&#x27;)
+fig.update_layout(height=500)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>3D surface plot</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+x = np.linspace(-3, 3, 60)
+y = np.linspace(-3, 3, 60)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2)) * np.exp(-0.1*(X**2+Y**2))
+
+fig = go.Figure(data=[
+    go.Surface(z=Z, x=X, y=Y,
+               colorscale=&#x27;Viridis&#x27;,
+               contours=dict(z=dict(show=True, usecolormap=True,
+                                    highlightcolor=&#x27;white&#x27;, project_z=True)))
+])
+fig.update_layout(
+    title=&#x27;3D Surface: Damped Sinc Function&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Z&#x27;),
+    height=500
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>3D scatter with color scale and hover</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(99)
+n = 500
+# Spiral helix dataset
+t = np.linspace(0, 4 * np.pi, n)
+df = pd.DataFrame({
+    &#x27;x&#x27;:        np.cos(t) + np.random.randn(n) * 0.15,
+    &#x27;y&#x27;:        np.sin(t) + np.random.randn(n) * 0.15,
+    &#x27;z&#x27;:        t / (2 * np.pi),   # height increases with angle
+    &#x27;intensity&#x27;: np.sin(t) ** 2,
+    &#x27;label&#x27;:    [f&#x27;Point {i}&#x27; for i in range(n)],
+})
+
+fig = px.scatter_3d(
+    df, x=&#x27;x&#x27;, y=&#x27;y&#x27;, z=&#x27;z&#x27;,
+    color=&#x27;intensity&#x27;,
+    color_continuous_scale=&#x27;Plasma&#x27;,
+    hover_name=&#x27;label&#x27;,
+    hover_data={&#x27;x&#x27;: &#x27;:.2f&#x27;, &#x27;y&#x27;: &#x27;:.2f&#x27;, &#x27;z&#x27;: &#x27;:.2f&#x27;},
+    opacity=0.75,
+    title=&#x27;3D Helix — Color by Intensity&#x27;,
+    size_max=6,
+)
+fig.update_traces(marker=dict(size=3))
+fig.update_layout(height=520)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>3D line plot and surface from meshgrid</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+# -- 3D line: double helix DNA-like structure --
+t = np.linspace(0, 6 * np.pi, 300)
+r = 1.5
+
+fig = go.Figure()
+# Strand 1
+fig.add_trace(go.Scatter3d(
+    x=r * np.cos(t), y=r * np.sin(t), z=t / np.pi,
+    mode=&#x27;lines&#x27;,
+    line=dict(color=&#x27;#636EFA&#x27;, width=5),
+    name=&#x27;Strand 1&#x27;,
+))
+# Strand 2 (180 degrees offset)
+fig.add_trace(go.Scatter3d(
+    x=r * np.cos(t + np.pi), y=r * np.sin(t + np.pi), z=t / np.pi,
+    mode=&#x27;lines&#x27;,
+    line=dict(color=&#x27;#EF553B&#x27;, width=5),
+    name=&#x27;Strand 2&#x27;,
+))
+# Rungs (every 15th point)
+step = 15
+for i in range(0, len(t), step):
+    fig.add_trace(go.Scatter3d(
+        x=[r*np.cos(t[i]), r*np.cos(t[i]+np.pi)],
+        y=[r*np.sin(t[i]), r*np.sin(t[i]+np.pi)],
+        z=[t[i]/np.pi, t[i]/np.pi],
+        mode=&#x27;lines&#x27;,
+        line=dict(color=&#x27;#aaa&#x27;, width=2),
+        showlegend=False,
+    ))
+
+# -- 3D surface: saddle function z = x^2 - y^2 --
+xs = np.linspace(-2, 2, 40)
+ys = np.linspace(-2, 2, 40)
+Xs, Ys = np.meshgrid(xs, ys)
+Zs = Xs**2 - Ys**2
+
+fig2 = go.Figure(data=[go.Surface(
+    x=Xs, y=Ys, z=Zs,
+    colorscale=&#x27;RdBu&#x27;,
+    colorbar=dict(title=&#x27;z = x²-y²&#x27;),
+)])
+fig2.update_layout(
+    title=&#x27;3D Saddle Surface (z = x² - y²)&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Z&#x27;),
+    height=480,
+)
+
+fig.update_layout(
+    title=&#x27;3D Double Helix Line Plot&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Turn&#x27;),
+    height=520,
+    showlegend=True,
+)
+fig.show()
+fig2.show()
+print(&quot;Double helix: 2 strands, rungs every 15 points&quot;)
+print(&quot;Saddle surface grid:&quot;, Xs.shape)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: 3D Risk Surface for Options Pricing</div><div class="rd">A quant visualizes how an option&#x27;s price changes with underlying price and time-to-expiry using a 3D surface.</div><pre><code class="language-python">import plotly.graph_objects as go
+import numpy as np
+from scipy.stats import norm
+
+def black_scholes_call(S, K, T, r, sigma):
+    # Avoid division by zero
+    T = np.where(T &lt; 1e-6, 1e-6, T)
+    d1 = (np.log(S/K) + (r + 0.5*sigma**2)*T) / (sigma*np.sqrt(T))
+    d2 = d1 - sigma*np.sqrt(T)
+    return S*norm.cdf(d1) - K*np.exp(-r*T)*norm.cdf(d2)
+
+K     = 100      # strike price
+r     = 0.05     # risk-free rate
+sigma = 0.20     # volatility
+
+S_vals = np.linspace(70, 130, 50)   # underlying price
+T_vals = np.linspace(0.02, 1.0, 50) # time to expiry (years)
+S_grid, T_grid = np.meshgrid(S_vals, T_vals)
+C_grid = black_scholes_call(S_grid, K, T_grid, r, sigma)
+
+fig = go.Figure(data=[go.Surface(
+    x=S_grid, y=T_grid, z=C_grid,
+    colorscale=&#x27;Plasma&#x27;,
+    colorbar=dict(title=&#x27;Call Price ($)&#x27;)
+)])
+fig.update_layout(
+    title=f&#x27;Black-Scholes Call Option Price  (K={K}, σ={sigma})&#x27;,
+    scene=dict(
+        xaxis_title=&#x27;Underlying Price (S)&#x27;,
+        yaxis_title=&#x27;Time to Expiry (T)&#x27;,
+        zaxis_title=&#x27;Call Price ($)&#x27;,
+    ),
+    height=520
+)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Scatter with Size, Color, and Hover</div><div class="pd">Create a 3D scatter plot of 400 random points in three clusters separated along all three axes. Color by cluster label, size the markers by a &#x27;confidence&#x27; column (random 5-20), and add meaningful hover_data. Print a summary of how many points are in each cluster.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+n_per = 133
+
+# Build three clusters
+def make_cluster(cx, cy, cz, label, n):
+    return pd.DataFrame({
+        &#x27;x&#x27;: np.random.randn(n) + cx,
+        &#x27;y&#x27;: np.random.randn(n) + cy,
+        &#x27;z&#x27;: np.random.randn(n) + cz,
+        &#x27;cluster&#x27;: label,
+        &#x27;confidence&#x27;: np.random.uniform(5, 20, n).round(1),
+    })
+
+# TODO: df = pd.concat([
+#     make_cluster(0, 0, 0, &#x27;Alpha&#x27;, n_per),
+#     make_cluster(4, 0, 0, &#x27;Beta&#x27;,  n_per),
+#     make_cluster(2, 4, 2, &#x27;Gamma&#x27;, n_per),
+# ], ignore_index=True)
+
+# Print cluster summary
+# TODO: print(df.groupby(&#x27;cluster&#x27;)[[&#x27;x&#x27;,&#x27;y&#x27;,&#x27;z&#x27;]].mean().round(2))
+
+# TODO: fig = px.scatter_3d(
+#     df, x=&#x27;x&#x27;, y=&#x27;y&#x27;, z=&#x27;z&#x27;,
+#     color=&#x27;cluster&#x27;, size=&#x27;confidence&#x27;,
+#     hover_data={&#x27;confidence&#x27;: True, &#x27;x&#x27;: &#x27;:.2f&#x27;, &#x27;y&#x27;: &#x27;:.2f&#x27;, &#x27;z&#x27;: &#x27;:.2f&#x27;},
+#     opacity=0.75,
+#     title=&#x27;3D Cluster Scatter — Size by Confidence&#x27;,
+# )
+# TODO: fig.update_layout(height=520)
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Subplots with make_subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">make_subplots creates multi-panel figures. Mix chart types, share axes, and control spacing — all in one interactive figure.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+
+np.random.seed(5)
+x = np.linspace(0, 10, 100)
+
+fig = make_subplots(rows=2, cols=2,
+                    subplot_titles=[&#x27;Line&#x27;,&#x27;Bar&#x27;,&#x27;Scatter&#x27;,&#x27;Histogram&#x27;])
+
+fig.add_trace(go.Scatter(x=x, y=np.sin(x), name=&#x27;sin&#x27;), row=1, col=1)
+fig.add_trace(go.Bar(x=[&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;], y=[4,7,3,8], name=&#x27;bar&#x27;), row=1, col=2)
+fig.add_trace(go.Scatter(x=np.random.randn(100), y=np.random.randn(100),
+                         mode=&#x27;markers&#x27;, name=&#x27;scatter&#x27;,
+                         marker=dict(opacity=0.5)), row=2, col=1)
+fig.add_trace(go.Histogram(x=np.random.randn(500), name=&#x27;hist&#x27;), row=2, col=2)
+
+fig.update_layout(title=&#x27;Multi-Type Dashboard&#x27;, height=500, showlegend=False)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Shared x-axis — price + volume</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
+
+np.random.seed(9)
+dates  = pd.date_range(&#x27;2024-01-01&#x27;, periods=60, freq=&#x27;B&#x27;)
+price  = 100 + np.cumsum(np.random.randn(60) * 1.5)
+volume = np.random.randint(1000, 8000, 60)
+colors = [&#x27;green&#x27; if price[i] &gt;= price[i-1] else &#x27;red&#x27; for i in range(len(price))]
+
+fig = make_subplots(rows=2, cols=1, shared_xaxes=True,
+                    row_heights=[0.7, 0.3],
+                    vertical_spacing=0.03)
+
+fig.add_trace(go.Scatter(x=dates, y=price, name=&#x27;Price&#x27;,
+                         line=dict(color=&#x27;royalblue&#x27;, width=2)), row=1, col=1)
+fig.add_trace(go.Bar(x=dates, y=volume, name=&#x27;Volume&#x27;,
+                     marker_color=colors, opacity=0.7), row=2, col=1)
+
+fig.update_layout(title=&#x27;Stock Price &amp; Volume&#x27;, height=500, showlegend=False)
+fig.update_xaxes(rangeslider_visible=False)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>2×2 grid with mixed chart types and shared axes</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
+
+np.random.seed(11)
+x = np.linspace(0, 2 * np.pi, 80)
+dates = pd.date_range(&#x27;2024-01&#x27;, periods=12, freq=&#x27;MS&#x27;)
+revenue = 50 + np.cumsum(np.random.randn(12) * 4)
+categories = [&#x27;Q1&#x27;, &#x27;Q2&#x27;, &#x27;Q3&#x27;, &#x27;Q4&#x27;]
+vals_a = [22, 35, 28, 41]
+vals_b = [18, 29, 33, 37]
+
+fig = make_subplots(
+    rows=2, cols=2,
+    subplot_titles=[&#x27;Sine &amp; Cosine Waves&#x27;, &#x27;Monthly Revenue&#x27;,
+                    &#x27;Grouped Bar by Quarter&#x27;, &#x27;Normal Distribution&#x27;],
+    vertical_spacing=0.12, horizontal_spacing=0.1,
+)
+
+# Row 1, Col 1: Two line traces
+fig.add_trace(go.Scatter(x=x, y=np.sin(x), name=&#x27;sin&#x27;,
+                         line=dict(color=&#x27;#636EFA&#x27;)), row=1, col=1)
+fig.add_trace(go.Scatter(x=x, y=np.cos(x), name=&#x27;cos&#x27;,
+                         line=dict(color=&#x27;#EF553B&#x27;, dash=&#x27;dash&#x27;)), row=1, col=1)
+
+# Row 1, Col 2: Area chart
+fig.add_trace(go.Scatter(x=dates, y=revenue.round(1), fill=&#x27;tozeroy&#x27;,
+                         line=dict(color=&#x27;#00CC96&#x27;), name=&#x27;Revenue&#x27;), row=1, col=2)
+
+# Row 2, Col 1: Grouped bars
+fig.add_trace(go.Bar(x=categories, y=vals_a, name=&#x27;Product A&#x27;,
+                     marker_color=&#x27;#AB63FA&#x27;), row=2, col=1)
+fig.add_trace(go.Bar(x=categories, y=vals_b, name=&#x27;Product B&#x27;,
+                     marker_color=&#x27;#FFA15A&#x27;), row=2, col=1)
+
+# Row 2, Col 2: Histogram
+fig.add_trace(go.Histogram(x=np.random.randn(400), nbinsx=25,
+                            marker_color=&#x27;#19D3F3&#x27;, name=&#x27;Normal&#x27;), row=2, col=2)
+
+fig.update_layout(title=&#x27;Multi-Panel Dashboard&#x27;, height=580,
+                  barmode=&#x27;group&#x27;, showlegend=True,
+                  legend=dict(orientation=&#x27;h&#x27;, y=-0.08))
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Bar + Line + Scatter in shared-axis subplots</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
+
+np.random.seed(17)
+months = pd.date_range(&#x27;2024-01&#x27;, periods=12, freq=&#x27;MS&#x27;)
+sales    = np.random.randint(30, 100, 12)
+target   = np.full(12, 70)
+cum_sales = sales.cumsum()
+margin_pct = np.random.uniform(0.15, 0.45, 12).round(3)
+
+# 3 rows: bar chart, line overlay, scatter — all share x-axis
+fig = make_subplots(
+    rows=3, cols=1,
+    shared_xaxes=True,
+    row_heights=[0.5, 0.25, 0.25],
+    vertical_spacing=0.05,
+    subplot_titles=[&#x27;Monthly Sales vs Target&#x27;,
+                    &#x27;Cumulative Sales&#x27;,
+                    &#x27;Margin %&#x27;],
+)
+
+# Row 1: Bar (actual) + Line (target)
+bar_colors = [&#x27;#00CC96&#x27; if s &gt;= 70 else &#x27;#EF553B&#x27; for s in sales]
+fig.add_trace(go.Bar(x=months, y=sales, name=&#x27;Actual&#x27;,
+                     marker_color=bar_colors), row=1, col=1)
+fig.add_trace(go.Scatter(x=months, y=target, name=&#x27;Target&#x27;,
+                         line=dict(color=&#x27;white&#x27;, dash=&#x27;dash&#x27;, width=2),
+                         mode=&#x27;lines&#x27;), row=1, col=1)
+
+# Row 2: Cumulative area line
+fig.add_trace(go.Scatter(x=months, y=cum_sales, fill=&#x27;tozeroy&#x27;,
+                         name=&#x27;Cumulative&#x27;, line=dict(color=&#x27;#636EFA&#x27;)), row=2, col=1)
+
+# Row 3: Scatter dots for margin
+fig.add_trace(go.Scatter(x=months, y=(margin_pct * 100).round(1),
+                         mode=&#x27;markers+lines&#x27;, name=&#x27;Margin %&#x27;,
+                         marker=dict(color=&#x27;#AB63FA&#x27;, size=8),
+                         line=dict(color=&#x27;#AB63FA&#x27;, width=1.5)), row=3, col=1)
+fig.add_hline(y=30, line_dash=&#x27;dot&#x27;, line_color=&#x27;gray&#x27;,
+              annotation_text=&#x27;30% target&#x27;, row=3, col=1)
+
+fig.update_layout(
+    title=&#x27;Sales Performance — Bar + Line + Scatter Subplots&#x27;,
+    height=600, showlegend=True,
+    legend=dict(orientation=&#x27;h&#x27;, y=-0.06),
+    template=&#x27;plotly_dark&#x27;,
+)
+fig.update_xaxes(rangeslider_visible=False)
+fig.show()
+print(&quot;Traces:&quot;, [t.type for t in fig.data])
+print(&quot;Total sales:&quot;, int(cum_sales[-1]))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Marketing Analytics Dashboard</div><div class="rd">A growth team builds a 4-panel Plotly dashboard showing funnel, revenue trend, channel mix, and conversion by cohort.</div><pre><code class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
+
+np.random.seed(3)
+months  = pd.date_range(&#x27;2024-01&#x27;, periods=12, freq=&#x27;MS&#x27;)
+revenue = 100 + np.cumsum(np.random.randn(12)*8) + np.arange(12)*5
+sessions= np.random.randint(8000, 20000, 12)
+cvr     = revenue / sessions * 100
+
+channels = [&#x27;Organic&#x27;,&#x27;Paid&#x27;,&#x27;Social&#x27;,&#x27;Email&#x27;,&#x27;Direct&#x27;]
+ch_vals  = [35, 25, 18, 12, 10]
+
+funnel_stages  = [&#x27;Visit&#x27;,&#x27;Sign Up&#x27;,&#x27;Trial&#x27;,&#x27;Paid&#x27;]
+funnel_vals    = [10000, 3200, 1100, 420]
+
+fig = make_subplots(
+    rows=2, cols=2,
+    subplot_titles=[&#x27;Revenue Trend ($K)&#x27;, &#x27;Traffic by Channel&#x27;,
+                    &#x27;Conversion Funnel&#x27;, &#x27;CVR vs Sessions&#x27;],
+    specs=[[{},{}],[{},{}]]
+)
+
+# Revenue
+fig.add_trace(go.Scatter(x=months, y=revenue.round(1), fill=&#x27;tozeroy&#x27;,
+                         line=dict(color=&#x27;#636EFA&#x27;), name=&#x27;Revenue&#x27;), row=1, col=1)
+
+# Channel pie — use domain trace
+fig.add_trace(go.Pie(labels=channels, values=ch_vals, hole=0.35,
+                     showlegend=False, textinfo=&#x27;label+percent&#x27;), row=1, col=2)
+
+# Funnel
+fig.add_trace(go.Funnel(y=funnel_stages, x=funnel_vals,
+                        marker_color=[&#x27;#636EFA&#x27;,&#x27;#EF553B&#x27;,&#x27;#00CC96&#x27;,&#x27;#AB63FA&#x27;],
+                        textinfo=&#x27;value+percent initial&#x27;), row=2, col=1)
+
+# CVR vs Sessions scatter
+fig.add_trace(go.Scatter(x=sessions, y=cvr.round(3), mode=&#x27;markers+text&#x27;,
+                         text=[m.strftime(&#x27;%b&#x27;) for m in months],
+                         textposition=&#x27;top center&#x27;,
+                         marker=dict(size=10, color=&#x27;#FFA15A&#x27;)), row=2, col=2)
+
+fig.update_layout(title=&#x27;Growth Dashboard — 2024&#x27;, height=650)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2×2 Subplot Grid</div><div class="pd">Build a 2x2 subplot figure using make_subplots. Panel (1,1): a scatter of random points colored by a third variable. Panel (1,2): a bar chart of 5 category totals. Panel (2,1): a line with fill=&#x27;tozeroy&#x27; for a time series. Panel (2,2): a histogram of 300 normal values. Give each panel a subtitle and set overall height=550.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
+
+np.random.seed(42)
+
+# TODO: fig = make_subplots(
+#     rows=2, cols=2,
+#     subplot_titles=[&#x27;Random Scatter&#x27;, &#x27;Category Totals&#x27;,
+#                     &#x27;Time Series&#x27;, &#x27;Distribution&#x27;],
+# )
+
+# Panel (1,1): scatter with color (use marker colorscale)
+x1 = np.random.randn(100)
+y1 = np.random.randn(100)
+c1 = np.random.randn(100)
+# TODO: fig.add_trace(go.Scatter(x=x1, y=y1, mode=&#x27;markers&#x27;,
+#     marker=dict(color=c1, colorscale=&#x27;Viridis&#x27;, showscale=False),
+#     name=&#x27;scatter&#x27;), row=1, col=1)
+
+# Panel (1,2): bar chart
+cats = [&#x27;Alpha&#x27;, &#x27;Beta&#x27;, &#x27;Gamma&#x27;, &#x27;Delta&#x27;, &#x27;Epsilon&#x27;]
+vals = np.random.randint(10, 80, 5)
+# TODO: fig.add_trace(go.Bar(x=cats, y=vals, name=&#x27;totals&#x27;,
+#     marker_color=&#x27;#636EFA&#x27;), row=1, col=2)
+
+# Panel (2,1): area line
+dates = pd.date_range(&#x27;2024-01&#x27;, periods=24, freq=&#x27;MS&#x27;)
+ts = 100 + np.cumsum(np.random.randn(24) * 3)
+# TODO: fig.add_trace(go.Scatter(x=dates, y=ts.round(1), fill=&#x27;tozeroy&#x27;,
+#     line=dict(color=&#x27;#00CC96&#x27;), name=&#x27;series&#x27;), row=2, col=1)
+
+# Panel (2,2): histogram
+# TODO: fig.add_trace(go.Histogram(x=np.random.randn(300), nbinsx=20,
+#     marker_color=&#x27;#EF553B&#x27;, name=&#x27;hist&#x27;), row=2, col=2)
+
+# TODO: fig.update_layout(title=&#x27;My 2x2 Dashboard&#x27;, height=550, showlegend=False)
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Customizing Layout &amp; Traces</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">update_layout() controls the figure-level design. update_traces() modifies all traces at once. Both accept selector filtering.</p><div class="code-block"><div class="ch"><span>update_layout — theme and fonts</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+
+df = px.data.gapminder().query(&quot;year == 2007 and continent == &#x27;Europe&#x27;&quot;)
+
+fig = px.scatter(df, x=&#x27;gdpPercap&#x27;, y=&#x27;lifeExp&#x27;,
+                 size=&#x27;pop&#x27;, color=&#x27;country&#x27;,
+                 hover_name=&#x27;country&#x27;, log_x=True)
+
+fig.update_layout(
+    title=dict(text=&#x27;Europe 2007: GDP vs Life Expectancy&#x27;,
+               font=dict(size=16, color=&#x27;white&#x27;), x=0.5),
+    plot_bgcolor=&#x27;#1a1a2e&#x27;,
+    paper_bgcolor=&#x27;#16213e&#x27;,
+    font=dict(color=&#x27;#e0e0e0&#x27;),
+    xaxis=dict(gridcolor=&#x27;#333&#x27;, title=&#x27;GDP per Capita (log)&#x27;),
+    yaxis=dict(gridcolor=&#x27;#333&#x27;, title=&#x27;Life Expectancy&#x27;),
+    showlegend=False,
+    height=450,
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>update_traces and add_shape</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(1)
+x = np.arange(1, 13)
+y = 80 + np.cumsum(np.random.randn(12) * 5)
+
+fig = px.line(x=x, y=y, markers=True,
+              title=&#x27;Monthly Revenue with Target Zone&#x27;)
+
+# Customise the line trace
+fig.update_traces(
+    line=dict(color=&#x27;#00CC96&#x27;, width=3),
+    marker=dict(size=9, color=&#x27;white&#x27;,
+                line=dict(color=&#x27;#00CC96&#x27;, width=2))
+)
+
+# Add target band (rectangle shape)
+fig.add_hrect(y0=90, y1=110, fillcolor=&#x27;rgba(100,200,100,0.1)&#x27;,
+              line_width=0, annotation_text=&#x27;Target range&#x27;)
+fig.add_hline(y=100, line_dash=&#x27;dot&#x27;, line_color=&#x27;gray&#x27;,
+              annotation_text=&#x27;Target&#x27;)
+
+fig.update_layout(xaxis_title=&#x27;Month&#x27;, yaxis_title=&#x27;Revenue ($K)&#x27;)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Custom color palette, annotations, and template</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">import plotly.graph_objects as go
+import plotly.express as px
+import numpy as np
+
+np.random.seed(5)
+categories = [&#x27;Product A&#x27;, &#x27;Product B&#x27;, &#x27;Product C&#x27;, &#x27;Product D&#x27;, &#x27;Product E&#x27;]
+q1 = np.random.randint(30, 90, 5)
+q2 = np.random.randint(30, 90, 5)
+
+fig = go.Figure()
+fig.add_trace(go.Bar(x=categories, y=q1, name=&#x27;Q1&#x27;,
+                     marker_color=&#x27;#636EFA&#x27;))
+fig.add_trace(go.Bar(x=categories, y=q2, name=&#x27;Q2&#x27;,
+                     marker_color=&#x27;#EF553B&#x27;))
+
+# Annotate the tallest Q2 bar
+peak_idx = int(np.argmax(q2))
+fig.add_annotation(
+    x=categories[peak_idx], y=q2[peak_idx] + 4,
+    text=f&#x27;Peak Q2: {q2[peak_idx]}&#x27;,
+    showarrow=True, arrowhead=2,
+    font=dict(color=&#x27;#EF553B&#x27;, size=12),
+)
+
+# Reference line for target
+fig.add_hline(y=70, line_dash=&#x27;dash&#x27;, line_color=&#x27;gray&#x27;,
+              annotation_text=&#x27;Target 70&#x27;, annotation_position=&#x27;right&#x27;)
+
+fig.update_layout(
+    title=&#x27;Q1 vs Q2 Sales by Product&#x27;,
+    barmode=&#x27;group&#x27;,
+    template=&#x27;plotly_dark&#x27;,
+    height=420,
+    legend=dict(orientation=&#x27;h&#x27;, y=1.05),
+    yaxis_title=&#x27;Sales ($K)&#x27;,
+)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Interactive updatemenus — dropdown to switch chart view</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(13)
+categories = [&#x27;Alpha&#x27;, &#x27;Beta&#x27;, &#x27;Gamma&#x27;, &#x27;Delta&#x27;, &#x27;Epsilon&#x27;, &#x27;Zeta&#x27;]
+q1 = np.random.randint(20, 100, 6)
+q2 = np.random.randint(20, 100, 6)
+q3 = np.random.randint(20, 100, 6)
+q4 = np.random.randint(20, 100, 6)
+
+# All four quarter traces — only Q1 visible by default
+quarters_data = [
+    go.Bar(x=categories, y=q1, name=&#x27;Q1&#x27;, marker_color=&#x27;#636EFA&#x27;, visible=True),
+    go.Bar(x=categories, y=q2, name=&#x27;Q2&#x27;, marker_color=&#x27;#EF553B&#x27;, visible=False),
+    go.Bar(x=categories, y=q3, name=&#x27;Q3&#x27;, marker_color=&#x27;#00CC96&#x27;, visible=False),
+    go.Bar(x=categories, y=q4, name=&#x27;Q4&#x27;, marker_color=&#x27;#AB63FA&#x27;, visible=False),
+]
+fig = go.Figure(data=quarters_data)
+
+# Dropdown buttons — each shows only one quarter
+buttons = []
+for i, label in enumerate([&#x27;Q1&#x27;, &#x27;Q2&#x27;, &#x27;Q3&#x27;, &#x27;Q4&#x27;]):
+    vis = [j == i for j in range(4)]
+    buttons.append(dict(
+        label=label,
+        method=&#x27;update&#x27;,
+        args=[{&#x27;visible&#x27;: vis},
+              {&#x27;title&#x27;: f&#x27;{label} Sales by Product&#x27;,
+               &#x27;yaxis&#x27;: {&#x27;title&#x27;: f&#x27;{label} Revenue ($K)&#x27;}}],
+    ))
+
+fig.update_layout(
+    title=&#x27;Q1 Sales by Product&#x27;,
+    yaxis_title=&#x27;Q1 Revenue ($K)&#x27;,
+    height=420,
+    template=&#x27;plotly_dark&#x27;,
+    updatemenus=[dict(
+        type=&#x27;dropdown&#x27;,
+        direction=&#x27;down&#x27;,
+        x=0.01, y=1.12, xanchor=&#x27;left&#x27;,
+        showactive=True,
+        buttons=buttons,
+        bgcolor=&#x27;#1e293b&#x27;,
+        bordercolor=&#x27;#475569&#x27;,
+        font=dict(color=&#x27;white&#x27;),
+    )],
+    annotations=[dict(text=&#x27;Select Quarter:&#x27;, x=0, y=1.16,
+                      xref=&#x27;paper&#x27;, yref=&#x27;paper&#x27;,
+                      showarrow=False, font=dict(color=&#x27;#94a3b8&#x27;))],
+)
+fig.show()
+print(&quot;Dropdown buttons:&quot;, len(buttons))
+print(&quot;Available quarters: Q1, Q2, Q3, Q4&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Branded Executive KPI Chart</div><div class="rd">A BI developer creates a dark-themed, branded interactive chart for the C-suite weekly review email.</div><pre><code class="language-python">import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+months  = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = np.array([4.2,3.8,5.1,5.8,6.2,7.0,6.5,7.8,8.1,7.5,9.2,10.4])
+target  = np.full(12, 6.0)
+prev_yr = revenue * np.random.uniform(0.75, 0.95, 12)
+
+fig = go.Figure()
+
+# Previous year (subtle background)
+fig.add_trace(go.Bar(x=months, y=prev_yr, name=&#x27;2023&#x27;,
+                     marker_color=&#x27;rgba(100,100,180,0.3)&#x27;, showlegend=True))
+
+# Current year bars
+fig.add_trace(go.Bar(x=months, y=revenue, name=&#x27;2024&#x27;,
+                     marker_color=[&#x27;#00CC96&#x27; if r&gt;=t else &#x27;#EF553B&#x27;
+                                   for r,t in zip(revenue, target)]))
+
+# Target line
+fig.add_trace(go.Scatter(x=months, y=target, name=&#x27;Target&#x27;,
+                         line=dict(color=&#x27;white&#x27;, dash=&#x27;dash&#x27;, width=2),
+                         mode=&#x27;lines&#x27;))
+
+# YoY growth annotations
+for i, (m, r, p) in enumerate(zip(months, revenue, prev_yr)):
+    yoy = (r-p)/p*100
+    fig.add_annotation(x=m, y=r+0.15, text=f&#x27;+{yoy:.0f}%&#x27;,
+                       font=dict(size=8, color=&#x27;#aaa&#x27;), showarrow=False)
+
+fig.update_layout(
+    title=dict(text=&#x27;2024 Monthly Revenue ($M) vs Target &amp; Prior Year&#x27;,
+               font=dict(size=15, color=&#x27;white&#x27;), x=0.5),
+    barmode=&#x27;overlay&#x27;,
+    plot_bgcolor=&#x27;#111827&#x27;, paper_bgcolor=&#x27;#0f172a&#x27;,
+    font=dict(color=&#x27;#cbd5e1&#x27;),
+    xaxis=dict(gridcolor=&#x27;#1e293b&#x27;),
+    yaxis=dict(gridcolor=&#x27;#1e293b&#x27;, title=&#x27;Revenue ($M)&#x27;),
+    legend=dict(orientation=&#x27;h&#x27;, y=1.08),
+    height=460,
+)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branded Dark-Theme KPI Chart</div><div class="pd">Create a go.Figure with two traces: a Bar for actual monthly revenue (12 months, random 50-120) and a Scatter line for the monthly target (fixed at 80). Apply a full dark theme using update_layout (plot_bgcolor, paper_bgcolor, font color, grid color). Add an annotation at the month with the highest revenue. Add an add_hline for the target. Set a centered title.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(7)
+months  = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,
+           &#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = np.random.randint(50, 121, 12)
+target  = np.full(12, 80)
+
+fig = go.Figure()
+
+# Bar trace for actual revenue
+# TODO: fig.add_trace(go.Bar(
+#     x=months, y=revenue, name=&#x27;Actual&#x27;,
+#     marker_color=[&#x27;#00CC96&#x27; if r &gt;= 80 else &#x27;#EF553B&#x27; for r in revenue],
+# ))
+
+# Line trace for target
+# TODO: fig.add_trace(go.Scatter(
+#     x=months, y=target, name=&#x27;Target&#x27;,
+#     line=dict(color=&#x27;white&#x27;, dash=&#x27;dash&#x27;, width=2), mode=&#x27;lines&#x27;,
+# ))
+
+# Annotation at peak month
+# TODO: peak = int(np.argmax(revenue))
+# TODO: fig.add_annotation(
+#     x=months[peak], y=revenue[peak] + 3,
+#     text=f&#x27;Peak: {revenue[peak]}&#x27;,
+#     showarrow=True, arrowhead=2,
+#     font=dict(color=&#x27;#00CC96&#x27;, size=12),
+# )
+
+# Dark theme layout
+# TODO: fig.update_layout(
+#     title=dict(text=&#x27;Monthly Revenue vs Target&#x27;, x=0.5,
+#                font=dict(size=15, color=&#x27;white&#x27;)),
+#     plot_bgcolor=&#x27;#111827&#x27;, paper_bgcolor=&#x27;#0f172a&#x27;,
+#     font=dict(color=&#x27;#cbd5e1&#x27;),
+#     xaxis=dict(gridcolor=&#x27;#1e293b&#x27;),
+#     yaxis=dict(gridcolor=&#x27;#1e293b&#x27;, title=&#x27;Revenue ($K)&#x27;),
+#     barmode=&#x27;overlay&#x27;, height=430,
+# )
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Animated Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">animation_frame adds a play button to animate over a variable (e.g. year, month). Great for showing trends over time.</p><div class="code-block"><div class="ch"><span>Animated bubble chart</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import plotly.express as px
+
+# Classic animated gapminder chart
+df = px.data.gapminder()
+
+fig = px.scatter(
+    df, x=&#x27;gdpPercap&#x27;, y=&#x27;lifeExp&#x27;,
+    animation_frame=&#x27;year&#x27;,
+    animation_group=&#x27;country&#x27;,
+    size=&#x27;pop&#x27;, color=&#x27;continent&#x27;,
+    hover_name=&#x27;country&#x27;,
+    log_x=True, size_max=55,
+    range_x=[100, 100000], range_y=[25, 90],
+    title=&#x27;World Development 1952–2007&#x27;,
+    labels={&#x27;gdpPercap&#x27;: &#x27;GDP per Capita&#x27;, &#x27;lifeExp&#x27;: &#x27;Life Expectancy&#x27;},
+)
+fig.update_layout(height=520)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Animated bar chart race</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+products = [&#x27;Widget&#x27;, &#x27;Gadget&#x27;, &#x27;Doohickey&#x27;, &#x27;Gizmo&#x27;, &#x27;Thingamajig&#x27;]
+quarters = [&#x27;Q1&#x27;,&#x27;Q2&#x27;,&#x27;Q3&#x27;,&#x27;Q4&#x27;]
+
+rows = []
+sales = {p: np.random.uniform(50, 200) for p in products}
+for q in quarters:
+    for p in products:
+        sales[p] += np.random.uniform(-20, 40)
+        rows.append({&#x27;quarter&#x27;: q, &#x27;product&#x27;: p, &#x27;sales&#x27;: max(sales[p], 10)})
+df = pd.DataFrame(rows)
+
+fig = px.bar(df, x=&#x27;sales&#x27;, y=&#x27;product&#x27;,
+             animation_frame=&#x27;quarter&#x27;,
+             orientation=&#x27;h&#x27;,
+             color=&#x27;product&#x27;,
+             range_x=[0, 400],
+             title=&#x27;Product Sales Race by Quarter&#x27;,
+             labels={&#x27;sales&#x27;: &#x27;Cumulative Sales ($K)&#x27;},
+             color_discrete_sequence=px.colors.qualitative.Bold)
+fig.update_layout(showlegend=False, height=380)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Animated scatter with custom transition speed</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(3)
+years = list(range(2015, 2026))
+regions = [&#x27;North&#x27;, &#x27;South&#x27;, &#x27;East&#x27;, &#x27;West&#x27;]
+
+rows = []
+for region in regions:
+    revenue = np.random.uniform(80, 120)
+    customers = np.random.randint(500, 2000)
+    for yr in years:
+        revenue    += np.random.uniform(-5, 12)
+        customers  += np.random.randint(-50, 150)
+        rows.append({
+            &#x27;year&#x27;:      yr,
+            &#x27;region&#x27;:    region,
+            &#x27;revenue&#x27;:   round(revenue, 1),
+            &#x27;customers&#x27;: max(customers, 100),
+            &#x27;margin&#x27;:    round(np.random.uniform(0.1, 0.4), 2),
+        })
+df = pd.DataFrame(rows)
+
+fig = px.scatter(
+    df, x=&#x27;customers&#x27;, y=&#x27;revenue&#x27;,
+    animation_frame=&#x27;year&#x27;, animation_group=&#x27;region&#x27;,
+    color=&#x27;region&#x27;, size=&#x27;margin&#x27;, size_max=40,
+    hover_name=&#x27;region&#x27;, hover_data=[&#x27;margin&#x27;],
+    range_x=[0, 4000], range_y=[50, 250],
+    title=&#x27;Revenue vs Customers by Region (Animated 2015-2025)&#x27;,
+    labels={&#x27;revenue&#x27;: &#x27;Revenue ($K)&#x27;, &#x27;customers&#x27;: &#x27;Active Customers&#x27;},
+)
+fig.layout.updatemenus[0].buttons[0].args[1][&#x27;frame&#x27;][&#x27;duration&#x27;] = 800
+fig.layout.updatemenus[0].buttons[0].args[1][&#x27;transition&#x27;][&#x27;duration&#x27;] = 400
+fig.update_layout(height=480)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Animated line chart with frames and sliders</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(22)
+n_frames = 20
+x = np.linspace(0, 4 * np.pi, 200)
+
+# Each frame reveals more of the wave, with noise that changes each step
+frames = []
+for k in range(1, n_frames + 1):
+    end = int(len(x) * k / n_frames)
+    noise = np.random.randn(end) * 0.15
+    y = np.sin(x[:end]) * np.exp(-x[:end] * 0.08) + noise
+    frames.append(go.Frame(
+        data=[go.Scatter(x=x[:end], y=y,
+                         mode=&#x27;lines&#x27;,
+                         line=dict(color=&#x27;#636EFA&#x27;, width=2))],
+        name=str(k),
+        layout=go.Layout(title_text=f&#x27;Damped Wave — Step {k}/{n_frames}&#x27;),
+    ))
+
+# Initial trace (first frame)
+y0 = np.sin(x[:1]) * np.exp(-x[:1] * 0.08)
+fig = go.Figure(
+    data=[go.Scatter(x=x[:1], y=y0, mode=&#x27;lines&#x27;,
+                     line=dict(color=&#x27;#636EFA&#x27;, width=2))],
+    frames=frames,
+)
+
+# Play/Pause buttons + slider
+fig.update_layout(
+    title=&#x27;Animated Damped Wave — Frames &amp; Slider&#x27;,
+    xaxis=dict(range=[0, 4*np.pi], title=&#x27;x&#x27;),
+    yaxis=dict(range=[-1.3, 1.3], title=&#x27;Amplitude&#x27;),
+    height=460,
+    updatemenus=[dict(
+        type=&#x27;buttons&#x27;, showactive=False,
+        y=1.05, x=0, xanchor=&#x27;left&#x27;,
+        buttons=[
+            dict(label=&#x27;Play&#x27;,
+                 method=&#x27;animate&#x27;,
+                 args=[None, {&#x27;frame&#x27;: {&#x27;duration&#x27;: 120, &#x27;redraw&#x27;: True},
+                              &#x27;fromcurrent&#x27;: True}]),
+            dict(label=&#x27;Pause&#x27;,
+                 method=&#x27;animate&#x27;,
+                 args=[[None], {&#x27;frame&#x27;: {&#x27;duration&#x27;: 0},
+                                &#x27;mode&#x27;: &#x27;immediate&#x27;}]),
+        ],
+    )],
+    sliders=[dict(
+        steps=[dict(method=&#x27;animate&#x27;, args=[[str(k)],
+               {&#x27;mode&#x27;: &#x27;immediate&#x27;, &#x27;frame&#x27;: {&#x27;duration&#x27;: 120}}],
+               label=str(k)) for k in range(1, n_frames+1)],
+        transition=dict(duration=80),
+        x=0, y=0, len=1.0,
+        currentvalue=dict(prefix=&#x27;Step: &#x27;, visible=True),
+    )],
+)
+fig.show()
+print(f&quot;Total frames: {len(fig.frames)}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Global CO2 Emissions Animation</div><div class="rd">An environmental analyst animates per-capita CO2 emissions vs GDP across countries and decades for a policy presentation.</div><pre><code class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(10)
+countries  = [&#x27;US&#x27;,&#x27;China&#x27;,&#x27;India&#x27;,&#x27;Germany&#x27;,&#x27;Brazil&#x27;,&#x27;UK&#x27;,&#x27;Japan&#x27;,&#x27;France&#x27;,&#x27;Canada&#x27;,&#x27;Australia&#x27;]
+continents = [&#x27;Americas&#x27;,&#x27;Asia&#x27;,&#x27;Asia&#x27;,&#x27;Europe&#x27;,&#x27;Americas&#x27;,&#x27;Europe&#x27;,&#x27;Asia&#x27;,&#x27;Europe&#x27;,&#x27;Americas&#x27;,&#x27;Oceania&#x27;]
+years      = list(range(1990, 2025, 5))
+
+rows = []
+for i, (c, cont) in enumerate(zip(countries, continents)):
+    gdp  = np.random.uniform(5000, 60000)
+    co2  = np.random.uniform(2, 16)
+    pop  = np.random.uniform(20, 1400)
+    for yr in years:
+        gdp  *= np.random.uniform(1.01, 1.05)
+        co2  *= np.random.uniform(0.97, 1.02)
+        rows.append({&#x27;country&#x27;:c,&#x27;continent&#x27;:cont,&#x27;year&#x27;:yr,
+                     &#x27;gdp_pc&#x27;:round(gdp,0),&#x27;co2_pc&#x27;:round(co2,2),&#x27;pop&#x27;:round(pop,1)})
+
+df = pd.DataFrame(rows)
+
+fig = px.scatter(
+    df, x=&#x27;gdp_pc&#x27;, y=&#x27;co2_pc&#x27;,
+    animation_frame=&#x27;year&#x27;, animation_group=&#x27;country&#x27;,
+    size=&#x27;pop&#x27;, color=&#x27;continent&#x27;,
+    hover_name=&#x27;country&#x27;,
+    log_x=True, size_max=45,
+    range_x=[3000, 120000], range_y=[0, 20],
+    title=&#x27;CO2 Emissions vs GDP per Capita (1990–2024)&#x27;,
+    labels={&#x27;gdp_pc&#x27;: &#x27;GDP per Capita ($, log)&#x27;, &#x27;co2_pc&#x27;: &#x27;CO2 per Capita (tonnes)&#x27;},
+)
+fig.update_layout(height=520)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Animated Geographic Scatter</div><div class="pd">Using px.data.gapminder(), create an animated choropleth map (px.choropleth) with animation_frame=&#x27;year&#x27;, coloring countries by lifeExp. Set range_color=[30, 85], use the RdYlGn colorscale, and add hover_data for gdpPercap and pop. Print the number of unique years in the animation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import plotly.express as px
+
+df = px.data.gapminder()
+
+# Print unique years that will be animation frames
+# TODO: years = sorted(df[&#x27;year&#x27;].unique())
+# TODO: print(f&quot;Animation frames: {len(years)} years from {years[0]} to {years[-1]}&quot;)
+
+# Build animated choropleth
+# TODO: fig = px.choropleth(
+#     df,
+#     locations=&#x27;iso_alpha&#x27;,
+#     color=&#x27;lifeExp&#x27;,
+#     hover_name=&#x27;country&#x27;,
+#     hover_data=[&#x27;gdpPercap&#x27;, &#x27;pop&#x27;],
+#     animation_frame=&#x27;year&#x27;,
+#     color_continuous_scale=&#x27;RdYlGn&#x27;,
+#     range_color=[30, 85],
+#     title=&#x27;World Life Expectancy 1952-2007 (Animated)&#x27;,
+#     labels={&#x27;lifeExp&#x27;: &#x27;Life Expectancy&#x27;},
+# )
+# TODO: fig.update_layout(height=500,
+#     coloraxis_colorbar=dict(title=&#x27;Life Exp (years)&#x27;))
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Maps &amp; Geographic Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.choropleth and px.scatter_geo create world or country-level maps. px.scatter_mapbox uses tile maps for city-level data.</p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import plotly.express as px
+
+df = px.data.gapminder().query(&quot;year == 2007&quot;)
+
+fig = px.choropleth(
+    df, locations=&#x27;iso_alpha&#x27;,
+    color=&#x27;lifeExp&#x27;,
+    hover_name=&#x27;country&#x27;,
+    hover_data=[&#x27;gdpPercap&#x27;, &#x27;pop&#x27;],
+    color_continuous_scale=&#x27;RdYlGn&#x27;,
+    range_color=[40, 85],
+    title=&#x27;Life Expectancy by Country (2007)&#x27;,
+    labels={&#x27;lifeExp&#x27;: &#x27;Life Expectancy&#x27;}
+)
+fig.update_layout(height=480, coloraxis_colorbar=dict(title=&#x27;Years&#x27;))
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Scatter map — US cities</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(7)
+cities = pd.DataFrame({
+    &#x27;city&#x27;:    [&#x27;New York&#x27;,&#x27;Los Angeles&#x27;,&#x27;Chicago&#x27;,&#x27;Houston&#x27;,&#x27;Phoenix&#x27;,
+                &#x27;Philadelphia&#x27;,&#x27;San Antonio&#x27;,&#x27;San Diego&#x27;,&#x27;Dallas&#x27;,&#x27;San Jose&#x27;],
+    &#x27;lat&#x27;:     [40.71,34.05,41.88,29.76,33.45,39.95,29.42,32.72,32.78,37.34],
+    &#x27;lon&#x27;:     [-74.01,-118.24,-87.63,-95.37,-112.07,-75.16,-98.49,-117.16,-96.80,-121.89],
+    &#x27;revenue&#x27;: np.random.uniform(50, 500, 10).round(1),
+    &#x27;customers&#x27;:np.random.randint(1000, 50000, 10),
+})
+
+fig = px.scatter_geo(cities, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;,
+                     size=&#x27;revenue&#x27;, color=&#x27;revenue&#x27;,
+                     hover_name=&#x27;city&#x27;,
+                     hover_data=[&#x27;customers&#x27;],
+                     color_continuous_scale=&#x27;Reds&#x27;,
+                     scope=&#x27;usa&#x27;,
+                     title=&#x27;US Market Revenue by City&#x27;)
+fig.update_layout(height=430)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Bubble map on a natural earth projection</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(21)
+# Major world cities with lat/lon
+cities = pd.DataFrame({
+    &#x27;city&#x27;:    [&#x27;New York&#x27;,&#x27;London&#x27;,&#x27;Tokyo&#x27;,&#x27;Sydney&#x27;,&#x27;Sao Paulo&#x27;,
+                &#x27;Mumbai&#x27;,&#x27;Cairo&#x27;,&#x27;Lagos&#x27;,&#x27;Moscow&#x27;,&#x27;Beijing&#x27;],
+    &#x27;country&#x27;: [&#x27;USA&#x27;,&#x27;UK&#x27;,&#x27;Japan&#x27;,&#x27;Australia&#x27;,&#x27;Brazil&#x27;,
+                &#x27;India&#x27;,&#x27;Egypt&#x27;,&#x27;Nigeria&#x27;,&#x27;Russia&#x27;,&#x27;China&#x27;],
+    &#x27;lat&#x27;:     [40.71, 51.51, 35.68, -33.87, -23.55,
+                19.08, 30.04,  6.52,  55.75,  39.91],
+    &#x27;lon&#x27;:     [-74.01, -0.13, 139.69, 151.21, -46.63,
+                 72.88,  31.24,  3.40,  37.62, 116.41],
+    &#x27;gdp_bn&#x27;:  np.random.uniform(100, 800, 10).round(1),
+    &#x27;pop_m&#x27;:   np.random.uniform(5, 35, 10).round(1),
+})
+
+fig = px.scatter_geo(
+    cities, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;,
+    size=&#x27;gdp_bn&#x27;, color=&#x27;gdp_bn&#x27;,
+    hover_name=&#x27;city&#x27;, hover_data=[&#x27;country&#x27;, &#x27;pop_m&#x27;],
+    color_continuous_scale=&#x27;Plasma&#x27;,
+    projection=&#x27;natural earth&#x27;,
+    title=&#x27;World City GDP — Bubble Map&#x27;,
+    labels={&#x27;gdp_bn&#x27;: &#x27;GDP ($B)&#x27;},
+    size_max=40,
+)
+fig.update_layout(height=450)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>px.scatter_mapbox — open-street tile map</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(33)
+# Sample delivery locations across a city (centred on Chicago)
+n = 60
+lat_center, lon_center = 41.88, -87.63
+deliveries = pd.DataFrame({
+    &#x27;id&#x27;:       [f&#x27;DEL-{i:03d}&#x27; for i in range(n)],
+    &#x27;lat&#x27;:      lat_center + np.random.randn(n) * 0.08,
+    &#x27;lon&#x27;:      lon_center + np.random.randn(n) * 0.12,
+    &#x27;status&#x27;:   np.random.choice([&#x27;Delivered&#x27;, &#x27;In Transit&#x27;, &#x27;Failed&#x27;], n,
+                                  p=[0.65, 0.25, 0.10]),
+    &#x27;packages&#x27;: np.random.randint(1, 20, n),
+    &#x27;duration&#x27;: np.random.uniform(5, 60, n).round(1),
+})
+
+color_map = {&#x27;Delivered&#x27;: &#x27;#00CC96&#x27;, &#x27;In Transit&#x27;: &#x27;#636EFA&#x27;, &#x27;Failed&#x27;: &#x27;#EF553B&#x27;}
+
+fig = px.scatter_mapbox(
+    deliveries,
+    lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;,
+    color=&#x27;status&#x27;,
+    size=&#x27;packages&#x27;,
+    size_max=20,
+    hover_name=&#x27;id&#x27;,
+    hover_data={&#x27;packages&#x27;: True, &#x27;duration&#x27;: &#x27;:.1f&#x27;, &#x27;lat&#x27;: False, &#x27;lon&#x27;: False},
+    color_discrete_map=color_map,
+    zoom=11,
+    center={&#x27;lat&#x27;: lat_center, &#x27;lon&#x27;: lon_center},
+    title=&#x27;Delivery Status Map — Chicago (Open-Street Tiles)&#x27;,
+    mapbox_style=&#x27;open-street-map&#x27;,
+)
+fig.update_layout(height=520, legend_title_text=&#x27;Status&#x27;)
+fig.show()
+status_counts = deliveries[&#x27;status&#x27;].value_counts()
+print(&quot;Delivery summary:&quot;)
+for status, count in status_counts.items():
+    print(f&quot;  {status}: {count}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Global Sales Heatmap by Country</div><div class="rd">A VP of Sales uses a choropleth to present YTD revenue performance by country and flag underperforming markets.</div><pre><code class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+# ISO codes and country names
+data = {
+    &#x27;iso_alpha&#x27;: [&#x27;USA&#x27;,&#x27;GBR&#x27;,&#x27;DEU&#x27;,&#x27;FRA&#x27;,&#x27;JPN&#x27;,&#x27;BRA&#x27;,&#x27;IND&#x27;,&#x27;AUS&#x27;,&#x27;CAN&#x27;,&#x27;MEX&#x27;,
+                  &#x27;CHN&#x27;,&#x27;KOR&#x27;,&#x27;SGP&#x27;,&#x27;ZAF&#x27;,&#x27;NLD&#x27;,&#x27;SWE&#x27;,&#x27;NOR&#x27;,&#x27;CHE&#x27;,&#x27;ITA&#x27;,&#x27;ESP&#x27;],
+    &#x27;country&#x27;:   [&#x27;US&#x27;,&#x27;UK&#x27;,&#x27;Germany&#x27;,&#x27;France&#x27;,&#x27;Japan&#x27;,&#x27;Brazil&#x27;,&#x27;India&#x27;,&#x27;Australia&#x27;,
+                  &#x27;Canada&#x27;,&#x27;Mexico&#x27;,&#x27;China&#x27;,&#x27;S.Korea&#x27;,&#x27;Singapore&#x27;,&#x27;S.Africa&#x27;,
+                  &#x27;Netherlands&#x27;,&#x27;Sweden&#x27;,&#x27;Norway&#x27;,&#x27;Switzerland&#x27;,&#x27;Italy&#x27;,&#x27;Spain&#x27;],
+    &#x27;target&#x27;:    [1000,300,280,220,350,150,200,180,260,120,
+                  500,180,90,80,130,110,100,120,160,140],
+}
+np.random.seed(42)
+df = pd.DataFrame(data)
+df[&#x27;actual&#x27;]  = (df[&#x27;target&#x27;] * np.random.uniform(0.6, 1.3, len(df))).round(0)
+df[&#x27;vs_target&#x27;] = ((df[&#x27;actual&#x27;] - df[&#x27;target&#x27;]) / df[&#x27;target&#x27;] * 100).round(1)
+
+fig = px.choropleth(
+    df, locations=&#x27;iso_alpha&#x27;,
+    color=&#x27;vs_target&#x27;,
+    hover_name=&#x27;country&#x27;,
+    hover_data={&#x27;actual&#x27;: True, &#x27;target&#x27;: True, &#x27;vs_target&#x27;: True},
+    color_continuous_scale=&#x27;RdYlGn&#x27;,
+    range_color=[-40, 40],
+    title=&#x27;YTD Revenue vs Target by Country (%)&#x27;,
+    labels={&#x27;vs_target&#x27;: &#x27;vs Target (%)&#x27;}
+)
+fig.update_layout(
+    height=480,
+    coloraxis_colorbar=dict(title=&#x27;vs Target %&#x27;, ticksuffix=&#x27;%&#x27;)
+)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Geographic Scatter Plot</div><div class="pd">Build a px.scatter_geo bubble map of at least 8 world cities. Each bubble should represent a metric of your choice (e.g., revenue, population). Color by a second numeric column, add hover_name and hover_data, and use projection=&#x27;natural earth&#x27;. Print the city with the highest metric value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(55)
+
+cities = pd.DataFrame({
+    &#x27;city&#x27;:    [&#x27;New York&#x27;, &#x27;London&#x27;, &#x27;Tokyo&#x27;, &#x27;Sydney&#x27;,
+                &#x27;Dubai&#x27;, &#x27;Singapore&#x27;, &#x27;Toronto&#x27;, &#x27;Paris&#x27;],
+    &#x27;lat&#x27;:     [40.71, 51.51, 35.68, -33.87, 25.20,  1.35, 43.65, 48.85],
+    &#x27;lon&#x27;:     [-74.01, -0.13, 139.69, 151.21, 55.27, 103.82, -79.38,  2.35],
+    &#x27;revenue&#x27;: np.random.uniform(100, 900, 8).round(1),
+    &#x27;customers&#x27;: np.random.randint(5000, 50000, 8),
+})
+
+# Print highest revenue city
+# TODO: top = cities.loc[cities[&#x27;revenue&#x27;].idxmax(), &#x27;city&#x27;]
+# TODO: print(f&quot;Highest revenue city: {top} (${cities[&#x27;revenue&#x27;].max():.1f}M)&quot;)
+
+# TODO: fig = px.scatter_geo(
+#     cities, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;,
+#     size=&#x27;revenue&#x27;, color=&#x27;customers&#x27;,
+#     hover_name=&#x27;city&#x27;,
+#     hover_data=[&#x27;revenue&#x27;, &#x27;customers&#x27;],
+#     color_continuous_scale=&#x27;Viridis&#x27;,
+#     projection=&#x27;natural earth&#x27;,
+#     title=&#x27;Global City Revenue &amp; Customer Base&#x27;,
+#     size_max=40,
+# )
+# TODO: fig.update_layout(height=460)
+# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Exporting &amp; Sharing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save charts as interactive HTML, static PNG/PDF/SVG (requires kaleido), or embed in web apps via fig.to_json().</p><div class="code-block"><div class="ch"><span>Export to HTML and JSON</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import plotly.express as px
+import os
+
+df  = px.data.iris()
+fig = px.scatter(df, x=&#x27;sepal_length&#x27;, y=&#x27;sepal_width&#x27;,
+                 color=&#x27;species&#x27;, title=&#x27;Iris — Export Demo&#x27;)
+
+# ── Standalone HTML (fully self-contained, shareable) ──
+fig.write_html(&#x27;iris_chart.html&#x27;, include_plotlyjs=&#x27;cdn&#x27;)
+print(f&quot;HTML: {os.path.getsize(&#x27;iris_chart.html&#x27;) / 1024:.1f} KB&quot;)
+
+# ── JSON (for embedding in web apps) ──
+json_str = fig.to_json()
+print(f&quot;JSON length: {len(json_str):,} chars&quot;)
+
+# ── Show in browser / Jupyter ──
+fig.show()
+
+# Cleanup
+os.remove(&#x27;iris_chart.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Export as PNG/PDF with kaleido</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">import plotly.express as px
+import os
+
+# Note: requires  pip install kaleido
+df  = px.data.tips()
+fig = px.box(df, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, color=&#x27;time&#x27;,
+             title=&#x27;Total Bill by Day&#x27;)
+
+try:
+    fig.write_image(&#x27;chart.png&#x27;, width=800, height=500, scale=2)
+    fig.write_image(&#x27;chart.pdf&#x27;)
+    fig.write_image(&#x27;chart.svg&#x27;)
+    print(&quot;Saved PNG, PDF, SVG&quot;)
+    for f in [&#x27;chart.png&#x27;,&#x27;chart.pdf&#x27;,&#x27;chart.svg&#x27;]:
+        if os.path.exists(f): os.remove(f)
+except Exception as e:
+    print(f&quot;kaleido not installed: {e}&quot;)
+    print(&quot;Install with:  pip install kaleido&quot;)
+
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Embed multiple charts in a single HTML report</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+import os
+
+np.random.seed(42)
+
+# Build two figures
+df_iris = px.data.iris()
+fig1 = px.scatter(df_iris, x=&#x27;sepal_length&#x27;, y=&#x27;petal_length&#x27;,
+                  color=&#x27;species&#x27;, title=&#x27;Iris Scatter&#x27;)
+
+months = list(range(1, 13))
+revenue = 100 + np.cumsum(np.random.randn(12) * 5)
+fig2 = px.line(x=months, y=revenue, markers=True,
+               title=&#x27;Monthly Revenue&#x27;,
+               labels={&#x27;x&#x27;: &#x27;Month&#x27;, &#x27;y&#x27;: &#x27;Revenue ($K)&#x27;})
+
+# Combine into one HTML file manually
+html_parts = [
+    &#x27;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Combined Report&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&#x27;,
+    &#x27;&lt;h1 style=&quot;font-family:sans-serif;padding:20px&quot;&gt;Multi-Chart Report&lt;/h1&gt;&#x27;,
+    fig1.to_html(full_html=False, include_plotlyjs=&#x27;cdn&#x27;),
+    fig2.to_html(full_html=False, include_plotlyjs=False),
+    &#x27;&lt;/body&gt;&lt;/html&gt;&#x27;,
+]
+combined_html = &#x27;\n&#x27;.join(html_parts)
+
+out = &#x27;combined_report.html&#x27;
+with open(out, &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+    f.write(combined_html)
+
+print(f&quot;Combined report: {out} ({os.path.getsize(out)/1024:.1f} KB)&quot;)
+print(&quot;Contains 2 fully interactive charts in one file.&quot;)
+os.remove(out)</code></pre></div><div class="code-block"><div class="ch"><span>Export to PDF and static image with kaleido</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+import os
+
+rng = np.random.default_rng(42)
+df  = pd.DataFrame({
+    &#x27;month&#x27;:   pd.date_range(&#x27;2024-01-01&#x27;, periods=12, freq=&#x27;ME&#x27;).strftime(&#x27;%b&#x27;),
+    &#x27;revenue&#x27;: np.cumsum(rng.uniform(50, 200, 12)) + 500,
+    &#x27;target&#x27;:  np.linspace(600, 1800, 12),
+})
+
+fig = go.Figure()
+fig.add_trace(go.Bar(x=df[&#x27;month&#x27;], y=df[&#x27;revenue&#x27;], name=&#x27;Revenue&#x27;,
+                     marker_color=&#x27;steelblue&#x27;, opacity=0.85))
+fig.add_trace(go.Scatter(x=df[&#x27;month&#x27;], y=df[&#x27;target&#x27;], name=&#x27;Target&#x27;,
+                         line=dict(color=&#x27;tomato&#x27;, width=2, dash=&#x27;dash&#x27;),
+                         mode=&#x27;lines+markers&#x27;, marker_size=7))
+fig.update_layout(
+    title=&#x27;Monthly Revenue vs Target&#x27;, title_font_size=16,
+    xaxis_title=&#x27;Month&#x27;, yaxis_title=&#x27;Revenue ($K)&#x27;,
+    legend=dict(x=0.01, y=0.99), height=450,
+    template=&#x27;plotly_white&#x27;,
+)
+
+# Export as PNG (requires kaleido: pip install kaleido)
+try:
+    fig.write_image(&#x27;revenue_chart.png&#x27;, width=900, height=450, scale=2)
+    size = os.path.getsize(&#x27;revenue_chart.png&#x27;)
+    print(f&#x27;PNG exported: revenue_chart.png ({size/1024:.1f} KB)&#x27;)
+    os.remove(&#x27;revenue_chart.png&#x27;)
+except Exception as e:
+    print(f&#x27;PNG export requires kaleido: pip install kaleido ({e})&#x27;)
+
+# Export as interactive HTML
+html_str = fig.to_html(full_html=True, include_plotlyjs=&#x27;cdn&#x27;)
+with open(&#x27;revenue_chart.html&#x27;, &#x27;w&#x27;) as f:
+    f.write(html_str)
+size = os.path.getsize(&#x27;revenue_chart.html&#x27;)
+print(f&#x27;HTML exported: revenue_chart.html ({size/1024:.1f} KB)&#x27;)
+os.remove(&#x27;revenue_chart.html&#x27;)
+
+# Export figure dict (JSON-serializable)
+fig_dict = fig.to_dict()
+print(f&#x27;Figure dict keys: {list(fig_dict.keys())}&#x27;)
+print(f&#x27;Number of traces: {len(fig_dict[&quot;data&quot;])}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Automated Interactive Report Generator</div><div class="rd">A data engineer generates a self-contained HTML report with multiple charts embedded as a single shareable file.</div><pre><code class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import plotly.express as px
+import pandas as pd
+import numpy as np
+import os
+
+np.random.seed(42)
+months  = pd.date_range(&#x27;2024-01&#x27;, periods=12, freq=&#x27;MS&#x27;)
+revenue = 100 + np.cumsum(np.random.randn(12) * 8) + np.arange(12) * 4
+cac     = np.random.uniform(30, 80, 12)
+churn   = np.random.uniform(0.02, 0.08, 12)
+
+fig = make_subplots(
+    rows=2, cols=2,
+    subplot_titles=[&#x27;Monthly Revenue ($K)&#x27;, &#x27;Customer Acquisition Cost ($)&#x27;,
+                    &#x27;Churn Rate (%)&#x27;, &#x27;Revenue vs CAC&#x27;],
+    specs=[[{},{}],[{},{}]]
+)
+
+fig.add_trace(go.Scatter(x=months, y=revenue.round(1),
+                         fill=&#x27;tozeroy&#x27;, line=dict(color=&#x27;#636EFA&#x27;)), row=1, col=1)
+fig.add_trace(go.Bar(x=months, y=cac.round(1),
+                     marker_color=&#x27;#EF553B&#x27;), row=1, col=2)
+fig.add_trace(go.Scatter(x=months, y=(churn*100).round(2),
+                         mode=&#x27;lines+markers&#x27;, line=dict(color=&#x27;#AB63FA&#x27;)), row=2, col=1)
+fig.add_trace(go.Scatter(x=cac, y=revenue,
+                         mode=&#x27;markers&#x27;, text=[m.strftime(&#x27;%b&#x27;) for m in months],
+                         textposition=&#x27;top center&#x27;,
+                         marker=dict(color=&#x27;#00CC96&#x27;, size=9)), row=2, col=2)
+
+fig.update_layout(title=&#x27;SaaS KPI Report — 2024&#x27;, height=600,
+                  showlegend=False, template=&#x27;plotly_dark&#x27;)
+
+# Export as standalone HTML
+out = &#x27;saas_report.html&#x27;
+fig.write_html(out, include_plotlyjs=&#x27;cdn&#x27;, full_html=True)
+size_kb = os.path.getsize(out) / 1024
+print(f&quot;Report saved: {out} ({size_kb:.0f} KB)&quot;)
+print(&quot;Open in any browser — fully interactive, no server needed.&quot;)
+fig.show()
+os.remove(out)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Chart HTML Report</div><div class="pd">Build three separate figures (a scatter, a bar chart, and a line chart) using any px datasets. Export each with fig.to_html(full_html=False, include_plotlyjs=&#x27;cdn&#x27; for the first, include_plotlyjs=False for the rest). Stitch them together with a custom HTML wrapper and write to &#x27;my_report.html&#x27;. Print the file size and then remove it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import plotly.express as px
+import os
+
+# Figure 1: scatter
+df_gap = px.data.gapminder().query(&quot;year == 2007&quot;)
+# TODO: fig1 = px.scatter(df_gap, x=&#x27;gdpPercap&#x27;, y=&#x27;lifeExp&#x27;,
+#     size=&#x27;pop&#x27;, color=&#x27;continent&#x27;, log_x=True,
+#     title=&#x27;GDP vs Life Expectancy 2007&#x27;)
+
+# Figure 2: bar — top 10 countries by population
+# TODO: top10 = df_gap.nlargest(10, &#x27;pop&#x27;)
+# TODO: fig2 = px.bar(top10, x=&#x27;country&#x27;, y=&#x27;pop&#x27;,
+#     color=&#x27;continent&#x27;, title=&#x27;Top 10 Countries by Population&#x27;)
+
+# Figure 3: line — Europe average life exp over time
+# TODO: eur = px.data.gapminder().query(&quot;continent == &#x27;Europe&#x27;&quot;)
+# TODO: avg = eur.groupby(&#x27;year&#x27;)[&#x27;lifeExp&#x27;].mean().reset_index()
+# TODO: fig3 = px.line(avg, x=&#x27;year&#x27;, y=&#x27;lifeExp&#x27;, markers=True,
+#     title=&#x27;Europe Average Life Expectancy Over Time&#x27;)
+
+# Combine and save
+# TODO: html_body = &#x27;\n&#x27;.join([
+#     &#x27;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;My Report&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&#x27;,
+#     &#x27;&lt;h1 style=&quot;font-family:sans-serif;padding:16px&quot;&gt;My Plotly Report&lt;/h1&gt;&#x27;,
+#     fig1.to_html(full_html=False, include_plotlyjs=&#x27;cdn&#x27;),
+#     fig2.to_html(full_html=False, include_plotlyjs=False),
+#     fig3.to_html(full_html=False, include_plotlyjs=False),
+#     &#x27;&lt;/body&gt;&lt;/html&gt;&#x27;,
+# ])
+# TODO: out = &#x27;my_report.html&#x27;
+# TODO: with open(out, &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+#     f.write(html_body)
+# TODO: print(f&quot;Report saved: {out} ({os.path.getsize(out)/1024:.1f} KB)&quot;)
+# TODO: os.remove(out)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create interactive 3D visualizations — scatter plots, surface plots, and line trajectories — that users can rotate and zoom in the browser.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(42)
+x, y, z = np.random.randn(3, 200)
+fig = go.Figure(data=[go.Scatter3d(
+    x=x, y=y, z=z, mode=&#x27;markers&#x27;,
+    marker=dict(size=5, color=z, colorscale=&#x27;Viridis&#x27;, showscale=True,
+                colorbar=dict(title=&#x27;Z value&#x27;))
+)])
+fig.update_layout(title=&#x27;3D Scatter Plot&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Z&#x27;))
+fig.write_html(&#x27;scatter3d.html&#x27;)
+print(&#x27;Saved scatter3d.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Interactive 3D surface plot</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-3, 3, 50)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2))
+fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y, colorscale=&#x27;RdBu&#x27;)])
+fig.update_layout(
+    title=&#x27;3D Surface: sin(sqrt(x^2+y^2))&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;sin(r)&#x27;),
+    width=700, height=600
+)
+fig.write_html(&#x27;surface3d.html&#x27;)
+print(&#x27;Saved surface3d.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>3D line trajectory colored by progress</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+t = np.linspace(0, 10*np.pi, 500)
+x = np.sin(t)
+y = np.cos(t)
+z = t / (10*np.pi)
+fig = go.Figure(data=[go.Scatter3d(
+    x=x, y=y, z=z, mode=&#x27;lines&#x27;,
+    line=dict(color=t, colorscale=&#x27;Plasma&#x27;, width=4)
+)])
+fig.update_layout(
+    title=&#x27;3D Spiral Trajectory&#x27;,
+    scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Height&#x27;)
+)
+fig.write_html(&#x27;spiral3d.html&#x27;)
+print(&#x27;Saved spiral3d.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Side-by-side 3D subplots</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+
+np.random.seed(42)
+fig = make_subplots(rows=1, cols=2,
+                    specs=[[{&#x27;type&#x27;:&#x27;scatter3d&#x27;},{&#x27;type&#x27;:&#x27;surface&#x27;}]],
+                    subplot_titles=[&#x27;Scatter3D&#x27;, &#x27;Surface&#x27;])
+
+x, y, z = np.random.randn(3, 100)
+fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode=&#x27;markers&#x27;,
+              marker=dict(size=4, color=z, colorscale=&#x27;Viridis&#x27;)), row=1, col=1)
+
+t = np.linspace(-2, 2, 30)
+X, Y = np.meshgrid(t, t)
+Z = np.sin(X) * np.cos(Y)
+fig.add_trace(go.Surface(x=X, y=Y, z=Z, colorscale=&#x27;Plasma&#x27;, showscale=False), row=1, col=2)
+fig.update_layout(title=&#x27;3D Subplots&#x27;, height=500)
+fig.write_html(&#x27;3d_subplots.html&#x27;)
+print(&#x27;Saved 3d_subplots.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Sales Globe</div><div class="pd">Create a 3D scatter plot with x=region_id (1-5), y=quarter (1-4), z=revenue. Color points by product category and size them by profit margin. Save to globe_sales.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import plotly.graph_objects as go
+import numpy as np, pandas as pd
+
+np.random.seed(42)
+n = 100
+df = pd.DataFrame({
+    &#x27;region&#x27;:   np.random.randint(1, 6, n).astype(float),
+    &#x27;quarter&#x27;:  np.random.randint(1, 5, n).astype(float),
+    &#x27;revenue&#x27;:  np.random.exponential(50000, n),
+    &#x27;margin&#x27;:   np.random.uniform(0.05, 0.40, n),
+    &#x27;category&#x27;: np.random.choice([&#x27;Electronics&#x27;,&#x27;Clothing&#x27;,&#x27;Food&#x27;], n),
+})
+# TODO: 3D scatter with color by category, size by margin
+# TODO: save to &#x27;globe_sales.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Geographic Maps</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize spatial data with choropleth maps, scatter geo, and mapbox — pinpoint patterns across countries, US states, and cities.</p><div class="code-block"><div class="ch"><span>US choropleth map by state</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+states = [&#x27;CA&#x27;,&#x27;TX&#x27;,&#x27;NY&#x27;,&#x27;FL&#x27;,&#x27;IL&#x27;,&#x27;PA&#x27;,&#x27;OH&#x27;,&#x27;GA&#x27;,&#x27;NC&#x27;,&#x27;MI&#x27;,
+          &#x27;WA&#x27;,&#x27;AZ&#x27;,&#x27;MA&#x27;,&#x27;TN&#x27;,&#x27;IN&#x27;,&#x27;MO&#x27;,&#x27;MD&#x27;,&#x27;CO&#x27;,&#x27;WI&#x27;,&#x27;MN&#x27;]
+df = pd.DataFrame({&#x27;state&#x27;: states, &#x27;value&#x27;: np.random.randint(100, 10000, len(states))})
+fig = px.choropleth(df, locations=&#x27;state&#x27;, color=&#x27;value&#x27;,
+                    locationmode=&#x27;USA-states&#x27;, scope=&#x27;usa&#x27;,
+                    color_continuous_scale=&#x27;Blues&#x27;,
+                    title=&#x27;Simulated Metric by US State&#x27;)
+fig.write_html(&#x27;us_choropleth.html&#x27;)
+print(&#x27;Saved us_choropleth.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>World choropleth with country data</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+countries = [&#x27;USA&#x27;,&#x27;CHN&#x27;,&#x27;IND&#x27;,&#x27;BRA&#x27;,&#x27;RUS&#x27;,&#x27;AUS&#x27;,&#x27;CAN&#x27;,&#x27;DEU&#x27;,&#x27;GBR&#x27;,&#x27;FRA&#x27;,
+             &#x27;JPN&#x27;,&#x27;KOR&#x27;,&#x27;MEX&#x27;,&#x27;IDN&#x27;,&#x27;NGA&#x27;,&#x27;EGY&#x27;,&#x27;ZAF&#x27;,&#x27;ARG&#x27;,&#x27;SAU&#x27;,&#x27;TUR&#x27;]
+np.random.seed(42)
+df = pd.DataFrame({&#x27;country&#x27;: countries, &#x27;gdp_per_capita&#x27;: np.random.uniform(5000, 65000, len(countries))})
+fig = px.choropleth(df, locations=&#x27;country&#x27;, color=&#x27;gdp_per_capita&#x27;,
+                    color_continuous_scale=&#x27;Plasma&#x27;,
+                    title=&#x27;Simulated GDP Per Capita by Country&#x27;)
+fig.write_html(&#x27;world_choropleth.html&#x27;)
+print(&#x27;Saved world_choropleth.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Scatter geo — city bubble map</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import plotly.express as px
+import pandas as pd
+
+cities = pd.DataFrame({
+    &#x27;city&#x27;: [&#x27;New York&#x27;,&#x27;Los Angeles&#x27;,&#x27;Chicago&#x27;,&#x27;Houston&#x27;,&#x27;Phoenix&#x27;,
+             &#x27;Philadelphia&#x27;,&#x27;San Antonio&#x27;,&#x27;San Diego&#x27;,&#x27;Dallas&#x27;,&#x27;San Jose&#x27;],
+    &#x27;lat&#x27;:  [40.71, 34.05, 41.85, 29.76, 33.45, 39.95, 29.42, 32.72, 32.78, 37.34],
+    &#x27;lon&#x27;:  [-74.01,-118.24,-87.65,-95.37,-112.07,-75.17,-98.49,-117.16,-96.80,-121.89],
+    &#x27;pop&#x27;:  [8336817,3979576,2693976,2320268,1608139,1603797,1434625,1386932,1304379,1035317],
+    &#x27;region&#x27;: [&#x27;NE&#x27;,&#x27;West&#x27;,&#x27;MW&#x27;,&#x27;South&#x27;,&#x27;West&#x27;,&#x27;NE&#x27;,&#x27;South&#x27;,&#x27;West&#x27;,&#x27;South&#x27;,&#x27;West&#x27;],
+})
+fig = px.scatter_geo(cities, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, size=&#x27;pop&#x27;, color=&#x27;region&#x27;,
+                     hover_name=&#x27;city&#x27;, scope=&#x27;usa&#x27;, size_max=40,
+                     title=&#x27;Top 10 US Cities by Population&#x27;)
+fig.write_html(&#x27;city_bubble.html&#x27;)
+print(&#x27;Saved city_bubble.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Mapbox scatter map with open tiles</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+df = pd.DataFrame({
+    &#x27;lat&#x27;:   np.random.uniform(25, 49, 50),
+    &#x27;lon&#x27;:   np.random.uniform(-125, -67, 50),
+    &#x27;value&#x27;: np.random.uniform(10, 100, 50),
+    &#x27;label&#x27;: [f&#x27;Site {i}&#x27; for i in range(50)],
+})
+fig = px.scatter_mapbox(df, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, size=&#x27;value&#x27;,
+                        color=&#x27;value&#x27;, color_continuous_scale=&#x27;Reds&#x27;,
+                        hover_name=&#x27;label&#x27;, zoom=3,
+                        mapbox_style=&#x27;open-street-map&#x27;,
+                        title=&#x27;Random Sites across the US&#x27;)
+fig.write_html(&#x27;mapbox_scatter.html&#x27;)
+print(&#x27;Saved mapbox_scatter.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Global Temperature Map</div><div class="pd">Create a world choropleth showing average temperature by country (simulated). Use a RdBu_r diverging colorscale centered at 15 degrees. Save to world_temp.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+countries = [&#x27;USA&#x27;,&#x27;CHN&#x27;,&#x27;IND&#x27;,&#x27;BRA&#x27;,&#x27;RUS&#x27;,&#x27;AUS&#x27;,&#x27;CAN&#x27;,&#x27;DEU&#x27;,&#x27;GBR&#x27;,&#x27;FRA&#x27;,
+             &#x27;JPN&#x27;,&#x27;KOR&#x27;,&#x27;MEX&#x27;,&#x27;IDN&#x27;,&#x27;NGA&#x27;,&#x27;EGY&#x27;,&#x27;ZAF&#x27;,&#x27;ARG&#x27;,&#x27;SAU&#x27;,&#x27;TUR&#x27;]
+np.random.seed(42)
+df = pd.DataFrame({&#x27;country&#x27;: countries, &#x27;avg_temp&#x27;: np.random.uniform(5, 30, len(countries))})
+# TODO: choropleth with locations=&#x27;country&#x27;, color=&#x27;avg_temp&#x27;
+# TODO: colorscale=&#x27;RdBu_r&#x27;, color midpoint=15
+# TODO: save to &#x27;world_temp.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Animations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bring data to life with Plotly animations — animated scatter plots, bar chart races, and frame-by-frame time-lapse visualizations.</p><div class="code-block"><div class="ch"><span>Animated scatter with animation_frame</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import plotly.express as px
+
+try:
+    gapminder = px.data.gapminder()
+    fig = px.scatter(gapminder, x=&#x27;gdpPercap&#x27;, y=&#x27;lifeExp&#x27;,
+                     animation_frame=&#x27;year&#x27;, animation_group=&#x27;country&#x27;,
+                     size=&#x27;pop&#x27;, color=&#x27;continent&#x27;, hover_name=&#x27;country&#x27;,
+                     log_x=True, size_max=55,
+                     range_x=[100, 100000], range_y=[25, 90],
+                     title=&#x27;Gapminder: GDP vs Life Expectancy over Time&#x27;)
+    fig.write_html(&#x27;gapminder_animation.html&#x27;)
+    print(&#x27;Saved gapminder_animation.html&#x27;)
+except Exception as e:
+    print(f&#x27;Note: {e}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Animated bar chart race</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(42)
+categories = [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;,&#x27;E&#x27;]
+years = list(range(2018, 2024))
+data = {cat: np.cumsum(np.random.randint(5,20,len(years))) for cat in categories}
+
+frames = []
+for i, year in enumerate(years):
+    vals = [data[c][i] for c in categories]
+    order = sorted(range(len(vals)), key=lambda x: vals[x])
+    frames.append(go.Frame(
+        data=[go.Bar(x=[vals[j] for j in order], y=[categories[j] for j in order],
+                     orientation=&#x27;h&#x27;, marker_color=&#x27;steelblue&#x27;)],
+        name=str(year)
+    ))
+
+fig = go.Figure(frames=frames, data=frames[0].data)
+fig.update_layout(
+    title=&#x27;Bar Chart Race&#x27;, xaxis_title=&#x27;Cumulative Value&#x27;,
+    updatemenus=[dict(type=&#x27;buttons&#x27;, showactive=False,
+                      buttons=[dict(label=&#x27;Play&#x27;, method=&#x27;animate&#x27;,
+                                   args=[None, dict(frame=dict(duration=800))])])]
+)
+fig.write_html(&#x27;bar_race.html&#x27;)
+print(&#x27;Saved bar_race.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Animated line chart over time</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+months = pd.date_range(&#x27;2022-01&#x27;, periods=24, freq=&#x27;ME&#x27;)
+categories = [&#x27;Electronics&#x27;,&#x27;Clothing&#x27;,&#x27;Food&#x27;]
+rows = []
+for cat in categories:
+    base = {&#x27;Electronics&#x27;:5000,&#x27;Clothing&#x27;:3000,&#x27;Food&#x27;:7000}[cat]
+    for m in months:
+        rows.append({&#x27;month&#x27;: m.strftime(&#x27;%Y-%m&#x27;), &#x27;category&#x27;: cat,
+                     &#x27;revenue&#x27;: base + np.random.randint(-500, 1500)})
+df = pd.DataFrame(rows)
+df = df.sort_values(&#x27;month&#x27;)
+
+fig = px.line(df, x=&#x27;month&#x27;, y=&#x27;revenue&#x27;, color=&#x27;category&#x27;,
+              animation_frame=&#x27;month&#x27;,
+              range_y=[df.revenue.min()-200, df.revenue.max()+200],
+              title=&#x27;Monthly Revenue Animation&#x27;)
+fig.write_html(&#x27;animated_line.html&#x27;)
+print(&#x27;Saved animated_line.html&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Slider-controlled visualization</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 200)
+steps = []
+figs_data = []
+for freq in np.linspace(1, 5, 20):
+    figs_data.append(go.Scatter(x=x, y=np.sin(freq*x), mode=&#x27;lines&#x27;,
+                                name=f&#x27;f={freq:.1f}&#x27;))
+
+steps = [dict(method=&#x27;update&#x27;, args=[{&#x27;y&#x27;: [np.sin(f*x)], &#x27;name&#x27;: [f&#x27;f={f:.1f}&#x27;]}],
+              label=f&#x27;{f:.1f}&#x27;) for f in np.linspace(1, 5, 20)]
+
+fig = go.Figure(data=[figs_data[0]])
+fig.update_layout(
+    title=&#x27;Interactive Slider: sin(f*x)&#x27;,
+    sliders=[dict(active=0, steps=steps, currentvalue=dict(prefix=&#x27;Frequency: &#x27;))],
+    xaxis_title=&#x27;x&#x27;, yaxis_title=&#x27;sin(f*x)&#x27;, yaxis_range=[-1.2, 1.2]
+)
+fig.write_html(&#x27;slider_sine.html&#x27;)
+print(&#x27;Saved slider_sine.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Growth Animation</div><div class="pd">Create an animated bar chart showing population by continent (in billions) from 2000 to 2023. Each frame = one year. Add a play button. Save to population_animation.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+continents = [&#x27;Africa&#x27;,&#x27;Asia&#x27;,&#x27;Europe&#x27;,&#x27;Americas&#x27;,&#x27;Oceania&#x27;]
+years = list(range(2000, 2024))
+np.random.seed(42)
+base = [0.8, 3.7, 0.7, 0.9, 0.03]
+growth = [0.03, 0.01, 0.002, 0.01, 0.015]
+
+# TODO: build frames list (one per year)
+# TODO: each frame: go.Frame with go.Bar showing populations
+# TODO: fig with play button in updatemenus
+# TODO: save to &#x27;population_animation.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Plotly Dash Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Dash app structure (code pattern)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python"># Dash apps run as web servers - this shows the code pattern
+print(&#x27;Dash app structure:&#x27;)
+print(&#x27;&#x27;&#x27;
+from dash import Dash, dcc, html
+from dash.dependencies import Input, Output
+import plotly.express as px
+
+app = Dash(__name__)
+app.layout = html.Div([
+    html.H1(&quot;Dashboard&quot;),
+    dcc.Dropdown(id=&quot;metric&quot;, options=[&quot;Revenue&quot;,&quot;Users&quot;], value=&quot;Revenue&quot;),
+    dcc.Graph(id=&quot;chart&quot;),
+])
+
+@app.callback(Output(&quot;chart&quot;,&quot;figure&quot;), Input(&quot;metric&quot;,&quot;value&quot;))
+def update(metric):
+    import numpy as np, pandas as pd
+    df = pd.DataFrame({&quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=30),
+                        metric: 100 + np.cumsum(np.random.randn(30))})
+    return px.line(df, x=&quot;date&quot;, y=metric, title=f&quot;{metric} over Time&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    app.run_server(debug=True)
+&#x27;&#x27;&#x27;)
+print(&quot;Run with: python app.py&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Plotly figure for Dash callback</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import plotly.graph_objects as go
+import plotly.express as px
+import numpy as np
+import pandas as pd
+
+def make_dashboard_fig(category=&#x27;All&#x27;):
+    np.random.seed(42)
+    dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=90, freq=&#x27;D&#x27;)
+    cats = [&#x27;Electronics&#x27;,&#x27;Apparel&#x27;,&#x27;Food&#x27;]
+    dfs = [pd.DataFrame({&#x27;date&#x27;:dates,&#x27;revenue&#x27;:np.random.exponential(1000,90),&#x27;cat&#x27;:c}) for c in cats]
+    df = pd.concat(dfs)
+    if category != &#x27;All&#x27;:
+        df = df[df.cat == category]
+    fig = px.area(df.groupby([&#x27;date&#x27;,&#x27;cat&#x27;])[&#x27;revenue&#x27;].sum().reset_index(),
+                  x=&#x27;date&#x27;, y=&#x27;revenue&#x27;, color=&#x27;cat&#x27;,
+                  title=f&#x27;Revenue: {category}&#x27;, template=&#x27;plotly_white&#x27;)
+    fig.update_layout(hovermode=&#x27;x unified&#x27;, height=400)
+    return fig
+
+fig = make_dashboard_fig(&#x27;Electronics&#x27;)
+fig.write_html(&#x27;dash_callback_fig.html&#x27;)
+print(f&#x27;Dashboard figure saved - traces: {len(fig.data)}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>DataTable interactive grid pattern</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python"># Dash DataTable pattern
+print(&#x27;DataTable pattern:&#x27;)
+print(&#x27;&#x27;&#x27;
+from dash import dash_table
+import pandas as pd
+
+df = pd.read_csv(&quot;data.csv&quot;)
+table = dash_table.DataTable(
+    data=df.to_dict(&quot;records&quot;),
+    columns=[{&quot;name&quot;: c, &quot;id&quot;: c} for c in df.columns],
+    filter_action=&quot;native&quot;,
+    sort_action=&quot;native&quot;,
+    page_size=10,
+    export_format=&quot;csv&quot;,
+    style_data_conditional=[{
+        &quot;if&quot;: {&quot;filter_query&quot;: &quot;{revenue} &gt; 1000&quot;},
+        &quot;backgroundColor&quot;: &quot;#d4edda&quot;,
+    }],
+)
+&#x27;&#x27;&#x27;)
+print(&#x27;Key features: filter_action, sort_action, export_format, conditional styling&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Multi-page Dash routing</span><button onclick="cp('c13_3')">Copy</button></div><pre><code id="c13_3" class="language-python"># Multi-page Dash 2.x pattern
+print(&#x27;Multi-page Dash pattern:&#x27;)
+print(&#x27;&#x27;&#x27;
+# pages/home.py
+import dash
+dash.register_page(__name__, path=&quot;/&quot;)
+layout = html.Div([html.H2(&quot;Home&quot;)])
+
+# pages/analytics.py
+dash.register_page(__name__, path=&quot;/analytics&quot;)
+layout = html.Div([dcc.Graph(figure=create_fig())])
+
+# app.py
+app = Dash(__name__, use_pages=True)
+app.layout = html.Div([
+    html.Nav([
+        dcc.Link(&quot;Home&quot;, href=&quot;/&quot;),
+        dcc.Link(&quot;Analytics&quot;, href=&quot;/analytics&quot;),
+    ]),
+    dash.page_container
+])
+&#x27;&#x27;&#x27;)
+print(&#x27;Each page: dash.register_page(__name__, path=&quot;/route&quot;)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Callback</div><div class="pd">Write a function make_fig(year, continent) that filters gapminder data and returns a scatter of GDP vs life expectancy. Call it for (1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;). Save each as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import plotly.express as px
+
+gap = px.data.gapminder()
+
+def make_fig(year, continent):
+    # TODO: filter by year and continent (&#x27;All&#x27; = no continent filter)
+    # TODO: return px.scatter size=&#x27;pop&#x27;, color=&#x27;country&#x27;, log_x=True
+    pass
+
+for year, cont in [(1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;)]:
+    fig = make_fig(year, cont)
+    if fig:
+        fig.write_html(f&#x27;gap_{year}_{cont}.html&#x27;)</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Map Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import plotly.express as px
+
+df = px.data.gapminder().query(&quot;year == 2007&quot;)
+fig = px.choropleth(df, locations=&#x27;iso_alpha&#x27;, color=&#x27;gdpPercap&#x27;,
+                    hover_name=&#x27;country&#x27;, color_continuous_scale=&#x27;Viridis&#x27;,
+                    range_color=[0, 50000], title=&#x27;GDP per Capita (2007)&#x27;,
+                    labels={&#x27;gdpPercap&#x27;: &#x27;GDP per Capita&#x27;})
+fig.update_layout(geo=dict(showframe=False, showcoastlines=True))
+fig.write_html(&#x27;choropleth_world.html&#x27;)
+print(f&#x27;Choropleth saved - {len(df)} countries&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Scatter geo map (USA)</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+df = pd.DataFrame({&#x27;lat&#x27;:np.random.uniform(25,50,80),&#x27;lon&#x27;:np.random.uniform(-125,-65,80),
+                   &#x27;city&#x27;:[f&#x27;City_{i}&#x27; for i in range(80)],
+                   &#x27;sales&#x27;:np.random.exponential(500,80),
+                   &#x27;category&#x27;:np.random.choice([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;],80)})
+fig = px.scatter_geo(df, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, size=&#x27;sales&#x27;, color=&#x27;category&#x27;,
+                     hover_name=&#x27;city&#x27;, scope=&#x27;usa&#x27;, title=&#x27;Sales Distribution USA&#x27;, size_max=20)
+fig.write_html(&#x27;scatter_map.html&#x27;)
+print(f&#x27;Scatter geo saved - {len(df)} points&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Animated choropleth over time</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import plotly.express as px
+
+df = px.data.gapminder()
+fig = px.choropleth(df, locations=&#x27;iso_alpha&#x27;, color=&#x27;lifeExp&#x27;,
+                    hover_name=&#x27;country&#x27;, animation_frame=&#x27;year&#x27;,
+                    color_continuous_scale=&#x27;RdYlGn&#x27;, range_color=[30, 90],
+                    title=&#x27;Life Expectancy Over Time&#x27;)
+fig.update_layout(geo=dict(showframe=False))
+fig.write_html(&#x27;choropleth_animated.html&#x27;)
+print(f&#x27;Animated choropleth - {df.year.nunique()} frames&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Density mapbox heatmap</span><button onclick="cp('c14_3')">Copy</button></div><pre><code id="c14_3" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+df = pd.DataFrame({&#x27;lat&#x27;:np.random.normal(40.7128,0.05,400),
+                   &#x27;lon&#x27;:np.random.normal(-74.006,0.05,400),
+                   &#x27;intensity&#x27;:np.random.exponential(1,400)})
+fig = px.density_mapbox(df, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, z=&#x27;intensity&#x27;, radius=15,
+                         center=dict(lat=40.7128,lon=-74.006), zoom=10,
+                         mapbox_style=&#x27;open-street-map&#x27;,
+                         title=&#x27;Event Density (NYC Area)&#x27;, color_continuous_scale=&#x27;Inferno&#x27;)
+fig.write_html(&#x27;density_map.html&#x27;)
+print(f&#x27;Density map saved - {len(df)} events&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: US State Choropleth</div><div class="pd">Create a choropleth of US states using locationmode=&#x27;USA-states&#x27;. Assign random performance_score (0-100) to each state abbreviation. Color with RdYlGn. Save as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import plotly.express as px
+import pandas as pd
+import numpy as np
+
+states = [&#x27;AL&#x27;,&#x27;AK&#x27;,&#x27;AZ&#x27;,&#x27;AR&#x27;,&#x27;CA&#x27;,&#x27;CO&#x27;,&#x27;CT&#x27;,&#x27;DE&#x27;,&#x27;FL&#x27;,&#x27;GA&#x27;,&#x27;HI&#x27;,&#x27;ID&#x27;,&#x27;IL&#x27;,&#x27;IN&#x27;,&#x27;IA&#x27;,
+          &#x27;KS&#x27;,&#x27;KY&#x27;,&#x27;LA&#x27;,&#x27;ME&#x27;,&#x27;MD&#x27;,&#x27;MA&#x27;,&#x27;MI&#x27;,&#x27;MN&#x27;,&#x27;MS&#x27;,&#x27;MO&#x27;,&#x27;MT&#x27;,&#x27;NE&#x27;,&#x27;NV&#x27;,&#x27;NH&#x27;,&#x27;NJ&#x27;,
+          &#x27;NM&#x27;,&#x27;NY&#x27;,&#x27;NC&#x27;,&#x27;ND&#x27;,&#x27;OH&#x27;,&#x27;OK&#x27;,&#x27;OR&#x27;,&#x27;PA&#x27;,&#x27;RI&#x27;,&#x27;SC&#x27;,&#x27;SD&#x27;,&#x27;TN&#x27;,&#x27;TX&#x27;,&#x27;UT&#x27;,&#x27;VT&#x27;,
+          &#x27;VA&#x27;,&#x27;WA&#x27;,&#x27;WV&#x27;,&#x27;WI&#x27;,&#x27;WY&#x27;]
+np.random.seed(42)
+df = pd.DataFrame({&#x27;state&#x27;:states,&#x27;score&#x27;:np.random.uniform(40,100,len(states))})
+# TODO: px.choropleth locationmode=&#x27;USA-states&#x27;, color=&#x27;score&#x27;, scope=&#x27;usa&#x27;
+# TODO: color_continuous_scale=&#x27;RdYlGn&#x27;
+# TODO: save &#x27;us_choropleth.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. 3D Plots &amp; Surface Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>3D surface with contour projections</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+x = y = np.linspace(-3, 3, 60)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2))
+fig = go.Figure(go.Surface(x=X, y=Y, z=Z, colorscale=&#x27;Viridis&#x27;,
+                             contours={&#x27;z&#x27;:{&#x27;show&#x27;:True,&#x27;start&#x27;:-1,&#x27;end&#x27;:1,&#x27;size&#x27;:0.25}}))
+fig.update_layout(title=&#x27;3D Surface: sin(sqrt(x2+y2))&#x27;,
+                  scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Z&#x27;,
+                             camera=dict(eye=dict(x=1.5, y=-1.5, z=1.2))),
+                  width=700, height=500)
+fig.write_html(&#x27;surface_3d.html&#x27;)
+print(&#x27;3D surface saved&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>3D scatter with cluster colors</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python">import plotly.express as px
+import numpy as np
+
+np.random.seed(42)
+n = 300
+x = np.random.randn(n); y = np.random.randn(n)
+z = x**2 + y**2 + np.random.randn(n) * 0.5
+cats = [&#x27;Inner&#x27; if v &lt; 2 else &#x27;Middle&#x27; if v &lt; 5 else &#x27;Outer&#x27; for v in z]
+fig = px.scatter_3d(x=x, y=y, z=z, color=cats, symbol=cats,
+                    color_discrete_sequence=px.colors.qualitative.Set1,
+                    title=&#x27;3D Scatter by Distance from Origin&#x27;)
+fig.update_traces(marker=dict(size=4, opacity=0.7))
+fig.write_html(&#x27;scatter_3d.html&#x27;)
+print(f&#x27;3D scatter saved - {n} points&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>3D spiral trajectory</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+t = np.linspace(0, 8*np.pi, 500)
+x = np.cos(t)*np.exp(-t/20); y = np.sin(t)*np.exp(-t/20); z = t/(4*np.pi)
+fig = go.Figure()
+fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode=&#x27;lines&#x27;,
+                            line=dict(color=t, colorscale=&#x27;Plasma&#x27;, width=4), name=&#x27;Trajectory&#x27;))
+fig.add_trace(go.Scatter3d(x=[x[0]], y=[y[0]], z=[z[0]], mode=&#x27;markers&#x27;,
+                            marker=dict(size=8, color=&#x27;green&#x27;), name=&#x27;Start&#x27;))
+fig.add_trace(go.Scatter3d(x=[x[-1]], y=[y[-1]], z=[z[-1]], mode=&#x27;markers&#x27;,
+                            marker=dict(size=8, color=&#x27;red&#x27;), name=&#x27;End&#x27;))
+fig.update_layout(title=&#x27;3D Spiral Trajectory&#x27;,
+                  scene=dict(xaxis_title=&#x27;X&#x27;, yaxis_title=&#x27;Y&#x27;, zaxis_title=&#x27;Height&#x27;))
+fig.write_html(&#x27;trajectory_3d.html&#x27;)
+print(&#x27;3D trajectory saved&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Loss landscape with gradient descent</span><button onclick="cp('c15_3')">Copy</button></div><pre><code id="c15_3" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+x = y = np.linspace(-3, 3, 60)
+X, Y = np.meshgrid(x, y)
+Z = (np.sin(X*2)*np.cos(Y*2)*0.5 + (X**2+Y**2)*0.1 + np.exp(-((X-1)**2+(Y-1)**2))*(-1.5))
+Z = (Z - Z.min()) / (Z.max() - Z.min()) * 3
+
+px_path, py_path, pz_path = [2.5], [-2.5], [float(Z[0,-1])]
+lr = 0.08
+for _ in range(60):
+    ix = int(np.argmin(np.abs(x - px_path[-1])))
+    iy = int(np.argmin(np.abs(y - py_path[-1])))
+    gx = (Z[iy, min(ix+1,59)] - Z[iy, max(ix-1,0)]) / 2
+    gy = (Z[min(iy+1,59), ix] - Z[max(iy-1,0), ix]) / 2
+    nx, ny = float(np.clip(px_path[-1]-lr*gx,-3,3)), float(np.clip(py_path[-1]-lr*gy,-3,3))
+    px_path.append(nx); py_path.append(ny)
+    pz_path.append(float(Z[int(np.argmin(np.abs(y-ny))), int(np.argmin(np.abs(x-nx)))]))
+
+fig = go.Figure([go.Surface(x=X, y=Y, z=Z, colorscale=&#x27;RdYlGn_r&#x27;, opacity=0.85),
+                  go.Scatter3d(x=px_path, y=py_path, z=pz_path, mode=&#x27;lines+markers&#x27;,
+                               line=dict(color=&#x27;blue&#x27;, width=5), marker=dict(size=3),
+                               name=&#x27;GD Path&#x27;)])
+fig.update_layout(title=&#x27;Loss Landscape + Gradient Descent&#x27;, width=750, height=550)
+fig.write_html(&#x27;loss_landscape.html&#x27;)
+print(f&#x27;Loss landscape saved - final loss: {pz_path[-1]:.3f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Cluster Scatter</div><div class="pd">Generate 3 Gaussian clusters at (0,0,0), (3,3,0), (0,3,3) in 3D. Create a 3D scatter with each cluster in a different color. Add axis labels and save as &#x27;clusters_3d.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import plotly.graph_objects as go
+import numpy as np
+
+np.random.seed(42)
+centers = [(0,0,0),(3,3,0),(0,3,3)]
+colors = [&#x27;blue&#x27;,&#x27;red&#x27;,&#x27;green&#x27;]
+fig = go.Figure()
+for i,(cx,cy,cz) in enumerate(centers):
+    n = 50
+    x = np.random.randn(n)+cx; y = np.random.randn(n)+cy; z = np.random.randn(n)+cz
+    # TODO: add Scatter3d trace
+    pass
+# TODO: update_layout with title, axis labels
+# TODO: fig.write_html(&#x27;clusters_3d.html&#x27;)</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

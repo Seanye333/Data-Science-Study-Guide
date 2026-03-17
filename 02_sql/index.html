@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SQL with Python Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#f0883e}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup with sqlite3</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. SELECT &amp; WHERE</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. GROUP BY, Aggregates &amp; HAVING</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. JOINs</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Subqueries &amp; CTEs</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Window Functions</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. UPDATE &amp; DELETE</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Indexes &amp; EXPLAIN</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. SQLite with Pandas</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Recursive CTEs &amp; Advanced Patterns</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. Common Table Expressions (CTEs)</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Window Functions</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Query Optimization</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Query Optimization &amp; Indexing</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Pivoting &amp; Unpivoting</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Triggers &amp; Database Automation</a></li></ul></aside>
+<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)   # in-memory DB
+cur  = conn.cursor()
+
+cur.execute(
+    &quot;CREATE TABLE employees (&quot;
+    &quot;  id INTEGER PRIMARY KEY,&quot;
+    &quot;  name TEXT NOT NULL,&quot;
+    &quot;  dept TEXT,&quot;
+    &quot;  salary REAL,&quot;
+    &quot;  hire_date TEXT)&quot;
+)
+
+data = [
+    (1, &quot;Alice&quot;, &quot;Engineering&quot;, 95000, &quot;2022-03-15&quot;),
+    (2, &quot;Bob&quot;,   &quot;Marketing&quot;,   72000, &quot;2021-08-01&quot;),
+    (3, &quot;Carol&quot;, &quot;Engineering&quot;, 88000, &quot;2023-01-10&quot;),
+]
+cur.executemany(&quot;INSERT INTO employees VALUES (?,?,?,?,?)&quot;, data)
+conn.commit()
+
+count = conn.execute(&quot;SELECT COUNT(*) FROM employees&quot;).fetchone()[0]
+print(f&quot;Inserted {count} rows.&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Row factory for dict-like access</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.row_factory = sqlite3.Row           # rows behave like dicts
+
+conn.execute(&quot;CREATE TABLE products (id INT, name TEXT, price REAL)&quot;)
+conn.executemany(&quot;INSERT INTO products VALUES (?,?,?)&quot;, [
+    (1,&quot;Widget&quot;,9.99),(2,&quot;Gadget&quot;,49.99),(3,&quot;Doohickey&quot;,19.99),
+])
+
+for row in conn.execute(&quot;SELECT * FROM products&quot;):
+    print(f&quot;  [{row[&#x27;id&#x27;]}] {row[&#x27;name&#x27;]:12s} ${row[&#x27;price&#x27;]:.2f}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Context manager and executescript</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import sqlite3
+
+# &#x27;with&#x27; ensures commit on success, rollback on exception
+with sqlite3.connect(&quot;:memory:&quot;) as conn:
+    conn.executescript(&quot;&quot;&quot;
+        CREATE TABLE categories (id INT PRIMARY KEY, name TEXT);
+        CREATE TABLE items (id INT, cat_id INT, name TEXT, qty INT);
+        INSERT INTO categories VALUES (1,&#x27;Electronics&#x27;),(2,&#x27;Clothing&#x27;);
+        INSERT INTO items VALUES
+            (1,1,&#x27;Laptop&#x27;,10),(2,1,&#x27;Phone&#x27;,25),
+            (3,2,&#x27;T-Shirt&#x27;,100),(4,2,&#x27;Jeans&#x27;,50);
+    &quot;&quot;&quot;)
+
+    rows = conn.execute(
+        &quot;SELECT c.name, COUNT(i.id) as items, SUM(i.qty) as total_qty &quot;
+        &quot;FROM categories c JOIN items i ON c.id=i.cat_id &quot;
+        &quot;GROUP BY c.id&quot;
+    ).fetchall()
+    for r in rows:
+        print(f&quot;  {r[0]:14s} items={r[1]}  qty={r[2]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>sqlite_master schema introspection</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.executescript(&quot;&quot;&quot;
+    CREATE TABLE employees (id INT PRIMARY KEY, name TEXT, dept TEXT, salary REAL);
+    CREATE TABLE departments (id INT PRIMARY KEY, name TEXT, budget REAL);
+    CREATE INDEX idx_dept ON employees(dept);
+    CREATE INDEX idx_salary ON employees(salary);
+&quot;&quot;&quot;)
+
+# Inspect all objects via sqlite_master
+print(&quot;Schema objects:&quot;)
+for row in conn.execute(
+    &quot;SELECT type, name, sql FROM sqlite_master ORDER BY type, name&quot;
+).fetchall():
+    print(f&quot;  [{row[0]:5s}] {row[1]}&quot;)
+
+# List only tables
+tables = conn.execute(
+    &quot;SELECT name FROM sqlite_master WHERE type=&#x27;table&#x27; ORDER BY name&quot;
+).fetchall()
+print(&quot;Tables:&quot;, [t[0] for t in tables])
+
+# List columns of a table using PRAGMA
+print(&quot;Columns in employees:&quot;)
+for col in conn.execute(&quot;PRAGMA table_info(employees)&quot;).fetchall():
+    print(f&quot;  col#{col[0]} {col[1]:10s} type={col[2]:8s} notnull={col[3]} pk={col[5]}&quot;)
+
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Transaction Database Setup</div><div class="rd">A startup data analyst creates an in-memory SQLite database to prototype reporting queries before moving to PostgreSQL.</div><pre><code class="language-python">import sqlite3, random, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE sales (&quot;
+    &quot;  id INT, customer TEXT, product TEXT,&quot;
+    &quot;  amount REAL, sale_date TEXT)&quot;
+)
+
+customers = [&quot;Alice&quot;,&quot;Bob&quot;,&quot;Carol&quot;,&quot;Dave&quot;,&quot;Eve&quot;]
+products  = [&quot;Widget&quot;,&quot;Gadget&quot;,&quot;Doohickey&quot;,&quot;Gizmo&quot;]
+base      = datetime.date(2024, 1, 1)
+
+records = [
+    (i, random.choice(customers), random.choice(products),
+     round(random.uniform(20, 500), 2),
+     (base + datetime.timedelta(days=random.randint(0, 180))).isoformat())
+    for i in range(1, 1001)
+]
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?,?,?)&quot;, records)
+conn.commit()
+
+row = conn.execute(
+    &quot;SELECT COUNT(*), ROUND(SUM(amount),2), ROUND(AVG(amount),2) FROM sales&quot;
+).fetchone()
+print(f&quot;Rows: {row[0]}  Total: ${row[1]:,.2f}  Avg: ${row[2]:.2f}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design a Library Table Schema</div><div class="pd">Create an in-memory SQLite database with two tables: &#x27;books&#x27; (id, title, author, year, genre) and &#x27;members&#x27; (id, name, email). Insert at least 5 books and 3 members. Then query all books published after 2000, ordered by year descending.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+
+# TODO: Create the &#x27;books&#x27; table
+# conn.execute(&quot;CREATE TABLE books (...)&quot;)
+
+# TODO: Create the &#x27;members&#x27; table
+# conn.execute(&quot;CREATE TABLE members (...)&quot;)
+
+# TODO: Insert at least 5 books
+# conn.executemany(&quot;INSERT INTO books VALUES (?,?,?,?,?)&quot;, [...])
+
+# TODO: Insert at least 3 members
+# conn.executemany(&quot;INSERT INTO members VALUES (?,?,?)&quot;, [...])
+
+conn.commit()
+
+# TODO: Query all books published after 2000, ordered by year DESC
+# rows = conn.execute(&quot;SELECT title, author, year FROM books WHERE ...&quot;).fetchall()
+# for r in rows:
+#     print(r)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. SELECT &amp; WHERE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SELECT retrieves columns. WHERE filters rows. Use LIKE, IN, BETWEEN, and IS NULL for flexible filtering.</p><div class="code-block"><div class="ch"><span>Basic SELECT and WHERE</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, dept TEXT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;Eng&quot;,95000),(2,&quot;Bob&quot;,&quot;Marketing&quot;,72000),
+    (3,&quot;Carol&quot;,&quot;Eng&quot;,88000),(4,&quot;Dave&quot;,&quot;HR&quot;,65000),(5,&quot;Eve&quot;,&quot;Marketing&quot;,78000),
+])
+
+# All Engineering employees, sorted by salary
+rows = conn.execute(
+    &quot;SELECT name, salary FROM emp WHERE dept=&#x27;Eng&#x27; ORDER BY salary DESC&quot;
+).fetchall()
+print(&quot;Engineering staff:&quot;)
+for r in rows: print(f&quot;  {r[0]:8s} ${r[1]:,}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>LIKE, IN, BETWEEN, IS NULL</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE products (name TEXT, price REAL, category TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO products VALUES (?,?,?)&quot;, [
+    (&quot;Apple&quot;,0.50,&quot;Fruit&quot;),(&quot;Avocado&quot;,1.50,&quot;Fruit&quot;),
+    (&quot;Milk&quot;,2.99,&quot;Dairy&quot;),(&quot;Cheese&quot;,4.50,&quot;Dairy&quot;),
+    (&quot;Bread&quot;,3.29,&quot;Bakery&quot;),(&quot;Cake&quot;,None,&quot;Bakery&quot;),
+])
+
+q = &quot;SELECT name FROM products WHERE&quot;
+print(conn.execute(q + &quot; name LIKE &#x27;A%&#x27;&quot;).fetchall())
+print(conn.execute(q + &quot; category IN (&#x27;Dairy&#x27;,&#x27;Bakery&#x27;)&quot;).fetchall())
+print(conn.execute(q + &quot; price BETWEEN 1 AND 4&quot;).fetchall())
+print(conn.execute(q + &quot; price IS NULL&quot;).fetchall())
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>ORDER BY, LIMIT, OFFSET and DISTINCT</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (name TEXT, dept TEXT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Eng&quot;,95000),(&quot;Bob&quot;,&quot;HR&quot;,65000),(&quot;Carol&quot;,&quot;Eng&quot;,88000),
+    (&quot;Dave&quot;,&quot;HR&quot;,70000),(&quot;Eve&quot;,&quot;Marketing&quot;,78000),(&quot;Frank&quot;,&quot;Eng&quot;,102000),
+])
+
+# Top 3 earners
+print(&quot;Top 3 earners:&quot;)
+for r in conn.execute(
+    &quot;SELECT name, salary FROM emp ORDER BY salary DESC LIMIT 3&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s} ${r[1]:,}&quot;)
+
+# Page 2 (rows 3-4) when sorting by name
+print(&quot;Page 2 by name:&quot;)
+for r in conn.execute(
+    &quot;SELECT name FROM emp ORDER BY name LIMIT 2 OFFSET 2&quot;
+).fetchall():
+    print(f&quot;  {r[0]}&quot;)
+
+# Distinct departments
+depts = conn.execute(&quot;SELECT DISTINCT dept FROM emp ORDER BY dept&quot;).fetchall()
+print(&quot;Departments:&quot;, [d[0] for d in depts])
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CASE WHEN, COALESCE, NULLIF, IS NULL</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (name TEXT, dept TEXT, salary REAL, bonus REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Eng&quot;,95000,5000),(&quot;Bob&quot;,&quot;HR&quot;,65000,None),
+    (&quot;Carol&quot;,&quot;Eng&quot;,88000,3000),(&quot;Dave&quot;,&quot;Marketing&quot;,72000,None),
+    (&quot;Eve&quot;,&quot;Eng&quot;,110000,8000),(&quot;Frank&quot;,&quot;HR&quot;,60000,0),
+])
+
+rows = conn.execute(
+    &quot;SELECT name, dept, salary,&quot;
+    &quot;       COALESCE(bonus, 0) as safe_bonus,&quot;
+    &quot;       CASE &quot;
+    &quot;         WHEN salary &gt;= 100000 THEN &#x27;Senior&#x27;&quot;
+    &quot;         WHEN salary &gt;= 80000  THEN &#x27;Mid&#x27;&quot;
+    &quot;         ELSE &#x27;Junior&#x27;&quot;
+    &quot;       END as band,&quot;
+    &quot;       NULLIF(bonus, 0) as nonzero_bonus &quot;
+    &quot;FROM emp ORDER BY salary DESC&quot;
+).fetchall()
+
+print(f&quot;{&#x27;Name&#x27;:8s} {&#x27;Band&#x27;:7s} {&#x27;Salary&#x27;:&gt;9s} {&#x27;Bonus&#x27;:&gt;7s} {&#x27;NZ Bonus&#x27;:&gt;10s}&quot;)
+for r in rows:
+    print(f&quot;{r[0]:8s} {r[4]:7s} ${r[2]:&gt;8,} ${r[3]:&gt;6,.0f} {str(r[5]):&gt;10s}&quot;)
+
+# IS NULL / IS NOT NULL filter
+missing = conn.execute(
+    &quot;SELECT name FROM emp WHERE bonus IS NULL OR bonus = 0&quot;
+).fetchall()
+print(&quot;No effective bonus:&quot;, [m[0] for m in missing])
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Priority Order Fulfillment Filter</div><div class="rd">An e-commerce backend filters pending high-value orders for the fulfillment team&#x27;s priority queue.</div><pre><code class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE orders (&quot;
+    &quot;  id INT, customer TEXT, status TEXT, amount REAL, order_date TEXT)&quot;
+)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;shipped&quot;,120.0,&quot;2024-01-05&quot;),
+    (2,&quot;Bob&quot;,&quot;pending&quot;,80.0,&quot;2024-01-10&quot;),
+    (3,&quot;Alice&quot;,&quot;delivered&quot;,250.0,&quot;2024-01-12&quot;),
+    (4,&quot;Carol&quot;,&quot;pending&quot;,450.0,&quot;2024-01-15&quot;),
+    (5,&quot;Bob&quot;,&quot;shipped&quot;,310.0,&quot;2024-01-18&quot;),
+    (6,&quot;Dave&quot;,&quot;cancelled&quot;,90.0,&quot;2024-01-20&quot;),
+])
+
+rows = conn.execute(
+    &quot;SELECT id, customer, amount, order_date &quot;
+    &quot;FROM orders &quot;
+    &quot;WHERE status IN (&#x27;pending&#x27;,&#x27;shipped&#x27;) AND amount &gt; 100 &quot;
+    &quot;ORDER BY amount DESC&quot;
+).fetchall()
+
+print(&quot;Priority orders:&quot;)
+for r in rows:
+    print(f&quot;  #{r[0]} {r[1]:8s} ${r[2]:6.2f}  {r[3]}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: SELECT with WHERE, ORDER BY, and LIMIT</div><div class="pd">Build an employees table with columns: id, name, department, salary, city. Insert 8+ rows. Then write three queries: 1) All employees in &#x27;Engineering&#x27; earning over 80000, sorted by salary DESC. 2) Employees from &#x27;NYC&#x27; or &#x27;LA&#x27; using IN. 3) The top 3 earners company-wide using LIMIT.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE employees (id INT, name TEXT, department TEXT, salary REAL, city TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO employees VALUES (?,?,?,?,?)&quot;, [
+    # TODO: add at least 8 rows across multiple departments and cities
+    # (1, &quot;Alice&quot;, &quot;Engineering&quot;, 95000, &quot;NYC&quot;),
+    # ...
+])
+conn.commit()
+
+# TODO: Query 1 — Engineering employees earning &gt; 80000, sorted by salary DESC
+# rows = conn.execute(&quot;SELECT name, salary FROM employees WHERE ...&quot;).fetchall()
+# print(&quot;Engineering &gt;80k:&quot;)
+# for r in rows: print(f&quot;  {r[0]:10s} ${r[1]:,}&quot;)
+
+# TODO: Query 2 — Employees in NYC or LA
+# rows = conn.execute(&quot;SELECT name, city FROM employees WHERE city IN (...)&quot;).fetchall()
+# print(&quot;NYC/LA staff:&quot;, rows)
+
+# TODO: Query 3 — Top 3 earners company-wide
+# rows = conn.execute(&quot;SELECT name, salary FROM employees ORDER BY ... LIMIT ...&quot;).fetchall()
+# print(&quot;Top 3:&quot;, rows)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. GROUP BY, Aggregates &amp; HAVING</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Aggregate functions (COUNT, SUM, AVG, MAX) summarize groups. HAVING filters groups after aggregation — like WHERE but for groups.</p><div class="code-block"><div class="ch"><span>COUNT, SUM, AVG per group</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (region TEXT, rep TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;North&quot;,&quot;Alice&quot;,1000),(&quot;North&quot;,&quot;Bob&quot;,1500),
+    (&quot;South&quot;,&quot;Carol&quot;,800),(&quot;South&quot;,&quot;Dave&quot;,1200),
+    (&quot;East&quot;,&quot;Eve&quot;,2000),(&quot;East&quot;,&quot;Alice&quot;,900),
+])
+
+rows = conn.execute(
+    &quot;SELECT region,&quot;
+    &quot;       COUNT(*) as reps,&quot;
+    &quot;       SUM(amount) as total,&quot;
+    &quot;       ROUND(AVG(amount),0) as avg_amt,&quot;
+    &quot;       MAX(amount) as top &quot;
+    &quot;FROM sales GROUP BY region ORDER BY total DESC&quot;
+).fetchall()
+print(f&quot;{&#x27;Region&#x27;:8s} {&#x27;Reps&#x27;:&gt;5} {&#x27;Total&#x27;:&gt;8} {&#x27;Avg&#x27;:&gt;8} {&#x27;Top&#x27;:&gt;8}&quot;)
+for r in rows: print(f&quot;{r[0]:8s} {r[1]:&gt;5} {r[2]:&gt;8} {r[3]:&gt;8} {r[4]:&gt;8}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>HAVING — filter groups by aggregate</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (dept TEXT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?)&quot;, [
+    (&quot;Eng&quot;,120000),(&quot;Eng&quot;,95000),(&quot;Eng&quot;,110000),
+    (&quot;HR&quot;,65000),
+    (&quot;Marketing&quot;,85000),(&quot;Marketing&quot;,90000),(&quot;Marketing&quot;,72000),
+])
+
+rows = conn.execute(
+    &quot;SELECT dept, COUNT(*) as headcount, ROUND(AVG(salary),0) as avg_sal &quot;
+    &quot;FROM emp &quot;
+    &quot;GROUP BY dept &quot;
+    &quot;HAVING COUNT(*) &gt;= 2 &quot;
+    &quot;ORDER BY avg_sal DESC&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Multi-column GROUP BY and ROLLUP simulation</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (region TEXT, product TEXT, qty INT, revenue REAL)&quot;)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?)&quot;, [
+    (&quot;North&quot;,&quot;Widget&quot;,10,500),(&quot;North&quot;,&quot;Gadget&quot;,5,250),
+    (&quot;South&quot;,&quot;Widget&quot;,8,400),(&quot;South&quot;,&quot;Widget&quot;,12,600),
+    (&quot;East&quot;,&quot;Gadget&quot;,20,1000),(&quot;East&quot;,&quot;Widget&quot;,3,150),
+])
+
+# Group by two columns
+print(&quot;Region + Product breakdown:&quot;)
+for r in conn.execute(
+    &quot;SELECT region, product, SUM(qty) as units, ROUND(SUM(revenue),2) as rev &quot;
+    &quot;FROM orders GROUP BY region, product ORDER BY region, rev DESC&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s} {r[1]:8s}  units={r[2]}  rev=${r[3]:.2f}&quot;)
+
+# Simulated ROLLUP: per-region total
+print(&quot;Per-region totals:&quot;)
+for r in conn.execute(
+    &quot;SELECT region, SUM(qty) as total_units, ROUND(SUM(revenue),2) as total_rev &quot;
+    &quot;FROM orders GROUP BY region ORDER BY total_rev DESC&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s}  units={r[1]}  rev=${r[2]:.2f}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Conditional aggregation with SUM(CASE WHEN)</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (rep TEXT, product TEXT, amount REAL, status TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Widget&quot;,1200,&quot;won&quot;),(&quot;Alice&quot;,&quot;Gadget&quot;,800,&quot;lost&quot;),
+    (&quot;Alice&quot;,&quot;Widget&quot;,500,&quot;won&quot;),(&quot;Bob&quot;,&quot;Gadget&quot;,1500,&quot;won&quot;),
+    (&quot;Bob&quot;,&quot;Widget&quot;,300,&quot;lost&quot;),(&quot;Bob&quot;,&quot;Gadget&quot;,900,&quot;won&quot;),
+    (&quot;Carol&quot;,&quot;Widget&quot;,2000,&quot;won&quot;),(&quot;Carol&quot;,&quot;Gadget&quot;,600,&quot;lost&quot;),
+])
+
+# Pivot-style: won vs lost amounts per rep in a single query
+rows = conn.execute(
+    &quot;SELECT rep,&quot;
+    &quot;       COUNT(*) as deals,&quot;
+    &quot;       SUM(CASE WHEN status=&#x27;won&#x27;  THEN amount ELSE 0 END) as won_amt,&quot;
+    &quot;       SUM(CASE WHEN status=&#x27;lost&#x27; THEN amount ELSE 0 END) as lost_amt,&quot;
+    &quot;       ROUND(100.0 * SUM(CASE WHEN status=&#x27;won&#x27; THEN 1 ELSE 0 END) / COUNT(*), 1) as win_pct &quot;
+    &quot;FROM sales GROUP BY rep ORDER BY won_amt DESC&quot;
+).fetchall()
+
+print(f&quot;{&#x27;Rep&#x27;:8s} {&#x27;Deals&#x27;:&gt;6} {&#x27;Won $&#x27;:&gt;8} {&#x27;Lost $&#x27;:&gt;8} {&#x27;Win%&#x27;:&gt;6}&quot;)
+for r in rows:
+    print(f&quot;{r[0]:8s} {r[1]:&gt;6} ${r[2]:&gt;7,.0f} ${r[3]:&gt;7,.0f} {r[4]:&gt;5.1f}%&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Monthly Spend Dashboard</div><div class="rd">A finance analyst builds a monthly category spending dashboard from raw transaction records.</div><pre><code class="language-python">import sqlite3, random, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE txn (user_id INT, category TEXT, amount REAL, date TEXT)&quot;)
+
+cats = [&quot;Food&quot;,&quot;Transport&quot;,&quot;Shopping&quot;,&quot;Entertainment&quot;,&quot;Utilities&quot;]
+rows = [
+    (random.randint(1,100), random.choice(cats),
+     round(random.uniform(5,300),2),
+     (datetime.date(2024,1,1)+datetime.timedelta(days=random.randint(0,89))).isoformat())
+    for _ in range(2000)
+]
+conn.executemany(&quot;INSERT INTO txn VALUES (?,?,?,?)&quot;, rows)
+
+report = conn.execute(
+    &quot;SELECT category, COUNT(*) as txns,&quot;
+    &quot;       ROUND(SUM(amount),2) as total,&quot;
+    &quot;       ROUND(AVG(amount),2) as avg_amt,&quot;
+    &quot;       ROUND(SUM(amount)*100.0/(SELECT SUM(amount) FROM txn),1) as pct &quot;
+    &quot;FROM txn GROUP BY category ORDER BY total DESC&quot;
+).fetchall()
+
+print(f&quot;{&#x27;Category&#x27;:15s} {&#x27;Txns&#x27;:&gt;5} {&#x27;Total&#x27;:&gt;10} {&#x27;Avg&#x27;:&gt;8} {&#x27;%&#x27;:&gt;6}&quot;)
+print(&quot;-&quot; * 50)
+for r in report:
+    print(f&quot;{r[0]:15s} {r[1]:&gt;5} ${r[2]:&gt;9,.2f} ${r[3]:&gt;7.2f} {r[4]:&gt;5.1f}%&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: GROUP BY with HAVING Aggregation</div><div class="pd">Create a &#x27;sales&#x27; table with columns: rep (TEXT), region (TEXT), amount (REAL). Insert 10+ rows. Write queries to: 1) Show total and average sales per region, ordered by total DESC. 2) Use HAVING to list only reps whose total sales exceed 3000. 3) Find the region with the single highest average sale amount.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (rep TEXT, region TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    # TODO: insert 10+ rows, vary reps and regions
+    # (&quot;Alice&quot;, &quot;North&quot;, 1200), ...
+])
+conn.commit()
+
+# TODO: Query 1 — total and avg per region, ORDER BY total DESC
+# rows = conn.execute(
+#     &quot;SELECT region, SUM(amount) as total, ROUND(AVG(amount),2) as avg_amt &quot;
+#     &quot;FROM sales GROUP BY region ORDER BY total DESC&quot;
+# ).fetchall()
+# for r in rows: print(r)
+
+# TODO: Query 2 — reps with total sales &gt; 3000
+# rows = conn.execute(
+#     &quot;SELECT rep, SUM(amount) as total FROM sales &quot;
+#     &quot;GROUP BY rep HAVING total &gt; 3000&quot;
+# ).fetchall()
+# print(&quot;High performers:&quot;, rows)
+
+# TODO: Query 3 — region with highest average sale
+# row = conn.execute(
+#     &quot;SELECT region, ROUND(AVG(amount),2) as avg_amt FROM sales &quot;
+#     &quot;GROUP BY region ORDER BY avg_amt DESC LIMIT 1&quot;
+# ).fetchone()
+# print(&quot;Best avg region:&quot;, row)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. JOINs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">JOINs combine rows from multiple tables. INNER keeps only matches; LEFT keeps all rows from the left table even without a match.</p><div class="code-block"><div class="ch"><span>INNER JOIN and LEFT JOIN</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE dept (id INT, name TEXT)&quot;)
+conn.execute(&quot;CREATE TABLE emp  (id INT, name TEXT, dept_id INT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO dept VALUES (?,?)&quot;, [(1,&quot;Eng&quot;),(2,&quot;HR&quot;),(3,&quot;Sales&quot;)])
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,1,100000),(2,&quot;Bob&quot;,2,65000),
+    (3,&quot;Carol&quot;,1,95000),(4,&quot;Dave&quot;,3,80000),(5,&quot;Eve&quot;,None,75000),
+])
+
+print(&quot;INNER JOIN:&quot;)
+for r in conn.execute(
+    &quot;SELECT e.name, d.name, e.salary &quot;
+    &quot;FROM emp e INNER JOIN dept d ON e.dept_id=d.id&quot;
+).fetchall(): print(&quot; &quot;, r)
+
+print(&quot;LEFT JOIN (all employees):&quot;)
+for r in conn.execute(
+    &quot;SELECT e.name, COALESCE(d.name,&#x27;Unknown&#x27;), e.salary &quot;
+    &quot;FROM emp e LEFT JOIN dept d ON e.dept_id=d.id&quot;
+).fetchall(): print(&quot; &quot;, r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Multi-table JOIN with aggregation</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE customers (id INT, name TEXT, city TEXT)&quot;)
+conn.execute(&quot;CREATE TABLE orders    (id INT, cust_id INT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO customers VALUES (?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;NYC&quot;),(2,&quot;Bob&quot;,&quot;LA&quot;),(3,&quot;Carol&quot;,&quot;NYC&quot;),(4,&quot;Dave&quot;,&quot;Chicago&quot;),
+])
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?)&quot;, [
+    (1,1,150),(2,1,200),(3,2,80),(4,3,320),(5,3,100),
+])
+
+rows = conn.execute(
+    &quot;SELECT c.name, c.city, COUNT(o.id) as orders, &quot;
+    &quot;       COALESCE(SUM(o.amount),0) as spent &quot;
+    &quot;FROM customers c LEFT JOIN orders o ON c.id=o.cust_id &quot;
+    &quot;GROUP BY c.id ORDER BY spent DESC&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Self-JOIN and multiple LEFT JOINs</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+# Self-join: employee + their manager
+conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, mgr_id INT, dept TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (1,&quot;CEO&quot;,None,&quot;Exec&quot;),(2,&quot;CTO&quot;,1,&quot;Tech&quot;),(3,&quot;CFO&quot;,1,&quot;Finance&quot;),
+    (4,&quot;Dev Lead&quot;,2,&quot;Tech&quot;),(5,&quot;Alice&quot;,4,&quot;Tech&quot;),(6,&quot;Bob&quot;,4,&quot;Tech&quot;),
+])
+
+print(&quot;Employee -&gt; Manager:&quot;)
+for r in conn.execute(
+    &quot;SELECT e.name as employee, COALESCE(m.name,&#x27;—&#x27;) as manager, e.dept &quot;
+    &quot;FROM emp e LEFT JOIN emp m ON e.mgr_id=m.id &quot;
+    &quot;ORDER BY e.id&quot;
+).fetchall():
+    print(f&quot;  {r[0]:10s}  manager={r[1]:10s}  dept={r[2]}&quot;)
+
+# Three-table join
+conn.execute(&quot;CREATE TABLE projects (id INT, name TEXT, lead_id INT)&quot;)
+conn.executemany(&quot;INSERT INTO projects VALUES (?,?,?)&quot;, [
+    (1,&quot;Alpha&quot;,4),(2,&quot;Beta&quot;,2),(3,&quot;Gamma&quot;,3),
+])
+
+print(&quot;Projects with leads and their department:&quot;)
+for r in conn.execute(
+    &quot;SELECT p.name, e.name as lead, e.dept &quot;
+    &quot;FROM projects p JOIN emp e ON p.lead_id=e.id&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s}  lead={r[1]:10s}  dept={r[2]}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CROSS JOIN for cartesian product</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+
+# CROSS JOIN produces every combination of rows (cartesian product)
+conn.execute(&quot;CREATE TABLE sizes  (size TEXT)&quot;)
+conn.execute(&quot;CREATE TABLE colors (color TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO sizes  VALUES (?)&quot;, [(&quot;S&quot;,),(&quot;M&quot;,),(&quot;L&quot;,),(&quot;XL&quot;,)])
+conn.executemany(&quot;INSERT INTO colors VALUES (?)&quot;, [(&quot;Red&quot;,),(&quot;Blue&quot;,),(&quot;Green&quot;,)])
+
+print(&quot;All size/color combinations (CROSS JOIN):&quot;)
+variants = conn.execute(
+    &quot;SELECT s.size, c.color FROM sizes s CROSS JOIN colors c ORDER BY s.size, c.color&quot;
+).fetchall()
+for r in variants:
+    print(f&quot;  {r[0]:4s} / {r[1]}&quot;)
+print(f&quot;Total variants: {len(variants)}&quot;)
+
+# Use CROSS JOIN to build a multiplication table
+print(&quot;3x3 multiplication table:&quot;)
+conn.execute(&quot;CREATE TABLE nums (n INT)&quot;)
+conn.executemany(&quot;INSERT INTO nums VALUES (?)&quot;, [(1,),(2,),(3,)])
+for r in conn.execute(
+    &quot;SELECT a.n, b.n, a.n * b.n as product &quot;
+    &quot;FROM nums a CROSS JOIN nums b ORDER BY a.n, b.n&quot;
+).fetchall():
+    print(f&quot;  {r[0]} x {r[1]} = {r[2]}&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Inventory &amp; Sales Cross-Reference</div><div class="rd">A warehouse manager joins product, inventory, and sales tables to identify stock risk for top-selling items.</div><pre><code class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+for ddl in [
+    &quot;CREATE TABLE products  (id INT, name TEXT, category TEXT)&quot;,
+    &quot;CREATE TABLE inventory (product_id INT, warehouse TEXT, qty INT)&quot;,
+    &quot;CREATE TABLE sales_30d (product_id INT, qty_sold INT)&quot;,
+]:
+    conn.execute(ddl)
+
+conn.executemany(&quot;INSERT INTO products VALUES (?,?,?)&quot;, [
+    (1,&quot;Widget&quot;,&quot;Hardware&quot;),(2,&quot;Gadget&quot;,&quot;Electronics&quot;),
+    (3,&quot;Doohickey&quot;,&quot;Hardware&quot;),(4,&quot;Gizmo&quot;,&quot;Electronics&quot;),
+])
+conn.executemany(&quot;INSERT INTO inventory VALUES (?,?,?)&quot;, [
+    (1,&quot;East&quot;,500),(1,&quot;West&quot;,300),(2,&quot;East&quot;,80),(3,&quot;West&quot;,200),(4,&quot;East&quot;,50),
+])
+conn.executemany(&quot;INSERT INTO sales_30d VALUES (?,?)&quot;, [
+    (1,420),(2,75),(3,60),(4,45),
+])
+
+rows = conn.execute(
+    &quot;SELECT p.name, p.category, SUM(i.qty) as stock, &quot;
+    &quot;       COALESCE(s.qty_sold,0) as sold_30d, &quot;
+    &quot;       ROUND(SUM(i.qty)*1.0/NULLIF(COALESCE(s.qty_sold,0),0),1) as weeks &quot;
+    &quot;FROM products p &quot;
+    &quot;JOIN inventory i ON p.id=i.product_id &quot;
+    &quot;LEFT JOIN sales_30d s ON p.id=s.product_id &quot;
+    &quot;GROUP BY p.id ORDER BY weeks ASC&quot;
+).fetchall()
+print(f&quot;{&#x27;Product&#x27;:12s} {&#x27;Category&#x27;:12s} {&#x27;Stock&#x27;:&gt;6} {&#x27;Sold&#x27;:&gt;6} {&#x27;Weeks&#x27;:&gt;6}&quot;)
+for r in rows:
+    print(f&quot;{r[0]:12s} {r[1]:12s} {r[2]:&gt;6} {r[3]:&gt;6} {str(r[4]):&gt;6}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: INNER and LEFT JOIN Queries</div><div class="pd">Create two tables: &#x27;students&#x27; (id, name, grade) and &#x27;enrollments&#x27; (student_id, course, score). Insert 5 students and 8 enrollments (some students have no enrollment). Write: 1) An INNER JOIN to show each student&#x27;s course and score. 2) A LEFT JOIN to include students with no enrollment (show NULL for course). 3) Add a GROUP BY to show each student&#x27;s average score.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE students (id INT, name TEXT, grade TEXT)&quot;)
+conn.execute(&quot;CREATE TABLE enrollments (student_id INT, course TEXT, score REAL)&quot;)
+
+conn.executemany(&quot;INSERT INTO students VALUES (?,?,?)&quot;, [
+    # TODO: 5 students, at least one with no enrollment
+    # (1,&quot;Alice&quot;,&quot;A&quot;), ...
+])
+conn.executemany(&quot;INSERT INTO enrollments VALUES (?,?,?)&quot;, [
+    # TODO: 8 enrollments across the enrolled students
+    # (1,&quot;Math&quot;,88), ...
+])
+conn.commit()
+
+# TODO: INNER JOIN — student name, course, score
+# rows = conn.execute(
+#     &quot;SELECT s.name, e.course, e.score &quot;
+#     &quot;FROM students s INNER JOIN enrollments e ON s.id=e.student_id&quot;
+# ).fetchall()
+# print(&quot;Enrolled:&quot;)
+# for r in rows: print(&quot; &quot;, r)
+
+# TODO: LEFT JOIN — all students (NULL course for unenrolled)
+# rows = conn.execute(
+#     &quot;SELECT s.name, COALESCE(e.course,&#x27;—&#x27;) as course &quot;
+#     &quot;FROM students s LEFT JOIN enrollments e ON s.id=e.student_id&quot;
+# ).fetchall()
+# print(&quot;All students:&quot;)
+# for r in rows: print(&quot; &quot;, r)
+
+# TODO: Average score per student
+# rows = conn.execute(
+#     &quot;SELECT s.name, ROUND(AVG(e.score),1) as avg_score &quot;
+#     &quot;FROM students s JOIN enrollments e ON s.id=e.student_id &quot;
+#     &quot;GROUP BY s.id ORDER BY avg_score DESC&quot;
+# ).fetchall()
+# print(&quot;Avg scores:&quot;, rows)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subqueries &amp; CTEs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries run a query inside another. CTEs (WITH clause) make complex logic readable and reusable — they&#x27;re like named temp tables.</p><div class="code-block"><div class="ch"><span>Scalar subquery and IN subquery</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (name TEXT, dept TEXT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Eng&quot;,120000),(&quot;Bob&quot;,&quot;HR&quot;,65000),(&quot;Carol&quot;,&quot;Eng&quot;,95000),
+    (&quot;Dave&quot;,&quot;Mkt&quot;,80000),(&quot;Eve&quot;,&quot;Eng&quot;,110000),(&quot;Frank&quot;,&quot;HR&quot;,72000),
+])
+
+# Employees earning more than the company average
+rows = conn.execute(
+    &quot;SELECT name, dept, salary FROM emp &quot;
+    &quot;WHERE salary &gt; (SELECT AVG(salary) FROM emp) &quot;
+    &quot;ORDER BY salary DESC&quot;
+).fetchall()
+print(&quot;Above-average earners:&quot;)
+for r in rows: print(f&quot;  {r[0]:8s} {r[1]:5s} ${r[2]:,}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CTE (WITH clause)</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (id INT, cust TEXT, amount REAL, month TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,100,&quot;Jan&quot;),(2,&quot;Bob&quot;,200,&quot;Jan&quot;),
+    (3,&quot;Alice&quot;,150,&quot;Feb&quot;),(4,&quot;Carol&quot;,300,&quot;Feb&quot;),
+    (5,&quot;Bob&quot;,250,&quot;Mar&quot;),(6,&quot;Alice&quot;,400,&quot;Mar&quot;),
+])
+
+rows = conn.execute(
+    &quot;WITH monthly AS (&quot;
+    &quot;  SELECT month, SUM(amount) as total FROM orders GROUP BY month&quot;
+    &quot;),&quot;
+    &quot;avg_m AS (SELECT AVG(total) as avg_total FROM monthly) &quot;
+    &quot;SELECT m.month, m.total, &quot;
+    &quot;       ROUND(m.total - a.avg_total, 2) as vs_avg &quot;
+    &quot;FROM monthly m, avg_m a ORDER BY m.month&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Correlated subquery and EXISTS</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, dept TEXT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;Eng&quot;,120000),(2,&quot;Bob&quot;,&quot;HR&quot;,65000),(3,&quot;Carol&quot;,&quot;Eng&quot;,95000),
+    (4,&quot;Dave&quot;,&quot;Mkt&quot;,80000),(5,&quot;Eve&quot;,&quot;Eng&quot;,110000),(6,&quot;Frank&quot;,&quot;HR&quot;,72000),
+])
+
+# Correlated subquery: employees earning above their own dept average
+print(&quot;Above dept average:&quot;)
+for r in conn.execute(
+    &quot;SELECT name, dept, salary, &quot;
+    &quot;       ROUND((SELECT AVG(salary) FROM emp e2 WHERE e2.dept=e1.dept),0) as dept_avg &quot;
+    &quot;FROM emp e1 &quot;
+    &quot;WHERE salary &gt; (SELECT AVG(salary) FROM emp e2 WHERE e2.dept=e1.dept) &quot;
+    &quot;ORDER BY dept, salary DESC&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s} {r[1]:5s} ${r[2]:,}  dept_avg=${r[3]:,}&quot;)
+
+# EXISTS subquery: departments that have at least one employee over 100k
+print(&quot;Depts with 100k+ earner:&quot;)
+for r in conn.execute(
+    &quot;SELECT DISTINCT dept FROM emp e1 &quot;
+    &quot;WHERE EXISTS (SELECT 1 FROM emp e2 WHERE e2.dept=e1.dept AND e2.salary&gt;100000)&quot;
+).fetchall():
+    print(f&quot;  {r[0]}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Scalar subquery in SELECT and multi-CTE chain</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (id INT, cust TEXT, product TEXT, amount REAL, month INT)&quot;)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;Widget&quot;,200,1),(2,&quot;Bob&quot;,&quot;Gadget&quot;,150,1),(3,&quot;Alice&quot;,&quot;Gadget&quot;,300,2),
+    (4,&quot;Carol&quot;,&quot;Widget&quot;,450,2),(5,&quot;Bob&quot;,&quot;Widget&quot;,120,3),(6,&quot;Alice&quot;,&quot;Gizmo&quot;,500,3),
+    (7,&quot;Carol&quot;,&quot;Gadget&quot;,250,3),(8,&quot;Dave&quot;,&quot;Widget&quot;,80,1),
+])
+
+# Scalar subquery in SELECT: show each order&#x27;s % of grand total
+print(&quot;Each order as % of grand total:&quot;)
+for r in conn.execute(
+    &quot;SELECT cust, product, amount,&quot;
+    &quot;       ROUND(amount * 100.0 / (SELECT SUM(amount) FROM orders), 1) as pct_of_total &quot;
+    &quot;FROM orders ORDER BY amount DESC&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s} {r[1]:8s} ${r[2]:&gt;6.0f}  ({r[3]}%)&quot;)
+
+# Multi-CTE chain: monthly totals -&gt; rank months -&gt; show top 2
+print(&quot;Top 2 months by revenue:&quot;)
+for r in conn.execute(
+    &quot;WITH monthly AS (&quot;
+    &quot;  SELECT month, SUM(amount) as total FROM orders GROUP BY month&quot;
+    &quot;),&quot;
+    &quot;ranked AS (&quot;
+    &quot;  SELECT month, total, RANK() OVER (ORDER BY total DESC) as rnk FROM monthly&quot;
+    &quot;) &quot;
+    &quot;SELECT month, total, rnk FROM ranked WHERE rnk &lt;= 2 ORDER BY rnk&quot;
+).fetchall():
+    print(f&quot;  Month {r[0]}  total=${r[1]:.0f}  rank={r[2]}&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Customer Conversion Funnel Analysis</div><div class="rd">A product analyst uses CTEs to compute step-by-step conversion rates through the signup funnel.</div><pre><code class="language-python">import sqlite3, random, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE events (user_id INT, event TEXT, ts TEXT)&quot;)
+
+random.seed(5)
+funnel = [&quot;signup&quot;,&quot;view_product&quot;,&quot;add_to_cart&quot;,&quot;purchase&quot;]
+rows = []
+for uid in range(1, 501):
+    n = random.randint(1, 4)
+    base = datetime.datetime(2024,1,1) + datetime.timedelta(days=random.randint(0,60))
+    for ev in funnel[:n]:
+        rows.append((uid, ev, (base+datetime.timedelta(hours=random.randint(1,48))).isoformat()))
+        base += datetime.timedelta(days=random.randint(0,3))
+conn.executemany(&quot;INSERT INTO events VALUES (?,?,?)&quot;, rows)
+
+report = conn.execute(
+    &quot;WITH steps AS (&quot;
+    &quot;  SELECT event, COUNT(DISTINCT user_id) as users &quot;
+    &quot;  FROM events &quot;
+    &quot;  WHERE event IN (&#x27;signup&#x27;,&#x27;view_product&#x27;,&#x27;add_to_cart&#x27;,&#x27;purchase&#x27;) &quot;
+    &quot;  GROUP BY event&quot;
+    &quot;),&quot;
+    &quot;top AS (SELECT users as n FROM steps WHERE event=&#x27;signup&#x27;) &quot;
+    &quot;SELECT event, users, &quot;
+    &quot;       ROUND(users*100.0/(SELECT n FROM top),1) as pct &quot;
+    &quot;FROM steps ORDER BY users DESC&quot;
+).fetchall()
+
+print(&quot;Conversion Funnel:&quot;)
+for r in report: print(f&quot;  {r[0]:16s} {r[1]:4d} users ({r[2]}%)&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Subquery in WHERE and CTE</div><div class="pd">Using an &#x27;orders&#x27; table (id, customer, product, amount, order_date): 1) Write a subquery in WHERE to find orders with amount above the overall average. 2) Write a subquery in FROM (derived table) to get the top customer by total spend. 3) Write a WITH clause CTE that computes monthly totals, then selects only months above the average monthly total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (id INT, customer TEXT, product TEXT, amount REAL, order_date TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;Widget&quot;,150,&quot;2024-01-05&quot;),
+    (2,&quot;Bob&quot;,&quot;Gadget&quot;,80,&quot;2024-01-10&quot;),
+    (3,&quot;Alice&quot;,&quot;Gadget&quot;,220,&quot;2024-02-03&quot;),
+    (4,&quot;Carol&quot;,&quot;Widget&quot;,310,&quot;2024-02-15&quot;),
+    (5,&quot;Bob&quot;,&quot;Widget&quot;,95,&quot;2024-03-01&quot;),
+    (6,&quot;Alice&quot;,&quot;Gizmo&quot;,400,&quot;2024-03-20&quot;),
+    (7,&quot;Carol&quot;,&quot;Gadget&quot;,175,&quot;2024-04-08&quot;),
+    (8,&quot;Dave&quot;,&quot;Widget&quot;,60,&quot;2024-04-12&quot;),
+])
+conn.commit()
+
+# TODO: 1. Orders above overall average amount
+# rows = conn.execute(
+#     &quot;SELECT customer, amount FROM orders &quot;
+#     &quot;WHERE amount &gt; (SELECT AVG(amount) FROM orders) &quot;
+#     &quot;ORDER BY amount DESC&quot;
+# ).fetchall()
+# print(&quot;Above avg:&quot;, rows)
+
+# TODO: 2. Top customer by total spend (subquery in FROM)
+# row = conn.execute(
+#     &quot;SELECT customer, total FROM &quot;
+#     &quot;  (SELECT customer, SUM(amount) as total FROM orders GROUP BY customer) &quot;
+#     &quot;ORDER BY total DESC LIMIT 1&quot;
+# ).fetchone()
+# print(&quot;Top customer:&quot;, row)
+
+# TODO: 3. CTE — months above average monthly total
+# rows = conn.execute(
+#     &quot;WITH monthly AS ( &quot;
+#     &quot;  SELECT strftime(&#x27;%Y-%m&#x27;, order_date) as month, SUM(amount) as total &quot;
+#     &quot;  FROM orders GROUP BY month &quot;
+#     &quot;) &quot;
+#     &quot;SELECT month, total FROM monthly &quot;
+#     &quot;WHERE total &gt; (SELECT AVG(total) FROM monthly) &quot;
+#     &quot;ORDER BY total DESC&quot;
+# ).fetchall()
+# print(&quot;Above-avg months:&quot;, rows)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Window functions compute values across rows related to the current row — ranking, running totals, lag/lead — without collapsing groups.</p><div class="code-block"><div class="ch"><span>RANK, SUM OVER, percent of total</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (month TEXT, rep TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;Jan&quot;,&quot;Alice&quot;,5000),(&quot;Jan&quot;,&quot;Bob&quot;,4000),(&quot;Jan&quot;,&quot;Carol&quot;,6000),
+    (&quot;Feb&quot;,&quot;Alice&quot;,5500),(&quot;Feb&quot;,&quot;Bob&quot;,3800),(&quot;Feb&quot;,&quot;Carol&quot;,7000),
+])
+
+rows = conn.execute(
+    &quot;SELECT month, rep, amount,&quot;
+    &quot;       RANK() OVER (PARTITION BY month ORDER BY amount DESC) as rnk,&quot;
+    &quot;       SUM(amount) OVER (PARTITION BY month) as month_total,&quot;
+    &quot;       ROUND(amount*100.0/SUM(amount) OVER (PARTITION BY month),1) as pct &quot;
+    &quot;FROM sales ORDER BY month, rnk&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>LAG, LEAD, moving average</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE rev (week INT, store TEXT, rev REAL)&quot;)
+conn.executemany(&quot;INSERT INTO rev VALUES (?,?,?)&quot;, [
+    (1,&quot;A&quot;,10000),(2,&quot;A&quot;,12000),(3,&quot;A&quot;,9000),(4,&quot;A&quot;,14000),(5,&quot;A&quot;,11000),
+    (1,&quot;B&quot;,8000),(2,&quot;B&quot;,9500),(3,&quot;B&quot;,11000),(4,&quot;B&quot;,10500),(5,&quot;B&quot;,12000),
+])
+
+rows = conn.execute(
+    &quot;SELECT week, store, rev,&quot;
+    &quot;       LAG(rev) OVER (PARTITION BY store ORDER BY week) as prev,&quot;
+    &quot;       rev - LAG(rev) OVER (PARTITION BY store ORDER BY week) as wow,&quot;
+    &quot;       AVG(rev) OVER (PARTITION BY store ORDER BY week &quot;
+    &quot;                      ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) as ma3 &quot;
+    &quot;FROM rev ORDER BY store, week&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>ROW_NUMBER, NTILE, and running total</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE scores (student TEXT, subject TEXT, score INT)&quot;)
+conn.executemany(&quot;INSERT INTO scores VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Math&quot;,92),(&quot;Bob&quot;,&quot;Math&quot;,78),(&quot;Carol&quot;,&quot;Math&quot;,85),
+    (&quot;Dave&quot;,&quot;Math&quot;,91),(&quot;Eve&quot;,&quot;Math&quot;,67),
+    (&quot;Alice&quot;,&quot;Science&quot;,88),(&quot;Bob&quot;,&quot;Science&quot;,95),(&quot;Carol&quot;,&quot;Science&quot;,72),
+])
+
+# ROW_NUMBER and RANK per subject
+print(&quot;Math rankings:&quot;)
+for r in conn.execute(
+    &quot;SELECT student, score,&quot;
+    &quot;       ROW_NUMBER() OVER (ORDER BY score DESC) as row_num,&quot;
+    &quot;       RANK()       OVER (ORDER BY score DESC) as rnk &quot;
+    &quot;FROM scores WHERE subject=&#x27;Math&#x27;&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s}  score={r[1]}  row={r[2]}  rank={r[3]}&quot;)
+
+# Running total
+print(&quot;Running total (Math by score):&quot;)
+for r in conn.execute(
+    &quot;SELECT student, score,&quot;
+    &quot;       SUM(score) OVER (ORDER BY score DESC ROWS UNBOUNDED PRECEDING) as running_total &quot;
+    &quot;FROM scores WHERE subject=&#x27;Math&#x27; ORDER BY score DESC&quot;
+).fetchall():
+    print(f&quot;  {r[0]:8s}  score={r[1]}  running_total={r[2]}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>FIRST_VALUE, LAST_VALUE, and NTILE</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (rep TEXT, month TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Jan&quot;,5000),(&quot;Alice&quot;,&quot;Feb&quot;,6200),(&quot;Alice&quot;,&quot;Mar&quot;,4800),
+    (&quot;Alice&quot;,&quot;Apr&quot;,7100),(&quot;Alice&quot;,&quot;May&quot;,5500),(&quot;Alice&quot;,&quot;Jun&quot;,6800),
+    (&quot;Bob&quot;,&quot;Jan&quot;,4200),(&quot;Bob&quot;,&quot;Feb&quot;,3800),(&quot;Bob&quot;,&quot;Mar&quot;,5100),
+    (&quot;Bob&quot;,&quot;Apr&quot;,4600),(&quot;Bob&quot;,&quot;May&quot;,5900),(&quot;Bob&quot;,&quot;Jun&quot;,4300),
+])
+
+# FIRST_VALUE and LAST_VALUE show best/worst months in the window
+print(&quot;First and last month amount per rep (by month order):&quot;)
+for r in conn.execute(
+    &quot;SELECT rep, month, amount,&quot;
+    &quot;       FIRST_VALUE(amount) OVER (PARTITION BY rep ORDER BY month &quot;
+    &quot;                                 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as first_month,&quot;
+    &quot;       LAST_VALUE(amount)  OVER (PARTITION BY rep ORDER BY month &quot;
+    &quot;                                 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as last_month &quot;
+    &quot;FROM sales ORDER BY rep, month&quot;
+).fetchall():
+    print(f&quot;  {r[0]:6s} {r[1]:4s} ${r[2]:&gt;6,.0f}  first=${r[3]:&gt;6,.0f}  last=${r[4]:&gt;6,.0f}&quot;)
+
+# NTILE divides rows into N equal buckets (quartiles here)
+print(&quot;NTILE(3) buckets for Alice:&quot;)
+for r in conn.execute(
+    &quot;SELECT month, amount, NTILE(3) OVER (ORDER BY amount DESC) as bucket &quot;
+    &quot;FROM sales WHERE rep=&#x27;Alice&#x27; ORDER BY bucket, amount DESC&quot;
+).fetchall():
+    print(f&quot;  bucket={r[2]}  {r[0]}  ${r[1]:,.0f}&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Moving Average Trading Signals</div><div class="rd">A quant uses window functions to flag days when price crosses above the 3-period moving average — a simple trend signal.</div><pre><code class="language-python">import sqlite3, random, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE prices (id INT, symbol TEXT, price REAL, date TEXT)&quot;)
+
+random.seed(10)
+for sym in [&quot;AAPL&quot;,&quot;GOOG&quot;]:
+    p = random.uniform(150, 400)
+    for d in range(20):
+        p *= (1 + random.gauss(0.001, 0.015))
+        date = (datetime.date(2024,1,2)+datetime.timedelta(days=d)).isoformat()
+        conn.execute(&quot;INSERT INTO prices VALUES (?,?,?,?)&quot;,
+                     (d+1 if sym==&quot;AAPL&quot; else d+21, sym, round(p,2), date))
+conn.commit()
+
+result = conn.execute(
+    &quot;SELECT symbol, date, price,&quot;
+    &quot;       ROUND(AVG(price) OVER (PARTITION BY symbol ORDER BY date &quot;
+    &quot;                              ROWS BETWEEN 2 PRECEDING AND CURRENT ROW),2) as ma3,&quot;
+    &quot;       CASE WHEN price &gt; AVG(price) OVER &quot;
+    &quot;            (PARTITION BY symbol ORDER BY date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)&quot;
+    &quot;            THEN &#x27;BUY&#x27; ELSE &#x27;HOLD&#x27; END as signal &quot;
+    &quot;FROM prices WHERE symbol=&#x27;AAPL&#x27; ORDER BY date LIMIT 8&quot;
+).fetchall()
+
+print(f&quot;{&#x27;Date&#x27;:12s} {&#x27;Price&#x27;:&gt;8} {&#x27;MA3&#x27;:&gt;8} {&#x27;Signal&#x27;:&gt;7}&quot;)
+for r in result:
+    print(f&quot;{r[1]} {r[2]:&gt;8.2f} {r[3]:&gt;8.2f} {r[4]:&gt;7}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ROW_NUMBER and RANK Window Functions</div><div class="pd">Create a &#x27;sales&#x27; table with columns rep (TEXT), month (TEXT), amount (REAL). Insert data for 3 reps across 4 months. Write a query using: 1) RANK() OVER (PARTITION BY month ORDER BY amount DESC) to rank reps each month. 2) SUM(amount) OVER (PARTITION BY rep ORDER BY month) for a running total per rep. 3) LAG(amount) to compute month-over-month change per rep.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (rep TEXT, month TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Jan&quot;,5000),(&quot;Bob&quot;,&quot;Jan&quot;,4200),(&quot;Carol&quot;,&quot;Jan&quot;,6100),
+    (&quot;Alice&quot;,&quot;Feb&quot;,5500),(&quot;Bob&quot;,&quot;Feb&quot;,3900),(&quot;Carol&quot;,&quot;Feb&quot;,7200),
+    (&quot;Alice&quot;,&quot;Mar&quot;,4800),(&quot;Bob&quot;,&quot;Mar&quot;,5100),(&quot;Carol&quot;,&quot;Mar&quot;,6800),
+    (&quot;Alice&quot;,&quot;Apr&quot;,6000),(&quot;Bob&quot;,&quot;Apr&quot;,4600),(&quot;Carol&quot;,&quot;Apr&quot;,5900),
+])
+conn.commit()
+
+# TODO: 1. Rank reps within each month by amount DESC
+# rows = conn.execute(
+#     &quot;SELECT month, rep, amount, &quot;
+#     &quot;       RANK() OVER (PARTITION BY month ORDER BY amount DESC) as rnk &quot;
+#     &quot;FROM sales ORDER BY month, rnk&quot;
+# ).fetchall()
+# for r in rows: print(r)
+
+# TODO: 2. Running total of amount per rep, ordered by month
+# rows = conn.execute(
+#     &quot;SELECT rep, month, amount, &quot;
+#     &quot;       SUM(amount) OVER (PARTITION BY rep ORDER BY month &quot;
+#     &quot;                         ROWS UNBOUNDED PRECEDING) as running_total &quot;
+#     &quot;FROM sales ORDER BY rep, month&quot;
+# ).fetchall()
+# for r in rows: print(r)
+
+# TODO: 3. Month-over-month change per rep using LAG
+# rows = conn.execute(
+#     &quot;SELECT rep, month, amount, &quot;
+#     &quot;       LAG(amount) OVER (PARTITION BY rep ORDER BY month) as prev_month, &quot;
+#     &quot;       amount - LAG(amount) OVER (PARTITION BY rep ORDER BY month) as change &quot;
+#     &quot;FROM sales ORDER BY rep, month&quot;
+# ).fetchall()
+# for r in rows: print(r)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. UPDATE &amp; DELETE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">UPDATE modifies existing rows. DELETE removes rows. Always use WHERE — without it you affect the entire table.</p><div class="code-block"><div class="ch"><span>UPDATE with conditions</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE inventory (id INT, item TEXT, qty INT, price REAL)&quot;)
+conn.executemany(&quot;INSERT INTO inventory VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Widget&quot;,100,9.99),(2,&quot;Gadget&quot;,50,49.99),(3,&quot;Doohickey&quot;,200,4.99),
+])
+
+# Raise price 10% for low-stock items
+conn.execute(&quot;UPDATE inventory SET price=ROUND(price*1.1,2) WHERE qty &lt; 100&quot;)
+# Discontinue very cheap items
+conn.execute(&quot;DELETE FROM inventory WHERE price &lt; 5&quot;)
+conn.commit()
+
+print(&quot;After update/delete:&quot;)
+for r in conn.execute(&quot;SELECT * FROM inventory&quot;).fetchall():
+    print(f&quot;  {r[1]:12s} qty={r[2]:4d} price=${r[3]:.2f}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>UPSERT (INSERT OR REPLACE / ON CONFLICT)</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE config (&quot;
+    &quot;  key TEXT PRIMARY KEY, value TEXT, updated_at TEXT)&quot;
+)
+
+def upsert(key, value, ts):
+    conn.execute(
+        &quot;INSERT INTO config VALUES (?,?,?) &quot;
+        &quot;ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=excluded.updated_at&quot;,
+        (key, value, ts)
+    )
+    conn.commit()
+
+upsert(&quot;theme&quot;,     &quot;dark&quot;,  &quot;2024-01-01&quot;)
+upsert(&quot;page_size&quot;, &quot;25&quot;,    &quot;2024-01-01&quot;)
+upsert(&quot;theme&quot;,     &quot;light&quot;, &quot;2024-03-01&quot;)   # update existing
+
+for r in conn.execute(&quot;SELECT * FROM config&quot;).fetchall():
+    print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Bulk UPDATE with JOIN-like subquery</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE products (id INT, name TEXT, category TEXT, price REAL)&quot;)
+conn.execute(&quot;CREATE TABLE discounts (category TEXT, pct REAL)&quot;)
+
+conn.executemany(&quot;INSERT INTO products VALUES (?,?,?,?)&quot;, [
+    (1,&quot;Widget&quot;,&quot;Hardware&quot;,10.00),(2,&quot;Gadget&quot;,&quot;Electronics&quot;,50.00),
+    (3,&quot;Cable&quot;,&quot;Electronics&quot;,8.00),(4,&quot;Hammer&quot;,&quot;Hardware&quot;,25.00),
+    (5,&quot;Phone&quot;,&quot;Electronics&quot;,600.00),
+])
+conn.executemany(&quot;INSERT INTO discounts VALUES (?,?)&quot;, [
+    (&quot;Electronics&quot;,0.10),(&quot;Hardware&quot;,0.05),
+])
+conn.commit()
+
+# Apply per-category discount using subquery in SET
+conn.execute(
+    &quot;UPDATE products SET price = ROUND(price * (1 - &quot;
+    &quot;  (SELECT pct FROM discounts d WHERE d.category=products.category)), 2) &quot;
+    &quot;WHERE category IN (SELECT category FROM discounts)&quot;
+)
+conn.commit()
+
+print(&quot;After category discounts:&quot;)
+for r in conn.execute(&quot;SELECT name, category, price FROM products ORDER BY category, price&quot;).fetchall():
+    print(f&quot;  {r[0]:10s} {r[1]:14s} ${r[2]:.2f}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>INSERT OR IGNORE and INSERT OR REPLACE (UPSERT patterns)</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE page_views (&quot;
+    &quot;  url TEXT PRIMARY KEY, views INT, last_seen TEXT)&quot;
+)
+
+# INSERT OR IGNORE — skip if the primary key already exists
+initial = [
+    (&quot;https://example.com/home&quot;,  100, &quot;2024-01-01&quot;),
+    (&quot;https://example.com/about&quot;,  40, &quot;2024-01-01&quot;),
+    (&quot;https://example.com/blog&quot;,   75, &quot;2024-01-01&quot;),
+]
+conn.executemany(&quot;INSERT OR IGNORE INTO page_views VALUES (?,?,?)&quot;, initial)
+# Try to insert a duplicate — silently ignored
+conn.execute(&quot;INSERT OR IGNORE INTO page_views VALUES (?,?,?)&quot;,
+             (&quot;https://example.com/home&quot;, 999, &quot;2024-06-01&quot;))
+
+print(&quot;After INSERT OR IGNORE:&quot;)
+for r in conn.execute(&quot;SELECT url, views FROM page_views&quot;).fetchall():
+    print(f&quot;  {r[0]:40s}  views={r[1]}&quot;)
+
+# INSERT OR REPLACE — delete + re-insert if conflict (resets the whole row)
+conn.execute(&quot;INSERT OR REPLACE INTO page_views VALUES (?,?,?)&quot;,
+             (&quot;https://example.com/home&quot;, 250, &quot;2024-06-01&quot;))
+
+print(&quot;After INSERT OR REPLACE (home views updated to 250):&quot;)
+for r in conn.execute(&quot;SELECT url, views, last_seen FROM page_views&quot;).fetchall():
+    print(f&quot;  {r[0]:40s}  views={r[1]}  last_seen={r[2]}&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Subscription Lifecycle Automation</div><div class="rd">A SaaS platform batch-expires overdue subscriptions and applies loyalty discounts to long-term customers.</div><pre><code class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE subs (&quot;
+    &quot;  id INT, user TEXT, plan TEXT, price REAL,&quot;
+    &quot;  start_date TEXT, end_date TEXT, status TEXT)&quot;
+)
+conn.executemany(&quot;INSERT INTO subs VALUES (?,?,?,?,?,?,?)&quot;, [
+    (1,&quot;Alice&quot;,&quot;basic&quot;,  9.99,&quot;2024-01-01&quot;,&quot;2024-12-31&quot;,&quot;active&quot;),
+    (2,&quot;Bob&quot;,  &quot;pro&quot;,   29.99,&quot;2023-01-01&quot;,&quot;2024-01-15&quot;,&quot;active&quot;),
+    (3,&quot;Carol&quot;,&quot;basic&quot;,  9.99,&quot;2024-01-01&quot;,&quot;2024-06-30&quot;,&quot;active&quot;),
+    (4,&quot;Dave&quot;, &quot;ent&quot;,   99.99,&quot;2022-01-01&quot;,&quot;2024-12-31&quot;,&quot;active&quot;),
+])
+
+today = &quot;2024-07-01&quot;
+# Expire overdue subscriptions
+conn.execute(&quot;UPDATE subs SET status=&#x27;expired&#x27; WHERE end_date &lt; ?&quot;, (today,))
+# 15% discount for customers active &gt;= 2 years
+conn.execute(
+    &quot;UPDATE subs SET price=ROUND(price*0.85,2) &quot;
+    &quot;WHERE status=&#x27;active&#x27; &quot;
+    &quot;AND CAST(strftime(&#x27;%Y&#x27;,?) AS INT) - CAST(strftime(&#x27;%Y&#x27;,start_date) AS INT) &gt;= 2&quot;,
+    (today,)
+)
+conn.commit()
+
+print(f&quot;{&#x27;User&#x27;:8s} {&#x27;Plan&#x27;:6s} {&#x27;Price&#x27;:&gt;8} {&#x27;Status&#x27;:&gt;8}&quot;)
+for r in conn.execute(&quot;SELECT user,plan,price,status FROM subs&quot;).fetchall():
+    print(f&quot;{r[0]:8s} {r[1]:6s} ${r[2]:&gt;7.2f} {r[3]:&gt;8}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Transaction with Error Handling</div><div class="pd">Create an &#x27;accounts&#x27; table (id, owner, balance). Insert 3 accounts. Write a transfer function that: 1) Checks the sender has sufficient balance. 2) DECREMENTs the sender&#x27;s balance and INCREMENTs the receiver&#x27;s balance inside a transaction. 3) Rolls back if any error occurs. Test both a successful transfer and a failing one (insufficient funds).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE accounts (id INT PRIMARY KEY, owner TEXT, balance REAL)&quot;)
+conn.executemany(&quot;INSERT INTO accounts VALUES (?,?,?)&quot;, [
+    (1, &quot;Alice&quot;, 1000.0),
+    (2, &quot;Bob&quot;,    500.0),
+    (3, &quot;Carol&quot;,  250.0),
+])
+conn.commit()
+
+def get_balance(conn, account_id):
+    row = conn.execute(&quot;SELECT balance FROM accounts WHERE id=?&quot;, (account_id,)).fetchone()
+    return row[0] if row else None
+
+def transfer(conn, from_id, to_id, amount):
+    # TODO: Check sender balance
+    # balance = get_balance(conn, from_id)
+    # if balance is None or balance &lt; amount:
+    #     print(f&quot;Transfer failed: insufficient funds (balance={balance})&quot;)
+    #     return False
+
+    # TODO: Perform transfer in a transaction
+    # try:
+    #     conn.execute(&quot;UPDATE accounts SET balance=balance-? WHERE id=?&quot;, (amount, from_id))
+    #     conn.execute(&quot;UPDATE accounts SET balance=balance+? WHERE id=?&quot;, (amount, to_id))
+    #     conn.commit()
+    #     print(f&quot;Transferred ${amount} from account {from_id} to {to_id}&quot;)
+    #     return True
+    # except Exception as e:
+    #     conn.rollback()
+    #     print(f&quot;Transfer error: {e}&quot;)
+    #     return False
+    pass
+
+# TODO: Test successful transfer: Alice -&gt; Bob, $200
+# transfer(conn, 1, 2, 200)
+
+# TODO: Test failing transfer: Carol -&gt; Alice, $500 (Carol only has $250)
+# transfer(conn, 3, 1, 500)
+
+# TODO: Print final balances
+# for r in conn.execute(&quot;SELECT owner, balance FROM accounts&quot;).fetchall():
+#     print(f&quot;  {r[0]:8s} ${r[1]:.2f}&quot;)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Indexes &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Indexes dramatically speed up queries on large tables. Use EXPLAIN QUERY PLAN to see whether SQLite uses your indexes.</p><div class="code-block"><div class="ch"><span>Measure index speedup</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import sqlite3, time, random
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE events (id INT, user_id INT, event_type TEXT, ts TEXT)&quot;)
+rows = [(i, random.randint(1,10000), random.choice([&quot;click&quot;,&quot;view&quot;,&quot;buy&quot;]),
+         f&quot;2024-{random.randint(1,12):02d}-{random.randint(1,28):02d}&quot;)
+        for i in range(200000)]
+conn.executemany(&quot;INSERT INTO events VALUES (?,?,?,?)&quot;, rows)
+conn.commit()
+
+t0 = time.perf_counter()
+conn.execute(&quot;SELECT COUNT(*) FROM events WHERE user_id=42&quot;).fetchone()
+no_idx = time.perf_counter() - t0
+
+conn.execute(&quot;CREATE INDEX idx_user ON events(user_id)&quot;)
+
+t0 = time.perf_counter()
+conn.execute(&quot;SELECT COUNT(*) FROM events WHERE user_id=42&quot;).fetchone()
+with_idx = time.perf_counter() - t0
+
+print(f&quot;No index:   {no_idx*1000:.2f}ms&quot;)
+print(f&quot;With index: {with_idx*1000:.2f}ms&quot;)
+print(f&quot;Speedup:    {no_idx/max(with_idx,1e-9):.0f}x&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (id INT, cust TEXT, status TEXT, amount REAL)&quot;)
+conn.execute(&quot;CREATE INDEX idx_status ON orders(status)&quot;)
+
+plan = conn.execute(
+    &quot;EXPLAIN QUERY PLAN &quot;
+    &quot;SELECT cust, SUM(amount) FROM orders &quot;
+    &quot;WHERE status=&#x27;pending&#x27; GROUP BY cust&quot;
+).fetchall()
+
+print(&quot;Query plan:&quot;)
+for row in plan: print(&quot; &quot;, row)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Partial index and UNIQUE index</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE users (&quot;
+    &quot;  id INT PRIMARY KEY, email TEXT UNIQUE, role TEXT, active INT)&quot;
+)
+conn.executemany(&quot;INSERT INTO users VALUES (?,?,?,?)&quot;, [
+    (1,&quot;alice@x.com&quot;,&quot;admin&quot;,1),(2,&quot;bob@x.com&quot;,&quot;user&quot;,1),
+    (3,&quot;carol@x.com&quot;,&quot;user&quot;,0),(4,&quot;dave@x.com&quot;,&quot;mod&quot;,1),
+])
+
+# UNIQUE index is implicit on email — test enforcement
+try:
+    conn.execute(&quot;INSERT INTO users VALUES (5,&#x27;alice@x.com&#x27;,&#x27;user&#x27;,1)&quot;)
+except Exception as e:
+    print(&quot;UNIQUE violation caught:&quot;, e)
+
+# Partial-like index: index only active users
+conn.execute(&quot;CREATE INDEX idx_active_role ON users(role) WHERE active=1&quot;)
+
+# Verify index is used
+plan = conn.execute(
+    &quot;EXPLAIN QUERY PLAN SELECT id FROM users WHERE role=&#x27;admin&#x27; AND active=1&quot;
+).fetchall()
+print(&quot;Query plan (with partial index):&quot;)
+for row in plan: print(&quot; &quot;, row)
+
+# Count using the index
+n = conn.execute(&quot;SELECT COUNT(*) FROM users WHERE active=1&quot;).fetchone()[0]
+print(f&quot;Active users: {n}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Covering index and EXPLAIN QUERY PLAN comparison</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">import sqlite3, time, random
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE orders (&quot;
+    &quot;  id INT, cust_id INT, status TEXT, amount REAL, created TEXT)&quot;
+)
+rows = [
+    (i, random.randint(1, 500), random.choice([&quot;pending&quot;,&quot;shipped&quot;,&quot;done&quot;]),
+     round(random.uniform(10, 1000), 2),
+     f&quot;2024-{random.randint(1,12):02d}-{random.randint(1,28):02d}&quot;)
+    for i in range(100000)
+]
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?,?)&quot;, rows)
+conn.commit()
+
+# Query that only needs (status, amount) — a covering index can satisfy it entirely
+query = (
+    &quot;SELECT status, SUM(amount) as total &quot;
+    &quot;FROM orders WHERE status=&#x27;pending&#x27; GROUP BY status&quot;
+)
+
+# Without covering index
+plan_before = conn.execute(&quot;EXPLAIN QUERY PLAN &quot; + query).fetchall()
+t0 = time.perf_counter()
+conn.execute(query).fetchall()
+t_before = time.perf_counter() - t0
+
+# Create a covering index — includes all columns touched by the query
+conn.execute(&quot;CREATE INDEX idx_cover ON orders(status, amount)&quot;)
+
+plan_after = conn.execute(&quot;EXPLAIN QUERY PLAN &quot; + query).fetchall()
+t0 = time.perf_counter()
+conn.execute(query).fetchall()
+t_after = time.perf_counter() - t0
+
+print(&quot;Plan WITHOUT covering index:&quot;, plan_before[0][-1] if plan_before else &quot;N/A&quot;)
+print(&quot;Plan WITH covering index:   &quot;, plan_after[0][-1]  if plan_after  else &quot;N/A&quot;)
+print(f&quot;Time before: {t_before*1000:.2f}ms  after: {t_after*1000:.2f}ms&quot;)
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: E-Commerce Report with Compound Indexes</div><div class="rd">A backend engineer adds compound indexes to cut a cross-table analytics report from seconds to milliseconds.</div><pre><code class="language-python">import sqlite3, time, random, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE orders (&quot;
+    &quot;  id INT, cust_id INT, product_id INT,&quot;
+    &quot;  status TEXT, amount REAL, created TEXT)&quot;
+)
+conn.execute(&quot;CREATE TABLE products (id INT PRIMARY KEY, name TEXT, category TEXT)&quot;)
+
+conn.executemany(&quot;INSERT INTO products VALUES (?,?,?)&quot;, [
+    (i, f&quot;Prod{i}&quot;, random.choice([&quot;Electronics&quot;,&quot;Food&quot;,&quot;Clothing&quot;,&quot;Hardware&quot;]))
+    for i in range(1, 201)
+])
+rows = [(i, random.randint(1,5000), random.randint(1,200),
+         random.choice([&quot;pending&quot;,&quot;shipped&quot;,&quot;delivered&quot;]),
+         round(random.uniform(10,1000),2),
+         (datetime.date(2024,1,1)+datetime.timedelta(days=random.randint(0,90))).isoformat())
+        for i in range(1,50001)]
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?,?,?,?)&quot;, rows)
+
+for idx in [
+    &quot;CREATE INDEX idx_status ON orders(status, created)&quot;,
+    &quot;CREATE INDEX idx_prod   ON orders(product_id)&quot;,
+]:
+    conn.execute(idx)
+
+t0 = time.perf_counter()
+result = conn.execute(
+    &quot;SELECT p.category, o.status, COUNT(*) as cnt, ROUND(SUM(o.amount),2) as rev &quot;
+    &quot;FROM orders o JOIN products p ON o.product_id=p.id &quot;
+    &quot;WHERE o.status != &#x27;pending&#x27; &quot;
+    &quot;GROUP BY p.category, o.status ORDER BY rev DESC LIMIT 8&quot;
+).fetchall()
+print(f&quot;Query: {(time.perf_counter()-t0)*1000:.1f}ms  ({len(result)} rows)&quot;)
+for r in result[:4]:
+    print(f&quot;  {r[0]:14s} | {r[1]:10s} | {r[2]:&gt;5d} | ${r[3]:&gt;10,.2f}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Appropriate Indexes</div><div class="pd">Create a &#x27;log_events&#x27; table with 100,000 rows: columns id, user_id (1-1000), event_type (&#x27;login&#x27;,&#x27;logout&#x27;,&#x27;purchase&#x27;,&#x27;view&#x27;), created_at (date string). 1) Measure query time for SELECT WHERE user_id=42 without an index. 2) Create a single-column index on user_id and re-measure. 3) Create a compound index on (event_type, created_at) and verify with EXPLAIN QUERY PLAN.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import sqlite3, random, time, datetime
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(
+    &quot;CREATE TABLE log_events (id INT, user_id INT, event_type TEXT, created_at TEXT)&quot;
+)
+
+base = datetime.date(2024, 1, 1)
+events = [&quot;login&quot;, &quot;logout&quot;, &quot;purchase&quot;, &quot;view&quot;]
+rows = [
+    (i, random.randint(1, 1000), random.choice(events),
+     (base + datetime.timedelta(days=random.randint(0, 180))).isoformat())
+    for i in range(1, 100001)
+]
+conn.executemany(&quot;INSERT INTO log_events VALUES (?,?,?,?)&quot;, rows)
+conn.commit()
+
+# TODO: 1. Time query WITHOUT index
+# t0 = time.perf_counter()
+# conn.execute(&quot;SELECT COUNT(*) FROM log_events WHERE user_id=42&quot;).fetchone()
+# print(f&quot;No index: {(time.perf_counter()-t0)*1000:.2f}ms&quot;)
+
+# TODO: 2. Create index on user_id and re-time
+# conn.execute(&quot;CREATE INDEX idx_user_id ON log_events(user_id)&quot;)
+# t0 = time.perf_counter()
+# conn.execute(&quot;SELECT COUNT(*) FROM log_events WHERE user_id=42&quot;).fetchone()
+# print(f&quot;With index: {(time.perf_counter()-t0)*1000:.2f}ms&quot;)
+
+# TODO: 3. Compound index on (event_type, created_at)
+# conn.execute(&quot;CREATE INDEX idx_event_date ON log_events(event_type, created_at)&quot;)
+# plan = conn.execute(
+#     &quot;EXPLAIN QUERY PLAN SELECT * FROM log_events &quot;
+#     &quot;WHERE event_type=&#x27;purchase&#x27; AND created_at &gt;= &#x27;2024-06-01&#x27;&quot;
+# ).fetchall()
+# print(&quot;Query plan:&quot;, plan)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. SQLite with Pandas</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas integrates directly with SQLite: read query results into DataFrames with pd.read_sql(), write DataFrames back with .to_sql().</p><div class="code-block"><div class="ch"><span>read_sql and to_sql</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import sqlite3
+import pandas as pd
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (date TEXT, region TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;2024-01-01&quot;,&quot;North&quot;,1200),(&quot;2024-01-01&quot;,&quot;South&quot;,800),
+    (&quot;2024-01-02&quot;,&quot;North&quot;,950),(&quot;2024-01-02&quot;,&quot;East&quot;,1100),
+])
+
+# SQL → DataFrame
+df = pd.read_sql(&quot;SELECT * FROM sales&quot;, conn)
+print(df)
+print(df.groupby(&quot;region&quot;)[&quot;amount&quot;].sum())
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Write DataFrame to SQL and query back</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">import sqlite3
+import pandas as pd
+import numpy as np
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+df = pd.DataFrame({
+    &quot;date&quot;:     pd.date_range(&quot;2024-01-01&quot;, periods=30).astype(str),
+    &quot;value&quot;:    np.random.randn(30).cumsum() + 100,
+    &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 30),
+})
+df.to_sql(&quot;ts&quot;, conn, index=False, if_exists=&quot;replace&quot;)
+
+result = pd.read_sql(
+    &quot;SELECT category, COUNT(*) as n, ROUND(AVG(value),2) as avg_val &quot;
+    &quot;FROM ts GROUP BY category ORDER BY avg_val DESC&quot;,
+    conn
+)
+print(result)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Parameterized queries and chunksize</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">import sqlite3
+import pandas as pd
+import numpy as np
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+np.random.seed(7)
+
+# Build a large DataFrame and write in chunks
+df = pd.DataFrame({
+    &quot;user_id&quot;:  np.random.randint(1, 201, 5000),
+    &quot;product&quot;:  np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;], 5000),
+    &quot;amount&quot;:   np.round(np.random.uniform(5, 500, 5000), 2),
+    &quot;month&quot;:    np.random.choice([&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;], 5000),
+})
+df.to_sql(&quot;txn&quot;, conn, index=False, if_exists=&quot;replace&quot;, chunksize=1000)
+
+# Parameterized SQL via pd.read_sql with params argument
+month_filter = &quot;Mar&quot;
+result = pd.read_sql(
+    &quot;SELECT product, COUNT(*) as sales, ROUND(SUM(amount),2) as revenue &quot;
+    &quot;FROM txn WHERE month=? GROUP BY product ORDER BY revenue DESC&quot;,
+    conn, params=(month_filter,)
+)
+print(f&quot;Sales in {month_filter}:&quot;)
+print(result.to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>to_sql if_exists modes and dtype mapping</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import sqlite3
+import pandas as pd
+import numpy as np
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+np.random.seed(3)
+
+base_df = pd.DataFrame({
+    &quot;id&quot;:     range(1, 11),
+    &quot;name&quot;:   [f&quot;Product_{i}&quot; for i in range(1, 11)],
+    &quot;price&quot;:  np.round(np.random.uniform(5, 200, 10), 2),
+    &quot;stock&quot;:  np.random.randint(0, 500, 10),
+})
+
+# First write: create the table
+base_df.to_sql(&quot;products&quot;, conn, index=False, if_exists=&quot;replace&quot;)
+print(f&quot;Initial rows: {pd.read_sql(&#x27;SELECT COUNT(*) as n FROM products&#x27;, conn).iloc[0,0]}&quot;)
+
+# Append new rows with if_exists=&#x27;append&#x27;
+new_rows = pd.DataFrame({
+    &quot;id&quot;: [11, 12], &quot;name&quot;: [&quot;Product_11&quot;,&quot;Product_12&quot;],
+    &quot;price&quot;: [19.99, 34.99], &quot;stock&quot;: [100, 50],
+})
+new_rows.to_sql(&quot;products&quot;, conn, index=False, if_exists=&quot;append&quot;)
+print(f&quot;After append:  {pd.read_sql(&#x27;SELECT COUNT(*) as n FROM products&#x27;, conn).iloc[0,0]}&quot;)
+
+# Replace entirely with if_exists=&#x27;replace&#x27;
+replacement = base_df.head(3).copy()
+replacement.to_sql(&quot;products&quot;, conn, index=False, if_exists=&quot;replace&quot;)
+print(f&quot;After replace: {pd.read_sql(&#x27;SELECT COUNT(*) as n FROM products&#x27;, conn).iloc[0,0]}&quot;)
+
+# Read back with column type check
+df_back = pd.read_sql(&quot;SELECT * FROM products&quot;, conn)
+print(df_back.dtypes.to_string())
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Multi-Source Analytics Report</div><div class="rd">A data analyst joins two normalized SQL tables via pandas to produce a segmented revenue report for stakeholders.</div><pre><code class="language-python">import sqlite3
+import pandas as pd
+import numpy as np
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+
+customers = pd.DataFrame({
+    &quot;id&quot;:      range(1, 101),
+    &quot;segment&quot;: np.random.choice([&quot;retail&quot;,&quot;wholesale&quot;,&quot;online&quot;], 100),
+    &quot;region&quot;:  np.random.choice([&quot;North&quot;,&quot;South&quot;,&quot;East&quot;,&quot;West&quot;], 100),
+})
+transactions = pd.DataFrame({
+    &quot;customer_id&quot;: np.random.randint(1, 101, 2000),
+    &quot;product&quot;:     np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;], 2000),
+    &quot;amount&quot;:      np.random.uniform(10, 500, 2000).round(2),
+})
+
+customers.to_sql(&quot;customers&quot;, conn, index=False)
+transactions.to_sql(&quot;transactions&quot;, conn, index=False)
+
+report = pd.read_sql(
+    &quot;SELECT c.segment, c.region, &quot;
+    &quot;       COUNT(DISTINCT t.customer_id) as customers, &quot;
+    &quot;       ROUND(SUM(t.amount),2) as revenue, &quot;
+    &quot;       ROUND(AVG(t.amount),2) as avg_order &quot;
+    &quot;FROM transactions t &quot;
+    &quot;JOIN customers c ON t.customer_id=c.id &quot;
+    &quot;GROUP BY c.segment, c.region &quot;
+    &quot;ORDER BY revenue DESC LIMIT 8&quot;,
+    conn
+)
+print(report.to_string(index=False))
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create a View for a Report Query</div><div class="pd">Create a &#x27;transactions&#x27; table (id, customer, category, amount, txn_date) and populate it. Then: 1) CREATE VIEW monthly_summary AS a query grouping by month and category with totals. 2) SELECT from the view to display the report. 3) Use pd.read_sql() to load the view result into a DataFrame and show the top 3 rows by revenue.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import sqlite3
+import pandas as pd
+import numpy as np
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+np.random.seed(42)
+
+conn.execute(
+    &quot;CREATE TABLE transactions &quot;
+    &quot;(id INT, customer TEXT, category TEXT, amount REAL, txn_date TEXT)&quot;
+)
+import datetime, random
+base = datetime.date(2024, 1, 1)
+cats = [&quot;Food&quot;, &quot;Electronics&quot;, &quot;Clothing&quot;, &quot;Sports&quot;]
+customers = [&quot;Alice&quot;,&quot;Bob&quot;,&quot;Carol&quot;,&quot;Dave&quot;,&quot;Eve&quot;]
+rows = [
+    (i, random.choice(customers), random.choice(cats),
+     round(random.uniform(10, 300), 2),
+     (base + datetime.timedelta(days=random.randint(0, 89))).isoformat())
+    for i in range(1, 201)
+]
+conn.executemany(&quot;INSERT INTO transactions VALUES (?,?,?,?,?)&quot;, rows)
+conn.commit()
+
+# TODO: 1. Create a VIEW named &#x27;monthly_summary&#x27;
+# conn.execute(
+#     &quot;CREATE VIEW monthly_summary AS &quot;
+#     &quot;SELECT strftime(&#x27;%Y-%m&#x27;, txn_date) as month, &quot;
+#     &quot;       category, COUNT(*) as txns, ROUND(SUM(amount),2) as revenue &quot;
+#     &quot;FROM transactions GROUP BY month, category&quot;
+# )
+
+# TODO: 2. Query the view directly
+# for r in conn.execute(&quot;SELECT * FROM monthly_summary ORDER BY revenue DESC LIMIT 5&quot;).fetchall():
+#     print(r)
+
+# TODO: 3. Load into DataFrame and show top 3 by revenue
+# df = pd.read_sql(&quot;SELECT * FROM monthly_summary ORDER BY revenue DESC&quot;, conn)
+# print(df.head(3).to_string(index=False))
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Recursive CTEs &amp; Advanced Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Recursive CTEs traverse hierarchical data (org charts, tree structures). CASE expressions and COALESCE handle conditional logic elegantly.</p><div class="code-block"><div class="ch"><span>Recursive CTE — org hierarchy</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, mgr_id INT, salary REAL)&quot;)
+conn.executemany(&quot;INSERT INTO emp VALUES (?,?,?,?)&quot;, [
+    (1,&quot;CEO&quot;,None,300000),(2,&quot;CTO&quot;,1,200000),(3,&quot;CFO&quot;,1,190000),
+    (4,&quot;Dev Lead&quot;,2,130000),(5,&quot;Dev1&quot;,4,100000),(6,&quot;Dev2&quot;,4,95000),
+    (7,&quot;Finance1&quot;,3,80000),
+])
+
+rows = conn.execute(
+    &quot;WITH RECURSIVE org AS (&quot;
+    &quot;  SELECT id, name, mgr_id, 0 AS depth FROM emp WHERE mgr_id IS NULL &quot;
+    &quot;  UNION ALL &quot;
+    &quot;  SELECT e.id, e.name, e.mgr_id, o.depth+1 &quot;
+    &quot;  FROM emp e JOIN org o ON e.mgr_id=o.id&quot;
+    &quot;) &quot;
+    &quot;SELECT depth, name FROM org ORDER BY depth, name&quot;
+).fetchall()
+for d, name in rows:
+    print(&quot;  &quot; * d + name)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CASE expression and COALESCE</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE orders (id INT, amount REAL, status TEXT)&quot;)
+conn.executemany(&quot;INSERT INTO orders VALUES (?,?,?)&quot;, [
+    (1,500,&quot;delivered&quot;),(2,120,&quot;pending&quot;),(3,None,&quot;cancelled&quot;),
+    (4,800,&quot;delivered&quot;),(5,200,&quot;shipped&quot;),(6,None,&quot;pending&quot;),
+])
+
+rows = conn.execute(
+    &quot;SELECT id,&quot;
+    &quot;       COALESCE(amount, 0) as safe_amount,&quot;
+    &quot;       CASE &quot;
+    &quot;         WHEN amount &gt; 500 THEN &#x27;high&#x27;&quot;
+    &quot;         WHEN amount &gt; 100 THEN &#x27;medium&#x27;&quot;
+    &quot;         WHEN amount IS NULL THEN &#x27;unknown&#x27;&quot;
+    &quot;         ELSE &#x27;low&#x27;&quot;
+    &quot;       END as tier,&quot;
+    &quot;       status &quot;
+    &quot;FROM orders ORDER BY id&quot;
+).fetchall()
+for r in rows: print(r)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Fibonacci sequence via recursive CTE</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+
+# Generate Fibonacci numbers using a recursive CTE
+rows = conn.execute(
+    &quot;WITH RECURSIVE fib(n, a, b) AS (&quot;
+    &quot;  SELECT 1, 0, 1 &quot;
+    &quot;  UNION ALL &quot;
+    &quot;  SELECT n+1, b, a+b FROM fib WHERE n &lt; 15&quot;
+    &quot;) &quot;
+    &quot;SELECT n, a as fib_value FROM fib&quot;
+).fetchall()
+print(&quot;Fibonacci sequence:&quot;)
+for n, v in rows:
+    print(f&quot;  F({n:2d}) = {v}&quot;)
+
+# Generate a date series using recursive CTE
+rows2 = conn.execute(
+    &quot;WITH RECURSIVE dates(d) AS (&quot;
+    &quot;  SELECT &#x27;2024-01-01&#x27; &quot;
+    &quot;  UNION ALL &quot;
+    &quot;  SELECT date(d, &#x27;+1 day&#x27;) FROM dates WHERE d &lt; &#x27;2024-01-07&#x27;&quot;
+    &quot;) &quot;
+    &quot;SELECT d, strftime(&#x27;%A&#x27;, d) as weekday FROM dates&quot;
+).fetchall()
+print(&quot;Week of 2024-01-01:&quot;)
+for d, wd in rows2:
+    print(f&quot;  {d}  {wd}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Updatable View &amp; View with Parameters via CTE</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+c = conn.cursor()
+c.executescript(
+    &quot;CREATE TABLE employees (&quot;
+    &quot;    id INTEGER PRIMARY KEY, name TEXT, dept TEXT, salary REAL, hire_date TEXT&quot;
+    &quot;);&quot;
+    &quot;INSERT INTO employees VALUES&quot;
+    &quot;    (1,&#x27;Alice&#x27;,&#x27;Engineering&#x27;,95000,&#x27;2020-03-15&#x27;),&quot;
+    &quot;    (2,&#x27;Bob&#x27;,&#x27;Marketing&#x27;,72000,&#x27;2019-07-01&#x27;),&quot;
+    &quot;    (3,&#x27;Carol&#x27;,&#x27;Engineering&#x27;,105000,&#x27;2018-11-20&#x27;),&quot;
+    &quot;    (4,&#x27;Dave&#x27;,&#x27;HR&#x27;,65000,&#x27;2021-02-28&#x27;),&quot;
+    &quot;    (5,&#x27;Eve&#x27;,&#x27;Marketing&#x27;,78000,&#x27;2020-09-10&#x27;),&quot;
+    &quot;    (6,&#x27;Frank&#x27;,&#x27;Engineering&#x27;,88000,&#x27;2022-01-05&#x27;);&quot;
+)
+
+# View: department salary summary
+c.execute(
+    &quot;CREATE VIEW dept_summary AS &quot;
+    &quot;SELECT dept, COUNT(*) AS headcount, &quot;
+    &quot;       ROUND(AVG(salary),2) AS avg_salary, &quot;
+    &quot;       MAX(salary) AS max_salary, MIN(salary) AS min_salary &quot;
+    &quot;FROM employees GROUP BY dept&quot;
+)
+
+# View: employees with tenure
+c.execute(
+    &quot;CREATE VIEW emp_tenure AS &quot;
+    &quot;SELECT name, dept, salary, &quot;
+    &quot;       ROUND((julianday(&#x27;now&#x27;) - julianday(hire_date)) / 365.25, 1) AS years_tenure &quot;
+    &quot;FROM employees&quot;
+)
+
+# Query the views
+print(&quot;Department summary:&quot;)
+c.execute(&quot;SELECT * FROM dept_summary ORDER BY avg_salary DESC&quot;)
+for row in c.fetchall():
+    print(f&quot;  {row[0]:12s} headcount={row[1]}, avg=${row[2]:,.0f}, max=${row[3]:,.0f}&quot;)
+
+print(&quot;\nEmployee tenure:&quot;)
+c.execute(&quot;SELECT * FROM emp_tenure WHERE years_tenure &gt; 3 ORDER BY years_tenure DESC&quot;)
+for row in c.fetchall():
+    print(f&quot;  {row[0]:6s} ({row[1]}) - {row[3]} years, ${row[2]:,.0f}&quot;)
+
+# Drop view
+c.execute(&quot;DROP VIEW emp_tenure&quot;)
+print(&quot;\nViews remaining:&quot;, [r[0] for r in c.execute(&quot;SELECT name FROM sqlite_master WHERE type=&#x27;view&#x27;&quot;)])
+conn.close()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Product Category Breadcrumb Builder</div><div class="rd">An e-commerce search indexer uses a recursive CTE to build full breadcrumb paths for every product category.</div><pre><code class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE categories (id INT PRIMARY KEY, name TEXT, parent_id INT)&quot;)
+conn.executemany(&quot;INSERT INTO categories VALUES (?,?,?)&quot;, [
+    (1,&quot;All&quot;,None),(2,&quot;Electronics&quot;,1),(3,&quot;Computers&quot;,2),
+    (4,&quot;Laptops&quot;,3),(5,&quot;Gaming Laptops&quot;,4),(6,&quot;Ultrabooks&quot;,4),
+    (7,&quot;Phones&quot;,2),(8,&quot;Android&quot;,7),(9,&quot;Clothing&quot;,1),(10,&quot;Mens&quot;,9),
+])
+
+rows = conn.execute(
+    &quot;WITH RECURSIVE tree AS (&quot;
+    &quot;  SELECT id, name, parent_id, CAST(name AS TEXT) as path, 0 as depth &quot;
+    &quot;  FROM categories WHERE parent_id IS NULL &quot;
+    &quot;  UNION ALL &quot;
+    &quot;  SELECT c.id, c.name, c.parent_id, t.path||&#x27; &gt; &#x27;||c.name, t.depth+1 &quot;
+    &quot;  FROM categories c JOIN tree t ON c.parent_id=t.id&quot;
+    &quot;) &quot;
+    &quot;SELECT id, depth, path FROM tree ORDER BY path&quot;
+).fetchall()
+for r in rows:
+    print(f&quot;  {&#x27;  &#x27;*r[1]}[{r[0]}] {r[2]}&quot;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Write a WITH Clause (CTE) Query</div><div class="pd">Create a &#x27;sales&#x27; table (rep, quarter, amount). Insert data for 3 reps over 4 quarters. Write a CTE query that: 1) Computes total sales per rep (CTE: rep_totals). 2) Computes the company-wide average rep total (CTE: company_avg). 3) Final SELECT shows each rep&#x27;s total and whether they are &#x27;above_avg&#x27;, &#x27;average&#x27;, or &#x27;below_avg&#x27; using CASE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&quot;:memory:&quot;)
+conn.execute(&quot;CREATE TABLE sales (rep TEXT, quarter TEXT, amount REAL)&quot;)
+conn.executemany(&quot;INSERT INTO sales VALUES (?,?,?)&quot;, [
+    (&quot;Alice&quot;,&quot;Q1&quot;,12000),(&quot;Alice&quot;,&quot;Q2&quot;,15000),(&quot;Alice&quot;,&quot;Q3&quot;,11000),(&quot;Alice&quot;,&quot;Q4&quot;,18000),
+    (&quot;Bob&quot;,&quot;Q1&quot;,9000),(&quot;Bob&quot;,&quot;Q2&quot;,10500),(&quot;Bob&quot;,&quot;Q3&quot;,12000),(&quot;Bob&quot;,&quot;Q4&quot;,8500),
+    (&quot;Carol&quot;,&quot;Q1&quot;,20000),(&quot;Carol&quot;,&quot;Q2&quot;,18500),(&quot;Carol&quot;,&quot;Q3&quot;,22000),(&quot;Carol&quot;,&quot;Q4&quot;,19000),
+])
+conn.commit()
+
+# TODO: Write a CTE query
+# rows = conn.execute(
+#     &quot;WITH rep_totals AS ( &quot;
+#     &quot;  SELECT rep, SUM(amount) as total FROM sales GROUP BY rep &quot;
+#     &quot;), &quot;
+#     &quot;company_avg AS ( &quot;
+#     &quot;  SELECT AVG(total) as avg_total FROM rep_totals &quot;
+#     &quot;) &quot;
+#     &quot;SELECT r.rep, r.total, &quot;
+#     &quot;       CASE &quot;
+#     &quot;         WHEN r.total &gt; c.avg_total * 1.1 THEN &#x27;above_avg&#x27; &quot;
+#     &quot;         WHEN r.total &lt; c.avg_total * 0.9 THEN &#x27;below_avg&#x27; &quot;
+#     &quot;         ELSE &#x27;average&#x27; &quot;
+#     &quot;       END as performance &quot;
+#     &quot;FROM rep_totals r, company_avg c &quot;
+#     &quot;ORDER BY r.total DESC&quot;
+# ).fetchall()
+# for r in rows:
+#     print(f&quot;  {r[0]:8s}  total=${r[1]:,}  performance={r[2]}&quot;)
+
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Common Table Expressions (CTEs)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write readable, modular SQL with WITH clauses. Break complex queries into named steps and use recursive CTEs for hierarchical data.</p><div class="code-block"><div class="ch"><span>Basic CTE to simplify a complex query</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL, order_date TEXT);
+INSERT INTO orders VALUES
+  (1,101,250,&#x27;2024-01-05&#x27;),(2,102,80,&#x27;2024-01-10&#x27;),(3,101,120,&#x27;2024-01-15&#x27;),
+  (4,103,400,&#x27;2024-02-01&#x27;),(5,102,60,&#x27;2024-02-10&#x27;),(6,101,90,&#x27;2024-02-20&#x27;),
+  (7,104,300,&#x27;2024-03-01&#x27;),(8,103,150,&#x27;2024-03-05&#x27;),(9,102,200,&#x27;2024-03-15&#x27;);
+&quot;&quot;&quot;)
+query = &quot;&quot;&quot;
+WITH customer_totals AS (
+    SELECT customer_id,
+           SUM(amount) AS total_spend,
+           COUNT(*) AS order_count,
+           AVG(amount) AS avg_order
+    FROM orders
+    GROUP BY customer_id
+),
+high_value AS (
+    SELECT * FROM customer_totals WHERE total_spend &gt; 300
+)
+SELECT customer_id,
+       ROUND(total_spend, 2) AS total_spend,
+       order_count,
+       ROUND(avg_order, 2) AS avg_order
+FROM high_value
+ORDER BY total_spend DESC;
+&quot;&quot;&quot;
+print(pd.read_sql(query, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Multiple chained CTEs</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE sales (sale_id INT, product TEXT, region TEXT, amount REAL, sale_date TEXT);
+INSERT INTO sales VALUES
+  (1,&#x27;Laptop&#x27;,&#x27;East&#x27;,1200,&#x27;2024-01-10&#x27;),(2,&#x27;Mouse&#x27;,&#x27;West&#x27;,30,&#x27;2024-01-15&#x27;),
+  (3,&#x27;Laptop&#x27;,&#x27;West&#x27;,1100,&#x27;2024-01-20&#x27;),(4,&#x27;Monitor&#x27;,&#x27;East&#x27;,400,&#x27;2024-02-05&#x27;),
+  (5,&#x27;Mouse&#x27;,&#x27;East&#x27;,25,&#x27;2024-02-10&#x27;),(6,&#x27;Monitor&#x27;,&#x27;West&#x27;,380,&#x27;2024-02-20&#x27;),
+  (7,&#x27;Laptop&#x27;,&#x27;East&#x27;,1300,&#x27;2024-03-01&#x27;),(8,&#x27;Keyboard&#x27;,&#x27;East&#x27;,80,&#x27;2024-03-10&#x27;);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+WITH regional_totals AS (
+    SELECT region, SUM(amount) AS regional_total FROM sales GROUP BY region
+),
+product_totals AS (
+    SELECT product, SUM(amount) AS product_total FROM sales GROUP BY product
+),
+combined AS (
+    SELECT s.product, s.region, s.amount,
+           r.regional_total, p.product_total,
+           ROUND(s.amount * 100.0 / r.regional_total, 1) AS pct_of_region
+    FROM sales s
+    JOIN regional_totals r ON s.region = r.region
+    JOIN product_totals p ON s.product = p.product
+)
+SELECT product, region, amount, pct_of_region
+FROM combined
+ORDER BY region, pct_of_region DESC;
+&quot;&quot;&quot;
+print(pd.read_sql(query, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Recursive CTE for hierarchical org chart</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE employees (id INT, name TEXT, manager_id INT);
+INSERT INTO employees VALUES
+  (1,&#x27;Alice&#x27;,NULL),(2,&#x27;Bob&#x27;,1),(3,&#x27;Carol&#x27;,1),
+  (4,&#x27;Dave&#x27;,2),(5,&#x27;Eve&#x27;,2),(6,&#x27;Frank&#x27;,3),(7,&#x27;Grace&#x27;,3),(8,&#x27;Hank&#x27;,4);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+WITH RECURSIVE org_chart AS (
+    -- Base case: root (CEO)
+    SELECT id, name, manager_id, 0 AS depth, name AS path
+    FROM employees WHERE manager_id IS NULL
+    UNION ALL
+    -- Recursive step: employees who report to current level
+    SELECT e.id, e.name, e.manager_id, oc.depth + 1,
+           oc.path || &#x27; -&gt; &#x27; || e.name
+    FROM employees e
+    JOIN org_chart oc ON e.manager_id = oc.id
+)
+SELECT id, depth, name, path FROM org_chart ORDER BY path;
+&quot;&quot;&quot;
+df = pd.read_sql(query, conn)
+for _, row in df.iterrows():
+    print(&#x27;  &#x27; * row[&#x27;depth&#x27;] + f&quot;[{row[&#x27;id&#x27;]}] {row[&#x27;name&#x27;]}&quot;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CTE vs subquery — readability comparison</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE sales (product TEXT, amount REAL);
+INSERT INTO sales VALUES
+  (&#x27;A&#x27;,100),(&#x27;A&#x27;,200),(&#x27;B&#x27;,50),(&#x27;B&#x27;,300),(&#x27;C&#x27;,150),(&#x27;C&#x27;,250),(&#x27;C&#x27;,100);
+&quot;&quot;&quot;)
+
+# Subquery version (harder to read)
+q_sub = &quot;&quot;&quot;
+SELECT product, avg_amount
+FROM (
+    SELECT product, AVG(amount) AS avg_amount
+    FROM sales GROUP BY product
+) WHERE avg_amount &gt; 100;
+&quot;&quot;&quot;
+
+# CTE version (same result, easier to read)
+q_cte = &quot;&quot;&quot;
+WITH product_avgs AS (
+    SELECT product, AVG(amount) AS avg_amount
+    FROM sales GROUP BY product
+)
+SELECT product, ROUND(avg_amount,2) AS avg_amount
+FROM product_avgs
+WHERE avg_amount &gt; 100;
+&quot;&quot;&quot;
+
+print(&#x27;Subquery result:&#x27;); print(pd.read_sql(q_sub, conn).to_string(index=False))
+print(&#x27;CTE result:&#x27;);      print(pd.read_sql(q_cte, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Pipeline CTE</div><div class="pd">Using CTEs, write a query that: (1) computes monthly revenue, (2) adds a 3-month rolling average using LAG, (3) flags months where revenue fell below the rolling average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;CREATE TABLE orders (order_date TEXT, amount REAL)&#x27;)
+import random; random.seed(42)
+rows = [(f&#x27;2023-{m:02d}-15&#x27;, random.uniform(10000, 50000)) for m in range(1,13)]
+conn.executemany(&#x27;INSERT INTO orders VALUES (?,?)&#x27;, rows)
+conn.commit()
+
+query = &quot;&quot;&quot;
+-- TODO: CTE 1: monthly_revenue - SUM(amount) GROUP BY month
+-- TODO: CTE 2: with_prev - add prev1, prev2 using LAG()
+-- TODO: Final: add rolling_avg = (revenue+prev1+prev2)/3
+--              add below_avg = CASE WHEN revenue &lt; rolling_avg THEN 1 ELSE 0 END
+&quot;&quot;&quot;
+# df = pd.read_sql(query, conn)
+# print(df.to_string(index=False))
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Perform calculations across related rows without collapsing them — rankings, running totals, lag/lead comparisons, and moving averages.</p><div class="code-block"><div class="ch"><span>ROW_NUMBER, RANK, and DENSE_RANK</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE scores (player TEXT, region TEXT, score INT);
+INSERT INTO scores VALUES
+  (&#x27;Alice&#x27;,&#x27;East&#x27;,95),(&#x27;Bob&#x27;,&#x27;East&#x27;,88),(&#x27;Carol&#x27;,&#x27;East&#x27;,95),
+  (&#x27;Dave&#x27;,&#x27;West&#x27;,78),(&#x27;Eve&#x27;,&#x27;West&#x27;,91),(&#x27;Frank&#x27;,&#x27;West&#x27;,85),
+  (&#x27;Grace&#x27;,&#x27;North&#x27;,74),(&#x27;Hank&#x27;,&#x27;North&#x27;,80),(&#x27;Ivy&#x27;,&#x27;North&#x27;,80);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+SELECT player, region, score,
+       ROW_NUMBER() OVER (PARTITION BY region ORDER BY score DESC) AS row_num,
+       RANK()       OVER (PARTITION BY region ORDER BY score DESC) AS rank,
+       DENSE_RANK() OVER (PARTITION BY region ORDER BY score DESC) AS dense_rank
+FROM scores
+ORDER BY region, score DESC;
+&quot;&quot;&quot;
+print(pd.read_sql(query, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Running totals and cumulative sums</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE daily_sales (sale_date TEXT, revenue REAL);
+INSERT INTO daily_sales VALUES
+  (&#x27;2024-01-01&#x27;,1200),(&#x27;2024-01-02&#x27;,800),(&#x27;2024-01-03&#x27;,1500),
+  (&#x27;2024-01-04&#x27;,600),(&#x27;2024-01-05&#x27;,2000),(&#x27;2024-01-06&#x27;,900),
+  (&#x27;2024-01-07&#x27;,1100);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+SELECT sale_date, revenue,
+       SUM(revenue) OVER (ORDER BY sale_date
+                          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total,
+       AVG(revenue) OVER (ORDER BY sale_date
+                          ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_avg_3d,
+       SUM(revenue) OVER () AS grand_total,
+       ROUND(revenue * 100.0 / SUM(revenue) OVER (), 1) AS pct_of_total
+FROM daily_sales ORDER BY sale_date;
+&quot;&quot;&quot;
+print(pd.read_sql(query, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>LAG and LEAD for period-over-period comparison</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE monthly_revenue (month TEXT, category TEXT, revenue REAL);
+INSERT INTO monthly_revenue VALUES
+  (&#x27;2024-01&#x27;,&#x27;Electronics&#x27;,50000),(&#x27;2024-02&#x27;,&#x27;Electronics&#x27;,55000),
+  (&#x27;2024-03&#x27;,&#x27;Electronics&#x27;,48000),(&#x27;2024-04&#x27;,&#x27;Electronics&#x27;,62000),
+  (&#x27;2024-01&#x27;,&#x27;Clothing&#x27;,30000),(&#x27;2024-02&#x27;,&#x27;Clothing&#x27;,28000),
+  (&#x27;2024-03&#x27;,&#x27;Clothing&#x27;,35000),(&#x27;2024-04&#x27;,&#x27;Clothing&#x27;,32000);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+SELECT month, category, revenue,
+       LAG(revenue)  OVER (PARTITION BY category ORDER BY month) AS prev_month,
+       LEAD(revenue) OVER (PARTITION BY category ORDER BY month) AS next_month,
+       ROUND((revenue - LAG(revenue) OVER (PARTITION BY category ORDER BY month))
+             * 100.0 / LAG(revenue) OVER (PARTITION BY category ORDER BY month), 1) AS mom_pct
+FROM monthly_revenue
+ORDER BY category, month;
+&quot;&quot;&quot;
+print(pd.read_sql(query, conn).to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>NTILE and percentile buckets</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE customers (name TEXT, lifetime_value REAL);
+INSERT INTO customers VALUES
+  (&#x27;Alice&#x27;,1200),(&#x27;Bob&#x27;,450),(&#x27;Carol&#x27;,3400),(&#x27;Dave&#x27;,890),(&#x27;Eve&#x27;,2100),
+  (&#x27;Frank&#x27;,200),(&#x27;Grace&#x27;,4500),(&#x27;Hank&#x27;,700),(&#x27;Ivy&#x27;,1800),(&#x27;Jake&#x27;,350),
+  (&#x27;Kim&#x27;,2800),(&#x27;Leo&#x27;,600),(&#x27;Mia&#x27;,950),(&#x27;Ned&#x27;,1100),(&#x27;Ora&#x27;,3100);
+&quot;&quot;&quot;)
+
+query = &quot;&quot;&quot;
+SELECT name, lifetime_value,
+       NTILE(4)  OVER (ORDER BY lifetime_value)       AS quartile,
+       NTILE(10) OVER (ORDER BY lifetime_value)       AS decile,
+       RANK()    OVER (ORDER BY lifetime_value DESC)  AS rank
+FROM customers
+ORDER BY lifetime_value DESC;
+&quot;&quot;&quot;
+df = pd.read_sql(query, conn)
+print(df.to_string(index=False))
+print(&#x27;\nQuartile summary:&#x27;)
+print(df.groupby(&#x27;quartile&#x27;)[&#x27;lifetime_value&#x27;].agg([&#x27;min&#x27;,&#x27;max&#x27;,&#x27;mean&#x27;]).round(0))
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Leaderboard</div><div class="pd">Rank salespeople by total revenue within each region using DENSE_RANK. Show their revenue vs the region average and flag the top performer per region with &#x27;CHAMPION&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE sales (salesperson TEXT, region TEXT, revenue REAL);
+INSERT INTO sales VALUES
+  (&#x27;Alice&#x27;,&#x27;East&#x27;,95000),(&#x27;Bob&#x27;,&#x27;East&#x27;,88000),(&#x27;Carol&#x27;,&#x27;East&#x27;,102000),
+  (&#x27;Dave&#x27;,&#x27;West&#x27;,78000),(&#x27;Eve&#x27;,&#x27;West&#x27;,91000),(&#x27;Frank&#x27;,&#x27;West&#x27;,85000),
+  (&#x27;Grace&#x27;,&#x27;North&#x27;,67000),(&#x27;Hank&#x27;,&#x27;North&#x27;,74000);
+&quot;&quot;&quot;)
+query = &quot;&quot;&quot;
+-- TODO: DENSE_RANK within region by revenue desc
+-- TODO: AVG(revenue) OVER region
+-- TODO: revenue - avg as diff_from_avg
+-- TODO: CASE WHEN rank=1 THEN &#x27;CHAMPION&#x27; ELSE &#x27;&#x27; END
+&quot;&quot;&quot;
+# df = pd.read_sql(query, conn)
+# print(df.to_string(index=False))
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Query Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write faster SQL — understand EXPLAIN QUERY PLAN, use indexes effectively, and rewrite slow patterns as efficient alternatives.</p><div class="code-block"><div class="ch"><span>Creating and using indexes</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+import random; random.seed(42)
+n = 100000
+conn.execute(&#x27;CREATE TABLE orders (order_id INT, customer_id INT, amount REAL, status TEXT)&#x27;)
+conn.executemany(&#x27;INSERT INTO orders VALUES (?,?,?,?)&#x27;,
+    [(i, random.randint(1,1000), random.uniform(10,500), random.choice([&#x27;pending&#x27;,&#x27;shipped&#x27;,&#x27;done&#x27;]))
+     for i in range(n)])
+conn.commit()
+
+# Query WITHOUT index
+t0 = time.perf_counter()
+conn.execute(&#x27;SELECT * FROM orders WHERE customer_id = 42&#x27;).fetchall()
+t1 = time.perf_counter()
+print(f&#x27;Without index: {(t1-t0)*1000:.2f} ms&#x27;)
+
+# Create index
+conn.execute(&#x27;CREATE INDEX idx_customer ON orders(customer_id)&#x27;)
+
+t0 = time.perf_counter()
+conn.execute(&#x27;SELECT * FROM orders WHERE customer_id = 42&#x27;).fetchall()
+t1 = time.perf_counter()
+print(f&#x27;With index:    {(t1-t0)*1000:.2f} ms&#x27;)
+
+# Composite index for common filter+sort
+conn.execute(&#x27;CREATE INDEX idx_status_amount ON orders(status, amount DESC)&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN to inspect execution</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+import random; random.seed(0)
+conn.execute(&#x27;CREATE TABLE sales (id INT, region TEXT, amount REAL)&#x27;)
+conn.executemany(&#x27;INSERT INTO sales VALUES (?,?,?)&#x27;,
+    [(i, random.choice([&#x27;East&#x27;,&#x27;West&#x27;,&#x27;North&#x27;]), random.uniform(10,1000)) for i in range(10000)])
+conn.commit()
+
+def explain(conn, query, label):
+    plan = conn.execute(f&#x27;EXPLAIN QUERY PLAN {query}&#x27;).fetchall()
+    print(f&#x27;\n--- {label} ---&#x27;)
+    for row in plan:
+        print(&#x27; &#x27;, row)
+
+explain(conn, &#x27;SELECT * FROM sales WHERE region = &quot;East&quot;&#x27;, &#x27;No index&#x27;)
+conn.execute(&#x27;CREATE INDEX idx_region ON sales(region)&#x27;)
+explain(conn, &#x27;SELECT * FROM sales WHERE region = &quot;East&quot;&#x27;, &#x27;With index&#x27;)
+explain(conn, &#x27;SELECT region, SUM(amount) FROM sales GROUP BY region&#x27;, &#x27;Aggregation&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>EXISTS vs IN vs JOIN performance</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+import random; random.seed(42)
+conn.execute(&#x27;CREATE TABLE customers (id INT PRIMARY KEY, name TEXT)&#x27;)
+conn.execute(&#x27;CREATE TABLE orders (id INT, customer_id INT, amount REAL)&#x27;)
+conn.executemany(&#x27;INSERT INTO customers VALUES (?,?)&#x27;, [(i,f&#x27;C{i}&#x27;) for i in range(1000)])
+conn.executemany(&#x27;INSERT INTO orders VALUES (?,?,?)&#x27;,
+    [(i, random.randint(1,1000), random.uniform(10,500)) for i in range(50000)])
+conn.commit()
+conn.execute(&#x27;CREATE INDEX idx_oid ON orders(customer_id)&#x27;)
+
+queries = {
+    &#x27;IN subquery&#x27;: &#x27;SELECT * FROM customers WHERE id IN (SELECT DISTINCT customer_id FROM orders WHERE amount &gt; 400)&#x27;,
+    &#x27;EXISTS&#x27;:      &#x27;SELECT * FROM customers c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id=c.id AND o.amount&gt;400)&#x27;,
+    &#x27;JOIN&#x27;:        &#x27;SELECT DISTINCT c.* FROM customers c JOIN orders o ON c.id=o.customer_id WHERE o.amount&gt;400&#x27;,
+}
+for label, q in queries.items():
+    t0 = time.perf_counter()
+    rows = conn.execute(q).fetchall()
+    print(f&#x27;{label:15s}: {(time.perf_counter()-t0)*1000:.2f} ms, {len(rows)} rows&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Avoiding N+1 queries with JOIN</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&quot;&quot;&quot;
+CREATE TABLE authors (id INT, name TEXT);
+CREATE TABLE books (id INT, title TEXT, author_id INT, pages INT);
+&quot;&quot;&quot;)
+import random; random.seed(0)
+authors = [(i, f&#x27;Author {i}&#x27;) for i in range(50)]
+books   = [(i, f&#x27;Book {i}&#x27;, random.randint(0,49), random.randint(100,600)) for i in range(500)]
+conn.executemany(&#x27;INSERT INTO authors VALUES (?,?)&#x27;, authors)
+conn.executemany(&#x27;INSERT INTO books VALUES (?,?,?,?)&#x27;, books)
+conn.commit()
+
+# N+1 pattern (BAD)
+t0 = time.perf_counter()
+all_books = conn.execute(&#x27;SELECT * FROM books&#x27;).fetchall()
+results = []
+for b in all_books:
+    auth = conn.execute(&#x27;SELECT name FROM authors WHERE id=?&#x27;, (b[2],)).fetchone()
+    results.append((b[1], auth[0] if auth else &#x27;Unknown&#x27;))
+print(f&#x27;N+1 queries: {(time.perf_counter()-t0)*1000:.2f} ms ({len(results)} results)&#x27;)
+
+# Single JOIN (GOOD)
+t0 = time.perf_counter()
+results2 = conn.execute(&#x27;SELECT b.title, a.name FROM books b LEFT JOIN authors a ON b.author_id=a.id&#x27;).fetchall()
+print(f&#x27;Single JOIN: {(time.perf_counter()-t0)*1000:.2f} ms ({len(results2)} results)&#x27;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a filter query on customer_id WITHOUT an index, add the index, re-run, and print the speedup factor. Also run EXPLAIN QUERY PLAN on both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;CREATE TABLE orders (id INT, customer_id INT, amount REAL, status TEXT)&#x27;)
+import random; random.seed(42)
+rows = [(i, random.randint(1,1000), random.uniform(10,500), random.choice([&#x27;pending&#x27;,&#x27;done&#x27;])) for i in range(100000)]
+conn.executemany(&#x27;INSERT INTO orders VALUES (?,?,?,?)&#x27;, rows)
+conn.commit()
+
+q = &#x27;SELECT * FROM orders WHERE customer_id = 42&#x27;
+# TODO: time query without index
+# TODO: EXPLAIN QUERY PLAN before index
+# TODO: CREATE INDEX idx_cust ON orders(customer_id)
+# TODO: time query with index
+# TODO: EXPLAIN QUERY PLAN after index
+# TODO: print speedup factor
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Query Optimization &amp; Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER,
+                         amount REAL, status TEXT, order_date TEXT);
+    INSERT INTO orders SELECT value, (value%100)+1, RANDOM()*1000,
+        CASE value%3 WHEN 0 THEN &#x27;pending&#x27; WHEN 1 THEN &#x27;completed&#x27; ELSE &#x27;cancelled&#x27; END,
+        date(&#x27;2024-01-01&#x27;, &#x27;+&#x27;||(value%365)||&#x27; days&#x27;)
+    FROM generate_series(1, 10000);
+&#x27;&#x27;&#x27;)
+plan = conn.execute(&#x27;&#x27;&#x27;
+    EXPLAIN QUERY PLAN
+    SELECT customer_id, COUNT(*), AVG(amount)
+    FROM orders WHERE status=&#x27;completed&#x27;
+    GROUP BY customer_id ORDER BY AVG(amount) DESC
+&#x27;&#x27;&#x27;).fetchall()
+print(&#x27;Query plan (no index):&#x27;)
+for row in plan: print(&#x27; &#x27;, row)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Index speedup measurement</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE sales (id INTEGER PRIMARY KEY, region TEXT, amount REAL, sale_date TEXT);
+    INSERT INTO sales SELECT value, CASE value%4 WHEN 0 THEN &#x27;North&#x27; WHEN 1 THEN &#x27;South&#x27;
+        WHEN 2 THEN &#x27;East&#x27; ELSE &#x27;West&#x27; END, RANDOM()*1000,
+        date(&#x27;2024-01-01&#x27;, &#x27;+&#x27;||(value%365)||&#x27; days&#x27;)
+    FROM generate_series(1, 100000);
+&#x27;&#x27;&#x27;)
+query = &quot;SELECT region, AVG(amount) FROM sales WHERE sale_date &gt; &#x27;2024-06-01&#x27; GROUP BY region&quot;
+t0 = time.time(); conn.execute(query).fetchall(); t_slow = time.time()-t0
+conn.execute(&#x27;CREATE INDEX idx_date ON sales(sale_date)&#x27;)
+t0 = time.time(); conn.execute(query).fetchall(); t_fast = time.time()-t0
+print(f&#x27;Without index: {t_slow*1000:.1f}ms&#x27;)
+print(f&#x27;With index:    {t_fast*1000:.1f}ms&#x27;)
+print(f&#x27;Speedup: {t_slow/max(t_fast,0.001):.1f}x&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Avoiding N+1 with JOINs</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, dept_id INTEGER, salary REAL);
+    CREATE TABLE departments (id INTEGER PRIMARY KEY, name TEXT);
+    INSERT INTO departments VALUES (1,&#x27;Engineering&#x27;),(2,&#x27;Sales&#x27;),(3,&#x27;HR&#x27;);
+    INSERT INTO employees SELECT v, &#x27;Emp &#x27;||v, (v%3)+1, 50000+RANDOM()*50000
+    FROM generate_series(1,30) v;
+&#x27;&#x27;&#x27;)
+print(&#x27;=== N+1 (avoid) ===&#x27;)
+for eid,name,dept_id in conn.execute(&#x27;SELECT id,name,dept_id FROM employees LIMIT 3&#x27;).fetchall():
+    dept = conn.execute(&#x27;SELECT name FROM departments WHERE id=?&#x27;,(dept_id,)).fetchone()
+    print(f&#x27;  {name} -&gt; {dept[0]}&#x27;)
+print(&#x27;=== Single JOIN (preferred) ===&#x27;)
+for row in conn.execute(&#x27;SELECT e.name, d.name, e.salary FROM employees e JOIN departments d ON e.dept_id=d.id LIMIT 3&#x27;).fetchall():
+    print(f&#x27;  {row[0]} | {row[1]} | ${row[2]:,.0f}&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>CTE vs subquery readability</span><button onclick="cp('c13_3')">Copy</button></div><pre><code id="c13_3" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE transactions (id INTEGER PRIMARY KEY, user_id INTEGER,
+                               amount REAL, type TEXT, ts TEXT);
+    INSERT INTO transactions SELECT v, (v%50)+1, RANDOM()*500,
+        CASE v%3 WHEN 0 THEN &#x27;purchase&#x27; WHEN 1 THEN &#x27;refund&#x27; ELSE &#x27;fee&#x27; END,
+        date(&#x27;2024-01-01&#x27;,&#x27;+&#x27;||(v%300)||&#x27; days&#x27;) FROM generate_series(1,1000) v;
+&#x27;&#x27;&#x27;)
+cte_query = &#x27;&#x27;&#x27;
+    WITH purchase_summary AS (
+        SELECT user_id, SUM(amount) total, COUNT(*) cnt
+        FROM transactions WHERE type=&#x27;purchase&#x27; GROUP BY user_id
+    ), avg_thresh AS (
+        SELECT AVG(amount)*5 threshold FROM transactions WHERE type=&#x27;purchase&#x27;
+    )
+    SELECT ps.user_id, ROUND(ps.total,2) total, ps.cnt
+    FROM purchase_summary ps, avg_thresh at WHERE ps.total &gt; at.threshold
+    ORDER BY ps.total DESC LIMIT 5
+&#x27;&#x27;&#x27;
+df = pd.read_sql(cte_query, conn)
+print(&#x27;Top buyers via CTE:&#x27;)
+print(df.to_string(index=False))
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a customer_id filter query WITHOUT index, add the index, re-run, print speedup, and show EXPLAIN QUERY PLAN before vs after.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import sqlite3, time
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+# TODO: create orders table with 100K rows (id, customer_id, amount, status)
+# TODO: time filter query on customer_id=42
+# TODO: EXPLAIN QUERY PLAN before index
+# TODO: CREATE INDEX idx_cust ON orders(customer_id)
+# TODO: time query with index, print speedup
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Pivoting &amp; Unpivoting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Pivot with CASE WHEN</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE sales (year INTEGER, quarter TEXT, region TEXT, revenue REAL);
+    INSERT INTO sales VALUES
+        (2024,&#x27;Q1&#x27;,&#x27;North&#x27;,120000),(2024,&#x27;Q2&#x27;,&#x27;North&#x27;,135000),(2024,&#x27;Q3&#x27;,&#x27;North&#x27;,118000),(2024,&#x27;Q4&#x27;,&#x27;North&#x27;,145000),
+        (2024,&#x27;Q1&#x27;,&#x27;South&#x27;,98000),(2024,&#x27;Q2&#x27;,&#x27;South&#x27;,105000),(2024,&#x27;Q3&#x27;,&#x27;South&#x27;,112000),(2024,&#x27;Q4&#x27;,&#x27;South&#x27;,125000);
+&#x27;&#x27;&#x27;)
+df = pd.read_sql(&#x27;&#x27;&#x27;
+    SELECT region,
+        SUM(CASE WHEN quarter=&#x27;Q1&#x27; THEN revenue ELSE 0 END) Q1,
+        SUM(CASE WHEN quarter=&#x27;Q2&#x27; THEN revenue ELSE 0 END) Q2,
+        SUM(CASE WHEN quarter=&#x27;Q3&#x27; THEN revenue ELSE 0 END) Q3,
+        SUM(CASE WHEN quarter=&#x27;Q4&#x27; THEN revenue ELSE 0 END) Q4,
+        SUM(revenue) Total
+    FROM sales GROUP BY region ORDER BY Total DESC
+&#x27;&#x27;&#x27;, conn)
+print(df.to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Unpivot (wide to long) with UNION ALL</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE server_metrics (server TEXT, cpu_pct REAL, mem_pct REAL, disk_pct REAL, net_pct REAL);
+    INSERT INTO server_metrics VALUES (&#x27;web-01&#x27;,72.5,65.2,45.0,30.1),
+        (&#x27;web-02&#x27;,55.0,70.8,52.3,28.7),(&#x27;db-01&#x27;,88.2,91.5,78.4,15.2);
+&#x27;&#x27;&#x27;)
+df = pd.read_sql(&#x27;&#x27;&#x27;
+    SELECT server,&#x27;CPU&#x27; metric, cpu_pct value FROM server_metrics
+    UNION ALL SELECT server,&#x27;Memory&#x27;,mem_pct FROM server_metrics
+    UNION ALL SELECT server,&#x27;Disk&#x27;,disk_pct FROM server_metrics
+    UNION ALL SELECT server,&#x27;Network&#x27;,net_pct FROM server_metrics
+    ORDER BY server, metric
+&#x27;&#x27;&#x27;, conn)
+print(df.to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Dynamic pivot with Python</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE survey (respondent INTEGER, question TEXT, score INTEGER);
+    INSERT INTO survey VALUES (1,&#x27;Q1&#x27;,4),(1,&#x27;Q2&#x27;,5),(1,&#x27;Q3&#x27;,3),(1,&#x27;Q4&#x27;,4),
+        (2,&#x27;Q1&#x27;,3),(2,&#x27;Q2&#x27;,4),(2,&#x27;Q3&#x27;,5),(2,&#x27;Q4&#x27;,2),(3,&#x27;Q1&#x27;,5),(3,&#x27;Q2&#x27;,5),(3,&#x27;Q3&#x27;,4),(3,&#x27;Q4&#x27;,5);
+&#x27;&#x27;&#x27;)
+questions = [r[0] for r in conn.execute(&#x27;SELECT DISTINCT question FROM survey ORDER BY question&#x27;)]
+cases = &#x27;,&#x27;.join(f&quot;MAX(CASE WHEN question=&#x27;{q}&#x27; THEN score END) AS {q}&quot; for q in questions)
+df = pd.read_sql(f&#x27;SELECT respondent, {cases}, ROUND(AVG(score),2) avg_score FROM survey GROUP BY respondent ORDER BY avg_score DESC&#x27;, conn)
+print(df.to_string(index=False))
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Cross-tabulation with percentages</span><button onclick="cp('c14_3')">Copy</button></div><pre><code id="c14_3" class="language-python">import sqlite3, pandas as pd
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE feedback (category TEXT, sentiment TEXT, count INTEGER);
+    INSERT INTO feedback VALUES
+        (&#x27;Product&#x27;,&#x27;Positive&#x27;,450),(&#x27;Product&#x27;,&#x27;Neutral&#x27;,120),(&#x27;Product&#x27;,&#x27;Negative&#x27;,80),
+        (&#x27;Service&#x27;,&#x27;Positive&#x27;,380),(&#x27;Service&#x27;,&#x27;Neutral&#x27;,95),(&#x27;Service&#x27;,&#x27;Negative&#x27;,125),
+        (&#x27;Price&#x27;,&#x27;Positive&#x27;,200),(&#x27;Price&#x27;,&#x27;Neutral&#x27;,180),(&#x27;Price&#x27;,&#x27;Negative&#x27;,220);
+&#x27;&#x27;&#x27;)
+df = pd.read_sql(&#x27;&#x27;&#x27;
+    SELECT category,
+        SUM(CASE WHEN sentiment=&#x27;Positive&#x27; THEN count ELSE 0 END) positive,
+        SUM(CASE WHEN sentiment=&#x27;Neutral&#x27; THEN count ELSE 0 END) neutral,
+        SUM(CASE WHEN sentiment=&#x27;Negative&#x27; THEN count ELSE 0 END) negative,
+        SUM(count) total,
+        ROUND(100.0*SUM(CASE WHEN sentiment=&#x27;Positive&#x27; THEN count ELSE 0 END)/SUM(count),1) pct_pos
+    FROM feedback GROUP BY category ORDER BY pct_pos DESC
+&#x27;&#x27;&#x27;, conn)
+print(df.to_string(index=False))
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dynamic Sales Pivot</div><div class="pd">Create a sales table with 5 reps and 4 quarters. Get distinct quarters from DB, build a CASE WHEN pivot query dynamically, and display as a DataFrame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import sqlite3, pandas as pd, numpy as np
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+np.random.seed(42)
+reps = [&#x27;Alice&#x27;,&#x27;Bob&#x27;,&#x27;Carol&#x27;,&#x27;Dave&#x27;,&#x27;Eve&#x27;]
+quarters = [&#x27;Q1&#x27;,&#x27;Q2&#x27;,&#x27;Q3&#x27;,&#x27;Q4&#x27;]
+rows = [(r,q,int(np.random.exponential(80000))) for r in reps for q in quarters]
+conn.executescript(&#x27;CREATE TABLE rep_sales (rep TEXT, quarter TEXT, revenue INTEGER);&#x27;)
+conn.executemany(&#x27;INSERT INTO rep_sales VALUES (?,?,?)&#x27;, rows)
+# TODO: get distinct quarters dynamically
+# TODO: build CASE WHEN pivot query
+# TODO: read to DataFrame and print
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Triggers &amp; Database Automation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Audit log trigger on price UPDATE</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price REAL);
+    CREATE TABLE price_audit (log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_id INTEGER, old_price REAL, new_price REAL,
+        changed_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+    INSERT INTO products VALUES (1,&#x27;Widget&#x27;,9.99),(2,&#x27;Gadget&#x27;,24.99);
+    CREATE TRIGGER log_price AFTER UPDATE OF price ON products
+    BEGIN INSERT INTO price_audit(product_id,old_price,new_price)
+          VALUES(NEW.id,OLD.price,NEW.price); END;
+&#x27;&#x27;&#x27;)
+conn.execute(&#x27;UPDATE products SET price=12.99 WHERE id=1&#x27;)
+conn.execute(&#x27;UPDATE products SET price=29.99 WHERE id=2&#x27;)
+for row in conn.execute(&#x27;SELECT * FROM price_audit&#x27;).fetchall():
+    print(f&#x27;Product {row[1]}: ${row[2]} -&gt; ${row[3]}&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Business rule — prevent negative stock</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE inventory (product_id INTEGER PRIMARY KEY, quantity INTEGER CHECK(quantity &gt;= 0));
+    CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, qty INTEGER);
+    INSERT INTO inventory VALUES (1,100),(2,5);
+    CREATE TRIGGER decrement_stock AFTER INSERT ON orders
+    BEGIN UPDATE inventory SET quantity=quantity-NEW.qty WHERE product_id=NEW.product_id; END;
+&#x27;&#x27;&#x27;)
+conn.execute(&#x27;INSERT INTO orders(product_id,qty) VALUES(1,30)&#x27;)
+print(&#x27;After ordering 30 of product 1:&#x27;)
+for row in conn.execute(&#x27;SELECT * FROM inventory&#x27;).fetchall():
+    print(f&#x27;  Product {row[0]}: {row[1]} units&#x27;)
+try:
+    conn.execute(&#x27;INSERT INTO orders(product_id,qty) VALUES(2,10)&#x27;)
+except Exception as e:
+    print(f&#x27;Order failed (CHECK constraint): {type(e).__name__}&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>Transactional fund transfer (stored proc pattern)</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE accounts (id INTEGER PRIMARY KEY, name TEXT, balance REAL);
+    CREATE TABLE transfers (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        from_id INTEGER, to_id INTEGER, amount REAL, ts DATETIME DEFAULT CURRENT_TIMESTAMP);
+    INSERT INTO accounts VALUES (1,&#x27;Alice&#x27;,5000),(2,&#x27;Bob&#x27;,1500),(3,&#x27;Carol&#x27;,3200);
+&#x27;&#x27;&#x27;)
+
+def transfer(conn, from_id, to_id, amount):
+    bal = conn.execute(&#x27;SELECT balance FROM accounts WHERE id=?&#x27;,(from_id,)).fetchone()
+    if not bal or bal[0] &lt; amount:
+        print(f&#x27;  FAILED: ${bal[0] if bal else 0:.2f} &lt; ${amount:.2f}&#x27;)
+        return
+    conn.execute(&#x27;BEGIN&#x27;)
+    conn.execute(&#x27;UPDATE accounts SET balance=balance-? WHERE id=?&#x27;,(amount,from_id))
+    conn.execute(&#x27;UPDATE accounts SET balance=balance+? WHERE id=?&#x27;,(amount,to_id))
+    conn.execute(&#x27;INSERT INTO transfers(from_id,to_id,amount) VALUES(?,?,?)&#x27;,(from_id,to_id,amount))
+    conn.execute(&#x27;COMMIT&#x27;)
+    print(f&#x27;  OK: ${amount:.2f} from acct {from_id} to acct {to_id}&#x27;)
+
+transfer(conn,1,2,500)
+transfer(conn,2,3,3000)  # fails
+for row in conn.execute(&#x27;SELECT id,name,balance FROM accounts&#x27;).fetchall():
+    print(f&#x27;{row[1]}: ${row[2]:.2f}&#x27;)
+conn.close()</code></pre></div><div class="code-block"><div class="ch"><span>INSTEAD OF trigger on a view</span><button onclick="cp('c15_3')">Copy</button></div><pre><code id="c15_3" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.executescript(&#x27;&#x27;&#x27;
+    CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, salary REAL, dept TEXT);
+    INSERT INTO employees VALUES (1,&#x27;Alice&#x27;,75000,&#x27;Eng&#x27;),(2,&#x27;Bob&#x27;,68000,&#x27;Sales&#x27;);
+    CREATE VIEW emp_view AS SELECT id, name, salary, dept FROM employees;
+    CREATE TRIGGER update_via_view INSTEAD OF UPDATE OF salary ON emp_view
+    BEGIN UPDATE employees SET salary=NEW.salary WHERE id=OLD.id; END;
+&#x27;&#x27;&#x27;)
+conn.execute(&quot;UPDATE emp_view SET salary=90000 WHERE name=&#x27;Alice&#x27;&quot;)
+for row in conn.execute(&#x27;SELECT name, salary FROM employees&#x27;).fetchall():
+    print(f&#x27;{row[0]}: ${row[1]:,.0f}&#x27;)
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Banking Triggers</div><div class="pd">Create accounts and transactions tables. Add triggers: (1) log withdrawals &gt;$1000 to large_withdrawals, (2) prevent negative balances. Test with 5 transactions including one that should fail.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import sqlite3
+
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+# TODO: CREATE TABLE accounts (id, name, balance)
+# TODO: CREATE TABLE large_withdrawals (id AUTOINCREMENT, account_id, amount, ts)
+# TODO: CREATE TRIGGER log_large after INSERT on transactions WHEN amount &gt; 1000
+# TODO: enforce non-negative balance via CHECK or trigger
+# TODO: insert test transactions, show results
+conn.close()</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

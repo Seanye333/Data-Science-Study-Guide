@@ -1,0 +1,21 @@
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
+
+x = np.linspace(0, 10, 500)
+y = np.sin(x) * np.exp(-0.1*x)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(x, y, 'b-', lw=1.5)
+ax.set_title('Main view with zoom inset')
+
+axins = inset_axes(ax, width='35%', height='35%', loc='upper right')
+axins.plot(x, y, 'b-', lw=1.5)
+axins.set_xlim(0, 1.5); axins.set_ylim(0, 1.1)
+axins.set_xticks([]); axins.set_yticks([])
+mark_inset(ax, axins, loc1=2, loc2=4, fc='none', ec='red', lw=1)
+
+fig.savefig('inset_zoom.png', dpi=150, bbox_inches='tight')
+print("Inset zoom plot saved")

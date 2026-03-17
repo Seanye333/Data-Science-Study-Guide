@@ -1,0 +1,2449 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MLOps & Model Deployment Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#f78166}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Saving &amp; Loading Models</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. FastAPI Model Serving</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Experiment Tracking with MLflow</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Docker for ML Models</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Model Monitoring &amp; Data Drift</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. CI/CD for ML Pipelines</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Feature Stores &amp; Pipelines</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. A/B Testing for ML Models</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Model Explainability</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. End-to-End ML Project Structure</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. Model Compression &amp; Optimization</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Feature Stores &amp; Data Pipelines</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. AutoML &amp; Hyperparameter Optimization</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Model Monitoring &amp; Data Drift Detection</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Feature Stores &amp; Data Engineering Pipelines</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. A/B Testing &amp; Canary Deployments for ML</a></li></ul></aside>
+<main class="main"><h1 class="pt">🚀 MLOps & Model Deployment</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Saving &amp; Loading Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.</p><div class="code-block"><div class="ch"><span>Save/load sklearn model with joblib</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import joblib
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+X, y = load_iris(return_X_y=True)
+model = RandomForestClassifier(n_estimators=50, random_state=42)
+model.fit(X, y)
+
+# Save
+joblib.dump(model, &#x27;iris_rf.joblib&#x27;)
+print(&#x27;Model saved.&#x27;)
+
+# Load and predict
+loaded = joblib.load(&#x27;iris_rf.joblib&#x27;)
+preds = loaded.predict(X[:5])
+print(&#x27;Predictions:&#x27;, preds)
+print(&#x27;Expected:   &#x27;, y[:5])</code></pre></div><div class="code-block"><div class="ch"><span>Save full sklearn pipeline</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import joblib
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_breast_cancer
+
+X, y = load_breast_cancer(return_X_y=True)
+
+pipe = Pipeline([
+    (&#x27;scaler&#x27;, StandardScaler()),
+    (&#x27;clf&#x27;,   LogisticRegression(max_iter=1000))
+])
+pipe.fit(X, y)
+
+# Save the entire pipeline — preprocessor + model
+joblib.dump(pipe, &#x27;cancer_pipeline.joblib&#x27;)
+
+loaded_pipe = joblib.load(&#x27;cancer_pipeline.joblib&#x27;)
+print(&#x27;Pipeline accuracy:&#x27;, loaded_pipe.score(X, y))
+print(&#x27;Steps:&#x27;, [name for name, _ in loaded_pipe.steps])</code></pre></div><div class="code-block"><div class="ch"><span>Save/load PyTorch model</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">try:
+    import torch
+    import torch.nn as nn
+
+    class SimpleNet(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.fc = nn.Linear(4, 3)
+        def forward(self, x):
+            return self.fc(x)
+
+    model = SimpleNet()
+
+    # Best practice: save state_dict only
+    torch.save(model.state_dict(), &#x27;simple_net.pt&#x27;)
+
+    # Load
+    loaded = SimpleNet()
+    loaded.load_state_dict(torch.load(&#x27;simple_net.pt&#x27;, weights_only=True))
+    loaded.eval()
+
+    x = torch.randn(2, 4)
+    print(&#x27;Output:&#x27;, loaded(x))
+except ImportError:
+    print(&#x27;pip install torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Model versioning with metadata</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import joblib, json, hashlib, time
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import load_iris
+
+X, y = load_iris(return_X_y=True)
+model = GradientBoostingClassifier(n_estimators=50, random_state=42)
+model.fit(X, y)
+
+# Save model
+model_path = &#x27;model_v1.joblib&#x27;
+joblib.dump(model, model_path)
+
+# Save metadata alongside
+with open(model_path, &#x27;rb&#x27;) as f:
+    checksum = hashlib.md5(f.read()).hexdigest()
+
+metadata = {
+    &#x27;model_class&#x27;: type(model).__name__,
+    &#x27;params&#x27;: model.get_params(),
+    &#x27;train_accuracy&#x27;: model.score(X, y),
+    &#x27;trained_at&#x27;: time.strftime(&#x27;%Y-%m-%dT%H:%M:%S&#x27;),
+    &#x27;checksum&#x27;: checksum,
+}
+with open(&#x27;model_v1_meta.json&#x27;, &#x27;w&#x27;) as f:
+    json.dump(metadata, f, indent=2)
+
+print(json.dumps(metadata, indent=2))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A data science team trains a fraud detection model weekly. They need to save each version with metadata so they can roll back if a new model underperforms in production.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw0')">Copy</button></div><pre><code id="rw0" class="language-python">import joblib, json, time, pathlib
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+
+MODEL_DIR = pathlib.Path(&#x27;model_registry&#x27;)
+MODEL_DIR.mkdir(exist_ok=True)
+
+def save_model_version(model, version: str, metrics: dict):
+    model_path = MODEL_DIR / f&#x27;model_{version}.joblib&#x27;
+    meta_path  = MODEL_DIR / f&#x27;model_{version}_meta.json&#x27;
+    joblib.dump(model, model_path)
+    meta = {&#x27;version&#x27;: version, &#x27;trained_at&#x27;: time.strftime(&#x27;%Y-%m-%dT%H:%M:%S&#x27;),
+            &#x27;model_class&#x27;: type(model).__name__, **metrics}
+    meta_path.write_text(json.dumps(meta, indent=2))
+    print(f&#x27;Saved {model_path}&#x27;)
+    return meta
+
+X, y = make_classification(n_samples=500, random_state=42)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X, y)
+meta = save_model_version(model, &#x27;v1.0&#x27;, {&#x27;train_acc&#x27;: model.score(X, y)})
+print(json.dumps(meta, indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Model Registry</div><div class="pd">Create a ModelRegistry class that tracks saved model versions, can list all versions, load a specific version, and return the best-performing one by accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import joblib, json, pathlib
+
+class ModelRegistry:
+    def __init__(self, registry_dir=&#x27;registry&#x27;):
+        self.dir = pathlib.Path(registry_dir)
+        self.dir.mkdir(exist_ok=True)
+
+    def save(self, model, version: str, accuracy: float):
+        # TODO: save model and metadata json
+        pass
+
+    def list_versions(self) -&gt; list:
+        # TODO: return list of dicts with version + accuracy
+        pass
+
+    def load(self, version: str):
+        # TODO: load and return model by version string
+        pass
+
+    def best(self):
+        # TODO: return model with highest accuracy
+        pass
+
+# Test it
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
+X, y = load_iris(return_X_y=True)
+reg = ModelRegistry()
+m = LogisticRegression(max_iter=200).fit(X, y)
+reg.save(m, &#x27;v1&#x27;, m.score(X, y))
+print(reg.list_versions())</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. FastAPI Model Serving</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Wrap ML models in REST APIs using FastAPI. Serve predictions, handle requests, add input validation with Pydantic, and test endpoints.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI prediction endpoint</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python"># Save this as app.py and run: uvicorn app:app --reload
+# pip install fastapi uvicorn scikit-learn joblib
+
+APP_CODE = &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel
+import joblib, numpy as np
+
+app = FastAPI(title=&#x27;Iris Classifier&#x27;)
+model = joblib.load(&#x27;iris_rf.joblib&#x27;)  # load saved model
+
+class IrisFeatures(BaseModel):
+    sepal_length: float
+    sepal_width:  float
+    petal_length: float
+    petal_width:  float
+
+@app.post(&#x27;/predict&#x27;)
+def predict(features: IrisFeatures):
+    X = np.array([[features.sepal_length, features.sepal_width,
+                   features.petal_length, features.petal_width]])
+    pred = model.predict(X)[0]
+    proba = model.predict_proba(X).max()
+    return {&#x27;prediction&#x27;: int(pred), &#x27;confidence&#x27;: float(proba)}
+&#x27;&#x27;&#x27;
+print(APP_CODE)</code></pre></div><div class="code-block"><div class="ch"><span>Batch prediction endpoint</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">BATCH_API = &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+import numpy as np, joblib
+
+app = FastAPI()
+model = joblib.load(&#x27;iris_rf.joblib&#x27;)
+
+class SingleSample(BaseModel):
+    features: List[float]
+
+class BatchRequest(BaseModel):
+    samples: List[SingleSample]
+
+@app.post(&#x27;/predict/batch&#x27;)
+def batch_predict(batch: BatchRequest):
+    X = np.array([s.features for s in batch.samples])
+    preds = model.predict(X).tolist()
+    probas = model.predict_proba(X).max(axis=1).tolist()
+    return [
+        {&#x27;prediction&#x27;: p, &#x27;confidence&#x27;: round(c, 4)}
+        for p, c in zip(preds, probas)
+    ]
+&#x27;&#x27;&#x27;
+print(BATCH_API)</code></pre></div><div class="code-block"><div class="ch"><span>Testing API with requests</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python"># Run your FastAPI server first, then test it:
+try:
+    import requests
+
+    BASE_URL = &#x27;http://localhost:8000&#x27;
+
+    # Single prediction
+    payload = {
+        &#x27;sepal_length&#x27;: 5.1, &#x27;sepal_width&#x27;: 3.5,
+        &#x27;petal_length&#x27;: 1.4, &#x27;petal_width&#x27;: 0.2
+    }
+    response = requests.post(f&#x27;{BASE_URL}/predict&#x27;, json=payload, timeout=5)
+    print(&#x27;Status:&#x27;, response.status_code)
+    print(&#x27;Response:&#x27;, response.json())
+
+    # Health check
+    health = requests.get(f&#x27;{BASE_URL}/health&#x27;, timeout=5)
+    print(&#x27;Health:&#x27;, health.json())
+except Exception as e:
+    print(f&#x27;Server not running: {e}&#x27;)
+    print(&#x27;Start with: uvicorn app:app --reload&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>FastAPI with model hot-reload and health check</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">ADVANCED_API = &#x27;&#x27;&#x27;
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import joblib, numpy as np, time, pathlib
+
+app = FastAPI()
+MODEL_PATH = &#x27;iris_rf.joblib&#x27;
+state = {&#x27;model&#x27;: None, &#x27;loaded_at&#x27;: None}
+
+def load_model():
+    state[&#x27;model&#x27;] = joblib.load(MODEL_PATH)
+    state[&#x27;loaded_at&#x27;] = time.strftime(&quot;%Y-%m-%dT%H:%M:%S&quot;)
+
+@app.on_event(&#x27;startup&#x27;)
+def startup():
+    load_model()
+
+@app.post(&#x27;/reload&#x27;)
+def reload_model():
+    load_model()
+    return {&#x27;status&#x27;: &#x27;reloaded&#x27;, &#x27;at&#x27;: state[&#x27;loaded_at&#x27;]}
+
+@app.get(&#x27;/health&#x27;)
+def health():
+    return {&#x27;status&#x27;: &#x27;ok&#x27;, &#x27;model_loaded&#x27;: state[&#x27;model&#x27;] is not None,
+            &#x27;loaded_at&#x27;: state[&#x27;loaded_at&#x27;]}
+
+@app.post(&#x27;/predict&#x27;)
+def predict(x: list):
+    if state[&#x27;model&#x27;] is None:
+        raise HTTPException(503, &#x27;Model not loaded&#x27;)
+    return {&#x27;prediction&#x27;: int(state[&#x27;model&#x27;].predict([x])[0])}
+&#x27;&#x27;&#x27;
+print(ADVANCED_API)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A retail company wants to serve their churn prediction model as a REST API so their CRM system can call it in real time to flag at-risk customers.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw1')">Copy</button></div><pre><code id="rw1" class="language-python"># Churn prediction API skeleton
+CHURN_API = &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+from typing import Optional
+import joblib, numpy as np
+
+app = FastAPI(title=&#x27;Churn Prediction API&#x27;, version=&#x27;1.0&#x27;)
+model = joblib.load(&#x27;churn_model.joblib&#x27;)
+
+class CustomerFeatures(BaseModel):
+    tenure_months:     int   = Field(..., ge=0, le=120)
+    monthly_charges:   float = Field(..., ge=0)
+    total_charges:     float = Field(..., ge=0)
+    num_products:      int   = Field(..., ge=1, le=10)
+    has_support_calls: bool
+
+@app.post(&#x27;/predict/churn&#x27;)
+def predict_churn(customer: CustomerFeatures):
+    X = np.array([[
+        customer.tenure_months, customer.monthly_charges,
+        customer.total_charges, customer.num_products,
+        int(customer.has_support_calls)
+    ]])
+    churn_prob = float(model.predict_proba(X)[0, 1])
+    return {
+        &#x27;churn_probability&#x27;: round(churn_prob, 4),
+        &#x27;risk_level&#x27;: &#x27;HIGH&#x27; if churn_prob &gt; 0.7 else &#x27;MEDIUM&#x27; if churn_prob &gt; 0.4 else &#x27;LOW&#x27;
+    }
+&#x27;&#x27;&#x27;
+print(CHURN_API)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment API</div><div class="pd">Write a complete FastAPI app that accepts a text string and returns its VADER sentiment label and compound score. Include a /health endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python"># Save as sentiment_api.py
+# Run: uvicorn sentiment_api:app --reload
+
+SENTIMENT_API = &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel
+import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+app = FastAPI()
+# TODO: create SentimentIntensityAnalyzer instance
+
+class TextRequest(BaseModel):
+    text: str
+
+# TODO: POST /analyze -&gt; return label + compound score
+# TODO: GET /health -&gt; return {&#x27;status&#x27;: &#x27;ok&#x27;}
+&#x27;&#x27;&#x27;
+print(SENTIMENT_API)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Experiment Tracking with MLflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Track experiments, log parameters and metrics, compare runs, and register models for deployment using MLflow.</p><div class="code-block"><div class="ch"><span>Log a training run with MLflow</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">try:
+    import mlflow
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score, f1_score
+
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    mlflow.set_experiment(&#x27;iris-classification&#x27;)
+
+    with mlflow.start_run(run_name=&#x27;random-forest-v1&#x27;):
+        params = {&#x27;n_estimators&#x27;: 100, &#x27;max_depth&#x27;: 5, &#x27;random_state&#x27;: 42}
+        mlflow.log_params(params)
+
+        model = RandomForestClassifier(**params)
+        model.fit(X_train, y_train)
+        preds = model.predict(X_test)
+
+        mlflow.log_metric(&#x27;accuracy&#x27;, accuracy_score(y_test, preds))
+        mlflow.log_metric(&#x27;f1&#x27;,       f1_score(y_test, preds, average=&#x27;weighted&#x27;))
+        mlflow.sklearn.log_model(model, &#x27;model&#x27;)
+
+    print(&#x27;Run logged. View: mlflow ui&#x27;)
+except ImportError:
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Comparing multiple runs</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">try:
+    import mlflow
+    from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score
+
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    mlflow.set_experiment(&#x27;iris-comparison&#x27;)
+
+    models = [
+        (&#x27;LogisticRegression&#x27;, LogisticRegression(max_iter=200)),
+        (&#x27;RandomForest&#x27;,       RandomForestClassifier(n_estimators=50, random_state=42)),
+        (&#x27;GradientBoosting&#x27;,   GradientBoostingClassifier(n_estimators=50, random_state=42)),
+    ]
+
+    for name, clf in models:
+        with mlflow.start_run(run_name=name):
+            clf.fit(X_train, y_train)
+            acc = accuracy_score(y_test, clf.predict(X_test))
+            mlflow.log_metric(&#x27;accuracy&#x27;, acc)
+            mlflow.log_param(&#x27;model_type&#x27;, name)
+            print(f&#x27;{name}: {acc:.4f}&#x27;)
+except ImportError:
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Autolog with sklearn</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">try:
+    import mlflow
+    import mlflow.sklearn
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.datasets import load_breast_cancer
+    from sklearn.model_selection import train_test_split
+
+    mlflow.sklearn.autolog()  # auto-logs params, metrics, model
+
+    X, y = load_breast_cancer(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+    with mlflow.start_run(run_name=&#x27;autolog-demo&#x27;):
+        model = GradientBoostingClassifier(n_estimators=100)
+        model.fit(X_train, y_train)
+        print(&#x27;Autolog complete — everything captured automatically!&#x27;)
+        print(&#x27;Accuracy:&#x27;, model.score(X_test, y_test))
+except ImportError:
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Load a logged model from MLflow registry</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">try:
+    import mlflow
+
+    # After running an experiment, load the best run&#x27;s model:
+    # Option 1: by run_id
+    # model = mlflow.sklearn.load_model(&#x27;runs:/&lt;run_id&gt;/model&#x27;)
+
+    # Option 2: from Model Registry (after registering)
+    # model = mlflow.sklearn.load_model(&#x27;models:/IrisClassifier/Production&#x27;)
+
+    # Option 3: query best run programmatically
+    client = mlflow.tracking.MlflowClient()
+    experiment = client.get_experiment_by_name(&#x27;iris-comparison&#x27;)
+    if experiment:
+        runs = client.search_runs(
+            experiment_ids=[experiment.experiment_id],
+            order_by=[&#x27;metrics.accuracy DESC&#x27;],
+            max_results=1
+        )
+        if runs:
+            best = runs[0]
+            print(f&#x27;Best run: {best.info.run_id}&#x27;)
+            print(f&#x27;Accuracy: {best.data.metrics[&quot;accuracy&quot;]:.4f}&#x27;)
+            # model = mlflow.sklearn.load_model(f&#x27;runs:/{best.info.run_id}/model&#x27;)
+        else:
+            print(&#x27;No runs found — run the comparison example first.&#x27;)
+    else:
+        print(&#x27;Experiment not found — run the comparison example first.&#x27;)
+except ImportError:
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A team of data scientists is running hyperparameter sweeps for a credit scoring model. They need to track every experiment and promote the best model to production.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw2')">Copy</button></div><pre><code id="rw2" class="language-python">try:
+    import mlflow
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.datasets import make_classification
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import roc_auc_score
+    import itertools
+
+    X, y = make_classification(n_samples=1000, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+    mlflow.set_experiment(&#x27;credit-scoring-sweep&#x27;)
+
+    param_grid = list(itertools.product([50, 100], [3, 5], [0.05, 0.1]))
+    best_auc, best_run_id = 0, None
+
+    for n_est, depth, lr in param_grid:
+        with mlflow.start_run():
+            model = GradientBoostingClassifier(n_estimators=n_est, max_depth=depth, learning_rate=lr)
+            model.fit(X_train, y_train)
+            auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
+            mlflow.log_params({&#x27;n_estimators&#x27;: n_est, &#x27;max_depth&#x27;: depth, &#x27;learning_rate&#x27;: lr})
+            mlflow.log_metric(&#x27;roc_auc&#x27;, auc)
+            mlflow.sklearn.log_model(model, &#x27;model&#x27;)
+            if auc &gt; best_auc:
+                best_auc = auc
+                best_run_id = mlflow.active_run().info.run_id
+
+    print(f&#x27;Best AUC: {best_auc:.4f} | Run: {best_run_id}&#x27;)
+except ImportError:
+    print(&#x27;pip install mlflow scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hyperparameter Sweep Logger</div><div class="pd">Run a grid search over n_estimators=[10,50,100] and max_depth=[3,5] for a RandomForest on the iris dataset, log each run to MLflow, then print the best run_id and accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">try:
+    import mlflow
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score
+
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+    mlflow.set_experiment(&#x27;iris-sweep&#x27;)
+
+    # TODO: loop over n_estimators and max_depth
+    # TODO: log params and accuracy in each run
+    # TODO: track best_accuracy and best_run_id
+    # TODO: print winner
+
+except ImportError:
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Docker for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Package ML models and APIs in Docker containers for reproducible, portable deployment. Learn Dockerfiles, image building, and running containers.</p><div class="code-block"><div class="ch"><span>Minimal Dockerfile for a FastAPI ML app</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">DOCKERFILE = &#x27;&#x27;&#x27;
+# Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies first for layer caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY app.py .
+COPY iris_rf.joblib .
+
+# Expose port
+EXPOSE 8000
+
+# Start server
+CMD [&quot;uvicorn&quot;, &quot;app:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+&#x27;&#x27;&#x27;
+
+REQUIREMENTS = &#x27;&#x27;&#x27;
+fastapi==0.111.0
+uvicorn==0.30.0
+scikit-learn==1.5.0
+joblib==1.4.2
+numpy==1.26.4
+&#x27;&#x27;&#x27;
+
+print(&#x27;Dockerfile:&#x27;)
+print(DOCKERFILE)
+print(&#x27;requirements.txt:&#x27;)
+print(REQUIREMENTS)</code></pre></div><div class="code-block"><div class="ch"><span>Docker build and run commands</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python"># Build and run Docker commands (run these in your terminal)
+
+COMMANDS = &#x27;&#x27;&#x27;
+# Build image
+docker build -t iris-api:v1 .
+
+# Run container
+docker run -d -p 8000:8000 --name iris-api iris-api:v1
+
+# Test it
+curl -X POST http://localhost:8000/predict \
+  -H &#x27;Content-Type: application/json&#x27; \
+  -d &#x27;{&quot;sepal_length&quot;:5.1,&quot;sepal_width&quot;:3.5,&quot;petal_length&quot;:1.4,&quot;petal_width&quot;:0.2}&#x27;
+
+# View logs
+docker logs iris-api
+
+# Stop and remove
+docker stop iris-api &amp;&amp; docker rm iris-api
+
+# Push to Docker Hub
+docker tag iris-api:v1 yourusername/iris-api:v1
+docker push yourusername/iris-api:v1
+&#x27;&#x27;&#x27;
+print(COMMANDS)</code></pre></div><div class="code-block"><div class="ch"><span>Multi-stage Docker build (smaller image)</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">MULTISTAGE_DOCKERFILE = &#x27;&#x27;&#x27;
+# Stage 1: build dependencies
+FROM python:3.11-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Stage 2: lean runtime image
+FROM python:3.11-slim
+WORKDIR /app
+COPY --from=builder /install /usr/local
+COPY app.py iris_rf.joblib ./
+
+# Non-root user for security
+RUN useradd -m appuser
+USER appuser
+
+EXPOSE 8000
+CMD [&quot;uvicorn&quot;, &quot;app:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+&#x27;&#x27;&#x27;
+print(MULTISTAGE_DOCKERFILE)</code></pre></div><div class="code-block"><div class="ch"><span>docker-compose for API + model server</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">COMPOSE_YAML = &#x27;&#x27;&#x27;
+# docker-compose.yml
+version: &quot;3.9&quot;
+
+services:
+  api:
+    build: .
+    ports:
+      - &quot;8000:8000&quot;
+    environment:
+      - MODEL_PATH=/models/iris_rf.joblib
+    volumes:
+      - ./models:/models:ro
+    restart: unless-stopped
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost:8000/health&quot;]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    ports:
+      - &quot;5000:5000&quot;
+    command: mlflow server --host 0.0.0.0
+    volumes:
+      - mlflow_data:/mlflow
+
+volumes:
+  mlflow_data:
+&#x27;&#x27;&#x27;
+print(COMPOSE_YAML)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A startup wants to deploy their recommendation model to AWS. They containerize it with Docker so it runs identically in dev, staging, and production.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw3')">Copy</button></div><pre><code id="rw3" class="language-python">import pathlib
+
+# Generate project structure for a dockerized ML API
+files = {
+    &#x27;Dockerfile&#x27;: &#x27;&#x27;&#x27;
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD [&quot;uvicorn&quot;, &quot;app:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+&#x27;&#x27;&#x27;,
+    &#x27;requirements.txt&#x27;: &#x27;fastapi\nuvicorn\nscikit-learn\njoblib\nnumpy\n&#x27;,
+    &#x27;.dockerignore&#x27;: &#x27;__pycache__\n*.pyc\n.git\n*.ipynb\n&#x27;,
+    &#x27;app.py&#x27;: &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel
+import joblib, numpy as np, os
+
+app = FastAPI()
+model = joblib.load(os.getenv(&#x27;MODEL_PATH&#x27;, &#x27;model.joblib&#x27;))
+
+class Request(BaseModel):
+    features: list
+
+@app.post(&#x27;/predict&#x27;)
+def predict(req: Request):
+    return {&#x27;prediction&#x27;: int(model.predict([req.features])[0])}
+
+@app.get(&#x27;/health&#x27;)
+def health():
+    return {&#x27;status&#x27;: &#x27;ok&#x27;}
+&#x27;&#x27;&#x27;,
+}
+
+proj = pathlib.Path(&#x27;ml_docker_project&#x27;)
+proj.mkdir(exist_ok=True)
+for fname, content in files.items():
+    (proj / fname).write_text(content.strip())
+    print(f&#x27;Created: {proj / fname}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dockerfile Generator</div><div class="pd">Write a Python function that generates a Dockerfile string given a list of pip packages, a Python version, and an entrypoint command.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">def generate_dockerfile(packages: list, python_version: str = &#x27;3.11&#x27;, entrypoint: str = &#x27;python app.py&#x27;) -&gt; str:
+    # TODO: generate FROM, WORKDIR, COPY requirements.txt, RUN pip install, COPY ., CMD
+    pass
+
+dockerfile = generate_dockerfile(
+    packages=[&#x27;fastapi&#x27;, &#x27;uvicorn&#x27;, &#x27;scikit-learn&#x27;, &#x27;joblib&#x27;],
+    python_version=&#x27;3.11&#x27;,
+    entrypoint=&#x27;uvicorn app:app --host 0.0.0.0 --port 8000&#x27;
+)
+print(dockerfile)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Model Monitoring &amp; Data Drift</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Monitor deployed models for performance degradation and data drift. Detect distribution shifts between training and production data.</p><div class="code-block"><div class="ch"><span>Monitoring prediction distribution over time</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+# Simulate production predictions over time
+np.random.seed(42)
+weeks = 8
+# Week 1-4: stable; Week 5-8: drift
+pred_probs = [
+    np.random.beta(2, 5, 1000) for _ in range(4)  # stable
+] + [
+    np.random.beta(5, 2, 1000) for _ in range(4)  # drifted
+]
+
+mean_preds = [p.mean() for p in pred_probs]
+print(&#x27;Weekly mean prediction probabilities:&#x27;)
+for w, m in enumerate(mean_preds, 1):
+    drift_flag = &#x27; *** DRIFT DETECTED ***&#x27; if m &gt; 0.5 else &#x27;&#x27;
+    print(f&#x27;  Week {w}: {m:.3f}{drift_flag}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>KS test for feature distribution drift</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">from scipy import stats
+import numpy as np
+
+# Training data distribution
+np.random.seed(42)
+train_data = {
+    &#x27;age&#x27;:    np.random.normal(35, 10, 1000),
+    &#x27;income&#x27;: np.random.lognormal(10, 0.5, 1000),
+}
+
+# Production data (age drifted, income stable)
+prod_data = {
+    &#x27;age&#x27;:    np.random.normal(45, 12, 500),  # shifted mean
+    &#x27;income&#x27;: np.random.lognormal(10, 0.5, 500),  # same
+}
+
+print(&#x27;Kolmogorov-Smirnov Drift Test:&#x27;)
+for feature in train_data:
+    ks_stat, p_value = stats.ks_2samp(train_data[feature], prod_data[feature])
+    drift = &#x27;DRIFT&#x27; if p_value &lt; 0.05 else &#x27;OK&#x27;
+    print(f&#x27;  {feature}: KS={ks_stat:.3f}, p={p_value:.4f} -&gt; {drift}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Population Stability Index (PSI)</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import numpy as np
+
+def psi(expected, actual, bins=10):
+    &quot;&quot;&quot;Population Stability Index. PSI &lt; 0.1 = stable, 0.1-0.25 = slight shift, &gt; 0.25 = major shift.&quot;&quot;&quot;
+    breakpoints = np.percentile(expected, np.linspace(0, 100, bins + 1))
+    breakpoints = np.unique(breakpoints)
+    exp_counts = np.histogram(expected, bins=breakpoints)[0]
+    act_counts = np.histogram(actual,   bins=breakpoints)[0]
+    # Avoid division by zero
+    exp_pct = np.where(exp_counts == 0, 0.0001, exp_counts / len(expected))
+    act_pct = np.where(act_counts == 0, 0.0001, act_counts / len(actual))
+    return np.sum((act_pct - exp_pct) * np.log(act_pct / exp_pct))
+
+np.random.seed(42)
+train_scores = np.random.beta(2, 5, 1000)
+stable_prod  = np.random.beta(2, 5, 500)     # same distribution
+drifted_prod = np.random.beta(5, 2, 500)     # different distribution
+
+print(f&#x27;PSI stable:  {psi(train_scores, stable_prod):.4f}&#x27;)   # expect &lt; 0.1
+print(f&#x27;PSI drifted: {psi(train_scores, drifted_prod):.4f}&#x27;)  # expect &gt; 0.25</code></pre></div><div class="code-block"><div class="ch"><span>Alerting on accuracy degradation</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import numpy as np
+from collections import deque
+
+class ModelMonitor:
+    def __init__(self, window=100, threshold=0.05):
+        self.window = window
+        self.threshold = threshold
+        self.baseline_acc = None
+        self.recent = deque(maxlen=window)
+        self.alerts = []
+
+    def set_baseline(self, accuracy):
+        self.baseline_acc = accuracy
+
+    def log_prediction(self, pred, true_label):
+        self.recent.append(int(pred == true_label))
+        if len(self.recent) == self.window:
+            current_acc = sum(self.recent) / self.window
+            drop = self.baseline_acc - current_acc
+            if drop &gt; self.threshold:
+                alert = f&#x27;ALERT: accuracy dropped {drop:.1%} (current={current_acc:.3f})&#x27;
+                self.alerts.append(alert)
+                print(alert)
+
+np.random.seed(42)
+monitor = ModelMonitor(window=50, threshold=0.05)
+monitor.set_baseline(0.95)
+
+# Good predictions, then degradation
+for _ in range(100):
+    monitor.log_prediction(1, 1 if np.random.rand() &gt; 0.05 else 0)
+for _ in range(100):
+    monitor.log_prediction(1, 1 if np.random.rand() &gt; 0.20 else 0)  # degraded</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A bank&#x27;s credit risk model needs continuous monitoring after deployment. Any significant accuracy drop or feature distribution shift should trigger a retraining alert.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw4')">Copy</button></div><pre><code id="rw4" class="language-python">import numpy as np
+from scipy import stats
+from dataclasses import dataclass, field
+from typing import Dict, List
+
+@dataclass
+class DriftReport:
+    feature: str
+    ks_stat: float
+    p_value: float
+    drifted: bool
+
+class MLMonitor:
+    def __init__(self, reference_data: Dict[str, np.ndarray], alpha: float = 0.05):
+        self.reference = reference_data
+        self.alpha = alpha
+
+    def check_drift(self, current_data: Dict[str, np.ndarray]) -&gt; List[DriftReport]:
+        reports = []
+        for feature, ref_vals in self.reference.items():
+            if feature not in current_data:
+                continue
+            ks, p = stats.ks_2samp(ref_vals, current_data[feature])
+            reports.append(DriftReport(feature, round(ks, 4), round(p, 4), p &lt; self.alpha))
+        return reports
+
+np.random.seed(42)
+reference = {&#x27;credit_score&#x27;: np.random.normal(680, 80, 1000),
+             &#x27;income&#x27;:       np.random.lognormal(11, 0.4, 1000)}
+current   = {&#x27;credit_score&#x27;: np.random.normal(630, 90, 300),   # drifted
+             &#x27;income&#x27;:       np.random.lognormal(11, 0.4, 300)} # stable
+
+monitor = MLMonitor(reference)
+for report in monitor.check_drift(current):
+    status = &#x27;DRIFT&#x27; if report.drifted else &#x27;OK&#x27;
+    print(f&#x27;{report.feature}: KS={report.ks_stat}, p={report.p_value} -&gt; {status}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drift Dashboard</div><div class="pd">Compute PSI for 3 features between training and production data, print a table with PSI values and stability labels (stable/warning/critical).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+
+def psi(expected, actual, bins=10):
+    breakpoints = np.unique(np.percentile(expected, np.linspace(0, 100, bins + 1)))
+    exp_c = np.histogram(expected, bins=breakpoints)[0]
+    act_c = np.histogram(actual,   bins=breakpoints)[0]
+    e = np.where(exp_c == 0, 1e-4, exp_c / len(expected))
+    a = np.where(act_c == 0, 1e-4, act_c / len(actual))
+    return float(np.sum((a - e) * np.log(a / e)))
+
+np.random.seed(42)
+train = {&#x27;age&#x27;: np.random.normal(35, 10, 1000),
+         &#x27;income&#x27;: np.random.lognormal(10, 0.5, 1000),
+         &#x27;score&#x27;: np.random.beta(2, 5, 1000)}
+prod  = {&#x27;age&#x27;: np.random.normal(45, 12, 500),   # drifted
+         &#x27;income&#x27;: np.random.lognormal(10, 0.5, 500),
+         &#x27;score&#x27;: np.random.beta(5, 2, 500)}      # drifted
+
+# TODO: compute PSI for each feature
+# TODO: print table: feature | PSI | stability label</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model training, testing, and deployment with CI/CD. Learn to write GitHub Actions workflows and automated model validation.</p><div class="code-block"><div class="ch"><span>Automated model validation script</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import cross_val_score
+import numpy as np, sys
+
+ACCURACY_THRESHOLD = 0.95
+F1_THRESHOLD = 0.94
+
+def validate_model(model, X, y):
+    &quot;&quot;&quot;Return True if model passes all quality gates.&quot;&quot;&quot;
+    acc_scores = cross_val_score(model, X, y, cv=5, scoring=&#x27;accuracy&#x27;)
+    f1_scores  = cross_val_score(model, X, y, cv=5, scoring=&#x27;f1_weighted&#x27;)
+
+    print(f&#x27;Accuracy: {acc_scores.mean():.4f} ± {acc_scores.std():.4f}&#x27;)
+    print(f&#x27;F1:       {f1_scores.mean():.4f} ± {f1_scores.std():.4f}&#x27;)
+
+    passed = acc_scores.mean() &gt;= ACCURACY_THRESHOLD and f1_scores.mean() &gt;= F1_THRESHOLD
+    print(&#x27;PASSED&#x27; if passed else &#x27;FAILED&#x27;)
+    return passed
+
+X, y = load_iris(return_X_y=True)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+if not validate_model(model, X, y):
+    sys.exit(1)  # Fail CI pipeline</code></pre></div><div class="code-block"><div class="ch"><span>GitHub Actions workflow for ML</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">GITHUB_ACTIONS_YAML = &#x27;&#x27;&#x27;
+# .github/workflows/ml_pipeline.yml
+name: ML Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  train-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: &#x27;3.11&#x27;
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Train model
+        run: python train.py
+
+      - name: Validate model
+        run: python validate.py
+
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: model.joblib
+&#x27;&#x27;&#x27;
+print(GITHUB_ACTIONS_YAML)</code></pre></div><div class="code-block"><div class="ch"><span>Automated test suite for ML code</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python"># tests/test_model.py (run with: pytest tests/)
+import pytest, numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+TEST_CODE = &#x27;&#x27;&#x27;
+import pytest, numpy as np, joblib
+from sklearn.datasets import load_iris
+
+@pytest.fixture
+def model():
+    return joblib.load(&#x27;iris_rf.joblib&#x27;)
+
+@pytest.fixture
+def iris_data():
+    X, y = load_iris(return_X_y=True)
+    return X, y
+
+def test_model_accuracy(model, iris_data):
+    X, y = iris_data
+    assert model.score(X, y) &gt;= 0.95
+
+def test_model_output_shape(model, iris_data):
+    X, _ = iris_data
+    preds = model.predict(X[:10])
+    assert preds.shape == (10,)
+
+def test_model_classes(model):
+    assert len(model.classes_) == 3
+
+def test_prediction_valid_class(model, iris_data):
+    X, _ = iris_data
+    preds = model.predict(X)
+    assert set(preds).issubset({0, 1, 2})
+&#x27;&#x27;&#x27;
+print(TEST_CODE)</code></pre></div><div class="code-block"><div class="ch"><span>Pre-deployment model comparison</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">import joblib
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, f1_score
+
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+def evaluate(model, X_test, y_test):
+    preds = model.predict(X_test)
+    return {&#x27;accuracy&#x27;: accuracy_score(y_test, preds),
+            &#x27;f1&#x27;: f1_score(y_test, preds, average=&#x27;weighted&#x27;)}
+
+# Champion: currently deployed model
+champion = RandomForestClassifier(n_estimators=50, random_state=42).fit(X_train, y_train)
+# Challenger: new candidate
+challenger = GradientBoostingClassifier(n_estimators=50, random_state=42).fit(X_train, y_train)
+
+champ_metrics = evaluate(champion, X_test, y_test)
+chall_metrics = evaluate(challenger, X_test, y_test)
+
+print(f&#x27;Champion:   {champ_metrics}&#x27;)
+print(f&#x27;Challenger: {chall_metrics}&#x27;)
+promote = chall_metrics[&#x27;f1&#x27;] &gt; champ_metrics[&#x27;f1&#x27;]
+print(f&#x27;Promote challenger: {promote}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A team wants every pull request to automatically train and validate a model. If the model&#x27;s F1 drops below 0.90, the PR is blocked from merging.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw5')">Copy</button></div><pre><code id="rw5" class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, classification_report
+import sys, joblib
+
+F1_GATE = 0.90
+
+def train(X_train, y_train):
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    return model
+
+def gate_check(model, X_test, y_test):
+    preds = model.predict(X_test)
+    f1 = f1_score(y_test, preds, average=&#x27;weighted&#x27;)
+    print(classification_report(y_test, preds))
+    if f1 &lt; F1_GATE:
+        print(f&#x27;FAILED: F1={f1:.4f} &lt; threshold {F1_GATE}&#x27;)
+        sys.exit(1)
+    print(f&#x27;PASSED: F1={f1:.4f}&#x27;)
+    return model
+
+X, y = load_breast_cancer(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = train(X_train, y_train)
+validated_model = gate_check(model, X_test, y_test)
+joblib.dump(validated_model, &#x27;validated_model.joblib&#x27;)
+print(&#x27;Model saved — ready for deployment.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quality Gate Script</div><div class="pd">Write a validate.py script that loads a saved model, evaluates it against a test set, and exits with code 1 if accuracy &lt; 0.92 or precision &lt; 0.90.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import joblib, sys
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score
+
+ACCURACY_GATE  = 0.92
+PRECISION_GATE = 0.90
+
+def validate(model_path: str):
+    # TODO: load model from model_path
+    # TODO: load iris, split 80/20
+    # TODO: compute accuracy and weighted precision
+    # TODO: print results
+    # TODO: sys.exit(1) if below thresholds
+    pass
+
+validate(&#x27;iris_rf.joblib&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Feature Stores &amp; Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build reproducible feature engineering pipelines. Use sklearn Pipeline, ColumnTransformer, and custom transformers for production-ready preprocessing.</p><div class="code-block"><div class="ch"><span>ColumnTransformer for mixed data</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
+import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+
+df = pd.DataFrame({
+    &#x27;age&#x27;:    [25, np.nan, 35, 42, 28],
+    &#x27;income&#x27;: [50000, 75000, np.nan, 90000, 62000],
+    &#x27;city&#x27;:   [&#x27;NYC&#x27;, &#x27;LA&#x27;, &#x27;NYC&#x27;, &#x27;Chicago&#x27;, &#x27;LA&#x27;],
+    &#x27;gender&#x27;: [&#x27;M&#x27;, &#x27;F&#x27;, &#x27;F&#x27;, &#x27;M&#x27;, np.nan],
+})
+
+num_features = [&#x27;age&#x27;, &#x27;income&#x27;]
+cat_features = [&#x27;city&#x27;, &#x27;gender&#x27;]
+
+num_pipe = Pipeline([(&#x27;impute&#x27;, SimpleImputer(strategy=&#x27;median&#x27;)),
+                     (&#x27;scale&#x27;,  StandardScaler())])
+cat_pipe = Pipeline([(&#x27;impute&#x27;, SimpleImputer(strategy=&#x27;most_frequent&#x27;)),
+                     (&#x27;encode&#x27;, OneHotEncoder(handle_unknown=&#x27;ignore&#x27;, sparse_output=False))])
+
+preprocessor = ColumnTransformer([
+    (&#x27;num&#x27;, num_pipe, num_features),
+    (&#x27;cat&#x27;, cat_pipe, cat_features),
+])
+
+X = preprocessor.fit_transform(df)
+print(&#x27;Transformed shape:&#x27;, X.shape)
+print(&#x27;First row:&#x27;, X[0].round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Custom transformer with BaseEstimator</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import numpy as np
+import pandas as pd
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.pipeline import Pipeline
+
+class LogTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self, offset=1):
+        self.offset = offset
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return np.log(X + self.offset)
+
+class OutlierClipper(BaseEstimator, TransformerMixin):
+    def fit(self, X, y=None):
+        self.lower_ = np.percentile(X, 1, axis=0)
+        self.upper_ = np.percentile(X, 99, axis=0)
+        return self
+
+    def transform(self, X):
+        return np.clip(X, self.lower_, self.upper_)
+
+X = np.array([[1, 1000], [5, 5000], [100, 100000], [1, 50]])
+pipe = Pipeline([(&#x27;clip&#x27;, OutlierClipper()), (&#x27;log&#x27;, LogTransformer())])
+print(&#x27;Original:\n&#x27;, X)
+print(&#x27;Transformed:\n&#x27;, pipe.fit_transform(X).round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Feature selection in pipeline</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">from sklearn.pipeline import Pipeline
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import cross_val_score
+
+X, y = load_breast_cancer(return_X_y=True)
+print(f&#x27;Original features: {X.shape[1]}&#x27;)
+
+pipe = Pipeline([
+    (&#x27;scaler&#x27;,  StandardScaler()),
+    (&#x27;select&#x27;,  SelectKBest(f_classif, k=10)),
+    (&#x27;clf&#x27;,     RandomForestClassifier(n_estimators=100, random_state=42)),
+])
+
+scores = cross_val_score(pipe, X, y, cv=5, scoring=&#x27;accuracy&#x27;)
+print(f&#x27;CV accuracy (10 features): {scores.mean():.4f} ± {scores.std():.4f}&#x27;)
+
+pipe.fit(X, y)
+selected = pipe[&#x27;select&#x27;].get_support()
+print(f&#x27;Selected feature indices: {selected.nonzero()[0]}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Persisting and reusing a fitted pipeline</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">import joblib
+import pandas as pd
+import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+
+# Training data
+train = pd.DataFrame({&#x27;age&#x27;: [25,35,45,55], &#x27;city&#x27;: [&#x27;NYC&#x27;,&#x27;LA&#x27;,&#x27;NYC&#x27;,&#x27;LA&#x27;], &#x27;target&#x27;: [0,1,0,1]})
+X_train = train.drop(&#x27;target&#x27;, axis=1)
+y_train = train[&#x27;target&#x27;]
+
+preprocessor = ColumnTransformer([
+    (&#x27;num&#x27;, StandardScaler(), [&#x27;age&#x27;]),
+    (&#x27;cat&#x27;, OneHotEncoder(sparse_output=False), [&#x27;city&#x27;]),
+])
+pipe = Pipeline([(&#x27;prep&#x27;, preprocessor), (&#x27;clf&#x27;, LogisticRegression())])
+pipe.fit(X_train, y_train)
+
+# Save entire pipeline (includes fitted scaler + encoder)
+joblib.dump(pipe, &#x27;full_pipeline.joblib&#x27;)
+
+# Load and predict new data
+loaded = joblib.load(&#x27;full_pipeline.joblib&#x27;)
+new_data = pd.DataFrame({&#x27;age&#x27;: [30, 50], &#x27;city&#x27;: [&#x27;LA&#x27;, &#x27;NYC&#x27;]})
+print(&#x27;Predictions:&#x27;, loaded.predict(new_data))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An insurance company needs to preprocess complex customer data (mixed types, missing values, categorical variables) reproducibly in both training and production serving.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw6')">Copy</button></div><pre><code id="rw6" class="language-python">import pandas as pd
+import numpy as np
+import joblib
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import train_test_split
+
+np.random.seed(42)
+n = 500
+df = pd.DataFrame({
+    &#x27;age&#x27;:        np.random.randint(18, 80, n).astype(float),
+    &#x27;income&#x27;:     np.random.lognormal(10, 0.5, n),
+    &#x27;region&#x27;:     np.random.choice([&#x27;North&#x27;, &#x27;South&#x27;, &#x27;East&#x27;, &#x27;West&#x27;], n),
+    &#x27;vehicle_age&#x27;:np.random.randint(0, 20, n).astype(float),
+    &#x27;claim&#x27;:      np.random.binomial(1, 0.15, n),
+})
+# Inject missing values
+df.loc[np.random.choice(n, 30), &#x27;age&#x27;] = np.nan
+df.loc[np.random.choice(n, 20), &#x27;region&#x27;] = np.nan
+
+X = df.drop(&#x27;claim&#x27;, axis=1)
+y = df[&#x27;claim&#x27;]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+num_pipe = Pipeline([(&#x27;imp&#x27;, SimpleImputer(strategy=&#x27;median&#x27;)), (&#x27;scl&#x27;, StandardScaler())])
+cat_pipe = Pipeline([(&#x27;imp&#x27;, SimpleImputer(strategy=&#x27;most_frequent&#x27;)),
+                     (&#x27;enc&#x27;, OneHotEncoder(handle_unknown=&#x27;ignore&#x27;, sparse_output=False))])
+
+prep = ColumnTransformer([
+    (&#x27;num&#x27;, num_pipe, [&#x27;age&#x27;, &#x27;income&#x27;, &#x27;vehicle_age&#x27;]),
+    (&#x27;cat&#x27;, cat_pipe, [&#x27;region&#x27;]),
+])
+full_pipe = Pipeline([(&#x27;prep&#x27;, prep), (&#x27;clf&#x27;, GradientBoostingClassifier(random_state=42))])
+full_pipe.fit(X_train, y_train)
+
+print(f&#x27;Test accuracy: {full_pipe.score(X_test, y_test):.4f}&#x27;)
+joblib.dump(full_pipe, &#x27;insurance_pipeline.joblib&#x27;)
+print(&#x27;Pipeline saved.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reusable Preprocessing Pipeline</div><div class="pd">Build a ColumnTransformer pipeline for a dataset with numeric columns (impute median + scale) and categorical columns (impute mode + one-hot encode), then save and reload it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import pandas as pd, numpy as np, joblib
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+
+data = pd.DataFrame({
+    &#x27;tenure&#x27;:   [12, np.nan, 36, 24, 6],
+    &#x27;charges&#x27;:  [50.0, 75.0, np.nan, 90.0, 45.0],
+    &#x27;plan&#x27;:     [&#x27;basic&#x27;, &#x27;premium&#x27;, &#x27;basic&#x27;, np.nan, &#x27;premium&#x27;],
+    &#x27;country&#x27;:  [&#x27;US&#x27;, &#x27;UK&#x27;, &#x27;US&#x27;, &#x27;CA&#x27;, &#x27;UK&#x27;],
+})
+
+# TODO: define num_pipe and cat_pipe
+# TODO: combine with ColumnTransformer
+# TODO: fit_transform data
+# TODO: save and reload with joblib
+# TODO: print transformed shape</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. A/B Testing for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Safely roll out new models by running controlled experiments. Compare champion vs challenger using statistical tests to decide which to promote.</p><div class="code-block"><div class="ch"><span>Traffic splitting for A/B model serving</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
+from dataclasses import dataclass
+from typing import Any
+
+@dataclass
+class ABRouter:
+    champion: Any
+    challenger: Any
+    challenger_pct: float = 0.1  # 10% traffic to challenger
+
+    def predict(self, X):
+        route = &#x27;challenger&#x27; if np.random.rand() &lt; self.challenger_pct else &#x27;champion&#x27;
+        model = self.challenger if route == &#x27;challenger&#x27; else self.champion
+        pred = model.predict([X])[0]
+        return {&#x27;prediction&#x27;: pred, &#x27;model&#x27;: route}
+
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.datasets import load_iris
+
+X, y = load_iris(return_X_y=True)
+champion   = RandomForestClassifier(n_estimators=50, random_state=42).fit(X, y)
+challenger = GradientBoostingClassifier(n_estimators=50, random_state=42).fit(X, y)
+
+router = ABRouter(champion, challenger, challenger_pct=0.2)
+for _ in range(5):
+    result = router.predict(X[0])
+    print(f&#x27;Model: {result[&quot;model&quot;]:12} | Prediction: {result[&quot;prediction&quot;]}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Collecting and comparing A/B results</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import numpy as np
+from collections import defaultdict
+from scipy import stats
+
+# Simulate A/B experiment: collect correct/incorrect per model
+np.random.seed(42)
+n_requests = 1000
+
+results = defaultdict(list)
+for _ in range(n_requests):
+    group = &#x27;challenger&#x27; if np.random.rand() &lt; 0.2 else &#x27;champion&#x27;
+    # Simulated accuracy: champion=0.92, challenger=0.95
+    accuracy = 0.95 if group == &#x27;challenger&#x27; else 0.92
+    correct = int(np.random.rand() &lt; accuracy)
+    results[group].append(correct)
+
+for group, outcomes in results.items():
+    print(f&#x27;{group}: n={len(outcomes)}, accuracy={np.mean(outcomes):.4f}&#x27;)
+
+# Two-proportion z-test
+champ = results[&#x27;champion&#x27;]
+chall = results[&#x27;challenger&#x27;]
+_, p = stats.ttest_ind(champ, chall)
+print(f&#x27;p-value: {p:.4f} -&gt; {&quot;significant&quot; if p &lt; 0.05 else &quot;not significant&quot;}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Statistical significance with chi-squared test</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">import numpy as np
+from scipy import stats
+
+# Confusion matrix style: correct vs incorrect per model
+champion_results   = {&#x27;correct&#x27;: 460, &#x27;incorrect&#x27;: 40}   # n=500, 92%
+challenger_results = {&#x27;correct&#x27;: 190, &#x27;incorrect&#x27;: 10}   # n=200, 95%
+
+# Chi-squared contingency test
+observed = np.array([
+    [champion_results[&#x27;correct&#x27;],   champion_results[&#x27;incorrect&#x27;]],
+    [challenger_results[&#x27;correct&#x27;], challenger_results[&#x27;incorrect&#x27;]],
+])
+
+chi2, p, dof, expected = stats.chi2_contingency(observed)
+print(f&#x27;Chi2: {chi2:.4f}&#x27;)
+print(f&#x27;p-value: {p:.4f}&#x27;)
+print(f&#x27;Significant at alpha=0.05: {p &lt; 0.05}&#x27;)
+if p &lt; 0.05:
+    champ_acc = champion_results[&#x27;correct&#x27;] / sum(champion_results.values())
+    chall_acc = challenger_results[&#x27;correct&#x27;] / sum(challenger_results.values())
+    winner = &#x27;challenger&#x27; if chall_acc &gt; champ_acc else &#x27;champion&#x27;
+    print(f&#x27;Promote: {winner}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Shadow mode deployment (no live impact)</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">import numpy as np
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+
+X, y = load_iris(return_X_y=True)
+champion   = RandomForestClassifier(n_estimators=50, random_state=42).fit(X, y)
+challenger = GradientBoostingClassifier(n_estimators=50, random_state=42).fit(X, y)
+
+shadow_log = []
+
+def serve_with_shadow(X_sample, true_label=None):
+    &quot;&quot;&quot;Serve champion, silently log challenger — no impact on users.&quot;&quot;&quot;
+    champ_pred = champion.predict([X_sample])[0]
+    chall_pred = challenger.predict([X_sample])[0]  # shadow
+    shadow_log.append({&#x27;champion&#x27;: champ_pred, &#x27;challenger&#x27;: chall_pred,
+                       &#x27;true&#x27;: true_label})
+    return champ_pred  # only champion&#x27;s prediction served
+
+for xi, yi in zip(X[:20], y[:20]):
+    serve_with_shadow(xi, yi)
+
+champ_acc = np.mean([l[&#x27;champion&#x27;] == l[&#x27;true&#x27;] for l in shadow_log])
+chall_acc = np.mean([l[&#x27;challenger&#x27;] == l[&#x27;true&#x27;] for l in shadow_log])
+print(f&#x27;Shadow test: champion={champ_acc:.2f}, challenger={chall_acc:.2f}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An e-commerce company wants to test a new recommendation model against the current one. 10% of traffic goes to the new model; after 2 weeks they compare click-through rates statistically.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw7')">Copy</button></div><pre><code id="rw7" class="language-python">import numpy as np
+from scipy import stats
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class ABExperiment:
+    name: str
+    challenger_pct: float = 0.1
+    champion_outcomes: List[float] = field(default_factory=list)
+    challenger_outcomes: List[float] = field(default_factory=list)
+
+    def log(self, reward: float):
+        group = &#x27;challenger&#x27; if np.random.rand() &lt; self.challenger_pct else &#x27;champion&#x27;
+        (self.challenger_outcomes if group == &#x27;challenger&#x27; else self.champion_outcomes).append(reward)
+
+    def report(self):
+        champ = np.array(self.champion_outcomes)
+        chall = np.array(self.challenger_outcomes)
+        _, p = stats.ttest_ind(chall, champ)
+        return {
+            &#x27;champion_mean&#x27;:   round(champ.mean(), 4),
+            &#x27;challenger_mean&#x27;: round(chall.mean(), 4),
+            &#x27;p_value&#x27;:         round(p, 4),
+            &#x27;significant&#x27;:     p &lt; 0.05,
+            &#x27;promote&#x27;:         p &lt; 0.05 and chall.mean() &gt; champ.mean(),
+        }
+
+np.random.seed(42)
+exp = ABExperiment(&#x27;recommendation-v2&#x27;, challenger_pct=0.1)
+for _ in range(10000):
+    # Simulate CTR: champion=5%, challenger=6%
+    reward = np.random.binomial(1, 0.06) if np.random.rand() &lt; 0.1 else np.random.binomial(1, 0.05)
+    exp.log(reward)
+
+import json
+print(json.dumps(exp.report(), indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Analyzer</div><div class="pd">Given two lists of binary outcomes (0=failure, 1=success) for model A and model B, compute conversion rates, run a chi-squared test, and print whether to promote model B.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import numpy as np
+from scipy import stats
+
+np.random.seed(42)
+model_a = np.random.binomial(1, 0.08, 5000)  # 8% conversion
+model_b = np.random.binomial(1, 0.10, 1000)  # 10% conversion
+
+def analyze_ab_test(a_outcomes, b_outcomes, alpha=0.05):
+    # TODO: compute conversion rates
+    # TODO: chi-squared test
+    # TODO: print results and promote/keep decision
+    pass
+
+analyze_ab_test(model_a, model_b)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Model Explainability</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make black-box models interpretable. Use SHAP values, permutation importance, and LIME to explain individual predictions and global feature importance.</p><div class="code-block"><div class="ch"><span>Permutation feature importance</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.inspection import permutation_importance
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+result = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42)
+
+importance_df = pd.DataFrame({
+    &#x27;feature&#x27;:   data.feature_names,
+    &#x27;importance&#x27;: result.importances_mean,
+    &#x27;std&#x27;:        result.importances_std,
+}).sort_values(&#x27;importance&#x27;, ascending=False)
+
+print(importance_df.head(10).to_string(index=False))</code></pre></div><div class="code-block"><div class="ch"><span>SHAP values for tree models</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">try:
+    import shap
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.datasets import load_breast_cancer
+    from sklearn.model_selection import train_test_split
+
+    data = load_breast_cancer()
+    X_train, X_test, y_train, y_test = train_test_split(
+        data.data, data.target, random_state=42)
+
+    model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X_test[:5])
+
+    print(&#x27;SHAP values for first test sample:&#x27;)
+    for feat, val in sorted(zip(data.feature_names, shap_values[0]),
+                            key=lambda x: abs(x[1]), reverse=True)[:5]:
+        print(f&#x27;  {feat:&lt;35} {val:+.4f}&#x27;)
+except ImportError:
+    print(&#x27;pip install shap&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>LIME for individual prediction explanation</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">try:
+    import lime
+    from lime.lime_tabular import LimeTabularExplainer
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.datasets import load_breast_cancer
+    from sklearn.model_selection import train_test_split
+
+    data = load_breast_cancer()
+    X_train, X_test, y_train, y_test = train_test_split(
+        data.data, data.target, random_state=42)
+
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    explainer = LimeTabularExplainer(
+        X_train, feature_names=data.feature_names,
+        class_names=data.target_names, mode=&#x27;classification&#x27;)
+
+    exp = explainer.explain_instance(X_test[0], model.predict_proba, num_features=5)
+    print(&#x27;Prediction:&#x27;, model.predict([X_test[0]])[0], &#x27;-&gt;&#x27;, data.target_names[model.predict([X_test[0]])[0]])
+    print(&#x27;\nTop contributing features:&#x27;)
+    for feat, weight in exp.as_list():
+        print(f&#x27;  {feat[:45]:&lt;45} {weight:+.4f}&#x27;)
+except ImportError:
+    print(&#x27;pip install lime&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Partial dependence plots (sklearn)</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.inspection import PartialDependenceDisplay
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+data = load_breast_cancer()
+X_train, X_test, y_train, _ = train_test_split(data.data, data.target, random_state=42)
+
+model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Plot partial dependence for top 2 features
+fig, ax = plt.subplots(figsize=(10, 4))
+PartialDependenceDisplay.from_estimator(
+    model, X_train, features=[0, 1],
+    feature_names=data.feature_names, ax=ax)
+plt.tight_layout()
+plt.savefig(&#x27;pdp.png&#x27;, dpi=80)
+plt.close()
+print(&#x27;PDP saved to pdp.png&#x27;)
+print(f&#x27;Feature 0: {data.feature_names[0]}&#x27;)
+print(f&#x27;Feature 1: {data.feature_names[1]}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A mortgage lender must explain why a loan was denied. They use SHAP to generate a plain-English explanation of the top factors for each decision.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw8')">Copy</button></div><pre><code id="rw8" class="language-python">try:
+    import shap
+    import numpy as np
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.model_selection import train_test_split
+
+    np.random.seed(42)
+    n = 500
+    feature_names = [&#x27;credit_score&#x27;, &#x27;income&#x27;, &#x27;debt_ratio&#x27;, &#x27;loan_amount&#x27;, &#x27;employment_years&#x27;]
+    X = np.column_stack([
+        np.random.normal(680, 80, n),
+        np.random.lognormal(11, 0.5, n),
+        np.random.beta(2, 5, n),
+        np.random.lognormal(12, 0.3, n),
+        np.random.uniform(0, 30, n),
+    ])
+    y = (X[:, 0] &gt; 700).astype(int) ^ (X[:, 2] &gt; 0.4).astype(int)
+
+    X_train, X_test = train_test_split(X, random_state=42)
+    y_train, y_test = train_test_split(y, random_state=42)
+
+    model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    explainer = shap.TreeExplainer(model)
+    shap_vals = explainer.shap_values(X_test[:3])
+
+    for i, (sv, pred) in enumerate(zip(shap_vals, model.predict(X_test[:3]))):
+        decision = &#x27;APPROVED&#x27; if pred == 1 else &#x27;DENIED&#x27;
+        print(f&#x27;Application {i+1}: {decision}&#x27;)
+        factors = sorted(zip(feature_names, sv), key=lambda x: abs(x[1]), reverse=True)[:3]
+        for feat, val in factors:
+            direction = &#x27;increased&#x27; if val &gt; 0 else &#x27;decreased&#x27;
+            print(f&#x27;  {feat} {direction} approval chance by {abs(val):.4f}&#x27;)
+        print()
+except ImportError:
+    print(&#x27;pip install shap&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Importance Report</div><div class="pd">Train a GradientBoostingClassifier on the iris dataset, compute permutation importance, and print a ranked table of features with their mean importance ± std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.inspection import permutation_importance
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import pandas as pd
+
+data = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.2, random_state=42)
+
+# TODO: train GradientBoostingClassifier
+# TODO: compute permutation_importance on X_test
+# TODO: create DataFrame with feature, importance, std
+# TODO: sort by importance descending and print</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. End-to-End ML Project Structure</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Organize a full ML project with proper structure, configuration management, reproducible training scripts, and a deployment-ready layout.</p><div class="code-block"><div class="ch"><span>Standard ML project layout</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">PROJECT_STRUCTURE = &#x27;&#x27;&#x27;
+ml_project/
+├── data/
+│   ├── raw/          # Original, immutable data
+│   ├── processed/    # Cleaned and feature-engineered data
+│   └── external/     # Third-party data
+├── notebooks/        # Jupyter notebooks for exploration
+├── src/
+│   ├── __init__.py
+│   ├── data.py       # Data loading and preprocessing
+│   ├── features.py   # Feature engineering
+│   ├── train.py      # Model training
+│   ├── evaluate.py   # Model evaluation
+│   └── predict.py    # Inference functions
+├── models/           # Saved model artifacts
+├── tests/            # Unit and integration tests
+├── api/
+│   └── app.py        # FastAPI serving
+├── config.yaml       # Configuration file
+├── requirements.txt
+├── Dockerfile
+├── Makefile
+└── README.md
+&#x27;&#x27;&#x27;
+print(PROJECT_STRUCTURE)</code></pre></div><div class="code-block"><div class="ch"><span>Configuration management with YAML</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">try:
+    import yaml
+    from dataclasses import dataclass
+
+    CONFIG_YAML = &#x27;&#x27;&#x27;
+model:
+  type: GradientBoostingClassifier
+  params:
+    n_estimators: 100
+    max_depth: 5
+    learning_rate: 0.1
+    random_state: 42
+
+data:
+  train_path: data/processed/train.csv
+  test_path:  data/processed/test.csv
+  target_col: label
+  test_size:  0.2
+
+training:
+  experiment_name: fraud-detection-v2
+  cross_val_folds: 5
+  metrics: [accuracy, f1_weighted, roc_auc]
+
+serving:
+  host: 0.0.0.0
+  port: 8000
+  model_path: models/best_model.joblib
+&#x27;&#x27;&#x27;
+
+    config = yaml.safe_load(CONFIG_YAML)
+    print(&#x27;Model type:&#x27;, config[&#x27;model&#x27;][&#x27;type&#x27;])
+    print(&#x27;n_estimators:&#x27;, config[&#x27;model&#x27;][&#x27;params&#x27;][&#x27;n_estimators&#x27;])
+    print(&#x27;Experiment:&#x27;, config[&#x27;training&#x27;][&#x27;experiment_name&#x27;])
+except ImportError:
+    print(&#x27;pip install pyyaml&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Reproducible training script</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python"># src/train.py pattern
+TRAIN_SCRIPT = &#x27;&#x27;&#x27;
+import argparse, joblib, json, time, pathlib
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import classification_report
+
+def parse_args():
+    p = argparse.ArgumentParser()
+    p.add_argument(&#x27;--n-estimators&#x27;, type=int, default=100)
+    p.add_argument(&#x27;--max-depth&#x27;,    type=int, default=5)
+    p.add_argument(&#x27;--lr&#x27;,           type=float, default=0.1)
+    p.add_argument(&#x27;--output-dir&#x27;,   default=&#x27;models&#x27;)
+    return p.parse_args()
+
+def main():
+    args = parse_args()
+    X, y = load_breast_cancer(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+    model = GradientBoostingClassifier(
+        n_estimators=args.n_estimators, max_depth=args.max_depth,
+        learning_rate=args.lr, random_state=42)
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+    print(classification_report(y_test, preds))
+    out = pathlib.Path(args.output_dir)
+    out.mkdir(exist_ok=True)
+    joblib.dump(model, out / &#x27;model.joblib&#x27;)
+    print(f&#x27;Model saved to {out}/model.joblib&#x27;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+&#x27;&#x27;&#x27;
+print(TRAIN_SCRIPT)</code></pre></div><div class="code-block"><div class="ch"><span>Makefile for ML workflows</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">MAKEFILE = &#x27;&#x27;&#x27;
+# Makefile
+.PHONY: install train test serve docker-build docker-run
+
+install:
+\tpip install -r requirements.txt
+
+train:
+\tpython src/train.py --n-estimators 100 --max-depth 5
+
+validate:
+\tpython src/validate.py --model-path models/model.joblib
+
+test:
+\tpytest tests/ -v --cov=src --cov-report=term-missing
+
+serve:
+\tuvicorn api.app:app --host 0.0.0.0 --port 8000 --reload
+
+docker-build:
+\tdocker build -t ml-api:latest .
+
+docker-run:
+\tdocker run -p 8000:8000 ml-api:latest
+
+clean:
+\tfind . -name __pycache__ -exec rm -rf {} + 2&gt;/dev/null; true
+\trm -f models/*.joblib
+&#x27;&#x27;&#x27;
+print(MAKEFILE)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A team onboarding a new ML engineer needs a fully scaffolded project with training scripts, config files, tests, and a Makefile so they can reproduce results with one command.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw9')">Copy</button></div><pre><code id="rw9" class="language-python">import pathlib, json
+
+def scaffold_ml_project(name: str):
+    &quot;&quot;&quot;Generate a reproducible ML project skeleton.&quot;&quot;&quot;
+    root = pathlib.Path(name)
+    dirs = [&#x27;data/raw&#x27;, &#x27;data/processed&#x27;, &#x27;notebooks&#x27;, &#x27;src&#x27;, &#x27;models&#x27;, &#x27;tests&#x27;, &#x27;api&#x27;]
+    for d in dirs:
+        (root / d).mkdir(parents=True, exist_ok=True)
+
+    files = {
+        &#x27;src/__init__.py&#x27;: &#x27;&#x27;,
+        &#x27;tests/__init__.py&#x27;: &#x27;&#x27;,
+        &#x27;requirements.txt&#x27;: &#x27;scikit-learn\njoblib\nfastapi\nuvicorn\nmlflow\npyyaml\npytest\n&#x27;,
+        &#x27;config.yaml&#x27;: &#x27;model:\n  type: RandomForestClassifier\n  params:\n    n_estimators: 100\n&#x27;,
+        &#x27;src/train.py&#x27;: &#x27;# Training script\nif __name__ == &quot;__main__&quot;:\n    print(&quot;Train model here&quot;)\n&#x27;,
+        &#x27;api/app.py&#x27;: &#x27;from fastapi import FastAPI\napp = FastAPI()\n@app.get(&quot;/health&quot;)\ndef health():\n    return {&quot;status&quot;: &quot;ok&quot;}\n&#x27;,
+        &#x27;.gitignore&#x27;: &#x27;__pycache__/\n*.joblib\n.env\nmlruns/\n&#x27;,
+    }
+    for fpath, content in files.items():
+        (root / fpath).write_text(content)
+
+    print(f&#x27;Project {name!r} scaffolded:&#x27;)
+    for p in sorted(root.rglob(&#x27;*&#x27;)):
+        indent = &#x27;  &#x27; * (len(p.relative_to(root).parts) - 1)
+        print(f&#x27;{indent}{p.name}{&quot;&quot; if p.is_file() else &quot;/&quot;}&#x27;)
+
+scaffold_ml_project(&#x27;my_ml_project&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Project Scaffolder</div><div class="pd">Extend the scaffold_ml_project function to also generate a Dockerfile, a Makefile with install/train/test/serve targets, and a src/evaluate.py stub.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import pathlib
+
+def scaffold_ml_project(name: str):
+    root = pathlib.Path(name)
+    dirs = [&#x27;data/raw&#x27;, &#x27;data/processed&#x27;, &#x27;src&#x27;, &#x27;tests&#x27;, &#x27;models&#x27;, &#x27;api&#x27;]
+    for d in dirs:
+        (root / d).mkdir(parents=True, exist_ok=True)
+
+    # TODO: add Dockerfile content
+    # TODO: add Makefile with install/train/test/serve targets
+    # TODO: add src/evaluate.py with a validate() stub
+    # TODO: write all files and print the directory tree
+    pass
+
+scaffold_ml_project(&#x27;demo_project&#x27;)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Model Compression &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce model size and latency through quantization, pruning, knowledge distillation, and ONNX export for production deployment.</p><div class="code-block"><div class="ch"><span>Post-training quantization concept</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
+
+# Simulate 32-bit float weights -&gt; 8-bit integer quantization
+np.random.seed(42)
+weights_f32 = np.random.randn(64, 64).astype(np.float32)
+
+def quantize_int8(tensor):
+    scale = (tensor.max() - tensor.min()) / 255
+    zero_point = int(-tensor.min() / scale)
+    q = np.clip(np.round(tensor / scale + zero_point), 0, 255).astype(np.uint8)
+    return q, scale, zero_point
+
+def dequantize(q_tensor, scale, zero_point):
+    return scale * (q_tensor.astype(np.float32) - zero_point)
+
+q, scale, zp = quantize_int8(weights_f32)
+recovered = dequantize(q, scale, zp)
+
+f32_bytes = weights_f32.nbytes
+int8_bytes = q.nbytes
+err = np.abs(weights_f32 - recovered).mean()
+
+print(f&#x27;Original (float32): {f32_bytes:,} bytes&#x27;)
+print(f&#x27;Quantized (int8):   {int8_bytes:,} bytes&#x27;)
+print(f&#x27;Compression ratio:  {f32_bytes/int8_bytes:.1f}x&#x27;)
+print(f&#x27;Mean absolute error: {err:.6f}&#x27;)
+print(f&#x27;Relative error:      {err/np.abs(weights_f32).mean():.2%}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Weight pruning with magnitude threshold</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">import numpy as np
+
+np.random.seed(0)
+weight_matrix = np.random.randn(128, 64)
+
+def prune_weights(weights, sparsity=0.5):
+    &quot;&quot;&quot;Zero out smallest abs-value weights to achieve target sparsity.&quot;&quot;&quot;
+    flat   = np.abs(weights).flatten()
+    thresh = np.percentile(flat, sparsity * 100)
+    mask   = np.abs(weights) &gt; thresh
+    pruned = weights * mask
+    actual_sparsity = 1 - mask.mean()
+    return pruned, mask, actual_sparsity
+
+for target in [0.3, 0.5, 0.7, 0.9]:
+    pruned, mask, actual = prune_weights(weight_matrix, sparsity=target)
+    nnz      = mask.sum()
+    orig_err = np.linalg.norm(weight_matrix - pruned, &#x27;fro&#x27;)
+    print(f&#x27;Sparsity {target:.0%}: {nnz:,} non-zero, &#x27;
+          f&#x27;Frobenius error={orig_err:.3f}, &#x27;
+          f&#x27;Memory reduction={actual:.1%}&#x27;)
+
+print(&#x27;\nNote: sparse storage (CSR/COO) needed to realize memory savings.&#x27;)
+print(&#x27;Effective with magnitude-based unstructured pruning + sparse matmul.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Knowledge distillation: teacher -&gt; student</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+np.random.seed(42)
+X, y = make_classification(n_samples=2000, n_features=20, random_state=42)
+split = 1600
+X_tr, X_te = X[:split], X[split:]
+y_tr, y_te = y[:split], y[split:]
+
+# Teacher: large GBM
+teacher = GradientBoostingClassifier(n_estimators=100, max_depth=5, random_state=42)
+teacher.fit(X_tr, y_tr)
+teacher_acc = accuracy_score(y_te, teacher.predict(X_te))
+
+# Soft labels (temperature scaling)
+soft_labels = teacher.predict_proba(X_tr)[:, 1]
+# Binarize with threshold 0.5 (soft to hard for sklearn student)
+soft_hard = (soft_labels &gt; 0.5).astype(int)
+
+# Student: shallow decision tree trained on soft labels
+student_distill = DecisionTreeClassifier(max_depth=4, random_state=42)
+student_distill.fit(X_tr, soft_hard)
+
+student_direct = DecisionTreeClassifier(max_depth=4, random_state=42)
+student_direct.fit(X_tr, y_tr)
+
+print(f&#x27;Teacher (GBM 100 trees): {teacher_acc:.3f}&#x27;)
+print(f&#x27;Student (distilled):     {accuracy_score(y_te, student_distill.predict(X_te)):.3f}&#x27;)
+print(f&#x27;Student (direct):        {accuracy_score(y_te, student_direct.predict(X_te)):.3f}&#x27;)
+print(f&#x27;\nTeacher params: ~{100*5**5:,} nodes est.&#x27;)
+print(f&#x27;Student params: ~{2**4:,} leaves&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>ONNX export and inference simulation</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+import json
+
+np.random.seed(0)
+X, y = make_classification(n_samples=500, n_features=10, random_state=0)
+model = LogisticRegression(max_iter=200).fit(X, y)
+
+# Simulate ONNX export by serializing model parameters
+def export_to_dict(model, feature_names=None):
+    return {
+        &#x27;type&#x27;: &#x27;LogisticRegression&#x27;,
+        &#x27;coef&#x27;: model.coef_.tolist(),
+        &#x27;intercept&#x27;: model.intercept_.tolist(),
+        &#x27;classes&#x27;: model.classes_.tolist(),
+        &#x27;n_features&#x27;: model.n_features_in_,
+    }
+
+def infer_from_dict(model_dict, X):
+    coef      = np.array(model_dict[&#x27;coef&#x27;])
+    intercept = np.array(model_dict[&#x27;intercept&#x27;])
+    logit = X @ coef.T + intercept
+    proba = 1 / (1 + np.exp(-logit))
+    return (proba &gt; 0.5).astype(int).flatten()
+
+exported = export_to_dict(model)
+print(&#x27;Exported model (JSON):&#x27;) ; print(json.dumps({k: str(v)[:40] for k, v in exported.items()}, indent=2))
+pred_orig   = model.predict(X[:5])
+pred_onnx   = infer_from_dict(exported, X[:5])
+print(f&#x27;\nOriginal predictions: {pred_orig}&#x27;)
+print(f&#x27;Simulated inference:  {pred_onnx}&#x27;)
+print(f&#x27;Match: {np.all(pred_orig == pred_onnx)}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Deploy a fraud detection model to edge devices with 512MB RAM. The original XGBoost model is 80MB and takes 50ms per prediction. Apply pruning and quantization to reduce size to under 10MB with &lt;10ms latency while maintaining &gt;95% of original AUC.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw10')">Copy</button></div><pre><code id="rw10" class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import make_classification
+from sklearn.metrics import roc_auc_score
+import time
+
+np.random.seed(1)
+X, y = make_classification(n_samples=5000, n_features=30, random_state=1)
+split = 4000
+X_tr, X_te = X[:split], X[split:]
+y_tr, y_te = y[:split], y[split:]
+
+# Teacher
+teacher = GradientBoostingClassifier(n_estimators=100, max_depth=4, random_state=1)
+teacher.fit(X_tr, y_tr)
+t0 = time.perf_counter()
+teacher_proba = teacher.predict_proba(X_te)[:,1]
+t_teacher = (time.perf_counter() - t0) * 1000
+
+# Student (distilled)
+soft = (teacher.predict_proba(X_tr)[:,1] &gt; 0.5).astype(int)
+student = DecisionTreeClassifier(max_depth=6, random_state=1).fit(X_tr, soft)
+t0 = time.perf_counter()
+student_proba = student.predict_proba(X_te)[:,1]
+t_student = (time.perf_counter() - t0) * 1000
+
+print(f&#x27;Teacher AUC: {roc_auc_score(y_te, teacher_proba):.4f} | Time: {t_teacher:.1f}ms&#x27;)
+print(f&#x27;Student AUC: {roc_auc_score(y_te, student_proba):.4f} | Time: {t_student:.1f}ms&#x27;)
+print(f&#x27;Speed-up: {t_teacher/max(t_student,0.001):.1f}x&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Quantization Trade-offs</div><div class="pd">Implement int4 quantization (4-bit) and int8 quantization for a random 256x256 weight matrix. For each, compute: compression ratio, mean absolute reconstruction error, and max error. Plot a bar chart comparing compression ratios. Discuss which is better for accuracy-sensitive vs memory-sensitive deployments.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import numpy as np
+
+np.random.seed(42)
+W = np.random.randn(256, 256).astype(np.float32)
+
+def quantize(tensor, bits):
+    # TODO: quantize to `bits`-bit unsigned integer
+    # levels = 2**bits
+    # Compute scale and zero_point, quantize, dequantize
+    pass
+
+for bits in [4, 8, 16]:
+    recovered, compression = quantize(W, bits)
+    # TODO: print bits, compression ratio, MAE, max error
+    pass
+</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Feature Stores &amp; Data Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Design and implement feature stores, data versioning, and reproducible pipelines for consistent feature serving between training and inference.</p><div class="code-block"><div class="ch"><span>In-memory feature store implementation</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
+import numpy as np
+from datetime import datetime
+from typing import List
+
+class FeatureStore:
+    def __init__(self):
+        self._store = {}  # entity_id -&gt; {feature_name: (value, timestamp)}
+
+    def write(self, entity_id: str, features: dict, timestamp=None):
+        if timestamp is None:
+            timestamp = datetime.utcnow()
+        if entity_id not in self._store:
+            self._store[entity_id] = {}
+        for k, v in features.items():
+            self._store[entity_id][k] = (v, timestamp)
+
+    def read(self, entity_id: str, feature_names: List[str]) -&gt; dict:
+        if entity_id not in self._store:
+            return {f: None for f in feature_names}
+        return {
+            f: self._store[entity_id].get(f, (None, None))[0]
+            for f in feature_names
+        }
+
+    def get_training_dataset(self, entities: List[str], features: List[str]) -&gt; pd.DataFrame:
+        rows = [{&#x27;entity_id&#x27;: eid, **self.read(eid, features)} for eid in entities]
+        return pd.DataFrame(rows)
+
+# Usage
+fs = FeatureStore()
+for uid, feats in [
+    (&#x27;user_1&#x27;, {&#x27;age&#x27;: 28, &#x27;spend_30d&#x27;: 150.0, &#x27;logins_7d&#x27;: 5}),
+    (&#x27;user_2&#x27;, {&#x27;age&#x27;: 35, &#x27;spend_30d&#x27;: 400.0, &#x27;logins_7d&#x27;: 12}),
+    (&#x27;user_3&#x27;, {&#x27;age&#x27;: 22, &#x27;spend_30d&#x27;: 50.0,  &#x27;logins_7d&#x27;: 1}),
+]:
+    fs.write(uid, feats)
+
+df = fs.get_training_dataset([&#x27;user_1&#x27;, &#x27;user_2&#x27;, &#x27;user_3&#x27;], [&#x27;age&#x27;, &#x27;spend_30d&#x27;, &#x27;logins_7d&#x27;])
+print(df.to_string(index=False))
+print(&#x27;\nPoint lookup:&#x27;, fs.read(&#x27;user_2&#x27;, [&#x27;spend_30d&#x27;, &#x27;logins_7d&#x27;]))</code></pre></div><div class="code-block"><div class="ch"><span>Reproducible pipeline with pandas and hashing</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import pandas as pd
+import numpy as np
+import hashlib, json
+
+class ReproduciblePipeline:
+    def __init__(self, steps: list, params: dict):
+        self.steps  = steps
+        self.params = params
+        self._history = []
+
+    def run(self, df: pd.DataFrame) -&gt; pd.DataFrame:
+        self._history = []
+        for name, fn in self.steps:
+            df = fn(df, self.params)
+            self._history.append({&#x27;step&#x27;: name, &#x27;rows&#x27;: len(df), &#x27;cols&#x27;: list(df.columns)})
+        return df
+
+    def fingerprint(self) -&gt; str:
+        blob = json.dumps({&#x27;params&#x27;: self.params, &#x27;steps&#x27;: [s[0] for s in self.steps]}, sort_keys=True)
+        return hashlib.md5(blob.encode()).hexdigest()[:12]
+
+# Define pipeline steps
+def drop_nulls(df, params): return df.dropna()
+def filter_age(df, params): return df[df[&#x27;age&#x27;] &gt;= params[&#x27;min_age&#x27;]]
+def add_feature(df, params): df = df.copy(); df[&#x27;age_squared&#x27;] = df[&#x27;age&#x27;]**2; return df
+
+np.random.seed(42)
+df_raw = pd.DataFrame({&#x27;age&#x27;: np.random.randint(16, 70, 100), &#x27;spend&#x27;: np.random.rand(100)*1000})
+df_raw.loc[[5, 23, 67], &#x27;age&#x27;] = np.nan
+
+pipeline = ReproduciblePipeline(
+    steps=[(&#x27;drop_nulls&#x27;, drop_nulls), (&#x27;filter_age&#x27;, filter_age), (&#x27;add_feature&#x27;, add_feature)],
+    params={&#x27;min_age&#x27;: 21}
+)
+result = pipeline.run(df_raw)
+print(f&#x27;Pipeline fingerprint: {pipeline.fingerprint()}&#x27;)
+print(f&#x27;Input rows: {len(df_raw)}, Output rows: {len(result)}&#x27;)
+for step in pipeline._history:
+    print(f&#x27;  After {step[&quot;step&quot;]}: {step[&quot;rows&quot;]} rows, {len(step[&quot;cols&quot;])} cols&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Data versioning with checksums</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import pandas as pd
+import numpy as np
+import hashlib, json
+from datetime import datetime
+
+class DataVersion:
+    registry = []
+
+    @classmethod
+    def snapshot(cls, df: pd.DataFrame, name: str, metadata: dict = None) -&gt; str:
+        checksum = hashlib.md5(pd.util.hash_pandas_object(df).values.tobytes()).hexdigest()[:12]
+        version  = {&#x27;name&#x27;: name, &#x27;checksum&#x27;: checksum, &#x27;shape&#x27;: df.shape,
+                    &#x27;timestamp&#x27;: str(datetime.utcnow())[:19],
+                    &#x27;columns&#x27;: list(df.columns), &#x27;metadata&#x27;: metadata or {}}
+        cls.registry.append(version)
+        return checksum
+
+    @classmethod
+    def show_lineage(cls):
+        for v in cls.registry:
+            print(f&quot;{v[&#x27;timestamp&#x27;]} | {v[&#x27;name&#x27;]:&lt;20} | {str(v[&#x27;shape&#x27;]):&lt;12} | cksum={v[&#x27;checksum&#x27;]}&quot;)
+
+np.random.seed(7)
+df_v1 = pd.DataFrame({&#x27;x&#x27;: np.random.randn(100), &#x27;y&#x27;: np.random.randint(0,2,100)})
+DataVersion.snapshot(df_v1, &#x27;raw_data&#x27;, {&#x27;source&#x27;: &#x27;sensor_A&#x27;})
+
+df_v2 = df_v1.dropna()
+DataVersion.snapshot(df_v2, &#x27;cleaned&#x27;, {&#x27;action&#x27;: &#x27;dropna&#x27;})
+
+df_v3 = df_v2.copy(); df_v3[&#x27;x_scaled&#x27;] = (df_v3[&#x27;x&#x27;] - df_v3[&#x27;x&#x27;].mean()) / df_v3[&#x27;x&#x27;].std()
+DataVersion.snapshot(df_v3, &#x27;features_v1&#x27;, {&#x27;scaler&#x27;: &#x27;standard&#x27;})
+
+DataVersion.show_lineage()</code></pre></div><div class="code-block"><div class="ch"><span>Train/serve skew detection</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">import numpy as np
+from scipy import stats
+
+# Detect distribution shift between training features and production features
+np.random.seed(42)
+
+# Training distribution
+train_features = {
+    &#x27;age&#x27;:     np.random.normal(35, 10, 1000),
+    &#x27;income&#x27;:  np.random.lognormal(10, 0.5, 1000),
+    &#x27;score&#x27;:   np.random.beta(2, 5, 1000),
+}
+
+# Production (simulated drift)
+prod_features = {
+    &#x27;age&#x27;:    np.random.normal(35, 10, 500),    # same
+    &#x27;income&#x27;: np.random.lognormal(10.3, 0.5, 500),  # shifted
+    &#x27;score&#x27;:  np.random.beta(3, 3, 500),          # different shape
+}
+
+print(&#x27;Train/Serve Skew Detection (KS Test):&#x27;)
+print(f&#x27;{&quot;Feature&quot;:&lt;12} {&quot;KS stat&quot;:&gt;10} {&quot;p-value&quot;:&gt;10} {&quot;Drifted?&quot;:&gt;10}&#x27;)
+print(&#x27;-&#x27; * 48)
+for feat in train_features:
+    ks_stat, p_val = stats.ks_2samp(train_features[feat], prod_features[feat])
+    drifted = &#x27;YES&#x27; if p_val &lt; 0.05 else &#x27;no&#x27;
+    print(f&#x27;{feat:&lt;12} {ks_stat:&gt;10.4f} {p_val:&gt;10.4f} {drifted:&gt;10}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An ML team at a fintech company needs to ensure that the 30+ features used at training time are identical to those served at inference time. Build a feature registry that validates feature schemas, detects train/serve skew, and logs feature versions.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw11')">Copy</button></div><pre><code id="rw11" class="language-python">import pandas as pd
+import numpy as np
+from scipy import stats
+
+class FeatureRegistry:
+    def __init__(self):
+        self._schemas  = {}   # name -&gt; {&#x27;dtype&#x27;, &#x27;mean&#x27;, &#x27;std&#x27;}
+        self._versions = []
+
+    def register(self, name: str, series: pd.Series):
+        self._schemas[name] = {
+            &#x27;dtype&#x27;: str(series.dtype),
+            &#x27;mean&#x27;:  float(series.mean()),
+            &#x27;std&#x27;:   float(series.std()),
+            &#x27;min&#x27;:   float(series.min()),
+            &#x27;max&#x27;:   float(series.max()),
+        }
+        self._versions.append({&#x27;name&#x27;: name, &#x27;n&#x27;: len(series)})
+
+    def validate(self, name: str, series: pd.Series, alpha: float = 0.05):
+        if name not in self._schemas:
+            raise ValueError(f&#x27;Feature {name!r} not registered.&#x27;)
+        ref = self._schemas[name]
+        issues = []
+        if str(series.dtype) != ref[&#x27;dtype&#x27;]:
+            issues.append(f&#x27;dtype mismatch: {series.dtype} vs {ref[&quot;dtype&quot;]}&#x27;)
+        z = abs(series.mean() - ref[&#x27;mean&#x27;]) / max(ref[&#x27;std&#x27;], 1e-6)
+        if z &gt; 3:
+            issues.append(f&#x27;mean shift: z={z:.2f}&#x27;)
+        return issues or [&#x27;OK&#x27;]
+
+np.random.seed(5)
+reg = FeatureRegistry()
+for feat, vals in [(&#x27;age&#x27;, pd.Series(np.random.normal(35,10,1000))),
+                   (&#x27;income&#x27;, pd.Series(np.random.lognormal(10,0.5,1000)))]:
+    reg.register(feat, vals)
+
+# Serve time validation
+prod_age    = pd.Series(np.random.normal(35, 10, 200))
+prod_income = pd.Series(np.random.lognormal(10.8, 0.5, 200))  # drifted
+print(&#x27;age validation:   &#x27;, reg.validate(&#x27;age&#x27;, prod_age))
+print(&#x27;income validation:&#x27;, reg.validate(&#x27;income&#x27;, prod_income))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Pipeline with Drift Monitoring</div><div class="pd">Create a FeatureStore class that: (1) stores training feature distributions (mean, std, min, max), (2) at serve time detects distribution drift using Z-score on mean (threshold: |z| &gt; 2), (3) logs a warning for drifted features. Test with 3 features where one has significant drift.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+import pandas as pd
+
+class MonitoredFeatureStore:
+    def __init__(self):
+        self.train_stats = {}  # feature -&gt; {mean, std, min, max}
+
+    def fit(self, df: pd.DataFrame):
+        # TODO: compute and store stats for each column
+        pass
+
+    def validate(self, df: pd.DataFrame, z_threshold: float = 2.0) -&gt; dict:
+        # TODO: compare serve-time stats to training stats
+        # Return dict: {feature: &#x27;OK&#x27; or &#x27;DRIFT (z=X.X)&#x27;}
+        pass
+
+np.random.seed(0)
+train = pd.DataFrame({&#x27;age&#x27;: np.random.normal(30,8,1000), &#x27;salary&#x27;: np.random.normal(60000,10000,1000), &#x27;score&#x27;: np.random.beta(2,5,1000)})
+serve = pd.DataFrame({&#x27;age&#x27;: np.random.normal(30,8,200),  &#x27;salary&#x27;: np.random.normal(75000,10000,200),  &#x27;score&#x27;: np.random.beta(2,5,200)})
+store = MonitoredFeatureStore()
+store.fit(train)
+print(store.validate(serve))
+</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. AutoML &amp; Hyperparameter Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model selection and hyperparameter tuning using grid search, random search, Bayesian optimization (Optuna), and automated feature engineering.</p><div class="code-block"><div class="ch"><span>Grid search vs random search comparison</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.metrics import f1_score
+import time
+
+np.random.seed(42)
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+param_grid = {
+    &#x27;n_estimators&#x27;: [50, 100, 200],
+    &#x27;max_depth&#x27;:    [3, 5, 7, None],
+    &#x27;min_samples_split&#x27;: [2, 5, 10],
+    &#x27;max_features&#x27;: [&#x27;sqrt&#x27;, &#x27;log2&#x27;],
+}
+
+# Grid search: exhaustive
+t0 = time.perf_counter()
+gs = GridSearchCV(RandomForestClassifier(random_state=0), param_grid, cv=3, scoring=&#x27;f1&#x27;, n_jobs=-1)
+gs.fit(X, y)
+grid_time = time.perf_counter() - t0
+
+# Random search: n_iter combinations
+t0 = time.perf_counter()
+rs = RandomizedSearchCV(RandomForestClassifier(random_state=0), param_grid, n_iter=10, cv=3, scoring=&#x27;f1&#x27;, n_jobs=-1, random_state=42)
+rs.fit(X, y)
+rand_time = time.perf_counter() - t0
+
+print(f&#x27;Grid Search:   {gs.best_score_:.4f} | {3*4*3*2} combos | {grid_time:.1f}s&#x27;)
+print(f&#x27;Random Search: {rs.best_score_:.4f} | 10 combos  | {rand_time:.1f}s&#x27;)
+print(f&#x27;Speed-up: {grid_time/rand_time:.1f}x&#x27;)
+print(f&#x27;Best (random): {rs.best_params_}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Bayesian optimization with Optuna</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">try:
+    import optuna
+    import numpy as np
+    from sklearn.datasets import make_classification
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.model_selection import cross_val_score
+
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    np.random.seed(42)
+    X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+    def objective(trial):
+        n_est   = trial.suggest_int(&#x27;n_estimators&#x27;, 50, 300)
+        depth   = trial.suggest_int(&#x27;max_depth&#x27;, 2, 8)
+        lr      = trial.suggest_float(&#x27;learning_rate&#x27;, 0.01, 0.3, log=True)
+        subsamp = trial.suggest_float(&#x27;subsample&#x27;, 0.5, 1.0)
+        model   = GradientBoostingClassifier(n_estimators=n_est, max_depth=depth, learning_rate=lr, subsample=subsamp, random_state=0)
+        scores  = cross_val_score(model, X, y, cv=3, scoring=&#x27;f1&#x27;)
+        return scores.mean()
+
+    study = optuna.create_study(direction=&#x27;maximize&#x27;)
+    study.optimize(objective, n_trials=20)
+    print(f&#x27;Best F1:     {study.best_value:.4f}&#x27;)
+    print(f&#x27;Best params: {study.best_params}&#x27;)
+    print(f&#x27;Total trials: {len(study.trials)}&#x27;)
+except ImportError:
+    print(&#x27;pip install optuna&#x27;)
+    print(&#x27;Optuna uses Tree-structured Parzen Estimator (TPE) to model&#x27;)
+    print(&#x27;P(x|good) and P(x|bad) and samples from P(x|good) region.&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Automated feature engineering with polynomial features</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import numpy as np
+from sklearn.datasets import make_regression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import cross_val_score
+
+np.random.seed(42)
+X, y = make_regression(n_samples=500, n_features=5, noise=10, random_state=42)
+
+best_score, best_degree = -np.inf, 1
+results = []
+for degree in [1, 2, 3]:
+    pipe = Pipeline([
+        (&#x27;poly&#x27;, PolynomialFeatures(degree=degree, include_bias=False)),
+        (&#x27;ridge&#x27;, Ridge(alpha=1.0))
+    ])
+    scores = cross_val_score(pipe, X, y, cv=5, scoring=&#x27;r2&#x27;)
+    results.append((degree, scores.mean(), pipe.named_steps[&#x27;poly&#x27;].fit_transform(X).shape[1]))
+    if scores.mean() &gt; best_score:
+        best_score, best_degree = scores.mean(), degree
+
+print(&#x27;Polynomial Feature Engineering Results:&#x27;)
+print(f&#x27;{&quot;Degree&quot;:&lt;10} {&quot;R2 (CV)&quot;:&lt;12} {&quot;Features&quot;:&lt;10}&#x27;)
+for deg, r2, n_feat in results:
+    star = &#x27; &lt;-- best&#x27; if deg == best_degree else &#x27;&#x27;
+    print(f&#x27;{deg:&lt;10} {r2:&lt;12.4f} {n_feat:&lt;10}{star}&#x27;)
+print(f&#x27;\nOriginal features: {X.shape[1]} -&gt; Best: {results[best_degree-1][2]}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Early stopping and learning curve analysis</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+X, y = make_classification(n_samples=2000, n_features=20, random_state=42)
+X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train with staged prediction to simulate early stopping
+gbm = GradientBoostingClassifier(n_estimators=200, max_depth=3, learning_rate=0.05, random_state=0)
+gbm.fit(X_tr, y_tr)
+
+train_scores, val_scores = [], []
+for y_pred_tr, y_pred_val in zip(
+    gbm.staged_predict(X_tr), gbm.staged_predict(X_val)
+):
+    train_scores.append(f1_score(y_tr, y_pred_tr))
+    val_scores.append(f1_score(y_val, y_pred_val))
+
+best_iter = np.argmax(val_scores)
+print(f&#x27;Best iteration: {best_iter+1} (val F1={val_scores[best_iter]:.4f})&#x27;)
+print(f&#x27;Final iteration val F1: {val_scores[-1]:.4f}&#x27;)
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.plot(train_scores, label=&#x27;Train&#x27;)
+ax.plot(val_scores, label=&#x27;Validation&#x27;)
+ax.axvline(best_iter, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, label=f&#x27;Best iter={best_iter+1}&#x27;)
+ax.set_xlabel(&#x27;Boosting rounds&#x27;); ax.set_ylabel(&#x27;F1 Score&#x27;)
+ax.set_title(&#x27;Learning Curves + Early Stopping&#x27;)
+ax.legend(); plt.tight_layout()
+plt.savefig(&#x27;learning_curves.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved learning_curves.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An ML team wants to find the best model for a churn prediction task without manually tuning. Run Bayesian HPO over 3 model types (Logistic Regression, Random Forest, GBM) with 30 total Optuna trials. Return the best model, params, and cross-val AUC.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw12')">Copy</button></div><pre><code id="rw12" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+
+np.random.seed(0)
+X, y = make_classification(n_samples=2000, n_features=25, random_state=0)
+
+# Manual multi-model search (Optuna-style pseudocode)
+best_score, best_config = -np.inf, None
+np.random.seed(99)
+for trial in range(30):
+    model_type = np.random.choice([&#x27;lr&#x27;, &#x27;rf&#x27;, &#x27;gbm&#x27;])
+    if model_type == &#x27;lr&#x27;:
+        C   = np.random.choice([0.01, 0.1, 1.0, 10.0])
+        clf = LogisticRegression(C=C, max_iter=200)
+        cfg = {&#x27;type&#x27;: &#x27;lr&#x27;, &#x27;C&#x27;: C}
+    elif model_type == &#x27;rf&#x27;:
+        n   = np.random.choice([50, 100, 200])
+        d   = np.random.choice([3, 5, None])
+        clf = RandomForestClassifier(n_estimators=n, max_depth=d, random_state=0)
+        cfg = {&#x27;type&#x27;: &#x27;rf&#x27;, &#x27;n_estimators&#x27;: n, &#x27;max_depth&#x27;: d}
+    else:
+        lr  = np.random.choice([0.05, 0.1, 0.2])
+        clf = GradientBoostingClassifier(learning_rate=lr, random_state=0)
+        cfg = {&#x27;type&#x27;: &#x27;gbm&#x27;, &#x27;lr&#x27;: lr}
+    score = cross_val_score(clf, X, y, cv=3, scoring=&#x27;roc_auc&#x27;).mean()
+    if score &gt; best_score:
+        best_score, best_config = score, cfg
+
+print(f&#x27;Best AUC: {best_score:.4f}&#x27;)
+print(f&#x27;Best config: {best_config}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: AutoML Model Selection with Optuna</div><div class="pd">Using make_classification (1000 samples, 15 features), implement a 20-trial Optuna study that searches over: (1) model type (RF or GBM), (2) n_estimators (50-200), (3) max_depth (2-8), (4) learning_rate for GBM (0.01-0.3 log scale). Maximize 3-fold CV ROC-AUC. Report best trial and params.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+
+try:
+    import optuna; optuna.logging.set_verbosity(optuna.logging.WARNING)
+except ImportError:
+    print(&#x27;pip install optuna&#x27;); exit()
+
+np.random.seed(42)
+X, y = make_classification(n_samples=1000, n_features=15, random_state=42)
+
+def objective(trial):
+    # TODO: suggest model_type (categorical: &#x27;rf&#x27; or &#x27;gbm&#x27;)
+    # TODO: suggest n_estimators, max_depth
+    # TODO: if gbm, suggest learning_rate (log scale)
+    # TODO: return 3-fold CV ROC-AUC
+    pass
+
+study = optuna.create_study(direction=&#x27;maximize&#x27;)
+study.optimize(objective, n_trials=20)
+print(&#x27;Best AUC:&#x27;, study.best_value)
+print(&#x27;Best params:&#x27;, study.best_params)
+</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Model Monitoring &amp; Data Drift Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Data Drift Detection with Population Stability Index</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+def psi(expected, actual, n_bins=10):
+    # Population Stability Index between two distributions.
+    bins = np.percentile(expected, np.linspace(0, 100, n_bins+1))
+    bins[0] -= 1e-6; bins[-1] += 1e-6
+    e_counts = np.histogram(expected, bins=bins)[0] / len(expected)
+    a_counts = np.histogram(actual,   bins=bins)[0] / len(actual)
+    e_counts = np.where(e_counts == 0, 1e-6, e_counts)
+    a_counts = np.where(a_counts == 0, 1e-6, a_counts)
+    psi_val = np.sum((a_counts - e_counts) * np.log(a_counts / e_counts))
+    return psi_val
+np.random.seed(42)
+reference = np.random.normal(0, 1, 1000)
+stable    = np.random.normal(0.1, 1.0, 500)   # slight shift
+drifted   = np.random.normal(1.5, 1.5, 500)   # significant drift
+print(f&quot;PSI (stable):  {psi(reference, stable):.4f}  (&lt;0.1: no drift)&quot;)
+print(f&quot;PSI (drifted): {psi(reference, drifted):.4f}  (&gt;0.25: severe drift)&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Model Performance Degradation Monitoring</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">import numpy as np
+from sklearn.metrics import accuracy_score
+np.random.seed(1)
+def simulate_batch(shift=0.0, n=200):
+    X = np.random.randn(n, 5) + shift
+    y_true = (X[:, 0] + X[:, 1] &gt; shift).astype(int)
+    # Simulated model trained on no-shift data
+    y_pred = (X[:, 0] + X[:, 1] &gt; 0).astype(int)
+    return accuracy_score(y_true, y_pred)
+print(&quot;Model Monitoring Dashboard&quot;)
+print(f&quot;{&#x27;Week&#x27;:&lt;6} {&#x27;Accuracy&#x27;:&lt;10} {&#x27;Status&#x27;}&quot;)
+print(&quot;-&quot; * 30)
+baseline_acc = simulate_batch(shift=0.0)
+for week in range(1, 9):
+    shift = (week - 1) * 0.15
+    acc = simulate_batch(shift=shift)
+    delta = acc - baseline_acc
+    status = &quot;OK&quot; if abs(delta) &lt; 0.05 else (&quot;WARN&quot; if abs(delta) &lt; 0.10 else &quot;ALERT&quot;)
+    print(f&quot;  {week:&lt;4} {acc:.4f}    {status}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Kolmogorov-Smirnov Drift Test</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">import numpy as np
+from scipy import stats
+np.random.seed(5)
+# Simulate feature distributions: train vs production batches
+train_dist  = np.random.normal(50, 10, 2000)
+prod_no_drift = np.random.normal(50.5, 10.2, 500)
+prod_drift    = np.random.normal(58.0, 12.0, 500)
+features = {
+    &quot;no_drift_batch&quot;: prod_no_drift,
+    &quot;drifted_batch&quot;:  prod_drift,
+}
+for name, prod in features.items():
+    ks_stat, p_val = stats.ks_2samp(train_dist, prod)
+    drift = &quot;DRIFT DETECTED&quot; if p_val &lt; 0.05 else &quot;stable&quot;
+    print(f&quot;{name:&lt;20}: KS={ks_stat:.4f}, p={p_val:.6f} -&gt; {drift}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Deployed ML model for loan approval: monitor weekly for data drift in applicant features (income, credit score, age) using PSI, and alert the ML team when any feature shows PSI &gt; 0.25.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw13')">Copy</button></div><pre><code id="rw13" class="language-python">import numpy as np
+def psi(ref, curr, n_bins=10):
+    bins = np.percentile(ref, np.linspace(0, 100, n_bins+1))
+    bins[0] -= 1e-6; bins[-1] += 1e-6
+    e = np.histogram(ref,  bins=bins)[0] / len(ref)
+    a = np.histogram(curr, bins=bins)[0] / len(curr)
+    e = np.where(e == 0, 1e-6, e)
+    a = np.where(a == 0, 1e-6, a)
+    return float(np.sum((a - e) * np.log(a / e)))
+np.random.seed(99)
+# Training distribution
+train_income = np.random.lognormal(10.8, 0.4, 5000)
+train_credit = np.random.normal(680, 50, 5000)
+train_age    = np.random.normal(38, 12, 5000)
+print(&quot;Loan Model Feature Drift Report&quot;)
+print(f&quot;{&#x27;Feature&#x27;:&lt;15} {&#x27;PSI&#x27;:&lt;8} {&#x27;Status&#x27;}&quot;)
+print(&quot;-&quot; * 35)
+weeks_drift = [0, 0.05, 0.12, 0.22, 0.35]  # progressive drift scenario
+for week, drift in enumerate(weeks_drift, 1):
+    prod_income = np.random.lognormal(10.8 + drift, 0.4 + drift*0.1, 500)
+    prod_credit = np.random.normal(680 - drift*40, 50, 500)
+    prod_age    = np.random.normal(38 + drift*2, 12, 500)
+    results = {
+        &quot;income&quot;: psi(train_income, prod_income),
+        &quot;credit_score&quot;: psi(train_credit, prod_credit),
+        &quot;age&quot;: psi(train_age, prod_age),
+    }
+    max_psi_feat = max(results, key=results.get)
+    max_psi = results[max_psi_feat]
+    status = &quot;ALERT&quot; if max_psi &gt; 0.25 else (&quot;WARN&quot; if max_psi &gt; 0.10 else &quot;OK&quot;)
+    print(f&quot;Week {week}: {max_psi_feat:&lt;12} PSI={max_psi:.3f}  [{status}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Feature Drift Dashboard</div><div class="pd">For a churn prediction model with 6 features (age, tenure, monthly_spend, num_products, is_active, region_encoded), simulate 8 weekly production batches where drift gradually increases in tenure and monthly_spend starting at week 4. Compute PSI and KS-test for each feature each week. Build a summary table and flag weeks where total PSI &gt; 0.5.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+from scipy import stats
+def psi(ref, curr, n_bins=10):
+    bins = np.percentile(ref, np.linspace(0, 100, n_bins+1))
+    bins[0] -= 1e-6; bins[-1] += 1e-6
+    e = np.histogram(ref,  bins=bins)[0] / len(ref)
+    a = np.histogram(curr, bins=bins)[0] / len(curr)
+    e = np.where(e == 0, 1e-6, e)
+    a = np.where(a == 0, 1e-6, a)
+    return float(np.sum((a - e) * np.log(a / e)))
+np.random.seed(7)
+n_train = 3000
+features = {
+    &quot;age&quot;:           np.random.normal(35, 10, n_train),
+    &quot;tenure&quot;:        np.random.exponential(24, n_train),
+    &quot;monthly_spend&quot;: np.random.lognormal(4.5, 0.5, n_train),
+    &quot;num_products&quot;:  np.random.poisson(2.5, n_train).astype(float),
+    &quot;is_active&quot;:     np.random.binomial(1, 0.7, n_train).astype(float),
+    &quot;region&quot;:        np.random.randint(0, 5, n_train).astype(float),
+}
+# TODO: Generate 8 weekly batches of 300 samples (drift in tenure+spend from week 4)
+# TODO: Compute PSI and KS-test p-value for each feature each week
+# TODO: Flag weeks where total PSI &gt; 0.5
+# TODO: Print formatted weekly report table
+</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Feature Stores &amp; Data Engineering Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Feature Store Simulation with Feast-like API</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+np.random.seed(42)
+# Simulate a simple feature store
+class SimpleFeatureStore:
+    def __init__(self):
+        self._store = {}
+    def ingest(self, entity_id, features, timestamp):
+        self._store[(entity_id, timestamp)] = features
+    def get_historical(self, entity_ids, feature_names, as_of=None):
+        results = []
+        for eid in entity_ids:
+            matching = {ts: feats for (e, ts), feats in self._store.items() if e == eid}
+            if not matching: continue
+            latest_ts = max(matching.keys())
+            feats = matching[latest_ts]
+            row = {&quot;entity_id&quot;: eid, &quot;timestamp&quot;: latest_ts}
+            row.update({k: feats.get(k) for k in feature_names})
+            results.append(row)
+        return pd.DataFrame(results)
+fs = SimpleFeatureStore()
+# Ingest user features
+for user_id in range(1, 6):
+    fs.ingest(user_id, {&quot;age&quot;: np.random.randint(20, 60),
+                        &quot;spend_30d&quot;: round(np.random.uniform(50, 500), 2),
+                        &quot;logins_7d&quot;: np.random.randint(1, 30)},
+              datetime.now() - timedelta(hours=np.random.randint(1, 48)))
+result = fs.get_historical([1, 2, 3], [&quot;age&quot;, &quot;spend_30d&quot;, &quot;logins_7d&quot;])
+print(result.to_string(index=False))</code></pre></div><div class="code-block"><div class="ch"><span>Data Pipeline with pandas + Validation</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import pandas as pd
+import numpy as np
+np.random.seed(0)
+# Raw data ingestion with quality checks
+def build_training_pipeline(df_raw):
+    report = {&quot;input_rows&quot;: len(df_raw), &quot;issues&quot;: []}
+    # Null check
+    null_pct = df_raw.isnull().mean()
+    for col, pct in null_pct.items():
+        if pct &gt; 0.1:
+            report[&quot;issues&quot;].append(f&quot;{col}: {pct:.1%} nulls&quot;)
+    # Range validation
+    if &quot;age&quot; in df_raw:
+        invalid = ((df_raw[&quot;age&quot;] &lt; 0) | (df_raw[&quot;age&quot;] &gt; 120)).sum()
+        if invalid: report[&quot;issues&quot;].append(f&quot;age: {invalid} out-of-range values&quot;)
+    df = df_raw.dropna().copy()
+    df = df[(df[&quot;age&quot;].between(0, 120)) &amp; (df[&quot;income&quot;] &gt; 0)]
+    report[&quot;output_rows&quot;] = len(df)
+    report[&quot;drop_rate&quot;] = 1 - len(df)/len(df_raw)
+    return df, report
+raw = pd.DataFrame({
+    &quot;age&quot;: np.random.choice([*np.random.randint(18,80,90), *[-1]*5, *[np.nan]*5], 100),
+    &quot;income&quot;: np.random.choice([*np.random.lognormal(10,0.5,85), *[np.nan]*15], 100),
+})
+clean, report = build_training_pipeline(raw)
+print(&quot;Pipeline Report:&quot;, report)</code></pre></div><div class="code-block"><div class="ch"><span>Training Data Versioning (DVC-style)</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import hashlib, json, os
+from datetime import datetime
+class DataVersioner:
+    # Simple data versioning inspired by DVC.
+    def __init__(self, registry_path=&quot;data_registry.json&quot;):
+        self.registry_path = registry_path
+        self.registry = {}
+    def hash_data(self, data_str):
+        return hashlib.md5(data_str.encode()).hexdigest()[:12]
+    def register(self, name, data_str, metadata=None):
+        version_id = self.hash_data(data_str)
+        entry = {
+            &quot;name&quot;: name, &quot;version&quot;: version_id,
+            &quot;timestamp&quot;: datetime.now().isoformat()[:19],
+            &quot;size_bytes&quot;: len(data_str),
+            &quot;metadata&quot;: metadata or {}
+        }
+        self.registry[version_id] = entry
+        print(f&quot;Registered: {name} v{version_id}&quot;)
+        return version_id
+    def lineage(self, version_id):
+        entry = self.registry.get(version_id, {})
+        print(f&quot;Lineage for {version_id}: {json.dumps(entry, indent=2)}&quot;)
+dv = DataVersioner()
+v1 = dv.register(&quot;train_features&quot;, &quot;col1,col2\n1,2\n3,4\n5,6&quot;, {&quot;n_rows&quot;: 3, &quot;split&quot;: &quot;train&quot;})
+v2 = dv.register(&quot;train_features&quot;, &quot;col1,col2\n1,2\n3,4\n5,6\n7,8&quot;, {&quot;n_rows&quot;: 4, &quot;split&quot;: &quot;train&quot;})
+dv.lineage(v1)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Recommendation system: maintain a feature store with user engagement features (clicks_7d, purchase_30d, category_affinity) updated hourly, served to the model at inference time with &lt;10ms latency.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw14')">Copy</button></div><pre><code id="rw14" class="language-python">import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+np.random.seed(42)
+# Simulate feature store for recommendation system
+class RecoFeatureStore:
+    def __init__(self):
+        self.user_features = {}
+        self.item_features = {}
+    def update_user(self, user_id, features):
+        self.user_features[user_id] = {**features, &quot;updated_at&quot;: datetime.now().isoformat()}
+    def update_item(self, item_id, features):
+        self.item_features[item_id] = {**features, &quot;updated_at&quot;: datetime.now().isoformat()}
+    def get_feature_vector(self, user_id, item_id):
+        u = self.user_features.get(user_id, {})
+        i = self.item_features.get(item_id, {})
+        return {
+            &quot;user_clicks_7d&quot;: u.get(&quot;clicks_7d&quot;, 0),
+            &quot;user_purchase_30d&quot;: u.get(&quot;purchase_30d&quot;, 0),
+            &quot;item_avg_rating&quot;: i.get(&quot;avg_rating&quot;, 3.0),
+            &quot;item_purchase_count&quot;: i.get(&quot;purchase_count&quot;, 0),
+            &quot;affinity&quot;: u.get(&quot;category_affinity&quot;, {}).get(i.get(&quot;category&quot;), 0.0)
+        }
+fs = RecoFeatureStore()
+# Populate store
+for uid in range(1, 6):
+    fs.update_user(uid, {
+        &quot;clicks_7d&quot;: np.random.randint(5, 100),
+        &quot;purchase_30d&quot;: np.random.randint(0, 10),
+        &quot;category_affinity&quot;: {&quot;electronics&quot;: np.random.uniform(0,1),
+                               &quot;books&quot;: np.random.uniform(0,1)}
+    })
+for iid in range(1, 4):
+    fs.update_item(iid, {&quot;avg_rating&quot;: np.random.uniform(3,5),
+                          &quot;purchase_count&quot;: np.random.randint(10,1000),
+                          &quot;category&quot;: np.random.choice([&quot;electronics&quot;,&quot;books&quot;])})
+print(&quot;Feature vectors for serving:&quot;)
+for uid in [1, 2]:
+    for iid in [1, 2, 3]:
+        fv = fs.get_feature_vector(uid, iid)
+        print(f&quot;  user={uid}, item={iid}: {fv}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ETL Pipeline with Schema Validation</div><div class="pd">Build a data pipeline that: (1) generates synthetic raw customer data with intentional quality issues (nulls, wrong types, out-of-range values), (2) validates schema using pandas dtype checks and range assertions, (3) cleans and transforms, (4) logs each step with row counts, (5) outputs a data quality report with pass/fail for each check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import pandas as pd
+import numpy as np
+np.random.seed(33)
+# Generate raw data with issues
+n = 500
+raw = pd.DataFrame({
+    &quot;customer_id&quot;: range(n),
+    &quot;age&quot;: np.random.choice([*np.random.randint(18,80,460), *[-5]*20, *[np.nan]*20], n),
+    &quot;revenue&quot;: np.random.choice([*np.random.lognormal(6,1,450), *[np.nan]*50], n),
+    &quot;segment&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;INVALID&quot;,None], n),
+    &quot;signup_date&quot;: pd.date_range(&quot;2020-01-01&quot;, periods=n, freq=&quot;D&quot;)
+})
+# TODO: Schema validation (dtypes, ranges, allowed values)
+# TODO: Cleaning steps (impute/drop nulls, fix dtypes, filter invalid segments)
+# TODO: Log each step with before/after row counts
+# TODO: Output data quality report DataFrame
+</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. A/B Testing &amp; Canary Deployments for ML</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>A/B Test Significance Calculator</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
+from scipy import stats
+def ab_test(control_conv, control_n, treat_conv, treat_n, alpha=0.05):
+    # Two-proportion z-test for A/B testing.
+    p_c = control_conv / control_n
+    p_t = treat_conv  / treat_n
+    p_pool = (control_conv + treat_conv) / (control_n + treat_n)
+    se = np.sqrt(p_pool * (1-p_pool) * (1/control_n + 1/treat_n))
+    z = (p_t - p_c) / se
+    p_value = 2 * (1 - stats.norm.cdf(abs(z)))
+    ci = (p_t - p_c) + np.array([-1, 1]) * stats.norm.ppf(1-alpha/2) * se
+    lift = (p_t - p_c) / p_c
+    return {&quot;z&quot;: z, &quot;p_value&quot;: p_value, &quot;lift&quot;: lift, &quot;ci_95&quot;: ci,
+            &quot;significant&quot;: p_value &lt; alpha}
+result = ab_test(control_conv=120, control_n=2000, treat_conv=155, treat_n=2000)
+print(f&quot;Conversion: control={120/2000:.3f}, treat={155/2000:.3f}&quot;)
+print(f&quot;Lift: {result[&#x27;lift&#x27;]:+.2%}&quot;)
+print(f&quot;p-value: {result[&#x27;p_value&#x27;]:.4f}&quot;)
+print(f&quot;95% CI: [{result[&#x27;ci_95&#x27;][0]:.4f}, {result[&#x27;ci_95&#x27;][1]:.4f}]&quot;)
+print(f&quot;Significant: {result[&#x27;significant&#x27;]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Canary Deployment Traffic Routing</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python">import numpy as np
+np.random.seed(42)
+class CanaryRouter:
+    def __init__(self, canary_pct=0.10):
+        self.canary_pct = canary_pct
+        self.metrics = {&quot;control&quot;: [], &quot;canary&quot;: []}
+    def route(self):
+        return &quot;canary&quot; if np.random.random() &lt; self.canary_pct else &quot;control&quot;
+    def record(self, model, latency_ms, error=False):
+        self.metrics[model].append({&quot;latency&quot;: latency_ms, &quot;error&quot;: error})
+    def report(self):
+        for model, records in self.metrics.items():
+            latencies = [r[&quot;latency&quot;] for r in records]
+            errors = [r[&quot;error&quot;] for r in records]
+            print(f&quot;{model:&lt;8}: n={len(records):4d}, avg_lat={np.mean(latencies):.1f}ms, &quot;
+                  f&quot;p99={np.percentile(latencies,99):.1f}ms, err_rate={np.mean(errors):.3f}&quot;)
+router = CanaryRouter(canary_pct=0.10)
+for _ in range(2000):
+    m = router.route()
+    lat = np.random.lognormal(3.5 if m==&quot;control&quot; else 3.3, 0.4)
+    err = np.random.random() &lt; (0.02 if m==&quot;control&quot; else 0.025)
+    router.record(m, lat, err)
+router.report()</code></pre></div><div class="code-block"><div class="ch"><span>Multi-Armed Bandit for Continuous Optimization</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">import numpy as np
+np.random.seed(7)
+# Thompson Sampling for online model selection
+class ThompsonBandit:
+    def __init__(self, n_arms):
+        self.alpha = np.ones(n_arms)
+        self.beta  = np.ones(n_arms)
+    def select(self):
+        return np.argmax(np.random.beta(self.alpha, self.beta))
+    def update(self, arm, reward):
+        self.alpha[arm] += reward
+        self.beta[arm]  += (1 - reward)
+# 3 model versions with different true conversion rates
+true_rates = [0.05, 0.08, 0.06]
+bandit = ThompsonBandit(n_arms=3)
+counts = np.zeros(3, dtype=int)
+rewards_total = 0
+for t in range(5000):
+    arm = bandit.select()
+    reward = int(np.random.random() &lt; true_rates[arm])
+    bandit.update(arm, reward)
+    counts[arm] += 1
+    rewards_total += reward
+print(f&quot;Total conversions: {rewards_total} / 5000 = {rewards_total/5000:.4f}&quot;)
+for i in range(3):
+    print(f&quot;  Model {i+1} (true={true_rates[i]:.2f}): selected {counts[i]:4d} times ({counts[i]/5000:.1%})&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">ML-powered pricing engine: run A/B tests comparing new pricing model (15% canary) vs current model, with Thompson Sampling auto-routing more traffic to the better performer after statistical significance is reached.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw15')">Copy</button></div><pre><code id="rw15" class="language-python">import numpy as np
+from scipy import stats
+np.random.seed(21)
+# Combined: Canary + statistical testing + bandit
+true_revenue_control = 45.0   # $45 avg order value
+true_revenue_canary  = 47.5   # $47.5 with new pricing
+class PricingExperiment:
+    def __init__(self, canary_pct=0.15):
+        self.canary_pct = canary_pct
+        self.control_revenues = []
+        self.canary_revenues  = []
+        self.alpha = np.array([1.0, 1.0])  # Thompson beta params
+        self.beta  = np.array([1.0, 1.0])
+    def route(self):
+        # Start as pure A/B, shift to bandit after significance
+        if len(self.control_revenues) &lt; 200:
+            return &quot;canary&quot; if np.random.random() &lt; self.canary_pct else &quot;control&quot;
+        return &quot;canary&quot; if np.argmax(np.random.beta(self.alpha, self.beta)) == 1 else &quot;control&quot;
+    def observe(self, model):
+        if model == &quot;control&quot;:
+            rev = np.random.normal(true_revenue_control, 12)
+            self.control_revenues.append(rev)
+            self.alpha[0] += max(rev/100, 0); self.beta[0] += max(1-rev/100, 0)
+        else:
+            rev = np.random.normal(true_revenue_canary, 12)
+            self.canary_revenues.append(rev)
+            self.alpha[1] += max(rev/100, 0); self.beta[1] += max(1-rev/100, 0)
+    def check_significance(self):
+        if len(self.control_revenues) &lt; 30 or len(self.canary_revenues) &lt; 30:
+            return None
+        t, p = stats.ttest_ind(self.canary_revenues, self.control_revenues)
+        return p
+exp = PricingExperiment()
+for i in range(3000):
+    m = exp.route()
+    exp.observe(m)
+    if i % 500 == 499:
+        p = exp.check_significance()
+        print(f&quot;t={i+1}: control=${np.mean(exp.control_revenues):.2f}, &quot;
+              f&quot;canary=${np.mean(exp.canary_revenues):.2f}, p={p:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Online Experiment Platform</div><div class="pd">Build a complete A/B testing framework that: (1) assigns users to control/treatment with hash-based deterministic routing, (2) collects metrics (conversion, revenue) per variant, (3) computes p-values and confidence intervals daily, (4) auto-declares a winner when p&lt;0.05 and min_sample=500/arm, (5) logs results to a DataFrame. Simulate 10,000 user sessions over 14 days.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+import pandas as pd
+from scipy import stats
+np.random.seed(55)
+# Experiment settings
+TRUE_CONV_CONTROL = 0.04
+TRUE_CONV_TREAT   = 0.048
+TRUE_REV_CONTROL  = 30.0
+TRUE_REV_TREAT    = 31.5
+MIN_SAMPLE = 500
+def assign(user_id):
+    # Deterministic hash-based assignment
+    return &quot;treatment&quot; if hash(f&quot;exp1_{user_id}&quot;) % 2 == 0 else &quot;control&quot;
+# TODO: Simulate 10,000 users over 14 days (approx 714/day)
+# TODO: Track conversion and revenue per variant per day
+# TODO: Daily significance check with two-proportion z-test
+# TODO: Auto-declare winner when p&lt;0.05 and n&gt;=500/arm
+# TODO: Log results to DataFrame with columns: day, n_control, n_treat, p_value, winner
+</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText);}
+function filt(v){var lv=v.toLowerCase();document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.querySelector('a').textContent.toLowerCase().includes(lv)?'':'none';});}
+</script></body></html>

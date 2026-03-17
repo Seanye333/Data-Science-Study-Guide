@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NLP & Text Processing Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#a371f7}
+*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
+#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
+.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
+.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
+.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
+.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
+.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
+.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
+pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
+.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
+.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
+.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
+.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 16 topics</p>
+<input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
+<ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Tokenization &amp; Stopword Removal</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Stemming &amp; Lemmatization</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Named Entity Recognition (NER)</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Sentiment Analysis</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Text Similarity &amp; Vectorization</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Topic Modeling</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Text Classification</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Language Models &amp; Transformers</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. NLP Pipeline &amp; Production</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. Information Extraction</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Machine Translation &amp; Seq2Seq</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Document Search &amp; RAG</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Transformer Models &amp; Pre-trained Pipelines</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. Named Entity Recognition &amp; Information Extraction</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Text Generation, Summarization &amp; Prompt Engineering</a></li></ul></aside>
+<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
+
+text = &#x27;  Hello, World! This is NLP 101... Check &lt;b&gt;this&lt;/b&gt; out!  &#x27;
+
+# Lowercase
+clean = text.lower()
+# Strip HTML tags
+clean = re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27;&#x27;, clean)
+# Remove punctuation
+clean = clean.translate(str.maketrans(&#x27;&#x27;, &#x27;&#x27;, string.punctuation))
+# Collapse whitespace
+clean = &#x27; &#x27;.join(clean.split())
+print(repr(clean))
+# Output: &#x27;hello world this is nlp 101 check this out&#x27;</code></pre></div><div class="code-block"><div class="ch"><span>Regex-based cleaning patterns</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import re
+
+def clean_text(text):
+    text = re.sub(r&#x27;http\S+|www\.\S+&#x27;, &#x27;&#x27;, text)   # URLs
+    text = re.sub(r&#x27;@\w+&#x27;, &#x27;&#x27;, text)                 # @mentions
+    text = re.sub(r&#x27;#\w+&#x27;, &#x27;&#x27;, text)                 # hashtags
+    text = re.sub(r&#x27;[^\w\s]&#x27;, &#x27;&#x27;, text)             # punctuation
+    text = re.sub(r&#x27;\d+&#x27;, &#x27;&#x27;, text)                  # digits
+    text = re.sub(r&#x27;\s+&#x27;, &#x27; &#x27;, text).strip()         # whitespace
+    return text.lower()
+
+tweet = &#x27;Check out https://example.com #NLP @user! 123 Great stuff!!!&#x27;
+print(clean_text(tweet))
+# Output: &#x27;check out  great stuff&#x27;</code></pre></div><div class="code-block"><div class="ch"><span>Unicode normalization and encoding fixes</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import unicodedata
+
+text = &#x27;Café naïve résumé — quotes \u2018smart\u2019&#x27;
+
+# Normalize to ASCII (strip accents)
+def to_ascii(text):
+    nfkd = unicodedata.normalize(&#x27;NFKD&#x27;, text)
+    return &#x27;&#x27;.join(c for c in nfkd if not unicodedata.combining(c))
+
+# Normalize smart quotes to straight
+def fix_quotes(text):
+    replacements = {\u2018: &quot;&#x27;&quot;, \u2019: &quot;&#x27;&quot;, \u201c: &#x27;&quot;&#x27;, \u201d: &#x27;&quot;&#x27;,
+                    \u2013: &#x27;-&#x27;, \u2014: &#x27;-&#x27;}
+    return &#x27;&#x27;.join(replacements.get(c, c) for c in text)
+
+print(to_ascii(text))
+print(fix_quotes(text))</code></pre></div><div class="code-block"><div class="ch"><span>Building a reusable cleaning pipeline</span><button onclick="cp('c0_3')">Copy</button></div><pre><code id="c0_3" class="language-python">import re, string
+from typing import List, Callable
+
+def make_pipeline(*fns: Callable) -&gt; Callable:
+    def pipeline(text: str) -&gt; str:
+        for fn in fns:
+            text = fn(text)
+        return text
+    return pipeline
+
+lowercase       = str.lower
+remove_urls     = lambda t: re.sub(r&#x27;http\S+&#x27;, &#x27;&#x27;, t)
+remove_punct    = lambda t: t.translate(str.maketrans(&#x27;&#x27;, &#x27;&#x27;, string.punctuation))
+collapse_spaces = lambda t: &#x27; &#x27;.join(t.split())
+
+clean = make_pipeline(lowercase, remove_urls, remove_punct, collapse_spaces)
+
+texts = [&#x27;Visit https://ai.com for more!&#x27;, &#x27;Hello, World!!&#x27;, &#x27;  PYTHON  NLP  &#x27;]
+print([clean(t) for t in texts])</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A customer support team wants to preprocess thousands of support tickets before feeding them to a classifier. Tickets contain HTML, URLs, emojis, and inconsistent casing.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw0')">Copy</button></div><pre><code id="rw0" class="language-python">import re, string
+
+def preprocess_ticket(text: str) -&gt; str:
+    text = re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27; &#x27;, text)       # strip HTML
+    text = re.sub(r&#x27;http\S+&#x27;, &#x27;&#x27;, text)        # remove URLs
+    text = text.encode(&#x27;ascii&#x27;, &#x27;ignore&#x27;).decode()  # strip emoji/unicode
+    text = text.lower()
+    text = re.sub(r&#x27;[^\w\s]&#x27;, &#x27; &#x27;, text)      # punctuation -&gt; space
+    text = &#x27; &#x27;.join(text.split())               # normalize whitespace
+    return text
+
+tickets = [
+    &#x27;&lt;p&gt;My &lt;b&gt;order&lt;/b&gt; #12345 is LATE! See https://track.com/12345&lt;/p&gt;&#x27;,
+    &#x27;App crashed 😤 after update v2.1 — please fix ASAP!!!&#x27;,
+]
+for t in tickets:
+    print(preprocess_ticket(t))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Email Cleaner</div><div class="pd">Write a function that strips email headers (From:, To:, Subject:), removes quoted lines starting with &#x27;&gt;&#x27;, and cleans leftover whitespace.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import re
+
+email = &#x27;&#x27;&#x27;
+From: alice@example.com
+To: bob@example.com
+Subject: Project Update
+
+Hi Bob,
+
+&gt; Thanks for the report
+&gt; it was helpful
+
+Looks great! Let&#x27;s sync tomorrow.
+&#x27;&#x27;&#x27;
+
+def clean_email(text: str) -&gt; str:
+    # TODO: Remove header lines (From:, To:, Subject:)
+    # TODO: Remove quoted lines (starting with &gt;)
+    # TODO: Collapse blank lines
+    pass
+
+print(clean_email(email))</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Tokenization &amp; Stopword Removal</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tokenization splits text into meaningful units. Stopword removal filters common words that carry little semantic weight.</p><div class="code-block"><div class="ch"><span>Word and sentence tokenization with NLTK</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import nltk
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+text = &#x27;Dr. Smith said NLP is fun. It really is! Don\&#x27;t you think?&#x27;
+
+sentences = sent_tokenize(text)
+print(&#x27;Sentences:&#x27;, sentences)
+
+words = word_tokenize(text)
+print(&#x27;Words:&#x27;, words)</code></pre></div><div class="code-block"><div class="ch"><span>Stopword removal with NLTK</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import nltk
+nltk.download(&#x27;stopwords&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+stop_words = set(stopwords.words(&#x27;english&#x27;))
+
+text = &#x27;The quick brown fox jumps over the lazy dog&#x27;
+tokens = word_tokenize(text.lower())
+filtered = [w for w in tokens if w.isalpha() and w not in stop_words]
+
+print(&#x27;Original tokens:&#x27;, tokens)
+print(&#x27;Filtered:&#x27;, filtered)</code></pre></div><div class="code-block"><div class="ch"><span>Tokenization with spaCy</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">try:
+    import spacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+    text = &#x27;Apple is looking at buying U.K. startup for $1 billion.&#x27;
+    doc = nlp(text)
+    tokens = [(t.text, t.pos_, t.is_stop) for t in doc]
+    print(&#x27;(token, POS, is_stop):&#x27;)
+    for tok in tokens:
+        print(tok)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Subword tokenization with HuggingFace</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-python">try:
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained(&#x27;bert-base-uncased&#x27;)
+
+    text = &#x27;Tokenization handles out-of-vocabulary words cleverly.&#x27;
+    tokens = tokenizer.tokenize(text)
+    ids = tokenizer.encode(text)
+
+    print(&#x27;Subword tokens:&#x27;, tokens)
+    print(&#x27;Token IDs:&#x27;, ids)
+    print(&#x27;Decoded:&#x27;, tokenizer.decode(ids))
+except ImportError:
+    print(&#x27;pip install transformers&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A search engine needs to index product reviews. Tokenize and filter stopwords to extract the keywords that matter for search relevance.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw1')">Copy</button></div><pre><code id="rw1" class="language-python">import nltk
+nltk.download(&#x27;stopwords&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from collections import Counter
+
+STOP = set(stopwords.words(&#x27;english&#x27;))
+
+def extract_keywords(review: str, top_n: int = 5):
+    tokens = word_tokenize(review.lower())
+    keywords = [w for w in tokens if w.isalpha() and w not in STOP and len(w) &gt; 2]
+    return Counter(keywords).most_common(top_n)
+
+review = &#x27;The battery life is amazing. This phone has the best battery I have ever used. Great camera too.&#x27;
+print(extract_keywords(review))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Stopword Filter</div><div class="pd">Extend the standard NLTK stopword list with domain-specific words (e.g., &#x27;customer&#x27;, &#x27;product&#x27;, &#x27;order&#x27;) and filter a list of reviews.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import nltk
+nltk.download(&#x27;stopwords&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+DOMAIN_STOPS = {&#x27;customer&#x27;, &#x27;product&#x27;, &#x27;order&#x27;, &#x27;item&#x27;, &#x27;purchase&#x27;}
+
+def filter_tokens(text: str) -&gt; list:
+    # TODO: combine NLTK stopwords + DOMAIN_STOPS
+    # TODO: tokenize, lowercase, filter
+    pass
+
+reviews = [
+    &#x27;Customer service was excellent, product quality amazing&#x27;,
+    &#x27;Order arrived late but item was in perfect condition&#x27;,
+]
+for r in reviews:
+    print(filter_tokens(r))</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Stemming &amp; Lemmatization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce words to their base forms. Stemming is fast but crude (running→run). Lemmatization is linguistically accurate (better→good).</p><div class="code-block"><div class="ch"><span>Porter stemmer with NLTK</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import nltk
+from nltk.stem import PorterStemmer, SnowballStemmer
+
+porter = PorterStemmer()
+snowball = SnowballStemmer(&#x27;english&#x27;)
+
+words = [&#x27;running&#x27;, &#x27;flies&#x27;, &#x27;happily&#x27;, &#x27;studies&#x27;, &#x27;beautiful&#x27;, &#x27;caring&#x27;]
+
+print(f&#x27;{&#x27;Word&#x27;:&lt;15} {&#x27;Porter&#x27;:&lt;15} {&#x27;Snowball&#x27;:&lt;15}&#x27;)
+for w in words:
+    print(f&#x27;{w:&lt;15} {porter.stem(w):&lt;15} {snowball.stem(w):&lt;15}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>WordNet lemmatizer with POS tags</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import nltk
+nltk.download(&#x27;wordnet&#x27;, quiet=True)
+nltk.download(&#x27;omw-1.4&#x27;, quiet=True)
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+
+lemmatizer = WordNetLemmatizer()
+
+# POS matters: &#x27;better&#x27; as ADJ -&gt; &#x27;good&#x27;, as VERB -&gt; &#x27;better&#x27;
+examples = [
+    (&#x27;better&#x27;,  &#x27;a&#x27;),   # adjective
+    (&#x27;running&#x27;, &#x27;v&#x27;),   # verb
+    (&#x27;geese&#x27;,   &#x27;n&#x27;),   # noun
+    (&#x27;happily&#x27;, &#x27;r&#x27;),   # adverb
+]
+for word, pos in examples:
+    lem = lemmatizer.lemmatize(word, pos=pos)
+    print(f&#x27;{word} ({pos}) -&gt; {lem}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Lemmatization with spaCy</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">try:
+    import spacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    text = &#x27;The children were running and the geese were flying&#x27;
+    doc = nlp(text)
+
+    print(f&#x27;{&#x27;Token&#x27;:&lt;15} {&#x27;Lemma&#x27;:&lt;15} {&#x27;POS&#x27;:&lt;10}&#x27;)
+    for token in doc:
+        print(f&#x27;{token.text:&lt;15} {token.lemma_:&lt;15} {token.pos_:&lt;10}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Stemming vs Lemmatization comparison</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-python">import nltk
+nltk.download(&#x27;wordnet&#x27;, quiet=True)
+nltk.download(&#x27;omw-1.4&#x27;, quiet=True)
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+stemmer = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
+
+words = [&#x27;studies&#x27;, &#x27;studying&#x27;, &#x27;better&#x27;, &#x27;wolves&#x27;, &#x27;corpora&#x27;, &#x27;matrices&#x27;]
+
+print(f&#x27;{&#x27;Word&#x27;:&lt;12} {&#x27;Stem&#x27;:&lt;12} {&#x27;Lemma (n)&#x27;:&lt;12}&#x27;)
+for w in words:
+    stem = stemmer.stem(w)
+    lemma = lemmatizer.lemmatize(w, pos=&#x27;n&#x27;)
+    print(f&#x27;{w:&lt;12} {stem:&lt;12} {lemma:&lt;12}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A job board wants to match resumes to job postings regardless of tense or form — &#x27;managed&#x27;, &#x27;manages&#x27;, &#x27;management&#x27; should all map to the same root concept.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw2')">Copy</button></div><pre><code id="rw2" class="language-python">import nltk
+nltk.download(&#x27;wordnet&#x27;, quiet=True)
+nltk.download(&#x27;omw-1.4&#x27;, quiet=True)
+nltk.download(&#x27;stopwords&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+lem = WordNetLemmatizer()
+STOP = set(stopwords.words(&#x27;english&#x27;))
+
+def normalize_skills(text: str) -&gt; set:
+    tokens = word_tokenize(text.lower())
+    return {lem.lemmatize(w, &#x27;v&#x27;) for w in tokens if w.isalpha() and w not in STOP}
+
+job_req  = &#x27;Managed budgets, leading teams, developed strategies&#x27;
+resume   = &#x27;manages budgets, leads cross-functional teams, develop product strategy&#x27;
+
+job_kw  = normalize_skills(job_req)
+res_kw  = normalize_skills(resume)
+overlap = job_kw &amp; res_kw
+print(&#x27;Match score:&#x27;, len(overlap) / len(job_kw))
+print(&#x27;Matched keywords:&#x27;, overlap)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Search Term Normalizer</div><div class="pd">Write a function that takes a search query and returns all lemma forms so a search for &#x27;running shoes&#x27; also matches &#x27;run&#x27; and &#x27;shoe&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import nltk
+nltk.download(&#x27;wordnet&#x27;, quiet=True)
+nltk.download(&#x27;omw-1.4&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+lem = WordNetLemmatizer()
+
+def normalize_query(query: str) -&gt; list:
+    # TODO: tokenize, lemmatize as both noun and verb, deduplicate
+    pass
+
+queries = [&#x27;running shoes&#x27;, &#x27;buying products&#x27;, &#x27;managed accounts&#x27;]
+for q in queries:
+    print(q, &#x27;-&gt;&#x27;, normalize_query(q))</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text — essential for information extraction.</p><div class="code-block"><div class="ch"><span>NER with spaCy</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">try:
+    import spacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    text = &#x27;Apple Inc. was founded by Steve Jobs in Cupertino on April 1, 1976.&#x27;
+    doc = nlp(text)
+
+    print(&#x27;Entities found:&#x27;)
+    for ent in doc.ents:
+        print(f&#x27;  {ent.text:&lt;25} {ent.label_:&lt;12} {spacy.explain(ent.label_)}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>NER with NLTK chunking</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import nltk
+nltk.download(&#x27;averaged_perceptron_tagger&#x27;, quiet=True)
+nltk.download(&#x27;maxent_ne_chunker&#x27;, quiet=True)
+nltk.download(&#x27;words&#x27;, quiet=True)
+nltk.download(&#x27;punkt&#x27;, quiet=True)
+nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+nltk.download(&#x27;averaged_perceptron_tagger_eng&#x27;, quiet=True)
+from nltk import word_tokenize, pos_tag, ne_chunk
+from nltk.tree import Tree
+
+text = &#x27;Barack Obama served as the 44th President of the United States.&#x27;
+tokens = word_tokenize(text)
+tagged = pos_tag(tokens)
+chunks = ne_chunk(tagged)
+
+for subtree in chunks:
+    if isinstance(subtree, Tree):
+        entity = &#x27; &#x27;.join(word for word, tag in subtree.leaves())
+        print(f&#x27;{entity}: {subtree.label()}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Visualizing entities with displacy</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">try:
+    import spacy
+    from spacy import displacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    text = &#x27;Elon Musk founded SpaceX in Hawthorne, California in 2002.&#x27;
+    doc = nlp(text)
+
+    # In a Jupyter notebook this renders inline:
+    # displacy.render(doc, style=&#x27;ent&#x27;)
+
+    # Save to HTML:
+    html = displacy.render(doc, style=&#x27;ent&#x27;, page=True)
+    print(html[:200], &#x27;...&#x27;)  # Show snippet
+    print(&#x27;\nEntities:&#x27;, [(e.text, e.label_) for e in doc.ents])
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Custom NER with spaCy EntityRuler</span><button onclick="cp('c3_3')">Copy</button></div><pre><code id="c3_3" class="language-python">try:
+    import spacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    # Add custom entity patterns
+    ruler = nlp.add_pipe(&#x27;entity_ruler&#x27;, before=&#x27;ner&#x27;)
+    patterns = [
+        {&#x27;label&#x27;: &#x27;TECH_STACK&#x27;, &#x27;pattern&#x27;: &#x27;Python&#x27;},
+        {&#x27;label&#x27;: &#x27;TECH_STACK&#x27;, &#x27;pattern&#x27;: &#x27;TensorFlow&#x27;},
+        {&#x27;label&#x27;: &#x27;TECH_STACK&#x27;, &#x27;pattern&#x27;: [{&#x27;LOWER&#x27;: &#x27;scikit&#x27;}, {&#x27;LOWER&#x27;: &#x27;-&#x27;}, {&#x27;LOWER&#x27;: &#x27;learn&#x27;}]},
+    ]
+    ruler.add_patterns(patterns)
+
+    doc = nlp(&#x27;We use Python and TensorFlow with scikit-learn for ML.&#x27;)
+    for ent in doc.ents:
+        print(f&#x27;{ent.text}: {ent.label_}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A financial news aggregator wants to automatically tag articles with mentioned companies, CEOs, and market figures to power a search index.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw3')">Copy</button></div><pre><code id="rw3" class="language-python">try:
+    import spacy
+    from collections import defaultdict
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    articles = [
+        &#x27;Tesla CEO Elon Musk announced record deliveries in Q4 2024.&#x27;,
+        &#x27;Microsoft acquired Activision Blizzard for $68.7 billion.&#x27;,
+        &#x27;Warren Buffett increased Berkshire Hathaway stake in Apple.&#x27;,
+    ]
+
+    entity_index = defaultdict(list)
+    for i, art in enumerate(articles):
+        doc = nlp(art)
+        for ent in doc.ents:
+            if ent.label_ in (&#x27;ORG&#x27;, &#x27;PERSON&#x27;, &#x27;MONEY&#x27;, &#x27;DATE&#x27;):
+                entity_index[ent.text].append(i)
+
+    for entity, article_ids in entity_index.items():
+        print(f&#x27;{entity}: articles {article_ids}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Entity Frequency Counter</div><div class="pd">Process a list of news headlines, extract all PERSON and ORG entities, and return the top 5 most mentioned entities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">headlines = [
+    &#x27;Google CEO Sundar Pichai unveils new AI products at Google I/O&#x27;,
+    &#x27;Apple and Google partner on health data standards&#x27;,
+    &#x27;Jeff Bezos steps down as Amazon CEO&#x27;,
+    &#x27;Amazon reports record profits under Andy Jassy&#x27;,
+    &#x27;Sundar Pichai defends Google search monopoly in court&#x27;,
+]
+
+def top_entities(texts, n=5):
+    # TODO: load spacy, extract PERSON + ORG entities
+    # TODO: count frequencies, return top n
+    pass
+
+print(top_entities(headlines))</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Sentiment Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Determine whether text expresses positive, negative, or neutral sentiment. Learn rule-based (VADER), ML-based, and transformer approaches.</p><div class="code-block"><div class="ch"><span>VADER sentiment (rule-based)</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+sia = SentimentIntensityAnalyzer()
+
+texts = [
+    &#x27;The food was absolutely amazing and the service was great!&#x27;,
+    &#x27;Terrible experience. Never going back.&#x27;,
+    &#x27;The product arrived on time.&#x27;,
+    &#x27;Not bad, but could be better.&#x27;,
+]
+
+for text in texts:
+    scores = sia.polarity_scores(text)
+    label = &#x27;POSITIVE&#x27; if scores[&#x27;compound&#x27;] &gt; 0.05 else &#x27;NEGATIVE&#x27; if scores[&#x27;compound&#x27;] &lt; -0.05 else &#x27;NEUTRAL&#x27;
+    print(f&#x27;{label}: {text[:40]:&lt;40} | compound={scores[&quot;compound&quot;]:.3f}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>TextBlob sentiment</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">try:
+    from textblob import TextBlob
+
+    reviews = [
+        &#x27;Absolutely love this product! Best purchase ever.&#x27;,
+        &#x27;Disappointed. Quality is poor and shipping was slow.&#x27;,
+        &#x27;It is okay. Nothing special.&#x27;,
+    ]
+
+    for review in reviews:
+        blob = TextBlob(review)
+        pol = blob.sentiment.polarity       # -1 to 1
+        sub = blob.sentiment.subjectivity   # 0 (objective) to 1 (subjective)
+        print(f&#x27;Polarity: {pol:+.2f}  Subjectivity: {sub:.2f}  | {review[:40]}&#x27;)
+except ImportError:
+    print(&#x27;pip install textblob&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Transformer-based sentiment with pipeline</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">try:
+    from transformers import pipeline
+
+    sentiment = pipeline(&#x27;sentiment-analysis&#x27;,
+                         model=&#x27;distilbert-base-uncased-finetuned-sst-2-english&#x27;)
+
+    texts = [
+        &#x27;I love this movie so much!&#x27;,
+        &#x27;This is the worst product I have ever bought.&#x27;,
+        &#x27;The package arrived in reasonable time.&#x27;,
+    ]
+    results = sentiment(texts)
+    for text, result in zip(texts, results):
+        print(f&#x27;{result[&quot;label&quot;]:&lt;10} ({result[&quot;score&quot;]:.3f}): {text}&#x27;)
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Aspect-based sentiment (simple rule approach)</span><button onclick="cp('c4_3')">Copy</button></div><pre><code id="c4_3" class="language-python">import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+sia = SentimentIntensityAnalyzer()
+
+ASPECTS = {
+    &#x27;battery&#x27;: [&#x27;battery&#x27;, &#x27;charge&#x27;, &#x27;charging&#x27;, &#x27;power&#x27;],
+    &#x27;camera&#x27;:  [&#x27;camera&#x27;, &#x27;photo&#x27;, &#x27;picture&#x27;, &#x27;image&#x27;],
+    &#x27;screen&#x27;:  [&#x27;screen&#x27;, &#x27;display&#x27;, &#x27;resolution&#x27;],
+}
+
+def aspect_sentiment(review):
+    results = {}
+    sentences = nltk.sent_tokenize(review)
+    for aspect, keywords in ASPECTS.items():
+        relevant = [s for s in sentences if any(k in s.lower() for k in keywords)]
+        if relevant:
+            scores = [sia.polarity_scores(s)[&#x27;compound&#x27;] for s in relevant]
+            results[aspect] = sum(scores) / len(scores)
+    return results
+
+review = &#x27;Battery life is excellent! But the camera quality is disappointing. The screen is stunning.&#x27;
+print(aspect_sentiment(review))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">An e-commerce platform wants to automatically classify product reviews as positive/negative and flag negative ones for customer service follow-up.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw4')">Copy</button></div><pre><code id="rw4" class="language-python">import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Review:
+    id: int
+    text: str
+    product_id: str
+
+sia = SentimentIntensityAnalyzer()
+
+def triage_reviews(reviews: List[Review]):
+    negative = []
+    for r in reviews:
+        score = sia.polarity_scores(r.text)[&#x27;compound&#x27;]
+        if score &lt; -0.3:
+            negative.append((r, score))
+    return sorted(negative, key=lambda x: x[1])  # worst first
+
+reviews = [
+    Review(1, &#x27;Love it! Works perfectly.&#x27;, &#x27;P001&#x27;),
+    Review(2, &#x27;Completely broken. Total waste of money.&#x27;, &#x27;P002&#x27;),
+    Review(3, &#x27;Item never arrived. Terrible service!&#x27;, &#x27;P003&#x27;),
+]
+flagged = triage_reviews(reviews)
+for review, score in flagged:
+    print(f&#x27;Review {review.id} (score={score:.3f}): {review.text}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment Dashboard</div><div class="pd">Given a list of tweets, compute the daily average sentiment score and print a summary showing whether the day was overall positive or negative.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+tweets = [
+    (&#x27;2024-01-01&#x27;, &#x27;Great start to the new year! So excited!&#x27;),
+    (&#x27;2024-01-01&#x27;, &#x27;Traffic was awful this morning.&#x27;),
+    (&#x27;2024-01-02&#x27;, &#x27;Amazing concert last night!&#x27;),
+    (&#x27;2024-01-02&#x27;, &#x27;Concert tickets were overpriced but show was okay&#x27;),
+    (&#x27;2024-01-02&#x27;, &#x27;Best night ever, loved every minute!&#x27;),
+]
+
+def daily_sentiment(tweets):
+    sia = SentimentIntensityAnalyzer()
+    # TODO: group by date, average compound scores
+    # TODO: label each day as POSITIVE / NEGATIVE / NEUTRAL
+    pass
+
+daily_sentiment(tweets)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Text Similarity &amp; Vectorization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Convert text to numerical representations and measure similarity. Covers Bag-of-Words, TF-IDF, cosine similarity, and word embeddings.</p><div class="code-block"><div class="ch"><span>TF-IDF vectorization with sklearn</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
+
+corpus = [
+    &#x27;the cat sat on the mat&#x27;,
+    &#x27;the dog lay on the rug&#x27;,
+    &#x27;cats and dogs are both great pets&#x27;,
+]
+
+vec = TfidfVectorizer(stop_words=&#x27;english&#x27;)
+X = vec.fit_transform(corpus)
+
+df = pd.DataFrame(X.toarray(), columns=vec.get_feature_names_out())
+print(df.round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Cosine similarity between documents</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+docs = [
+    &#x27;Python is great for data science&#x27;,
+    &#x27;Data science uses Python and R&#x27;,
+    &#x27;I love cooking Italian food&#x27;,
+    &#x27;Machine learning with Python and sklearn&#x27;,
+]
+
+vec = TfidfVectorizer(stop_words=&#x27;english&#x27;)
+X = vec.fit_transform(docs)
+sim = cosine_similarity(X)
+
+print(&#x27;Similarity matrix:&#x27;)
+for i, row in enumerate(sim):
+    print(f&#x27;Doc {i}: {[f&quot;{v:.2f}&quot; for v in row]}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Word2Vec embeddings with gensim</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-python">try:
+    from gensim.models import Word2Vec
+    import nltk
+    nltk.download(&#x27;punkt&#x27;, quiet=True)
+    nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
+    from nltk.tokenize import word_tokenize
+
+    sentences = [
+        &#x27;king is a powerful man&#x27;,
+        &#x27;queen is a powerful woman&#x27;,
+        &#x27;boy is a young man&#x27;,
+        &#x27;girl is a young woman&#x27;,
+    ]
+    tokenized = [word_tokenize(s) for s in sentences]
+    model = Word2Vec(tokenized, vector_size=50, window=3, min_count=1, epochs=100)
+
+    # Classic word vector arithmetic
+    result = model.wv.most_similar(positive=[&#x27;king&#x27;, &#x27;woman&#x27;], negative=[&#x27;man&#x27;], topn=3)
+    print(&#x27;king + woman - man =&#x27;, result)
+    print(&#x27;Similarity(king, queen):&#x27;, model.wv.similarity(&#x27;king&#x27;, &#x27;queen&#x27;))
+except ImportError:
+    print(&#x27;pip install gensim&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Sentence embeddings with sentence-transformers</span><button onclick="cp('c5_3')">Copy</button></div><pre><code id="c5_3" class="language-python">try:
+    from sentence_transformers import SentenceTransformer
+    from sklearn.metrics.pairwise import cosine_similarity
+
+    model = SentenceTransformer(&#x27;all-MiniLM-L6-v2&#x27;)
+
+    sentences = [
+        &#x27;A man is playing guitar.&#x27;,
+        &#x27;Someone is strumming a musical instrument.&#x27;,
+        &#x27;A cat is sitting on the couch.&#x27;,
+    ]
+
+    embeddings = model.encode(sentences)
+    sim = cosine_similarity(embeddings)
+
+    print(&#x27;Semantic similarity:&#x27;)
+    for i in range(len(sentences)):
+        for j in range(i+1, len(sentences)):
+            print(f&#x27;  [{i}] vs [{j}]: {sim[i,j]:.3f}&#x27;)
+except ImportError:
+    print(&#x27;pip install sentence-transformers&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A legal tech company wants to find duplicate or near-duplicate contract clauses across thousands of documents to detect plagiarism.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw5')">Copy</button></div><pre><code id="rw5" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+clauses = [
+    &#x27;The contractor shall deliver all work by the agreed deadline.&#x27;,
+    &#x27;All deliverables must be submitted by the agreed-upon deadline.&#x27;,
+    &#x27;Payment shall be made within 30 days of invoice receipt.&#x27;,
+    &#x27;The client agrees to pay within thirty days of receiving the invoice.&#x27;,
+    &#x27;Confidential information must not be disclosed to third parties.&#x27;,
+]
+
+vec = TfidfVectorizer(ngram_range=(1, 2), stop_words=&#x27;english&#x27;)
+X = vec.fit_transform(clauses)
+sim = cosine_similarity(X)
+
+THRESHOLD = 0.5
+print(&#x27;Near-duplicate pairs (similarity &gt; 0.5):&#x27;)
+for i in range(len(clauses)):
+    for j in range(i+1, len(clauses)):
+        if sim[i, j] &gt; THRESHOLD:
+            print(f&#x27;  [{i}] &amp; [{j}]: {sim[i,j]:.3f}&#x27;)
+            print(f&#x27;    {clauses[i][:60]}&#x27;)
+            print(f&#x27;    {clauses[j][:60]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Matcher</div><div class="pd">Build a simple FAQ bot: given a user question, find the most similar FAQ entry using TF-IDF cosine similarity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+faqs = [
+    (&#x27;How do I reset my password?&#x27;, &#x27;Go to login page and click Forgot Password.&#x27;),
+    (&#x27;What payment methods are accepted?&#x27;, &#x27;We accept Visa, Mastercard and PayPal.&#x27;),
+    (&#x27;How long does shipping take?&#x27;, &#x27;Standard shipping takes 5-7 business days.&#x27;),
+    (&#x27;Can I return an item?&#x27;, &#x27;Yes, returns are accepted within 30 days.&#x27;),
+]
+
+def find_answer(question: str) -&gt; str:
+    # TODO: vectorize FAQ questions + user question
+    # TODO: compute cosine similarity
+    # TODO: return answer for most similar FAQ
+    pass
+
+print(find_answer(&#x27;How can I change my password?&#x27;))
+print(find_answer(&#x27;Do you accept credit cards?&#x27;))</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Topic Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Discover hidden thematic structure in document collections. Learn Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF).</p><div class="code-block"><div class="ch"><span>LDA topic modeling with sklearn</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+
+docs = [
+    &#x27;baseball team pitcher bat home run stadium&#x27;,
+    &#x27;football touchdown quarterback field goal referee&#x27;,
+    &#x27;stock market shares dividends portfolio investor&#x27;,
+    &#x27;bitcoin ethereum blockchain cryptocurrency wallet&#x27;,
+    &#x27;machine learning neural network deep learning AI&#x27;,
+    &#x27;python data science pandas numpy statistics&#x27;,
+]
+
+vec = CountVectorizer(stop_words=&#x27;english&#x27;)
+X = vec.fit_transform(docs)
+
+lda = LatentDirichletAllocation(n_components=3, random_state=42)
+lda.fit(X)
+
+feature_names = vec.get_feature_names_out()
+for i, topic in enumerate(lda.components_):
+    top_words = [feature_names[j] for j in topic.argsort()[-6:][::-1]]
+    print(f&#x27;Topic {i}: {top_words}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>NMF topic modeling</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import NMF
+
+docs = [
+    &#x27;health fitness exercise gym workout training&#x27;,
+    &#x27;diet nutrition calories protein weight loss&#x27;,
+    &#x27;travel vacation flight hotel beach tourism&#x27;,
+    &#x27;passport visa travel destination adventure explore&#x27;,
+    &#x27;cooking recipe chef kitchen ingredients bake&#x27;,
+]
+
+vec = TfidfVectorizer(stop_words=&#x27;english&#x27;, max_features=50)
+X = vec.fit_transform(docs)
+
+nmf = NMF(n_components=3, random_state=42)
+W = nmf.fit_transform(X)
+H = nmf.components_
+
+feature_names = vec.get_feature_names_out()
+for i, topic in enumerate(H):
+    top_words = [feature_names[j] for j in topic.argsort()[-5:][::-1]]
+    print(f&#x27;Topic {i}: {top_words}&#x27;)
+
+print(&#x27;\nDoc-topic assignments (W):&#x27;)
+for i, row in enumerate(W):
+    print(f&#x27;Doc {i}: topic {row.argmax()}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Choosing number of topics with perplexity</span><button onclick="cp('c6_2')">Copy</button></div><pre><code id="c6_2" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+
+# Synthetic corpus
+docs = ([&#x27;python data science machine learning&#x27;] * 5 +
+        [&#x27;football soccer game stadium team&#x27;] * 5 +
+        [&#x27;stock market finance investment portfolio&#x27;] * 5)
+
+vec = CountVectorizer(stop_words=&#x27;english&#x27;)
+X = vec.fit_transform(docs)
+
+perplexities = []
+k_range = range(2, 7)
+for k in k_range:
+    lda = LatentDirichletAllocation(n_components=k, random_state=42, max_iter=20)
+    lda.fit(X)
+    perplexities.append(lda.perplexity(X))
+    print(f&#x27;k={k}: perplexity={lda.perplexity(X):.2f}&#x27;)
+
+best_k = k_range[np.argmin(perplexities)]
+print(f&#x27;Best k: {best_k}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Assigning topic labels to new documents</span><button onclick="cp('c6_3')">Copy</button></div><pre><code id="c6_3" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+
+train_docs = [
+    &#x27;python programming code software developer&#x27;,
+    &#x27;machine learning model training dataset&#x27;,
+    &#x27;basketball players championship game team&#x27;,
+    &#x27;tennis grand slam tournament court player&#x27;,
+]
+TOPIC_LABELS = {0: &#x27;Technology&#x27;, 1: &#x27;Sports&#x27;}  # manual labels
+
+vec = CountVectorizer(stop_words=&#x27;english&#x27;)
+X_train = vec.fit_transform(train_docs)
+
+lda = LatentDirichletAllocation(n_components=2, random_state=42)
+lda.fit(X_train)
+
+new_docs = [
+    &#x27;neural network deep learning GPU training&#x27;,
+    &#x27;football touchdown quarterback Super Bowl&#x27;,
+]
+X_new = vec.transform(new_docs)
+topic_dist = lda.transform(X_new)
+for doc, dist in zip(new_docs, topic_dist):
+    label = TOPIC_LABELS.get(dist.argmax(), f&#x27;Topic {dist.argmax()}&#x27;)
+    print(f&#x27;{doc[:40]} -&gt; {label} ({dist.max():.2f})&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A news publisher wants to automatically tag and categorize thousands of articles by topic to power content recommendations.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw6')">Copy</button></div><pre><code id="rw6" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+
+articles = [
+    &#x27;The government announced new climate change policy and carbon tax.&#x27;,
+    &#x27;Scientists discover breakthrough in quantum computing research.&#x27;,
+    &#x27;Stock markets rally as tech earnings exceed expectations.&#x27;,
+    &#x27;Premier League clubs prepare for summer transfer window.&#x27;,
+    &#x27;AI startup raises $500M for large language model development.&#x27;,
+    &#x27;Central bank raises interest rates to fight inflation.&#x27;,
+]
+
+TOPIC_NAMES = [&#x27;Politics/Environment&#x27;, &#x27;Technology/Science&#x27;, &#x27;Finance&#x27;, &#x27;Sports&#x27;]
+
+vec = CountVectorizer(stop_words=&#x27;english&#x27;, min_df=1)
+X = vec.fit_transform(articles)
+
+lda = LatentDirichletAllocation(n_components=4, random_state=42)
+lda.fit(X)
+
+topic_dist = lda.transform(X)
+for article, dist in zip(articles, topic_dist):
+    dominant = dist.argmax()
+    print(f&#x27;{TOPIC_NAMES[dominant]}: {article[:55]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Feedback Topics</div><div class="pd">Apply LDA to a dataset of customer feedback comments and print the top 5 words for each discovered topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+
+feedback = [
+    &#x27;Delivery was fast and packaging was excellent&#x27;,
+    &#x27;Shipping took too long and package was damaged&#x27;,
+    &#x27;Customer support was very helpful and responsive&#x27;,
+    &#x27;Support team was rude and unhelpful&#x27;,
+    &#x27;Product quality is amazing, well made and durable&#x27;,
+    &#x27;The product broke after one week, poor quality&#x27;,
+    &#x27;Price is reasonable for the quality you get&#x27;,
+    &#x27;Very expensive for what it is, not worth the money&#x27;,
+]
+
+def model_topics(docs, n_topics=3):
+    # TODO: CountVectorizer -&gt; LDA -&gt; print top words per topic
+    pass
+
+model_topics(feedback)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Text Classification</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Train models to classify text into categories. Covers Naive Bayes, Logistic Regression, and transformer-based fine-tuning pipelines.</p><div class="code-block"><div class="ch"><span>Spam detection with Naive Bayes</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+
+# Minimal spam dataset
+texts = [
+    &#x27;Win a FREE iPhone now! Click here!!!&#x27;, &#x27;URGENT: You have won $1000&#x27;,
+    &#x27;Claim your prize today, limited offer!&#x27;, &#x27;Hot singles in your area&#x27;,
+    &#x27;Meeting at 3pm in the conference room&#x27;, &#x27;Can you review my pull request?&#x27;,
+    &#x27;Lunch tomorrow? Let me know.&#x27;, &#x27;Project deadline is Friday.&#x27;,
+    &#x27;Budget report attached for your review&#x27;, &#x27;Hi, are you free this afternoon?&#x27;,
+]
+labels = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]  # 1=spam, 0=ham
+
+X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.3, random_state=42)
+
+clf = Pipeline([(&#x27;tfidf&#x27;, TfidfVectorizer()), (&#x27;nb&#x27;, MultinomialNB())])
+clf.fit(X_train, y_train)
+print(classification_report(y_test, clf.predict(X_test), target_names=[&#x27;ham&#x27;, &#x27;spam&#x27;]))</code></pre></div><div class="code-block"><div class="ch"><span>Multi-class classification with Logistic Regression</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+texts = [
+    &#x27;The stock market crashed today&#x27;, &#x27;Interest rates affect mortgages&#x27;,
+    &#x27;Champions League final tonight&#x27;, &#x27;NBA playoffs heating up&#x27;,
+    &#x27;New deep learning model released&#x27;, &#x27;Python 4.0 features announced&#x27;,
+    &#x27;Election results pending&#x27;, &#x27;Senate votes on new bill&#x27;,
+]
+labels = [&#x27;finance&#x27;,&#x27;finance&#x27;,&#x27;sports&#x27;,&#x27;sports&#x27;,&#x27;tech&#x27;,&#x27;tech&#x27;,&#x27;politics&#x27;,&#x27;politics&#x27;]
+
+pipe = Pipeline([
+    (&#x27;tfidf&#x27;, TfidfVectorizer(ngram_range=(1, 2))),
+    (&#x27;lr&#x27;,   LogisticRegression(max_iter=200))
+])
+scores = cross_val_score(pipe, texts, labels, cv=2, scoring=&#x27;accuracy&#x27;)
+print(f&#x27;CV accuracy: {scores.mean():.2f} ± {scores.std():.2f}&#x27;)
+
+pipe.fit(texts, labels)
+print(pipe.predict([&#x27;Bitcoin surges to all-time high&#x27;]))</code></pre></div><div class="code-block"><div class="ch"><span>Zero-shot classification with transformers</span><button onclick="cp('c7_2')">Copy</button></div><pre><code id="c7_2" class="language-python">try:
+    from transformers import pipeline
+
+    classifier = pipeline(&#x27;zero-shot-classification&#x27;,
+                          model=&#x27;facebook/bart-large-mnli&#x27;)
+
+    texts = [
+        &#x27;The Federal Reserve raises interest rates by 25 basis points.&#x27;,
+        &#x27;Team wins championship after dramatic overtime goal.&#x27;,
+        &#x27;New AI model achieves human-level performance on benchmark.&#x27;,
+    ]
+    candidate_labels = [&#x27;finance&#x27;, &#x27;sports&#x27;, &#x27;technology&#x27;, &#x27;politics&#x27;]
+
+    for text in texts:
+        result = classifier(text, candidate_labels)
+        print(f&#x27;{result[&quot;labels&quot;][0]:12} ({result[&quot;scores&quot;][0]:.2f}): {text[:50]}&#x27;)
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Feature importance for text classifiers</span><button onclick="cp('c7_3')">Copy</button></div><pre><code id="c7_3" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+import numpy as np
+
+texts = [
+    &#x27;stock market bull bear portfolio dividends&#x27;,
+    &#x27;goal touchdown home run stadium championship&#x27;,
+    &#x27;algorithm neural network training dataset model&#x27;,
+    &#x27;vote senator election campaign policy&#x27;,
+] * 3
+labels = [&#x27;finance&#x27;,&#x27;sports&#x27;,&#x27;tech&#x27;,&#x27;politics&#x27;] * 3
+
+pipe = Pipeline([(&#x27;tfidf&#x27;, TfidfVectorizer()), (&#x27;lr&#x27;, LogisticRegression(max_iter=200))])
+pipe.fit(texts, labels)
+
+feature_names = pipe[&#x27;tfidf&#x27;].get_feature_names_out()
+classes = pipe[&#x27;lr&#x27;].classes_
+
+for cls, coef in zip(classes, pipe[&#x27;lr&#x27;].coef_):
+    top = [feature_names[i] for i in coef.argsort()[-5:][::-1]]
+    print(f&#x27;{cls}: {top}&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A news website wants to automatically route incoming press releases to the correct editorial desk (Finance, Sports, Tech, Politics) without human triage.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw7')">Copy</button></div><pre><code id="rw7" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+training_data = [
+    (&#x27;Company reports record quarterly earnings&#x27;, &#x27;finance&#x27;),
+    (&#x27;Inflation rises as central bank meets&#x27;, &#x27;finance&#x27;),
+    (&#x27;National team advances to World Cup final&#x27;, &#x27;sports&#x27;),
+    (&#x27;Olympic gold medal for marathon runner&#x27;, &#x27;sports&#x27;),
+    (&#x27;New open-source large language model released&#x27;, &#x27;tech&#x27;),
+    (&#x27;Semiconductor company launches AI chip&#x27;, &#x27;tech&#x27;),
+    (&#x27;Prime minister announces cabinet reshuffle&#x27;, &#x27;politics&#x27;),
+    (&#x27;Senate approves infrastructure spending bill&#x27;, &#x27;politics&#x27;),
+]
+
+texts, labels = zip(*training_data)
+
+router = Pipeline([
+    (&#x27;tfidf&#x27;, TfidfVectorizer(ngram_range=(1, 2))),
+    (&#x27;lr&#x27;,   LogisticRegression(max_iter=500))
+])
+router.fit(texts, labels)
+
+press_releases = [
+    &#x27;Startup raises $200M Series C for AI research&#x27;,
+    &#x27;Tennis star wins fourth Grand Slam title&#x27;,
+]
+for pr in press_releases:
+    desk = router.predict([pr])[0]
+    proba = router.predict_proba([pr]).max()
+    print(f&#x27;{desk.upper()} ({proba:.0%}): {pr}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Sentiment Classifier</div><div class="pd">Train a TF-IDF + Logistic Regression classifier to predict star rating buckets (1-2=negative, 3=neutral, 4-5=positive) from review text.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+
+reviews = [
+    (&#x27;Absolutely fantastic product, highly recommend!&#x27;, &#x27;positive&#x27;),
+    (&#x27;Life changing purchase, best I have ever made&#x27;, &#x27;positive&#x27;),
+    (&#x27;Pretty good but not perfect&#x27;, &#x27;neutral&#x27;),
+    (&#x27;Does the job, nothing special&#x27;, &#x27;neutral&#x27;),
+    (&#x27;Broken on arrival, terrible quality&#x27;, &#x27;negative&#x27;),
+    (&#x27;Complete waste of money, do not buy&#x27;, &#x27;negative&#x27;),
+    (&#x27;Great value for money, very happy&#x27;, &#x27;positive&#x27;),
+    (&#x27;Disappointed, expected much better&#x27;, &#x27;negative&#x27;),
+]
+
+texts, labels = zip(*reviews)
+X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.3, random_state=42)
+
+# TODO: build Pipeline with TfidfVectorizer + LogisticRegression
+# TODO: fit, predict, print classification_report</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Language Models &amp; Transformers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand transformer architecture, use pre-trained BERT/GPT models for embeddings, question answering, and text generation.</p><div class="code-block"><div class="ch"><span>BERT embeddings for semantic search</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">try:
+    from transformers import AutoTokenizer, AutoModel
+    import torch
+    import torch.nn.functional as F
+
+    model_name = &#x27;bert-base-uncased&#x27;
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
+
+    def get_embedding(text):
+        inputs = tokenizer(text, return_tensors=&#x27;pt&#x27;, truncation=True, max_length=128)
+        with torch.no_grad():
+            outputs = model(**inputs)
+        return outputs.last_hidden_state[:, 0, :].squeeze()  # [CLS] token
+
+    s1 = get_embedding(&#x27;How do I reset my password?&#x27;)
+    s2 = get_embedding(&#x27;Steps to change account password&#x27;)
+    s3 = get_embedding(&#x27;Best pizza recipe&#x27;)
+
+    print(&#x27;s1 vs s2:&#x27;, F.cosine_similarity(s1.unsqueeze(0), s2.unsqueeze(0)).item())
+    print(&#x27;s1 vs s3:&#x27;, F.cosine_similarity(s1.unsqueeze(0), s3.unsqueeze(0)).item())
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Question answering with a pipeline</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python">try:
+    from transformers import pipeline
+
+    qa = pipeline(&#x27;question-answering&#x27;, model=&#x27;distilbert-base-cased-distilled-squad&#x27;)
+
+    context = &#x27;&#x27;&#x27;
+    Python was created by Guido van Rossum and first released in 1991.
+    It was designed with an emphasis on code readability and simplicity.
+    Python supports multiple programming paradigms including procedural,
+    object-oriented, and functional programming.
+    &#x27;&#x27;&#x27;
+
+    questions = [
+        &#x27;Who created Python?&#x27;,
+        &#x27;When was Python first released?&#x27;,
+        &#x27;What paradigms does Python support?&#x27;,
+    ]
+    for q in questions:
+        answer = qa({&#x27;question&#x27;: q, &#x27;context&#x27;: context})
+        print(f&#x27;Q: {q}&#x27;)
+        print(f&#x27;A: {answer[&quot;answer&quot;]} (score: {answer[&quot;score&quot;]:.3f})\n&#x27;)
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Text generation with GPT-2</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-python">try:
+    from transformers import pipeline
+
+    generator = pipeline(&#x27;text-generation&#x27;, model=&#x27;gpt2&#x27;, max_new_tokens=80)
+
+    prompts = [
+        &#x27;The future of artificial intelligence is&#x27;,
+        &#x27;Data science has transformed the way we&#x27;,
+    ]
+    for prompt in prompts:
+        result = generator(prompt, num_return_sequences=1, do_sample=True, temperature=0.7)
+        print(f&#x27;Prompt: {prompt}&#x27;)
+        print(f&#x27;Generated: {result[0][&quot;generated_text&quot;]}\n&#x27;)
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Fine-tuning BERT for classification (skeleton)</span><button onclick="cp('c8_3')">Copy</button></div><pre><code id="c8_3" class="language-python">try:
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    from transformers import TrainingArguments, Trainer
+    import torch
+
+    model_name = &#x27;distilbert-base-uncased&#x27;
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
+
+    # Example: tokenize a batch
+    texts = [&#x27;I love this product!&#x27;, &#x27;Terrible experience.&#x27;]
+    labels = [1, 0]
+    encodings = tokenizer(texts, truncation=True, padding=True, return_tensors=&#x27;pt&#x27;)
+
+    # In real fine-tuning, wrap in a Dataset and use Trainer:
+    # training_args = TrainingArguments(output_dir=&#x27;./results&#x27;, num_train_epochs=3)
+    # trainer = Trainer(model=model, args=training_args, ...)
+    # trainer.train()
+
+    print(&#x27;Model ready for fine-tuning&#x27;)
+    print(&#x27;Tokenized input_ids shape:&#x27;, encodings[&#x27;input_ids&#x27;].shape)
+except ImportError:
+    print(&#x27;pip install transformers torch datasets&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A SaaS company wants to build an internal knowledge base Q&amp;A bot that finds answers from company documentation using semantic search.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw8')">Copy</button></div><pre><code id="rw8" class="language-python">try:
+    from sentence_transformers import SentenceTransformer
+    from sklearn.metrics.pairwise import cosine_similarity
+    import numpy as np
+
+    model = SentenceTransformer(&#x27;all-MiniLM-L6-v2&#x27;)
+
+    # Knowledge base documents
+    kb = [
+        {&#x27;q&#x27;: &#x27;How do I reset my password?&#x27;,
+         &#x27;a&#x27;: &#x27;Go to Settings &gt; Security &gt; Reset Password and enter your email.&#x27;},
+        {&#x27;q&#x27;: &#x27;What is the refund policy?&#x27;,
+         &#x27;a&#x27;: &#x27;Refunds are processed within 5-7 business days of approval.&#x27;},
+        {&#x27;q&#x27;: &#x27;How do I cancel my subscription?&#x27;,
+         &#x27;a&#x27;: &#x27;Navigate to Billing &gt; Subscription &gt; Cancel Subscription.&#x27;},
+    ]
+
+    kb_embeddings = model.encode([item[&#x27;q&#x27;] for item in kb])
+
+    def answer_question(user_q: str):
+        q_emb = model.encode([user_q])
+        sims = cosine_similarity(q_emb, kb_embeddings)[0]
+        best = sims.argmax()
+        return kb[best][&#x27;a&#x27;], sims[best]
+
+    for question in [&#x27;Change my account password&#x27;, &#x27;Get money back for purchase&#x27;]:
+        answer, conf = answer_question(question)
+        print(f&#x27;Q: {question}&#x27;)
+        print(f&#x27;A: {answer} (confidence: {conf:.2f})\n&#x27;)
+except ImportError:
+    print(&#x27;pip install sentence-transformers&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Summarizer Pipeline</div><div class="pd">Use a HuggingFace summarization pipeline to condense a long article into a 2-sentence summary and compare the word count reduction.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">try:
+    from transformers import pipeline
+
+    summarizer = pipeline(&#x27;summarization&#x27;, model=&#x27;facebook/bart-large-cnn&#x27;)
+
+    article = &#x27;&#x27;&#x27;
+    Artificial intelligence has made remarkable progress over the past decade.
+    Large language models like GPT-4 and Claude can now generate coherent text,
+    answer complex questions, write code, and even reason about abstract problems.
+    These models are trained on vast amounts of internet text using self-supervised
+    learning, allowing them to develop broad world knowledge. However, challenges
+    remain around hallucination, bias, and alignment with human values. Researchers
+    continue to work on making these systems safer and more reliable.
+    &#x27;&#x27;&#x27;
+
+    # TODO: use summarizer to generate a short summary (max_length=60)
+    # TODO: print original word count vs summary word count
+
+except ImportError:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. NLP Pipeline &amp; Production</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Combine NLP components into production-ready pipelines. Learn batching, caching, serving NLP models via API, and evaluation metrics.</p><div class="code-block"><div class="ch"><span>End-to-end spaCy text analysis pipeline</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">try:
+    import spacy
+    from collections import Counter
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    def analyze_text(text: str) -&gt; dict:
+        doc = nlp(text)
+        return {
+            &#x27;word_count&#x27;: len([t for t in doc if not t.is_punct]),
+            &#x27;sentences&#x27;:  len(list(doc.sents)),
+            &#x27;entities&#x27;:   [(e.text, e.label_) for e in doc.ents],
+            &#x27;top_nouns&#x27;:  Counter(t.lemma_ for t in doc if t.pos_ == &#x27;NOUN&#x27;).most_common(3),
+            &#x27;top_verbs&#x27;:  Counter(t.lemma_ for t in doc if t.pos_ == &#x27;VERB&#x27;).most_common(3),
+        }
+
+    text = &#x27;Elon Musk launched SpaceX rockets in 2020. Tesla reported record profits in Q4.&#x27;
+    result = analyze_text(text)
+    for k, v in result.items():
+        print(f&#x27;{k}: {v}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Batch processing with nlp.pipe for efficiency</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python">try:
+    import spacy
+    import time
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    texts = [f&#x27;Document {i}: Apple and Google are tech giants in Silicon Valley.&#x27; for i in range(50)]
+
+    # Sequential processing
+    t0 = time.time()
+    results_seq = [nlp(t) for t in texts]
+    t_seq = time.time() - t0
+
+    # Batch processing with nlp.pipe
+    t0 = time.time()
+    results_batch = list(nlp.pipe(texts, batch_size=16))
+    t_batch = time.time() - t0
+
+    print(f&#x27;Sequential: {t_seq:.3f}s&#x27;)
+    print(f&#x27;Batch pipe: {t_batch:.3f}s&#x27;)
+    print(f&#x27;Speedup: {t_seq/t_batch:.1f}x&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Serving NLP via FastAPI</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-python"># Run with: uvicorn app:app --reload
+# pip install fastapi uvicorn
+
+FASTAPI_APP = &#x27;&#x27;&#x27;
+from fastapi import FastAPI
+from pydantic import BaseModel
+import nltk
+nltk.download(&quot;vader_lexicon&quot;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+app = FastAPI()
+sia = SentimentIntensityAnalyzer()
+
+class TextRequest(BaseModel):
+    text: str
+
+@app.post(&quot;/sentiment&quot;)
+def analyze_sentiment(req: TextRequest):
+    scores = sia.polarity_scores(req.text)
+    label = &quot;positive&quot; if scores[&quot;compound&quot;] &gt; 0.05 else &quot;negative&quot; if scores[&quot;compound&quot;] &lt; -0.05 else &quot;neutral&quot;
+    return {&quot;label&quot;: label, &quot;scores&quot;: scores}
+
+@app.get(&quot;/health&quot;)
+def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+&#x27;&#x27;&#x27;
+
+print(FASTAPI_APP)</code></pre></div><div class="code-block"><div class="ch"><span>Evaluation: precision, recall, F1 for NER</span><button onclick="cp('c9_3')">Copy</button></div><pre><code id="c9_3" class="language-python">from sklearn.metrics import precision_recall_fscore_support, classification_report
+
+# BIO tagging evaluation example
+# True entity spans vs predicted entity spans
+true_entities = [
+    {(&#x27;Apple&#x27;, &#x27;ORG&#x27;), (&#x27;Tim Cook&#x27;, &#x27;PERSON&#x27;), (&#x27;Cupertino&#x27;, &#x27;GPE&#x27;)},
+    {(&#x27;Google&#x27;, &#x27;ORG&#x27;), (&#x27;Sundar Pichai&#x27;, &#x27;PERSON&#x27;)},
+]
+pred_entities = [
+    {(&#x27;Apple&#x27;, &#x27;ORG&#x27;), (&#x27;Tim Cook&#x27;, &#x27;PERSON&#x27;)},     # missed Cupertino
+    {(&#x27;Google&#x27;, &#x27;ORG&#x27;), (&#x27;Sundar Pichai&#x27;, &#x27;PERSON&#x27;), (&#x27;Mountain View&#x27;, &#x27;GPE&#x27;)},  # extra FP
+]
+
+def ner_metrics(true_list, pred_list):
+    tp = sum(len(t &amp; p) for t, p in zip(true_list, pred_list))
+    fp = sum(len(p - t) for t, p in zip(true_list, pred_list))
+    fn = sum(len(t - p) for t, p in zip(true_list, pred_list))
+    prec = tp / (tp + fp) if tp + fp &gt; 0 else 0
+    rec  = tp / (tp + fn) if tp + fn &gt; 0 else 0
+    f1   = 2 * prec * rec / (prec + rec) if prec + rec &gt; 0 else 0
+    return {&#x27;precision&#x27;: prec, &#x27;recall&#x27;: rec, &#x27;f1&#x27;: f1}
+
+print(ner_metrics(true_entities, pred_entities))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A media monitoring company processes 10,000+ news articles daily. They need a batch NLP pipeline that extracts entities, classifies topics, and stores results in a structured format.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw9')">Copy</button></div><pre><code id="rw9" class="language-python">try:
+    import spacy
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.pipeline import Pipeline
+    import json
+
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+
+    # Train topic classifier
+    train_texts = [
+        &#x27;stock market profits earnings&#x27;, &#x27;championship game score&#x27;,
+        &#x27;AI model research launch&#x27;,    &#x27;election vote policy senator&#x27;,
+    ]
+    train_labels = [&#x27;finance&#x27;, &#x27;sports&#x27;, &#x27;tech&#x27;, &#x27;politics&#x27;]
+    topic_clf = Pipeline([(&#x27;tfidf&#x27;, TfidfVectorizer()), (&#x27;lr&#x27;, LogisticRegression())])
+    topic_clf.fit(train_texts, train_labels)
+
+    def process_article(text: str) -&gt; dict:
+        doc = nlp(text)
+        topic = topic_clf.predict([text])[0]
+        return {
+            &#x27;topic&#x27;: topic,
+            &#x27;entities&#x27;: [(e.text, e.label_) for e in doc.ents],
+            &#x27;word_count&#x27;: len([t for t in doc if not t.is_punct]),
+        }
+
+    articles = [
+        &#x27;Tesla stock surges after record Q4 earnings report.&#x27;,
+        &#x27;Manchester City wins Premier League with last-minute goal.&#x27;,
+    ]
+    results = list(nlp.pipe(articles))  # batch NER
+    for text, doc in zip(articles, results):
+        topic = topic_clf.predict([text])[0]
+        print(json.dumps({&#x27;text&#x27;: text[:40], &#x27;topic&#x27;: topic,
+                          &#x27;entities&#x27;: [(e.text, e.label_) for e in doc.ents]}, indent=2))
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Text Analytics Report</div><div class="pd">Build a function that takes a list of documents and returns a JSON report with: total word count, unique entities, top 5 keywords (TF-IDF), and dominant sentiment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import nltk
+nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np, json
+
+documents = [
+    &#x27;Apple launches revolutionary new iPhone with AI features.&#x27;,
+    &#x27;Google DeepMind achieves breakthrough in protein folding.&#x27;,
+    &#x27;Microsoft Azure reports 40% growth in cloud services revenue.&#x27;,
+]
+
+def analytics_report(docs: list) -&gt; dict:
+    sia = SentimentIntensityAnalyzer()
+    # TODO: compute total word count
+    # TODO: extract top 5 TF-IDF keywords
+    # TODO: compute average sentiment label
+    # TODO: return as dict
+    pass
+
+print(json.dumps(analytics_report(documents), indent=2))</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Extract structured facts from unstructured text: named entities, relations, events, and key-value pairs using rule-based and model-based approaches.</p><div class="code-block"><div class="ch"><span>Regex-based relation extraction</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import re
+
+text = &#x27;&#x27;&#x27;
+Elon Musk founded SpaceX in 2002. Jeff Bezos founded Amazon in 1994.
+Tim Cook joined Apple in 1998 and became CEO in 2011.
+Sam Altman was appointed CEO of OpenAI in 2019.
+&#x27;&#x27;&#x27;
+
+# Pattern: Person + founded/joined/became + Org + in + Year
+founded_pat = re.compile(
+    r&#x27;([A-Z][a-z]+ [A-Z][a-z]+) (founded|joined|became \w+) ([A-Z][a-zA-Z]+) in (\d{4})&#x27;
+)
+
+relations = []
+for m in founded_pat.finditer(text):
+    relations.append({
+        &#x27;person&#x27;: m.group(1),
+        &#x27;relation&#x27;: m.group(2),
+        &#x27;org&#x27;: m.group(3),
+        &#x27;year&#x27;: m.group(4)
+    })
+
+for r in relations:
+    print(f&quot;{r[&#x27;person&#x27;]} --[{r[&#x27;relation&#x27;]}]--&gt; {r[&#x27;org&#x27;]} ({r[&#x27;year&#x27;]})&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>spaCy NER + dependency parsing for relations</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-python">try:
+    import spacy
+    nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
+    text = &#x27;Apple acquired Beats Electronics for 3 billion dollars in 2014. Google bought YouTube in 2006.&#x27;
+    doc = nlp(text)
+    print(&#x27;Named Entities:&#x27;)
+    for ent in doc.ents:
+        print(f&#x27;  {ent.text!r:25s} -&gt; {ent.label_}&#x27;)
+    print(&#x27;\nAcquisition relations (nsubj + dobj pattern):&#x27;)
+    for token in doc:
+        if token.lemma_ in (&#x27;acquire&#x27;, &#x27;buy&#x27;, &#x27;purchase&#x27;):
+            subj = [t.text for t in token.lefts  if t.dep_ in (&#x27;nsubj&#x27;, &#x27;nsubjpass&#x27;)]
+            obj  = [t.text for t in token.rights if t.dep_ in (&#x27;dobj&#x27;, &#x27;attr&#x27;)]
+            if subj and obj:
+                print(f&#x27;  {subj[0]} --[{token.text}]--&gt; {obj[0]}&#x27;)
+except OSError:
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Template-based information extraction with regex groups</span><button onclick="cp('c10_2')">Copy</button></div><pre><code id="c10_2" class="language-python">import re
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class JobPosting:
+    title: str = &#x27;&#x27;
+    company: str = &#x27;&#x27;
+    location: str = &#x27;&#x27;
+    salary: str = &#x27;&#x27;
+    skills: List[str] = field(default_factory=list)
+
+def extract_job_info(text: str) -&gt; JobPosting:
+    job = JobPosting()
+    if m := re.search(r&#x27;(?:Title|Position|Role):\s*(.+)&#x27;, text, re.I): job.title = m.group(1).strip()
+    if m := re.search(r&#x27;Company:\s*(.+)&#x27;, text, re.I): job.company = m.group(1).strip()
+    if m := re.search(r&#x27;Location:\s*(.+)&#x27;, text, re.I): job.location = m.group(1).strip()
+    if m := re.search(r&#x27;Salary:\s*(\$[\d,]+ ?- ?\$[\d,]+|\$[\d,]+)&#x27;, text, re.I): job.salary = m.group(1)
+    skills_m = re.findall(r&#x27;\b(Python|SQL|Java|TensorFlow|PyTorch|Docker|Kubernetes|AWS|GCP)\b&#x27;, text)
+    job.skills = list(set(skills_m))
+    return job
+
+posting = &#x27;&#x27;&#x27;
+Title: Senior Data Scientist
+Company: TechCorp Inc.
+Location: San Francisco, CA
+Salary: $150,000 - $200,000
+Requirements: Python, SQL, TensorFlow, Docker, AWS experience preferred.
+&#x27;&#x27;&#x27;
+job = extract_job_info(posting)
+print(f&#x27;Title:    {job.title}&#x27;)
+print(f&#x27;Company:  {job.company}&#x27;)
+print(f&#x27;Location: {job.location}&#x27;)
+print(f&#x27;Salary:   {job.salary}&#x27;)
+print(f&#x27;Skills:   {sorted(job.skills)}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Event extraction with keyword triggers</span><button onclick="cp('c10_3')">Copy</button></div><pre><code id="c10_3" class="language-python">import re
+from collections import defaultdict
+
+# Simple event extraction using trigger words
+EVENT_TRIGGERS = {
+    &#x27;acquisition&#x27;: [&#x27;acquired&#x27;, &#x27;bought&#x27;, &#x27;purchased&#x27;, &#x27;merged with&#x27;, &#x27;took over&#x27;],
+    &#x27;funding&#x27;:     [&#x27;raised&#x27;, &#x27;secured&#x27;, &#x27;received funding&#x27;, &#x27;closed round&#x27;],
+    &#x27;launch&#x27;:      [&#x27;launched&#x27;, &#x27;released&#x27;, &#x27;unveiled&#x27;, &#x27;announced&#x27;, &#x27;introduced&#x27;],
+    &#x27;partnership&#x27;: [&#x27;partnered&#x27;, &#x27;collaborated&#x27;, &#x27;teamed up&#x27;, &#x27;joined forces&#x27;],
+}
+
+MONEY_RE = re.compile(r&#x27;\$[\d.,]+[BMK]?\s*(?:billion|million|thousand)?&#x27;, re.I)
+
+def extract_events(sentences):
+    events = []
+    for sent in sentences:
+        sent_lower = sent.lower()
+        for etype, triggers in EVENT_TRIGGERS.items():
+            for trig in triggers:
+                if trig in sent_lower:
+                    money = MONEY_RE.findall(sent)
+                    events.append({&#x27;type&#x27;: etype, &#x27;trigger&#x27;: trig, &#x27;money&#x27;: money, &#x27;text&#x27;: sent[:80]})
+                    break
+    return events
+
+news = [
+    &#x27;Google acquired DeepMind for $500 million in 2014.&#x27;,
+    &#x27;OpenAI raised $6.6 billion in its latest funding round.&#x27;,
+    &#x27;Apple launched its Vision Pro headset at WWDC 2023.&#x27;,
+    &#x27;Meta and Microsoft partnered on enterprise AI solutions.&#x27;,
+]
+for ev in extract_events(news):
+    print(f&quot;[{ev[&#x27;type&#x27;].upper()}] trigger=&#x27;{ev[&#x27;trigger&#x27;]}&#x27; money={ev[&#x27;money&#x27;]}&quot;)
+    print(f&quot;  {ev[&#x27;text&#x27;]}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A legal tech company needs to extract contract metadata (parties, dates, amounts, obligations) from thousands of PDF contracts to populate a contract management system automatically.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw10')">Copy</button></div><pre><code id="rw10" class="language-python">import re
+from typing import Optional
+
+def extract_contract_metadata(text: str) -&gt; dict:
+    result = {}
+    # Party extraction: &#x27;between X and Y&#x27;
+    party_m = re.search(r&#x27;between\s+([^,]+?)\s+and\s+([^,\.]+)&#x27;, text, re.I)
+    if party_m:
+        result[&#x27;party_1&#x27;] = party_m.group(1).strip()
+        result[&#x27;party_2&#x27;] = party_m.group(2).strip()
+    # Date extraction
+    date_m = re.findall(r&#x27;\b(\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4})\b&#x27;, text, re.I)
+    result[&#x27;dates&#x27;] = date_m[:3]
+    # Amount extraction
+    amounts = re.findall(r&#x27;\$[\d,]+(?:\.\d{2})?(?:\s*(?:million|billion|thousand))?&#x27;, text, re.I)
+    result[&#x27;amounts&#x27;] = amounts
+    # Obligation keywords
+    obligations = re.findall(r&#x27;\b(shall|must|will|agrees to|is required to)\b&#x27;, text, re.I)
+    result[&#x27;obligation_count&#x27;] = len(obligations)
+    return result
+
+contract = &#x27;&#x27;&#x27;
+This agreement is entered into between Acme Corporation and Beta Ltd.
+Effective January 15, 2024. The total value is $500,000.00.
+Acme shall deliver the software by March 31, 2024.
+Beta must pay within 30 days of invoice.
+&#x27;&#x27;&#x27;
+print(extract_contract_metadata(contract))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Write a function that extracts key resume fields from raw text: name (first line), email, phone, years of experience (parse &#x27;X years&#x27; patterns), and programming languages mentioned from a predefined list. Test it on a sample resume string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import re
+
+LANGUAGES = [&#x27;Python&#x27;, &#x27;Java&#x27;, &#x27;C++&#x27;, &#x27;JavaScript&#x27;, &#x27;SQL&#x27;, &#x27;R&#x27;, &#x27;Go&#x27;, &#x27;Rust&#x27;, &#x27;Scala&#x27;]
+
+def extract_resume(text: str) -&gt; dict:
+    # TODO: extract name (first non-empty line)
+    # TODO: extract email
+    # TODO: extract phone
+    # TODO: extract years of experience
+    # TODO: extract mentioned programming languages
+    pass
+
+resume = &#x27;&#x27;&#x27;
+Jane Doe
+jane.doe@email.com | +1-555-123-4567
+5 years of experience in data engineering.
+Skills: Python, SQL, Scala, Apache Spark.
+&#x27;&#x27;&#x27;
+print(extract_resume(resume))</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Machine Translation &amp; Seq2Seq</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand encoder-decoder architectures, attention mechanisms, and BLEU scoring. Implement simple character-level and word-level translation concepts.</p><div class="code-block"><div class="ch"><span>BLEU score calculation from scratch</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">from collections import Counter
+import math
+
+def ngram_counts(tokens, n):
+    return Counter(tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1))
+
+def bleu_score(reference: str, hypothesis: str, max_n: int = 4) -&gt; float:
+    ref_tokens  = reference.lower().split()
+    hyp_tokens  = hypothesis.lower().split()
+    if not hyp_tokens:
+        return 0.0
+    # Brevity penalty
+    bp = min(1.0, math.exp(1 - len(ref_tokens)/len(hyp_tokens)))
+    scores = []
+    for n in range(1, max_n + 1):
+        ref_ng  = ngram_counts(ref_tokens, n)
+        hyp_ng  = ngram_counts(hyp_tokens, n)
+        clipped = sum(min(c, ref_ng[ng]) for ng, c in hyp_ng.items())
+        total   = sum(hyp_ng.values())
+        if total == 0:
+            scores.append(0.0)
+        else:
+            scores.append(clipped / total)
+    # Geometric mean of precisions
+    log_avg = sum(math.log(s) if s &gt; 0 else -999 for s in scores) / max_n
+    bleu = bp * math.exp(log_avg)
+    print(f&#x27;Reference:  {reference}&#x27;)
+    print(f&#x27;Hypothesis: {hypothesis}&#x27;)
+    print(f&#x27;N-gram precisions: {[round(s,3) for s in scores]}&#x27;)
+    print(f&#x27;BLEU-{max_n}: {bleu:.4f}&#x27;)
+    return bleu
+
+bleu_score(
+    &#x27;The cat sat on the mat&#x27;,
+    &#x27;The cat is on the mat&#x27;
+)
+bleu_score(
+    &#x27;The cat sat on the mat&#x27;,
+    &#x27;A dog lay on a rug&#x27;
+)</code></pre></div><div class="code-block"><div class="ch"><span>Simple encoder-decoder concept with embeddings</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-python">import numpy as np
+
+# Demonstrate encoder-decoder idea without deep learning framework
+np.random.seed(42)
+
+# Toy vocabulary
+vocab = {&#x27;&lt;pad&gt;&#x27;: 0, &#x27;&lt;sos&gt;&#x27;: 1, &#x27;&lt;eos&gt;&#x27;: 2, &#x27;hello&#x27;: 3, &#x27;world&#x27;: 4,
+         &#x27;hola&#x27;: 5, &#x27;mundo&#x27;: 6, &#x27;bonjour&#x27;: 7, &#x27;monde&#x27;: 8}
+idx2word = {v: k for k, v in vocab.items()}
+
+# Random embeddings (in practice: learned)
+EMB_DIM = 8
+embeddings = np.random.randn(len(vocab), EMB_DIM) * 0.1
+
+def encode(sentence: str) -&gt; np.ndarray:
+    tokens = [vocab.get(w, 0) for w in sentence.lower().split()]
+    vecs = [embeddings[t] for t in tokens]
+    return np.mean(vecs, axis=0)  # mean pooling = context vector
+
+def cosine_sim(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-8)
+
+src = encode(&#x27;hello world&#x27;)
+print(&#x27;Encoder output (context vector):&#x27;, src.round(3))
+
+# In real seq2seq: decoder generates target tokens one by one
+# conditioned on context vector + previous generated token
+print(&#x27;\nEncoder-Decoder flow:&#x27;)
+print(&#x27;  Source: hello world&#x27;)
+print(&#x27;  Encoder -&gt; context vector (shape:&#x27;, src.shape, &#x27;)&#x27;)
+print(&#x27;  Decoder: &lt;sos&gt; -&gt; hola -&gt; mundo -&gt; &lt;eos&gt;&#x27;)
+print(&#x27;  At each step: P(word | context, prev_token)&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Attention mechanism visualization</span><button onclick="cp('c11_2')">Copy</button></div><pre><code id="c11_2" class="language-python">import numpy as np
+import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import matplotlib.pyplot as plt
+
+# Simulate attention weights for &#x27;The cat sat on the mat&#x27; -&gt; &#x27;Le chat etait sur le tapis&#x27;
+np.random.seed(42)
+src_words = [&#x27;The&#x27;, &#x27;cat&#x27;, &#x27;sat&#x27;, &#x27;on&#x27;, &#x27;the&#x27;, &#x27;mat&#x27;]
+tgt_words = [&#x27;Le&#x27;, &#x27;chat&#x27;, &#x27;etait&#x27;, &#x27;sur&#x27;, &#x27;le&#x27;, &#x27;tapis&#x27;]
+
+# Simulate attention weights (in practice: softmax(Q @ K.T / sqrt(d_k)))
+# Diagonal-dominant = good alignment
+raw = np.random.rand(6, 6)
+# Make it more diagonal (word alignments)
+for i in range(6):
+    raw[i, i] += 2.0
+raw[0, 4] += 1.0  # &#x27;the&#x27; aligns with &#x27;le&#x27;
+attention = np.exp(raw) / np.exp(raw).sum(axis=1, keepdims=True)
+
+fig, ax = plt.subplots(figsize=(7, 5))
+im = ax.imshow(attention, cmap=&#x27;Blues&#x27;, vmin=0, vmax=1)
+ax.set_xticks(range(6)); ax.set_xticklabels(src_words, rotation=45, ha=&#x27;right&#x27;)
+ax.set_yticks(range(6)); ax.set_yticklabels(tgt_words)
+ax.set_xlabel(&#x27;Source&#x27;); ax.set_ylabel(&#x27;Target&#x27;)
+ax.set_title(&#x27;Attention Weights&#x27;)
+plt.colorbar(im, ax=ax); plt.tight_layout()
+plt.savefig(&#x27;attention_weights.png&#x27;, dpi=80); plt.close()
+print(&#x27;Saved attention_weights.png&#x27;)
+print(&#x27;Attention row sums:&#x27;, attention.sum(axis=1).round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Hugging Face translation pipeline</span><button onclick="cp('c11_3')">Copy</button></div><pre><code id="c11_3" class="language-python">try:
+    from transformers import pipeline
+    # Zero-shot: use a pretrained translation model
+    translator = pipeline(&#x27;translation_en_to_fr&#x27;, model=&#x27;Helsinki-NLP/opus-mt-en-fr&#x27;)
+    sentences = [
+        &#x27;Machine learning is transforming healthcare.&#x27;,
+        &#x27;The quick brown fox jumps over the lazy dog.&#x27;,
+        &#x27;Data science requires statistics, programming, and domain knowledge.&#x27;,
+    ]
+    for sent in sentences:
+        result = translator(sent, max_length=128)[0][&#x27;translation_text&#x27;]
+        print(f&#x27;EN: {sent}&#x27;)
+        print(f&#x27;FR: {result}\n&#x27;)
+except ImportError:
+    print(&#x27;pip install transformers sentencepiece&#x27;)
+    print(&#x27;\nExample output:&#x27;)
+    print(&#x27;EN: Machine learning is transforming healthcare.&#x27;)
+    print(&#x27;FR: L apprentissage automatique transforme les soins de sante.&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">A global e-commerce platform needs to auto-translate product descriptions from English to 5 languages, validate translation quality with BLEU against professional translations, and flag low-quality translations for human review.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw11')">Copy</button></div><pre><code id="rw11" class="language-python">from collections import Counter
+import math
+
+def simple_bleu(ref: str, hyp: str) -&gt; float:
+    ref_t = ref.lower().split(); hyp_t = hyp.lower().split()
+    if not hyp_t: return 0.0
+    bp = min(1.0, math.exp(1 - len(ref_t)/len(hyp_t)))
+    scores = []
+    for n in range(1, 3):
+        ref_ng  = Counter(tuple(ref_t[i:i+n]) for i in range(len(ref_t)-n+1))
+        hyp_ng  = Counter(tuple(hyp_t[i:i+n]) for i in range(len(hyp_t)-n+1))
+        clip    = sum(min(c, ref_ng[ng]) for ng, c in hyp_ng.items())
+        total   = sum(hyp_ng.values()) or 1
+        scores.append(clip/total)
+    log_avg = sum(math.log(s) if s &gt; 0 else -9 for s in scores) / 2
+    return bp * math.exp(log_avg)
+
+# Simulate auto-translations and quality check
+pairs = [
+    (&#x27;Machine learning improves efficiency&#x27;, &#x27;L apprentissage automatique ameliore l efficacite&#x27;),
+    (&#x27;High quality product at low price&#x27;, &#x27;Produit cher mauvais qualite&#x27;),  # bad
+    (&#x27;Fast delivery guaranteed&#x27;, &#x27;Livraison rapide garantie&#x27;),
+]
+THRESHOLD = 0.35
+for en, fr in pairs:
+    score = simple_bleu(en, fr)
+    flag = &#x27;REVIEW&#x27; if score &lt; THRESHOLD else &#x27;OK&#x27;
+    print(f&#x27;[{flag}] BLEU={score:.3f} | {fr[:50]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: BLEU Score Evaluator</div><div class="pd">Implement a BLEU-1 and BLEU-2 evaluator. Given a list of (reference, hypothesis) pairs, compute per-pair BLEU scores and the corpus-level BLEU (average). Flag translations below 0.4 for human review. Test with at least 3 sentence pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">from collections import Counter
+import math
+
+def bleu_n(ref: str, hyp: str, n: int) -&gt; float:
+    # TODO: compute BLEU-n precision with clipping
+    pass
+
+def evaluate_translations(pairs):
+    # pairs: list of (reference, hypothesis) tuples
+    # TODO: compute BLEU-1 and BLEU-2 for each pair
+    # TODO: flag pairs below threshold 0.4
+    # TODO: print results and corpus average
+    pass
+
+test_pairs = [
+    (&#x27;The cat sat on the mat&#x27;, &#x27;The cat is on the mat&#x27;),
+    (&#x27;Hello world how are you&#x27;, &#x27;Hi earth what is up&#x27;),
+    (&#x27;Data science is exciting&#x27;, &#x27;Data science is fascinating and rewarding&#x27;),
+]
+evaluate_translations(test_pairs)</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Document Search &amp; RAG</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build retrieval systems using TF-IDF, BM25, and dense vector search. Implement a basic Retrieval-Augmented Generation pipeline combining a retriever with a language model.</p><div class="code-block"><div class="ch"><span>TF-IDF retrieval system</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+corpus = [
+    &#x27;Python is a versatile programming language for data science and web development.&#x27;,
+    &#x27;Machine learning models require large amounts of training data.&#x27;,
+    &#x27;Neural networks are inspired by the structure of the human brain.&#x27;,
+    &#x27;Natural language processing enables computers to understand human text.&#x27;,
+    &#x27;Deep learning achieves state-of-the-art results on image classification tasks.&#x27;,
+    &#x27;Reinforcement learning trains agents through rewards and penalties.&#x27;,
+    &#x27;Transfer learning fine-tunes pre-trained models on new tasks.&#x27;,
+    &#x27;Transformers use self-attention to process sequences in parallel.&#x27;,
+]
+
+vectorizer = TfidfVectorizer(stop_words=&#x27;english&#x27;, ngram_range=(1, 2))
+tfidf_matrix = vectorizer.fit_transform(corpus)
+
+def search(query: str, top_k: int = 3) -&gt; list:
+    q_vec = vectorizer.transform([query])
+    sims  = cosine_similarity(q_vec, tfidf_matrix).flatten()
+    top   = np.argsort(sims)[::-1][:top_k]
+    return [(corpus[i][:70], round(sims[i], 4)) for i in top]
+
+for q in [&#x27;how do neural networks learn&#x27;, &#x27;NLP text processing&#x27;, &#x27;image recognition&#x27;]:
+    print(f&#x27;Query: {q}&#x27;)
+    for doc, score in search(q):
+        print(f&#x27;  [{score:.4f}] {doc}&#x27;)
+    print()</code></pre></div><div class="code-block"><div class="ch"><span>BM25 retrieval from scratch</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import numpy as np
+from collections import Counter
+import math
+
+class BM25:
+    def __init__(self, corpus, k1=1.5, b=0.75):
+        self.corpus  = [doc.lower().split() for doc in corpus]
+        self.k1, self.b = k1, b
+        self.n = len(self.corpus)
+        self.avgdl = np.mean([len(d) for d in self.corpus])
+        self.df = {}
+        for doc in self.corpus:
+            for term in set(doc):
+                self.df[term] = self.df.get(term, 0) + 1
+
+    def score(self, query: str, doc_id: int) -&gt; float:
+        query_terms = query.lower().split()
+        doc = self.corpus[doc_id]
+        doc_len = len(doc)
+        tf = Counter(doc)
+        score = 0.0
+        for term in query_terms:
+            if term not in self.df: continue
+            idf = math.log((self.n - self.df[term] + 0.5) / (self.df[term] + 0.5) + 1)
+            freq = tf.get(term, 0)
+            tf_score = freq * (self.k1 + 1) / (freq + self.k1 * (1 - self.b + self.b * doc_len / self.avgdl))
+            score += idf * tf_score
+        return score
+
+    def retrieve(self, query: str, top_k: int = 3):
+        scores = [(i, self.score(query, i)) for i in range(self.n)]
+        return sorted(scores, key=lambda x: -x[1])[:top_k]
+
+docs = [&#x27;Python machine learning tutorial&#x27;, &#x27;Deep neural network architectures&#x27;, &#x27;Python web scraping guide&#x27;, &#x27;Transformer models for NLP&#x27;, &#x27;Data science with Python pandas&#x27;]
+bm25 = BM25(docs)
+print(&#x27;BM25 results for &quot;Python NLP&quot;:&#x27;)
+for idx, score in bm25.retrieve(&#x27;Python NLP&#x27;):
+    print(f&#x27;  [{score:.3f}] {docs[idx]}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Dense vector search with sentence embeddings</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-python">import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Simulate sentence embeddings (in practice: use SentenceTransformer)
+np.random.seed(42)
+
+docs = [
+    &#x27;How to train a neural network&#x27;,
+    &#x27;Python list comprehension tutorial&#x27;,
+    &#x27;Best practices for REST API design&#x27;,
+    &#x27;Introduction to gradient descent optimization&#x27;,
+    &#x27;SQL window functions explained&#x27;,
+    &#x27;Backpropagation algorithm explained&#x27;,
+]
+
+# Simulate embeddings (normally: model.encode(docs))
+# Make &#x27;neural network&#x27; and &#x27;gradient descent&#x27; semantically similar
+EMB_DIM = 16
+base_embs = np.random.randn(len(docs), EMB_DIM)
+# Make neural network docs cluster together
+for i in [0, 3, 5]:
+    base_embs[i] += np.array([2]*4 + [0]*12)  # shared direction
+base_embs /= np.linalg.norm(base_embs, axis=1, keepdims=True)
+
+def dense_search(query_emb, doc_embs, top_k=3):
+    sims = cosine_similarity(query_emb.reshape(1,-1), doc_embs).flatten()
+    top  = np.argsort(sims)[::-1][:top_k]
+    return [(docs[i], sims[i]) for i in top]
+
+# Query embedding (similar to NN docs)
+query_emb = base_embs[0] + np.random.randn(EMB_DIM) * 0.1
+query_emb /= np.linalg.norm(query_emb)
+print(&#x27;Dense search results for [neural network query]:&#x27;)
+for doc, sim in dense_search(query_emb, base_embs):
+    print(f&#x27;  [{sim:.3f}] {doc}&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Minimal RAG pipeline (retrieve + generate)</span><button onclick="cp('c12_3')">Copy</button></div><pre><code id="c12_3" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# Knowledge base
+knowledge_base = [
+    &#x27;Python was created by Guido van Rossum in 1991.&#x27;,
+    &#x27;NumPy provides N-dimensional array support and math functions.&#x27;,
+    &#x27;Pandas is built on NumPy and provides DataFrame structures for data analysis.&#x27;,
+    &#x27;Scikit-learn offers machine learning algorithms for classification, regression, and clustering.&#x27;,
+    &#x27;Matplotlib is the most popular Python plotting library.&#x27;,
+    &#x27;TensorFlow and PyTorch are the two leading deep learning frameworks.&#x27;,
+]
+
+vect = TfidfVectorizer(stop_words=&#x27;english&#x27;)
+kb_matrix = vect.fit_transform(knowledge_base)
+
+def retrieve(query: str, top_k: int = 2) -&gt; list:
+    q_vec = vect.transform([query])
+    sims  = cosine_similarity(q_vec, kb_matrix).flatten()
+    top   = np.argsort(sims)[::-1][:top_k]
+    return [knowledge_base[i] for i in top]
+
+def rag_answer(query: str) -&gt; str:
+    &quot;&quot;&quot;Minimal RAG: retrieve context, then format answer.&quot;&quot;&quot;
+    context = retrieve(query)
+    context_str = &#x27; &#x27;.join(context)
+    # In real RAG: pass context + query to LLM (e.g. Claude/GPT)
+    # Here: template-based answer simulation
+    answer = f&#x27;Based on retrieved context: {context_str[:120]}...&#x27;
+    return answer
+
+queries = [&#x27;What is pandas?&#x27;, &#x27;Who created Python?&#x27;, &#x27;deep learning frameworks&#x27;]
+for q in queries:
+    print(f&#x27;Q: {q}&#x27;)
+    print(f&#x27;Retrieved: {retrieve(q)[0][:60]}&#x27;)
+    print()</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Build an internal company knowledge base search that answers employee questions by retrieving relevant policy documents, FAQs, and procedure guides, then generating a concise answer using the retrieved context.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw12')">Copy</button></div><pre><code id="rw12" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# Company policy documents
+documents = {
+    &#x27;vacation&#x27;:   &#x27;Employees are entitled to 20 days of paid vacation per year. Unused days can be carried over to the next year up to 5 days.&#x27;,
+    &#x27;remote&#x27;:     &#x27;Remote work is allowed up to 3 days per week. Core hours are 10am-3pm in the employee home timezone.&#x27;,
+    &#x27;expenses&#x27;:   &#x27;Business expenses must be submitted within 30 days with receipts. Meals are reimbursed up to $50 per day.&#x27;,
+    &#x27;equipment&#x27;:  &#x27;New employees receive a MacBook Pro and $500 equipment budget. Replacements require manager approval.&#x27;,
+    &#x27;onboarding&#x27;: &#x27;New employees complete a 2-week onboarding program including security training and team introductions.&#x27;,
+}
+
+doc_texts = list(documents.values())
+doc_keys  = list(documents.keys())
+vect = TfidfVectorizer(stop_words=&#x27;english&#x27;)
+matrix = vect.fit_transform(doc_texts)
+
+def answer_question(query: str, top_k: int = 2) -&gt; str:
+    sims = cosine_similarity(vect.transform([query]), matrix).flatten()
+    top  = np.argsort(sims)[::-1][:top_k]
+    context = &#x27; &#x27;.join(doc_texts[i] for i in top)
+    return f&#x27;[Context: {context[:200]}...]&#x27;
+
+for q in [&#x27;How many vacation days do I get?&#x27;, &#x27;Can I work from home?&#x27;, &#x27;expense reimbursement policy&#x27;]:
+    print(f&#x27;Q: {q}&#x27;)
+    print(f&#x27;A: {answer_question(q)[:120]}&#x27;)
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Chatbot with TF-IDF Retrieval</div><div class="pd">Build a simple FAQ chatbot. Given a list of (question, answer) pairs as your knowledge base, retrieve the most similar FAQ question to user input using TF-IDF + cosine similarity, and return its answer. Test with at least 5 FAQ entries and 3 user queries. Report similarity scores.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+faqs = [
+    (&#x27;What are your business hours?&#x27;, &#x27;We are open Monday to Friday, 9am to 6pm EST.&#x27;),
+    (&#x27;How do I reset my password?&#x27;, &#x27;Click Forgot Password on the login page and follow the email instructions.&#x27;),
+    (&#x27;What payment methods do you accept?&#x27;, &#x27;We accept Visa, Mastercard, PayPal, and bank transfers.&#x27;),
+    (&#x27;How long does shipping take?&#x27;, &#x27;Standard shipping takes 5-7 business days. Express ships in 2 days.&#x27;),
+    (&#x27;Can I return a product?&#x27;, &#x27;Yes, returns are accepted within 30 days with original packaging.&#x27;),
+]
+
+# TODO: Fit TfidfVectorizer on FAQ questions
+# TODO: For each user query, find most similar FAQ and return answer
+# TODO: Print query, matched question, similarity score, and answer
+
+user_queries = [&#x27;office hours&#x27;, &#x27;forgot my login&#x27;, &#x27;how to send back item&#x27;]
+# TODO: process each query
+</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Transformer Models &amp; Pre-trained Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Tokenization &amp; Subword Encoding with HuggingFace</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">from transformers import AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained(&quot;distilbert-base-uncased&quot;)
+texts = [
+    &quot;The stock market crashed on Monday.&quot;,
+    &quot;Transformers revolutionized NLP in 2017!&quot;
+]
+encoded = tokenizer(texts, padding=True, truncation=True, max_length=32, return_tensors=&quot;pt&quot;)
+print(&quot;Input IDs shape:&quot;, encoded[&quot;input_ids&quot;].shape)
+for i, text in enumerate(texts):
+    tokens = tokenizer.convert_ids_to_tokens(encoded[&quot;input_ids&quot;][i])
+    tokens = [t for t in tokens if t != &quot;[PAD]&quot;]
+    print(f&quot;\nText {i+1}: {tokens}&quot;)
+print(&quot;\nVocab size:&quot;, tokenizer.vocab_size)</code></pre></div><div class="code-block"><div class="ch"><span>Sentiment Classification with Pre-trained BERT</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-python">from transformers import pipeline
+classifier = pipeline(&quot;sentiment-analysis&quot;, model=&quot;distilbert-base-uncased-finetuned-sst-2-english&quot;)
+reviews = [
+    &quot;This product exceeded all my expectations! Absolutely fantastic.&quot;,
+    &quot;Terrible quality. Broke after one day. Very disappointed.&quot;,
+    &quot;It is okay, nothing special but gets the job done.&quot;,
+]
+results = classifier(reviews)
+for text, result in zip(reviews, results):
+    label = result[&quot;label&quot;]
+    score = result[&quot;score&quot;]
+    print(f&quot;[{label} {score:.3f}] {text[:50]}...&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Zero-Shot Classification</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-python">from transformers import pipeline
+classifier = pipeline(&quot;zero-shot-classification&quot;,
+                      model=&quot;facebook/bart-large-mnli&quot;)
+text = &quot;The Federal Reserve raised interest rates by 25 basis points today.&quot;
+candidate_labels = [&quot;finance&quot;, &quot;sports&quot;, &quot;technology&quot;, &quot;politics&quot;, &quot;health&quot;]
+result = classifier(text, candidate_labels)
+print(&quot;Text:&quot;, text[:70])
+print(&quot;\nClassification scores:&quot;)
+for label, score in zip(result[&quot;labels&quot;], result[&quot;scores&quot;]):
+    bar = &quot;#&quot; * int(score * 30)
+    print(f&quot;  {label:&lt;12} {score:.4f}  {bar}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Customer support triage: classify incoming support tickets into departments (billing, technical, returns, general) using zero-shot classification without any labeled training data.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw13')">Copy</button></div><pre><code id="rw13" class="language-python">from transformers import pipeline
+# Zero-shot ticket router
+classifier = pipeline(&quot;zero-shot-classification&quot;,
+                      model=&quot;facebook/bart-large-mnli&quot;)
+tickets = [
+    &quot;My credit card was charged twice for the same order.&quot;,
+    &quot;The app keeps crashing whenever I try to open settings.&quot;,
+    &quot;I want to return the shoes I bought last week. They don&#x27;t fit.&quot;,
+    &quot;When will my order arrive? It&#x27;s been two weeks.&quot;,
+    &quot;I forgot my password and the reset link doesn&#x27;t work.&quot;,
+]
+departments = [&quot;billing&quot;, &quot;technical support&quot;, &quot;returns &amp; refunds&quot;, &quot;shipping&quot;, &quot;account access&quot;]
+print(&quot;Support Ticket Routing&quot;)
+print(&quot;=&quot; * 60)
+for ticket in tickets:
+    result = classifier(ticket, departments, multi_label=False)
+    top_dept = result[&quot;labels&quot;][0]
+    top_score = result[&quot;scores&quot;][0]
+    print(f&quot;Ticket: {ticket[:55]}...&quot;)
+    print(f&quot;  -&gt; {top_dept} ({top_score:.3f})&quot;)
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Article Classifier</div><div class="pd">Use zero-shot classification with 6 news categories (politics, sports, technology, science, entertainment, business). Classify 5 different news headlines. Then use a pre-trained sentiment pipeline on the same headlines and combine both outputs into a structured report showing category + sentiment for each article.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">from transformers import pipeline
+# News headlines to classify
+headlines = [
+    &quot;SpaceX successfully lands reusable rocket for 20th time.&quot;,
+    &quot;Champions League final set as Real Madrid beats Bayern Munich.&quot;,
+    &quot;Senate votes to pass new climate legislation bill.&quot;,
+    &quot;Apple unveils new M4 chip with enhanced neural processing.&quot;,
+    &quot;GDP growth slows to 1.2% amid rising inflation concerns.&quot;,
+]
+categories = [&quot;politics&quot;, &quot;sports&quot;, &quot;technology&quot;, &quot;science&quot;, &quot;entertainment&quot;, &quot;business&quot;]
+# TODO: Zero-shot classify each headline into categories
+# TODO: Run sentiment analysis on each headline
+# TODO: Print formatted table: headline | category | sentiment | scores
+</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Named Entity Recognition &amp; Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>spaCy NER Pipeline</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import spacy
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+texts = [
+    &quot;Apple Inc. CEO Tim Cook announced new products at WWDC in San Francisco.&quot;,
+    &quot;On March 14, 2023, the Fed raised rates by 25bps, affecting $4.5T in bonds.&quot;,
+]
+for text in texts:
+    doc = nlp(text)
+    print(f&quot;Text: {text[:65]}...&quot;)
+    print(&quot;Entities:&quot;)
+    for ent in doc.ents:
+        print(f&quot;  [{ent.label_:&lt;10}] &#x27;{ent.text}&#x27;&quot;)
+    print()</code></pre></div><div class="code-block"><div class="ch"><span>Custom NER with spaCy Patterns</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-python">import spacy
+from spacy.matcher import Matcher
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+matcher = Matcher(nlp.vocab)
+# Match product codes like &quot;SKU-12345&quot; or &quot;PROD-ABC99&quot;
+pattern = [{&quot;TEXT&quot;: {&quot;REGEX&quot;: r&quot;(SKU|PROD|ITEM)-[A-Z0-9]{3,8}&quot;}}]
+matcher.add(&quot;PRODUCT_CODE&quot;, [pattern])
+texts = [
+    &quot;Customer ordered SKU-48291 and PROD-XR99 but ITEM-ZZ001 was out of stock.&quot;,
+    &quot;Return request for SKU-11100 received from warehouse.&quot;,
+]
+for text in texts:
+    doc = nlp(text)
+    matches = matcher(doc)
+    codes = [doc[start:end].text for _, start, end in matches]
+    print(f&quot;Text: {text}&quot;)
+    print(f&quot;Product codes found: {codes}\n&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Relation Extraction with Dependency Parsing</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-python">import spacy
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+text = &quot;Elon Musk founded SpaceX in 2002. Jeff Bezos started Amazon in 1994.&quot;
+doc = nlp(text)
+print(&quot;Subject-Verb-Object triples:&quot;)
+for sent in doc.sents:
+    for token in sent:
+        if token.dep_ == &quot;ROOT&quot;:
+            subj = [c.text for c in token.children if c.dep_ in (&quot;nsubj&quot;,&quot;nsubjpass&quot;)]
+            obj  = [c.text for c in token.children if c.dep_ in (&quot;dobj&quot;,&quot;attr&quot;,&quot;pobj&quot;)]
+            if subj and obj:
+                print(f&quot;  ({subj[0]}) --[{token.text}]--&gt; ({obj[0]})&quot;)
+print(&quot;\nNamed Entities:&quot;)
+for ent in doc.ents:
+    print(f&quot;  {ent.text:&lt;15} [{ent.label_}]&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Legal contract analysis: extract parties, dates, monetary amounts, and obligations from contract text to populate a structured database automatically.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw14')">Copy</button></div><pre><code id="rw14" class="language-python">import spacy
+import re
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+contract_text = &quot;&quot;&quot;
+This Service Agreement is entered into on January 15, 2024, between
+Acme Corporation, a Delaware company (&quot;Client&quot;), and TechSolutions LLC,
+a California limited liability company (&quot;Provider&quot;). Client agrees to pay
+Provider $12,500 per month for software development services. The agreement
+terminates on December 31, 2024. Acme Corporation is headquartered in
+New York, NY. Either party may terminate with 30 days written notice.
+&quot;&quot;&quot;
+doc = nlp(contract_text)
+# Extract entities by type
+parties = []
+dates = []
+money = []
+for ent in doc.ents:
+    if ent.label_ == &quot;ORG&quot;:
+        parties.append(ent.text)
+    elif ent.label_ == &quot;DATE&quot;:
+        dates.append(ent.text)
+    elif ent.label_ == &quot;MONEY&quot;:
+        money.append(ent.text)
+print(&quot;Contract Extraction Report&quot;)
+print(f&quot;Parties:  {list(set(parties))}&quot;)
+print(f&quot;Dates:    {dates}&quot;)
+print(f&quot;Amounts:  {money}&quot;)
+# Extract obligations with regex on sentence level
+for sent in doc.sents:
+    if any(w in sent.text.lower() for w in [&quot;agrees&quot;, &quot;shall&quot;, &quot;must&quot;, &quot;terminates&quot;]):
+        print(f&quot;Obligation: {sent.text.strip()[:80]}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Given a sample resume text (3-4 sentences), use spaCy to extract: person name (PERSON), organizations (ORG), job titles (using custom Matcher patterns for &#x27;Senior Engineer&#x27;, &#x27;Data Scientist&#x27;, etc.), years of experience (CARDINAL + &#x27;years&#x27;), and skills (custom pattern for capitalized tech terms). Output a structured JSON-like summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import spacy
+from spacy.matcher import Matcher
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+resume = &quot;&quot;&quot;
+John Smith is a Senior Data Scientist with 8 years of experience at Google and Microsoft.
+He specializes in Python, TensorFlow, and SQL. Previously, he was a Machine Learning Engineer
+at Amazon, where he led a team of 5 researchers. He holds a PhD from MIT in Computer Science.
+&quot;&quot;&quot;
+matcher = Matcher(nlp.vocab)
+# TODO: Pattern for job titles (e.g., &quot;Senior Data Scientist&quot;, &quot;Machine Learning Engineer&quot;)
+# TODO: Pattern for tech skills (capitalized 1-3 word terms)
+# TODO: Extract PERSON, ORG, DATE, CARDINAL entities
+# TODO: Output structured dict: name, companies, titles, skills, experience_years
+</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Text Generation, Summarization &amp; Prompt Engineering</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Text Generation with GPT-2</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">from transformers import pipeline
+generator = pipeline(&quot;text-generation&quot;, model=&quot;gpt2&quot;, max_new_tokens=60)
+prompts = [
+    &quot;The future of artificial intelligence is&quot;,
+    &quot;In 2035, data scientists will&quot;,
+]
+for prompt in prompts:
+    outputs = generator(prompt, num_return_sequences=2, temperature=0.8, do_sample=True)
+    print(f&quot;Prompt: {prompt}&quot;)
+    for i, out in enumerate(outputs, 1):
+        generated = out[&quot;generated_text&quot;][len(prompt):]
+        print(f&quot;  [{i}] ...{generated[:80]}&quot;)
+    print()</code></pre></div><div class="code-block"><div class="ch"><span>Structured Prompting &amp; Prompt Engineering</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-python"># Demonstrates prompt engineering patterns (no API key needed — shows templates)
+import json
+
+def build_extraction_prompt(text, fields):
+    field_list = &quot;, &quot;.join(f&#x27;&quot;{f}&quot;&#x27; for f in fields)
+    return f&quot;&quot;&quot;Extract the following fields from the text below.
+Return ONLY valid JSON with keys: {field_list}.
+If a field is not found, use null.
+
+Text: {text}
+
+JSON output:&quot;&quot;&quot;
+
+texts = [
+    &quot;Order #4521 placed by Sarah Johnson on 2024-03-15 for $289.99. Ships to Chicago, IL.&quot;,
+    &quot;Meeting scheduled with Dr. Patel at Boston General Hospital on Tuesday at 2pm.&quot;
+]
+fields_order   = [&quot;order_id&quot;, &quot;customer_name&quot;, &quot;date&quot;, &quot;amount&quot;, &quot;city&quot;]
+fields_meeting = [&quot;person&quot;, &quot;organization&quot;, &quot;day&quot;, &quot;time&quot;]
+for text, fields in zip(texts, [fields_order, fields_meeting]):
+    prompt = build_extraction_prompt(text, fields)
+    print(&quot;=== Prompt Template ===&quot;)
+    print(prompt[:200])
+    print(&quot;...&quot;)
+    print()</code></pre></div><div class="code-block"><div class="ch"><span>Summarization with BART</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-python">from transformers import pipeline
+summarizer = pipeline(&quot;summarization&quot;, model=&quot;facebook/bart-large-cnn&quot;,
+                      max_length=60, min_length=20, do_sample=False)
+article = &quot;&quot;&quot;
+Scientists at MIT have developed a new AI system capable of predicting protein
+folding structures with greater accuracy than any previous model. The breakthrough,
+published in Nature, combines deep learning with molecular dynamics simulations.
+Researchers tested the system on over 10,000 known protein structures and achieved
+98.5% accuracy. This development could accelerate drug discovery by enabling
+researchers to design proteins that target specific disease pathways. The team plans
+to make the model open-source within the next six months.
+&quot;&quot;&quot;
+summary = summarizer(article.strip())[0][&quot;summary_text&quot;]
+original_words = len(article.split())
+summary_words  = len(summary.split())
+print(f&quot;Original: {original_words} words&quot;)
+print(f&quot;Summary ({summary_words} words):&quot;)
+print(summary)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Content moderation pipeline: automatically detect and summarize problematic content, classify severity, and route to appropriate human reviewer with context.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw15')">Copy</button></div><pre><code id="rw15" class="language-python">from transformers import pipeline
+# Multi-stage NLP pipeline: classify -&gt; summarize -&gt; route
+classifier  = pipeline(&quot;text-classification&quot;, model=&quot;distilbert-base-uncased-finetuned-sst-2-english&quot;)
+zero_shot   = pipeline(&quot;zero-shot-classification&quot;, model=&quot;facebook/bart-large-mnli&quot;)
+posts = [
+    &quot;This is an amazing product! I love the design and performance.&quot;,
+    &quot;I hate this company. They stole my money and won&#x27;t respond.&quot;,
+    &quot;How do I reset my password? I can&#x27;t log in to my account.&quot;,
+    &quot;WARNING: This is a scam. Do NOT buy from this seller!!&quot;,
+]
+severity_labels = [&quot;urgent - requires immediate review&quot;, &quot;moderate - review within 24h&quot;, &quot;low - can be auto-resolved&quot;]
+print(&quot;Content Moderation Pipeline&quot;)
+print(&quot;=&quot; * 60)
+for post in posts:
+    sentiment = classifier(post)[0]
+    severity  = zero_shot(post, severity_labels)[&quot;labels&quot;][0]
+    print(f&quot;Post: {post[:55]}...&quot;)
+    print(f&quot;  Sentiment: {sentiment[&#x27;label&#x27;]} ({sentiment[&#x27;score&#x27;]:.2f})&quot;)
+    print(f&quot;  Severity:  {severity}&quot;)
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Document Summarization</div><div class="pd">Summarize 3 different news articles (each 100+ words, on the same topic) using BART. Then concatenate the summaries and summarize again to create a &#x27;meta-summary&#x27;. Compare word counts at each stage and compute the compression ratio. Also extract key noun phrases from the meta-summary using spaCy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">from transformers import pipeline
+import spacy
+nlp_sp = spacy.load(&quot;en_core_web_sm&quot;)
+summarizer = pipeline(&quot;summarization&quot;, model=&quot;facebook/bart-large-cnn&quot;,
+                      max_length=80, min_length=30, do_sample=False)
+article1 = &quot;&quot;&quot;[Article 1: 100+ words on climate change - fill in]&quot;&quot;&quot;&quot;
+article2 = &quot;&quot;&quot;[Article 2: 100+ words on climate policy - fill in]&quot;&quot;&quot;&quot;
+article3 = &quot;&quot;&quot;[Article 3: 100+ words on renewable energy - fill in]&quot;&quot;&quot;&quot;
+articles = [article1, article2, article3]
+# TODO: Summarize each article individually
+# TODO: Concatenate summaries and create meta-summary
+# TODO: Compute compression ratios at each stage
+# TODO: Extract noun chunks from meta-summary with spaCy
+</code></pre></div></div></div></div></main>
+<script>hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText);}
+function filt(v){var lv=v.toLowerCase();document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.querySelector('a').textContent.toLowerCase().includes(lv)?'':'none';});}
+</script></body></html>
