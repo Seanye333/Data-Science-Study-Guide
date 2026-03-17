@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learning Path Overview — Data Science Study Path</title>
+<style>
+:root {
+  --bg:     #0d1117;
+  --card:   #161b22;
+  --card2:  #1c2128;
+  --border: #30363d;
+  --text:   #e6edf3;
+  --muted:  #8b949e;
+  --green:  #3fb950;
+  --blue:   #58a6ff;
+  --orange: #f97316;
+  --purple: #c084fc;
+  --teal:   #4ec9a0;
+  --red:    #ff4b4b;
+  --yellow: #cd8b00;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+}
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1140px; margin: 0 auto; }
+
+/* ── NAV ── */
+.nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
+.nav-back {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .85rem; color: var(--muted); padding: 7px 14px;
+  border: 1px solid var(--border); border-radius: 8px;
+  transition: color .2s, border-color .2s;
+}
+.nav-back:hover { color: var(--blue); border-color: var(--blue); }
+.nav-title { font-size: .9rem; font-weight: 700; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+
+/* ── HERO ── */
+.hero { text-align: center; margin-bottom: 64px; }
+.hero-label {
+  display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--blue); background: rgba(88,166,255,.1);
+  border: 1px solid rgba(88,166,255,.2); padding: 4px 14px; border-radius: 20px; margin-bottom: 16px;
+}
+.hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; }
+.hero h1 em { font-style: normal; background: linear-gradient(90deg,#58a6ff,#c084fc,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 14px auto 0; line-height: 1.7; }
+
+/* ── STATS ROW ── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 64px; }
+.stat-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 22px 20px; text-align: center;
+}
+.stat-box .num { font-size: 2rem; font-weight: 800; line-height: 1; }
+.stat-box .lbl { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+.stat-box.c1 .num { color: var(--blue); }
+.stat-box.c2 .num { color: var(--green); }
+.stat-box.c3 .num { color: var(--purple); }
+.stat-box.c4 .num { color: var(--orange); }
+
+/* ── PHASE HEADING ── */
+.phase-head {
+  display: flex; align-items: center; gap: 16px; margin: 52px 0 24px;
+}
+.phase-num {
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 800; flex-shrink: 0;
+}
+.phase-info h2 { font-size: 1.3rem; font-weight: 700; }
+.phase-info p  { font-size: .83rem; color: var(--muted); margin-top: 3px; }
+.phase-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── PHASE COLORS ── */
+.p1 .phase-num { background: rgba(255,166,87,.15); color: #ffa657; border: 1px solid rgba(255,166,87,.3); }
+.p2 .phase-num { background: rgba(78,201,160,.15); color: var(--teal); border: 1px solid rgba(78,201,160,.3); }
+.p3 .phase-num { background: rgba(192,132,252,.15); color: var(--purple); border: 1px solid rgba(192,132,252,.3); }
+.p4 .phase-num { background: rgba(52,211,153,.15); color: #34d399; border: 1px solid rgba(52,211,153,.3); }
+.p5 .phase-num { background: rgba(249,115,22,.15); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
+
+/* ── ROADMAP GRID ── */
+.roadmap { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.roadmap.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ── ROADMAP CARD ── */
+.rm-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 0; overflow: hidden; transition: transform .2s, border-color .2s, box-shadow .2s;
+  display: flex; flex-direction: column;
+}
+.rm-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+.rm-card-top {
+  padding: 20px 22px 16px; display: flex; align-items: flex-start; gap: 14px;
+}
+.rm-icon {
+  width: 46px; height: 46px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.rm-meta { flex: 1; }
+.rm-num { font-size: .7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.rm-title { font-size: 1.05rem; font-weight: 700; margin-top: 2px; }
+.rm-desc { font-size: .82rem; color: var(--muted); line-height: 1.55; margin: 0 22px 14px; }
+
+.rm-skills {
+  margin: 0 22px 14px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.skill {
+  font-size: .68rem; font-weight: 600; padding: 3px 9px; border-radius: 10px;
+}
+
+.rm-footer {
+  margin-top: auto; padding: 12px 22px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(0,0,0,.15);
+}
+.rm-stats { font-size: .73rem; color: var(--muted); }
+.rm-link {
+  font-size: .75rem; font-weight: 600; padding: 5px 12px; border-radius: 7px;
+  transition: opacity .2s;
+}
+.rm-link:hover { opacity: .8; }
+
+/* ── PREREQ BADGE ── */
+.prereq-row { margin: 0 22px 14px; display: flex; align-items: center; gap: 6px; }
+.prereq-label { font-size: .68rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.prereq-badge {
+  font-size: .67rem; font-weight: 600; padding: 2px 8px; border-radius: 8px;
+  background: rgba(88,166,255,.1); color: var(--blue); border: 1px solid rgba(88,166,255,.2);
+}
+
+/* ── FLOW DIAGRAM ── */
+.flow-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; margin-bottom: 64px; overflow-x: auto; }
+.flow-wrap h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.flow-wrap h2 span { font-size: .72rem; color: var(--muted); font-weight: 400; }
+.flow { display: flex; align-items: flex-start; gap: 0; min-width: 700px; }
+.flow-col { display: flex; flex-direction: column; gap: 10px; }
+.flow-node {
+  padding: 10px 14px; border-radius: 9px; font-size: .78rem; font-weight: 600;
+  white-space: nowrap; text-align: center; cursor: pointer;
+  transition: transform .15s;
+}
+.flow-node:hover { transform: scale(1.04); }
+.flow-arrow {
+  display: flex; align-items: center; padding: 0 6px; color: var(--muted);
+  font-size: 1.1rem; align-self: center; flex-shrink: 0;
+}
+.flow-col-label {
+  font-size: .65rem; color: var(--muted); font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; text-align: center; margin-bottom: 4px;
+}
+
+/* ── CAREER PATHS ── */
+.careers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 64px; }
+.career-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+}
+.career-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.career-card p { font-size: .8rem; color: var(--muted); margin-bottom: 14px; line-height: 1.55; }
+.career-modules { display: flex; flex-direction: column; gap: 5px; }
+.career-module {
+  display: flex; align-items: center; gap: 8px; font-size: .75rem; color: var(--muted);
+}
+.career-module::before { content: '→'; color: var(--green); font-weight: 700; }
+
+/* ── TIPS ── */
+.tips { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 64px; }
+.tip-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+.tip-box h4 { font-size: .9rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.tip-box p, .tip-box li { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+.tip-box ul { padding-left: 16px; }
+
+/* ── FOOTER ── */
+footer { text-align: center; color: var(--muted); font-size: .82rem; padding-top: 24px; border-top: 1px solid var(--border); }
+footer a { color: var(--blue); }
+
+@media(max-width: 860px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .roadmap { grid-template-columns: 1fr; }
+  .roadmap.cols3 { grid-template-columns: 1fr; }
+  .careers { grid-template-columns: 1fr; }
+  .tips { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.2rem; }
+}
+@media(max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav">
+    <a href="home.html" class="nav-back">← Back to Home</a>
+    <span class="nav-title">Learning Path Overview</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Complete Roadmap</div>
+    <h1>Your Data Science<br><em>Learning Journey</em></h1>
+    <p>A structured path from Python fundamentals to production ML — 14 modules, 5 phases, designed to build skills progressively with real-world projects at every step.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box c1">
+      <div class="num">14</div>
+      <div class="lbl">Modules</div>
+    </div>
+    <div class="stat-box c2">
+      <div class="num">2,840+</div>
+      <div class="lbl">Notebook Cells</div>
+    </div>
+    <div class="stat-box c3">
+      <div class="num">1,000+</div>
+      <div class="lbl">Code Examples</div>
+    </div>
+    <div class="stat-box c4">
+      <div class="num">5</div>
+      <div class="lbl">Learning Phases</div>
+    </div>
+  </div>
+
+  <!-- FLOW DIAGRAM -->
+  <div class="flow-wrap">
+    <h2>Visual Learning Path <span>— follow left to right, top to bottom</span></h2>
+    <div class="flow">
+      <!-- Col 1: Foundations -->
+      <div>
+        <div class="flow-col-label">Phase 1</div>
+        <div class="flow-col">
+          <div class="flow-node" style="background:rgba(255,166,87,.15);color:#ffa657;border:1px solid rgba(255,166,87,.3);" onclick="location.href='00_python_basics/index.html'">🐍 Python Basics</div>
+          <div class="flow-node" style="background:rgba(121,192,255,.12);color:#79c0ff;border:1px solid rgba(121,192,255,.25);" onclick="location.href='01_numpy/index.html'">🔢 NumPy</div>
+          <div class="flow-node" style="background:rgba(240,136,62,.12);color:#f0883e;border:1px solid rgba(240,136,62,.25);" onclick="location.href='02_sql/index.html'">🗄️ SQL</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Col 2: Data Analysis -->
+      <div>
+        <div class="flow-col-label">Phase 2</div>
+        <div class="flow-col">
+          <div class="flow-node" style="background:rgba(78,201,160,.12);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);" onclick="location.href='03_pandas/index.html'">🐼 Pandas</div>
+          <div class="flow-node" style="background:rgba(205,139,0,.12);color:#cd8b00;border:1px solid rgba(205,139,0,.25);" onclick="location.href='08_polars/index.html'">⚡ Polars</div>
+          <div class="flow-node" style="background:rgba(96,165,250,.12);color:#60a5fa;border:1px solid rgba(96,165,250,.25);" onclick="location.href='11_statistics/index.html'">📐 Statistics</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Col 3: Visualization -->
+      <div>
+        <div class="flow-col-label">Phase 3</div>
+        <div class="flow-col">
+          <div class="flow-node" style="background:rgba(88,166,255,.12);color:#58a6ff;border:1px solid rgba(88,166,255,.25);" onclick="location.href='03_matplotlib/index.html'">📊 Matplotlib</div>
+          <div class="flow-node" style="background:rgba(192,132,252,.12);color:#c084fc;border:1px solid rgba(192,132,252,.25);" onclick="location.href='04_seaborn/index.html'">🎨 Seaborn</div>
+          <div class="flow-node" style="background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25);" onclick="location.href='05_plotly/index.html'">✨ Plotly</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Col 4: Machine Learning -->
+      <div>
+        <div class="flow-col-label">Phase 4</div>
+        <div class="flow-col">
+          <div class="flow-node" style="background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.25);" onclick="location.href='06_sklearn/index.html'">🤖 Scikit-learn</div>
+          <div class="flow-node" style="background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.25);" onclick="location.href='12_time_series/index.html'">📈 Time Series</div>
+          <div class="flow-node" style="background:rgba(232,121,249,.12);color:#e879f9;border:1px solid rgba(232,121,249,.25);" onclick="location.href='13_nlp/index.html'">💬 NLP</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Col 5: Advanced -->
+      <div>
+        <div class="flow-col-label">Phase 5</div>
+        <div class="flow-col">
+          <div class="flow-node" style="background:rgba(249,115,22,.12);color:#f97316;border:1px solid rgba(249,115,22,.25);" onclick="location.href='09_deep_learning/index.html'">🧠 Deep Learning</div>
+          <div class="flow-node" style="background:rgba(255,75,75,.12);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);" onclick="location.href='07_streamlit/index.html'">🚀 Streamlit</div>
+          <div class="flow-node" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25);" onclick="location.href='14_mlops/index.html'">⚙️ MLOps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 1 ═══ -->
+  <div class="phase-head p1">
+    <div class="phase-num">1</div>
+    <div class="phase-info">
+      <h2>Foundations</h2>
+      <p>The essential building blocks every data scientist needs before anything else</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="roadmap cols3">
+
+    <div class="rm-card" style="border-top: 3px solid #ffa657;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(255,166,87,.12);">🐍</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 00 · Start Here</div>
+          <div class="rm-title" style="color:#ffa657;">Python Basics</div>
+        </div>
+      </div>
+      <p class="rm-desc">Master Python from scratch — variables, control flow, functions, OOP, error handling, generators, async/await, and file I/O.</p>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(255,166,87,.1);color:#ffa657;border:1px solid rgba(255,166,87,.25);">Variables & Types</span>
+        <span class="skill" style="background:rgba(255,166,87,.1);color:#ffa657;border:1px solid rgba(255,166,87,.25);">Functions & OOP</span>
+        <span class="skill" style="background:rgba(255,166,87,.1);color:#ffa657;border:1px solid rgba(255,166,87,.25);">List Comprehensions</span>
+        <span class="skill" style="background:rgba(255,166,87,.1);color:#ffa657;border:1px solid rgba(255,166,87,.25);">Decorators</span>
+        <span class="skill" style="background:rgba(255,166,87,.1);color:#ffa657;border:1px solid rgba(255,166,87,.25);">Async/Await</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 223 cells</span>
+        <a href="00_python_basics/index.html" class="rm-link" style="background:rgba(255,166,87,.15);color:#ffa657;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #79c0ff;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(121,192,255,.12);">🔢</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 01 · After Python</div>
+          <div class="rm-title" style="color:#79c0ff;">NumPy</div>
+        </div>
+      </div>
+      <p class="rm-desc">Numerical computing with N-dimensional arrays — vectorized operations, broadcasting, linear algebra, FFT, and random number generation.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python Basics</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(121,192,255,.1);color:#79c0ff;border:1px solid rgba(121,192,255,.25);">ndarray</span>
+        <span class="skill" style="background:rgba(121,192,255,.1);color:#79c0ff;border:1px solid rgba(121,192,255,.25);">Broadcasting</span>
+        <span class="skill" style="background:rgba(121,192,255,.1);color:#79c0ff;border:1px solid rgba(121,192,255,.25);">Linear Algebra</span>
+        <span class="skill" style="background:rgba(121,192,255,.1);color:#79c0ff;border:1px solid rgba(121,192,255,.25);">Vectorization</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 197 cells</span>
+        <a href="01_numpy/index.html" class="rm-link" style="background:rgba(121,192,255,.15);color:#79c0ff;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #f0883e;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(240,136,62,.12);">🗄️</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 02 · Parallel Track</div>
+          <div class="rm-title" style="color:#f0883e;">SQL</div>
+        </div>
+      </div>
+      <p class="rm-desc">Query relational databases — SELECT, JOINs, CTEs, window functions, subqueries, indexes, views, triggers, and SQLite with Python.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python Basics</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(240,136,62,.1);color:#f0883e;border:1px solid rgba(240,136,62,.25);">SELECT & JOINs</span>
+        <span class="skill" style="background:rgba(240,136,62,.1);color:#f0883e;border:1px solid rgba(240,136,62,.25);">Window Fns</span>
+        <span class="skill" style="background:rgba(240,136,62,.1);color:#f0883e;border:1px solid rgba(240,136,62,.25);">CTEs</span>
+        <span class="skill" style="background:rgba(240,136,62,.1);color:#f0883e;border:1px solid rgba(240,136,62,.25);">Query Optimization</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 197 cells</span>
+        <a href="02_sql/index.html" class="rm-link" style="background:rgba(240,136,62,.15);color:#f0883e;">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PHASE 2 ═══ -->
+  <div class="phase-head p2">
+    <div class="phase-num">2</div>
+    <div class="phase-info">
+      <h2>Data Analysis</h2>
+      <p>Load, clean, transform, and explore real-world datasets at scale</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="roadmap cols3">
+
+    <div class="rm-card" style="border-top: 3px solid #4ec9a0;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(78,201,160,.12);">🐼</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 03 · Core Tool</div>
+          <div class="rm-title" style="color:#4ec9a0;">Pandas</div>
+        </div>
+      </div>
+      <p class="rm-desc">The industry-standard data analysis library — DataFrames, groupby, merge/join, datetime, string ops, pivot tables, and cleaning pipelines.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python</span>
+        <span class="prereq-badge">NumPy</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(78,201,160,.1);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);">DataFrame</span>
+        <span class="skill" style="background:rgba(78,201,160,.1);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);">GroupBy</span>
+        <span class="skill" style="background:rgba(78,201,160,.1);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);">Merge & Pivot</span>
+        <span class="skill" style="background:rgba(78,201,160,.1);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);">Time Series</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">32 topics · 192 cells</span>
+        <a href="03_pandas/index.html" class="rm-link" style="background:rgba(78,201,160,.15);color:#4ec9a0;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #cd8b00;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(205,139,0,.12);">⚡</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 04 · Modern Alternative</div>
+          <div class="rm-title" style="color:#cd8b00;">Polars</div>
+        </div>
+      </div>
+      <p class="rm-desc">Next-generation DataFrame library — multi-threaded execution, LazyFrame query optimizer, Arrow-native, and 10–100× faster than pandas on large data.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python</span>
+        <span class="prereq-badge">Pandas (helpful)</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(205,139,0,.1);color:#cd8b00;border:1px solid rgba(205,139,0,.25);">Lazy API</span>
+        <span class="skill" style="background:rgba(205,139,0,.1);color:#cd8b00;border:1px solid rgba(205,139,0,.25);">Expressions</span>
+        <span class="skill" style="background:rgba(205,139,0,.1);color:#cd8b00;border:1px solid rgba(205,139,0,.25);">Parquet & Arrow</span>
+        <span class="skill" style="background:rgba(205,139,0,.1);color:#cd8b00;border:1px solid rgba(205,139,0,.25);">Streaming</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="08_polars/index.html" class="rm-link" style="background:rgba(205,139,0,.15);color:#cd8b00;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #60a5fa;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(96,165,250,.12);">📐</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 05 · Theory Foundation</div>
+          <div class="rm-title" style="color:#60a5fa;">Statistics & Probability</div>
+        </div>
+      </div>
+      <p class="rm-desc">The mathematical backbone of ML — distributions, hypothesis tests, Bayesian inference, bootstrap methods, multiple testing correction, and survival analysis.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">NumPy</span>
+        <span class="prereq-badge">Pandas</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.25);">Hypothesis Tests</span>
+        <span class="skill" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.25);">Distributions</span>
+        <span class="skill" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.25);">Bootstrap</span>
+        <span class="skill" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.25);">Bayesian</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="11_statistics/index.html" class="rm-link" style="background:rgba(96,165,250,.15);color:#60a5fa;">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PHASE 3 ═══ -->
+  <div class="phase-head p3">
+    <div class="phase-num">3</div>
+    <div class="phase-info">
+      <h2>Data Visualization</h2>
+      <p>Communicate insights through static, statistical, and interactive charts</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="roadmap cols3">
+
+    <div class="rm-card" style="border-top: 3px solid #58a6ff;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(88,166,255,.12);">📊</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 06 · Static Charts</div>
+          <div class="rm-title" style="color:#58a6ff;">Matplotlib</div>
+        </div>
+      </div>
+      <p class="rm-desc">Full control over every chart element — subplots, twin axes, custom colormaps, publication-quality figures, and GIF animations.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">NumPy</span>
+        <span class="prereq-badge">Pandas</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(88,166,255,.1);color:#58a6ff;border:1px solid rgba(88,166,255,.25);">Subplots</span>
+        <span class="skill" style="background:rgba(88,166,255,.1);color:#58a6ff;border:1px solid rgba(88,166,255,.25);">Heatmaps</span>
+        <span class="skill" style="background:rgba(88,166,255,.1);color:#58a6ff;border:1px solid rgba(88,166,255,.25);">Animations</span>
+        <span class="skill" style="background:rgba(88,166,255,.1);color:#58a6ff;border:1px solid rgba(88,166,255,.25);">Colormaps</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 209 cells</span>
+        <a href="03_matplotlib/index.html" class="rm-link" style="background:rgba(88,166,255,.15);color:#58a6ff;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #c084fc;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(192,132,252,.12);">🎨</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 07 · Statistical Viz</div>
+          <div class="rm-title" style="color:#c084fc;">Seaborn</div>
+        </div>
+      </div>
+      <p class="rm-desc">Beautiful statistical graphics — violin plots, pair grids, FacetGrid multi-panel figures, regression plots, and custom themes on top of Matplotlib.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Matplotlib</span>
+        <span class="prereq-badge">Pandas</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25);">FacetGrid</span>
+        <span class="skill" style="background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25);">Pair Plots</span>
+        <span class="skill" style="background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25);">Regression Viz</span>
+        <span class="skill" style="background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25);">Themes</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 197 cells</span>
+        <a href="04_seaborn/index.html" class="rm-link" style="background:rgba(192,132,252,.15);color:#c084fc;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #a78bfa;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(167,139,250,.12);">✨</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 08 · Interactive</div>
+          <div class="rm-title" style="color:#a78bfa;">Plotly</div>
+        </div>
+      </div>
+      <p class="rm-desc">Web-ready interactive charts — hover tooltips, zoom, animated scatter, geographic maps, 3D surfaces, and Dash for full web dashboards.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Pandas</span>
+        <span class="prereq-badge">Matplotlib (helpful)</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.25);">Interactive</span>
+        <span class="skill" style="background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.25);">3D Plots</span>
+        <span class="skill" style="background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.25);">Maps</span>
+        <span class="skill" style="background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.25);">Dash</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 199 cells</span>
+        <a href="05_plotly/index.html" class="rm-link" style="background:rgba(167,139,250,.15);color:#a78bfa;">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PHASE 4 ═══ -->
+  <div class="phase-head p4">
+    <div class="phase-num">4</div>
+    <div class="phase-info">
+      <h2>Machine Learning</h2>
+      <p>Build, evaluate, and interpret predictive models on structured and unstructured data</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="roadmap cols3">
+
+    <div class="rm-card" style="border-top: 3px solid #34d399;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(52,211,153,.12);">🤖</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 09 · Core ML</div>
+          <div class="rm-title" style="color:#34d399;">Scikit-learn</div>
+        </div>
+      </div>
+      <p class="rm-desc">Complete ML toolkit — regression, classification, clustering, pipelines, hyperparameter tuning, stacking ensembles, SHAP explainability, and time-series CV.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">NumPy</span>
+        <span class="prereq-badge">Pandas</span>
+        <span class="prereq-badge">Statistics</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25);">Classification</span>
+        <span class="skill" style="background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25);">Pipelines</span>
+        <span class="skill" style="background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25);">Ensembles</span>
+        <span class="skill" style="background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25);">SHAP</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 205 cells</span>
+        <a href="06_sklearn/index.html" class="rm-link" style="background:rgba(52,211,153,.15);color:#34d399;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #fb923c;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(251,146,60,.12);">📈</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 10 · Temporal Data</div>
+          <div class="rm-title" style="color:#fb923c;">Time Series Analysis</div>
+        </div>
+      </div>
+      <p class="rm-desc">Forecasting and temporal pattern analysis — ARIMA, Prophet, decomposition, wavelet analysis, VAR models, walk-forward CV, and anomaly detection.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Pandas</span>
+        <span class="prereq-badge">Statistics</span>
+        <span class="prereq-badge">Sklearn</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.25);">ARIMA</span>
+        <span class="skill" style="background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.25);">Prophet</span>
+        <span class="skill" style="background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.25);">Wavelets</span>
+        <span class="skill" style="background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.25);">VAR</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="12_time_series/index.html" class="rm-link" style="background:rgba(251,146,60,.15);color:#fb923c;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #e879f9;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(232,121,249,.12);">💬</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 11 · Text & Language</div>
+          <div class="rm-title" style="color:#e879f9;">NLP & Text Processing</div>
+        </div>
+      </div>
+      <p class="rm-desc">From tokenization to transformers — NER, sentiment analysis, TF-IDF, topic modeling, BERT fine-tuning, zero-shot classification, and text summarization.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python</span>
+        <span class="prereq-badge">Sklearn</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(232,121,249,.1);color:#e879f9;border:1px solid rgba(232,121,249,.25);">spaCy</span>
+        <span class="skill" style="background:rgba(232,121,249,.1);color:#e879f9;border:1px solid rgba(232,121,249,.25);">Transformers</span>
+        <span class="skill" style="background:rgba(232,121,249,.1);color:#e879f9;border:1px solid rgba(232,121,249,.25);">BERT</span>
+        <span class="skill" style="background:rgba(232,121,249,.1);color:#e879f9;border:1px solid rgba(232,121,249,.25);">Zero-Shot</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="13_nlp/index.html" class="rm-link" style="background:rgba(232,121,249,.15);color:#e879f9;">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PHASE 5 ═══ -->
+  <div class="phase-head p5">
+    <div class="phase-num">5</div>
+    <div class="phase-info">
+      <h2>Deep Learning & Deployment</h2>
+      <p>Neural networks, generative models, web apps, and production ML systems</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="roadmap cols3">
+
+    <div class="rm-card" style="border-top: 3px solid #f97316;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(249,115,22,.12);">🧠</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 12 · Neural Networks</div>
+          <div class="rm-title" style="color:#f97316;">Deep Learning</div>
+        </div>
+      </div>
+      <p class="rm-desc">PyTorch from scratch — autograd, CNNs with skip connections, Transformer attention, LSTMs, VAEs, GANs, and transfer learning with frozen backbones.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">NumPy</span>
+        <span class="prereq-badge">Sklearn</span>
+        <span class="prereq-badge">Statistics</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.25);">PyTorch</span>
+        <span class="skill" style="background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.25);">CNNs</span>
+        <span class="skill" style="background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.25);">Transformers</span>
+        <span class="skill" style="background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.25);">VAE & GAN</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 205 cells</span>
+        <a href="09_deep_learning/index.html" class="rm-link" style="background:rgba(249,115,22,.15);color:#f97316;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #ff4b4b;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(255,75,75,.12);">🚀</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 13 · Web Apps</div>
+          <div class="rm-title" style="color:#ff4b4b;">Streamlit</div>
+        </div>
+      </div>
+      <p class="rm-desc">Turn Python scripts into shareable web apps — dashboards, ML predictors, live streaming, batch predictions with file upload, Plotly charts, and session state.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Python</span>
+        <span class="prereq-badge">Pandas</span>
+        <span class="prereq-badge">Sklearn (helpful)</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(255,75,75,.1);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);">Widgets</span>
+        <span class="skill" style="background:rgba(255,75,75,.1);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);">Caching</span>
+        <span class="skill" style="background:rgba(255,75,75,.1);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);">File Upload</span>
+        <span class="skill" style="background:rgba(255,75,75,.1);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);">Live Streaming</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="07_streamlit/index.html" class="rm-link" style="background:rgba(255,75,75,.15);color:#ff4b4b;">Open →</a>
+      </div>
+    </div>
+
+    <div class="rm-card" style="border-top: 3px solid #4ade80;">
+      <div class="rm-card-top">
+        <div class="rm-icon" style="background:rgba(74,222,128,.12);">⚙️</div>
+        <div class="rm-meta">
+          <div class="rm-num">Module 14 · Production</div>
+          <div class="rm-title" style="color:#4ade80;">MLOps & Deployment</div>
+        </div>
+      </div>
+      <p class="rm-desc">Ship models to production — FastAPI serving, Docker, MLflow tracking, data drift detection, feature stores, A/B testing, canary deployments, and multi-armed bandits.</p>
+      <div class="prereq-row">
+        <span class="prereq-label">Needs:</span>
+        <span class="prereq-badge">Sklearn</span>
+        <span class="prereq-badge">Statistics</span>
+        <span class="prereq-badge">Deep Learning (helpful)</span>
+      </div>
+      <div class="rm-skills">
+        <span class="skill" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);">FastAPI</span>
+        <span class="skill" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);">Docker</span>
+        <span class="skill" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);">MLflow</span>
+        <span class="skill" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);">Drift Detection</span>
+      </div>
+      <div class="rm-footer">
+        <span class="rm-stats">16 topics · 203 cells</span>
+        <a href="14_mlops/index.html" class="rm-link" style="background:rgba(74,222,128,.15);color:#4ade80;">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CAREER PATHS -->
+  <div class="phase-head" style="margin-top:64px;">
+    <div class="phase-num" style="background:rgba(88,166,255,.15);color:var(--blue);border:1px solid rgba(88,166,255,.3);">★</div>
+    <div class="phase-info">
+      <h2>Career Paths After Completion</h2>
+      <p>What you can build and where these skills lead</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="careers">
+
+    <div class="career-card" style="border-top:3px solid #34d399;">
+      <h3 style="color:#34d399;">📊 Data Analyst</h3>
+      <p>Extract insights from business data, build dashboards, and drive decisions with statistics and visualization.</p>
+      <div class="career-modules">
+        <div class="career-module">Python + SQL (query & automate)</div>
+        <div class="career-module">Pandas + Polars (analyze)</div>
+        <div class="career-module">Statistics (test & validate)</div>
+        <div class="career-module">Matplotlib + Plotly (report)</div>
+        <div class="career-module">Streamlit (share dashboards)</div>
+      </div>
+    </div>
+
+    <div class="career-card" style="border-top:3px solid #58a6ff;">
+      <h3 style="color:#58a6ff;">🤖 ML Engineer</h3>
+      <p>Design, train, and deploy machine learning models that power data-driven products at scale.</p>
+      <div class="career-modules">
+        <div class="career-module">NumPy + Statistics (foundations)</div>
+        <div class="career-module">Pandas (feature engineering)</div>
+        <div class="career-module">Scikit-learn (model building)</div>
+        <div class="career-module">Deep Learning (neural nets)</div>
+        <div class="career-module">MLOps (deployment & monitoring)</div>
+      </div>
+    </div>
+
+    <div class="career-card" style="border-top:3px solid #f97316;">
+      <h3 style="color:#f97316;">🧠 AI / DL Researcher</h3>
+      <p>Push the boundaries of AI — develop new architectures, train large models, and publish research.</p>
+      <div class="career-modules">
+        <div class="career-module">NumPy + Statistics (math)</div>
+        <div class="career-module">PyTorch — CNNs, Transformers</div>
+        <div class="career-module">NLP — BERT, zero-shot, RAG</div>
+        <div class="career-module">VAE & GANs (generative models)</div>
+        <div class="career-module">Time Series + Anomaly Detection</div>
+      </div>
+    </div>
+
+    <div class="career-card" style="border-top:3px solid #e879f9;">
+      <h3 style="color:#e879f9;">💬 NLP Engineer</h3>
+      <p>Build language-powered systems — chatbots, search engines, document extraction, and LLM applications.</p>
+      <div class="career-modules">
+        <div class="career-module">Python (scripting & APIs)</div>
+        <div class="career-module">NLP — spaCy, transformers</div>
+        <div class="career-module">Sklearn (text classification)</div>
+        <div class="career-module">Deep Learning (BERT fine-tuning)</div>
+        <div class="career-module">MLOps (model serving)</div>
+      </div>
+    </div>
+
+    <div class="career-card" style="border-top:3px solid #fb923c;">
+      <h3 style="color:#fb923c;">📈 Quant / Forecaster</h3>
+      <p>Model financial markets, demand forecasting, and supply chain predictions with temporal ML.</p>
+      <div class="career-modules">
+        <div class="career-module">Python + NumPy (computation)</div>
+        <div class="career-module">Pandas / Polars (time data)</div>
+        <div class="career-module">Statistics (significance testing)</div>
+        <div class="career-module">Time Series — ARIMA, VAR, Prophet</div>
+        <div class="career-module">Sklearn (ML-based forecasting)</div>
+      </div>
+    </div>
+
+    <div class="career-card" style="border-top:3px solid #4ade80;">
+      <h3 style="color:#4ade80;">⚙️ MLOps / Platform Engineer</h3>
+      <p>Build the infrastructure that keeps models reliable, monitored, and continuously improving in production.</p>
+      <div class="career-modules">
+        <div class="career-module">Python (automation & APIs)</div>
+        <div class="career-module">SQL (data pipelines)</div>
+        <div class="career-module">Sklearn / Deep Learning (models)</div>
+        <div class="career-module">MLOps — Docker, FastAPI, MLflow</div>
+        <div class="career-module">Statistics (A/B testing, drift)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STUDY TIPS -->
+  <div class="phase-head" style="margin-top:8px;">
+    <div class="phase-num" style="background:rgba(255,166,87,.15);color:#ffa657;border:1px solid rgba(255,166,87,.3);">💡</div>
+    <div class="phase-info">
+      <h2>Study Tips</h2>
+      <p>Get the most out of each guide</p>
+    </div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="tips">
+    <div class="tip-box">
+      <h4>📓 Use the Notebooks</h4>
+      <p>Every module ships with a <strong>study_guide.ipynb</strong>. Open it in Jupyter or VS Code and run each cell — muscle memory matters more than reading.</p>
+    </div>
+    <div class="tip-box">
+      <h4>🔨 Do the Practice Problems</h4>
+      <p>Each section ends with a real-world practice exercise. Try to solve it before reading the starter code — struggling productively is how you actually learn.</p>
+    </div>
+    <div class="tip-box">
+      <h4>🗺️ Follow the Phase Order</h4>
+      <ul>
+        <li>Complete Phase 1 before jumping ahead</li>
+        <li>Pandas before Visualization makes more sense</li>
+        <li>Statistics before Scikit-learn prevents gaps</li>
+        <li>Deep Learning last — it builds on everything</li>
+      </ul>
+    </div>
+    <div class="tip-box">
+      <h4>🚀 Build a Project Per Phase</h4>
+      <ul>
+        <li><strong>Phase 1–2:</strong> EDA on a Kaggle dataset</li>
+        <li><strong>Phase 3:</strong> Dashboard with Plotly/Streamlit</li>
+        <li><strong>Phase 4:</strong> End-to-end ML pipeline</li>
+        <li><strong>Phase 5:</strong> Deploy a model with FastAPI</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <p>Data Science Study Path &bull; 14 modules &bull; 5 phases &bull; <a href="home.html">← Return to Module List</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
