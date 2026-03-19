@@ -21,7 +21,7 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
 .practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
 .ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
 .pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
-<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 16 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 32 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup with sqlite3</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. SELECT &amp; WHERE</a></li>
@@ -38,8 +38,24 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
     <li><a href="#s12" onclick="act(this,event)">13. Query Optimization</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. Query Optimization &amp; Indexing</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. Pivoting &amp; Unpivoting</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Triggers &amp; Database Automation</a></li></ul></aside>
-<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
+    <li><a href="#s15" onclick="act(this,event)">16. Triggers &amp; Database Automation</a></li>
+    <li><a href="#s16" onclick="act(this,event)">17. Subqueries in Depth</a></li>
+    <li><a href="#s17" onclick="act(this,event)">18. String Functions &amp; Pattern Matching</a></li>
+    <li><a href="#s18" onclick="act(this,event)">19. Date &amp; Time Functions</a></li>
+    <li><a href="#s19" onclick="act(this,event)">20. CASE WHEN &amp; Conditional Logic</a></li>
+    <li><a href="#s20" onclick="act(this,event)">21. Set Operations (UNION, INTERSECT, EXCEPT)</a></li>
+    <li><a href="#s21" onclick="act(this,event)">22. Advanced CTEs &amp; Chaining</a></li>
+    <li><a href="#s22" onclick="act(this,event)">23. Views &amp; Virtual Tables</a></li>
+    <li><a href="#s23" onclick="act(this,event)">24. Data Integrity &amp; Constraints</a></li>
+    <li><a href="#s24" onclick="act(this,event)">25. Advanced Aggregations</a></li>
+    <li><a href="#s25" onclick="act(this,event)">26. Self-Joins &amp; Non-Equi Joins</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Analytical Functions Advanced</a></li>
+    <li><a href="#s27" onclick="act(this,event)">28. Database Design &amp; Normalization</a></li>
+    <li><a href="#s28" onclick="act(this,event)">29. JSON in SQL</a></li>
+    <li><a href="#s29" onclick="act(this,event)">30. Full-Text Search</a></li>
+    <li><a href="#s30" onclick="act(this,event)">31. Performance Tuning &amp; EXPLAIN</a></li>
+    <li><a href="#s31" onclick="act(this,event)">32. SQL for Data Analysis Workflow</a></li></ul></aside>
+<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">32 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)   # in-memory DB
 cur  = conn.cursor()
@@ -2237,7 +2253,2441 @@ conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: CREATE TRIGGER log_large after INSERT on transactions WHEN amount &gt; 1000
 # TODO: enforce non-negative balance via CHECK or trigger
 # TODO: insert test transactions, show results
-conn.close()</code></pre></div></div></div></div></main>
+conn.close()</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Subqueries in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries (nested SELECT) can appear in WHERE, FROM, SELECT, and HAVING clauses. Master scalar, column, table, and correlated subqueries for complex filtering and derived metrics.</p><div class="code-block"><div class="ch"><span>Scalar and column subqueries in WHERE</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE sales (id INTEGER, rep TEXT, amount REAL, region TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,1200,&#x27;North&#x27;),(2,&#x27;Bob&#x27;,800,&#x27;South&#x27;),(3,&#x27;Carol&#x27;,1500,&#x27;North&#x27;),
+    (4,&#x27;Dave&#x27;,600,&#x27;South&#x27;),(5,&#x27;Eve&#x27;,2000,&#x27;North&#x27;),(6,&#x27;Frank&#x27;,950,&#x27;East&#x27;),
+])
+
+# Scalar subquery: single value in WHERE
+rows = run(&#x27;&#x27;&#x27;
+    SELECT rep, amount FROM sales
+    WHERE amount &gt; (SELECT AVG(amount) FROM sales)
+    ORDER BY amount DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Above-average reps:&quot;)
+for r in rows: print(f&quot;  {r[0]}: ${r[1]:,.0f}&quot;)
+
+# IN with subquery
+rows = run(&#x27;&#x27;&#x27;
+    SELECT rep, amount FROM sales
+    WHERE region IN (SELECT DISTINCT region FROM sales WHERE amount &gt; 1000)
+    AND amount &lt; 1000
+    ORDER BY amount
+&#x27;&#x27;&#x27;)
+print(&quot;In high-value regions but low individual amount:&quot;)
+for r in rows: print(f&quot;  {r[0]}: ${r[1]:,.0f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Correlated subqueries</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE employees (id INTEGER, name TEXT, dept TEXT, salary REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;Eng&#x27;,90000),(2,&#x27;Bob&#x27;,&#x27;Eng&#x27;,85000),(3,&#x27;Carol&#x27;,&#x27;Sales&#x27;,70000),
+    (4,&#x27;Dave&#x27;,&#x27;Sales&#x27;,72000),(5,&#x27;Eve&#x27;,&#x27;HR&#x27;,65000),(6,&#x27;Frank&#x27;,&#x27;Eng&#x27;,95000),
+    (7,&#x27;Grace&#x27;,&#x27;HR&#x27;,68000),(8,&#x27;Henry&#x27;,&#x27;Sales&#x27;,75000),
+])
+
+# Correlated subquery: runs ONCE PER ROW in outer query
+# Find employees earning above their department average
+rows = run(&#x27;&#x27;&#x27;
+    SELECT e.name, e.dept, e.salary,
+           ROUND((SELECT AVG(salary) FROM employees i WHERE i.dept = e.dept), 0) AS dept_avg
+    FROM employees e
+    WHERE e.salary &gt; (SELECT AVG(salary) FROM employees i WHERE i.dept = e.dept)
+    ORDER BY e.dept, e.salary DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Above-department-average earners:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]} ({r[1]}): ${r[2]:,.0f} (dept avg ${r[3]:,.0f})&quot;)
+
+# EXISTS: check for related rows
+rows = run(&#x27;&#x27;&#x27;
+    SELECT DISTINCT dept FROM employees e
+    WHERE EXISTS (
+        SELECT 1 FROM employees i
+        WHERE i.dept = e.dept AND i.salary &gt; 80000
+    )
+&#x27;&#x27;&#x27;)
+print(&quot;Departments with at least one high earner:&quot;, [r[0] for r in rows])</code></pre></div><div class="code-block"><div class="ch"><span>Derived tables (subquery in FROM)</span><button onclick="cp('c16_2')">Copy</button></div><pre><code id="c16_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE orders (id INTEGER, cust_id INTEGER, total REAL, yr INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO orders VALUES (?,?,?,?)&#x27;, [
+    (1,1,500,2023),(2,1,300,2023),(3,2,1200,2023),(4,2,800,2024),
+    (5,3,200,2024),(6,1,900,2024),(7,3,600,2023),(8,2,400,2024),
+])
+
+# Derived table: aggregate first, then filter/join
+rows = run(&#x27;&#x27;&#x27;
+    SELECT cust_id, total_2023, total_2024,
+           ROUND(total_2024 - total_2023, 0) AS growth
+    FROM (
+        SELECT cust_id,
+               SUM(CASE WHEN yr=2023 THEN total ELSE 0 END) AS total_2023,
+               SUM(CASE WHEN yr=2024 THEN total ELSE 0 END) AS total_2024
+        FROM orders
+        GROUP BY cust_id
+    ) yearly
+    ORDER BY growth DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Year-over-year growth by customer:&quot;)
+for r in rows:
+    print(f&quot;  Cust {r[0]}: 2023=${r[1]:,.0f} -&gt; 2024=${r[2]:,.0f} ({r[3]:+,.0f})&quot;)
+
+# Derived table with LIMIT for top-N analysis
+rows = run(&#x27;&#x27;&#x27;
+    SELECT cust_id, avg_order
+    FROM (SELECT cust_id, AVG(total) AS avg_order FROM orders GROUP BY cust_id)
+    WHERE avg_order &gt; 500
+&#x27;&#x27;&#x27;)
+print(&quot;Customers with avg order &gt; 500:&quot;, rows)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Ranking with Subqueries</div><div class="rd">A sales ops team needs to find reps in each region who beat both their regional average AND the company average — combining correlated subqueries with derived tables.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE sales (id INTEGER, rep TEXT, region TEXT, amount REAL, quarter INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;North&#x27;,1200,1),(2,&#x27;Bob&#x27;,&#x27;North&#x27;,800,1),(3,&#x27;Carol&#x27;,&#x27;South&#x27;,1500,1),
+    (4,&#x27;Dave&#x27;,&#x27;South&#x27;,600,1),(5,&#x27;Eve&#x27;,&#x27;North&#x27;,2000,2),(6,&#x27;Frank&#x27;,&#x27;South&#x27;,950,2),
+    (7,&#x27;Grace&#x27;,&#x27;East&#x27;,1100,1),(8,&#x27;Henry&#x27;,&#x27;East&#x27;,750,1),(9,&#x27;Iris&#x27;,&#x27;East&#x27;,1300,2),
+])
+company_avg = run(&#x27;SELECT AVG(amount) FROM sales&#x27;)[0][0]
+print(f&quot;Company avg: ${company_avg:,.0f}&quot;)
+
+rows = run(f&#x27;&#x27;&#x27;
+    SELECT s.rep, s.region, s.amount,
+           ROUND(regional.avg_amount, 0) AS regional_avg
+    FROM sales s
+    JOIN (
+        SELECT region, AVG(amount) AS avg_amount
+        FROM sales GROUP BY region
+    ) regional ON s.region = regional.region
+    WHERE s.amount &gt; regional.avg_amount
+      AND s.amount &gt; {company_avg}
+    ORDER BY s.region, s.amount DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Reps beating both regional AND company average:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]} ({r[1]}): ${r[2]:,.0f} &gt; regional ${r[3]:,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-referencing Subquery</div><div class="pd">Create a products table (id, name, category, price, cost). Write: (1) A query using a scalar subquery to show each product with its category&#x27;s avg price. (2) A correlated subquery to find the cheapest product in each category. (3) A derived table query to show categories where avg margin (price-cost)/price &gt; 30%.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE products (id INT, name TEXT, category TEXT, price REAL, cost REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO products VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;Apple&#x27;,&#x27;Fruit&#x27;,1.2,0.4),(2,&#x27;Banana&#x27;,&#x27;Fruit&#x27;,0.5,0.15),(3,&#x27;Carrot&#x27;,&#x27;Veg&#x27;,0.8,0.3),
+    (4,&#x27;Potato&#x27;,&#x27;Veg&#x27;,0.6,0.2),(5,&#x27;Milk&#x27;,&#x27;Dairy&#x27;,1.5,0.8),(6,&#x27;Cheese&#x27;,&#x27;Dairy&#x27;,4.0,1.5),
+    (7,&#x27;Yogurt&#x27;,&#x27;Dairy&#x27;,2.0,0.9),(8,&#x27;Broccoli&#x27;,&#x27;Veg&#x27;,1.1,0.4),
+])
+
+# 1. Each product with its category avg price
+print(&quot;=== Product vs Category Avg ===&quot;)
+# TODO: write query with scalar correlated subquery for category avg
+
+# 2. Cheapest product in each category
+print(&quot;=== Cheapest per Category ===&quot;)
+# TODO: use correlated subquery to find min price per category
+
+# 3. Categories with avg margin &gt; 30%
+print(&quot;=== High-Margin Categories ===&quot;)
+# TODO: derived table with margin calc, then filter
+</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. String Functions &amp; Pattern Matching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL provides rich string functions: UPPER/LOWER, SUBSTR, TRIM, REPLACE, LENGTH, INSTR, and LIKE/GLOB for pattern matching. Essential for cleaning and searching text data.</p><div class="code-block"><div class="ch"><span>Core string functions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE contacts (id INTEGER, name TEXT, email TEXT, phone TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO contacts VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;  Alice Smith  &#x27;,&#x27;alice@EXAMPLE.com&#x27;,&#x27;(555) 123-4567&#x27;),
+    (2,&#x27;Bob  Jones&#x27;,&#x27;bob.jones@mail.com&#x27;,&#x27;555.987.6543&#x27;),
+    (3,&#x27;carol lee&#x27;,&#x27;CAROL@COMPANY.ORG&#x27;,&#x27;5551234567&#x27;),
+    (4,&#x27;DAVE BROWN&#x27;,&#x27;dave@test.net&#x27;,&#x27;555-111-2222&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        id,
+        TRIM(name)                              AS name_clean,
+        LOWER(TRIM(name))                       AS name_lower,
+        UPPER(SUBSTR(TRIM(name), 1, 1))         AS initial,
+        LOWER(email)                            AS email_lower,
+        LENGTH(TRIM(name))                      AS name_len,
+        INSTR(TRIM(name), &quot; &quot;)                  AS space_pos,
+        -- Extract first name (up to first space)
+        SUBSTR(TRIM(name), 1, INSTR(TRIM(name)||&quot; &quot;, &quot; &quot;)-1) AS first_name
+    FROM contacts
+&#x27;&#x27;&#x27;)
+for r in rows:
+    print(f&quot;  ID {r[0]}: &#x27;{r[1]}&#x27; | initial={r[2]} | fname={r[7]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>LIKE and GLOB pattern matching</span><button onclick="cp('c17_1')">Copy</button></div><pre><code id="c17_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE products (id INTEGER, sku TEXT, name TEXT, category TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO products VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;FRUIT-APL-001&#x27;,&#x27;Apple (Red)&#x27;,&#x27;Fruit&#x27;),
+    (2,&#x27;FRUIT-BAN-002&#x27;,&#x27;Banana&#x27;,&#x27;Fruit&#x27;),
+    (3,&#x27;VEG-CAR-001&#x27;,&#x27;Carrot&#x27;,&#x27;Vegetable&#x27;),
+    (4,&#x27;VEG-POT-002&#x27;,&#x27;Potato&#x27;,&#x27;Vegetable&#x27;),
+    (5,&#x27;DAIRY-MLK-001&#x27;,&#x27;Whole Milk&#x27;,&#x27;Dairy&#x27;),
+    (6,&#x27;FRUIT-APL-002&#x27;,&#x27;Apple (Green)&#x27;,&#x27;Fruit&#x27;),
+    (7,&#x27;DAIRY-CHZ-001&#x27;,&#x27;Cheddar Cheese&#x27;,&#x27;Dairy&#x27;),
+])
+
+# LIKE: case-insensitive %, _ wildcards
+rows = run(&quot;SELECT name FROM products WHERE name LIKE &#x27;Apple%&#x27;&quot;)
+print(&quot;Starts with &#x27;Apple&#x27;:&quot;, [r[0] for r in rows])
+
+rows = run(&quot;SELECT name FROM products WHERE name LIKE &#x27;%e%&#x27;&quot;)
+print(&quot;Contains &#x27;e&#x27;:&quot;, [r[0] for r in rows])
+
+rows = run(&quot;SELECT sku FROM products WHERE sku LIKE &#x27;FRUIT-___-___&#x27;&quot;)
+print(&quot;SKUs matching FRUIT-???-???:&quot;, [r[0] for r in rows])
+
+# GLOB: case-sensitive, uses * and ? (Unix-style)
+rows = run(&quot;SELECT sku FROM products WHERE sku GLOB &#x27;FRUIT-*&#x27;&quot;)
+print(&quot;GLOB FRUIT-*:&quot;, [r[0] for r in rows])
+
+rows = run(&quot;SELECT sku FROM products WHERE sku GLOB &#x27;*-001&#x27;&quot;)
+print(&quot;GLOB *-001:&quot;, [r[0] for r in rows])
+
+# NOT LIKE
+rows = run(&quot;SELECT name FROM products WHERE name NOT LIKE &#x27;%Apple%&#x27;&quot;)
+print(&quot;Not apple:&quot;, [r[0] for r in rows])</code></pre></div><div class="code-block"><div class="ch"><span>String manipulation and cleaning</span><button onclick="cp('c17_2')">Copy</button></div><pre><code id="c17_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE raw_data (id INTEGER, raw_phone TEXT, raw_email TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO raw_data VALUES (?,?,?)&#x27;, [
+    (1,&#x27;(555) 123-4567&#x27;,&#x27;  User@Example.COM  &#x27;),
+    (2,&#x27;555.987.6543&#x27;,&#x27;bob.jones@MAIL.COM&#x27;),
+    (3,&#x27;5551234567&#x27;,&#x27;CAROL@company.org&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        id,
+        -- Normalize phone: keep only digits via REPLACE chain
+        REPLACE(REPLACE(REPLACE(REPLACE(raw_phone, &quot;(&quot;, &quot;&quot;), &quot;)&quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;), &quot;.&quot;, &quot;&quot;) AS phone_digits,
+        -- Trim spaces and lowercase email
+        LOWER(TRIM(raw_email)) AS email_clean,
+        -- Extract domain from email
+        SUBSTR(
+            LOWER(TRIM(raw_email)),
+            INSTR(LOWER(TRIM(raw_email)), &quot;@&quot;) + 1
+        ) AS domain,
+        -- Check email format (has @ and .)
+        CASE WHEN INSTR(raw_email, &quot;@&quot;) &gt; 0 AND INSTR(raw_email, &quot;.&quot;) &gt; 0
+             THEN &quot;valid&quot; ELSE &quot;invalid&quot; END AS email_status
+    FROM raw_data
+&#x27;&#x27;&#x27;)
+for r in rows:
+    print(f&quot;  ID {r[0]}: phone={r[1]}, email={r[2]}, domain={r[3]}, {r[4]}&quot;)
+
+# REPLACE for data masking
+rows = run(&#x27;&#x27;&#x27;
+    SELECT id,
+           SUBSTR(phone_digits, 1, 3) || &quot;****&quot; || SUBSTR(phone_digits, 8) AS masked
+    FROM (SELECT id, REPLACE(REPLACE(REPLACE(raw_phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;),&quot;-&quot;,&quot;&quot;) AS phone_digits
+          FROM raw_data)
+&#x27;&#x27;&#x27;)
+print(&quot;Masked phones:&quot;, [(r[0], r[1]) for r in rows])</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Email Domain Analysis</div><div class="rd">A marketing team analyzes which email domains their B2B customers use, normalizing inconsistent formatting before aggregating.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE customers (id INTEGER, email TEXT, tier TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO customers VALUES (?,?,?)&#x27;, [
+    (1,&#x27;alice@ACME.COM&#x27;,&#x27;gold&#x27;),(2,&#x27;bob@tech.org&#x27;,&#x27;silver&#x27;),
+    (3,&#x27;carol@acme.com&#x27;,&#x27;gold&#x27;),(4,&#x27;dave@STARTUP.IO&#x27;,&#x27;bronze&#x27;),
+    (5,&#x27;eve@TECH.ORG&#x27;,&#x27;silver&#x27;),(6,&#x27;frank@enterprise.net&#x27;,&#x27;gold&#x27;),
+    (7,&#x27;grace@startup.io&#x27;,&#x27;bronze&#x27;),(8,&#x27;henry@acme.com&#x27;,&#x27;silver&#x27;),
+    (9,&#x27;iris@ENTERPRISE.NET&#x27;,&#x27;gold&#x27;),(10,&#x27;jack@freelance.dev&#x27;,&#x27;bronze&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        LOWER(SUBSTR(email, INSTR(email, &quot;@&quot;) + 1)) AS domain,
+        COUNT(*)                                      AS customers,
+        SUM(CASE WHEN tier = &quot;gold&quot;   THEN 1 ELSE 0 END) AS gold,
+        SUM(CASE WHEN tier = &quot;silver&quot; THEN 1 ELSE 0 END) AS silver,
+        SUM(CASE WHEN tier = &quot;bronze&quot; THEN 1 ELSE 0 END) AS bronze
+    FROM customers
+    GROUP BY LOWER(SUBSTR(email, INSTR(email, &quot;@&quot;) + 1))
+    ORDER BY customers DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Domain analysis:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]:&lt;20} total={r[1]} gold={r[2]} silver={r[3]} bronze={r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Name Formatter</div><div class="pd">Create a people table (id, full_name, email). Write a query that produces: first_name (before first space), last_name (after last space), initials (first letter of each word), username (lowercase first_name + &#x27;.&#x27; + last 4 of email before @), and email_valid (1 if contains &#x27;@&#x27; and &#x27;.&#x27;, else 0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE people (id INT, full_name TEXT, email TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO people VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Alice Marie Smith&#x27;,&#x27;alice.smith@company.com&#x27;),
+    (2,&#x27;Bob Jones&#x27;,&#x27;bob@mail.net&#x27;),
+    (3,&#x27;Carol Ann Lee&#x27;,&#x27;carol.lee@invalid&#x27;),
+    (4,&#x27;Dave&#x27;,&#x27;dave@x.io&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        id,
+        -- first_name: text before first space
+        SUBSTR(full_name, 1,
+               CASE WHEN INSTR(full_name, &quot; &quot;) &gt; 0
+                    THEN INSTR(full_name, &quot; &quot;)-1
+                    ELSE LENGTH(full_name) END) AS first_name,
+        -- TODO: last_name (after last space, or full_name if no space)
+        -- TODO: initials
+        -- TODO: username (lower_first + . + last 4 chars before @)
+        -- TODO: email_valid
+        email
+    FROM people
+&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Date &amp; Time Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL date functions compute differences, extract components, and format timestamps. In SQLite, dates are stored as TEXT (ISO), INTEGER (Unix epoch), or REAL (Julian day).</p><div class="code-block"><div class="ch"><span>Date arithmetic and formatting (SQLite)</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+# SQLite stores dates as text in ISO format: &#x27;YYYY-MM-DD&#x27;
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        DATE(&#x27;now&#x27;)                           AS today,
+        DATE(&#x27;now&#x27;, &#x27;+7 days&#x27;)               AS next_week,
+        DATE(&#x27;now&#x27;, &#x27;-30 days&#x27;)              AS last_month,
+        DATE(&#x27;now&#x27;, &#x27;start of month&#x27;)        AS month_start,
+        DATE(&#x27;now&#x27;, &#x27;start of year&#x27;)         AS year_start,
+        DATE(&#x27;now&#x27;, &#x27;+1 year&#x27;, &#x27;-1 day&#x27;)     AS end_of_next_year,
+        DATETIME(&#x27;now&#x27;)                       AS now_dt,
+        STRFTIME(&#x27;%Y-%m-%d %H:%M&#x27;, &#x27;now&#x27;)    AS formatted
+&#x27;&#x27;&#x27;)
+for key, val in zip([&#x27;today&#x27;,&#x27;next_week&#x27;,&#x27;last_month&#x27;,&#x27;month_start&#x27;,&#x27;year_start&#x27;,&#x27;eony&#x27;,&#x27;now_dt&#x27;,&#x27;fmt&#x27;], rows[0]):
+    print(f&quot;  {key}: {val}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Extracting date parts and calculating age</span><button onclick="cp('c18_1')">Copy</button></div><pre><code id="c18_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE employees (id INTEGER, name TEXT, hire_date TEXT, birth_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;2019-03-15&#x27;,&#x27;1990-07-22&#x27;),
+    (2,&#x27;Bob&#x27;,&#x27;2021-11-01&#x27;,&#x27;1985-02-14&#x27;),
+    (3,&#x27;Carol&#x27;,&#x27;2022-06-20&#x27;,&#x27;1995-09-08&#x27;),
+    (4,&#x27;Dave&#x27;,&#x27;2018-01-10&#x27;,&#x27;1988-12-01&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        name,
+        hire_date,
+        -- Extract parts
+        STRFTIME(&#x27;%Y&#x27;, hire_date)               AS hire_year,
+        STRFTIME(&#x27;%m&#x27;, hire_date)               AS hire_month,
+        STRFTIME(&#x27;%d&#x27;, hire_date)               AS hire_day,
+        -- Days since hire
+        CAST(JULIANDAY(&#x27;now&#x27;) - JULIANDAY(hire_date) AS INTEGER) AS days_employed,
+        -- Years employed
+        CAST((JULIANDAY(&#x27;now&#x27;) - JULIANDAY(hire_date)) / 365.25 AS INTEGER) AS years_employed,
+        -- Age from birth_date
+        CAST((JULIANDAY(&#x27;now&#x27;) - JULIANDAY(birth_date)) / 365.25 AS INTEGER) AS age
+    FROM employees
+    ORDER BY hire_date
+&#x27;&#x27;&#x27;)
+print(&quot;Employee tenure and age:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]}: hired {r[1]}, {r[7]} days ({r[8]} yrs), age {r[9]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Time series date bucketing</span><button onclick="cp('c18_2')">Copy</button></div><pre><code id="c18_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+import datetime
+run(&#x27;&#x27;&#x27;CREATE TABLE events (id INTEGER, ts TEXT, event TEXT, value REAL)&#x27;&#x27;&#x27;)
+import random; random.seed(42)
+events_data = []
+for i in range(30):
+    d = datetime.date(2024, 1, 1) + datetime.timedelta(days=i)
+    for _ in range(random.randint(1, 5)):
+        events_data.append((i*10+random.randint(1,9),
+                            d.strftime(&#x27;%Y-%m-%d&#x27;),
+                            random.choice([&#x27;view&#x27;,&#x27;click&#x27;,&#x27;purchase&#x27;]),
+                            round(random.uniform(1, 100), 2)))
+runmany(&#x27;INSERT INTO events VALUES (?,?,?,?)&#x27;, events_data)
+
+# Group by week
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        STRFTIME(&#x27;%Y-W%W&#x27;, ts)         AS week,
+        COUNT(*)                        AS events,
+        SUM(CASE WHEN event=&quot;purchase&quot; THEN 1 ELSE 0 END) AS purchases,
+        ROUND(SUM(value), 2)            AS total_value
+    FROM events
+    GROUP BY week
+    ORDER BY week
+&#x27;&#x27;&#x27;)
+print(&quot;Weekly breakdown:&quot;)
+for r in rows: print(f&quot;  {r[0]}: {r[1]} events, {r[2]} purchases, ${r[3]}&quot;)
+
+# Days with no purchases
+rows = run(&#x27;&#x27;&#x27;
+    SELECT ts, COUNT(*) AS events
+    FROM events
+    WHERE event != &quot;purchase&quot;
+    AND ts NOT IN (SELECT DISTINCT ts FROM events WHERE event = &quot;purchase&quot;)
+    GROUP BY ts
+    ORDER BY ts
+    LIMIT 3
+&#x27;&#x27;&#x27;)
+print(&quot;Days with no purchases (sample):&quot;, [(r[0],r[1]) for r in rows])</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Subscription Churn Analysis</div><div class="rd">A SaaS company analyzes monthly churn by comparing subscription start/end dates, computing tenure, and flagging customers who churned within 90 days of signup.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE subscriptions (id INT, cust_id INT, start_date TEXT, end_date TEXT, plan TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO subscriptions VALUES (?,?,?,?,?)&#x27;, [
+    (1,1,&#x27;2023-01-15&#x27;,&#x27;2024-01-15&#x27;,&#x27;annual&#x27;),
+    (2,2,&#x27;2023-03-01&#x27;,&#x27;2023-05-15&#x27;,&#x27;monthly&#x27;),
+    (3,3,&#x27;2023-06-01&#x27;,None,&#x27;annual&#x27;),
+    (4,4,&#x27;2023-09-10&#x27;,&#x27;2023-10-05&#x27;,&#x27;monthly&#x27;),
+    (5,5,&#x27;2024-01-01&#x27;,None,&#x27;monthly&#x27;),
+    (6,6,&#x27;2023-02-14&#x27;,&#x27;2023-11-30&#x27;,&#x27;annual&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        cust_id, plan, start_date,
+        COALESCE(end_date, DATE(&quot;now&quot;)) AS effective_end,
+        CAST((JULIANDAY(COALESCE(end_date, DATE(&quot;now&quot;))) -
+              JULIANDAY(start_date)) AS INTEGER)         AS tenure_days,
+        CASE WHEN end_date IS NOT NULL THEN &quot;churned&quot; ELSE &quot;active&quot; END AS status,
+        CASE WHEN end_date IS NOT NULL
+              AND JULIANDAY(end_date) - JULIANDAY(start_date) &lt; 90
+             THEN &quot;early_churn&quot; ELSE &quot;ok&quot; END AS churn_flag
+    FROM subscriptions
+    ORDER BY start_date
+&#x27;&#x27;&#x27;)
+print(&quot;Subscription analysis:&quot;)
+for r in rows:
+    print(f&quot;  Cust {r[0]} ({r[1]}): {r[4]} days, {r[5]}, {r[6]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Date Range Queries</div><div class="pd">Create a bookings table (id, room, check_in, check_out, guest). Write: (1) Find bookings overlapping a given date range (&#x27;2024-06-01&#x27; to &#x27;2024-06-10&#x27;). (2) Calculate avg stay length by month. (3) Find rooms that were booked more than 80% of days in Q2 2024. (4) Show guests with return visits within 6 months.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE bookings (id INT, room TEXT, check_in TEXT, check_out TEXT, guest TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO bookings VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;101&#x27;,&#x27;2024-05-28&#x27;,&#x27;2024-06-03&#x27;,&#x27;Alice&#x27;),
+    (2,&#x27;102&#x27;,&#x27;2024-06-05&#x27;,&#x27;2024-06-08&#x27;,&#x27;Bob&#x27;),
+    (3,&#x27;101&#x27;,&#x27;2024-06-10&#x27;,&#x27;2024-06-15&#x27;,&#x27;Carol&#x27;),
+    (4,&#x27;103&#x27;,&#x27;2024-06-01&#x27;,&#x27;2024-06-30&#x27;,&#x27;Dave&#x27;),
+    (5,&#x27;102&#x27;,&#x27;2024-07-01&#x27;,&#x27;2024-07-05&#x27;,&#x27;Alice&#x27;),
+    (6,&#x27;101&#x27;,&#x27;2024-08-01&#x27;,&#x27;2024-08-10&#x27;,&#x27;Bob&#x27;),
+])
+
+# 1. Overlapping bookings with date range
+target_in, target_out = &#x27;2024-06-01&#x27;, &#x27;2024-06-10&#x27;
+print(&quot;=== Bookings overlapping Jun 1-10 ===&quot;)
+rows = run(f&#x27;&#x27;&#x27;
+    SELECT room, guest, check_in, check_out
+    FROM bookings
+    WHERE check_in &lt; &quot;{target_out}&quot; AND check_out &gt; &quot;{target_in}&quot;
+    ORDER BY check_in
+&#x27;&#x27;&#x27;)
+for r in rows: print(f&quot;  {r}&quot;)
+
+# 2. Avg stay length by month
+print(&quot;=== Avg stay by month ===&quot;)
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        STRFTIME(&quot;%Y-%m&quot;, check_in) AS month,
+        ROUND(AVG(JULIANDAY(check_out) - JULIANDAY(check_in)), 1) AS avg_nights,
+        COUNT(*) AS bookings
+    FROM bookings GROUP BY month ORDER BY month
+&#x27;&#x27;&#x27;)
+for r in rows: print(f&quot;  {r}&quot;)
+
+# 3. TODO: rooms booked &gt; 80% of Q2 days
+# 4. TODO: return visits within 6 months
+</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. CASE WHEN &amp; Conditional Logic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CASE WHEN is SQL&#x27;s conditional expression. Use it for bucketing, pivoting, null handling, and complex conditional aggregations. Combined with COALESCE and NULLIF for robust null handling.</p><div class="code-block"><div class="ch"><span>Simple and searched CASE</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE students (id INTEGER, name TEXT, score INTEGER, grade TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO students VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,95,None),(2,&#x27;Bob&#x27;,72,None),(3,&#x27;Carol&#x27;,88,None),
+    (4,&#x27;Dave&#x27;,61,None),(5,&#x27;Eve&#x27;,79,None),(6,&#x27;Frank&#x27;,55,None),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        name, score,
+        -- Searched CASE (most flexible)
+        CASE
+            WHEN score &gt;= 90 THEN &quot;A&quot;
+            WHEN score &gt;= 80 THEN &quot;B&quot;
+            WHEN score &gt;= 70 THEN &quot;C&quot;
+            WHEN score &gt;= 60 THEN &quot;D&quot;
+            ELSE &quot;F&quot;
+        END AS letter_grade,
+        -- Simple CASE (like switch)
+        CASE ROUND(score/10)*10
+            WHEN 100 THEN &quot;Perfect&quot;
+            WHEN 90  THEN &quot;Excellent&quot;
+            WHEN 80  THEN &quot;Good&quot;
+            WHEN 70  THEN &quot;Pass&quot;
+            ELSE &quot;Fail&quot;
+        END AS band,
+        -- Boolean expression
+        CASE WHEN score &gt;= 70 THEN 1 ELSE 0 END AS passed
+    FROM students
+    ORDER BY score DESC
+&#x27;&#x27;&#x27;)
+for r in rows:
+    print(f&quot;  {r[0]}: {r[1]} -&gt; {r[2]} ({r[3]}) passed={r[4]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>CASE in aggregations (conditional counting)</span><button onclick="cp('c19_1')">Copy</button></div><pre><code id="c19_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE orders (id INTEGER, status TEXT, region TEXT, total REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO orders VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;completed&#x27;,&#x27;North&#x27;,500),(2,&#x27;cancelled&#x27;,&#x27;South&#x27;,300),(3,&#x27;completed&#x27;,&#x27;North&#x27;,800),
+    (4,&#x27;pending&#x27;,&#x27;East&#x27;,200),(5,&#x27;completed&#x27;,&#x27;South&#x27;,650),(6,&#x27;cancelled&#x27;,&#x27;North&#x27;,400),
+    (7,&#x27;completed&#x27;,&#x27;East&#x27;,1200),(8,&#x27;pending&#x27;,&#x27;South&#x27;,350),(9,&#x27;completed&#x27;,&#x27;East&#x27;,900),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        region,
+        COUNT(*)                                              AS total_orders,
+        SUM(CASE WHEN status = &quot;completed&quot; THEN 1 ELSE 0 END) AS completed,
+        SUM(CASE WHEN status = &quot;cancelled&quot; THEN 1 ELSE 0 END) AS cancelled,
+        SUM(CASE WHEN status = &quot;pending&quot;   THEN 1 ELSE 0 END) AS pending,
+        ROUND(100.0 * SUM(CASE WHEN status=&quot;completed&quot; THEN 1 ELSE 0 END) / COUNT(*), 1) AS completion_pct,
+        ROUND(SUM(CASE WHEN status=&quot;completed&quot; THEN total ELSE 0 END), 0) AS completed_revenue,
+        ROUND(AVG(CASE WHEN status=&quot;completed&quot; THEN total ELSE NULL END), 0) AS avg_completed
+    FROM orders
+    GROUP BY region
+    ORDER BY completed_revenue DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Order analysis by region:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]}: {r[1]} orders, {r[2]} completed ({r[5]}%), revenue=${r[6]}, avg=${r[7]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>COALESCE, NULLIF, and IIF</span><button onclick="cp('c19_2')">Copy</button></div><pre><code id="c19_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE metrics (id INTEGER, name TEXT, q1 REAL, q2 REAL, q3 REAL, q4 REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO metrics VALUES (?,?,?,?,?,?)&#x27;, [
+    (1,&#x27;Revenue&#x27;,1000,None,1200,None),
+    (2,&#x27;Costs&#x27;,600,700,None,650),
+    (3,&#x27;Users&#x27;,500,520,None,None),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        name,
+        -- COALESCE: return first non-NULL value
+        COALESCE(q1, 0)                    AS q1_safe,
+        COALESCE(q2, q1, 0)               AS q2_or_q1,  -- fill q2 from q1
+        COALESCE(q3, q2, q1, 0)           AS q3_fill,
+
+        -- NULLIF: return NULL if two values are equal
+        NULLIF(q1, 0)                      AS q1_null_if_zero,
+
+        -- IIF (SQLite 3.32+): shorthand for simple CASE WHEN
+        IIF(q4 IS NULL, &quot;missing&quot;, &quot;present&quot;) AS q4_status,
+
+        -- Compute quarter growth (handles NULLs gracefully)
+        CASE WHEN q1 IS NOT NULL AND q2 IS NOT NULL
+             THEN ROUND((q2 - q1) / q1 * 100, 1)
+             ELSE NULL END AS q1_q2_growth_pct
+    FROM metrics
+&#x27;&#x27;&#x27;)
+print(&quot;Metric analysis:&quot;)
+for r in rows:
+    print(f&quot;  {r[0]}: q1_safe={r[1]}, q2_or_q1={r[2]}, q3_fill={r[3]}, q4={r[5]}, growth={r[6]}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Customer Segmentation</div><div class="rd">A CRM team segments customers by RFM score (Recency, Frequency, Monetary) using CASE WHEN on aggregated purchase data to assign Bronze/Silver/Gold/Platinum tiers.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE purchases (id INT, cust_id INT, amount REAL, purchase_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO purchases VALUES (?,?,?,?)&#x27;, [
+    (1,1,150,&#x27;2024-01-10&#x27;),(2,1,200,&#x27;2024-02-15&#x27;),(3,1,180,&#x27;2024-03-01&#x27;),
+    (4,2,500,&#x27;2024-03-20&#x27;),(5,2,300,&#x27;2024-03-25&#x27;),
+    (6,3,50,&#x27;2023-12-01&#x27;),(7,4,1000,&#x27;2024-03-28&#x27;),(8,4,800,&#x27;2024-03-29&#x27;),
+    (9,4,600,&#x27;2024-03-30&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    WITH rfm AS (
+        SELECT
+            cust_id,
+            CAST(JULIANDAY(&quot;2024-04-01&quot;) - JULIANDAY(MAX(purchase_date)) AS INT) AS recency_days,
+            COUNT(*) AS frequency,
+            ROUND(SUM(amount), 0) AS monetary
+        FROM purchases GROUP BY cust_id
+    )
+    SELECT
+        cust_id, recency_days, frequency, monetary,
+        CASE
+            WHEN recency_days &lt;= 7  AND frequency &gt;= 3 AND monetary &gt;= 500 THEN &quot;Platinum&quot;
+            WHEN recency_days &lt;= 30 AND frequency &gt;= 2                      THEN &quot;Gold&quot;
+            WHEN recency_days &lt;= 60                                          THEN &quot;Silver&quot;
+            ELSE &quot;Bronze&quot;
+        END AS tier
+    FROM rfm ORDER BY monetary DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Customer RFM tiers:&quot;)
+for r in rows:
+    print(f&quot;  Cust {r[0]}: recency={r[1]}d, freq={r[2]}, monetary=${r[3]} -&gt; {r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Score Bucketing</div><div class="pd">Create a test_results table (student_id, subject, score). Write: (1) A pivot showing each subject&#x27;s count of A/B/C/D/F grades using CASE in SUM. (2) A letter grade column + &#x27;needs_review&#x27; flag (grade D or F). (3) Each student&#x27;s weakest subject (lowest score). (4) Students who improved: passed all subjects (score &gt;= 70).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE test_results (student_id INT, subject TEXT, score INT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO test_results VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Math&#x27;,85),(1,&#x27;English&#x27;,72),(1,&#x27;Science&#x27;,90),
+    (2,&#x27;Math&#x27;,60),(2,&#x27;English&#x27;,88),(2,&#x27;Science&#x27;,55),
+    (3,&#x27;Math&#x27;,95),(3,&#x27;English&#x27;,91),(3,&#x27;Science&#x27;,87),
+    (4,&#x27;Math&#x27;,70),(4,&#x27;English&#x27;,65),(4,&#x27;Science&#x27;,80),
+])
+
+# 1. Pivot: count of each grade per subject
+print(&quot;=== Grade Distribution by Subject ===&quot;)
+rows = run(&#x27;&#x27;&#x27;
+    SELECT subject,
+           SUM(CASE WHEN score &gt;= 90 THEN 1 ELSE 0 END) AS A_count,
+           SUM(CASE WHEN score &gt;= 80 AND score &lt; 90 THEN 1 ELSE 0 END) AS B_count,
+           SUM(CASE WHEN score &gt;= 70 AND score &lt; 80 THEN 1 ELSE 0 END) AS C_count,
+           SUM(CASE WHEN score &lt; 70 THEN 1 ELSE 0 END) AS D_or_F_count
+    FROM test_results GROUP BY subject
+&#x27;&#x27;&#x27;)
+for r in rows: print(f&quot;  {r}&quot;)
+
+# 2. TODO: letter grade + needs_review flag
+# 3. TODO: weakest subject per student
+# 4. TODO: students passing all subjects
+</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Set Operations (UNION, INTERSECT, EXCEPT)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL set operations combine results of multiple SELECT statements: UNION (all unique), UNION ALL (keep duplicates), INTERSECT (common rows), and EXCEPT/MINUS (rows in first but not second).</p><div class="code-block"><div class="ch"><span>UNION and UNION ALL</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE customers_2023 (id INTEGER, name TEXT, email TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE customers_2024 (id INTEGER, name TEXT, email TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO customers_2023 VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;alice@mail.com&#x27;),(2,&#x27;Bob&#x27;,&#x27;bob@mail.com&#x27;),
+    (3,&#x27;Carol&#x27;,&#x27;carol@mail.com&#x27;),(4,&#x27;Dave&#x27;,&#x27;dave@mail.com&#x27;),
+])
+runmany(&#x27;INSERT INTO customers_2024 VALUES (?,?,?)&#x27;, [
+    (3,&#x27;Carol&#x27;,&#x27;carol@mail.com&#x27;),(4,&#x27;Dave&#x27;,&#x27;dave@mail.com&#x27;),
+    (5,&#x27;Eve&#x27;,&#x27;eve@mail.com&#x27;),(6,&#x27;Frank&#x27;,&#x27;frank@mail.com&#x27;),
+])
+
+# UNION: unique rows only (deduplicates)
+rows = run(&#x27;&#x27;&#x27;
+    SELECT &quot;2023&quot; AS year, name FROM customers_2023
+    UNION
+    SELECT &quot;2024&quot; AS year, name FROM customers_2024
+    ORDER BY name
+&#x27;&#x27;&#x27;)
+print(f&quot;UNION (unique names): {len(rows)} rows&quot;)
+for r in rows: print(f&quot;  {r}&quot;)
+
+# UNION ALL: keeps all rows including duplicates
+rows = run(&#x27;&#x27;&#x27;
+    SELECT &quot;2023&quot; AS cohort, name FROM customers_2023
+    UNION ALL
+    SELECT &quot;2024&quot; AS cohort, name FROM customers_2024
+    ORDER BY name
+&#x27;&#x27;&#x27;)
+print(f&quot;UNION ALL (all rows): {len(rows)} rows&quot;)
+
+# Useful: combine logs from two tables
+rows = run(&#x27;&#x27;&#x27;
+    SELECT &quot;new_customer&quot; AS event, name, &quot;2023&quot; AS yr FROM customers_2023
+    UNION ALL
+    SELECT &quot;new_customer&quot;, name, &quot;2024&quot; FROM customers_2024
+    ORDER BY yr, name
+&#x27;&#x27;&#x27;)
+print(&quot;All customer events:&quot;, len(rows))</code></pre></div><div class="code-block"><div class="ch"><span>INTERSECT and EXCEPT</span><button onclick="cp('c20_1')">Copy</button></div><pre><code id="c20_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE eligible_2023 (cust_id INTEGER)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE eligible_2024 (cust_id INTEGER)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE opted_out (cust_id INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO eligible_2023 VALUES (?)&#x27;, [(i,) for i in [1,2,3,4,5,6]])
+runmany(&#x27;INSERT INTO eligible_2024 VALUES (?)&#x27;, [(i,) for i in [3,4,5,6,7,8]])
+runmany(&#x27;INSERT INTO opted_out VALUES (?)&#x27;, [(i,) for i in [2,5,8]])
+
+# INTERSECT: rows that appear in BOTH queries
+rows = run(&#x27;&#x27;&#x27;
+    SELECT cust_id FROM eligible_2023
+    INTERSECT
+    SELECT cust_id FROM eligible_2024
+    ORDER BY cust_id
+&#x27;&#x27;&#x27;)
+print(&quot;Eligible BOTH years:&quot;, [r[0] for r in rows])
+
+# EXCEPT: rows in first but NOT in second
+rows = run(&#x27;&#x27;&#x27;
+    SELECT cust_id FROM eligible_2023
+    EXCEPT
+    SELECT cust_id FROM eligible_2024
+&#x27;&#x27;&#x27;)
+print(&quot;Only eligible in 2023:&quot;, [r[0] for r in rows])
+
+# Combine: eligible both years, excluding opted-out
+rows = run(&#x27;&#x27;&#x27;
+    SELECT cust_id FROM eligible_2023
+    INTERSECT
+    SELECT cust_id FROM eligible_2024
+    EXCEPT
+    SELECT cust_id FROM opted_out
+    ORDER BY cust_id
+&#x27;&#x27;&#x27;)
+print(&quot;Eligible both years AND not opted out:&quot;, [r[0] for r in rows])</code></pre></div><div class="code-block"><div class="ch"><span>Set operations for data reconciliation</span><button onclick="cp('c20_2')">Copy</button></div><pre><code id="c20_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE source_records (id INTEGER, value REAL, ts TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE target_records (id INTEGER, value REAL, ts TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO source_records VALUES (?,?,?)&#x27;, [
+    (1,100.0,&#x27;2024-01-01&#x27;),(2,200.0,&#x27;2024-01-02&#x27;),(3,300.0,&#x27;2024-01-03&#x27;),
+    (4,400.0,&#x27;2024-01-04&#x27;),(5,500.0,&#x27;2024-01-05&#x27;),
+])
+runmany(&#x27;INSERT INTO target_records VALUES (?,?,?)&#x27;, [
+    (1,100.0,&#x27;2024-01-01&#x27;),(2,201.0,&#x27;2024-01-02&#x27;),  # id=2 has wrong value
+    (3,300.0,&#x27;2024-01-03&#x27;),                           # id=4,5 missing
+    (6,600.0,&#x27;2024-01-06&#x27;),                           # id=6 is extra
+])
+
+# Records in source but not in target (missing)
+missing = run(&#x27;&#x27;&#x27;
+    SELECT id, value, &quot;missing_from_target&quot; AS issue FROM source_records
+    EXCEPT
+    SELECT id, value, &quot;missing_from_target&quot; FROM target_records
+&#x27;&#x27;&#x27;)
+print(&quot;Issues in reconciliation:&quot;)
+for r in missing: print(f&quot;  Source id={r[0]}, value={r[1]} not in target&quot;)
+
+# Records in target but not in source (extra)
+extra = run(&#x27;&#x27;&#x27;
+    SELECT id, value FROM target_records
+    EXCEPT
+    SELECT id, value FROM source_records
+&#x27;&#x27;&#x27;)
+for r in extra: print(f&quot;  Target id={r[0]}, value={r[1]} not in source&quot;)
+
+# Exact matches
+matched = run(&#x27;&#x27;&#x27;
+    SELECT COUNT(*) FROM (
+        SELECT id, value FROM source_records
+        INTERSECT
+        SELECT id, value FROM target_records
+    )
+&#x27;&#x27;&#x27;)
+print(f&quot;Exactly matched records: {matched[0][0]}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Data Migration Audit</div><div class="rd">A data engineering team validates a migration by comparing source and destination tables using INTERSECT and EXCEPT to find missing, extra, and mismatched records.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE source_customers (id INT, name TEXT, email TEXT, tier TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE migrated_customers (id INT, name TEXT, email TEXT, tier TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO source_customers VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;alice@a.com&#x27;,&#x27;gold&#x27;),(2,&#x27;Bob&#x27;,&#x27;bob@b.com&#x27;,&#x27;silver&#x27;),
+    (3,&#x27;Carol&#x27;,&#x27;carol@c.com&#x27;,&#x27;bronze&#x27;),(4,&#x27;Dave&#x27;,&#x27;dave@d.com&#x27;,&#x27;gold&#x27;),
+    (5,&#x27;Eve&#x27;,&#x27;eve@e.com&#x27;,&#x27;silver&#x27;),
+])
+runmany(&#x27;INSERT INTO migrated_customers VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;alice@a.com&#x27;,&#x27;gold&#x27;),(2,&#x27;Bob&#x27;,&#x27;bob_new@b.com&#x27;,&#x27;silver&#x27;),
+    (3,&#x27;Carol&#x27;,&#x27;carol@c.com&#x27;,&#x27;bronze&#x27;),(6,&#x27;Frank&#x27;,&#x27;frank@f.com&#x27;,&#x27;bronze&#x27;),
+])
+
+fully_matched = run(&#x27;&#x27;&#x27;
+    SELECT COUNT(*) FROM (
+        SELECT id,name,email,tier FROM source_customers
+        INTERSECT
+        SELECT id,name,email,tier FROM migrated_customers)&#x27;&#x27;&#x27;)[0][0]
+missing_in_dest = run(&#x27;&#x27;&#x27;
+    SELECT id, name FROM source_customers
+    EXCEPT SELECT id, name FROM migrated_customers&#x27;&#x27;&#x27;)
+extra_in_dest = run(&#x27;&#x27;&#x27;
+    SELECT id, name FROM migrated_customers
+    EXCEPT SELECT id, name FROM source_customers&#x27;&#x27;&#x27;)
+
+print(f&quot;Source: {run(&#x27;SELECT COUNT(*) FROM source_customers&#x27;)[0][0]} records&quot;)
+print(f&quot;Migrated: {run(&#x27;SELECT COUNT(*) FROM migrated_customers&#x27;)[0][0]} records&quot;)
+print(f&quot;Fully matched: {fully_matched}&quot;)
+print(f&quot;Missing from dest: {[(r[0],r[1]) for r in missing_in_dest]}&quot;)
+print(f&quot;Extra in dest: {[(r[0],r[1]) for r in extra_in_dest]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Operation Analytics</div><div class="pd">Create active_users_jan, active_users_feb, active_users_mar tables (each with user_id). Write queries to find: (1) Users active all 3 months (INTERSECT x3). (2) Users active in Jan but NOT Feb (EXCEPT). (3) All unique users across 3 months (UNION). (4) Users active in exactly 2 of 3 months using INTERSECT/EXCEPT combinations.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE active_jan (user_id INT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE active_feb (user_id INT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE active_mar (user_id INT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO active_jan VALUES (?)&#x27;, [(i,) for i in [1,2,3,4,5,6]])
+runmany(&#x27;INSERT INTO active_feb VALUES (?)&#x27;, [(i,) for i in [2,3,4,5,7,8]])
+runmany(&#x27;INSERT INTO active_mar VALUES (?)&#x27;, [(i,) for i in [3,4,5,6,8,9]])
+
+# 1. All 3 months
+rows = run(&#x27;&#x27;&#x27;
+    SELECT user_id FROM active_jan
+    INTERSECT SELECT user_id FROM active_feb
+    INTERSECT SELECT user_id FROM active_mar
+&#x27;&#x27;&#x27;)
+print(&quot;Active all 3 months:&quot;, [r[0] for r in rows])
+
+# 2. Jan but not Feb
+rows = run(&#x27;SELECT user_id FROM active_jan EXCEPT SELECT user_id FROM active_feb&#x27;)
+print(&quot;Jan but not Feb:&quot;, [r[0] for r in rows])
+
+# 3. All unique
+rows = run(&#x27;&#x27;&#x27;
+    SELECT user_id FROM active_jan UNION
+    SELECT user_id FROM active_feb UNION
+    SELECT user_id FROM active_mar ORDER BY user_id
+&#x27;&#x27;&#x27;)
+print(&quot;All unique users:&quot;, [r[0] for r in rows])
+
+# 4. TODO: Exactly 2 of 3 months
+</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Advanced CTEs &amp; Chaining</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CTEs (WITH clauses) can be chained, referenced multiple times, and nested to build complex queries step by step. They replace temp tables in most cases and dramatically improve readability.</p><div class="code-block"><div class="ch"><span>Multiple CTEs and chaining</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE transactions (id INT, cust_id INT, amount REAL, category TEXT, ts TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO transactions VALUES (?,?,?,?,?)&#x27;, [
+    (1,1,150,&#x27;food&#x27;,&#x27;2024-01-05&#x27;),(2,1,300,&#x27;tech&#x27;,&#x27;2024-01-10&#x27;),
+    (3,2,200,&#x27;food&#x27;,&#x27;2024-01-08&#x27;),(4,2,100,&#x27;food&#x27;,&#x27;2024-01-12&#x27;),
+    (5,3,500,&#x27;tech&#x27;,&#x27;2024-01-03&#x27;),(6,3,250,&#x27;clothing&#x27;,&#x27;2024-01-15&#x27;),
+    (7,1,80,&#x27;food&#x27;,&#x27;2024-02-01&#x27;),(8,2,600,&#x27;tech&#x27;,&#x27;2024-02-05&#x27;),
+    (9,3,120,&#x27;food&#x27;,&#x27;2024-02-10&#x27;),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    WITH
+    -- CTE 1: customer totals
+    cust_totals AS (
+        SELECT cust_id, SUM(amount) AS total_spend,
+               COUNT(*) AS n_transactions, MAX(ts) AS last_purchase
+        FROM transactions GROUP BY cust_id
+    ),
+    -- CTE 2: top category per customer
+    top_cat AS (
+        SELECT cust_id,
+               category,
+               SUM(amount) AS cat_total,
+               ROW_NUMBER() OVER (PARTITION BY cust_id ORDER BY SUM(amount) DESC) AS rn
+        FROM transactions GROUP BY cust_id, category
+    ),
+    -- CTE 3: combine using previous CTEs
+    summary AS (
+        SELECT ct.cust_id, ct.total_spend, ct.n_transactions, ct.last_purchase,
+               tc.category AS top_category
+        FROM cust_totals ct
+        JOIN top_cat tc ON ct.cust_id = tc.cust_id AND tc.rn = 1
+    )
+    SELECT *, ROUND(total_spend / n_transactions, 2) AS avg_txn
+    FROM summary ORDER BY total_spend DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Customer summary:&quot;)
+for r in rows:
+    print(f&quot;  Cust {r[0]}: ${r[1]} total, {r[2]} txns, top={r[4]}, avg=${r[5]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Recursive CTE for hierarchies</span><button onclick="cp('c21_1')">Copy</button></div><pre><code id="c21_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE org (id INT, name TEXT, manager_id INT, level INT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO org VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;CEO&#x27;,None,1),(2,&#x27;CTO&#x27;,1,2),(3,&#x27;CFO&#x27;,1,2),(4,&#x27;VP Eng&#x27;,2,3),
+    (5,&#x27;VP Data&#x27;,2,3),(6,&#x27;Dir Finance&#x27;,3,3),(7,&#x27;Sr Dev&#x27;,4,4),
+    (8,&#x27;Data Eng&#x27;,5,4),(9,&#x27;Analyst&#x27;,5,4),(10,&#x27;Accountant&#x27;,6,4),
+])
+
+# Recursive CTE: traverse the org hierarchy
+rows = run(&#x27;&#x27;&#x27;
+    WITH RECURSIVE hierarchy AS (
+        -- Base case: start from CEO (no manager)
+        SELECT id, name, manager_id, 0 AS depth, name AS path
+        FROM org WHERE manager_id IS NULL
+
+        UNION ALL
+
+        -- Recursive case: join to find reports
+        SELECT o.id, o.name, o.manager_id,
+               h.depth + 1,
+               h.path || &quot; -&gt; &quot; || o.name
+        FROM org o
+        JOIN hierarchy h ON o.manager_id = h.id
+    )
+    SELECT depth, name, path FROM hierarchy ORDER BY path
+&#x27;&#x27;&#x27;)
+for r in rows:
+    indent = &quot;  &quot; * r[0]
+    print(f&quot;{indent}{r[1]}&quot;)
+
+# Count reports under each manager
+rows = run(&#x27;&#x27;&#x27;
+    WITH RECURSIVE reports AS (
+        SELECT id, manager_id FROM org
+        UNION ALL
+        SELECT r.id, o.manager_id FROM reports r JOIN org o ON o.id = r.manager_id
+        WHERE o.manager_id IS NOT NULL
+    )
+    SELECT o.name, COUNT(*) AS total_reports
+    FROM org o JOIN reports r ON r.manager_id = o.id
+    GROUP BY o.id ORDER BY total_reports DESC LIMIT 5
+&#x27;&#x27;&#x27;)
+print(&quot;Managers by total reports:&quot;, [(r[0], r[1]) for r in rows])</code></pre></div><div class="code-block"><div class="ch"><span>CTEs for multi-step data transformations</span><button onclick="cp('c21_2')">Copy</button></div><pre><code id="c21_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE raw_sales (rep TEXT, product TEXT, amount REAL, region TEXT, sale_date TEXT)&#x27;&#x27;&#x27;)
+import random; random.seed(42)
+reps = [&#x27;Alice&#x27;,&#x27;Bob&#x27;,&#x27;Carol&#x27;,&#x27;Dave&#x27;,&#x27;Eve&#x27;]
+prods = [&#x27;Widget&#x27;,&#x27;Gadget&#x27;,&#x27;Gizmo&#x27;]
+regions = [&#x27;North&#x27;,&#x27;South&#x27;,&#x27;East&#x27;]
+rows_data = [(random.choice(reps), random.choice(prods),
+              round(random.uniform(100,2000), 2),
+              random.choice(regions),
+              f&quot;2024-0{random.randint(1,3)}-{random.randint(1,28):02d}&quot;)
+             for _ in range(50)]
+runmany(&#x27;INSERT INTO raw_sales VALUES (?,?,?,?,?)&#x27;, rows_data)
+
+rows = run(&#x27;&#x27;&#x27;
+    WITH
+    -- Step 1: normalize and add month
+    cleaned AS (
+        SELECT rep, product, region, amount,
+               STRFTIME(&quot;%Y-%m&quot;, sale_date) AS month
+        FROM raw_sales WHERE amount &gt; 0
+    ),
+    -- Step 2: rep-level monthly totals
+    rep_monthly AS (
+        SELECT rep, month, SUM(amount) AS monthly_total,
+               COUNT(*) AS n_sales
+        FROM cleaned GROUP BY rep, month
+    ),
+    -- Step 3: rank reps per month
+    ranked AS (
+        SELECT *, RANK() OVER (PARTITION BY month ORDER BY monthly_total DESC) AS rank
+        FROM rep_monthly
+    )
+    -- Step 4: show top-2 per month
+    SELECT month, rank, rep, ROUND(monthly_total, 0) AS total, n_sales
+    FROM ranked WHERE rank &lt;= 2
+    ORDER BY month, rank
+&#x27;&#x27;&#x27;)
+print(&quot;Top 2 reps per month:&quot;)
+for r in rows: print(f&quot;  {r[0]} #{r[1]}: {r[2]} ${r[3]:,.0f} ({r[4]} sales)&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Funnel Analysis</div><div class="rd">A product team uses chained CTEs to compute a conversion funnel: impression -&gt; click -&gt; add_to_cart -&gt; purchase, with drop-off rates at each stage.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE funnel_events (user_id INT, event TEXT, ts TEXT)&#x27;&#x27;&#x27;)
+import random; random.seed(42)
+events_raw = []
+for uid in range(1, 201):
+    events_raw.append((uid,&#x27;impression&#x27;,&#x27;2024-01&#x27;))
+    if random.random() &lt; 0.6:   events_raw.append((uid,&#x27;click&#x27;,&#x27;2024-01&#x27;))
+    if random.random() &lt; 0.4:   events_raw.append((uid,&#x27;add_to_cart&#x27;,&#x27;2024-01&#x27;))
+    if random.random() &lt; 0.35:  events_raw.append((uid,&#x27;purchase&#x27;,&#x27;2024-01&#x27;))
+runmany(&#x27;INSERT INTO funnel_events VALUES (?,?,?)&#x27;, events_raw)
+
+rows = run(&#x27;&#x27;&#x27;
+    WITH
+    stage_counts AS (
+        SELECT event,
+               COUNT(DISTINCT user_id) AS users
+        FROM funnel_events
+        GROUP BY event
+    ),
+    ordered AS (
+        SELECT event, users,
+               CASE event
+                   WHEN &quot;impression&quot;   THEN 1
+                   WHEN &quot;click&quot;        THEN 2
+                   WHEN &quot;add_to_cart&quot;  THEN 3
+                   WHEN &quot;purchase&quot;     THEN 4
+               END AS stage_order
+        FROM stage_counts
+    ),
+    with_prev AS (
+        SELECT event, users, stage_order,
+               LAG(users) OVER (ORDER BY stage_order) AS prev_users
+        FROM ordered
+    )
+    SELECT event, users,
+           CASE WHEN prev_users IS NOT NULL
+                THEN ROUND(100.0 * users / prev_users, 1)
+                ELSE 100.0 END AS step_pct,
+           ROUND(100.0 * users / MAX(users) OVER (), 1) AS overall_pct
+    FROM with_prev ORDER BY stage_order
+&#x27;&#x27;&#x27;)
+print(&quot;Conversion funnel:&quot;)
+for r in rows:
+    bar = &quot;#&quot; * int(r[3] / 5)
+    print(f&quot;  {r[0]:15s}: {r[1]:&gt;4d} users | step={r[2]:&gt;5.1f}% | {bar}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CTE Report Builder</div><div class="pd">Build a multi-CTE query that: CTE1 computes monthly revenue per product from an orders table, CTE2 computes 3-month moving average per product (using LAG), CTE3 flags months where revenue dropped more than 20% vs the moving average. Return only flagged months with product, month, revenue, avg, and drop_pct.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE monthly_orders (product TEXT, month TEXT, revenue REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO monthly_orders VALUES (?,?,?)&#x27;, [
+    (&#x27;Widget&#x27;,&#x27;2024-01&#x27;,1000),(&#x27;Widget&#x27;,&#x27;2024-02&#x27;,950),(&#x27;Widget&#x27;,&#x27;2024-03&#x27;,700),
+    (&#x27;Widget&#x27;,&#x27;2024-04&#x27;,980),(&#x27;Gadget&#x27;,&#x27;2024-01&#x27;,500),(&#x27;Gadget&#x27;,&#x27;2024-02&#x27;,520),
+    (&#x27;Gadget&#x27;,&#x27;2024-03&#x27;,480),(&#x27;Gadget&#x27;,&#x27;2024-04&#x27;,200),
+])
+
+rows = run(&#x27;&#x27;&#x27;
+    WITH
+    -- CTE2: 3-month moving average using LAG
+    with_lags AS (
+        SELECT product, month, revenue,
+               LAG(revenue,1) OVER (PARTITION BY product ORDER BY month) AS prev1,
+               LAG(revenue,2) OVER (PARTITION BY product ORDER BY month) AS prev2
+        FROM monthly_orders
+    ),
+    moving_avg AS (
+        SELECT product, month, revenue,
+               ROUND((revenue + COALESCE(prev1,revenue) + COALESCE(prev2,revenue)) / 3.0, 1) AS ma3
+        FROM with_lags
+    ),
+    -- CTE3: flag months with &gt;20% drop vs moving avg
+    flagged AS (
+        SELECT product, month, revenue, ma3,
+               ROUND((revenue - ma3) / ma3 * 100, 1) AS drop_pct
+        FROM moving_avg
+        WHERE revenue &lt; ma3 * 0.8   -- more than 20% below MA
+    )
+    SELECT * FROM flagged ORDER BY drop_pct
+&#x27;&#x27;&#x27;)
+print(&quot;Revenue alerts (&gt;20% below 3-month MA):&quot;)
+for r in rows: print(f&quot;  {r[0]} {r[1]}: ${r[2]} vs MA ${r[3]} ({r[4]}%)&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Views &amp; Virtual Tables</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Views are saved SELECT statements that behave like tables. They simplify complex queries, enforce access control, and create stable interfaces over evolving schema.</p><div class="code-block"><div class="ch"><span>Creating and using views</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE employees (id INT, name TEXT, dept TEXT, salary REAL, hire_date TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE departments (id INT, name TEXT, budget REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;Eng&#x27;,90000,&#x27;2020-03-15&#x27;),(2,&#x27;Bob&#x27;,&#x27;Eng&#x27;,85000,&#x27;2021-06-01&#x27;),
+    (3,&#x27;Carol&#x27;,&#x27;Sales&#x27;,70000,&#x27;2019-11-20&#x27;),(4,&#x27;Dave&#x27;,&#x27;Sales&#x27;,72000,&#x27;2022-01-10&#x27;),
+    (5,&#x27;Eve&#x27;,&#x27;HR&#x27;,65000,&#x27;2020-08-05&#x27;),(6,&#x27;Frank&#x27;,&#x27;Eng&#x27;,95000,&#x27;2018-04-22&#x27;),
+])
+runmany(&#x27;INSERT INTO departments VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Eng&#x27;,500000),(2,&#x27;Sales&#x27;,300000),(3,&#x27;HR&#x27;,150000),
+])
+
+# Create a view
+run(&#x27;&#x27;&#x27;
+    CREATE VIEW emp_summary AS
+    SELECT e.id, e.name, e.dept, e.salary,
+           ROUND(100.0 * e.salary / d.budget, 2) AS salary_pct_budget,
+           CAST((JULIANDAY(&quot;now&quot;) - JULIANDAY(e.hire_date)) / 365.25 AS INT) AS years
+    FROM employees e
+    JOIN departments d ON e.dept = d.name
+&#x27;&#x27;&#x27;)
+
+# Query the view like a table
+rows = run(&#x27;SELECT * FROM emp_summary ORDER BY salary DESC&#x27;)
+print(&quot;Employee summary (from view):&quot;)
+for r in rows: print(f&quot;  {r[1]} ({r[2]}): ${r[3]:,}, {r[4]:.2f}% of dept budget, {r[5]} yrs&quot;)
+
+# View within query
+rows = run(&#x27;&#x27;&#x27;
+    SELECT dept, COUNT(*) AS n, ROUND(AVG(salary), 0) AS avg_sal
+    FROM emp_summary
+    GROUP BY dept ORDER BY avg_sal DESC
+&#x27;&#x27;&#x27;)
+for r in rows: print(f&quot;  {r[0]}: {r[1]} employees, avg ${r[2]:,}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>View updates and DROP</span><button onclick="cp('c22_1')">Copy</button></div><pre><code id="c22_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE products (id INT, name TEXT, price REAL, active INT DEFAULT 1)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO products VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Apple&#x27;,1.2,1),(2,&#x27;Banana&#x27;,0.5,1),(3,&#x27;Carrot&#x27;,0.8,0),(4,&#x27;Date&#x27;,2.0,1),
+])
+
+run(&#x27;&#x27;&#x27;CREATE VIEW active_products AS
+       SELECT id, name, price FROM products WHERE active = 1&#x27;&#x27;&#x27;)
+
+rows = run(&#x27;SELECT * FROM active_products&#x27;)
+print(&quot;Active products:&quot;, rows)
+
+# In SQLite, simple views can be updated using INSTEAD OF triggers
+# But directly: INSERT INTO simple single-table view may work
+run(&quot;INSERT INTO active_products VALUES (5, &#x27;Elderberry&#x27;, 3.5)&quot;)
+rows = run(&#x27;SELECT id, name, price, active FROM products WHERE id = 5&#x27;)
+print(&quot;Inserted via view:&quot;, rows)  # active defaults to 1
+
+# DROP VIEW
+run(&#x27;DROP VIEW active_products&#x27;)
+print(&quot;View dropped. Tables unaffected.&quot;)
+rows = run(&#x27;SELECT COUNT(*) FROM products&#x27;)
+print(&quot;Products table still has:&quot;, rows[0][0], &quot;rows&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Materialized views (via tables) and virtual tables</span><button onclick="cp('c22_2')">Copy</button></div><pre><code id="c22_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+# SQLite doesn&#x27;t have native materialized views
+# Simulate with CREATE TABLE AS SELECT
+run(&#x27;&#x27;&#x27;CREATE TABLE employees (id INT, dept TEXT, salary REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees VALUES (?,?,?)&#x27;, [
+    (i, [&#x27;Eng&#x27;,&#x27;Sales&#x27;,&#x27;HR&#x27;][i%3], 60000 + i*5000) for i in range(12)
+])
+
+# Simulated materialized view (refresh manually)
+run(&#x27;&#x27;&#x27;DROP TABLE IF EXISTS dept_stats_mv&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;
+    CREATE TABLE dept_stats_mv AS
+    SELECT dept,
+           COUNT(*) AS headcount,
+           ROUND(AVG(salary), 0) AS avg_salary,
+           MAX(salary) AS max_salary
+    FROM employees GROUP BY dept
+&#x27;&#x27;&#x27;)
+
+rows = run(&#x27;SELECT * FROM dept_stats_mv ORDER BY avg_salary DESC&#x27;)
+print(&quot;Materialized dept stats:&quot;)
+for r in rows: print(f&quot;  {r[0]}: {r[1]} people, avg ${r[2]:,}, max ${r[3]:,}&quot;)
+
+# Refresh: insert more data, recreate
+run(&#x27;INSERT INTO employees VALUES (99, &quot;Eng&quot;, 200000)&#x27;)
+run(&#x27;DROP TABLE dept_stats_mv&#x27;)
+run(&#x27;&#x27;&#x27;
+    CREATE TABLE dept_stats_mv AS
+    SELECT dept, COUNT(*) AS headcount, ROUND(AVG(salary),0) AS avg_salary
+    FROM employees GROUP BY dept
+&#x27;&#x27;&#x27;)
+rows = run(&#x27;SELECT * FROM dept_stats_mv ORDER BY dept&#x27;)
+print(&quot;Refreshed stats:&quot;, rows)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Reporting View Layer</div><div class="rd">A BI team creates views for sales, customer, and product reporting so analysts never need to write complex JOINs — they just query well-named views.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE orders (id INT, cust_id INT, product_id INT, amount REAL, order_date TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE customers (id INT, name TEXT, tier TEXT, region TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE products (id INT, name TEXT, category TEXT, cost REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO orders VALUES (?,?,?,?,?)&#x27;, [
+    (1,1,1,500,&#x27;2024-01-10&#x27;),(2,1,2,300,&#x27;2024-01-15&#x27;),(3,2,1,800,&#x27;2024-02-05&#x27;),
+    (4,2,3,200,&#x27;2024-02-20&#x27;),(5,3,2,600,&#x27;2024-03-01&#x27;),(6,1,3,400,&#x27;2024-03-10&#x27;),
+])
+runmany(&#x27;INSERT INTO customers VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;gold&#x27;,&#x27;North&#x27;),(2,&#x27;Bob&#x27;,&#x27;silver&#x27;,&#x27;South&#x27;),(3,&#x27;Carol&#x27;,&#x27;bronze&#x27;,&#x27;East&#x27;),
+])
+runmany(&#x27;INSERT INTO products VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Widget&#x27;,&#x27;Hardware&#x27;,200),(2,&#x27;Gadget&#x27;,&#x27;Electronics&#x27;,100),(3,&#x27;Gizmo&#x27;,&#x27;Software&#x27;,50),
+])
+
+run(&#x27;&#x27;&#x27;CREATE VIEW order_detail AS
+    SELECT o.id AS order_id, c.name AS customer, c.tier, c.region,
+           p.name AS product, p.category,
+           o.amount, p.cost,
+           ROUND(o.amount - p.cost, 2) AS margin,
+           ROUND((o.amount - p.cost) / o.amount * 100, 1) AS margin_pct,
+           o.order_date
+    FROM orders o
+    JOIN customers c ON c.id = o.cust_id
+    JOIN products p ON p.id = o.product_id
+&#x27;&#x27;&#x27;)
+
+rows = run(&#x27;SELECT customer, product, amount, margin_pct FROM order_detail ORDER BY margin_pct DESC&#x27;)
+print(&quot;Order detail (from view):&quot;)
+for r in rows: print(f&quot;  {r[0]} - {r[1]}: ${r[2]} ({r[3]}% margin)&quot;)
+
+rows = run(&#x27;SELECT category, ROUND(AVG(margin_pct),1) AS avg_margin FROM order_detail GROUP BY category&#x27;)
+print(&quot;Avg margin by category:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: View-Based Dashboard</div><div class="pd">Create a sales table (id, rep, product, amount, region, sale_date). Create: (1) A view rep_dashboard with each rep&#x27;s total, count, avg, and rank. (2) A view regional_summary with region totals and % of grand total. (3) A view top_products showing the top 5 products by revenue. Query each view to confirm it works.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE sales (id INT, rep TEXT, product TEXT, amount REAL, region TEXT, sale_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales VALUES (?,?,?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;Widget&#x27;,500,&#x27;North&#x27;,&#x27;2024-01-10&#x27;),
+    (2,&#x27;Alice&#x27;,&#x27;Gadget&#x27;,300,&#x27;North&#x27;,&#x27;2024-01-15&#x27;),
+    (3,&#x27;Bob&#x27;,&#x27;Widget&#x27;,800,&#x27;South&#x27;,&#x27;2024-02-01&#x27;),
+    (4,&#x27;Bob&#x27;,&#x27;Gizmo&#x27;,200,&#x27;South&#x27;,&#x27;2024-02-10&#x27;),
+    (5,&#x27;Carol&#x27;,&#x27;Gadget&#x27;,600,&#x27;East&#x27;,&#x27;2024-02-20&#x27;),
+    (6,&#x27;Alice&#x27;,&#x27;Gizmo&#x27;,400,&#x27;North&#x27;,&#x27;2024-03-01&#x27;),
+    (7,&#x27;Carol&#x27;,&#x27;Widget&#x27;,700,&#x27;East&#x27;,&#x27;2024-03-10&#x27;),
+    (8,&#x27;Bob&#x27;,&#x27;Gadget&#x27;,350,&#x27;South&#x27;,&#x27;2024-03-15&#x27;),
+])
+
+# 1. Rep dashboard view
+run(&#x27;&#x27;&#x27;CREATE VIEW rep_dashboard AS
+    SELECT rep, SUM(amount) AS total, COUNT(*) AS n_sales,
+           ROUND(AVG(amount),0) AS avg_sale,
+           RANK() OVER (ORDER BY SUM(amount) DESC) AS rank
+    FROM sales GROUP BY rep
+&#x27;&#x27;&#x27;)
+print(&quot;=== Rep Dashboard ===&quot;)
+for r in run(&#x27;SELECT * FROM rep_dashboard ORDER BY rank&#x27;): print(f&quot;  {r}&quot;)
+
+# 2. Regional summary view
+run(&#x27;&#x27;&#x27;CREATE VIEW regional_summary AS
+    SELECT region, ROUND(SUM(amount),0) AS total,
+           ROUND(100.0*SUM(amount)/SUM(SUM(amount)) OVER (), 1) AS pct_of_total
+    FROM sales GROUP BY region
+&#x27;&#x27;&#x27;)
+print(&quot;=== Regional Summary ===&quot;)
+for r in run(&#x27;SELECT * FROM regional_summary ORDER BY total DESC&#x27;): print(f&quot;  {r}&quot;)
+
+# 3. TODO: top products view
+</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Data Integrity &amp; Constraints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Constraints (PRIMARY KEY, UNIQUE, NOT NULL, CHECK, FOREIGN KEY) enforce data quality at the database level — the last line of defense against bad data.</p><div class="code-block"><div class="ch"><span>PRIMARY KEY, UNIQUE, NOT NULL, CHECK</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+conn.execute(&#x27;PRAGMA foreign_keys = ON&#x27;)
+
+run(&#x27;&#x27;&#x27;CREATE TABLE products (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    sku     TEXT    NOT NULL UNIQUE,
+    name    TEXT    NOT NULL,
+    price   REAL    NOT NULL CHECK (price &gt; 0),
+    stock   INTEGER NOT NULL DEFAULT 0 CHECK (stock &gt;= 0),
+    category TEXT   CHECK (category IN (&quot;food&quot;, &quot;tech&quot;, &quot;clothing&quot;))
+)&#x27;&#x27;&#x27;)
+
+# Valid insert
+run(&quot;INSERT INTO products (sku, name, price, stock, category) VALUES (&#x27;SKU-001&#x27;, &#x27;Apple&#x27;, 1.5, 100, &#x27;food&#x27;)&quot;)
+run(&quot;INSERT INTO products (sku, name, price, stock, category) VALUES (&#x27;SKU-002&#x27;, &#x27;Phone&#x27;, 699.0, 50, &#x27;tech&#x27;)&quot;)
+print(&quot;Inserted valid products:&quot;, run(&#x27;SELECT id, sku, name, price FROM products&#x27;))
+
+# Test constraint violations
+import sqlite3 as _sqlite3
+tests = [
+    (&quot;Duplicate SKU&quot;,       &quot;INSERT INTO products (sku, name, price) VALUES (&#x27;SKU-001&#x27;, &#x27;Pear&#x27;, 0.9)&quot;),
+    (&quot;Negative price&quot;,      &quot;INSERT INTO products (sku, name, price) VALUES (&#x27;SKU-003&#x27;, &#x27;X&#x27;, -5.0)&quot;),
+    (&quot;Negative stock&quot;,      &quot;INSERT INTO products (sku, name, price, stock) VALUES (&#x27;SKU-004&#x27;, &#x27;Y&#x27;, 1.0, -10)&quot;),
+    (&quot;Invalid category&quot;,    &quot;INSERT INTO products (sku, name, price, category) VALUES (&#x27;SKU-005&#x27;, &#x27;Z&#x27;, 2.0, &#x27;toys&#x27;)&quot;),
+    (&quot;NULL name&quot;,           &quot;INSERT INTO products (sku, price) VALUES (&#x27;SKU-006&#x27;, 3.0)&quot;),
+]
+for label, sql in tests:
+    try:
+        run(sql)
+        print(f&quot;  FAIL: {label} should have been rejected!&quot;)
+    except Exception as e:
+        print(f&quot;  OK: {label} rejected -&gt; {str(e)[:50]}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>FOREIGN KEY constraints</span><button onclick="cp('c23_1')">Copy</button></div><pre><code id="c23_1" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+conn.execute(&#x27;PRAGMA foreign_keys = ON&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE categories (id INT PRIMARY KEY, name TEXT NOT NULL UNIQUE)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE products (
+    id INT PRIMARY KEY,
+    name TEXT NOT NULL,
+    cat_id INT NOT NULL REFERENCES categories(id) ON DELETE RESTRICT ON UPDATE CASCADE
+)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE orders (
+    id INT PRIMARY KEY,
+    product_id INT NOT NULL REFERENCES products(id) ON DELETE CASCADE
+)&#x27;&#x27;&#x27;)
+
+runmany(&#x27;INSERT INTO categories VALUES (?,?)&#x27;, [(1,&#x27;Food&#x27;),(2,&#x27;Tech&#x27;),(3,&#x27;Clothing&#x27;)])
+runmany(&#x27;INSERT INTO products VALUES (?,?,?)&#x27;, [(1,&#x27;Apple&#x27;,1),(2,&#x27;Phone&#x27;,2),(3,&#x27;Shirt&#x27;,3)])
+runmany(&#x27;INSERT INTO orders VALUES (?,?)&#x27;, [(1,1),(2,1),(3,2)])
+
+# Violate FK
+import sqlite3 as _sqlite3
+try:
+    run(&#x27;INSERT INTO products VALUES (4, &quot;Widget&quot;, 99)&#x27;)   # cat_id=99 doesn&#x27;t exist
+    print(&quot;FAIL: should have rejected&quot;)
+except Exception as e:
+    print(&quot;OK: FK rejected:&quot;, str(e)[:50])
+
+# ON DELETE CASCADE: delete product -&gt; orders cascade deleted
+print(&quot;Orders before:&quot;, run(&#x27;SELECT COUNT(*) FROM orders&#x27;)[0][0])
+run(&#x27;DELETE FROM products WHERE id = 1&#x27;)
+print(&quot;Orders after deleting product 1:&quot;, run(&#x27;SELECT COUNT(*) FROM orders&#x27;)[0][0])
+
+# ON DELETE RESTRICT: cannot delete category if products reference it
+try:
+    run(&#x27;DELETE FROM categories WHERE id = 2&#x27;)
+    print(&quot;FAIL: should have rejected&quot;)
+except Exception as e:
+    print(&quot;OK: RESTRICT works:&quot;, str(e)[:50])</code></pre></div><div class="code-block"><div class="ch"><span>ON CONFLICT and UPSERT</span><button onclick="cp('c23_2')">Copy</button></div><pre><code id="c23_2" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+run(&#x27;&#x27;&#x27;CREATE TABLE inventory (
+    sku   TEXT PRIMARY KEY,
+    name  TEXT NOT NULL,
+    stock INT  NOT NULL DEFAULT 0 CHECK (stock &gt;= 0)
+)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO inventory VALUES (?,?,?)&#x27;, [
+    (&#x27;A001&#x27;,&#x27;Apple&#x27;,100),(&#x27;B002&#x27;,&#x27;Banana&#x27;,200),
+])
+
+# ON CONFLICT IGNORE: skip duplicate inserts silently
+run(&quot;INSERT OR IGNORE INTO inventory VALUES (&#x27;A001&#x27;, &#x27;Apple Updated&#x27;, 150)&quot;)
+print(&quot;After OR IGNORE:&quot;, run(&quot;SELECT stock FROM inventory WHERE sku=&#x27;A001&#x27;&quot;)[0][0])  # still 100
+
+# ON CONFLICT REPLACE: delete + re-insert
+run(&quot;INSERT OR REPLACE INTO inventory VALUES (&#x27;A001&#x27;, &#x27;Apple Premium&#x27;, 120)&quot;)
+print(&quot;After OR REPLACE:&quot;, run(&quot;SELECT name, stock FROM inventory WHERE sku=&#x27;A001&#x27;&quot;)[0])
+
+# UPSERT (INSERT ... ON CONFLICT DO UPDATE) - SQLite 3.24+
+run(&#x27;&#x27;&#x27;
+    INSERT INTO inventory (sku, name, stock) VALUES (&quot;C003&quot;, &quot;Cherry&quot;, 50)
+    ON CONFLICT(sku) DO UPDATE SET
+        stock = stock + excluded.stock,
+        name  = excluded.name
+&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;
+    INSERT INTO inventory (sku, name, stock) VALUES (&quot;C003&quot;, &quot;Cherry Deluxe&quot;, 30)
+    ON CONFLICT(sku) DO UPDATE SET
+        stock = stock + excluded.stock,
+        name  = excluded.name
+&#x27;&#x27;&#x27;)
+print(&quot;After UPSERT x2:&quot;, run(&quot;SELECT name, stock FROM inventory WHERE sku=&#x27;C003&#x27;&quot;)[0])</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Inventory Management System</div><div class="rd">An e-commerce warehouse uses FK constraints, CHECK constraints, and UPSERT to maintain data integrity across products, stock levels, and order fulfillment.</div><pre><code class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+conn.execute(&#x27;PRAGMA foreign_keys = ON&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE warehouses (id INT PRIMARY KEY, location TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE products (id INT PRIMARY KEY, sku TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL, price REAL CHECK (price &gt; 0))&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE stock_levels (
+    product_id INT REFERENCES products(id) ON DELETE CASCADE,
+    warehouse_id INT REFERENCES warehouses(id),
+    qty INT NOT NULL DEFAULT 0 CHECK (qty &gt;= 0),
+    PRIMARY KEY (product_id, warehouse_id)
+)&#x27;&#x27;&#x27;)
+
+runmany(&#x27;INSERT INTO warehouses VALUES (?,?)&#x27;, [(1,&#x27;NYC&#x27;),(2,&#x27;LA&#x27;),(3,&#x27;Chicago&#x27;)])
+runmany(&#x27;INSERT INTO products VALUES (?,?,?,?)&#x27;,
+        [(1,&#x27;SKU-A&#x27;,&#x27;Widget&#x27;,29.99),(2,&#x27;SKU-B&#x27;,&#x27;Gadget&#x27;,49.99)])
+runmany(&#x27;INSERT INTO stock_levels VALUES (?,?,?)&#x27;,
+        [(1,1,500),(1,2,300),(2,1,200),(2,3,150)])
+
+# UPSERT stock: add received quantity
+def receive_stock(product_id, warehouse_id, qty):
+    run(f&#x27;&#x27;&#x27;
+        INSERT INTO stock_levels (product_id, warehouse_id, qty)
+        VALUES ({product_id}, {warehouse_id}, {qty})
+        ON CONFLICT (product_id, warehouse_id) DO UPDATE SET qty = qty + {qty}
+    &#x27;&#x27;&#x27;)
+
+receive_stock(1, 1, 100)
+receive_stock(2, 2, 50)  # new location
+
+rows = run(&#x27;&#x27;&#x27;
+    SELECT p.name, w.location, sl.qty
+    FROM stock_levels sl
+    JOIN products p ON p.id = sl.product_id
+    JOIN warehouses w ON w.id = sl.warehouse_id
+    ORDER BY p.name, sl.qty DESC
+&#x27;&#x27;&#x27;)
+print(&quot;Current stock:&quot;)
+for r in rows: print(f&quot;  {r[0]} @ {r[1]}: {r[2]} units&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bank Account Constraints</div><div class="pd">Create an accounts table (id, holder, balance REAL CHECK &gt;= 0, account_type CHECK IN list, opened_date). Create a transactions table (id, account_id FK, amount, type CHECK IN debit/credit, ts). Write: (1) Insert a debit that would go negative (should fail). (2) A trigger that auto-updates balance on transaction insert. (3) UPSERT to create or update account balance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import sqlite3, contextlib
+conn = sqlite3.connect(&#x27;:memory:&#x27;)
+conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
+def run(sql, params=()):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.execute(sql, params)
+        if cur.description:
+            return cur.fetchall()
+        conn.commit()
+        return cur.rowcount
+def runmany(sql, rows):
+    with contextlib.closing(conn.cursor()) as cur:
+        cur.executemany(sql, rows)
+        conn.commit()
+conn.execute(&#x27;PRAGMA foreign_keys = ON&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE accounts (
+    id INT PRIMARY KEY,
+    holder TEXT NOT NULL,
+    balance REAL NOT NULL DEFAULT 0 CHECK (balance &gt;= 0),
+    account_type TEXT CHECK (account_type IN (&quot;checking&quot;, &quot;savings&quot;)),
+    opened_date TEXT DEFAULT (DATE(&quot;now&quot;))
+)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE txns (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id INT NOT NULL REFERENCES accounts(id),
+    amount REAL NOT NULL CHECK (amount &gt; 0),
+    type TEXT NOT NULL CHECK (type IN (&quot;debit&quot;,&quot;credit&quot;)),
+    ts TEXT DEFAULT (DATETIME(&quot;now&quot;))
+)&#x27;&#x27;&#x27;)
+
+run(&quot;INSERT INTO accounts VALUES (1,&#x27;Alice&#x27;,1000,&#x27;checking&#x27;,&#x27;2024-01-01&#x27;)&quot;)
+
+# 1. Try to go negative via debit &gt; balance
+import sqlite3 as _sqlite3
+try:
+    run(&quot;INSERT INTO txns (account_id, amount, type) VALUES (1, 5000, &#x27;debit&#x27;)&quot;)
+    # Without trigger, balance isn&#x27;t auto-updated. Add trigger below.
+except Exception as e:
+    print(&quot;Error:&quot;, e)
+
+# 2. TODO: CREATE TRIGGER after_txn AFTER INSERT ON txns
+#    that updates accounts.balance = balance - amount WHERE type=&#x27;debit&#x27;
+#    or balance + amount WHERE type=&#x27;credit&#x27;
+
+# 3. TODO: UPSERT to create or update an account balance
+print(&quot;Current balance:&quot;, run(&quot;SELECT balance FROM accounts WHERE id=1&quot;)[0][0])
+</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Advanced Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use FILTER clauses for conditional aggregation, emulate ROLLUP with UNION ALL, and combine window functions for multi-dimensional analysis.</p><div class="code-block"><div class="ch"><span>FILTER clause – conditional sums per quarter</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales (
+    id INTEGER PRIMARY KEY,
+    region TEXT, product TEXT,
+    amount REAL, q INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;North&#x27;,&#x27;A&#x27;,100,1),(2,&#x27;North&#x27;,&#x27;B&#x27;,200,1),
+    (3,&#x27;South&#x27;,&#x27;A&#x27;,150,2),(4,&#x27;South&#x27;,&#x27;B&#x27;,250,2),
+    (5,&#x27;North&#x27;,&#x27;A&#x27;,120,3),(6,&#x27;South&#x27;,&#x27;B&#x27;,300,3)])
+# FILTER clause – conditional aggregation
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        region,
+        SUM(amount) AS total,
+        SUM(amount) FILTER(WHERE q=1) AS q1,
+        SUM(amount) FILTER(WHERE q=2) AS q2
+    FROM sales GROUP BY region&#x27;&#x27;&#x27;)
+print(rows)
+</code></pre></div><div class="code-block"><div class="ch"><span>Emulate ROLLUP with UNION ALL</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales2 (
+    region TEXT, product TEXT, amount REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales2 VALUES (?,?,?)&#x27;, [
+    (&#x27;North&#x27;,&#x27;A&#x27;,100),(&#x27;North&#x27;,&#x27;B&#x27;,200),
+    (&#x27;South&#x27;,&#x27;A&#x27;,150),(&#x27;South&#x27;,&#x27;B&#x27;,250)])
+# Emulate ROLLUP with UNION ALL
+rows = run(&#x27;&#x27;&#x27;
+    SELECT region, product, SUM(amount)
+    FROM sales2 GROUP BY region, product
+    UNION ALL
+    SELECT region, NULL, SUM(amount)
+    FROM sales2 GROUP BY region
+    UNION ALL
+    SELECT NULL, NULL, SUM(amount) FROM sales2
+    ORDER BY 1,2&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>RANK and percent-rank</span><button onclick="cp('c24_2')">Copy</button></div><pre><code id="c24_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS metrics (
+    dept TEXT, month INTEGER, revenue REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO metrics VALUES (?,?,?)&#x27;, [
+    (&#x27;Eng&#x27;,1,5000),(&#x27;Eng&#x27;,2,6000),(&#x27;HR&#x27;,1,2000),(&#x27;HR&#x27;,2,2500)])
+# PERCENT_RANK and CUME_DIST
+rows = run(&#x27;&#x27;&#x27;
+    SELECT dept, month, revenue,
+        RANK() OVER (ORDER BY revenue) AS rnk,
+        ROUND(100.0*RANK() OVER(ORDER BY revenue)/COUNT(*) OVER(),1) AS pct
+    FROM metrics ORDER BY revenue&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Multi-dimensional conditional aggregation</span><button onclick="cp('c24_3')">Copy</button></div><pre><code id="c24_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY, customer TEXT,
+    status TEXT, amount REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO orders VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;paid&#x27;,300),(2,&#x27;Bob&#x27;,&#x27;pending&#x27;,150),
+    (3,&#x27;Alice&#x27;,&#x27;paid&#x27;,200),(4,&#x27;Bob&#x27;,&#x27;paid&#x27;,400),(5,&#x27;Carol&#x27;,&#x27;refunded&#x27;,100)])
+# Multi-dimensional conditional aggregation
+rows = run(&#x27;&#x27;&#x27;
+    SELECT customer,
+        COUNT(*) FILTER(WHERE status=&#x27;paid&#x27;) AS paid_cnt,
+        SUM(amount) FILTER(WHERE status=&#x27;paid&#x27;) AS paid_sum,
+        COUNT(*) FILTER(WHERE status=&#x27;pending&#x27;) AS pend_cnt
+    FROM orders GROUP BY customer ORDER BY customer&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: E-commerce Revenue Breakdown</div><div class="rd">An analytics team needs quarterly revenue by region, total rows, and a grand-total rollup — all in one query.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS rev (
+    region TEXT, q INTEGER, amount REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO rev VALUES (?,?,?)&#x27;, [
+    (&#x27;North&#x27;,1,500),(&#x27;North&#x27;,2,700),
+    (&#x27;South&#x27;,1,400),(&#x27;South&#x27;,2,600)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT region, q,
+        SUM(amount) AS total,
+        SUM(amount) FILTER(WHERE q=1) AS q1_total
+    FROM rev GROUP BY region, q
+    UNION ALL
+    SELECT NULL, NULL, SUM(amount), NULL FROM rev&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conditional Aggregation Practice</div><div class="pd">Create a &#x27;transactions&#x27; table with columns (id, type TEXT, amount REAL). Write a query that returns total amount where type=&#x27;credit&#x27;, total where type=&#x27;debit&#x27;, and the net difference — all in one row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS transactions (
+    id INTEGER PRIMARY KEY, type TEXT, amount REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO transactions VALUES (?,?,?)&#x27;, [
+    (1,&#x27;credit&#x27;,500),(2,&#x27;debit&#x27;,200),(3,&#x27;credit&#x27;,300),(4,&#x27;debit&#x27;,150)])
+# Write your FILTER aggregation query here
+</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Self-Joins &amp; Non-Equi Joins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use self-joins to query hierarchical data, non-equi joins for range matching, and interval joins to detect overlaps.</p><div class="code-block"><div class="ch"><span>Self-join: employee-manager hierarchy</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS employees (
+    id INTEGER PRIMARY KEY, name TEXT,
+    manager_id INTEGER, salary REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,None,9000),(2,&#x27;Bob&#x27;,1,7000),
+    (3,&#x27;Carol&#x27;,1,7500),(4,&#x27;Dave&#x27;,2,5000),(5,&#x27;Eve&#x27;,2,5500)])
+# Self-join: each employee with their manager&#x27;s name
+rows = run(&#x27;&#x27;&#x27;
+    SELECT e.name AS employee, m.name AS manager
+    FROM employees e
+    LEFT JOIN employees m ON e.manager_id = m.id
+    ORDER BY e.id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Non-equi join: salary comparisons within dept</span><button onclick="cp('c25_1')">Copy</button></div><pre><code id="c25_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS employees2 (
+    id INTEGER PRIMARY KEY, name TEXT, salary REAL, dept TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO employees2 VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,9000,&#x27;Eng&#x27;),(2,&#x27;Bob&#x27;,7000,&#x27;Eng&#x27;),
+    (3,&#x27;Carol&#x27;,7500,&#x27;HR&#x27;),(4,&#x27;Dave&#x27;,5000,&#x27;HR&#x27;)])
+# Non-equi join: employees earning more than others in same dept
+rows = run(&#x27;&#x27;&#x27;
+    SELECT a.name AS higher, b.name AS lower,
+           a.salary - b.salary AS diff
+    FROM employees2 a
+    JOIN employees2 b
+      ON a.dept = b.dept AND a.salary &gt; b.salary
+    ORDER BY diff DESC&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Range join: match orders to price bands</span><button onclick="cp('c25_2')">Copy</button></div><pre><code id="c25_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS prices (
+    product TEXT, price REAL, valid_from TEXT, valid_to TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO prices VALUES (?,?,?,?)&#x27;, [
+    (&#x27;Widget&#x27;,10.0,&#x27;2024-01-01&#x27;,&#x27;2024-03-31&#x27;),
+    (&#x27;Widget&#x27;,12.0,&#x27;2024-04-01&#x27;,&#x27;2024-12-31&#x27;),
+    (&#x27;Gadget&#x27;,25.0,&#x27;2024-01-01&#x27;,&#x27;2024-12-31&#x27;)])
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS orders3 (
+    id INTEGER, product TEXT, order_date TEXT, qty INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO orders3 VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Widget&#x27;,&#x27;2024-02-15&#x27;,3),(2,&#x27;Widget&#x27;,&#x27;2024-05-20&#x27;,5),(3,&#x27;Gadget&#x27;,&#x27;2024-03-10&#x27;,2)])
+# Range join: match orders to the correct price band
+rows = run(&#x27;&#x27;&#x27;
+    SELECT o.id, o.product, o.order_date, p.price, o.qty*p.price AS total
+    FROM orders3 o
+    JOIN prices p
+      ON o.product=p.product
+     AND o.order_date BETWEEN p.valid_from AND p.valid_to
+    ORDER BY o.id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Interval join: detect overlapping tasks</span><button onclick="cp('c25_3')">Copy</button></div><pre><code id="c25_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY, name TEXT,
+    start TEXT, end TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO tasks VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Deploy&#x27;,&#x27;2024-01-10&#x27;,&#x27;2024-01-15&#x27;),
+    (2,&#x27;Test&#x27;,&#x27;2024-01-12&#x27;,&#x27;2024-01-18&#x27;),
+    (3,&#x27;Review&#x27;,&#x27;2024-01-20&#x27;,&#x27;2024-01-25&#x27;),
+    (4,&#x27;Release&#x27;,&#x27;2024-01-16&#x27;,&#x27;2024-01-22&#x27;)])
+# Find overlapping task pairs
+rows = run(&#x27;&#x27;&#x27;
+    SELECT a.name AS task1, b.name AS task2
+    FROM tasks a JOIN tasks b
+      ON a.id &lt; b.id
+     AND a.start &lt;= b.end
+     AND a.end &gt;= b.start
+    ORDER BY a.id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Org-Chart &amp; Salary Reporting</div><div class="rd">HR needs a report showing each employee, their direct manager, and whether they earn more than the average of their peer group.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS staff (
+    id INTEGER PRIMARY KEY, name TEXT,
+    manager_id INTEGER, salary REAL, dept TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO staff VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;CEO&#x27;,None,15000,&#x27;Exec&#x27;),(2,&#x27;CTO&#x27;,1,12000,&#x27;Eng&#x27;),
+    (3,&#x27;Dev1&#x27;,2,8000,&#x27;Eng&#x27;),(4,&#x27;Dev2&#x27;,2,7500,&#x27;Eng&#x27;),(5,&#x27;CHRO&#x27;,1,11000,&#x27;HR&#x27;)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT e.name, m.name AS mgr,
+        e.salary,
+        AVG(p.salary) OVER(PARTITION BY e.manager_id) AS peer_avg
+    FROM staff e
+    LEFT JOIN staff m ON e.manager_id=m.id
+    ORDER BY e.id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-Join Practice</div><div class="pd">Using the &#x27;staff&#x27; table above, find all pairs of employees in the same department where one earns at least 20% more than the other.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS staff (
+    id INTEGER PRIMARY KEY, name TEXT,
+    dept TEXT, salary REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO staff VALUES (?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;Eng&#x27;,9000),(2,&#x27;Bob&#x27;,&#x27;Eng&#x27;,7000),
+    (3,&#x27;Carol&#x27;,&#x27;HR&#x27;,8000),(4,&#x27;Dave&#x27;,&#x27;HR&#x27;,6000)])
+# Write a non-equi self-join here
+</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Analytical Functions Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond basic ranking: use LAG/LEAD for period comparisons, NTILE for bucketing, FIRST_VALUE/LAST_VALUE for partition anchors, and rolling window frames.</p><div class="code-block"><div class="ch"><span>LAG: daily price change</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS stock (
+    dt TEXT, ticker TEXT, close REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO stock VALUES (?,?,?)&#x27;, [
+    (&#x27;2024-01-01&#x27;,&#x27;AAPL&#x27;,185.0),(&#x27;2024-01-02&#x27;,&#x27;AAPL&#x27;,186.5),
+    (&#x27;2024-01-03&#x27;,&#x27;AAPL&#x27;,184.0),(&#x27;2024-01-04&#x27;,&#x27;AAPL&#x27;,188.0),
+    (&#x27;2024-01-05&#x27;,&#x27;AAPL&#x27;,190.0)])
+# Daily return using LAG
+rows = run(&#x27;&#x27;&#x27;
+    SELECT dt, close,
+        LAG(close) OVER(ORDER BY dt) AS prev,
+        ROUND(close - LAG(close) OVER(ORDER BY dt), 2) AS change
+    FROM stock ORDER BY dt&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>LEAD &amp; rolling 3-period average</span><button onclick="cp('c26_1')">Copy</button></div><pre><code id="c26_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales3 (
+    month INTEGER, revenue REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales3 VALUES (?,?)&#x27;, [
+    (1,5000),(2,5500),(3,4800),(4,6200),(5,6800),(6,7100)])
+# Compare to next month with LEAD; running avg
+rows = run(&#x27;&#x27;&#x27;
+    SELECT month, revenue,
+        LEAD(revenue) OVER(ORDER BY month) AS next_month,
+        ROUND(AVG(revenue) OVER(
+            ORDER BY month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW),2) AS rolling3
+    FROM sales3&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>NTILE: quartile bucketing</span><button onclick="cp('c26_2')">Copy</button></div><pre><code id="c26_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS scores (
+    student TEXT, score INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO scores VALUES (?,?)&#x27;, [
+    (&#x27;Alice&#x27;,92),(&#x27;Bob&#x27;,75),(&#x27;Carol&#x27;,88),
+    (&#x27;Dave&#x27;,60),(&#x27;Eve&#x27;,95),(&#x27;Frank&#x27;,70)])
+# NTILE: split into quartiles
+rows = run(&#x27;&#x27;&#x27;
+    SELECT student, score,
+        NTILE(4) OVER(ORDER BY score) AS quartile
+    FROM scores ORDER BY score&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>FIRST_VALUE &amp; MAX per partition</span><button onclick="cp('c26_3')">Copy</button></div><pre><code id="c26_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS temps (
+    city TEXT, day INTEGER, temp REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO temps VALUES (?,?,?)&#x27;, [
+    (&#x27;NYC&#x27;,1,5.0),(&#x27;NYC&#x27;,2,7.0),(&#x27;NYC&#x27;,3,4.0),
+    (&#x27;LA&#x27;,1,20.0),(&#x27;LA&#x27;,2,22.0),(&#x27;LA&#x27;,3,19.0)])
+# FIRST_VALUE and LAST_VALUE per city
+rows = run(&#x27;&#x27;&#x27;
+    SELECT city, day, temp,
+        FIRST_VALUE(temp) OVER(PARTITION BY city ORDER BY day) AS first_t,
+        MAX(temp) OVER(PARTITION BY city) AS peak
+    FROM temps ORDER BY city, day&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Trend Analysis</div><div class="rd">A business analyst wants to see month-over-month revenue change, the next month forecast gap, and each month&#x27;s performance bucket (top 25%, etc.).</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS monthly (
+    month INTEGER, revenue REAL)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO monthly VALUES (?,?)&#x27;, [
+    (1,4000),(2,4500),(3,4200),(4,5000),(5,5500),(6,6000)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT month, revenue,
+        LAG(revenue) OVER(ORDER BY month) AS prev,
+        ROUND(revenue - LAG(revenue) OVER(ORDER BY month),2) AS mom_change,
+        NTILE(3) OVER(ORDER BY revenue) AS tier
+    FROM monthly&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Window Function Practice</div><div class="pd">Using a &#x27;visits&#x27; table with columns (user_id, visit_date TEXT, pages_viewed INTEGER), compute for each user: their previous visit date, the gap in days between visits, and their max pages_viewed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS visits (
+    user_id INTEGER, visit_date TEXT, pages_viewed INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO visits VALUES (?,?,?)&#x27;, [
+    (1,&#x27;2024-01-01&#x27;,5),(1,&#x27;2024-01-05&#x27;,8),(1,&#x27;2024-01-12&#x27;,3),
+    (2,&#x27;2024-01-02&#x27;,10),(2,&#x27;2024-01-10&#x27;,7)])
+# Write LAG and MAX window functions here
+</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Database Design &amp; Normalization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply 1NF, 2NF, and 3NF to eliminate redundancy, design proper primary and foreign keys, and inspect schemas with SQLite system tables.</p><div class="code-block"><div class="ch"><span>1NF: atomic values and separate phone table</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# 1NF: atomic values, no repeating groups
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS contacts (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS contact_phones (
+    contact_id INTEGER,
+    phone TEXT NOT NULL,
+    FOREIGN KEY(contact_id) REFERENCES contacts(id))&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO contacts VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;alice@ex.com&#x27;),(2,&#x27;Bob&#x27;,&#x27;bob@ex.com&#x27;)])
+runmany(&#x27;INSERT INTO contact_phones VALUES (?,?)&#x27;, [
+    (1,&#x27;555-0001&#x27;),(1,&#x27;555-0002&#x27;),(2,&#x27;555-0003&#x27;)])
+print(run(&#x27;SELECT * FROM contacts&#x27;))
+print(run(&#x27;SELECT * FROM contact_phones&#x27;))
+</code></pre></div><div class="code-block"><div class="ch"><span>2NF: remove partial dependency with products table</span><button onclick="cp('c27_1')">Copy</button></div><pre><code id="c27_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# 2NF: remove partial dependencies (composite key fix)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS products (
+    product_id INTEGER PRIMARY KEY,
+    product_name TEXT NOT NULL,
+    price REAL NOT NULL)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS order_items (
+    order_id INTEGER,
+    product_id INTEGER,
+    qty INTEGER NOT NULL,
+    PRIMARY KEY(order_id, product_id),
+    FOREIGN KEY(product_id) REFERENCES products(product_id))&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO products VALUES (?,?,?)&#x27;, [
+    (10,&#x27;Widget&#x27;,9.99),(11,&#x27;Gadget&#x27;,24.99)])
+runmany(&#x27;INSERT INTO order_items VALUES (?,?,?)&#x27;, [
+    (1,10,3),(1,11,1),(2,10,5)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT oi.order_id, p.product_name, oi.qty, p.price*oi.qty AS subtotal
+    FROM order_items oi JOIN products p ON oi.product_id=p.product_id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>3NF: move location to departments table</span><button onclick="cp('c27_2')">Copy</button></div><pre><code id="c27_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# 3NF: remove transitive dependencies
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS departments (
+    dept_id INTEGER PRIMARY KEY, dept_name TEXT, location TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS staff2 (
+    id INTEGER PRIMARY KEY, name TEXT,
+    dept_id INTEGER,
+    FOREIGN KEY(dept_id) REFERENCES departments(dept_id))&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO departments VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Engineering&#x27;,&#x27;Floor 3&#x27;),(2,&#x27;HR&#x27;,&#x27;Floor 1&#x27;)])
+runmany(&#x27;INSERT INTO staff2 VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,1),(2,&#x27;Bob&#x27;,1),(3,&#x27;Carol&#x27;,2)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT s.name, d.dept_name, d.location
+    FROM staff2 s JOIN departments d ON s.dept_id=d.dept_id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Schema inspection with PRAGMA and sqlite_master</span><button onclick="cp('c27_3')">Copy</button></div><pre><code id="c27_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# Schema inspection and FK checks
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS parent (id INTEGER PRIMARY KEY, val TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS child (
+    id INTEGER PRIMARY KEY,
+    parent_id INTEGER,
+    FOREIGN KEY(parent_id) REFERENCES parent(id))&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;PRAGMA foreign_keys=ON&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO parent VALUES (?,?)&#x27;, [(1,&#x27;A&#x27;),(2,&#x27;B&#x27;)])
+runmany(&#x27;INSERT INTO child VALUES (?,?)&#x27;, [(10,1),(11,2)])
+# List tables and schema
+tables = run(&quot;SELECT name FROM sqlite_master WHERE type=&#x27;table&#x27;&quot;)
+print(&#x27;Tables:&#x27;, tables)
+schema = run(&quot;SELECT sql FROM sqlite_master WHERE name=&#x27;child&#x27;&quot;)
+print(schema[0][0])
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Customer Orders Schema</div><div class="rd">Design a normalized schema for customers, orders, and products. Ensure no partial or transitive dependencies, then write a JOIN query to get order summaries.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS customers (
+    id INTEGER PRIMARY KEY, name TEXT, email TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS products2 (
+    id INTEGER PRIMARY KEY, name TEXT, price REAL)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS orders2 (
+    id INTEGER PRIMARY KEY, customer_id INTEGER, order_date TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS order_lines (
+    order_id INTEGER, product_id INTEGER, qty INTEGER,
+    PRIMARY KEY(order_id, product_id))&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO customers VALUES (?,?,?)&#x27;, [(1,&#x27;Alice&#x27;,&#x27;a@ex.com&#x27;)])
+runmany(&#x27;INSERT INTO products2 VALUES (?,?,?)&#x27;, [(1,&#x27;Widget&#x27;,10.0)])
+runmany(&#x27;INSERT INTO orders2 VALUES (?,?,?)&#x27;, [(1,1,&#x27;2024-01-15&#x27;)])
+runmany(&#x27;INSERT INTO order_lines VALUES (?,?,?)&#x27;, [(1,1,3)])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT c.name, o.order_date, p.name, ol.qty, p.price*ol.qty AS total
+    FROM orders2 o
+    JOIN customers c ON o.customer_id=c.id
+    JOIN order_lines ol ON ol.order_id=o.id
+    JOIN products2 p ON p.id=ol.product_id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalization Practice</div><div class="pd">You have a denormalized table: orders_flat(order_id, customer_name, customer_email, product_name, price, qty). Identify the normal form violations and write CREATE TABLE statements for a 3NF schema.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# Denormalized (bad):
+# orders_flat: order_id, customer_name, customer_email, product_name, price, qty
+# Violates 2NF (price depends only on product) and 3NF if email depends on name.
+# Write your normalized CREATE TABLE statements here:
+
+# run(&#x27;&#x27;&#x27;CREATE TABLE customers ...&#x27;&#x27;&#x27;)
+# run(&#x27;&#x27;&#x27;CREATE TABLE products ...&#x27;&#x27;&#x27;)
+# run(&#x27;&#x27;&#x27;CREATE TABLE orders ...&#x27;&#x27;&#x27;)
+# run(&#x27;&#x27;&#x27;CREATE TABLE order_items ...&#x27;&#x27;&#x27;)
+</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. JSON in SQL</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Store, extract, modify, and filter JSON data in SQLite using json_extract, json_set, json_insert, and json_remove.</p><div class="code-block"><div class="ch"><span>json_extract: read top-level fields</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS events (
+    id INTEGER PRIMARY KEY,
+    payload TEXT)&#x27;&#x27;&#x27;)  -- stored as JSON text
+data = [
+    (1, json.dumps({&#x27;user&#x27;:&#x27;alice&#x27;,&#x27;action&#x27;:&#x27;login&#x27;,&#x27;meta&#x27;:{&#x27;ip&#x27;:&#x27;1.2.3.4&#x27;}})),
+    (2, json.dumps({&#x27;user&#x27;:&#x27;bob&#x27;,&#x27;action&#x27;:&#x27;purchase&#x27;,&#x27;meta&#x27;:{&#x27;items&#x27;:3,&#x27;total&#x27;:59.99}})),
+    (3, json.dumps({&#x27;user&#x27;:&#x27;alice&#x27;,&#x27;action&#x27;:&#x27;logout&#x27;,&#x27;meta&#x27;:{&#x27;ip&#x27;:&#x27;1.2.3.4&#x27;}})),
+]
+runmany(&#x27;INSERT INTO events VALUES (?,?)&#x27;, data)
+# Extract top-level field with json_extract
+rows = run(&quot;SELECT id, json_extract(payload,&#x27;$.user&#x27;), json_extract(payload,&#x27;$.action&#x27;) FROM events&quot;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Nested and array element access</span><button onclick="cp('c28_1')">Copy</button></div><pre><code id="c28_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS events2 (id INTEGER PRIMARY KEY, payload TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO events2 VALUES (?,?)&#x27;, [
+    (1, json.dumps({&#x27;user&#x27;:&#x27;alice&#x27;,&#x27;tags&#x27;:[&#x27;sql&#x27;,&#x27;python&#x27;],&#x27;score&#x27;:95})),
+    (2, json.dumps({&#x27;user&#x27;:&#x27;bob&#x27;,&#x27;tags&#x27;:[&#x27;ml&#x27;,&#x27;python&#x27;],&#x27;score&#x27;:80})),
+])
+# Access nested and array elements
+rows = run(&#x27;&#x27;&#x27;
+    SELECT id,
+        json_extract(payload, &#x27;$.user&#x27;) AS user,
+        json_extract(payload, &#x27;$.score&#x27;) AS score,
+        json_extract(payload, &#x27;$.tags[0]&#x27;) AS first_tag
+    FROM events2&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Modify JSON with json_set and json_insert</span><button onclick="cp('c28_2')">Copy</button></div><pre><code id="c28_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS configs (
+    id INTEGER PRIMARY KEY, settings TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;INSERT INTO configs VALUES (1, ?)&#x27;&#x27;&#x27;,
+    (json.dumps({&#x27;theme&#x27;:&#x27;dark&#x27;,&#x27;lang&#x27;:&#x27;en&#x27;,&#x27;max_rows&#x27;:100}),))
+# Modify JSON with json_set, json_insert, json_remove
+run(&#x27;&#x27;&#x27;UPDATE configs SET settings = json_set(settings, &#x27;$.theme&#x27;, &#x27;light&#x27;) WHERE id=1&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;UPDATE configs SET settings = json_set(settings, &#x27;$.debug&#x27;, 1) WHERE id=1&#x27;&#x27;&#x27;)
+row = run(&#x27;SELECT settings FROM configs WHERE id=1&#x27;)
+print(json.loads(row[0][0]))
+</code></pre></div><div class="code-block"><div class="ch"><span>Filter rows by JSON field values</span><button onclick="cp('c28_3')">Copy</button></div><pre><code id="c28_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS products3 (
+    id INTEGER PRIMARY KEY, name TEXT, attributes TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO products3 VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Widget&#x27;, json.dumps({&#x27;color&#x27;:&#x27;red&#x27;,&#x27;weight&#x27;:0.5,&#x27;tags&#x27;:[&#x27;sale&#x27;,&#x27;new&#x27;]})),
+    (2,&#x27;Gadget&#x27;, json.dumps({&#x27;color&#x27;:&#x27;blue&#x27;,&#x27;weight&#x27;:1.2,&#x27;tags&#x27;:[&#x27;new&#x27;]})),
+    (3,&#x27;Doohickey&#x27;, json.dumps({&#x27;color&#x27;:&#x27;red&#x27;,&#x27;weight&#x27;:0.3,&#x27;tags&#x27;:[&#x27;sale&#x27;]})),
+])
+# Filter on JSON field and aggregate
+rows = run(&#x27;&#x27;&#x27;
+    SELECT name,
+        json_extract(attributes,&#x27;$.color&#x27;) AS color,
+        json_extract(attributes,&#x27;$.weight&#x27;) AS weight
+    FROM products3
+    WHERE json_extract(attributes,&#x27;$.color&#x27;)=&#x27;red&#x27;
+    ORDER BY weight&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: User Event Logging</div><div class="rd">An app stores user events as JSON blobs. Query to find all purchase events, extract the total amount, and rank users by spend.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS user_events (
+    id INTEGER PRIMARY KEY, payload TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO user_events VALUES (?,?)&#x27;, [
+    (1,json.dumps({&#x27;user&#x27;:&#x27;alice&#x27;,&#x27;action&#x27;:&#x27;purchase&#x27;,&#x27;amount&#x27;:49.99})),
+    (2,json.dumps({&#x27;user&#x27;:&#x27;bob&#x27;,&#x27;action&#x27;:&#x27;view&#x27;,&#x27;amount&#x27;:0})),
+    (3,json.dumps({&#x27;user&#x27;:&#x27;alice&#x27;,&#x27;action&#x27;:&#x27;purchase&#x27;,&#x27;amount&#x27;:29.99})),
+    (4,json.dumps({&#x27;user&#x27;:&#x27;carol&#x27;,&#x27;action&#x27;:&#x27;purchase&#x27;,&#x27;amount&#x27;:99.99})),
+])
+rows = run(&#x27;&#x27;&#x27;
+    SELECT
+        json_extract(payload,&#x27;$.user&#x27;) AS user,
+        SUM(CAST(json_extract(payload,&#x27;$.amount&#x27;) AS REAL)) AS total_spend
+    FROM user_events
+    WHERE json_extract(payload,&#x27;$.action&#x27;)=&#x27;purchase&#x27;
+    GROUP BY user ORDER BY total_spend DESC&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Querying Practice</div><div class="pd">Create a &#x27;logs&#x27; table with an id and a &#x27;data&#x27; JSON column. Insert 3 log entries with fields: level (INFO/ERROR), message, and timestamp. Write a query to show only ERROR logs with their message and timestamp.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, data TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO logs VALUES (?,?)&#x27;, [
+    (1,json.dumps({&#x27;level&#x27;:&#x27;INFO&#x27;,&#x27;message&#x27;:&#x27;Started&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:00:00&#x27;})),
+    (2,json.dumps({&#x27;level&#x27;:&#x27;ERROR&#x27;,&#x27;message&#x27;:&#x27;Null ref&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:05:00&#x27;})),
+    (3,json.dumps({&#x27;level&#x27;:&#x27;ERROR&#x27;,&#x27;message&#x27;:&#x27;Timeout&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:10:00&#x27;})),
+])
+# Write your json_extract filter query here
+</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Full-Text Search</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use SQLite&#x27;s FTS5 virtual tables to perform keyword search, phrase matching, boolean operators, column-specific search, and ranked results with snippets.</p><div class="code-block"><div class="ch"><span>Create FTS5 table and basic MATCH search</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# FTS5 virtual table for full-text search
+run(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS articles
+    USING fts5(title, body, tokenize=&#x27;porter ascii&#x27;)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO articles VALUES (?,?)&#x27;, [
+    (&#x27;SQL Basics&#x27;,&#x27;Learn the fundamentals of SQL queries and databases&#x27;),
+    (&#x27;Python for Data&#x27;,&#x27;Python is great for data analysis and machine learning&#x27;),
+    (&#x27;Advanced SQL&#x27;,&#x27;Window functions and CTEs are powerful SQL features&#x27;),
+    (&#x27;NumPy Guide&#x27;,&#x27;NumPy provides fast array operations for numerical data&#x27;),
+])
+# Simple search
+rows = run(&quot;SELECT title FROM articles WHERE articles MATCH &#x27;SQL&#x27;&quot;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Column-specific search and ranked results</span><button onclick="cp('c29_1')">Copy</button></div><pre><code id="c29_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS docs
+    USING fts5(title, content)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO docs VALUES (?,?)&#x27;, [
+    (&#x27;Intro to ML&#x27;,&#x27;Machine learning uses statistical models to make predictions&#x27;),
+    (&#x27;Deep Learning&#x27;,&#x27;Neural networks form the basis of deep learning systems&#x27;),
+    (&#x27;SQL Mastery&#x27;,&#x27;Master SQL with window functions and query optimization&#x27;),
+    (&#x27;Data Wrangling&#x27;,&#x27;Pandas and NumPy help with data cleaning and transformation&#x27;),
+])
+# Phrase search and column filter
+rows = run(&quot;SELECT title FROM docs WHERE docs MATCH &#x27;title:SQL&#x27;&quot;)
+print(&#x27;Title match:&#x27;, rows)
+rows = run(&quot;SELECT title, rank FROM docs WHERE docs MATCH &#x27;data&#x27; ORDER BY rank&quot;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Prefix search and AND/OR boolean operators</span><button onclick="cp('c29_2')">Copy</button></div><pre><code id="c29_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS notes
+    USING fts5(author, text)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO notes VALUES (?,?)&#x27;, [
+    (&#x27;Alice&#x27;,&#x27;Python decorators and closures are advanced features&#x27;),
+    (&#x27;Bob&#x27;,&#x27;SQL joins and subqueries are essential for data analysis&#x27;),
+    (&#x27;Alice&#x27;,&#x27;NumPy broadcasting makes array operations concise&#x27;),
+    (&#x27;Bob&#x27;,&#x27;Window functions in SQL enable running totals and rankings&#x27;),
+])
+# Prefix search and boolean operators
+rows = run(&quot;SELECT author, text FROM notes WHERE notes MATCH &#x27;SQL AND data&#x27;&quot;)
+print(&#x27;AND:&#x27;, rows)
+rows = run(&quot;SELECT author, text FROM notes WHERE notes MATCH &#x27;Python OR NumPy&#x27;&quot;)
+print(&#x27;OR:&#x27;, [r[0] for r in rows])
+</code></pre></div><div class="code-block"><div class="ch"><span>Snippet extraction with highlighting</span><button onclick="cp('c29_3')">Copy</button></div><pre><code id="c29_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS kb
+    USING fts5(title, body)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO kb VALUES (?,?)&#x27;, [
+    (&#x27;Error Handling&#x27;,&#x27;Use try-except blocks to catch and handle Python exceptions gracefully&#x27;),
+    (&#x27;Logging Best Practices&#x27;,&#x27;Configure logging with handlers, formatters and log levels&#x27;),
+    (&#x27;Testing Strategies&#x27;,&#x27;Unit tests and integration tests ensure code reliability&#x27;),
+    (&#x27;Code Review Tips&#x27;,&#x27;Peer code review improves code quality and knowledge sharing&#x27;),
+])
+# Snippet and highlight
+rows = run(&#x27;&#x27;&#x27;
+    SELECT title, snippet(kb, 1, &#x27;&lt;b&gt;&#x27;, &#x27;&lt;/b&gt;&#x27;, &#x27;...&#x27;, 8)
+    FROM kb WHERE kb MATCH &#x27;code&#x27;
+    ORDER BY rank&#x27;&#x27;&#x27;)
+for r in rows: print(r[0], &#x27;|&#x27;, r[1])
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Knowledge Base Search</div><div class="rd">A support team has a knowledge base table. Implement full-text search that returns articles matching a query, ranked by relevance, with a highlighted snippet.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS support_kb
+    USING fts5(title, content, tokenize=&#x27;porter ascii&#x27;)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO support_kb VALUES (?,?)&#x27;, [
+    (&#x27;Password Reset&#x27;,&#x27;To reset your password go to settings and click reset&#x27;),
+    (&#x27;Billing FAQ&#x27;,&#x27;For billing questions contact support or view your invoice&#x27;),
+    (&#x27;Account Setup&#x27;,&#x27;Set up your account by verifying your email address&#x27;),
+    (&#x27;Password Policy&#x27;,&#x27;Passwords must be 8 characters with a mix of letters and numbers&#x27;),
+])
+query = &#x27;password&#x27;
+rows = run(f&#x27;&#x27;&#x27;
+    SELECT title,
+        snippet(support_kb, 1, &#x27;**&#x27;, &#x27;**&#x27;, &#x27;...&#x27;, 6) AS preview,
+        rank
+    FROM support_kb
+    WHERE support_kb MATCH ?
+    ORDER BY rank
+&#x27;&#x27;&#x27;, (query,))
+for r in rows: print(r[0], &#x27;|&#x27;, r[1])
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FTS5 Practice</div><div class="pd">Create an FTS5 table called &#x27;recipes&#x27; with columns (name, ingredients, instructions). Insert 4 recipes. Write a query to find all recipes where the ingredients contain &#x27;garlic&#x27; AND instructions contain &#x27;stir&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS recipes
+    USING fts5(name, ingredients, instructions)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO recipes VALUES (?,?,?)&#x27;, [
+    (&#x27;Pasta&#x27;,&#x27;flour eggs garlic olive oil&#x27;,&#x27;stir pasta in boiling water&#x27;),
+    (&#x27;Soup&#x27;,&#x27;carrots garlic onion broth&#x27;,&#x27;simmer and stir until soft&#x27;),
+    (&#x27;Salad&#x27;,&#x27;lettuce tomato cucumber&#x27;,&#x27;toss with dressing&#x27;),
+    (&#x27;Stir Fry&#x27;,&#x27;garlic ginger soy sauce vegetables&#x27;,&#x27;stir fry on high heat&#x27;),
+])
+# Write your FTS5 AND query here
+</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Tuning &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use EXPLAIN QUERY PLAN to understand query execution, create regular, composite, covering, and partial indexes, and run ANALYZE to update planner statistics.</p><div class="code-block"><div class="ch"><span>Index impact benchmark: with vs without</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport time
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS big (
+    id INTEGER PRIMARY KEY, val INTEGER, cat TEXT)&#x27;&#x27;&#x27;)
+# Insert sample data
+import random; random.seed(42)
+rows = [(i, random.randint(1,1000), random.choice([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;])) for i in range(1,5001)]
+runmany(&#x27;INSERT INTO big VALUES (?,?,?)&#x27;, rows)
+# Query without index
+t0 = time.perf_counter()
+run(&#x27;SELECT COUNT(*) FROM big WHERE val &gt; 500&#x27;)
+t1 = time.perf_counter()
+# Add index
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_val ON big(val)&#x27;)
+t2 = time.perf_counter()
+run(&#x27;SELECT COUNT(*) FROM big WHERE val &gt; 500&#x27;)
+t3 = time.perf_counter()
+print(f&#x27;Without index: {(t1-t0)*1000:.2f}ms&#x27;)
+print(f&#x27;With index:    {(t3-t2)*1000:.2f}ms&#x27;)
+</code></pre></div><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN before and after composite index</span><button onclick="cp('c30_1')">Copy</button></div><pre><code id="c30_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS orders4 (
+    id INTEGER PRIMARY KEY, customer_id INTEGER,
+    status TEXT, amount REAL)&#x27;&#x27;&#x27;)
+import random; random.seed(0)
+rows = [(i, random.randint(1,100), random.choice([&#x27;new&#x27;,&#x27;paid&#x27;,&#x27;shipped&#x27;]),
+         round(random.uniform(10,500),2)) for i in range(1,2001)]
+runmany(&#x27;INSERT INTO orders4 VALUES (?,?,?,?)&#x27;, rows)
+# EXPLAIN QUERY PLAN
+plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT customer_id, SUM(amount)
+    FROM orders4
+    WHERE status=&#x27;paid&#x27;
+    GROUP BY customer_id&#x27;&#x27;&#x27;)
+for p in plan: print(p)
+# Add composite index
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_status_cust ON orders4(status, customer_id)&#x27;)
+plan2 = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT customer_id, SUM(amount)
+    FROM orders4 WHERE status=&#x27;paid&#x27;
+    GROUP BY customer_id&#x27;&#x27;&#x27;)
+for p in plan2: print(p)
+</code></pre></div><div class="code-block"><div class="ch"><span>Covering index to avoid table scans</span><button onclick="cp('c30_2')">Copy</button></div><pre><code id="c30_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS logs2 (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER, event TEXT, ts TEXT)&#x27;&#x27;&#x27;)
+import random, string; random.seed(1)
+events = [&#x27;login&#x27;,&#x27;logout&#x27;,&#x27;purchase&#x27;,&#x27;view&#x27;]
+rows = [(i, random.randint(1,50),
+         random.choice(events),
+         f&#x27;2024-{random.randint(1,12):02d}-{random.randint(1,28):02d}&#x27;)
+        for i in range(1,3001)]
+runmany(&#x27;INSERT INTO logs2 VALUES (?,?,?,?)&#x27;, rows)
+# Covering index: avoid table access for common query
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_cov ON logs2(user_id, event, ts)&#x27;)
+plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT user_id, event, ts FROM logs2
+    WHERE user_id=1 ORDER BY ts&#x27;&#x27;&#x27;)
+for p in plan: print(p)
+</code></pre></div><div class="code-block"><div class="ch"><span>Partial index and ANALYZE</span><button onclick="cp('c30_3')">Copy</button></div><pre><code id="c30_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS items (
+    id INTEGER PRIMARY KEY, name TEXT, price REAL, stock INTEGER)&#x27;&#x27;&#x27;)
+import random; random.seed(5)
+rows = [(i,f&#x27;item_{i}&#x27;,round(random.uniform(1,100),2),random.randint(0,500)) for i in range(1,1001)]
+runmany(&#x27;INSERT INTO items VALUES (?,?,?,?)&#x27;, rows)
+# ANALYZE updates statistics for the query planner
+run(&#x27;ANALYZE&#x27;)
+# Partial index: only index in-stock items
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_instock ON items(price) WHERE stock &gt; 0&#x27;)
+plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT name, price FROM items
+    WHERE stock &gt; 0 AND price &lt; 20
+    ORDER BY price&#x27;&#x27;&#x27;)
+for p in plan: print(p)
+print(run(&#x27;SELECT COUNT(*) FROM items WHERE stock&gt;0&#x27;))
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Slow Query Investigation</div><div class="rd">A production query joining orders and customers is slow. Use EXPLAIN QUERY PLAN to find the bottleneck, add an appropriate index, and verify the improvement.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS cust2 (id INTEGER PRIMARY KEY, name TEXT, tier TEXT)&#x27;&#x27;&#x27;)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS ord2 (
+    id INTEGER PRIMARY KEY, cust_id INTEGER, amount REAL, status TEXT)&#x27;&#x27;&#x27;)
+import random; random.seed(7)
+runmany(&#x27;INSERT INTO cust2 VALUES (?,?,?)&#x27;, [(i,f&#x27;C{i}&#x27;,random.choice([&#x27;gold&#x27;,&#x27;silver&#x27;])) for i in range(1,501)])
+runmany(&#x27;INSERT INTO ord2 VALUES (?,?,?,?)&#x27;,
+    [(i,random.randint(1,500),round(random.uniform(10,500),2),
+      random.choice([&#x27;paid&#x27;,&#x27;pending&#x27;])) for i in range(1,2001)])
+plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT c.name, SUM(o.amount)
+    FROM ord2 o JOIN cust2 c ON o.cust_id=c.id
+    WHERE o.status=&#x27;paid&#x27; AND c.tier=&#x27;gold&#x27;
+    GROUP BY c.id&#x27;&#x27;&#x27;)
+for p in plan: print(p)
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_ord_status ON ord2(status, cust_id)&#x27;)
+run(&#x27;CREATE INDEX IF NOT EXISTS idx_cust_tier ON cust2(tier)&#x27;)
+plan2 = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT c.name, SUM(o.amount)
+    FROM ord2 o JOIN cust2 c ON o.cust_id=c.id
+    WHERE o.status=&#x27;paid&#x27; AND c.tier=&#x27;gold&#x27;
+    GROUP BY c.id&#x27;&#x27;&#x27;)
+for p in plan2: print(p)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Optimization Practice</div><div class="pd">Create a &#x27;transactions2&#x27; table (id, account_id INTEGER, type TEXT, amount REAL, created_at TEXT). Insert 500 rows. Use EXPLAIN QUERY PLAN to check a query filtering by account_id and type, then add the right index to make it efficient.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport random; random.seed(9)
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS transactions2 (
+    id INTEGER PRIMARY KEY, account_id INTEGER,
+    type TEXT, amount REAL, created_at TEXT)&#x27;&#x27;&#x27;)
+rows = [(i, random.randint(1,50), random.choice([&#x27;debit&#x27;,&#x27;credit&#x27;]),
+         round(random.uniform(1,1000),2), f&#x27;2024-{random.randint(1,12):02d}-{random.randint(1,28):02d}&#x27;)
+        for i in range(1,501)]
+runmany(&#x27;INSERT INTO transactions2 VALUES (?,?,?,?,?)&#x27;, rows)
+# First check the plan, then add an index
+plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
+    SELECT * FROM transactions2
+    WHERE account_id=5 AND type=&#x27;debit&#x27; ORDER BY created_at&#x27;&#x27;&#x27;)
+for p in plan: print(p)
+# Add your index here
+</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. SQL for Data Analysis Workflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply SQL as a full data analysis tool: ingest and clean dirty data, compute monthly trends with running totals, compare performance vs. group averages, and pivot long-format survey data.</p><div class="code-block"><div class="ch"><span>Ingest and clean dirty text amounts</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# End-to-end: ingest, clean, transform, analyze
+run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS raw_sales (
+    id INTEGER PRIMARY KEY,
+    rep TEXT, region TEXT,
+    amount TEXT,  -- stored as text (dirty data)
+    sale_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO raw_sales VALUES (?,?,?,?,?)&#x27;, [
+    (1,&#x27;Alice&#x27;,&#x27;North&#x27;,&#x27;1,200.50&#x27;,&#x27;2024-01-15&#x27;),
+    (2,&#x27;Bob&#x27;,&#x27;South&#x27;,&#x27;800&#x27;,&#x27;2024-01-20&#x27;),
+    (3,&#x27;Alice&#x27;,&#x27;North&#x27;,&#x27;  950.00 &#x27;,&#x27;2024-02-01&#x27;),
+    (4,&#x27;Carol&#x27;,&#x27;East&#x27;,&#x27;&#x27;,&#x27;2024-02-10&#x27;),   -- missing amount
+    (5,&#x27;Bob&#x27;,&#x27;South&#x27;,&#x27;1100.75&#x27;,&#x27;2024-02-20&#x27;),
+])
+# Clean: strip whitespace, handle empty, cast
+rows = run(&#x27;&#x27;&#x27;
+    SELECT rep, region,
+        CASE WHEN TRIM(REPLACE(amount,&#x27;,&#x27;,&#x27;&#x27;))=&#x27;&#x27; THEN NULL
+             ELSE CAST(TRIM(REPLACE(amount,&#x27;,&#x27;,&#x27;&#x27;)) AS REAL)
+        END AS clean_amount,
+        sale_date
+    FROM raw_sales&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Monthly trend with running total CTE</span><button onclick="cp('c31_1')">Copy</button></div><pre><code id="c31_1" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS cleaned_sales (
+    rep TEXT, region TEXT, amount REAL, sale_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO cleaned_sales VALUES (?,?,?,?)&#x27;, [
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,1200.50,&#x27;2024-01-15&#x27;),
+    (&#x27;Bob&#x27;,&#x27;South&#x27;,800.00,&#x27;2024-01-20&#x27;),
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,950.00,&#x27;2024-02-01&#x27;),
+    (&#x27;Bob&#x27;,&#x27;South&#x27;,1100.75,&#x27;2024-02-20&#x27;),
+    (&#x27;Carol&#x27;,&#x27;East&#x27;,750.00,&#x27;2024-03-05&#x27;),
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,1350.00,&#x27;2024-03-10&#x27;),
+])
+# Monthly trend and running total
+rows = run(&#x27;&#x27;&#x27;
+    WITH monthly AS (
+        SELECT SUBSTR(sale_date,1,7) AS month,
+               rep, SUM(amount) AS total
+        FROM cleaned_sales GROUP BY month, rep)
+    SELECT month, rep, total,
+        SUM(total) OVER(PARTITION BY rep ORDER BY month) AS running_total
+    FROM monthly ORDER BY rep, month&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Rep performance vs. regional average</span><button onclick="cp('c31_2')">Copy</button></div><pre><code id="c31_2" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales_f (
+    rep TEXT, region TEXT, amount REAL, sale_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO sales_f VALUES (?,?,?,?)&#x27;, [
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,1200,&#x27;2024-01-15&#x27;),(&#x27;Bob&#x27;,&#x27;South&#x27;,800,&#x27;2024-01-20&#x27;),
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,950,&#x27;2024-02-01&#x27;),(&#x27;Carol&#x27;,&#x27;East&#x27;,750,&#x27;2024-02-10&#x27;),
+    (&#x27;Bob&#x27;,&#x27;South&#x27;,1100,&#x27;2024-02-20&#x27;),(&#x27;Alice&#x27;,&#x27;North&#x27;,1350,&#x27;2024-03-10&#x27;),
+    (&#x27;Carol&#x27;,&#x27;East&#x27;,900,&#x27;2024-03-15&#x27;),(&#x27;Bob&#x27;,&#x27;South&#x27;,1250,&#x27;2024-03-20&#x27;),
+])
+# Cohort-style: rep performance vs. regional average
+rows = run(&#x27;&#x27;&#x27;
+    SELECT rep, region, ROUND(SUM(amount),2) AS rep_total,
+        ROUND(AVG(SUM(amount)) OVER(PARTITION BY region),2) AS region_avg,
+        ROUND(SUM(amount) - AVG(SUM(amount)) OVER(PARTITION BY region),2) AS vs_avg
+    FROM sales_f GROUP BY rep, region ORDER BY region, rep&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="code-block"><div class="ch"><span>Pivot survey data with CASE WHEN</span><button onclick="cp('c31_3')">Copy</button></div><pre><code id="c31_3" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS survey (
+    respondent_id INTEGER, question TEXT, score INTEGER)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO survey VALUES (?,?,?)&#x27;, [
+    (1,&#x27;Q1&#x27;,4),(1,&#x27;Q2&#x27;,5),(1,&#x27;Q3&#x27;,3),
+    (2,&#x27;Q1&#x27;,2),(2,&#x27;Q2&#x27;,3),(2,&#x27;Q3&#x27;,4),
+    (3,&#x27;Q1&#x27;,5),(3,&#x27;Q2&#x27;,5),(3,&#x27;Q3&#x27;,5),
+    (4,&#x27;Q1&#x27;,3),(4,&#x27;Q2&#x27;,2),(4,&#x27;Q3&#x27;,3),
+])
+# Pivot: one row per respondent, one column per question
+rows = run(&#x27;&#x27;&#x27;
+    SELECT respondent_id,
+        MAX(CASE WHEN question=&#x27;Q1&#x27; THEN score END) AS Q1,
+        MAX(CASE WHEN question=&#x27;Q2&#x27; THEN score END) AS Q2,
+        MAX(CASE WHEN question=&#x27;Q3&#x27; THEN score END) AS Q3,
+        ROUND(AVG(score),2) AS avg_score
+    FROM survey GROUP BY respondent_id ORDER BY respondent_id&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Dashboard Pipeline</div><div class="rd">Build a SQL pipeline: clean raw data, compute monthly totals, calculate month-over-month growth, and rank reps by total sales within their region.</div><pre><code class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS pipeline_sales (
+    rep TEXT, region TEXT, amount REAL, sale_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO pipeline_sales VALUES (?,?,?,?)&#x27;, [
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,1200,&#x27;2024-01-10&#x27;),(&#x27;Bob&#x27;,&#x27;North&#x27;,950,&#x27;2024-01-20&#x27;),
+    (&#x27;Alice&#x27;,&#x27;North&#x27;,1400,&#x27;2024-02-05&#x27;),(&#x27;Bob&#x27;,&#x27;North&#x27;,1100,&#x27;2024-02-15&#x27;),
+    (&#x27;Carol&#x27;,&#x27;South&#x27;,800,&#x27;2024-01-12&#x27;),(&#x27;Dave&#x27;,&#x27;South&#x27;,900,&#x27;2024-01-25&#x27;),
+    (&#x27;Carol&#x27;,&#x27;South&#x27;,1050,&#x27;2024-02-08&#x27;),(&#x27;Dave&#x27;,&#x27;South&#x27;,750,&#x27;2024-02-18&#x27;),
+])
+rows = run(&#x27;&#x27;&#x27;
+    WITH monthly AS (
+        SELECT rep, region, SUBSTR(sale_date,1,7) AS month,
+               SUM(amount) AS total
+        FROM pipeline_sales GROUP BY rep, region, month),
+    with_growth AS (
+        SELECT *,
+            LAG(total) OVER(PARTITION BY rep ORDER BY month) AS prev,
+            ROUND(100.0*(total - LAG(total) OVER(PARTITION BY rep ORDER BY month))
+                  / LAG(total) OVER(PARTITION BY rep ORDER BY month), 1) AS pct_growth
+        FROM monthly)
+    SELECT *, RANK() OVER(PARTITION BY region, month ORDER BY total DESC) AS region_rank
+    FROM with_growth ORDER BY region, month, region_rank&#x27;&#x27;&#x27;)
+for r in rows: print(r)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: End-to-End Analysis Practice</div><div class="pd">Create a &#x27;web_logs&#x27; table with (session_id INTEGER, user_id INTEGER, page TEXT, duration_sec INTEGER, log_date TEXT). Insert 10 rows. Write a query that: (1) filters sessions over 30s, (2) counts sessions per user per day, and (3) shows each user&#x27;s max daily sessions using a window function.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS web_logs (
+    session_id INTEGER, user_id INTEGER,
+    page TEXT, duration_sec INTEGER, log_date TEXT)&#x27;&#x27;&#x27;)
+runmany(&#x27;INSERT INTO web_logs VALUES (?,?,?,?,?)&#x27;, [
+    (1,1,&#x27;home&#x27;,45,&#x27;2024-01-01&#x27;),(2,1,&#x27;about&#x27;,20,&#x27;2024-01-01&#x27;),
+    (3,2,&#x27;home&#x27;,60,&#x27;2024-01-01&#x27;),(4,2,&#x27;shop&#x27;,90,&#x27;2024-01-01&#x27;),
+    (5,1,&#x27;home&#x27;,35,&#x27;2024-01-02&#x27;),(6,1,&#x27;shop&#x27;,55,&#x27;2024-01-02&#x27;),
+    (7,3,&#x27;home&#x27;,15,&#x27;2024-01-01&#x27;),(8,3,&#x27;about&#x27;,40,&#x27;2024-01-01&#x27;),
+    (9,2,&#x27;home&#x27;,80,&#x27;2024-01-02&#x27;),(10,3,&#x27;shop&#x27;,50,&#x27;2024-01-02&#x27;),
+])
+# Write your query: filter &gt;30s, count per user/day, window max
+</code></pre></div></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}

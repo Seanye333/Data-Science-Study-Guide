@@ -62,6 +62,14 @@ pre code{font-size:.82rem;padding:14px!important;}
 <a href="#s13">14. Dashboards & Interactive Widgets</a>
 <a href="#s14">15. ML Model Deployment with Streamlit</a>
 <a href="#s15">16. Advanced Streamlit: Plotly, Forms & Production Patterns</a>
+<a href="#s16">17. Plotly & Altair Integration</a>
+<a href="#s17">18. Session State Management</a>
+<a href="#s18">19. Caching & Performance</a>
+<a href="#s19">20. Forms & Input Validation</a>
+<a href="#s20">21. File Upload & Download</a>
+<a href="#s21">22. Multi-page Apps</a>
+<a href="#s22">23. Custom CSS & Theming</a>
+<a href="#s23">24. Deployment: Cloud, Docker & CI/CD</a>
 
 </nav>
 <main>
@@ -3308,6 +3316,2171 @@ st.set_page_config(layout=&quot;wide&quot;)
 # TODO: Download button for filtered data as CSV
 # TODO: Experiment logger form using st.form + session state (track 5 experiments max)
 
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s16">
+  <div class="card-header" onclick="toggle('s16')">
+    <span>17. 17. Plotly & Altair Integration</span>
+    <span class="arrow" id="arr-s16">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s16" style="display:none">
+    <p class="desc">Streamlit natively supports Plotly, Altair, Matplotlib, and Bokeh charts. st.plotly_chart() and st.altair_chart() render interactive visualizations with hover, zoom, and click events.</p>
+    <h4>Interactive Plotly Charts</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_plotly_demo.py
+# Run: streamlit run streamlit_plotly_demo.py
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Interactive Plotly Charts in Streamlit&quot;)
+
+# Sample data
+np.random.seed(42)
+n = 200
+df = pd.DataFrame({
+    &quot;x&quot;: np.random.randn(n),
+    &quot;y&quot;: np.random.randn(n),
+    &quot;category&quot;: np.random.choice([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], n),
+    &quot;size&quot;: np.random.uniform(5, 20, n),
+    &quot;value&quot;: np.random.randn(n) * 100,
+})
+
+# Sidebar controls
+st.sidebar.header(&quot;Chart Controls&quot;)
+chart_type = st.sidebar.selectbox(&quot;Chart Type&quot;, [&quot;Scatter&quot;, &quot;Bar&quot;, &quot;Histogram&quot;, &quot;Box&quot;])
+color_col = st.sidebar.selectbox(&quot;Color By&quot;, [&quot;category&quot;])
+selected_cats = st.sidebar.multiselect(&quot;Categories&quot;, [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], default=[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;])
+
+filtered_df = df[df[&quot;category&quot;].isin(selected_cats)]
+
+if chart_type == &quot;Scatter&quot;:
+    fig = px.scatter(filtered_df, x=&quot;x&quot;, y=&quot;y&quot;, color=color_col,
+                     size=&quot;size&quot;, hover_data=[&quot;value&quot;],
+                     title=&quot;Scatter Plot&quot;)
+elif chart_type == &quot;Bar&quot;:
+    bar_data = filtered_df.groupby(&quot;category&quot;)[&quot;value&quot;].mean().reset_index()
+    fig = px.bar(bar_data, x=&quot;category&quot;, y=&quot;value&quot;,
+                 color=&quot;category&quot;, title=&quot;Mean Value by Category&quot;)
+elif chart_type == &quot;Histogram&quot;:
+    fig = px.histogram(filtered_df, x=&quot;value&quot;, color=color_col,
+                       nbins=30, title=&quot;Value Distribution&quot;)
+else:
+    fig = px.box(filtered_df, x=&quot;category&quot;, y=&quot;value&quot;,
+                 color=color_col, title=&quot;Value Distribution by Category&quot;)
+
+st.plotly_chart(fig, use_container_width=True)
+st.dataframe(filtered_df.describe(), use_container_width=True)
+</code></pre></div>
+    <h4>Altair Charts</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_altair_demo.py
+import streamlit as st
+import altair as alt
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Altair Charts in Streamlit&quot;)
+
+np.random.seed(42)
+n = 300
+
+# Time series data
+dates = pd.date_range(&quot;2024-01-01&quot;, periods=n, freq=&quot;D&quot;)
+df = pd.DataFrame({
+    &quot;date&quot;: dates,
+    &quot;value_A&quot;: np.cumsum(np.random.randn(n)) + 50,
+    &quot;value_B&quot;: np.cumsum(np.random.randn(n)) + 45,
+})
+df_melt = df.melt(id_vars=&quot;date&quot;, value_vars=[&quot;value_A&quot;, &quot;value_B&quot;],
+                   var_name=&quot;series&quot;, value_name=&quot;value&quot;)
+
+# Altair line chart with selection
+selection = alt.selection_point(fields=[&quot;series&quot;], bind=&quot;legend&quot;)
+
+chart = (alt.Chart(df_melt)
+    .mark_line()
+    .encode(
+        x=alt.X(&quot;date:T&quot;, title=&quot;Date&quot;),
+        y=alt.Y(&quot;value:Q&quot;, title=&quot;Value&quot;),
+        color=alt.Color(&quot;series:N&quot;),
+        opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+    )
+    .add_params(selection)
+    .properties(width=&quot;container&quot;, height=300, title=&quot;Interactive Time Series&quot;)
+)
+
+st.altair_chart(chart, use_container_width=True)
+
+# Heatmap
+heatmap_data = pd.DataFrame(
+    np.random.randn(10, 10),
+    columns=[f&quot;F{i}&quot; for i in range(10)]
+).reset_index().melt(id_vars=&quot;index&quot;, var_name=&quot;feature&quot;, value_name=&quot;corr&quot;)
+
+heatmap = (alt.Chart(heatmap_data)
+    .mark_rect()
+    .encode(
+        x=&quot;feature:N&quot;,
+        y=alt.Y(&quot;index:O&quot;),
+        color=alt.Color(&quot;corr:Q&quot;, scale=alt.Scale(scheme=&quot;redblue&quot;)),
+        tooltip=[&quot;feature&quot;, &quot;index&quot;, &quot;corr&quot;],
+    )
+    .properties(height=200, title=&quot;Feature Correlation Heatmap&quot;)
+)
+st.altair_chart(heatmap, use_container_width=True)
+</code></pre></div>
+    <h4>Combined Dashboard Layout</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_dashboard_demo.py
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
+st.set_page_config(layout=&quot;wide&quot;, page_title=&quot;Sales Dashboard&quot;)
+st.title(&quot;Sales Performance Dashboard&quot;)
+
+np.random.seed(42)
+n = 500
+df = pd.DataFrame({
+    &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=n, freq=&quot;D&quot;)[:n % 365 + 1].tolist() * (n // 365 + 1),
+    &quot;product&quot;: np.random.choice([&quot;Widget&quot;, &quot;Gadget&quot;, &quot;Doohickey&quot;], n),
+    &quot;region&quot;: np.random.choice([&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], n),
+    &quot;revenue&quot;: np.random.exponential(500, n).round(2),
+    &quot;units&quot;: np.random.randint(1, 50, n),
+})
+df[&quot;date&quot;] = pd.date_range(&quot;2024-01-01&quot;, periods=n, freq=&quot;D&quot;)[:n]
+
+# KPI row
+col1, col2, col3, col4 = st.columns(4)
+col1.metric(&quot;Total Revenue&quot;, f&quot;${df[&#x27;revenue&#x27;].sum():,.0f}&quot;, &quot;+12%&quot;)
+col2.metric(&quot;Total Units&quot;, f&quot;{df[&#x27;units&#x27;].sum():,}&quot;, &quot;+8%&quot;)
+col3.metric(&quot;Avg Order Value&quot;, f&quot;${df[&#x27;revenue&#x27;].mean():.2f}&quot;, &quot;+4%&quot;)
+col4.metric(&quot;Active Products&quot;, &quot;3&quot;, &quot;0&quot;)
+
+st.divider()
+
+# Two-column chart layout
+col_left, col_right = st.columns(2)
+with col_left:
+    monthly = df.groupby(df[&quot;date&quot;].dt.month)[&quot;revenue&quot;].sum().reset_index()
+    monthly.columns = [&quot;month&quot;, &quot;revenue&quot;]
+    fig1 = px.bar(monthly, x=&quot;month&quot;, y=&quot;revenue&quot;, title=&quot;Monthly Revenue&quot;)
+    st.plotly_chart(fig1, use_container_width=True)
+
+with col_right:
+    by_region = df.groupby(&quot;region&quot;)[&quot;revenue&quot;].sum().reset_index()
+    fig2 = px.pie(by_region, names=&quot;region&quot;, values=&quot;revenue&quot;, title=&quot;Revenue by Region&quot;)
+    st.plotly_chart(fig2, use_container_width=True)
+
+# Data table with search
+st.subheader(&quot;Raw Data&quot;)
+search = st.text_input(&quot;Search product:&quot;, &quot;&quot;)
+filtered = df[df[&quot;product&quot;].str.contains(search, case=False)] if search else df
+st.dataframe(filtered.head(20), use_container_width=True)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Build a sales analytics dashboard with Plotly charts, date range filters, metric cards showing KPIs, and a downloadable data table. Include a line chart with 30-day moving average.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_sales_rw.py
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+from io import BytesIO
+
+st.set_page_config(layout=&quot;wide&quot;, page_title=&quot;Sales Analytics&quot;)
+st.title(&quot;Sales Analytics Dashboard&quot;)
+
+# Generate sample data
+np.random.seed(42)
+n = 365
+df = pd.DataFrame({
+    &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=n),
+    &quot;product&quot;: np.random.choice([&quot;Product A&quot;, &quot;Product B&quot;, &quot;Product C&quot;], n),
+    &quot;region&quot;: np.random.choice([&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], n),
+    &quot;revenue&quot;: np.random.exponential(500, n).round(2),
+    &quot;units&quot;: np.random.randint(1, 100, n),
+})
+
+# Sidebar filters
+st.sidebar.header(&quot;Filters&quot;)
+date_range = st.sidebar.date_input(&quot;Date Range&quot;,
+    value=(df[&quot;date&quot;].min(), df[&quot;date&quot;].max()),
+    min_value=df[&quot;date&quot;].min(), max_value=df[&quot;date&quot;].max())
+selected_products = st.sidebar.multiselect(&quot;Products&quot;, df[&quot;product&quot;].unique(), default=df[&quot;product&quot;].unique())
+
+# Filter
+mask = ((df[&quot;date&quot;] &gt;= pd.Timestamp(date_range[0])) &amp;
+        (df[&quot;date&quot;] &lt;= pd.Timestamp(date_range[1])) &amp;
+        (df[&quot;product&quot;].isin(selected_products)))
+filtered = df[mask]
+
+# KPIs
+c1, c2, c3 = st.columns(3)
+c1.metric(&quot;Total Revenue&quot;, f&quot;${filtered[&#x27;revenue&#x27;].sum():,.0f}&quot;)
+c2.metric(&quot;Total Units&quot;, f&quot;{filtered[&#x27;units&#x27;].sum():,}&quot;)
+c3.metric(&quot;Orders&quot;, f&quot;{len(filtered):,}&quot;)
+
+# Line chart with MA
+daily = filtered.groupby(&quot;date&quot;)[&quot;revenue&quot;].sum().reset_index()
+daily[&quot;MA30&quot;] = daily[&quot;revenue&quot;].rolling(30).mean()
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=daily[&quot;date&quot;], y=daily[&quot;revenue&quot;], name=&quot;Daily Revenue&quot;, opacity=0.5))
+fig.add_trace(go.Scatter(x=daily[&quot;date&quot;], y=daily[&quot;MA30&quot;], name=&quot;30-day MA&quot;, line=dict(width=3)))
+fig.update_layout(title=&quot;Daily Revenue with Moving Average&quot;)
+st.plotly_chart(fig, use_container_width=True)
+
+# Download
+csv_buffer = filtered.to_csv(index=False).encode()
+st.download_button(&quot;Download Data&quot;, csv_buffer, &quot;sales_data.csv&quot;, &quot;text/csv&quot;)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interactive Chart with Filter</div><div class="pd">Build a Streamlit app with a selectbox to choose chart type (bar/scatter/histogram), filter data by a multiselect widget, and display the chart with st.plotly_chart().</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p16" class="language-python"># my_chart_app.py
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+df = pd.DataFrame({
+    &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 200),
+    &quot;x&quot;: np.random.randn(200),
+    &quot;y&quot;: np.random.randn(200),
+    &quot;value&quot;: np.random.randn(200) * 100,
+})
+
+st.title(&quot;My Chart App&quot;)
+# 1. Add selectbox for chart type
+# 2. Add multiselect for categories
+# 3. Filter df by selected categories
+# 4. Create plotly figure based on chart type
+# 5. st.plotly_chart(fig, use_container_width=True)
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s17">
+  <div class="card-header" onclick="toggle('s17')">
+    <span>18. 18. Session State Management</span>
+    <span class="arrow" id="arr-s17">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s17" style="display:none">
+    <p class="desc">Streamlit reruns the script on every interaction. Session state (st.session_state) persists data across reruns, enabling counters, multi-step forms, authentication, and conversation history.</p>
+    <h4>Counter & Persistent Data</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_session_state.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Session State Examples&quot;)
+
+# Example 1: Counter
+st.header(&quot;Counter (persists across reruns)&quot;)
+
+if &quot;count&quot; not in st.session_state:
+    st.session_state.count = 0
+if &quot;history&quot; not in st.session_state:
+    st.session_state.history = []
+
+col1, col2, col3 = st.columns(3)
+if col1.button(&quot;Increment&quot;):
+    st.session_state.count += 1
+    st.session_state.history.append(st.session_state.count)
+if col2.button(&quot;Decrement&quot;):
+    st.session_state.count -= 1
+    st.session_state.history.append(st.session_state.count)
+if col3.button(&quot;Reset&quot;):
+    st.session_state.count = 0
+    st.session_state.history = []
+
+st.metric(&quot;Current Count&quot;, st.session_state.count)
+if st.session_state.history:
+    st.line_chart(pd.DataFrame({&quot;count&quot;: st.session_state.history}))
+
+# Example 2: Shopping cart
+st.header(&quot;Shopping Cart&quot;)
+
+PRODUCTS = {&quot;Widget&quot;: 9.99, &quot;Gadget&quot;: 24.99, &quot;Doohickey&quot;: 4.99}
+
+if &quot;cart&quot; not in st.session_state:
+    st.session_state.cart = {}
+
+col_a, col_b = st.columns(2)
+with col_a:
+    product = st.selectbox(&quot;Add to cart:&quot;, list(PRODUCTS.keys()))
+    qty = st.number_input(&quot;Quantity:&quot;, min_value=1, max_value=10, value=1)
+    if st.button(&quot;Add&quot;):
+        st.session_state.cart[product] = st.session_state.cart.get(product, 0) + qty
+        st.success(f&quot;Added {qty}x {product}&quot;)
+
+with col_b:
+    if st.session_state.cart:
+        st.write(&quot;Cart:&quot;)
+        total = 0
+        for item, qty in st.session_state.cart.items():
+            cost = PRODUCTS[item] * qty
+            total += cost
+            st.write(f&quot;  - {item} x{qty}: ${cost:.2f}&quot;)
+        st.write(f&quot;**Total: ${total:.2f}**&quot;)
+        if st.button(&quot;Clear Cart&quot;):
+            st.session_state.cart = {}
+    else:
+        st.info(&quot;Cart is empty&quot;)
+</code></pre></div>
+    <h4>Multi-Step Wizard</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_wizard.py
+import streamlit as st
+
+st.title(&quot;Multi-Step Form Wizard&quot;)
+
+# Initialize wizard state
+if &quot;step&quot; not in st.session_state:
+    st.session_state.step = 1
+if &quot;data&quot; not in st.session_state:
+    st.session_state.data = {}
+
+# Progress bar
+progress = (st.session_state.step - 1) / 3
+st.progress(progress, text=f&quot;Step {st.session_state.step} of 3&quot;)
+
+# Step 1: Personal Info
+if st.session_state.step == 1:
+    st.subheader(&quot;Step 1: Personal Information&quot;)
+    name = st.text_input(&quot;Full Name&quot;, value=st.session_state.data.get(&quot;name&quot;, &quot;&quot;))
+    email = st.text_input(&quot;Email&quot;, value=st.session_state.data.get(&quot;email&quot;, &quot;&quot;))
+    age = st.number_input(&quot;Age&quot;, min_value=18, max_value=120,
+                          value=st.session_state.data.get(&quot;age&quot;, 25))
+    if st.button(&quot;Next&quot;):
+        if name and email:
+            st.session_state.data.update({&quot;name&quot;: name, &quot;email&quot;: email, &quot;age&quot;: age})
+            st.session_state.step = 2
+            st.rerun()
+        else:
+            st.error(&quot;Please fill all required fields&quot;)
+
+# Step 2: Preferences
+elif st.session_state.step == 2:
+    st.subheader(&quot;Step 2: Preferences&quot;)
+    interests = st.multiselect(&quot;Interests&quot;,
+        [&quot;Python&quot;, &quot;Data Science&quot;, &quot;Machine Learning&quot;, &quot;Web Dev&quot;, &quot;Cloud&quot;],
+        default=st.session_state.data.get(&quot;interests&quot;, []))
+    experience = st.select_slider(&quot;Experience Level&quot;,
+        options=[&quot;Beginner&quot;, &quot;Intermediate&quot;, &quot;Advanced&quot;, &quot;Expert&quot;],
+        value=st.session_state.data.get(&quot;experience&quot;, &quot;Intermediate&quot;))
+    col1, col2 = st.columns(2)
+    if col1.button(&quot;Back&quot;):
+        st.session_state.step = 1; st.rerun()
+    if col2.button(&quot;Next&quot;):
+        st.session_state.data.update({&quot;interests&quot;: interests, &quot;experience&quot;: experience})
+        st.session_state.step = 3; st.rerun()
+
+# Step 3: Review &amp; Submit
+elif st.session_state.step == 3:
+    st.subheader(&quot;Step 3: Review &amp; Submit&quot;)
+    st.write(&quot;Summary:&quot;)
+    for key, val in st.session_state.data.items():
+        st.write(f&quot;  **{key.title()}:** {val}&quot;)
+    col1, col2 = st.columns(2)
+    if col1.button(&quot;Back&quot;): st.session_state.step = 2; st.rerun()
+    if col2.button(&quot;Submit&quot;):
+        st.success(&quot;Registration complete!&quot;)
+        st.balloons()
+        st.session_state.step = 1; st.session_state.data = {}
+</code></pre></div>
+    <h4>Chatbot with Conversation History</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_chatbot.py
+import streamlit as st
+
+st.title(&quot;Chatbot with Conversation History&quot;)
+st.caption(&quot;Session state preserves chat history across reruns&quot;)
+
+# Initialize conversation
+if &quot;messages&quot; not in st.session_state:
+    st.session_state.messages = [
+        {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Hello! How can I help you today?&quot;}
+    ]
+if &quot;user_count&quot; not in st.session_state:
+    st.session_state.user_count = 0
+
+# Display chat history
+for msg in st.session_state.messages:
+    with st.chat_message(msg[&quot;role&quot;]):
+        st.write(msg[&quot;content&quot;])
+
+# Chat input
+if prompt := st.chat_input(&quot;Type a message...&quot;):
+    # Add user message
+    st.session_state.messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt})
+    st.session_state.user_count += 1
+
+    # Generate response (mock - replace with real LLM call)
+    response = f&quot;You said: &#x27;{prompt}&#x27; (message #{st.session_state.user_count})&quot;
+
+    # Keyword-based mock responses
+    prompt_lower = prompt.lower()
+    if &quot;hello&quot; in prompt_lower or &quot;hi&quot; in prompt_lower:
+        response = &quot;Hi there! Great to meet you!&quot;
+    elif &quot;help&quot; in prompt_lower:
+        response = &quot;I can help with data science, Python, and ML questions!&quot;
+    elif &quot;python&quot; in prompt_lower:
+        response = &quot;Python is great for data science! Try libraries like pandas, sklearn, and torch.&quot;
+    elif &quot;reset&quot; in prompt_lower:
+        st.session_state.messages = []
+        st.session_state.user_count = 0
+        st.rerun()
+
+    st.session_state.messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response})
+    st.rerun()
+
+# Sidebar stats
+with st.sidebar:
+    st.metric(&quot;Messages&quot;, len(st.session_state.messages))
+    st.metric(&quot;User messages&quot;, st.session_state.user_count)
+    if st.button(&quot;Clear Chat&quot;):
+        st.session_state.messages = [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Chat cleared. How can I help?&quot;}]
+        st.session_state.user_count = 0
+        st.rerun()
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Build a multi-step data analysis wizard: Step 1 uploads a CSV, Step 2 selects columns and chart type, Step 3 shows the chart with a download button. Use session state to pass data between steps.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_wizard_rw.py
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+from io import StringIO
+
+st.title(&quot;Data Analysis Wizard&quot;)
+
+if &quot;step&quot; not in st.session_state: st.session_state.step = 1
+if &quot;df&quot; not in st.session_state: st.session_state.df = None
+if &quot;config&quot; not in st.session_state: st.session_state.config = {}
+
+st.progress((st.session_state.step - 1) / 2, text=f&quot;Step {st.session_state.step}/3&quot;)
+
+if st.session_state.step == 1:
+    st.subheader(&quot;Step 1: Upload Data&quot;)
+    uploaded = st.file_uploader(&quot;Upload CSV&quot;, type=[&quot;csv&quot;])
+    if uploaded:
+        st.session_state.df = pd.read_csv(uploaded)
+        st.write(f&quot;Loaded {len(st.session_state.df)} rows, {len(st.session_state.df.columns)} columns&quot;)
+        st.dataframe(st.session_state.df.head(3))
+    else:
+        # Demo data
+        import numpy as np
+        np.random.seed(42)
+        st.session_state.df = pd.DataFrame({
+            &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 100),
+            &quot;x&quot;: np.random.randn(100), &quot;y&quot;: np.random.randn(100),
+            &quot;value&quot;: np.random.exponential(50, 100).round(2),
+        })
+        st.info(&quot;Using demo data (upload CSV to use your own data)&quot;)
+    if st.button(&quot;Next -&gt; Configure&quot;):
+        st.session_state.step = 2; st.rerun()
+
+elif st.session_state.step == 2:
+    df = st.session_state.df
+    st.subheader(&quot;Step 2: Configure Chart&quot;)
+    chart_type = st.selectbox(&quot;Chart Type&quot;, [&quot;scatter&quot;, &quot;bar&quot;, &quot;histogram&quot;, &quot;box&quot;])
+    cols = df.columns.tolist()
+    x_col = st.selectbox(&quot;X Axis&quot;, cols)
+    y_col = st.selectbox(&quot;Y Axis&quot;, [c for c in cols if c != x_col])
+    color_col = st.selectbox(&quot;Color By (optional)&quot;, [&quot;None&quot;] + cols)
+    color_col = None if color_col == &quot;None&quot; else color_col
+    st.session_state.config = {&quot;chart_type&quot;: chart_type, &quot;x&quot;: x_col, &quot;y&quot;: y_col, &quot;color&quot;: color_col}
+    col1, col2 = st.columns(2)
+    if col1.button(&quot;Back&quot;): st.session_state.step = 1; st.rerun()
+    if col2.button(&quot;Next -&gt; View Chart&quot;): st.session_state.step = 3; st.rerun()
+
+elif st.session_state.step == 3:
+    df = st.session_state.df; cfg = st.session_state.config
+    st.subheader(&quot;Step 3: Analysis Results&quot;)
+    px_fns = {&quot;scatter&quot;: px.scatter, &quot;bar&quot;: px.bar, &quot;histogram&quot;: px.histogram, &quot;box&quot;: px.box}
+    fig = px_fns[cfg[&quot;chart_type&quot;]](df, x=cfg[&quot;x&quot;], y=cfg[&quot;y&quot;], color=cfg[&quot;color&quot;])
+    st.plotly_chart(fig, use_container_width=True)
+    csv = df.to_csv(index=False).encode()
+    st.download_button(&quot;Download Data&quot;, csv, &quot;results.csv&quot;, &quot;text/csv&quot;)
+    if st.button(&quot;Start Over&quot;): st.session_state.step = 1; st.session_state.config = {}; st.rerun()
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Session State Counter</div><div class="pd">Build a Streamlit app with session state that tracks a counter, shows the history as a line chart, and has increment/decrement/reset buttons.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17" class="language-python"># session_counter.py
+import streamlit as st
+import pandas as pd
+
+st.title(&quot;Session State Counter&quot;)
+
+# 1. Initialize session_state.count = 0 and session_state.history = []
+# 2. Add three columns with Increment, Decrement, Reset buttons
+# 3. Update count and append to history on each button click
+# 4. Show st.metric for current count
+# 5. Show st.line_chart of history if it exists
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s18">
+  <div class="card-header" onclick="toggle('s18')">
+    <span>19. 19. Caching & Performance</span>
+    <span class="arrow" id="arr-s18">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s18" style="display:none">
+    <p class="desc">Streamlit reruns the entire script on every interaction. @st.cache_data caches function outputs by input arguments. @st.cache_resource caches singleton objects like ML models and DB connections.</p>
+    <h4>@st.cache_data for Data Loading</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_caching.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import time
+
+st.title(&quot;Caching Demo&quot;)
+
+# @st.cache_data: caches DataFrames, arrays, and serializable objects
+@st.cache_data
+def load_data(n_rows=1000):
+    st.write(&quot;(Loading data... this message only appears once)&quot;)
+    time.sleep(0.5)  # simulate slow loading
+    np.random.seed(42)
+    return pd.DataFrame({
+        &quot;id&quot;: range(n_rows),
+        &quot;category&quot;: np.random.choice(list(&quot;ABCDE&quot;), n_rows),
+        &quot;value&quot;: np.random.randn(n_rows) * 100,
+        &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=n_rows, freq=&quot;h&quot;),
+    })
+
+@st.cache_data(ttl=300)  # expire after 5 minutes
+def expensive_computation(df, agg_col):
+    time.sleep(0.3)  # simulate expensive computation
+    return df.groupby(agg_col)[&quot;value&quot;].agg([&quot;mean&quot;, &quot;std&quot;, &quot;sum&quot;, &quot;count&quot;])
+
+# Load data (cached after first load)
+n = st.slider(&quot;Number of rows&quot;, 100, 5000, 1000)
+t0 = time.time()
+df = load_data(n)
+t1 = time.time()
+
+st.success(f&quot;Data loaded in {(t1-t0)*1000:.1f}ms (cached after first load)&quot;)
+st.write(f&quot;Shape: {df.shape}&quot;)
+
+# Computation (cached per column selection)
+agg_col = st.selectbox(&quot;Group by&quot;, [&quot;category&quot;])
+t0 = time.time()
+result = expensive_computation(df, agg_col)
+t1 = time.time()
+st.write(f&quot;Computation time: {(t1-t0)*1000:.1f}ms&quot;)
+st.dataframe(result)
+
+# Cache info
+if st.button(&quot;Clear Cache&quot;):
+    st.cache_data.clear()
+    st.success(&quot;Cache cleared!&quot;)
+</code></pre></div>
+    <h4>@st.cache_resource for Models & Connections</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_cache_resource.py
+import streamlit as st
+import pickle
+import numpy as np
+import time
+
+st.title(&quot;Cache Resource: ML Models &amp; Connections&quot;)
+
+# @st.cache_resource: for singletons (models, DB connections)
+# NOT re-created on every rerun - shared across all sessions
+
+@st.cache_resource
+def load_ml_model():
+    # Simulate loading a large ML model
+    st.write(&quot;(Loading model... only once per session)&quot;)
+    time.sleep(1.0)
+
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.datasets import load_iris
+    X, y = load_iris(return_X_y=True)
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X, y)
+    return model
+
+@st.cache_resource
+def get_feature_names():
+    from sklearn.datasets import load_iris
+    return load_iris().feature_names
+
+# Load model (shared across all users)
+st.info(&quot;The model loads once and is shared across all users&quot;)
+t0 = time.time()
+model = load_ml_model()
+feature_names = get_feature_names()
+t1 = time.time()
+st.success(f&quot;Model loaded in {(t1-t0)*1000:.1f}ms (instant if cached)&quot;)
+
+# Prediction interface
+st.subheader(&quot;Iris Classifier&quot;)
+col_inputs = st.columns(4)
+values = []
+for i, (col, fname) in enumerate(zip(col_inputs, feature_names)):
+    v = col.number_input(fname, min_value=0.0, max_value=10.0,
+                          value=[5.1, 3.5, 1.4, 0.2][i], step=0.1)
+    values.append(v)
+
+if st.button(&quot;Predict&quot;):
+    pred = model.predict([values])[0]
+    prob = model.predict_proba([values])[0]
+    classes = [&quot;setosa&quot;, &quot;versicolor&quot;, &quot;virginica&quot;]
+    st.write(f&quot;Prediction: **{classes[pred]}** ({prob[pred]*100:.1f}% confidence)&quot;)
+    st.bar_chart({classes[i]: float(p) for i, p in enumerate(prob)})
+</code></pre></div>
+    <h4>Performance Tips & Lazy Loading</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_performance_tips.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import time
+
+st.title(&quot;Performance Best Practices&quot;)
+
+st.header(&quot;1. Use st.empty() and placeholders for updates&quot;)
+placeholder = st.empty()
+
+if st.button(&quot;Simulate Real-time Updates&quot;):
+    for i in range(5):
+        with placeholder.container():
+            st.metric(&quot;Progress&quot;, f&quot;{i*20}%&quot;)
+            st.progress(i / 4)
+        time.sleep(0.3)
+    with placeholder.container():
+        st.success(&quot;Done!&quot;)
+
+st.header(&quot;2. Fragment for partial reruns (Streamlit 1.33+)&quot;)
+st.code(&#x27;&#x27;&#x27;
+@st.fragment
+def update_chart():
+    # Only this fragment reruns when its widgets change
+    data = st.slider(&quot;Data points&quot;, 10, 100, 50)
+    chart_data = pd.DataFrame(np.random.randn(data, 2), columns=[&quot;A&quot;, &quot;B&quot;])
+    st.line_chart(chart_data)
+
+update_chart()
+&#x27;&#x27;&#x27;)
+
+st.header(&quot;3. Batch state updates with callbacks&quot;)
+def increment():
+    st.session_state.fast_count = st.session_state.get(&quot;fast_count&quot;, 0) + 1
+
+if &quot;fast_count&quot; not in st.session_state:
+    st.session_state.fast_count = 0
+
+st.button(&quot;Fast Increment&quot;, on_click=increment)
+st.write(f&quot;Count: {st.session_state.fast_count}&quot;)
+
+st.header(&quot;4. Performance tips&quot;)
+tips = [
+    &quot;Use @st.cache_data for data loading (TTL to auto-refresh)&quot;,
+    &quot;Use @st.cache_resource for ML models, DB connections&quot;,
+    &quot;Avoid heavy computation in the main script body&quot;,
+    &quot;Use st.fragment for partial reruns (avoids full re-render)&quot;,
+    &quot;Use on_click callbacks instead of manual state checks&quot;,
+    &quot;Limit st.dataframe to &lt;10K rows for performance&quot;,
+]
+for tip in tips:
+    st.write(f&quot;- {tip}&quot;)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Your dashboard loads a 500MB dataset and runs a slow ML prediction on every user interaction. Cache the data load (TTL=10 minutes) and model (resource cache). Measure the speedup.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_caching_rw.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import time
+
+st.title(&quot;Optimized Dashboard with Caching&quot;)
+
+@st.cache_data(ttl=600)  # 10-minute TTL
+def load_large_dataset(seed=42):
+    np.random.seed(seed)
+    n = 50_000  # simulate large dataset
+    time.sleep(0.2)  # simulate I/O delay
+    return pd.DataFrame({
+        &quot;date&quot;: pd.date_range(&quot;2023-01-01&quot;, periods=n, freq=&quot;h&quot;),
+        &quot;product&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;], n),
+        &quot;region&quot;: np.random.choice([&quot;North&quot;,&quot;South&quot;,&quot;East&quot;,&quot;West&quot;], n),
+        &quot;revenue&quot;: np.random.exponential(100, n).round(2),
+        &quot;units&quot;: np.random.randint(1, 50, n),
+    })
+
+@st.cache_resource
+def load_model():
+    from sklearn.ensemble import RandomForestRegressor
+    time.sleep(0.5)  # simulate model loading
+    np.random.seed(42)
+    X = np.random.randn(1000, 5)
+    y = X.sum(axis=1) + np.random.randn(1000) * 0.1
+    return RandomForestRegressor(n_estimators=50, random_state=42).fit(X, y)
+
+# Timing
+t0 = time.time()
+df = load_large_dataset()
+load_time = (time.time()-t0)*1000
+
+t0 = time.time()
+model = load_model()
+model_time = (time.time()-t0)*1000
+
+st.success(f&quot;Data loaded: {load_time:.1f}ms | Model loaded: {model_time:.1f}ms&quot;)
+st.info(&quot;Reload the page - both should be ~0ms on second load (cached!)&quot;)
+
+# Dashboard
+c1, c2, c3 = st.columns(3)
+c1.metric(&quot;Total Revenue&quot;, f&quot;${df[&#x27;revenue&#x27;].sum():,.0f}&quot;)
+c2.metric(&quot;Total Units&quot;, f&quot;{df[&#x27;units&#x27;].sum():,}&quot;)
+c3.metric(&quot;Data Points&quot;, f&quot;{len(df):,}&quot;)
+
+product = st.selectbox(&quot;Product&quot;, df[&quot;product&quot;].unique())
+filtered = df[df[&quot;product&quot;] == product]
+st.bar_chart(filtered.groupby(filtered[&quot;date&quot;].dt.month)[&quot;revenue&quot;].sum())
+
+# Prediction
+features = np.random.randn(1, 5)
+pred = model.predict(features)[0]
+st.metric(&quot;Predicted Revenue (Random)&quot;, f&quot;${pred:.2f}&quot;)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cached Data Loader</div><div class="pd">Create a @st.cache_data function that generates a large DataFrame (simulates a slow database query with time.sleep). Show that the second call is instantaneous.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18" class="language-python"># cache_demo.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import time
+
+# 1. Define load_data() with @st.cache_data
+#    - time.sleep(1) to simulate slow loading
+#    - Returns pd.DataFrame with 10K rows
+
+# 2. Call load_data() and time it with time.time()
+# 3. Show st.metric(&quot;Load time&quot;, f&quot;{elapsed:.0f}ms&quot;)
+# 4. Note: first call is slow, subsequent calls are ~0ms
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s19">
+  <div class="card-header" onclick="toggle('s19')">
+    <span>20. 20. Forms & Input Validation</span>
+    <span class="arrow" id="arr-s19">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s19" style="display:none">
+    <p class="desc">st.form() groups widgets and defers Streamlit reruns until the form is submitted. This prevents partial state updates and improves UX for multi-field inputs like search or settings panels.</p>
+    <h4>st.form() Basics</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_forms.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Forms &amp; Input Validation&quot;)
+
+# Without form: every widget change triggers a rerun
+st.subheader(&quot;Without Form (instant reruns)&quot;)
+name_no_form = st.text_input(&quot;Name (no form)&quot;, &quot;Alice&quot;)
+age_no_form = st.number_input(&quot;Age (no form)&quot;, 18, 120, 25)
+st.write(f&quot;Name: {name_no_form}, Age: {age_no_form}&quot;)
+
+st.divider()
+
+# With form: batch inputs, rerun only on submit
+st.subheader(&quot;With Form (batched submit)&quot;)
+
+with st.form(&quot;user_profile_form&quot;):
+    st.write(&quot;Fill in your profile:&quot;)
+    col1, col2 = st.columns(2)
+    with col1:
+        name = st.text_input(&quot;Full Name&quot;, &quot;Alice Johnson&quot;)
+        email = st.text_input(&quot;Email&quot;, &quot;alice@example.com&quot;)
+        age = st.number_input(&quot;Age&quot;, min_value=18, max_value=120, value=30)
+    with col2:
+        role = st.selectbox(&quot;Role&quot;, [&quot;Data Scientist&quot;, &quot;ML Engineer&quot;, &quot;Analyst&quot;, &quot;Manager&quot;])
+        experience = st.slider(&quot;Years of Experience&quot;, 0, 30, 5)
+        skills = st.multiselect(&quot;Skills&quot;, [&quot;Python&quot;, &quot;SQL&quot;, &quot;R&quot;, &quot;ML&quot;, &quot;DL&quot;, &quot;Cloud&quot;])
+
+    newsletter = st.checkbox(&quot;Subscribe to newsletter&quot;, value=True)
+    submitted = st.form_submit_button(&quot;Save Profile&quot;, use_container_width=True)
+
+if submitted:
+    profile = {
+        &quot;name&quot;: name, &quot;email&quot;: email, &quot;age&quot;: age,
+        &quot;role&quot;: role, &quot;experience&quot;: experience,
+        &quot;skills&quot;: skills, &quot;newsletter&quot;: newsletter
+    }
+    st.success(&quot;Profile saved!&quot;)
+    st.json(profile)
+</code></pre></div>
+    <h4>Input Validation with Forms</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_validation.py
+import streamlit as st
+import re
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Form Input Validation&quot;)
+
+# Validation functions
+def validate_email(email):
+    pattern = r&#x27;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$&#x27;
+    return bool(re.match(pattern, email))
+
+def validate_phone(phone):
+    digits = re.sub(r&#x27;[^\d]&#x27;, &#x27;&#x27;, phone)
+    return len(digits) == 10
+
+def validate_age(age):
+    return 18 &lt;= age &lt;= 120
+
+with st.form(&quot;validated_form&quot;):
+    st.subheader(&quot;Registration Form&quot;)
+    name = st.text_input(&quot;Full Name *&quot;)
+    email = st.text_input(&quot;Email *&quot;)
+    phone = st.text_input(&quot;Phone (10 digits)&quot;)
+    age = st.number_input(&quot;Age *&quot;, min_value=0, max_value=150, value=25)
+    password = st.text_input(&quot;Password *&quot;, type=&quot;password&quot;)
+    confirm_pw = st.text_input(&quot;Confirm Password *&quot;, type=&quot;password&quot;)
+
+    submitted = st.form_submit_button(&quot;Register&quot;)
+
+if submitted:
+    errors = []
+
+    if not name.strip():
+        errors.append(&quot;Full name is required&quot;)
+
+    if not validate_email(email):
+        errors.append(f&quot;Invalid email: {email}&quot;)
+
+    if phone and not validate_phone(phone):
+        errors.append(f&quot;Invalid phone number (need 10 digits)&quot;)
+
+    if not validate_age(age):
+        errors.append(f&quot;Age must be between 18 and 120&quot;)
+
+    if len(password) &lt; 8:
+        errors.append(&quot;Password must be at least 8 characters&quot;)
+
+    if password != confirm_pw:
+        errors.append(&quot;Passwords do not match&quot;)
+
+    if errors:
+        for err in errors:
+            st.error(err)
+    else:
+        st.success(f&quot;Welcome, {name}! Registration successful.&quot;)
+        st.balloons()
+</code></pre></div>
+    <h4>Search & Filter Form</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_search_form.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Search &amp; Filter Interface&quot;)
+
+np.random.seed(42)
+n = 1000
+df = pd.DataFrame({
+    &quot;product_id&quot;: range(1, n+1),
+    &quot;name&quot;: [f&quot;Product_{i}&quot; for i in range(1, n+1)],
+    &quot;category&quot;: np.random.choice([&quot;Electronics&quot;,&quot;Clothing&quot;,&quot;Books&quot;,&quot;Sports&quot;,&quot;Food&quot;], n),
+    &quot;price&quot;: np.random.exponential(50, n).round(2),
+    &quot;rating&quot;: np.random.uniform(1, 5, n).round(1),
+    &quot;in_stock&quot;: np.random.choice([True, False], n, p=[0.8, 0.2]),
+})
+
+# Search form (no reruns until Search is clicked)
+with st.form(&quot;search_form&quot;):
+    st.subheader(&quot;Filter Products&quot;)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        search_text = st.text_input(&quot;Search by name&quot;)
+        categories = st.multiselect(&quot;Category&quot;,
+            df[&quot;category&quot;].unique().tolist(),
+            default=df[&quot;category&quot;].unique().tolist())
+    with col2:
+        min_price, max_price = st.slider(&quot;Price Range ($)&quot;,
+            0.0, float(df[&quot;price&quot;].max()), (0.0, 100.0))
+        min_rating = st.slider(&quot;Minimum Rating&quot;, 1.0, 5.0, 3.0, 0.5)
+    with col3:
+        in_stock_only = st.checkbox(&quot;In Stock Only&quot;, value=False)
+        sort_by = st.selectbox(&quot;Sort By&quot;, [&quot;rating&quot;, &quot;price&quot;, &quot;name&quot;])
+        sort_desc = st.checkbox(&quot;Sort Descending&quot;, value=True)
+
+    searched = st.form_submit_button(&quot;Search&quot;, use_container_width=True)
+
+if searched or True:  # show all initially
+    filtered = df[
+        (df[&quot;category&quot;].isin(categories)) &amp;
+        (df[&quot;price&quot;] &gt;= min_price) &amp; (df[&quot;price&quot;] &lt;= max_price) &amp;
+        (df[&quot;rating&quot;] &gt;= min_rating)
+    ]
+    if search_text:
+        filtered = filtered[filtered[&quot;name&quot;].str.contains(search_text, case=False)]
+    if in_stock_only:
+        filtered = filtered[filtered[&quot;in_stock&quot;]]
+    filtered = filtered.sort_values(sort_by, ascending=not sort_desc)
+
+    st.write(f&quot;Found {len(filtered)} products&quot;)
+    st.dataframe(filtered.head(20), use_container_width=True)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Build a data analysis form with file upload, column selection, validation (check numeric columns exist), and display results. Show meaningful error messages for invalid inputs.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_analysis_form.py
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import numpy as np
+
+st.title(&quot;Dataset Analysis Form&quot;)
+
+# Generate sample or upload
+uploaded = st.file_uploader(&quot;Upload CSV (optional)&quot;, type=[&quot;csv&quot;])
+if uploaded:
+    df = pd.read_csv(uploaded)
+else:
+    np.random.seed(42)
+    df = pd.DataFrame({
+        &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=200, freq=&quot;D&quot;),
+        &quot;region&quot;: np.random.choice([&quot;North&quot;,&quot;South&quot;,&quot;East&quot;,&quot;West&quot;], 200),
+        &quot;sales&quot;: np.random.exponential(500, 200).round(2),
+        &quot;units&quot;: np.random.randint(1, 100, 200),
+        &quot;cost&quot;: np.random.exponential(200, 200).round(2),
+    })
+    st.info(&quot;Using demo data&quot;)
+
+st.write(f&quot;Dataset: {df.shape[0]} rows, {df.shape[1]} columns&quot;)
+
+with st.form(&quot;analysis_form&quot;):
+    st.subheader(&quot;Configure Analysis&quot;)
+    numeric_cols = df.select_dtypes(&quot;number&quot;).columns.tolist()
+    cat_cols = df.select_dtypes(&quot;object&quot;).columns.tolist()
+
+    x_col = st.selectbox(&quot;X Column&quot;, df.columns.tolist())
+    y_col = st.selectbox(&quot;Y Column&quot;, numeric_cols)
+    group_col = st.selectbox(&quot;Group By&quot;, [&quot;(none)&quot;] + cat_cols)
+    chart_type = st.radio(&quot;Chart Type&quot;, [&quot;bar&quot;, &quot;scatter&quot;, &quot;line&quot;], horizontal=True)
+    submitted = st.form_submit_button(&quot;Analyze&quot;)
+
+if submitted:
+    errors = []
+    if y_col not in numeric_cols:
+        errors.append(f&quot;{y_col} must be a numeric column&quot;)
+    if x_col == y_col:
+        errors.append(&quot;X and Y columns must be different&quot;)
+
+    if errors:
+        for e in errors: st.error(e)
+    else:
+        group = None if group_col == &quot;(none)&quot; else group_col
+        if chart_type == &quot;bar&quot;:
+            fig = px.bar(df, x=x_col, y=y_col, color=group, title=f&quot;{y_col} by {x_col}&quot;)
+        elif chart_type == &quot;scatter&quot;:
+            fig = px.scatter(df, x=x_col, y=y_col, color=group, title=f&quot;{y_col} vs {x_col}&quot;)
+        else:
+            fig = px.line(df, x=x_col, y=y_col, color=group, title=f&quot;{y_col} over {x_col}&quot;)
+        st.plotly_chart(fig, use_container_width=True)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validated Registration Form</div><div class="pd">Build a st.form() with name, email, age fields. Validate that name is non-empty, email matches a regex, and age is between 18-120. Show errors or a success message on submit.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p19" class="language-python"># validated_form.py
+import streamlit as st
+import re
+
+st.title(&quot;Registration Form&quot;)
+
+with st.form(&quot;register&quot;):
+    name = st.text_input(&quot;Name&quot;)
+    email = st.text_input(&quot;Email&quot;)
+    age = st.number_input(&quot;Age&quot;, 0, 150, 25)
+    submitted = st.form_submit_button(&quot;Submit&quot;)
+
+if submitted:
+    errors = []
+    # 1. Validate name is not empty
+    # 2. Validate email with regex r&#x27;^[\w.]+@[\w]+\.[a-z]{2,}$&#x27;
+    # 3. Validate age is 18-120
+    # 4. Show errors or st.success(&quot;Welcome!&quot;)
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s20">
+  <div class="card-header" onclick="toggle('s20')">
+    <span>21. 21. File Upload & Download</span>
+    <span class="arrow" id="arr-s20">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s20" style="display:none">
+    <p class="desc">st.file_uploader() accepts CSV, Excel, images, and arbitrary files. st.download_button() provides one-click download of DataFrames, plots, or any binary content.</p>
+    <h4>File Upload & CSV Processing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_file_upload.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+from io import BytesIO, StringIO
+
+st.title(&quot;File Upload &amp; Processing&quot;)
+
+# Upload CSV
+st.header(&quot;CSV Upload &amp; Analysis&quot;)
+uploaded_csv = st.file_uploader(&quot;Upload a CSV file&quot;, type=[&quot;csv&quot;, &quot;xlsx&quot;])
+
+if uploaded_csv is not None:
+    # Read file
+    if uploaded_csv.name.endswith(&quot;.xlsx&quot;):
+        df = pd.read_excel(uploaded_csv)
+    else:
+        df = pd.read_csv(uploaded_csv)
+
+    st.success(f&quot;Loaded: {len(df)} rows x {len(df.columns)} columns&quot;)
+
+    col1, col2 = st.columns(2)
+    col1.metric(&quot;Rows&quot;, len(df))
+    col2.metric(&quot;Columns&quot;, len(df.columns))
+
+    st.subheader(&quot;Preview&quot;)
+    st.dataframe(df.head(10), use_container_width=True)
+
+    st.subheader(&quot;Data Types&quot;)
+    st.dataframe(pd.DataFrame({&quot;dtype&quot;: df.dtypes, &quot;non_null&quot;: df.count(),
+                                &quot;null_count&quot;: df.isnull().sum()}))
+
+    st.subheader(&quot;Statistics&quot;)
+    st.dataframe(df.describe(), use_container_width=True)
+
+    # Auto chart for numeric columns
+    numeric_cols = df.select_dtypes(&quot;number&quot;).columns.tolist()
+    if numeric_cols:
+        col = st.selectbox(&quot;Histogram of:&quot;, numeric_cols)
+        fig = px.histogram(df, x=col, title=f&quot;Distribution of {col}&quot;)
+        st.plotly_chart(fig, use_container_width=True)
+else:
+    st.info(&quot;Upload a CSV file to get started&quot;)
+
+    # Show demo
+    with st.expander(&quot;Try with demo data&quot;):
+        np.random.seed(42)
+        demo_df = pd.DataFrame({
+            &quot;name&quot;: [f&quot;Item_{i}&quot; for i in range(20)],
+            &quot;value&quot;: np.random.randn(20) * 100,
+            &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 20),
+        })
+        st.dataframe(demo_df)
+</code></pre></div>
+    <h4>Download Buttons & Export</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_download.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+from io import BytesIO
+
+st.title(&quot;Data Download Examples&quot;)
+
+np.random.seed(42)
+df = pd.DataFrame({
+    &quot;product&quot;: [f&quot;Item_{i}&quot; for i in range(50)],
+    &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 50),
+    &quot;sales&quot;: np.random.exponential(1000, 50).round(2),
+    &quot;units&quot;: np.random.randint(10, 500, 50),
+    &quot;rating&quot;: np.random.uniform(1, 5, 50).round(1),
+})
+st.dataframe(df.head(10), use_container_width=True)
+
+st.subheader(&quot;Download Options&quot;)
+
+col1, col2, col3 = st.columns(3)
+
+# 1. Download as CSV
+csv_data = df.to_csv(index=False).encode(&quot;utf-8&quot;)
+col1.download_button(
+    label=&quot;Download CSV&quot;,
+    data=csv_data,
+    file_name=&quot;sales_data.csv&quot;,
+    mime=&quot;text/csv&quot;,
+    use_container_width=True,
+)
+
+# 2. Download as Excel
+@st.cache_data
+def to_excel(df):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine=&quot;openpyxl&quot;) as writer:
+        df.to_excel(writer, index=False, sheet_name=&quot;Data&quot;)
+        summary = df.groupby(&quot;category&quot;)[&quot;sales&quot;].sum().reset_index()
+        summary.to_excel(writer, index=False, sheet_name=&quot;Summary&quot;)
+    return output.getvalue()
+
+excel_data = to_excel(df)
+col2.download_button(
+    label=&quot;Download Excel&quot;,
+    data=excel_data,
+    file_name=&quot;sales_report.xlsx&quot;,
+    mime=&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,
+    use_container_width=True,
+)
+
+# 3. Download chart as HTML
+fig = px.bar(df.groupby(&quot;category&quot;)[&quot;sales&quot;].sum().reset_index(),
+             x=&quot;category&quot;, y=&quot;sales&quot;, title=&quot;Sales by Category&quot;)
+st.plotly_chart(fig, use_container_width=True)
+
+chart_html = fig.to_html()
+col3.download_button(
+    label=&quot;Download Chart&quot;,
+    data=chart_html.encode(&quot;utf-8&quot;),
+    file_name=&quot;sales_chart.html&quot;,
+    mime=&quot;text/html&quot;,
+    use_container_width=True,
+)
+</code></pre></div>
+    <h4>Image Upload & Processing</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_image_upload.py
+import streamlit as st
+import numpy as np
+from io import BytesIO
+
+st.title(&quot;Image Upload &amp; Processing&quot;)
+
+uploaded_img = st.file_uploader(&quot;Upload an Image&quot;, type=[&quot;jpg&quot;, &quot;jpeg&quot;, &quot;png&quot;])
+
+if uploaded_img is not None:
+    # Display original
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(uploaded_img, caption=&quot;Original&quot;, use_container_width=True)
+
+    try:
+        from PIL import Image, ImageFilter, ImageEnhance
+        img = Image.open(uploaded_img)
+        st.write(f&quot;Size: {img.size}, Mode: {img.mode}&quot;)
+
+        # Processing options
+        effect = st.selectbox(&quot;Effect&quot;, [&quot;None&quot;, &quot;Grayscale&quot;, &quot;Blur&quot;, &quot;Sharpen&quot;, &quot;Rotate&quot;])
+
+        if effect == &quot;Grayscale&quot;:
+            processed = img.convert(&quot;L&quot;)
+        elif effect == &quot;Blur&quot;:
+            radius = st.slider(&quot;Blur Radius&quot;, 1, 10, 3)
+            processed = img.filter(ImageFilter.GaussianBlur(radius))
+        elif effect == &quot;Sharpen&quot;:
+            processed = img.filter(ImageFilter.SHARPEN)
+        elif effect == &quot;Rotate&quot;:
+            angle = st.slider(&quot;Angle&quot;, 0, 360, 90)
+            processed = img.rotate(angle)
+        else:
+            processed = img
+
+        with col2:
+            st.image(processed, caption=f&quot;Processed ({effect})&quot;, use_container_width=True)
+
+        # Download processed image
+        buf = BytesIO()
+        processed.save(buf, format=&quot;PNG&quot;)
+        st.download_button(&quot;Download Processed Image&quot;, buf.getvalue(),
+                          &quot;processed.png&quot;, &quot;image/png&quot;)
+    except ImportError:
+        st.warning(&quot;Install Pillow for image processing: pip install Pillow&quot;)
+else:
+    st.info(&quot;Upload an image to process it&quot;)
+    st.write(&quot;Supported effects: Grayscale, Blur, Sharpen, Rotate&quot;)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Build a data cleaning tool: upload messy CSV, show data quality report (nulls, duplicates, outliers), let user configure cleaning options, and download the clean dataset.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_data_cleaner.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+from io import BytesIO
+
+st.title(&quot;Data Cleaning Tool&quot;)
+
+@st.cache_data
+def generate_messy_data():
+    np.random.seed(42)
+    n = 1000
+    df = pd.DataFrame({
+        &quot;id&quot;: range(n),
+        &quot;name&quot;: [f&quot;Item_{i}&quot; if np.random.random() &gt; 0.03 else None for i in range(n)],
+        &quot;price&quot;: np.where(np.random.random(n) &lt; 0.05, None,
+                          np.where(np.random.random(n) &lt; 0.02, -99.99,
+                                   np.random.exponential(50, n).round(2))),
+        &quot;category&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,None], n, p=[0.35,0.35,0.25,0.05]),
+        &quot;quantity&quot;: np.random.randint(-5, 100, n),  # some negatives
+    })
+    # Add duplicates
+    df = pd.concat([df, df.sample(50, random_state=42)]).reset_index(drop=True)
+    return df
+
+uploaded = st.file_uploader(&quot;Upload CSV&quot;, type=&quot;csv&quot;)
+df = pd.read_csv(uploaded) if uploaded else generate_messy_data()
+
+st.subheader(&quot;Data Quality Report&quot;)
+col1, col2, col3 = st.columns(3)
+col1.metric(&quot;Total Rows&quot;, len(df))
+col2.metric(&quot;Null Values&quot;, df.isnull().sum().sum())
+col3.metric(&quot;Duplicates&quot;, df.duplicated().sum())
+
+st.dataframe(pd.DataFrame({
+    &quot;nulls&quot;: df.isnull().sum(),
+    &quot;null_pct&quot;: (df.isnull().mean()*100).round(1),
+    &quot;dtype&quot;: df.dtypes,
+}), use_container_width=True)
+
+st.subheader(&quot;Cleaning Options&quot;)
+col_a, col_b = st.columns(2)
+drop_nulls = col_a.checkbox(&quot;Drop rows with nulls&quot;, value=True)
+drop_dupes = col_b.checkbox(&quot;Remove duplicates&quot;, value=True)
+
+if st.button(&quot;Clean Data&quot;):
+    clean_df = df.copy()
+    n_before = len(clean_df)
+    if drop_dupes: clean_df = clean_df.drop_duplicates()
+    if drop_nulls: clean_df = clean_df.dropna()
+    # Remove negative quantities
+    if &quot;quantity&quot; in clean_df.columns:
+        clean_df = clean_df[clean_df[&quot;quantity&quot;] &gt;= 0]
+    n_after = len(clean_df)
+    st.success(f&quot;Cleaned: {n_before} -&gt; {n_after} rows ({n_before-n_after} removed)&quot;)
+    st.dataframe(clean_df.head(10), use_container_width=True)
+    csv = clean_df.to_csv(index=False).encode()
+    st.download_button(&quot;Download Clean Data&quot;, csv, &quot;clean_data.csv&quot;, &quot;text/csv&quot;)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upload, Process &amp; Download</div><div class="pd">Build a Streamlit app that accepts a CSV upload, shows summary stats, lets user select a numeric column to filter by a minimum threshold, and provides a download button for filtered results.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20" class="language-python"># upload_filter_download.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Upload, Filter &amp; Download&quot;)
+
+uploaded = st.file_uploader(&quot;Upload CSV&quot;, type=[&quot;csv&quot;])
+if uploaded:
+    df = pd.read_csv(uploaded)
+    # 1. Show df.shape and df.describe()
+    # 2. Select numeric column with st.selectbox
+    # 3. Add st.slider for min threshold
+    # 4. Filter df where col &gt;= threshold
+    # 5. st.dataframe for filtered result
+    # 6. st.download_button for filtered CSV
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s21">
+  <div class="card-header" onclick="toggle('s21')">
+    <span>22. 22. Multi-page Apps</span>
+    <span class="arrow" id="arr-s21">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s21" style="display:none">
+    <p class="desc">Streamlit natively supports multi-page apps using the pages/ folder structure. st.navigation() (new API) or the legacy pages/ directory enables organized, scalable applications.</p>
+    <h4>pages/ Directory Structure</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># Multi-page app structure:
+# my_app/
+#   app.py          (main entry, shown as Home)
+#   pages/
+#     1_Dashboard.py
+#     2_Analytics.py
+#     3_Settings.py
+
+# app.py (main page / Home)
+import streamlit as st
+
+st.set_page_config(
+    page_title=&quot;My Data App&quot;,
+    page_icon=&quot;DATA&quot;,
+    layout=&quot;wide&quot;,
+    initial_sidebar_state=&quot;expanded&quot;
+)
+
+st.title(&quot;Home - Data Analytics Platform&quot;)
+st.write(&quot;Welcome to the multi-page data app!&quot;)
+
+# Shared sidebar content (appears on all pages)
+with st.sidebar:
+    st.image(&quot;https://streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.png&quot;,
+             width=150)
+    st.write(&quot;Navigation: Use the links above&quot;)
+
+st.write(&quot;---&quot;)
+col1, col2, col3 = st.columns(3)
+col1.info(&quot;Dashboard\nView key metrics and charts&quot;)
+col2.info(&quot;Analytics\nDeep-dive analysis tools&quot;)
+col3.info(&quot;Settings\nConfigure your preferences&quot;)
+
+# Shared state across pages
+if &quot;shared_data&quot; not in st.session_state:
+    st.session_state.shared_data = {&quot;user&quot;: &quot;Guest&quot;, &quot;theme&quot;: &quot;light&quot;}
+
+st.write(f&quot;Logged in as: **{st.session_state.shared_data[&#x27;user&#x27;]}**&quot;)
+new_name = st.text_input(&quot;Change username:&quot;)
+if new_name:
+    st.session_state.shared_data[&quot;user&quot;] = new_name
+    st.success(f&quot;Username updated to: {new_name}&quot;)
+</code></pre></div>
+    <h4>Programmatic Navigation with st.navigation()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># Modern multi-page app using st.navigation() (Streamlit &gt;= 1.36)
+# app_modern.py
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+# Define pages programmatically
+def home_page():
+    st.title(&quot;Home&quot;)
+    st.write(&quot;Welcome to the modern multi-page app!&quot;)
+    st.metric(&quot;Total Users&quot;, &quot;1,234&quot;, &quot;+15%&quot;)
+    st.metric(&quot;Daily Active&quot;, &quot;456&quot;, &quot;+8%&quot;)
+
+def dashboard_page():
+    st.title(&quot;Dashboard&quot;)
+    np.random.seed(42)
+    data = pd.DataFrame(np.random.randn(50, 3), columns=[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;])
+    st.line_chart(data)
+    st.dataframe(data.describe())
+
+def settings_page():
+    st.title(&quot;Settings&quot;)
+    if &quot;settings&quot; not in st.session_state:
+        st.session_state.settings = {&quot;theme&quot;: &quot;light&quot;, &quot;language&quot;: &quot;en&quot;}
+
+    theme = st.selectbox(&quot;Theme&quot;, [&quot;light&quot;, &quot;dark&quot;])
+    language = st.selectbox(&quot;Language&quot;, [&quot;en&quot;, &quot;fr&quot;, &quot;de&quot;, &quot;es&quot;])
+
+    if st.button(&quot;Save Settings&quot;):
+        st.session_state.settings = {&quot;theme&quot;: theme, &quot;language&quot;: language}
+        st.success(&quot;Settings saved!&quot;)
+
+# Usage (Streamlit &gt;= 1.36):
+# pg = st.navigation({
+#     &quot;App&quot;: [
+#         st.Page(home_page, title=&quot;Home&quot;, icon=&quot;HOME&quot;),
+#         st.Page(dashboard_page, title=&quot;Dashboard&quot;, icon=&quot;CHART&quot;),
+#         st.Page(settings_page, title=&quot;Settings&quot;, icon=&quot;GEAR&quot;),
+#     ]
+# })
+# pg.run()
+
+# For compatibility, show the structure:
+page = st.selectbox(&quot;Simulate Navigation&quot;, [&quot;Home&quot;, &quot;Dashboard&quot;, &quot;Settings&quot;])
+if page == &quot;Home&quot;: home_page()
+elif page == &quot;Dashboard&quot;: dashboard_page()
+else: settings_page()
+</code></pre></div>
+    <h4>Shared State & Authentication</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># pages/shared_state_auth.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+# Simulated authentication system
+USERS = {
+    &quot;admin&quot;: {&quot;password&quot;: &quot;admin123&quot;, &quot;role&quot;: &quot;admin&quot;},
+    &quot;user&quot;: {&quot;password&quot;: &quot;user123&quot;, &quot;role&quot;: &quot;viewer&quot;},
+}
+
+def login_page():
+    st.title(&quot;Login&quot;)
+    with st.form(&quot;login_form&quot;):
+        username = st.text_input(&quot;Username&quot;)
+        password = st.text_input(&quot;Password&quot;, type=&quot;password&quot;)
+        submitted = st.form_submit_button(&quot;Login&quot;)
+    if submitted:
+        if username in USERS and USERS[username][&quot;password&quot;] == password:
+            st.session_state.logged_in = True
+            st.session_state.username = username
+            st.session_state.role = USERS[username][&quot;role&quot;]
+            st.success(f&quot;Welcome, {username}!&quot;)
+            st.rerun()
+        else:
+            st.error(&quot;Invalid credentials&quot;)
+
+def protected_page():
+    st.title(f&quot;Protected Dashboard&quot;)
+    st.write(f&quot;Role: **{st.session_state.get(&#x27;role&#x27;, &#x27;unknown&#x27;)}**&quot;)
+
+    if st.session_state.get(&quot;role&quot;) == &quot;admin&quot;:
+        st.success(&quot;Admin access: full data visible&quot;)
+        np.random.seed(42)
+        df = pd.DataFrame({
+            &quot;user_id&quot;: range(10),
+            &quot;revenue&quot;: np.random.exponential(1000, 10).round(2),
+            &quot;secret_field&quot;: np.random.randint(0, 100, 10),  # admin-only
+        })
+        st.dataframe(df)
+    else:
+        st.info(&quot;Viewer access: limited data&quot;)
+        df = pd.DataFrame({&quot;product&quot;: [&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], &quot;revenue&quot;: [1000, 2000, 1500]})
+        st.dataframe(df)
+
+    if st.sidebar.button(&quot;Logout&quot;):
+        for key in [&quot;logged_in&quot;, &quot;username&quot;, &quot;role&quot;]:
+            st.session_state.pop(key, None)
+        st.rerun()
+
+# Main logic
+if not st.session_state.get(&quot;logged_in&quot;, False):
+    login_page()
+else:
+    protected_page()
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Build a 3-page analytics platform: Home (overview KPIs), Analysis (interactive charts with filters), and Export (download reports). Share filtered data between pages via session state.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_multipage_rw.py
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import numpy as np
+
+st.set_page_config(page_title=&quot;Analytics Platform&quot;, layout=&quot;wide&quot;)
+
+# Initialize shared state
+if &quot;df&quot; not in st.session_state:
+    np.random.seed(42)
+    n = 500
+    st.session_state.df = pd.DataFrame({
+        &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=n, freq=&quot;D&quot;),
+        &quot;product&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;], n),
+        &quot;region&quot;: np.random.choice([&quot;North&quot;,&quot;South&quot;,&quot;East&quot;,&quot;West&quot;], n),
+        &quot;revenue&quot;: np.random.exponential(500, n).round(2),
+        &quot;units&quot;: np.random.randint(1, 100, n),
+    })
+if &quot;filtered_df&quot; not in st.session_state:
+    st.session_state.filtered_df = st.session_state.df.copy()
+
+# Sidebar navigation
+page = st.sidebar.selectbox(&quot;Page&quot;, [&quot;Home&quot;, &quot;Analysis&quot;, &quot;Export&quot;])
+df = st.session_state.df
+
+if page == &quot;Home&quot;:
+    st.title(&quot;Overview Dashboard&quot;)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric(&quot;Total Revenue&quot;, f&quot;${df[&#x27;revenue&#x27;].sum():,.0f}&quot;)
+    c2.metric(&quot;Total Units&quot;, f&quot;{df[&#x27;units&#x27;].sum():,}&quot;)
+    c3.metric(&quot;Products&quot;, df[&quot;product&quot;].nunique())
+    c4.metric(&quot;Days&quot;, df[&quot;date&quot;].nunique())
+    st.plotly_chart(px.line(df.groupby(&quot;date&quot;)[&quot;revenue&quot;].sum().reset_index(),
+                            x=&quot;date&quot;, y=&quot;revenue&quot;, title=&quot;Daily Revenue&quot;), use_container_width=True)
+
+elif page == &quot;Analysis&quot;:
+    st.title(&quot;Interactive Analysis&quot;)
+    with st.sidebar:
+        products = st.multiselect(&quot;Products&quot;, df[&quot;product&quot;].unique(), default=df[&quot;product&quot;].unique())
+        regions = st.multiselect(&quot;Regions&quot;, df[&quot;region&quot;].unique(), default=df[&quot;region&quot;].unique())
+    filtered = df[df[&quot;product&quot;].isin(products) &amp; df[&quot;region&quot;].isin(regions)]
+    st.session_state.filtered_df = filtered
+    st.write(f&quot;Filtered: {len(filtered)} rows&quot;)
+    chart = st.selectbox(&quot;Chart&quot;, [&quot;Revenue by Product&quot;, &quot;Revenue by Region&quot;, &quot;Scatter&quot;])
+    if chart == &quot;Revenue by Product&quot;:
+        st.plotly_chart(px.bar(filtered.groupby(&quot;product&quot;)[&quot;revenue&quot;].sum().reset_index(), x=&quot;product&quot;, y=&quot;revenue&quot;), use_container_width=True)
+    elif chart == &quot;Revenue by Region&quot;:
+        st.plotly_chart(px.pie(filtered.groupby(&quot;region&quot;)[&quot;revenue&quot;].sum().reset_index(), names=&quot;region&quot;, values=&quot;revenue&quot;), use_container_width=True)
+    else:
+        st.plotly_chart(px.scatter(filtered, x=&quot;units&quot;, y=&quot;revenue&quot;, color=&quot;product&quot;), use_container_width=True)
+
+elif page == &quot;Export&quot;:
+    st.title(&quot;Export Reports&quot;)
+    filtered = st.session_state.filtered_df
+    st.write(f&quot;Exporting {len(filtered)} filtered rows&quot;)
+    st.download_button(&quot;Download CSV&quot;, filtered.to_csv(index=False).encode(), &quot;report.csv&quot;, &quot;text/csv&quot;)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Page Navigation</div><div class="pd">Create a Streamlit app that simulates 3 pages using a selectbox in the sidebar. Each page shows different content and shares data via session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p21" class="language-python"># multipage_sim.py
+import streamlit as st
+import numpy as np
+
+# Initialize shared state
+if &quot;shared_value&quot; not in st.session_state:
+    st.session_state.shared_value = 0
+
+page = st.sidebar.selectbox(&quot;Navigate to&quot;, [&quot;Page 1&quot;, &quot;Page 2&quot;, &quot;Page 3&quot;])
+
+if page == &quot;Page 1&quot;:
+    # 1. Show title &quot;Page 1: Input&quot;
+    # 2. st.number_input -&gt; update st.session_state.shared_value
+    pass
+elif page == &quot;Page 2&quot;:
+    # 3. Show title &quot;Page 2: View&quot;
+    # 4. Show st.session_state.shared_value as st.metric
+    pass
+else:
+    # 5. Show title &quot;Page 3: Analysis&quot;
+    # 6. Show chart using st.session_state.shared_value
+    pass
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s22">
+  <div class="card-header" onclick="toggle('s22')">
+    <span>23. 23. Custom CSS & Theming</span>
+    <span class="arrow" id="arr-s22">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s22" style="display:none">
+    <p class="desc">Streamlit supports custom CSS via st.markdown() with unsafe_allow_html=True, config.toml themes, and custom components for advanced UI needs.</p>
+    <h4>Custom CSS with st.markdown()</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_custom_css.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Custom CSS &amp; Styling&quot;)
+
+# Inject custom CSS
+st.markdown(&#x27;&#x27;&#x27;
+&lt;style&gt;
+    /* Custom card styling */
+    .custom-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border: 1px solid #0f3460;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+    }
+    .card-title {
+        color: #00d4ff;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    .card-value {
+        color: #ffffff;
+        font-size: 2em;
+        font-weight: bold;
+    }
+    .card-delta {
+        color: #4caf50;
+        font-size: 0.9em;
+    }
+    /* Custom button */
+    .stButton &gt; button {
+        background: linear-gradient(90deg, #0077ff, #00d4ff);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 8px 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .stButton &gt; button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 119, 255, 0.4);
+    }
+    /* Custom metric */
+    .highlight-box {
+        background: #0d1117;
+        border-left: 4px solid #00d4ff;
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: 0 8px 8px 0;
+    }
+&lt;/style&gt;
+&#x27;&#x27;&#x27;, unsafe_allow_html=True)
+
+# Custom cards
+col1, col2, col3 = st.columns(3)
+metrics = [
+    (&quot;Revenue&quot;, &quot;$124,500&quot;, &quot;+12.3%&quot;),
+    (&quot;Users&quot;, &quot;8,421&quot;, &quot;+5.7%&quot;),
+    (&quot;Conversion&quot;, &quot;3.8%&quot;, &quot;+0.4%&quot;),
+]
+for col, (title, value, delta) in zip([col1, col2, col3], metrics):
+    col.markdown(f&#x27;&#x27;&#x27;
+    &lt;div class=&quot;custom-card&quot;&gt;
+        &lt;div class=&quot;card-title&quot;&gt;{title}&lt;/div&gt;
+        &lt;div class=&quot;card-value&quot;&gt;{value}&lt;/div&gt;
+        &lt;div class=&quot;card-delta&quot;&gt;↑ {delta}&lt;/div&gt;
+    &lt;/div&gt;
+    &#x27;&#x27;&#x27;, unsafe_allow_html=True)
+
+# Highlighted boxes
+for item in [&quot;Tip: Use st.markdown() with unsafe_allow_html=True for custom HTML&quot;,
+             &quot;Tip: Define CSS in a single st.markdown() at the top of your app&quot;,
+             &quot;Tip: Use class names to target specific Streamlit elements&quot;]:
+    st.markdown(f&#x27;&lt;div class=&quot;highlight-box&quot;&gt;{item}&lt;/div&gt;&#x27;, unsafe_allow_html=True)
+</code></pre></div>
+    <h4>Theming via config.toml</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># .streamlit/config.toml - controls app-wide theme
+config_toml = &#x27;&#x27;&#x27;
+[theme]
+primaryColor = &quot;#00d4ff&quot;
+backgroundColor = &quot;#0d1117&quot;
+secondaryBackgroundColor = &quot;#161b22&quot;
+textColor = &quot;#e6edf3&quot;
+font = &quot;sans serif&quot;
+
+[server]
+port = 8501
+headless = true
+maxUploadSize = 200
+
+[browser]
+gatherUsageStats = false
+
+[runner]
+fastReruns = true
+&#x27;&#x27;&#x27;
+
+# streamlit_theming_demo.py
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Theming Demo&quot;)
+st.caption(&quot;Themes defined in .streamlit/config.toml&quot;)
+
+# Display config structure
+st.code(config_toml, language=&quot;toml&quot;)
+
+# Programmatic theming tips
+st.subheader(&quot;Dynamic Theming Tricks&quot;)
+
+# Custom color palette for charts
+COLORS = {
+    &quot;dark&quot;: {&quot;bg&quot;: &quot;#0d1117&quot;, &quot;text&quot;: &quot;#e6edf3&quot;, &quot;accent&quot;: &quot;#00d4ff&quot;},
+    &quot;light&quot;: {&quot;bg&quot;: &quot;#ffffff&quot;, &quot;text&quot;: &quot;#0d1117&quot;, &quot;accent&quot;: &quot;#0077ff&quot;},
+}
+
+theme = st.radio(&quot;Preview Theme&quot;, [&quot;dark&quot;, &quot;light&quot;], horizontal=True)
+colors = COLORS[theme]
+
+# Apply to Plotly chart
+np.random.seed(42)
+df = pd.DataFrame({&quot;x&quot;: range(20), &quot;y&quot;: np.cumsum(np.random.randn(20))})
+fig = px.line(df, x=&quot;x&quot;, y=&quot;y&quot;, title=&quot;Themed Chart&quot;)
+fig.update_layout(
+    paper_bgcolor=colors[&quot;bg&quot;],
+    plot_bgcolor=colors[&quot;bg&quot;],
+    font_color=colors[&quot;text&quot;],
+)
+fig.update_traces(line_color=colors[&quot;accent&quot;])
+st.plotly_chart(fig, use_container_width=True)
+</code></pre></div>
+    <h4>Styled Components & HTML Templates</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># streamlit_styled_components.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.title(&quot;Styled HTML Components&quot;)
+
+# Progress bar with custom styling
+def styled_progress(label, value, max_val=100, color=&quot;#00d4ff&quot;):
+    pct = int(value / max_val * 100)
+    st.markdown(f&#x27;&#x27;&#x27;
+    &lt;div style=&quot;margin-bottom: 12px;&quot;&gt;
+        &lt;div style=&quot;display: flex; justify-content: space-between; margin-bottom: 4px;&quot;&gt;
+            &lt;span style=&quot;color: #e6edf3;&quot;&gt;{label}&lt;/span&gt;
+            &lt;span style=&quot;color: {color}; font-weight: bold;&quot;&gt;{value}/{max_val} ({pct}%)&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;background: #161b22; border-radius: 8px; height: 12px; overflow: hidden;&quot;&gt;
+            &lt;div style=&quot;width: {pct}%; height: 100%; background: linear-gradient(90deg, {color}, {color}88);
+                        border-radius: 8px; transition: width 0.5s ease;&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &#x27;&#x27;&#x27;, unsafe_allow_html=True)
+
+st.subheader(&quot;Custom Progress Bars&quot;)
+styled_progress(&quot;Model Accuracy&quot;, 92, 100, &quot;#4caf50&quot;)
+styled_progress(&quot;Training Progress&quot;, 67, 100, &quot;#00d4ff&quot;)
+styled_progress(&quot;Data Quality&quot;, 78, 100, &quot;#ff9800&quot;)
+
+# Status badges
+def badge(text, color=&quot;blue&quot;):
+    colors = {&quot;blue&quot;: &quot;#0077ff&quot;, &quot;green&quot;: &quot;#4caf50&quot;, &quot;red&quot;: &quot;#f44336&quot;,
+              &quot;yellow&quot;: &quot;#ff9800&quot;, &quot;purple&quot;: &quot;#9c27b0&quot;}
+    c = colors.get(color, colors[&quot;blue&quot;])
+    return f&#x27;&lt;span style=&quot;background:{c}22;color:{c};border:1px solid {c};border-radius:12px;padding:2px 10px;font-size:0.82em;font-weight:600;&quot;&gt;{text}&lt;/span&gt;&#x27;
+
+st.subheader(&quot;Status Badges&quot;)
+statuses = [(&quot;Production&quot;, &quot;green&quot;), (&quot;Beta&quot;, &quot;blue&quot;), (&quot;Deprecated&quot;, &quot;red&quot;),
+            (&quot;Warning&quot;, &quot;yellow&quot;), (&quot;Experimental&quot;, &quot;purple&quot;)]
+badges_html = &quot; &quot;.join(badge(name, color) for name, color in statuses)
+st.markdown(badges_html, unsafe_allow_html=True)
+
+# Notification cards
+def notify(message, type_=&quot;info&quot;):
+    icons = {&quot;info&quot;: &quot;INFO&quot;, &quot;success&quot;: &quot;DONE&quot;, &quot;warning&quot;: &quot;WARN&quot;, &quot;error&quot;: &quot;ERR&quot;}
+    bg_colors = {&quot;info&quot;: &quot;#0077ff&quot;, &quot;success&quot;: &quot;#4caf50&quot;, &quot;warning&quot;: &quot;#ff9800&quot;, &quot;error&quot;: &quot;#f44336&quot;}
+    st.markdown(f&#x27;&#x27;&#x27;
+    &lt;div style=&quot;display:flex;align-items:center;padding:10px 15px;
+                border-radius:8px;background:{bg_colors[type_]}22;
+                border-left:4px solid {bg_colors[type_]};margin:6px 0;&quot;&gt;
+        &lt;span style=&quot;font-weight:bold;color:{bg_colors[type_]};margin-right:8px;&quot;&gt;{icons[type_]}&lt;/span&gt;
+        &lt;span style=&quot;color:#e6edf3;&quot;&gt;{message}&lt;/span&gt;
+    &lt;/div&gt;&#x27;&#x27;&#x27;, unsafe_allow_html=True)
+
+st.subheader(&quot;Custom Notifications&quot;)
+notify(&quot;Model training completed successfully!&quot;, &quot;success&quot;)
+notify(&quot;Dataset has 5% missing values. Consider imputation.&quot;, &quot;warning&quot;)
+notify(&quot;API rate limit approaching: 850/1000 requests used.&quot;, &quot;info&quot;)
+notify(&quot;Database connection failed. Using cached data.&quot;, &quot;error&quot;)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Style a ML dashboard with custom CSS: gradient sidebar, animated metric cards, colored status badges for model health, and a custom-styled data table with row highlighting.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_styled_dashboard.py
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import numpy as np
+
+st.set_page_config(layout=&quot;wide&quot;, page_title=&quot;ML Dashboard&quot;)
+
+# Custom CSS
+st.markdown(&#x27;&#x27;&#x27;
+&lt;style&gt;
+.metric-card {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid #0f3460;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+.metric-label { color: #8b949e; font-size: 0.85em; }
+.metric-value { color: #e6edf3; font-size: 1.8em; font-weight: bold; }
+.metric-delta { color: #4caf50; font-size: 0.9em; }
+.status-badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+&lt;/style&gt;
+&#x27;&#x27;&#x27;, unsafe_allow_html=True)
+
+st.title(&quot;ML Model Health Dashboard&quot;)
+
+# Model status
+np.random.seed(42)
+models = [
+    {&quot;name&quot;: &quot;Fraud Detector&quot;, &quot;accuracy&quot;: 0.947, &quot;status&quot;: &quot;Production&quot;, &quot;drift&quot;: 0.03},
+    {&quot;name&quot;: &quot;Churn Predictor&quot;, &quot;accuracy&quot;: 0.823, &quot;status&quot;: &quot;Warning&quot;, &quot;drift&quot;: 0.18},
+    {&quot;name&quot;: &quot;Recommender&quot;, &quot;accuracy&quot;: 0.891, &quot;status&quot;: &quot;Production&quot;, &quot;drift&quot;: 0.05},
+    {&quot;name&quot;: &quot;Price Model&quot;, &quot;accuracy&quot;: 0.712, &quot;status&quot;: &quot;Degraded&quot;, &quot;drift&quot;: 0.31},
+]
+
+st.subheader(&quot;Model Status&quot;)
+cols = st.columns(len(models))
+status_colors = {&quot;Production&quot;: &quot;#4caf50&quot;, &quot;Warning&quot;: &quot;#ff9800&quot;, &quot;Degraded&quot;: &quot;#f44336&quot;}
+
+for col, model in zip(cols, models):
+    color = status_colors.get(model[&quot;status&quot;], &quot;#0077ff&quot;)
+    col.markdown(f&#x27;&#x27;&#x27;
+    &lt;div class=&quot;metric-card&quot;&gt;
+        &lt;div class=&quot;metric-label&quot;&gt;{model[&quot;name&quot;]}&lt;/div&gt;
+        &lt;div class=&quot;metric-value&quot;&gt;{model[&quot;accuracy&quot;]:.1%}&lt;/div&gt;
+        &lt;div&gt;&lt;span class=&quot;status-badge&quot; style=&quot;background:{color}22;color:{color};border:1px solid {color};&quot;&gt;
+            {model[&quot;status&quot;]}&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;metric-delta&quot;&gt;Drift: {model[&quot;drift&quot;]:.0%}&lt;/div&gt;
+    &lt;/div&gt;&#x27;&#x27;&#x27;, unsafe_allow_html=True)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Styled Component</div><div class="pd">Build a Streamlit app with a custom CSS-styled progress bar for 3 metrics and colored badges for status labels (Active=green, Inactive=red, Pending=yellow).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p22" class="language-python"># styled_component.py
+import streamlit as st
+
+st.title(&quot;Custom Styled Components&quot;)
+
+# 1. Add CSS via st.markdown() with unsafe_allow_html=True
+# 2. Create a styled_progress(label, value, color) function using HTML
+# 3. Create a badge(text, color) function that returns an HTML span
+# 4. Render 3 progress bars with different colors and 3 status badges
+
+metrics = [(&quot;Accuracy&quot;, 92), (&quot;F1 Score&quot;, 87), (&quot;AUC&quot;, 95)]
+statuses = [(&quot;Active&quot;, &quot;green&quot;), (&quot;Inactive&quot;, &quot;red&quot;), (&quot;Pending&quot;, &quot;yellow&quot;)]
+</code></pre></div></div>
+  </div>
+</div>
+<div class="card" id="s23">
+  <div class="card-header" onclick="toggle('s23')">
+    <span>24. 24. Deployment: Cloud, Docker & CI/CD</span>
+    <span class="arrow" id="arr-s23">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s23" style="display:none">
+    <p class="desc">Deploy Streamlit apps to Streamlit Cloud (free), Docker containers, AWS/GCP, or Heroku. Production deployments need proper secret management, health checks, and logging.</p>
+    <h4>Streamlit Cloud Deployment</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># Complete deployment package for Streamlit Cloud
+# File structure:
+# my_app/
+#   app.py
+#   requirements.txt
+#   .streamlit/
+#     config.toml
+#     secrets.toml  (git-ignored)
+
+# requirements.txt
+requirements = &#x27;&#x27;&#x27;
+streamlit&gt;=1.32.0
+pandas&gt;=2.0.0
+plotly&gt;=5.18.0
+scikit-learn&gt;=1.4.0
+numpy&gt;=1.26.0
+&#x27;&#x27;&#x27;
+
+# .streamlit/config.toml
+config = &#x27;&#x27;&#x27;
+[server]
+maxUploadSize = 200
+headless = true
+port = 8501
+
+[theme]
+primaryColor = &quot;#0077ff&quot;
+backgroundColor = &quot;#0d1117&quot;
+secondaryBackgroundColor = &quot;#161b22&quot;
+textColor = &quot;#e6edf3&quot;
+&#x27;&#x27;&#x27;
+
+# .streamlit/secrets.toml (local dev only, add to .gitignore)
+secrets_example = &#x27;&#x27;&#x27;
+# .streamlit/secrets.toml (DO NOT COMMIT)
+DATABASE_URL = &quot;postgresql://user:pass@host:5432/db&quot;
+API_KEY = &quot;your-api-key-here&quot;
+&#x27;&#x27;&#x27;
+
+# app.py - access secrets
+import streamlit as st
+
+st.title(&quot;Production-Ready Streamlit App&quot;)
+
+# Access secrets (set in Streamlit Cloud dashboard or secrets.toml)
+# api_key = st.secrets[&quot;API_KEY&quot;]
+# db_url = st.secrets[&quot;DATABASE_URL&quot;]
+
+# Show deployment info
+st.info(&quot;Deployment: Streamlit Cloud&quot;)
+st.code(requirements, language=&quot;text&quot;)
+st.write(&quot;Deploy steps:&quot;)
+steps = [
+    &quot;1. Push code to GitHub&quot;,
+    &quot;2. Go to share.streamlit.io&quot;,
+    &quot;3. Connect GitHub repository&quot;,
+    &quot;4. Set app.py as main file&quot;,
+    &quot;5. Add secrets in the cloud dashboard&quot;,
+    &quot;6. Click Deploy!&quot;,
+]
+for step in steps:
+    st.write(step)
+</code></pre></div>
+    <h4>Docker Deployment</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python"># Docker deployment for Streamlit
+
+# Dockerfile
+dockerfile = &#x27;&#x27;&#x27;
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update &amp;&amp; apt-get install -y \
+    build-essential \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application
+COPY . .
+
+# Expose port
+EXPOSE 8501
+
+# Health check
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+
+# Run app
+ENTRYPOINT [&quot;streamlit&quot;, &quot;run&quot;, &quot;app.py&quot;, \
+            &quot;--server.port=8501&quot;, \
+            &quot;--server.address=0.0.0.0&quot;, \
+            &quot;--server.headless=true&quot;]
+&#x27;&#x27;&#x27;
+
+# docker-compose.yml
+docker_compose = &#x27;&#x27;&#x27;
+version: &#x27;3.8&#x27;
+services:
+  streamlit:
+    build: .
+    ports:
+      - &quot;8501:8501&quot;
+    environment:
+      - API_KEY=${API_KEY}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost:8501/_stcore/health&quot;]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+&#x27;&#x27;&#x27;
+
+import streamlit as st
+
+st.title(&quot;Docker Deployment Guide&quot;)
+st.subheader(&quot;Dockerfile&quot;)
+st.code(dockerfile, language=&quot;docker&quot;)
+st.subheader(&quot;docker-compose.yml&quot;)
+st.code(docker_compose, language=&quot;yaml&quot;)
+
+st.write(&quot;Build and run:&quot;)
+st.code(&#x27;&#x27;&#x27;
+# Build image
+docker build -t my-streamlit-app .
+
+# Run container
+docker run -p 8501:8501 my-streamlit-app
+
+# With docker-compose
+docker-compose up -d
+docker-compose logs -f streamlit
+&#x27;&#x27;&#x27;, language=&quot;bash&quot;)
+</code></pre></div>
+    <h4>Production Best Practices</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+import numpy as np
+import logging
+import time
+from functools import wraps
+
+st.title(&quot;Production Best Practices&quot;)
+
+# 1. Logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# 2. Error handling
+def safe_execute(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            st.error(f&quot;Error: {e}&quot;)
+            logger.exception(f&quot;Error in {func.__name__}&quot;)
+            return None
+    return wrapper
+
+@safe_execute
+def load_data_safely(source=&quot;demo&quot;):
+    if source == &quot;demo&quot;:
+        np.random.seed(42)
+        return pd.DataFrame({
+            &quot;product&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 100),
+            &quot;revenue&quot;: np.random.exponential(500, 100).round(2),
+        })
+    raise ValueError(f&quot;Unknown source: {source}&quot;)
+
+# 3. Performance monitoring
+def timed(name):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            t0 = time.time()
+            result = func(*args, **kwargs)
+            elapsed = (time.time() - t0) * 1000
+            logger.info(f&quot;{name}: {elapsed:.0f}ms&quot;)
+            return result
+        return wrapper
+    return decorator
+
+@timed(&quot;data_load&quot;)
+@st.cache_data(ttl=300)
+def get_dashboard_data():
+    return load_data_safely(&quot;demo&quot;)
+
+df = get_dashboard_data()
+if df is not None:
+    st.success(f&quot;Data loaded: {len(df)} rows&quot;)
+    st.dataframe(df.head())
+
+# 4. Health check endpoint pattern
+st.subheader(&quot;Health Check Pattern&quot;)
+st.code(&#x27;&#x27;&#x27;
+# Add to app.py for health monitoring
+@st.cache_data(ttl=60)
+def health_status():
+    return {
+        &quot;status&quot;: &quot;healthy&quot;,
+        &quot;model_loaded&quot;: model is not None,
+        &quot;db_connected&quot;: check_db_connection(),
+        &quot;cache_size&quot;: len(st.session_state),
+    }
+
+# Show in sidebar
+with st.sidebar:
+    if st.button(&quot;Health Check&quot;):
+        st.json(health_status())
+&#x27;&#x27;&#x27;)
+
+# 5. Production checklist
+st.subheader(&quot;Deployment Checklist&quot;)
+checklist = [
+    (&quot;Add .streamlit/secrets.toml to .gitignore&quot;, True),
+    (&quot;Set all secrets via cloud dashboard or env vars&quot;, True),
+    (&quot;Pin dependency versions in requirements.txt&quot;, True),
+    (&quot;Add @st.cache_data to all data-loading functions&quot;, True),
+    (&quot;Test with st run app.py --server.headless=true&quot;, True),
+    (&quot;Set up health check endpoint&quot;, True),
+    (&quot;Configure error monitoring (Sentry, DataDog)&quot;, False),
+    (&quot;Set up CI/CD pipeline for auto-deployment&quot;, False),
+]
+for item, done in checklist:
+    icon = &quot;CHECK&quot; if done else &quot;PENDING&quot;
+    st.write(f&quot;  [{icon}] {item}&quot;)
+</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Deploy a production ML dashboard: set up Docker container, configure secrets, add health check endpoint, implement error boundaries, and create a GitHub Actions CI/CD pipeline for auto-deploy.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python"># streamlit_production_app.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import logging
+import time
+import json
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format=&quot;%(asctime)s %(levelname)s %(message)s&quot;
+)
+logger = logging.getLogger(__name__)
+
+st.set_page_config(
+    page_title=&quot;Production ML Dashboard&quot;,
+    page_icon=&quot;CHART&quot;,
+    layout=&quot;wide&quot;,
+)
+
+# Global error handler
+def handle_error(e, context=&quot;&quot;):
+    logger.error(f&quot;Error in {context}: {e}&quot;)
+    st.error(f&quot;An error occurred: {e}&quot;)
+    if st.button(&quot;Show Error Details&quot;):
+        st.exception(e)
+
+# Health check
+@st.cache_data(ttl=30)
+def get_health():
+    return {
+        &quot;status&quot;: &quot;healthy&quot;,
+        &quot;timestamp&quot;: time.time(),
+        &quot;session_vars&quot;: len(st.session_state),
+    }
+
+# Model loading
+@st.cache_resource
+def load_model():
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.datasets import load_iris
+    logger.info(&quot;Loading ML model&quot;)
+    X, y = load_iris(return_X_y=True)
+    return RandomForestClassifier(n_estimators=50, random_state=42).fit(X, y)
+
+# Data loading with caching
+@st.cache_data(ttl=300)
+def load_dashboard_data():
+    logger.info(&quot;Loading dashboard data&quot;)
+    np.random.seed(42)
+    n = 1000
+    return pd.DataFrame({
+        &quot;date&quot;: pd.date_range(&quot;2024-01-01&quot;, periods=n, freq=&quot;D&quot;)[:n],
+        &quot;product&quot;: np.random.choice([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], n),
+        &quot;revenue&quot;: np.random.exponential(500, n).round(2),
+        &quot;units&quot;: np.random.randint(1, 100, n),
+    })
+
+# Main app
+try:
+    model = load_model()
+    df = load_dashboard_data()
+
+    st.title(&quot;Production ML Dashboard&quot;)
+
+    # KPIs
+    c1, c2, c3 = st.columns(3)
+    c1.metric(&quot;Total Revenue&quot;, f&quot;${df[&#x27;revenue&#x27;].sum():,.0f}&quot;)
+    c2.metric(&quot;Total Units&quot;, f&quot;{df[&#x27;units&#x27;].sum():,}&quot;)
+    c3.metric(&quot;Model Status&quot;, &quot;Healthy&quot;)
+
+    # Chart
+    monthly = df.groupby(df[&quot;date&quot;].dt.month)[&quot;revenue&quot;].sum()
+    st.bar_chart(monthly)
+
+    # Health sidebar
+    with st.sidebar:
+        st.title(&quot;System Health&quot;)
+        health = get_health()
+        st.json(health)
+        logger.info(&quot;Dashboard rendered successfully&quot;)
+
+except Exception as e:
+    handle_error(e, &quot;main app&quot;)
+</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Deployable Streamlit App</div><div class="pd">Write a production-ready Streamlit app with: @st.cache_data for data loading, @st.cache_resource for a model, a try/except error handler, and a sidebar health check button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p23" class="language-python"># production_app.py
+import streamlit as st
+import pandas as pd
+import numpy as np
+import time
+
+st.title(&quot;Production App&quot;)
+
+# 1. @st.cache_data(ttl=300) - load_data() returns a DataFrame
+# 2. @st.cache_resource - load_model() returns a trained sklearn model
+# 3. try/except wrapper around main app logic
+# 4. Sidebar with &quot;Health Check&quot; button that shows:
+#    {&quot;status&quot;: &quot;healthy&quot;, &quot;data_rows&quot;: len(df), &quot;model&quot;: type(model).__name__}
 </code></pre></div></div>
   </div>
 </div>

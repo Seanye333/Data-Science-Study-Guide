@@ -21,7 +21,7 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
 .practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
 .ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
 .pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
-<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 16 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Tokenization &amp; Stopword Removal</a></li>
@@ -38,8 +38,16 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
     <li><a href="#s12" onclick="act(this,event)">13. Document Search &amp; RAG</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. Transformer Models &amp; Pre-trained Pipelines</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. Named Entity Recognition &amp; Information Extraction</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Text Generation, Summarization &amp; Prompt Engineering</a></li></ul></aside>
-<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
+    <li><a href="#s15" onclick="act(this,event)">16. Text Generation, Summarization &amp; Prompt Engineering</a></li>
+    <li><a href="#s16" onclick="act(this,event)">17. Named Entity Recognition (NER)</a></li>
+    <li><a href="#s17" onclick="act(this,event)">18. Sentence Embeddings &amp; Semantic Search</a></li>
+    <li><a href="#s18" onclick="act(this,event)">19. Hugging Face Transformers</a></li>
+    <li><a href="#s19" onclick="act(this,event)">20. Topic Modeling with LDA</a></li>
+    <li><a href="#s20" onclick="act(this,event)">21. Text Summarization</a></li>
+    <li><a href="#s21" onclick="act(this,event)">22. Question Answering</a></li>
+    <li><a href="#s22" onclick="act(this,event)">23. Text Generation &amp; Language Models</a></li>
+    <li><a href="#s23" onclick="act(this,event)">24. NLP Pipeline &amp; Production Deployment</a></li></ul></aside>
+<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
 
 text = &#x27;  Hello, World! This is NLP 101... Check &lt;b&gt;this&lt;/b&gt; out!  &#x27;
 
@@ -1904,6 +1912,1168 @@ articles = [article1, article2, article3]
 # TODO: Concatenate summaries and create meta-summary
 # TODO: Compute compression ratios at each stage
 # TODO: Extract noun chunks from meta-summary with spaCy
+</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text using spaCy or Transformers.</p><div class="code-block"><div class="ch"><span>spaCy NER</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import spacy
+from collections import Counter
+
+# Load spaCy model (run: python -m spacy download en_core_web_sm)
+try:
+    nlp = spacy.load(&quot;en_core_web_sm&quot;)
+except OSError:
+    print(&quot;Run: python -m spacy download en_core_web_sm&quot;)
+    nlp = None
+
+text = (
+    &quot;Apple Inc. CEO Tim Cook announced in San Francisco on January 15, 2024 &quot;
+    &quot;that the company would invest $1 billion in AI research. &quot;
+    &quot;The partnership with OpenAI and Microsoft was confirmed by Google.&quot;
+)
+
+if nlp:
+    doc = nlp(text)
+    print(&quot;Named Entities:&quot;)
+    for ent in doc.ents:
+        print(f&quot;  {ent.text:&lt;30} [{ent.label_}] - {spacy.explain(ent.label_)}&quot;)
+
+    # Count entity types
+    type_counts = Counter(ent.label_ for ent in doc.ents)
+    print(&quot;\nEntity type counts:&quot;, dict(type_counts))
+else:
+    # Simulate output structure
+    entities = [
+        (&quot;Apple Inc.&quot;, &quot;ORG&quot;, &quot;Companies&quot;), (&quot;Tim Cook&quot;, &quot;PERSON&quot;, &quot;People&quot;),
+        (&quot;San Francisco&quot;, &quot;GPE&quot;, &quot;Geo-political&quot;), (&quot;January 15, 2024&quot;, &quot;DATE&quot;, &quot;Dates&quot;),
+        (&quot;$1 billion&quot;, &quot;MONEY&quot;, &quot;Monetary&quot;), (&quot;OpenAI&quot;, &quot;ORG&quot;, &quot;Companies&quot;),
+        (&quot;Microsoft&quot;, &quot;ORG&quot;, &quot;Companies&quot;), (&quot;Google&quot;, &quot;ORG&quot;, &quot;Companies&quot;),
+    ]
+    for text_ent, label, explain in entities:
+        print(f&quot;  {text_ent:&lt;30} [{label}] - {explain}&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>Custom NER with spaCy Ruler</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">import spacy
+from spacy.language import Language
+
+try:
+    nlp = spacy.load(&quot;en_core_web_sm&quot;)
+except OSError:
+    nlp = spacy.blank(&quot;en&quot;)
+
+# Add EntityRuler for custom entities
+ruler = nlp.add_pipe(&quot;entity_ruler&quot;, before=&quot;ner&quot; if &quot;ner&quot; in nlp.pipe_names else &quot;last&quot;)
+
+# Define custom patterns
+patterns = [
+    {&quot;label&quot;: &quot;ML_MODEL&quot;, &quot;pattern&quot;: &quot;BERT&quot;},
+    {&quot;label&quot;: &quot;ML_MODEL&quot;, &quot;pattern&quot;: &quot;GPT-4&quot;},
+    {&quot;label&quot;: &quot;ML_MODEL&quot;, &quot;pattern&quot;: &quot;ResNet&quot;},
+    {&quot;label&quot;: &quot;ML_TASK&quot;, &quot;pattern&quot;: &quot;named entity recognition&quot;},
+    {&quot;label&quot;: &quot;ML_TASK&quot;, &quot;pattern&quot;: &quot;sentiment analysis&quot;},
+    {&quot;label&quot;: &quot;DATASET&quot;, &quot;pattern&quot;: [{&quot;LOWER&quot;: &quot;imagenet&quot;}]},
+    {&quot;label&quot;: &quot;DATASET&quot;, &quot;pattern&quot;: &quot;CIFAR-10&quot;},
+]
+ruler.add_patterns(patterns)
+
+test_texts = [
+    &quot;BERT and GPT-4 are popular ML models for named entity recognition.&quot;,
+    &quot;ResNet was trained on ImageNet and CIFAR-10 datasets.&quot;,
+    &quot;sentiment analysis using BERT achieves state-of-the-art results.&quot;,
+]
+
+for text in test_texts:
+    doc = nlp(text)
+    ents = [(e.text, e.label_) for e in doc.ents]
+    print(f&quot;Text: {text[:50]}...&quot;)
+    print(f&quot;  Entities: {ents}\n&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your company processes thousands of customer support tickets daily. You need to extract product names, error codes, and customer IDs to route tickets automatically.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw16')">Copy</button></div><pre><code id="rw16" class="language-python">import re
+from collections import defaultdict
+
+# Rule-based NER for support tickets (when spaCy not available)
+PATTERNS = {
+    &quot;PRODUCT&quot;: [r&quot;\b(Model-[A-Z]\d+|Product-\w+|SKU-\d+)\b&quot;],
+    &quot;ERROR_CODE&quot;: [r&quot;\bERR-?\d{3,5}\b&quot;, r&quot;\bError\s+\d{3,5}\b&quot;],
+    &quot;TICKET_ID&quot;: [r&quot;\b(TKT|TICKET)-?\d{5,8}\b&quot;],
+    &quot;VERSION&quot;: [r&quot;\bv\d+\.\d+(\.\d+)?\b&quot;],
+}
+
+def extract_entities(text):
+    entities = defaultdict(list)
+    for label, pats in PATTERNS.items():
+        for pat in pats:
+            matches = re.findall(pat, text, re.IGNORECASE)
+            if matches:
+                flat = [m if isinstance(m, str) else m[0] for m in matches]
+                entities[label].extend(flat)
+    return dict(entities)
+
+tickets = [
+    &quot;TKT-123456: Customer reports ERR-4042 on Model-X9 running v2.3.1&quot;,
+    &quot;TICKET-99887: SKU-A2B3C4 throws Error 500 after upgrade to v3.0.0&quot;,
+    &quot;TKT00112233: Product-Premium shows ERR4001 and ERR4002 intermittently&quot;,
+]
+
+for ticket in tickets:
+    ents = extract_entities(ticket)
+    print(f&quot;Ticket: {ticket}&quot;)
+    print(f&quot;  Entities: {ents}\n&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract entities from text</div><div class="pd">Use re.findall with named patterns to extract PERSON, ORG, and DATE-like patterns from a text string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import re
+text = &quot;John Smith joined Acme Corp on 2024-01-15 and Microsoft on 2024-03-20.&quot;
+dates = re.findall(r&quot;\d{4}-\d{2}-\d{2}&quot;, text)
+names = re.findall(r&quot;[A-Z][a-z]+ [A-Z][a-z]+&quot;, text)
+print(&quot;Dates:&quot;, dates)
+print(&quot;Names:&quot;, names)
+</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Sentence Embeddings &amp; Semantic Search</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Sentence embeddings convert text to dense vectors capturing semantic meaning, enabling similarity search beyond keyword matching.</p><div class="code-block"><div class="ch"><span>TF-IDF &amp; Cosine Similarity</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Document corpus
+corpus = [
+    &quot;machine learning algorithms for classification&quot;,
+    &quot;deep learning neural networks for image recognition&quot;,
+    &quot;natural language processing text classification&quot;,
+    &quot;computer vision object detection algorithms&quot;,
+    &quot;transformer models for text generation&quot;,
+    &quot;reinforcement learning reward optimization&quot;,
+]
+
+# Build TF-IDF matrix
+vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+tfidf_matrix = vectorizer.fit_transform(corpus)
+print(f&quot;TF-IDF matrix: {tfidf_matrix.shape}&quot;)
+
+# Semantic search function
+def search(query, top_k=3):
+    query_vec = vectorizer.transform([query])
+    scores = cosine_similarity(query_vec, tfidf_matrix)[0]
+    top_idx = np.argsort(scores)[::-1][:top_k]
+    return [(corpus[i], round(float(scores[i]), 4)) for i in top_idx]
+
+queries = [
+    &quot;text classification with deep learning&quot;,
+    &quot;visual recognition algorithms&quot;,
+]
+for q in queries:
+    print(f&quot;\nQuery: &#x27;{q}&#x27;&quot;)
+    for doc, score in search(q):
+        print(f&quot;  [{score:.4f}] {doc}&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>Word2Vec-Style Embeddings</span><button onclick="cp('c17_1')">Copy</button></div><pre><code id="c17_1" class="language-python">import numpy as np
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Create co-occurrence matrix (simplified Word2Vec concept)
+sentences = [
+    &quot;the cat sat on the mat&quot;,
+    &quot;the dog lay on the rug&quot;,
+    &quot;cats and dogs are pets&quot;,
+    &quot;machine learning models learn patterns&quot;,
+    &quot;deep learning uses neural networks&quot;,
+    &quot;neural networks learn representations&quot;,
+]
+
+# Build co-occurrence proxy via SVD on count matrix
+vectorizer = CountVectorizer(min_df=1)
+X = vectorizer.fit_transform(sentences)
+
+# SVD to get dense embeddings (like word2vec)
+svd = TruncatedSVD(n_components=8, random_state=42)
+embeddings = svd.fit_transform(X)
+
+print(&quot;Sentence embeddings shape:&quot;, embeddings.shape)
+
+# Find similar sentences
+def find_similar(idx, top_k=3):
+    sims = cosine_similarity([embeddings[idx]], embeddings)[0]
+    sims[idx] = -1  # exclude self
+    top = np.argsort(sims)[::-1][:top_k]
+    return [(sentences[i], round(float(sims[i]), 4)) for i in top]
+
+for i in [0, 3]:
+    print(f&quot;\nSimilar to: &#x27;{sentences[i]}&#x27;&quot;)
+    for sent, sim in find_similar(i):
+        print(f&quot;  [{sim:.4f}] {sent}&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your FAQ system returns irrelevant results because it uses keyword matching. You need semantic search that understands &#x27;password reset&#x27; and &#x27;forgot credentials&#x27; are similar.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw17')">Copy</button></div><pre><code id="rw17" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# FAQ knowledge base
+faqs = [
+    (&quot;How do I reset my password?&quot;, &quot;Click Forgot Password on login page, enter email, check inbox.&quot;),
+    (&quot;How to change account email?&quot;, &quot;Go to Settings &gt; Account &gt; Email and enter new address.&quot;),
+    (&quot;Why is my payment failing?&quot;, &quot;Check card details, billing address, or try a different card.&quot;),
+    (&quot;How to cancel my subscription?&quot;, &quot;Go to Settings &gt; Billing &gt; Cancel Subscription.&quot;),
+    (&quot;How do I download my invoice?&quot;, &quot;Settings &gt; Billing &gt; Invoice History &gt; Download PDF.&quot;),
+    (&quot;Account locked after failed logins?&quot;, &quot;Wait 30 minutes or contact support@example.com.&quot;),
+]
+
+questions = [q for q, _ in faqs]
+answers = [a for _, a in faqs]
+
+vec = TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True)
+faq_matrix = vec.fit_transform(questions)
+
+def answer_query(user_query, threshold=0.1):
+    q_vec = vec.transform([user_query])
+    scores = cosine_similarity(q_vec, faq_matrix)[0]
+    best_idx = np.argmax(scores)
+    if scores[best_idx] &lt; threshold:
+        return &quot;I couldn&#x27;t find a relevant answer. Please contact support.&quot;
+    return f&quot;[score={scores[best_idx]:.3f}] {answers[best_idx]}&quot;
+
+test_queries = [
+    &quot;forgot my credentials&quot;,
+    &quot;payment not working&quot;,
+    &quot;stop my plan&quot;,
+    &quot;get billing document&quot;,
+]
+for q in test_queries:
+    print(f&quot;Q: {q}&quot;)
+    print(f&quot;A: {answer_query(q)}\n&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a semantic search function</div><div class="pd">Use TfidfVectorizer and cosine_similarity to find the most similar document to a query.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+docs = [&quot;python programming&quot;, &quot;machine learning python&quot;, &quot;deep learning neural nets&quot;]
+vec = TfidfVectorizer()
+X = vec.fit_transform(docs)
+query = vec.transform([&quot;python learning&quot;])
+scores = cosine_similarity(query, X)[0]
+print(&quot;Best match:&quot;, docs[np.argmax(scores)])
+</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Hugging Face Transformers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hugging Face Transformers provides thousands of pretrained models for text classification, generation, Q&amp;A, and more via a unified API.</p><div class="code-block"><div class="ch"><span>Sentiment Analysis Pipeline</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python"># pip install transformers torch
+# Using Hugging Face pipeline (simulated output shown)
+try:
+    from transformers import pipeline
+
+    # Zero-shot classification (no fine-tuning needed)
+    classifier = pipeline(&quot;zero-shot-classification&quot;,
+                          model=&quot;facebook/bart-large-mnli&quot;)
+
+    texts = [
+        &quot;The product quality is excellent and delivery was fast!&quot;,
+        &quot;Terrible service, waited 3 weeks and got wrong item.&quot;,
+        &quot;The item is okay, nothing special but works as expected.&quot;,
+    ]
+
+    candidate_labels = [&quot;positive&quot;, &quot;negative&quot;, &quot;neutral&quot;]
+
+    for text in texts:
+        result = classifier(text, candidate_labels)
+        top_label = result[&quot;labels&quot;][0]
+        top_score = result[&quot;scores&quot;][0]
+        print(f&quot;Text: {text[:50]}...&quot;)
+        print(f&quot;  -&gt; {top_label} (score={top_score:.4f})&quot;)
+
+except ImportError:
+    # Simulate output structure
+    results = [
+        (&quot;positive&quot;, 0.9823), (&quot;negative&quot;, 0.9541), (&quot;neutral&quot;, 0.7234)
+    ]
+    texts = [&quot;Excellent product!&quot;, &quot;Terrible service.&quot;, &quot;Works okay.&quot;]
+    for (text, (label, score)) in zip(texts, results):
+        print(f&quot;Text: {text}&quot;)
+        print(f&quot;  -&gt; {label} (score={score:.4f})&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>Token Classification &amp; Feature Extraction</span><button onclick="cp('c18_1')">Copy</button></div><pre><code id="c18_1" class="language-python"># Token classification and feature extraction patterns
+try:
+    from transformers import pipeline, AutoTokenizer, AutoModel
+    import torch
+
+    # NER pipeline
+    ner = pipeline(&quot;ner&quot;, model=&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;,
+                   aggregation_strategy=&quot;simple&quot;)
+    text = &quot;Apple CEO Tim Cook announced a deal with Microsoft in New York.&quot;
+    entities = ner(text)
+    for ent in entities:
+        print(f&quot;  {ent[&#x27;word&#x27;]:&lt;20} {ent[&#x27;entity_group&#x27;]:&lt;10} score={ent[&#x27;score&#x27;]:.4f}&quot;)
+
+except ImportError:
+    # Demonstrate the pipeline usage pattern
+    import numpy as np
+    print(&quot;Simulated NER output (install transformers for real results):&quot;)
+    entities = [
+        {&quot;word&quot;: &quot;Apple&quot;, &quot;entity_group&quot;: &quot;ORG&quot;, &quot;score&quot;: 0.9987},
+        {&quot;word&quot;: &quot;Tim Cook&quot;, &quot;entity_group&quot;: &quot;PER&quot;, &quot;score&quot;: 0.9945},
+        {&quot;word&quot;: &quot;Microsoft&quot;, &quot;entity_group&quot;: &quot;ORG&quot;, &quot;score&quot;: 0.9978},
+        {&quot;word&quot;: &quot;New York&quot;, &quot;entity_group&quot;: &quot;LOC&quot;, &quot;score&quot;: 0.9923},
+    ]
+    for ent in entities:
+        print(f&quot;  {ent[&#x27;word&#x27;]:&lt;20} {ent[&#x27;entity_group&#x27;]:&lt;10} score={ent[&#x27;score&#x27;]:.4f}&quot;)
+
+    # Simulate sentence embeddings
+    print(&quot;\nSimulating sentence embeddings (mean pooling over tokens):&quot;)
+    batch_size, seq_len, hidden = 2, 128, 768
+    token_embeddings = np.random.randn(batch_size, seq_len, hidden)
+    sentence_embeddings = token_embeddings.mean(axis=1)
+    print(f&quot;  Input shape: {token_embeddings.shape}&quot;)
+    print(f&quot;  Sentence embedding shape: {sentence_embeddings.shape}&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your customer feedback system processes 10,000 reviews daily. You need to classify sentiment, extract product aspects, and identify key topics without building models from scratch.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw18')">Copy</button></div><pre><code id="rw18" class="language-python"># Using sklearn to simulate transformer-like text classification
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+
+# Simulated reviews dataset
+reviews = [
+    (&quot;Great product, fast shipping, very satisfied!&quot;, &quot;positive&quot;),
+    (&quot;Amazing quality, exceeded expectations.&quot;, &quot;positive&quot;),
+    (&quot;Good value for money, would recommend.&quot;, &quot;positive&quot;),
+    (&quot;Works as described, happy with purchase.&quot;, &quot;positive&quot;),
+    (&quot;Terrible quality, broke after one day.&quot;, &quot;negative&quot;),
+    (&quot;Do not buy this, complete waste of money.&quot;, &quot;negative&quot;),
+    (&quot;Very disappointed, nothing like the description.&quot;, &quot;negative&quot;),
+    (&quot;Poor build quality, returned immediately.&quot;, &quot;negative&quot;),
+    (&quot;Item is okay, nothing special.&quot;, &quot;neutral&quot;),
+    (&quot;Average product, does the job.&quot;, &quot;neutral&quot;),
+    (&quot;Received the item, it works.&quot;, &quot;neutral&quot;),
+    (&quot;Product is fine, shipping was slow.&quot;, &quot;neutral&quot;),
+]
+
+texts, labels = zip(*reviews)
+X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.33, random_state=42)
+
+# Pipeline (simulates HF pipeline interface)
+clf = Pipeline([
+    (&quot;tfidf&quot;, TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True)),
+    (&quot;model&quot;, LogisticRegression(max_iter=1000, random_state=42)),
+])
+clf.fit(X_train, y_train)
+print(classification_report(y_test, clf.predict(X_test)))
+
+# Batch prediction (like HF pipeline)
+new_reviews = [
+    &quot;Absolutely love this product!&quot;,
+    &quot;Received damaged, very unhappy.&quot;,
+    &quot;It is what it is, does the job.&quot;,
+]
+for review in new_reviews:
+    pred = clf.predict([review])[0]
+    prob = max(clf.predict_proba([review])[0])
+    print(f&quot;  [{pred:&gt;8}] ({prob:.3f}) {review}&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classifier pipeline</div><div class="pd">Use sklearn Pipeline with TfidfVectorizer and LogisticRegression to classify text into categories.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+texts = [&quot;I love this&quot;, &quot;I hate this&quot;, &quot;This is great&quot;, &quot;This is terrible&quot;]
+labels = [&quot;pos&quot;, &quot;neg&quot;, &quot;pos&quot;, &quot;neg&quot;]
+clf = Pipeline([(&quot;tfidf&quot;, TfidfVectorizer()), (&quot;nb&quot;, MultinomialNB())])
+clf.fit(texts, labels)
+print(clf.predict([&quot;This is amazing&quot;]))
+</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Topic Modeling with LDA</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Latent Dirichlet Allocation (LDA) discovers hidden topics in a text corpus by modeling documents as mixtures of topics.</p><div class="code-block"><div class="ch"><span>LDA with Gensim</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+
+# Sample corpus
+documents = [
+    &quot;machine learning neural networks deep learning artificial intelligence&quot;,
+    &quot;python programming data science numpy pandas matplotlib&quot;,
+    &quot;stock market trading investment portfolio risk management&quot;,
+    &quot;climate change global warming carbon emissions renewable energy&quot;,
+    &quot;machine learning algorithms random forest gradient boosting&quot;,
+    &quot;python web development flask django rest api&quot;,
+    &quot;investment strategy hedge fund returns portfolio optimization&quot;,
+    &quot;solar wind energy renewable green sustainability climate&quot;,
+    &quot;deep learning computer vision image classification convolutional&quot;,
+    &quot;data analysis pandas visualization matplotlib seaborn statistics&quot;,
+]
+
+# Fit LDA
+vectorizer = CountVectorizer(max_df=0.95, min_df=1, stop_words=&quot;english&quot;)
+X = vectorizer.fit_transform(documents)
+vocab = vectorizer.get_feature_names_out()
+
+lda = LatentDirichletAllocation(n_components=3, random_state=42, max_iter=20)
+lda.fit(X)
+
+# Display top words per topic
+print(&quot;Discovered Topics:&quot;)
+for topic_id, topic in enumerate(lda.components_):
+    top_words = [vocab[i] for i in topic.argsort()[:-8:-1]]
+    print(f&quot;  Topic {topic_id+1}: {&#x27;, &#x27;.join(top_words)}&quot;)
+
+# Document-topic distribution
+doc_topics = lda.transform(X)
+for i, doc in enumerate(documents[:3]):
+    dominant = doc_topics[i].argmax() + 1
+    print(f&quot;\nDoc {i+1}: Topic {dominant} dominant ({doc_topics[i].max():.3f})&quot;)
+    print(f&quot;  &#x27;{doc[:50]}&#x27;&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>Topic Coherence &amp; NMF</span><button onclick="cp('c19_1')">Copy</button></div><pre><code id="c19_1" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import NMF
+
+# Non-negative Matrix Factorization (often better coherence than LDA)
+news_snippets = [
+    &quot;president signed new economic policy tax reform bill congress&quot;,
+    &quot;federal reserve interest rates inflation monetary policy&quot;,
+    &quot;championship game football team playoffs season victory&quot;,
+    &quot;basketball nba draft player trade contract signed&quot;,
+    &quot;covid vaccine efficacy clinical trial approval fda&quot;,
+    &quot;hospital treatment patient therapy drug clinical&quot;,
+    &quot;election campaign voter poll candidate debate&quot;,
+    &quot;tech company IPO stock shares market valuation&quot;,
+    &quot;championship trophy league season playoffs basketball&quot;,
+    &quot;interest rate hike federal bank economic growth&quot;,
+]
+
+vectorizer = TfidfVectorizer(max_df=0.95, min_df=1, stop_words=&quot;english&quot;)
+tfidf = vectorizer.fit_transform(news_snippets)
+vocab = vectorizer.get_feature_names_out()
+
+# NMF topic modeling
+nmf = NMF(n_components=4, random_state=42)
+W = nmf.fit_transform(tfidf)  # document-topic
+H = nmf.components_           # topic-word
+
+print(&quot;NMF Topics (typically more coherent):&quot;)
+topic_names = [&quot;Politics&quot;, &quot;Economy&quot;, &quot;Sports&quot;, &quot;Health&quot;]
+for i, (row, name) in enumerate(zip(H, topic_names)):
+    top_words = [vocab[j] for j in row.argsort()[:-6:-1]]
+    print(f&quot;  Topic {i+1} ({name}): {&#x27;, &#x27;.join(top_words)}&quot;)
+
+# Dominant topic per document
+for i, doc in enumerate(news_snippets[:4]):
+    dominant = W[i].argmax()
+    print(f&quot;\nDoc: &#x27;{doc[:45]}...&#x27;&quot;)
+    print(f&quot;  Dominant topic: {topic_names[dominant]} ({W[i].max():.3f})&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your news aggregation platform has 100,000 articles with no labels. You need to automatically discover and tag content themes to power category browsing.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw19')">Copy</button></div><pre><code id="rw19" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.decomposition import LatentDirichletAllocation, NMF
+
+articles = [
+    &quot;SpaceX launched new rocket to international space station moon mission&quot;,
+    &quot;NASA astronauts complete spacewalk satellite deployment orbital&quot;,
+    &quot;Python programming language machine learning framework scikit-learn&quot;,
+    &quot;JavaScript web development React frontend component library&quot;,
+    &quot;Olympic gold medal swimming athletics world record champion&quot;,
+    &quot;NBA basketball playoffs championship team finals victory&quot;,
+    &quot;AI language model chatbot GPT transformer neural network&quot;,
+    &quot;deep learning computer vision object detection classification&quot;,
+    &quot;marathon runner athletics world record broken championship&quot;,
+    &quot;rocket launch satellite orbit space exploration mission&quot;,
+    &quot;JavaScript TypeScript web app development framework React&quot;,
+    &quot;NBA finals championship basketball playoffs season&quot;,
+]
+
+# Compare LDA vs NMF
+count_vec = CountVectorizer(max_df=0.95, min_df=1, stop_words=&quot;english&quot;)
+tfidf_vec = TfidfVectorizer(max_df=0.95, min_df=1, stop_words=&quot;english&quot;)
+
+X_count = count_vec.fit_transform(articles)
+X_tfidf = tfidf_vec.fit_transform(articles)
+
+n_topics = 3
+models = {
+    &quot;LDA&quot;: (LatentDirichletAllocation(n_components=n_topics, random_state=42), count_vec),
+    &quot;NMF&quot;: (NMF(n_components=n_topics, random_state=42), tfidf_vec),
+}
+
+for model_name, (model, vec) in models.items():
+    X = vec.transform(articles)
+    W = model.fit_transform(X)
+    vocab = vec.get_feature_names_out()
+    H = model.components_
+
+    print(f&quot;\n{model_name} Topics:&quot;)
+    for i, row in enumerate(H):
+        top_words = [vocab[j] for j in row.argsort()[:-5:-1]]
+        print(f&quot;  Topic {i+1}: {&#x27;, &#x27;.join(top_words)}&quot;)
+
+    # Assign articles to topics
+    assignments = W.argmax(axis=1)
+    for topic in range(n_topics):
+        docs = [articles[j][:40] for j in range(len(articles)) if assignments[j] == topic]
+        print(f&quot;  Topic {topic+1} docs: {docs}&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Discover topics in a corpus</div><div class="pd">Apply LDA with CountVectorizer to find 3 topics and print the top 5 words per topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+
+docs = [&quot;cats dogs pets animals&quot;, &quot;python code programming&quot;, &quot;market stocks trading&quot;,
+        &quot;dog cat pet animal friend&quot;, &quot;code software developer&quot;, &quot;stock market price&quot;]
+vec = CountVectorizer(stop_words=&quot;english&quot;)
+X = vec.fit_transform(docs)
+lda = LatentDirichletAllocation(n_components=3, random_state=42)
+lda.fit(X)
+vocab = vec.get_feature_names_out()
+for i, topic in enumerate(lda.components_):
+    print(f&quot;Topic {i+1}:&quot;, [vocab[j] for j in topic.argsort()[:-4:-1]])
+</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Text Summarization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Text summarization condenses long documents into shorter summaries, using extractive (key sentence selection) or abstractive (generation) approaches.</p><div class="code-block"><div class="ch"><span>Extractive Summarization (TF-IDF)</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+def extractive_summarize(text, n_sentences=3):
+    # Split into sentences
+    sentences = re.split(r&quot;(?&lt;=[.!?])\s+&quot;, text.strip())
+    if len(sentences) &lt;= n_sentences:
+        return text
+
+    # Score sentences by TF-IDF importance
+    vectorizer = TfidfVectorizer(stop_words=&quot;english&quot;)
+    try:
+        tfidf = vectorizer.fit_transform(sentences)
+        scores = np.array(tfidf.sum(axis=1)).flatten()
+    except ValueError:
+        return &quot; &quot;.join(sentences[:n_sentences])
+
+    # Select top sentences in original order
+    top_idx = sorted(np.argsort(scores)[-n_sentences:])
+    return &quot; &quot;.join(sentences[i] for i in top_idx)
+
+article = (
+    &quot;Machine learning is a subset of artificial intelligence that gives systems the ability &quot;
+    &quot;to automatically learn and improve from experience. &quot;
+    &quot;It focuses on developing computer programs that can access data and use it to learn for themselves. &quot;
+    &quot;Deep learning is part of machine learning based on artificial neural networks. &quot;
+    &quot;These networks have multiple layers and can learn representations of data with multiple levels of abstraction. &quot;
+    &quot;Natural language processing enables computers to understand human language. &quot;
+    &quot;Applications include chatbots, translation, and sentiment analysis. &quot;
+    &quot;Computer vision allows machines to interpret and understand visual information. &quot;
+    &quot;This includes image classification, object detection, and facial recognition. &quot;
+    &quot;Reinforcement learning trains agents through reward and penalty signals.&quot;
+)
+
+summary = extractive_summarize(article, n_sentences=3)
+original_words = len(article.split())
+summary_words = len(summary.split())
+print(f&quot;Original: {original_words} words&quot;)
+print(f&quot;Summary:  {summary_words} words ({summary_words/original_words*100:.0f}% compression)&quot;)
+print(f&quot;\nSummary:\n{summary}&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>TextRank Algorithm</span><button onclick="cp('c20_1')">Copy</button></div><pre><code id="c20_1" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import re
+
+def textrank_summarize(text, n_sentences=3, damping=0.85, iterations=50):
+    sentences = re.split(r&quot;(?&lt;=[.!?])\s+&quot;, text.strip())
+    if len(sentences) &lt;= n_sentences:
+        return &quot; &quot;.join(sentences)
+
+    # Build similarity matrix
+    vectorizer = TfidfVectorizer(stop_words=&quot;english&quot;)
+    try:
+        tfidf = vectorizer.fit_transform(sentences)
+        sim_matrix = cosine_similarity(tfidf)
+    except ValueError:
+        return &quot; &quot;.join(sentences[:n_sentences])
+
+    np.fill_diagonal(sim_matrix, 0)
+
+    # Row-normalize
+    row_sums = sim_matrix.sum(axis=1, keepdims=True)
+    row_sums[row_sums == 0] = 1
+    sim_matrix = sim_matrix / row_sums
+
+    # Power iteration (PageRank-style)
+    n = len(sentences)
+    scores = np.ones(n) / n
+    for _ in range(iterations):
+        scores = (1 - damping) / n + damping * sim_matrix.T @ scores
+
+    top_idx = sorted(np.argsort(scores)[-n_sentences:])
+    return &quot; &quot;.join(sentences[i] for i in top_idx)
+
+text = (
+    &quot;Python is a high-level programming language known for its simplicity. &quot;
+    &quot;It supports multiple programming paradigms including procedural, object-oriented, and functional. &quot;
+    &quot;Python is widely used in data science, machine learning, and web development. &quot;
+    &quot;The language has a rich ecosystem of libraries like NumPy, Pandas, and TensorFlow. &quot;
+    &quot;Its syntax is designed to be readable and concise, making it beginner-friendly. &quot;
+    &quot;Python runs on all major platforms and has an active open-source community.&quot;
+)
+
+for n in [2, 3]:
+    summary = textrank_summarize(text, n_sentences=n)
+    ratio = len(summary.split()) / len(text.split()) * 100
+    print(f&quot;TextRank ({n} sentences, {ratio:.0f}% of original):&quot;)
+    print(f&quot;  {summary}\n&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Legal documents average 50 pages. Your system needs to auto-generate executive summaries for lawyers to review before the full read, cutting review time by 80%.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw20')">Copy</button></div><pre><code id="rw20" class="language-python">import numpy as np
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def hybrid_summarize(text, ratio=0.3):
+    sentences = re.split(r&quot;(?&lt;=[.!?])\s+&quot;, text.strip())
+    n = max(1, int(len(sentences) * ratio))
+
+    vec = TfidfVectorizer(stop_words=&quot;english&quot;)
+    try:
+        X = vec.fit_transform(sentences)
+    except ValueError:
+        return sentences[0] if sentences else &quot;&quot;
+
+    # TF-IDF sentence scores
+    tfidf_scores = np.array(X.sum(axis=1)).flatten()
+
+    # Position scores (penalize later sentences slightly)
+    pos_scores = np.linspace(1.0, 0.5, len(sentences))
+
+    # Diversity: penalize similar sentences
+    sim = cosine_similarity(X)
+    diversity_scores = np.ones(len(sentences))
+    selected = []
+
+    final_scores = tfidf_scores * pos_scores
+    ranked = np.argsort(final_scores)[::-1]
+
+    for idx in ranked:
+        if len(selected) &gt;= n:
+            break
+        # Check diversity
+        if not selected or all(sim[idx][s] &lt; 0.7 for s in selected):
+            selected.append(idx)
+
+    selected_sorted = sorted(selected)
+    summary = &quot; &quot;.join(sentences[i] for i in selected_sorted)
+    return summary
+
+# Simulate a legal document excerpt
+legal_text = (
+    &quot;This agreement is entered into between Party A and Party B on the date first written above. &quot;
+    &quot;Party A agrees to provide software development services as described in Schedule A. &quot;
+    &quot;Party B agrees to pay the fees outlined in Schedule B within 30 days of invoice. &quot;
+    &quot;All intellectual property developed under this agreement shall belong to Party B. &quot;
+    &quot;Party A warrants that services will be performed in a professional and workmanlike manner. &quot;
+    &quot;This agreement shall be governed by the laws of the State of California. &quot;
+    &quot;Either party may terminate this agreement with 30 days written notice. &quot;
+    &quot;Confidentiality obligations shall survive termination for a period of 2 years. &quot;
+    &quot;Any disputes shall be resolved through binding arbitration in San Francisco. &quot;
+    &quot;This agreement constitutes the entire understanding between the parties.&quot;
+)
+
+summary = hybrid_summarize(legal_text, ratio=0.4)
+print(f&quot;Original: {len(legal_text.split())} words, {len(legal_text.split(&#x27;. &#x27;))} sentences&quot;)
+print(f&quot;Summary:  {len(summary.split())} words&quot;)
+print(f&quot;\n{summary}&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement extractive summarization</div><div class="pd">Write a function that scores sentences by word frequency and returns the top N sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import re
+from collections import Counter
+
+def summarize(text, n=2):
+    sents = re.split(r&quot;[.!?]+&quot;, text)
+    sents = [s.strip() for s in sents if s.strip()]
+    words = Counter(text.lower().split())
+    scores = [sum(words[w.lower()] for w in s.split()) for s in sents]
+    top = sorted(range(len(sents)), key=lambda i: scores[i], reverse=True)[:n]
+    return &quot;. &quot;.join(sents[i] for i in sorted(top))
+
+text = &quot;Python is great. It is used in AI. AI is transforming industry. Python is simple.&quot;
+print(summarize(text, 2))
+</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Question Answering</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">QA systems find answers to questions within a context passage using span extraction, retrieval-augmented generation (RAG), or knowledge bases.</p><div class="code-block"><div class="ch"><span>Extractive QA with TF-IDF</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+class ExtractiveQA:
+    def __init__(self, passage_size=2):
+        self.passage_size = passage_size
+        self.vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words=&quot;english&quot;)
+        self.passages = []
+        self.passage_matrix = None
+
+    def index(self, text):
+        # Split into overlapping passages
+        sentences = re.split(r&quot;(?&lt;=[.!?])\s+&quot;, text.strip())
+        passages = []
+        for i in range(0, len(sentences), self.passage_size):
+            chunk = &quot; &quot;.join(sentences[i:i+self.passage_size])
+            if chunk.strip():
+                passages.append(chunk)
+        self.passages = passages
+        self.passage_matrix = self.vectorizer.fit_transform(passages)
+
+    def answer(self, question, top_k=1):
+        q_vec = self.vectorizer.transform([question])
+        scores = cosine_similarity(q_vec, self.passage_matrix)[0]
+        top_idx = np.argsort(scores)[::-1][:top_k]
+        return [(self.passages[i], round(float(scores[i]), 4)) for i in top_idx]
+
+context = (
+    &quot;Python was created by Guido van Rossum in 1991. &quot;
+    &quot;The language emphasizes code readability and simplicity. &quot;
+    &quot;Python 3.0 was released in 2008 with major changes from Python 2. &quot;
+    &quot;NumPy was created by Travis Oliphant in 2005. &quot;
+    &quot;Pandas was developed by Wes McKinney in 2008 for data manipulation. &quot;
+    &quot;Scikit-learn was released in 2007 and provides machine learning tools. &quot;
+    &quot;TensorFlow was developed by Google Brain team and released in 2015. &quot;
+    &quot;PyTorch was released by Facebook AI Research in 2016.&quot;
+)
+
+qa = ExtractiveQA(passage_size=2)
+qa.index(context)
+
+questions = [
+    &quot;When was Python created?&quot;,
+    &quot;Who created pandas?&quot;,
+    &quot;When was TensorFlow released?&quot;,
+]
+for q in questions:
+    answer, score = qa.answer(q)[0]
+    print(f&quot;Q: {q}&quot;)
+    print(f&quot;A: {answer} [score={score}]\n&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>RAG-Style: Retrieve + Generate</span><button onclick="cp('c21_1')">Copy</button></div><pre><code id="c21_1" class="language-python">import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import re
+
+# Simulated knowledge base (RAG knowledge store)
+KB = {
+    &quot;python_history&quot;: &quot;Python was created by Guido van Rossum, first released in 1991. Python 3 was released in 2008.&quot;,
+    &quot;ml_libraries&quot;: &quot;Scikit-learn (2007), TensorFlow (2015), PyTorch (2016) are major ML libraries.&quot;,
+    &quot;numpy_info&quot;: &quot;NumPy provides N-dimensional array objects. It was created by Travis Oliphant in 2005.&quot;,
+    &quot;pandas_info&quot;: &quot;Pandas was created by Wes McKinney in 2008. It provides DataFrames for data manipulation.&quot;,
+    &quot;deep_learning&quot;: &quot;Deep learning uses neural networks with many layers. CNNs are used for images, RNNs for sequences.&quot;,
+    &quot;transformers&quot;: &quot;Transformers use attention mechanisms. BERT (2018) and GPT (2018) are key transformer models.&quot;,
+}
+
+# Build retrieval index
+vectorizer = TfidfVectorizer(stop_words=&quot;english&quot;)
+docs = list(KB.values())
+keys = list(KB.keys())
+index = vectorizer.fit_transform(docs)
+
+def rag_answer(question, top_k=2):
+    q_vec = vectorizer.transform([question])
+    scores = cosine_similarity(q_vec, index)[0]
+    top_idx = np.argsort(scores)[::-1][:top_k]
+
+    context = &quot; &quot;.join(docs[i] for i in top_idx)
+    retrieved_keys = [keys[i] for i in top_idx]
+
+    # Simple extraction: find sentence most similar to question
+    sents = re.split(r&quot;(?&lt;=[.])\s+&quot;, context)
+    if not sents:
+        return &quot;No answer found.&quot;
+
+    sent_vecs = vectorizer.transform(sents)
+    sent_scores = cosine_similarity(q_vec, sent_vecs)[0]
+    best_sent = sents[sent_scores.argmax()]
+
+    return {&quot;answer&quot;: best_sent, &quot;sources&quot;: retrieved_keys, &quot;context&quot;: context[:100]}
+
+questions = [&quot;Who created NumPy?&quot;, &quot;What is deep learning?&quot;, &quot;When was BERT released?&quot;]
+for q in questions:
+    result = rag_answer(q)
+    print(f&quot;Q: {q}&quot;)
+    print(f&quot;  Answer: {result[&#x27;answer&#x27;]}&quot;)
+    print(f&quot;  Sources: {result[&#x27;sources&#x27;]}\n&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your internal knowledge base has 5,000 policy documents. Employees waste hours searching for specific policy answers. Build a QA system to answer HR questions instantly.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw21')">Copy</button></div><pre><code id="rw21" class="language-python">import numpy as np
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# HR Policy knowledge base
+hr_policies = {
+    &quot;vacation&quot;: &quot;Employees receive 15 vacation days per year. Unused days roll over up to 5 days. Request via HR portal.&quot;,
+    &quot;sick_leave&quot;: &quot;12 sick days per year. Doctor certificate required for absences over 3 consecutive days.&quot;,
+    &quot;remote_work&quot;: &quot;Employees may work remotely up to 3 days per week with manager approval. Core hours: 10am-3pm.&quot;,
+    &quot;expense_claims&quot;: &quot;Submit expenses within 30 days of incurrence. Receipts required for amounts over $25.&quot;,
+    &quot;performance_review&quot;: &quot;Annual reviews in December. Mid-year check-ins in June. Ratings: Exceeds, Meets, Below expectations.&quot;,
+    &quot;parental_leave&quot;: &quot;16 weeks paid parental leave for primary caregivers. 4 weeks for secondary caregivers.&quot;,
+    &quot;training_budget&quot;: &quot;Each employee receives $1,500 annual training budget. Approval from manager required.&quot;,
+    &quot;overtime&quot;: &quot;Overtime must be pre-approved. Compensated at 1.5x rate for hours over 40/week.&quot;,
+}
+
+keys = list(hr_policies.keys())
+docs = list(hr_policies.values())
+
+vec = TfidfVectorizer(ngram_range=(1, 2), stop_words=&quot;english&quot;)
+index = vec.fit_transform(docs)
+
+def hr_qa(question, threshold=0.05):
+    q_vec = vec.transform([question])
+    scores = cosine_similarity(q_vec, index)[0]
+    best = scores.argmax()
+    if scores[best] &lt; threshold:
+        return &quot;Policy not found. Please contact HR directly.&quot;
+    policy_name = keys[best].replace(&quot;_&quot;, &quot; &quot;).title()
+    return f&quot;[{policy_name}] {docs[best]}&quot;
+
+questions = [
+    &quot;How many vacation days do I get?&quot;,
+    &quot;Can I work from home?&quot;,
+    &quot;How do I claim expenses?&quot;,
+    &quot;How much training budget do I have?&quot;,
+    &quot;What is the parental leave policy?&quot;,
+]
+for q in questions:
+    print(f&quot;Q: {q}&quot;)
+    print(f&quot;A: {hr_qa(q)}\n&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a simple QA retriever</div><div class="pd">Index a list of passages with TF-IDF and return the most relevant passage for a question.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+passages = [&quot;Python is easy to learn.&quot;, &quot;NumPy is for arrays.&quot;, &quot;Pandas is for data.&quot;]
+vec = TfidfVectorizer()
+X = vec.fit_transform(passages)
+q = vec.transform([&quot;What is NumPy?&quot;])
+scores = cosine_similarity(q, X)[0]
+print(&quot;Answer:&quot;, passages[np.argmax(scores)])
+</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Text Generation &amp; Language Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Text generation produces fluent text continuations, completions, or creative content using n-gram models, Markov chains, or pretrained LLMs.</p><div class="code-block"><div class="ch"><span>N-gram Language Model</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import random
+from collections import defaultdict, Counter
+import re
+
+class NgramLM:
+    def __init__(self, n=2):
+        self.n = n
+        self.ngrams = defaultdict(Counter)
+
+    def train(self, texts):
+        for text in texts:
+            tokens = text.lower().split()
+            tokens = [&quot;&lt;s&gt;&quot;] * (self.n-1) + tokens + [&quot;&lt;/s&gt;&quot;]
+            for i in range(len(tokens) - self.n + 1):
+                context = tuple(tokens[i:i+self.n-1])
+                next_token = tokens[i+self.n-1]
+                self.ngrams[context][next_token] += 1
+
+    def generate(self, max_len=20, seed=None):
+        if seed:
+            random.seed(seed)
+        context = (&quot;&lt;s&gt;&quot;,) * (self.n-1)
+        tokens = []
+        for _ in range(max_len):
+            if context not in self.ngrams:
+                break
+            candidates = list(self.ngrams[context].items())
+            next_tok = random.choices(
+                [w for w, _ in candidates],
+                weights=[c for _, c in candidates]
+            )[0]
+            if next_tok == &quot;&lt;/s&gt;&quot;:
+                break
+            tokens.append(next_tok)
+            context = context[1:] + (next_tok,)
+        return &quot; &quot;.join(tokens)
+
+corpus = [
+    &quot;the cat sat on the mat and the dog sat on the rug&quot;,
+    &quot;machine learning models learn from data and improve over time&quot;,
+    &quot;deep learning uses neural networks with many layers&quot;,
+    &quot;natural language processing handles text and speech data&quot;,
+    &quot;data science involves statistics machine learning and programming&quot;,
+]
+
+model = NgramLM(n=3)
+model.train(corpus)
+print(&quot;Generated text (trigram LM):&quot;)
+for i in range(4):
+    print(f&quot;  {i+1}: {model.generate(max_len=12, seed=i)}&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>Markov Chain Text Generator</span><button onclick="cp('c22_1')">Copy</button></div><pre><code id="c22_1" class="language-python">import random
+from collections import defaultdict
+import re
+
+class MarkovChain:
+    def __init__(self, order=2):
+        self.order = order
+        self.chain = defaultdict(list)
+        self.starts = []
+
+    def train(self, text):
+        words = re.findall(r&quot;\w+[.,!?]?&quot;, text.lower())
+        if len(words) &lt; self.order + 1:
+            return
+        self.starts.append(tuple(words[:self.order]))
+        for i in range(len(words) - self.order):
+            key = tuple(words[i:i+self.order])
+            self.chain[key].append(words[i+self.order])
+
+    def generate(self, n_words=30, seed=42):
+        random.seed(seed)
+        if not self.starts:
+            return &quot;&quot;
+        state = random.choice(self.starts)
+        result = list(state)
+        for _ in range(n_words - self.order):
+            if state not in self.chain:
+                break
+            next_word = random.choice(self.chain[state])
+            result.append(next_word)
+            state = tuple(result[-self.order:])
+        return &quot; &quot;.join(result).capitalize()
+
+mc = MarkovChain(order=2)
+training_data = [
+    &quot;Data science combines statistics, machine learning, and domain expertise to extract insights from data.&quot;,
+    &quot;Machine learning models learn patterns from training data and generalize to new examples.&quot;,
+    &quot;Deep learning architectures with many layers can learn hierarchical representations.&quot;,
+    &quot;Natural language processing techniques enable machines to understand and generate human language.&quot;,
+]
+for text in training_data:
+    mc.train(text)
+
+print(&quot;Markov Chain Generated Text:&quot;)
+for seed in [1, 2, 3]:
+    print(f&quot;  Seed {seed}: {mc.generate(n_words=20, seed=seed)}&quot;)
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your game studio needs procedurally generated quest descriptions and item names. You need a text generator that produces diverse, thematic text without a large model.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw22')">Copy</button></div><pre><code id="rw22" class="language-python">import random
+from collections import defaultdict
+import re
+
+# Template-based + Markov hybrid generator for game content
+class GameTextGenerator:
+    def __init__(self, order=2):
+        self.order = order
+        self.chain = defaultdict(list)
+        self.starts = []
+        self.templates = {
+            &quot;quest&quot;: [
+                &quot;Retrieve the {item} from {location} and return to {npc}.&quot;,
+                &quot;Defeat the {enemy} that threatens {location}.&quot;,
+                &quot;Escort {npc} safely through {location} to {destination}.&quot;,
+                &quot;Discover the secrets of {location} by finding {item}.&quot;,
+            ],
+            &quot;item&quot;: [
+                &quot;Ancient {adj} {noun} of {attribute}&quot;,
+                &quot;{adj} {noun} Forged in {location}&quot;,
+                &quot;The {npc}&#x27;s Sacred {noun}&quot;,
+            ]
+        }
+        self.vocab = {
+            &quot;item&quot;: [&quot;Sword&quot;, &quot;Amulet&quot;, &quot;Tome&quot;, &quot;Crystal&quot;, &quot;Shield&quot;, &quot;Ring&quot;],
+            &quot;location&quot;: [&quot;Dark Forest&quot;, &quot;Mountain Peak&quot;, &quot;Sunken Temple&quot;, &quot;Iron Citadel&quot;],
+            &quot;npc&quot;: [&quot;Elder Mage&quot;, &quot;Village Chief&quot;, &quot;Wandering Merchant&quot;, &quot;Oracle&quot;],
+            &quot;enemy&quot;: [&quot;Shadow Drake&quot;, &quot;Corrupted Knight&quot;, &quot;Ancient Golem&quot;, &quot;Bandit Lord&quot;],
+            &quot;adj&quot;: [&quot;Cursed&quot;, &quot;Sacred&quot;, &quot;Ancient&quot;, &quot;Enchanted&quot;, &quot;Forgotten&quot;],
+            &quot;noun&quot;: [&quot;Blade&quot;, &quot;Tome&quot;, &quot;Relic&quot;, &quot;Seal&quot;, &quot;Chalice&quot;],
+            &quot;attribute&quot;: [&quot;Fire&quot;, &quot;Ice&quot;, &quot;Lightning&quot;, &quot;Void&quot;, &quot;Light&quot;],
+            &quot;destination&quot;: [&quot;Capital City&quot;, &quot;Hidden Sanctuary&quot;, &quot;Mountain Fortress&quot;],
+        }
+
+    def generate_from_template(self, template_type, seed=None):
+        if seed is not None:
+            random.seed(seed)
+        template = random.choice(self.templates[template_type])
+        result = template
+        for key, options in self.vocab.items():
+            placeholder = &quot;{&quot; + key + &quot;}&quot;
+            if placeholder in result:
+                result = result.replace(placeholder, random.choice(options))
+        return result
+
+random.seed(42)
+gen = GameTextGenerator()
+print(&quot;Generated Quests:&quot;)
+for i in range(4):
+    print(f&quot;  Quest {i+1}: {gen.generate_from_template(&#x27;quest&#x27;, seed=i)}&quot;)
+print(&quot;\nGenerated Items:&quot;)
+for i in range(4):
+    print(f&quot;  Item {i+1}: {gen.generate_from_template(&#x27;item&#x27;, seed=i+10)}&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Markov chain text generator</div><div class="pd">Train a bigram Markov chain on sample text and generate 3 different sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import random
+from collections import defaultdict
+
+chain = defaultdict(list)
+text = &quot;the cat sat on the mat the cat ate the rat the rat ran away&quot;
+words = text.split()
+for i in range(len(words)-1):
+    chain[words[i]].append(words[i+1])
+
+random.seed(42)
+word = &quot;the&quot;
+result = [word]
+for _ in range(10):
+    if word not in chain: break
+    word = random.choice(chain[word])
+    result.append(word)
+print(&quot; &quot;.join(result))
+</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. NLP Pipeline &amp; Production Deployment</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A production NLP pipeline integrates preprocessing, vectorization, modeling, and post-processing into a reliable, scalable system.</p><div class="code-block"><div class="ch"><span>End-to-End NLP Pipeline</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import re
+import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import classification_report
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class TextPreprocessor(BaseEstimator, TransformerMixin):
+    def __init__(self, lowercase=True, remove_punct=True, remove_numbers=False):
+        self.lowercase = lowercase
+        self.remove_punct = remove_punct
+        self.remove_numbers = remove_numbers
+
+    def preprocess(self, text):
+        if self.lowercase:
+            text = text.lower()
+        if self.remove_punct:
+            text = re.sub(r&quot;[^\w\s]&quot;, &quot; &quot;, text)
+        if self.remove_numbers:
+            text = re.sub(r&quot;\d+&quot;, &quot;&quot;, text)
+        text = re.sub(r&quot;\s+&quot;, &quot; &quot;, text).strip()
+        return text
+
+    def fit(self, X, y=None): return self
+    def transform(self, X): return [self.preprocess(t) for t in X]
+
+# Sample dataset
+texts = [
+    &quot;Great product, fast shipping, very satisfied!&quot;,
+    &quot;Terrible quality, broke after one week.&quot;,
+    &quot;Average item, nothing special.&quot;,
+    &quot;Excellent! Exceeded all expectations!&quot;,
+    &quot;Disappointed with the purchase.&quot;,
+    &quot;Does the job, no complaints.&quot;,
+    &quot;Best purchase I have made this year!&quot;,
+    &quot;Waste of money, poor customer service.&quot;,
+]
+labels = [&quot;pos&quot;, &quot;neg&quot;, &quot;neu&quot;, &quot;pos&quot;, &quot;neg&quot;, &quot;neu&quot;, &quot;pos&quot;, &quot;neg&quot;]
+
+X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.25, random_state=42)
+
+pipeline = Pipeline([
+    (&quot;preprocessor&quot;, TextPreprocessor(lowercase=True, remove_punct=True)),
+    (&quot;tfidf&quot;, TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True)),
+    (&quot;classifier&quot;, LogisticRegression(C=1.0, max_iter=1000, random_state=42)),
+])
+
+pipeline.fit(X_train, y_train)
+print(&quot;Test accuracy:&quot;, round(pipeline.score(X_test, y_test), 4))
+print(classification_report(y_test, pipeline.predict(X_test), zero_division=0))
+
+# New predictions
+new_texts = [&quot;Amazing value!&quot;, &quot;Completely broken on arrival.&quot;, &quot;It works.&quot;]
+for text, pred in zip(new_texts, pipeline.predict(new_texts)):
+    print(f&quot;  [{pred}] {text}&quot;)
+</code></pre></div><div class="code-block"><div class="ch"><span>NLP Monitoring &amp; Input Validation</span><button onclick="cp('c23_1')">Copy</button></div><pre><code id="c23_1" class="language-python">import re
+import numpy as np
+from collections import deque
+from datetime import datetime
+
+class NLPProductionSystem:
+    def __init__(self, model, vectorizer):
+        self.model = model
+        self.vectorizer = vectorizer
+        self.request_log = deque(maxlen=1000)
+        self.prediction_counts = {}
+        self.error_rate = 0.0
+
+    def validate_input(self, text):
+        if not isinstance(text, str):
+            raise ValueError(&quot;Input must be a string&quot;)
+        if len(text.strip()) &lt; 3:
+            raise ValueError(&quot;Input too short (minimum 3 chars)&quot;)
+        if len(text) &gt; 10000:
+            raise ValueError(&quot;Input too long (maximum 10000 chars)&quot;)
+        # Check for injection-like patterns
+        if re.search(r&quot;[&lt;&gt;{}|\\]&quot;, text):
+            text = re.sub(r&quot;[&lt;&gt;{}|\\]&quot;, &quot; &quot;, text)
+        return text.strip()
+
+    def predict(self, text):
+        ts = datetime.now().isoformat()
+        try:
+            clean_text = self.validate_input(text)
+            # Simulate prediction
+            features = self.vectorizer.transform([clean_text])
+            pred = self.model.predict(features)[0]
+            prob = self.model.predict_proba(features).max()
+
+            # Log request
+            log_entry = {&quot;ts&quot;: ts, &quot;text_len&quot;: len(clean_text), &quot;pred&quot;: pred, &quot;prob&quot;: round(float(prob), 4)}
+            self.request_log.append(log_entry)
+
+            # Track prediction distribution
+            self.prediction_counts[pred] = self.prediction_counts.get(pred, 0) + 1
+
+            return {&quot;prediction&quot;: pred, &quot;confidence&quot;: round(float(prob), 4), &quot;status&quot;: &quot;ok&quot;}
+
+        except Exception as e:
+            self.error_rate = (self.error_rate * len(self.request_log) + 1) / (len(self.request_log) + 1)
+            return {&quot;error&quot;: str(e), &quot;status&quot;: &quot;error&quot;}
+
+    def health_report(self):
+        total = len(self.request_log)
+        return {
+            &quot;total_requests&quot;: total,
+            &quot;prediction_distribution&quot;: self.prediction_counts,
+            &quot;error_rate&quot;: round(self.error_rate, 4),
+            &quot;avg_text_length&quot;: round(np.mean([r[&quot;text_len&quot;] for r in self.request_log]) if self.request_log else 0, 1)
+        }
+
+# Setup
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+vec = TfidfVectorizer(ngram_range=(1,2))
+texts = [&quot;great product&quot;, &quot;terrible quality&quot;, &quot;okay item&quot;, &quot;excellent service&quot;,
+         &quot;bad experience&quot;, &quot;good value&quot;, &quot;poor quality&quot;, &quot;fantastic result&quot;]
+labels = [&quot;pos&quot;,&quot;neg&quot;,&quot;neu&quot;,&quot;pos&quot;,&quot;neg&quot;,&quot;pos&quot;,&quot;neg&quot;,&quot;pos&quot;]
+vec.fit(texts)
+model = LogisticRegression(max_iter=1000, random_state=42)
+model.fit(vec.transform(texts), labels)
+
+system = NLPProductionSystem(model, vec)
+
+test_inputs = [&quot;Amazing product!&quot;, &quot;&quot;, &quot;a&quot;, &quot;Works great!&quot;, &quot;Very poor quality...&quot;, &quot;It is fine I guess&quot;]
+for text in test_inputs:
+    result = system.predict(text)
+    print(f&quot;  Input: {repr(text):&lt;40} -&gt; {result}&quot;)
+
+print(&quot;\nHealth Report:&quot;, system.health_report())
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World Scenario</div><div class="rd">Your company needs a production NLP API serving 50,000 requests/day for customer intent classification. It must handle malformed inputs, log predictions, and detect when the model is underperforming.</div><div class="code-block"><div class="ch"><span>Real-World Code</span><button onclick="cp('rw23')">Copy</button></div><pre><code id="rw23" class="language-python">import re
+import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+import json
+
+# Intent classification dataset
+intents = [
+    (&quot;I want to buy a new laptop&quot;, &quot;purchase&quot;),
+    (&quot;Can I get a refund for my order?&quot;, &quot;refund&quot;),
+    (&quot;How do I track my package?&quot;, &quot;tracking&quot;),
+    (&quot;I want to cancel my subscription&quot;, &quot;cancel&quot;),
+    (&quot;What is your return policy?&quot;, &quot;policy&quot;),
+    (&quot;Add item to my shopping cart&quot;, &quot;purchase&quot;),
+    (&quot;My order has not arrived yet&quot;, &quot;tracking&quot;),
+    (&quot;I would like my money back&quot;, &quot;refund&quot;),
+    (&quot;Stop my monthly plan&quot;, &quot;cancel&quot;),
+    (&quot;What are your shipping rules?&quot;, &quot;policy&quot;),
+    (&quot;Buy now and save 20%&quot;, &quot;purchase&quot;),
+    (&quot;Request a full refund please&quot;, &quot;refund&quot;),
+    (&quot;Where is my delivery?&quot;, &quot;tracking&quot;),
+    (&quot;I want to end my account&quot;, &quot;cancel&quot;),
+    (&quot;Tell me about your privacy policy&quot;, &quot;policy&quot;),
+]
+
+texts, labels = zip(*intents)
+
+# Production pipeline
+clf = Pipeline([
+    (&quot;tfidf&quot;, TfidfVectorizer(ngram_range=(1,2), sublinear_tf=True, max_features=5000)),
+    (&quot;lr&quot;, LogisticRegression(C=1.0, max_iter=1000, random_state=42)),
+])
+
+# Cross-validate (small dataset, so use all data for demo)
+clf.fit(texts, labels)
+
+# Test on new inputs
+test_inputs = [
+    &quot;I need to return this product&quot;,
+    &quot;Where is my shipment?&quot;,
+    &quot;Cancel my account immediately&quot;,
+    &quot;I want to purchase this item&quot;,
+    &quot;What are the terms of service?&quot;,
+]
+
+print(&quot;Intent Classification Results:&quot;)
+for text in test_inputs:
+    pred = clf.predict([text])[0]
+    probs = clf.predict_proba([text])[0]
+    classes = clf.classes_
+    confidence = max(probs)
+    print(f&quot;  [{pred:&lt;10}] ({confidence:.3f}) {text}&quot;)
+
+# Prediction audit log
+audit = []
+for text in test_inputs:
+    pred = clf.predict([text])[0]
+    conf = float(max(clf.predict_proba([text])[0]))
+    needs_review = conf &lt; 0.7
+    audit.append({&quot;text&quot;: text[:30], &quot;intent&quot;: pred, &quot;confidence&quot;: round(conf, 3), &quot;review&quot;: needs_review})
+
+print(&quot;\nAudit Log:&quot;)
+print(json.dumps(audit, indent=2))
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classification pipeline</div><div class="pd">Create an sklearn Pipeline with TfidfVectorizer + LogisticRegression, train it on intent examples, and classify new inputs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+train = [(&quot;buy now&quot;, &quot;purchase&quot;), (&quot;cancel plan&quot;, &quot;cancel&quot;), (&quot;track order&quot;, &quot;tracking&quot;)]
+texts, labels = zip(*train)
+clf = Pipeline([(&quot;tfidf&quot;, TfidfVectorizer()), (&quot;lr&quot;, LogisticRegression(max_iter=100))])
+clf.fit(texts, labels)
+print(clf.predict([&quot;I want to stop my subscription&quot;]))
 </code></pre></div></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}

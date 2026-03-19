@@ -41,7 +41,7 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
 .pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
 </style></head><body>
 <aside class="sidebar">
-  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 18 topics</p>
+  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 34 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Variables &amp; Data Types</a></li>
@@ -61,11 +61,27 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
     <li><a href="#s14" onclick="act(this,event)">15. Type Hints &amp; Dataclasses</a></li>
     <li><a href="#s15" onclick="act(this,event)">16. Concurrency &amp; Async</a></li>
     <li><a href="#s16" onclick="act(this,event)">17. Design Patterns</a></li>
-    <li><a href="#s17" onclick="act(this,event)">18. Testing with pytest</a></li></ul>
+    <li><a href="#s17" onclick="act(this,event)">18. Testing with pytest</a></li>
+    <li><a href="#s18" onclick="act(this,event)">19. Functional Programming</a></li>
+    <li><a href="#s19" onclick="act(this,event)">20. Itertools in Depth</a></li>
+    <li><a href="#s20" onclick="act(this,event)">21. Closures &amp; Scoping</a></li>
+    <li><a href="#s21" onclick="act(this,event)">22. Decorators in Depth</a></li>
+    <li><a href="#s22" onclick="act(this,event)">23. Abstract Base Classes &amp; Protocols</a></li>
+    <li><a href="#s23" onclick="act(this,event)">24. Descriptors &amp; Properties</a></li>
+    <li><a href="#s24" onclick="act(this,event)">25. Memory Management &amp; Profiling</a></li>
+    <li><a href="#s25" onclick="act(this,event)">26. Logging Best Practices</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Argparse &amp; CLI Tools</a></li>
+    <li><a href="#s27" onclick="act(this,event)">28. JSON &amp; Data Serialization</a></li>
+    <li><a href="#s28" onclick="act(this,event)">29. Pathlib &amp; File System Ops</a></li>
+    <li><a href="#s29" onclick="act(this,event)">30. String Formatting Mastery</a></li>
+    <li><a href="#s30" onclick="act(this,event)">31. Performance Optimization &amp; Caching</a></li>
+    <li><a href="#s31" onclick="act(this,event)">32. Virtual Environments &amp; Package Management</a></li>
+    <li><a href="#s32" onclick="act(this,event)">33. Introspection &amp; Metaprogramming</a></li>
+    <li><a href="#s33" onclick="act(this,event)">34. Advanced Type Hints</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🐍 Python Basics</h1>
-  <p class="ps">18 topics &bull; Click any card to expand</p>
+  <p class="ps">34 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Variables &amp; Data Types</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python is dynamically typed — you don&#x27;t declare types, Python infers them. The core types are int, float, str, bool, and NoneType.</p><div class="code-block"><div class="ch"><span>Basic types and type checking</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># Integers
 age    = 25
 year   = 2024
@@ -2796,6 +2812,2558 @@ def test_no_nulls_fail(): ...  # TODO
 for t in [test_valid_types, test_invalid_type, test_range_pass,
           test_range_fail, test_no_nulls_pass, test_no_nulls_fail]:
     t()
+</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Functional Programming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python supports functional programming with map(), filter(), reduce(), and functools. These let you transform data declaratively without explicit loops.</p><div class="code-block"><div class="ch"><span>map() and filter() for data transformation</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# map() applies a function to every element
+squares = list(map(lambda x: x**2, nums))
+print(&quot;Squares:&quot;, squares)
+
+# filter() keeps elements where function returns True
+evens = list(filter(lambda x: x % 2 == 0, nums))
+print(&quot;Evens:&quot;, evens)
+
+# Chaining: square the even numbers
+result = list(map(lambda x: x**2, filter(lambda x: x % 2 == 0, nums)))
+print(&quot;Squared evens:&quot;, result)
+
+# map with multiple iterables
+a, b = [1, 2, 3], [10, 20, 30]
+sums = list(map(lambda x, y: x + y, a, b))
+print(&quot;Pairwise sums:&quot;, sums)</code></pre></div><div class="code-block"><div class="ch"><span>functools.reduce() and partial()</span><button onclick="cp('c18_1')">Copy</button></div><pre><code id="c18_1" class="language-python">from functools import reduce, partial
+
+nums = [1, 2, 3, 4, 5]
+
+# reduce() accumulates a result across an iterable
+total = reduce(lambda acc, x: acc + x, nums)
+print(&quot;Sum via reduce:&quot;, total)
+
+product = reduce(lambda acc, x: acc * x, nums)
+print(&quot;Product:&quot;, product)
+
+# partial() freezes some arguments of a function
+def power(base, exp):
+    return base ** exp
+
+square = partial(power, exp=2)
+cube   = partial(power, exp=3)
+
+print(&quot;5 squared:&quot;, square(5))
+print(&quot;3 cubed:  &quot;, cube(3))
+
+# partial with data processing
+def scale(value, factor=1.0, offset=0.0):
+    return value * factor + offset
+
+normalize = partial(scale, factor=0.1, offset=-0.5)
+data = [0, 5, 10, 15, 20]
+print(&quot;Normalized:&quot;, list(map(normalize, data)))</code></pre></div><div class="code-block"><div class="ch"><span>Higher-order functions and function pipelines</span><button onclick="cp('c18_2')">Copy</button></div><pre><code id="c18_2" class="language-python">from functools import reduce
+
+# A function that returns a function
+def make_multiplier(n):
+    return lambda x: x * n
+
+double = make_multiplier(2)
+triple = make_multiplier(3)
+
+print(&quot;double(7):&quot;, double(7))
+print(&quot;triple(7):&quot;, triple(7))
+
+# Build a pipeline of transformations
+def pipeline(*funcs):
+    def apply(data):
+        return reduce(lambda v, f: f(v), funcs, data)
+    return apply
+
+process = pipeline(
+    lambda x: [v for v in x if v &gt; 0],    # keep positives
+    lambda x: list(map(lambda v: v**0.5, x)),  # sqrt
+    lambda x: [round(v, 2) for v in x],   # round
+)
+
+data = [-3, 4, 9, -1, 16, 25]
+print(&quot;Input:&quot;, data)
+print(&quot;Output:&quot;, process(data))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Sales Data Cleaner</div><div class="rd">A data pipeline uses functional tools to clean and transform a list of raw sales records without mutating state.</div><pre><code class="language-python">from functools import reduce, partial
+
+records = [
+    {&quot;item&quot;: &quot;apple&quot;,  &quot;qty&quot;: 3,  &quot;price&quot;: 1.20, &quot;valid&quot;: True},
+    {&quot;item&quot;: &quot;banana&quot;, &quot;qty&quot;: -1, &quot;price&quot;: 0.50, &quot;valid&quot;: False},
+    {&quot;item&quot;: &quot;cherry&quot;, &quot;qty&quot;: 10, &quot;price&quot;: 2.00, &quot;valid&quot;: True},
+]
+
+# Filter valid records
+valid = list(filter(lambda r: r[&quot;valid&quot;] and r[&quot;qty&quot;] &gt; 0, records))
+
+# Map to compute total
+with_total = list(map(lambda r: {**r, &quot;total&quot;: r[&quot;qty&quot;] * r[&quot;price&quot;]}, valid))
+
+# Reduce to grand total
+grand = reduce(lambda acc, r: acc + r[&quot;total&quot;], with_total, 0.0)
+
+for r in with_total:
+    print(f&#x27;  {r[&quot;item&quot;]:8s}: ${r[&quot;total&quot;]:.2f}&#x27;)
+print(f&quot;Grand total: ${grand:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Functional Data Processor</div><div class="pd">Write a function process_data(numbers) that uses ONLY map(), filter(), and reduce() (no loops): remove negatives, multiply each by 3, return the sum. Then create a partial called process_small that pre-filters values below 100 before calling process_data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">from functools import reduce, partial
+
+def process_data(numbers):
+    # Step 1: filter out negatives with filter()
+    # Step 2: multiply each by 3 with map()
+    # Step 3: sum with reduce()
+    pass
+
+# Test
+print(process_data([1, -2, 3, -4, 5]))  # expect 27
+
+def keep_small(numbers, limit=100):
+    return [n for n in numbers if abs(n) &lt; limit]
+
+process_small = partial(process_data, ...)  # TODO: use partial with keep_small
+</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Itertools in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The itertools module provides fast, memory-efficient tools for working with iterables. Essential for combinatorics, grouping, and chaining data streams.</p><div class="code-block"><div class="ch"><span>chain, islice, cycle, repeat for sequence control</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import itertools
+
+# chain: join multiple iterables
+combined = list(itertools.chain([1, 2], [3, 4], [5]))
+print(&quot;chain:&quot;, combined)
+
+# islice: slice an iterable (works on generators too)
+first5 = list(itertools.islice(range(100), 5))
+print(&quot;islice first 5:&quot;, first5)
+
+skip3_take4 = list(itertools.islice(range(100), 3, 7))
+print(&quot;islice [3:7]:&quot;, skip3_take4)
+
+# cycle: repeat sequence infinitely — take 7
+colors = list(itertools.islice(itertools.cycle([&#x27;R&#x27;, &#x27;G&#x27;, &#x27;B&#x27;]), 7))
+print(&quot;cycle 7:&quot;, colors)
+
+# repeat: repeat a value n times
+zeros = list(itertools.repeat(0, 5))
+print(&quot;repeat:&quot;, zeros)
+
+# accumulate: running totals
+import itertools
+data = [1, 3, 2, 5, 4]
+running = list(itertools.accumulate(data))
+print(&quot;accumulate (sum):&quot;, running)</code></pre></div><div class="code-block"><div class="ch"><span>combinations, permutations, product</span><button onclick="cp('c19_1')">Copy</button></div><pre><code id="c19_1" class="language-python">import itertools
+
+items = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]
+
+# combinations: order does not matter, no repeats
+combs = list(itertools.combinations(items, 2))
+print(&quot;combinations(2):&quot;, combs)
+
+# permutations: order matters
+perms = list(itertools.permutations(items, 2))
+print(&quot;permutations(2):&quot;, perms)
+
+# product: Cartesian product (like nested loops)
+colors = [&#x27;red&#x27;, &#x27;blue&#x27;]
+sizes  = [&#x27;S&#x27;, &#x27;M&#x27;, &#x27;L&#x27;]
+variants = list(itertools.product(colors, sizes))
+print(&quot;product:&quot;, variants)
+
+# product with repeat: like rolling dice twice
+dice = list(itertools.product(range(1, 4), repeat=2))
+print(&quot;dice pairs:&quot;, dice[:6], &quot;...&quot;)
+
+print(f&quot;Combinations: {len(combs)}, Permutations: {len(perms)}, Product: {len(dice)}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>groupby and takewhile/dropwhile</span><button onclick="cp('c19_2')">Copy</button></div><pre><code id="c19_2" class="language-python">import itertools
+
+# groupby: group consecutive elements by a key
+# NOTE: input must be sorted by the key first!
+data = [
+    {&quot;dept&quot;: &quot;eng&quot;,  &quot;name&quot;: &quot;Alice&quot;},
+    {&quot;dept&quot;: &quot;eng&quot;,  &quot;name&quot;: &quot;Bob&quot;},
+    {&quot;dept&quot;: &quot;sales&quot;,&quot;name&quot;: &quot;Carol&quot;},
+    {&quot;dept&quot;: &quot;sales&quot;,&quot;name&quot;: &quot;Dave&quot;},
+    {&quot;dept&quot;: &quot;hr&quot;,   &quot;name&quot;: &quot;Eve&quot;},
+]
+data.sort(key=lambda x: x[&quot;dept&quot;])
+
+for dept, members in itertools.groupby(data, key=lambda x: x[&quot;dept&quot;]):
+    names = [m[&quot;name&quot;] for m in members]
+    print(f&quot;  {dept}: {names}&quot;)
+
+# takewhile: take elements while condition is True
+nums = [2, 4, 6, 1, 8, 10]
+taken = list(itertools.takewhile(lambda x: x % 2 == 0, nums))
+print(&quot;takewhile even:&quot;, taken)  # stops at 1
+
+# dropwhile: skip elements while condition is True
+dropped = list(itertools.dropwhile(lambda x: x % 2 == 0, nums))
+print(&quot;dropwhile even:&quot;, dropped)  # starts from 1</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Grid Search Parameter Iterator</div><div class="rd">A machine learning hyperparameter search uses itertools.product to enumerate all combinations of parameters without nested loops.</div><pre><code class="language-python">import itertools
+
+param_grid = {
+    &quot;learning_rate&quot;: [0.01, 0.1, 0.001],
+    &quot;max_depth&quot;:     [3, 5, 7],
+    &quot;n_estimators&quot;:  [50, 100],
+}
+
+keys = list(param_grid.keys())
+values = list(param_grid.values())
+
+configs = list(itertools.product(*values))
+print(f&quot;Total configs: {len(configs)}&quot;)
+
+for i, combo in enumerate(itertools.islice(configs, 3)):
+    cfg = dict(zip(keys, combo))
+    print(f&quot;  Config {i+1}: {cfg}&quot;)
+print(&quot;  ...&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Itertools Combinatorics</div><div class="pd">Write a function all_pairs(items) using itertools.combinations that returns all unique pairs. Write team_schedules(teams) using itertools.permutations(teams, 2) for home/away matchups. Write batch(iterable, n) using islice that yields chunks of size n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import itertools
+
+def all_pairs(items):
+    # Return list of all unique 2-element combinations
+    pass
+
+def team_schedules(teams):
+    # Return list of (home, away) tuples for all matchups
+    pass
+
+def batch(iterable, n):
+    # Yield successive n-sized chunks from iterable
+    it = iter(iterable)
+    while True:
+        chunk = list(itertools.islice(it, n))
+        if not chunk:
+            break
+        yield chunk
+
+# Tests
+print(all_pairs([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]))   # 6 pairs
+print(len(team_schedules([&#x27;X&#x27;,&#x27;Y&#x27;,&#x27;Z&#x27;])))  # 6 matchups
+print(list(batch(range(10), 3)))     # [[0,1,2],[3,4,5],[6,7,8],[9]]
+</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Closures &amp; Scoping</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python resolves names using the LEGB rule (Local, Enclosing, Global, Built-in). Closures capture variables from enclosing scopes and are the foundation of decorators and factories.</p><div class="code-block"><div class="ch"><span>LEGB scoping rule</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">x = &quot;global&quot;
+
+def outer():
+    x = &quot;enclosing&quot;
+
+    def inner():
+        x = &quot;local&quot;
+        print(&quot;inner sees:&quot;, x)       # local
+
+    inner()
+    print(&quot;outer sees:&quot;, x)           # enclosing
+
+outer()
+print(&quot;module sees:&quot;, x)              # global
+
+# Built-in scope: Python&#x27;s built-in names (len, print, etc.)
+print(&quot;built-in len:&quot;, len([1,2,3]))  # 3
+
+# global keyword — modify a global from inside a function
+counter = 0
+def increment():
+    global counter
+    counter += 1
+
+increment()
+increment()
+print(&quot;counter:&quot;, counter)  # 2
+
+# nonlocal keyword — modify an enclosing variable
+def make_counter():
+    count = 0
+    def inc():
+        nonlocal count
+        count += 1
+        return count
+    return inc
+
+c = make_counter()
+print(c(), c(), c())  # 1 2 3</code></pre></div><div class="code-block"><div class="ch"><span>Closure factories</span><button onclick="cp('c20_1')">Copy</button></div><pre><code id="c20_1" class="language-python"># A closure captures variables from its defining scope
+
+def make_adder(n):
+    # n is captured in the closure
+    def add(x):
+        return x + n
+    return add
+
+add5  = make_adder(5)
+add10 = make_adder(10)
+print(&quot;add5(3):&quot;, add5(3))   # 8
+print(&quot;add10(3):&quot;, add10(3)) # 13
+
+# Each closure has its own cell
+print(&quot;Different objects:&quot;, add5 is not add10)  # True
+
+# Closure with mutable state
+def make_accumulator():
+    total = 0
+    def accumulate(value):
+        nonlocal total
+        total += value
+        return total
+    return accumulate
+
+acc = make_accumulator()
+for v in [10, 25, 5, 60]:
+    print(f&quot;  +{v} -&gt; running total: {acc(v)}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Late binding and closure gotcha</span><button onclick="cp('c20_2')">Copy</button></div><pre><code id="c20_2" class="language-python"># Common closure gotcha: late binding in loops
+# All closures share the SAME variable i
+
+funcs_bad = [lambda: i for i in range(5)]
+print(&quot;Late binding:&quot;, [f() for f in funcs_bad])  # [4, 4, 4, 4, 4]!
+
+# Fix 1: capture current value as default argument
+funcs_good = [lambda i=i: i for i in range(5)]
+print(&quot;Default arg fix:&quot;, [f() for f in funcs_good])  # [0, 1, 2, 3, 4]
+
+# Fix 2: use a factory function
+def make_func(i):
+    def f():
+        return i
+    return f
+
+funcs_factory = [make_func(i) for i in range(5)]
+print(&quot;Factory fix:&quot;, [f() for f in funcs_factory])  # [0, 1, 2, 3, 4]
+
+# Inspecting closure cells
+import inspect
+def outer(x):
+    def inner():
+        return x * 2
+    return inner
+
+fn = outer(7)
+print(&quot;Closure cell value:&quot;, fn.__closure__[0].cell_contents)  # 7</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Configurable Validator Factory</div><div class="rd">A data validation system uses closures to create reusable validators with baked-in limits, avoiding class overhead.</div><pre><code class="language-python">def make_range_validator(min_val, max_val, field=&quot;value&quot;):
+    def validate(x):
+        if not (min_val &lt;= x &lt;= max_val):
+            raise ValueError(f&quot;{field} {x} out of range [{min_val}, {max_val}]&quot;)
+        return True
+    return validate
+
+def make_str_validator(max_len, allowed_chars=None):
+    def validate(s):
+        if len(s) &gt; max_len:
+            raise ValueError(f&quot;String too long: {len(s)} &gt; {max_len}&quot;)
+        if allowed_chars and not all(c in allowed_chars for c in s):
+            raise ValueError(f&quot;Invalid characters in: {s!r}&quot;)
+        return True
+    return validate
+
+validate_age   = make_range_validator(0, 120, &quot;age&quot;)
+validate_score = make_range_validator(0.0, 1.0, &quot;score&quot;)
+validate_name  = make_str_validator(50, allowed_chars=&quot;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;)
+
+tests = [(validate_age, 25), (validate_score, 0.85), (validate_name, &quot;Alice Smith&quot;)]
+for validator, val in tests:
+    try:
+        print(f&quot;  OK: {val!r}&quot;)
+        validator(val)
+    except ValueError as e:
+        print(f&quot;  FAIL: {e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize with Closure</div><div class="pd">Write a function memoize(func) that returns a new function. The new function caches results in a dict (stored in a closure). It should handle any positional arguments as the cache key. Test it with a slow Fibonacci function and verify the cache speeds it up.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">def memoize(func):
+    cache = {}   # closure variable
+    def wrapper(*args):
+        # TODO: if args in cache, return cached result
+        # TODO: otherwise, call func(*args), store, return
+        pass
+    return wrapper
+
+@memoize
+def fib(n):
+    if n &lt;= 1:
+        return n
+    return fib(n-1) + fib(n-2)
+
+import time
+t0 = time.time()
+print(fib(35))     # should be fast after memoize
+print(f&quot;Time: {time.time()-t0:.4f}s&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Decorators in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decorators wrap functions or classes to add behavior without modifying their source. Master stacked, parameterized, and class-based decorators.</p><div class="code-block"><div class="ch"><span>Stacked decorators and functools.wraps</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import functools, time
+
+def timer(func):
+    @functools.wraps(func)  # preserves __name__, __doc__
+    def wrapper(*args, **kwargs):
+        t0 = time.perf_counter()
+        result = func(*args, **kwargs)
+        print(f&quot;[timer] {func.__name__} took {(time.perf_counter()-t0)*1000:.2f}ms&quot;)
+        return result
+    return wrapper
+
+def logger(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f&quot;[logger] calling {func.__name__} with args={args}, kwargs={kwargs}&quot;)
+        return func(*args, **kwargs)
+    return wrapper
+
+# Decorators apply bottom-up: logger wraps timer-wrapped function
+@logger
+@timer
+def compute(n):
+    return sum(range(n))
+
+result = compute(100_000)
+print(&quot;Result:&quot;, result)
+print(&quot;Name preserved:&quot;, compute.__name__)  # compute, not wrapper</code></pre></div><div class="code-block"><div class="ch"><span>Parameterized decorators (decorator factories)</span><button onclick="cp('c21_1')">Copy</button></div><pre><code id="c21_1" class="language-python">import functools
+
+def retry(times=3, exceptions=(Exception,)):
+    # Outer function receives decorator arguments
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, times + 1):
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    print(f&quot;  Attempt {attempt} failed: {e}&quot;)
+                    if attempt == times:
+                        raise
+        return wrapper
+    return decorator
+
+attempt_count = 0
+
+@retry(times=3, exceptions=(ValueError,))
+def unstable_fetch(url):
+    global attempt_count
+    attempt_count += 1
+    if attempt_count &lt; 3:
+        raise ValueError(f&quot;Connection failed (attempt {attempt_count})&quot;)
+    return f&quot;Data from {url}&quot;
+
+result = unstable_fetch(&quot;https://api.example.com&quot;)
+print(&quot;Got:&quot;, result)</code></pre></div><div class="code-block"><div class="ch"><span>Class-based decorators</span><button onclick="cp('c21_2')">Copy</button></div><pre><code id="c21_2" class="language-python">import functools
+
+class CallCounter:
+    # A class-based decorator that counts calls
+    def __init__(self, func):
+        functools.update_wrapper(self, func)
+        self.func  = func
+        self.count = 0
+
+    def __call__(self, *args, **kwargs):
+        self.count += 1
+        print(f&quot;[CallCounter] {self.func.__name__} called {self.count}x&quot;)
+        return self.func(*args, **kwargs)
+
+@CallCounter
+def add(a, b):
+    return a + b
+
+add(1, 2)
+add(3, 4)
+add(5, 6)
+print(&quot;Total calls:&quot;, add.count)  # 3
+
+# Decorator that works on both functions and methods
+class validate_positive:
+    def __init__(self, func):
+        functools.update_wrapper(self, func)
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        for arg in args:
+            if isinstance(arg, (int, float)) and arg &lt; 0:
+                raise ValueError(f&quot;Expected positive, got {arg}&quot;)
+        return self.func(*args, **kwargs)
+
+@validate_positive
+def sqrt(x):
+    return x ** 0.5
+
+print(sqrt(9))   # 3.0
+try:    sqrt(-1)
+except ValueError as e: print(&quot;Caught:&quot;, e)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Rate Limiter Decorator</div><div class="rd">A web scraper applies a rate-limiting decorator to avoid overloading target servers, with configurable calls-per-second.</div><pre><code class="language-python">import functools, time
+
+def rate_limit(calls_per_second=1):
+    min_interval = 1.0 / calls_per_second
+    last_called = [0.0]  # mutable container to allow mutation in closure
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            elapsed = time.time() - last_called[0]
+            wait = min_interval - elapsed
+            if wait &gt; 0:
+                print(f&quot;  Rate limit: waiting {wait:.2f}s&quot;)
+                time.sleep(wait)
+            last_called[0] = time.time()
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@rate_limit(calls_per_second=2)
+def fetch(url):
+    return f&quot;Response from {url}&quot;
+
+urls = [&quot;http://a.com&quot;, &quot;http://b.com&quot;, &quot;http://c.com&quot;]
+for url in urls:
+    print(fetch(url))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Decorator with TTL</div><div class="pd">Write a parameterized decorator @cache(ttl=60) that caches function results for ttl seconds. After the TTL expires, re-call the function and refresh the cache. Use a dict with (args, timestamp) as cache entries. Test with a function that returns time.time() so you can observe expiry.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import functools, time
+
+def cache(ttl=60):
+    def decorator(func):
+        store = {}  # {args: (result, timestamp)}
+        @functools.wraps(func)
+        def wrapper(*args):
+            now = time.time()
+            if args in store:
+                result, ts = store[args]
+                if now - ts &lt; ttl:
+                    print(f&quot;  [cache hit] age={now-ts:.1f}s&quot;)
+                    return result
+            # TODO: call func, store result with timestamp, return result
+            pass
+        return wrapper
+    return decorator
+
+@cache(ttl=2)
+def get_value(key):
+    return f&quot;{key}:{time.time():.2f}&quot;
+
+print(get_value(&quot;x&quot;))
+print(get_value(&quot;x&quot;))  # should be cache hit
+time.sleep(2.1)
+print(get_value(&quot;x&quot;))  # should re-fetch after TTL
+</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Abstract Base Classes &amp; Protocols</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ABCs enforce interface contracts at class creation time. Protocols (PEP 544) enable structural subtyping — duck typing with type-checker support.</p><div class="code-block"><div class="ch"><span>abc.ABC and @abstractmethod</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -&gt; float:
+        pass
+
+    @abstractmethod
+    def perimeter(self) -&gt; float:
+        pass
+
+    def describe(self):
+        # Concrete method shared by all subclasses
+        return f&quot;{type(self).__name__}: area={self.area():.2f}, perimeter={self.perimeter():.2f}&quot;
+
+class Circle(Shape):
+    def __init__(self, r): self.r = r
+    def area(self): return 3.14159 * self.r ** 2
+    def perimeter(self): return 2 * 3.14159 * self.r
+
+class Rectangle(Shape):
+    def __init__(self, w, h): self.w, self.h = w, h
+    def area(self): return self.w * self.h
+    def perimeter(self): return 2 * (self.w + self.h)
+
+for shape in [Circle(5), Rectangle(4, 6)]:
+    print(shape.describe())
+
+# Cannot instantiate ABC directly
+try:
+    s = Shape()
+except TypeError as e:
+    print(&quot;Cannot instantiate:&quot;, e)</code></pre></div><div class="code-block"><div class="ch"><span>typing.Protocol for structural subtyping</span><button onclick="cp('c22_1')">Copy</button></div><pre><code id="c22_1" class="language-python">from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class Drawable(Protocol):
+    def draw(self) -&gt; str: ...
+    def get_color(self) -&gt; str: ...
+
+# Any class with draw() and get_color() satisfies Drawable
+# No explicit inheritance required!
+class Circle:
+    def draw(self): return &quot;O&quot;
+    def get_color(self): return &quot;red&quot;
+
+class Square:
+    def draw(self): return &quot;[]&quot;
+    def get_color(self): return &quot;blue&quot;
+
+class TextLabel:
+    def draw(self): return &quot;TEXT&quot;
+    def get_color(self): return &quot;black&quot;
+
+def render(item: Drawable) -&gt; str:
+    return f&quot;Drawing {item.draw()} in {item.get_color()}&quot;
+
+shapes = [Circle(), Square(), TextLabel()]
+for s in shapes:
+    print(render(s))
+    print(f&quot;  isinstance check: {isinstance(s, Drawable)}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>__subclasshook__ and virtual subclasses</span><button onclick="cp('c22_2')">Copy</button></div><pre><code id="c22_2" class="language-python">from abc import ABC, abstractmethod
+
+class Sized(ABC):
+    @abstractmethod
+    def __len__(self): ...
+
+    @classmethod
+    def __subclasshook__(cls, C):
+        # Automatically treat ANY class with __len__ as Sized
+        if cls is Sized:
+            if any(&quot;__len__&quot; in B.__dict__ for B in C.__mro__):
+                return True
+        return NotImplemented
+
+# list, dict, str all have __len__ — they are virtual subclasses
+print(isinstance([], Sized))    # True
+print(isinstance({}, Sized))    # True
+print(isinstance(&quot;hi&quot;, Sized))  # True
+print(isinstance(42, Sized))    # False
+
+# Register a virtual subclass without inheritance
+class SparseVector:
+    def __init__(self, data): self.data = data
+    def __len__(self): return len(self.data)
+
+print(isinstance(SparseVector({0: 1.0}), Sized))  # True
+print(issubclass(SparseVector, Sized))             # True</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Plugin Architecture with ABC</div><div class="rd">A data pipeline enforces that all data sources implement a common interface using ABC, then iterates over any registered source.</div><pre><code class="language-python">from abc import ABC, abstractmethod
+from typing import Iterator, Any
+
+class DataSource(ABC):
+    @abstractmethod
+    def connect(self) -&gt; bool: ...
+    @abstractmethod
+    def read(self) -&gt; Iterator[Any]: ...
+    @abstractmethod
+    def close(self) -&gt; None: ...
+
+    def stream(self):
+        if self.connect():
+            yield from self.read()
+            self.close()
+
+class CSVSource(DataSource):
+    def __init__(self, rows):
+        self.rows = rows
+    def connect(self):
+        print(&quot;CSV: opening&quot;); return True
+    def read(self):
+        return iter(self.rows)
+    def close(self):
+        print(&quot;CSV: closed&quot;)
+
+class APISource(DataSource):
+    def __init__(self, data):
+        self.data = data
+    def connect(self):
+        print(&quot;API: authenticated&quot;); return True
+    def read(self):
+        return iter(self.data)
+    def close(self):
+        print(&quot;API: session ended&quot;)
+
+for src in [CSVSource([1,2,3]), APISource([&quot;a&quot;,&quot;b&quot;])]:
+    for record in src.stream():
+        print(&quot; &quot;, record)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Serializable Protocol</div><div class="pd">Define a Protocol called Serializable with methods to_dict() -&gt; dict and classmethod from_dict(cls, d: dict). Implement it on a Product(name, price, qty) class. Write a function save_all(items) that checks isinstance(item, Serializable) before converting each item to dict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">from typing import Protocol, runtime_checkable
+from dataclasses import dataclass
+
+@runtime_checkable
+class Serializable(Protocol):
+    def to_dict(self) -&gt; dict: ...
+    # Note: classmethods in Protocols are tricky — just include to_dict for now
+
+@dataclass
+class Product:
+    name: str
+    price: float
+    qty: int
+
+    def to_dict(self):
+        # TODO: return {&quot;name&quot;: ..., &quot;price&quot;: ..., &quot;qty&quot;: ...}
+        pass
+
+    @classmethod
+    def from_dict(cls, d: dict):
+        # TODO: return cls(d[&quot;name&quot;], d[&quot;price&quot;], d[&quot;qty&quot;])
+        pass
+
+def save_all(items):
+    results = []
+    for item in items:
+        if isinstance(item, Serializable):
+            results.append(item.to_dict())
+        else:
+            print(f&quot;Skipped: {item!r} is not Serializable&quot;)
+    return results
+
+products = [Product(&quot;apple&quot;, 1.2, 50), Product(&quot;banana&quot;, 0.5, 200)]
+print(save_all(products))
+</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Descriptors &amp; Properties</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptors control attribute access via __get__, __set__, __delete__. The property() built-in is the most common descriptor. __slots__ reduces memory overhead.</p><div class="code-block"><div class="ch"><span>property getter, setter, deleter</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">class Temperature:
+    def __init__(self, celsius=0):
+        self._celsius = celsius  # private storage
+
+    @property
+    def celsius(self):
+        return self._celsius
+
+    @celsius.setter
+    def celsius(self, value):
+        if value &lt; -273.15:
+            raise ValueError(f&quot;Temperature {value} below absolute zero!&quot;)
+        self._celsius = value
+
+    @celsius.deleter
+    def celsius(self):
+        print(&quot;Resetting temperature to 0&quot;)
+        self._celsius = 0
+
+    @property
+    def fahrenheit(self):
+        # Read-only computed property
+        return self._celsius * 9/5 + 32
+
+t = Temperature(25)
+print(f&quot;{t.celsius}C = {t.fahrenheit}F&quot;)
+
+t.celsius = 100
+print(f&quot;Boiling: {t.celsius}C = {t.fahrenheit}F&quot;)
+
+del t.celsius
+print(f&quot;Reset: {t.celsius}C&quot;)
+
+try:
+    t.celsius = -300
+except ValueError as e:
+    print(&quot;Caught:&quot;, e)</code></pre></div><div class="code-block"><div class="ch"><span>Descriptor protocol (__get__, __set__, __delete__)</span><button onclick="cp('c23_1')">Copy</button></div><pre><code id="c23_1" class="language-python">class Validated:
+    # A reusable descriptor for validated attributes
+    def __init__(self, min_val=None, max_val=None):
+        self.min_val = min_val
+        self.max_val = max_val
+        self.name = None  # set by __set_name__
+
+    def __set_name__(self, owner, name):
+        self.name = name  # called when class is defined
+
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self  # class-level access returns descriptor itself
+        return obj.__dict__.get(self.name, None)
+
+    def __set__(self, obj, value):
+        if self.min_val is not None and value &lt; self.min_val:
+            raise ValueError(f&quot;{self.name} must be &gt;= {self.min_val}, got {value}&quot;)
+        if self.max_val is not None and value &gt; self.max_val:
+            raise ValueError(f&quot;{self.name} must be &lt;= {self.max_val}, got {value}&quot;)
+        obj.__dict__[self.name] = value
+
+class Person:
+    age    = Validated(min_val=0, max_val=150)
+    salary = Validated(min_val=0)
+
+    def __init__(self, name, age, salary):
+        self.name   = name
+        self.age    = age
+        self.salary = salary
+
+p = Person(&quot;Alice&quot;, 30, 75000)
+print(f&quot;{p.name}: age={p.age}, salary={p.salary}&quot;)
+try:
+    p.age = -5
+except ValueError as e:
+    print(&quot;Caught:&quot;, e)</code></pre></div><div class="code-block"><div class="ch"><span>__slots__ for memory efficiency</span><button onclick="cp('c23_2')">Copy</button></div><pre><code id="c23_2" class="language-python">import sys
+
+class PointNormal:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+class PointSlots:
+    __slots__ = (&#x27;x&#x27;, &#x27;y&#x27;)   # declare allowed attributes
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+n = PointNormal(1.0, 2.0)
+s = PointSlots(1.0, 2.0)
+
+print(f&quot;Without slots: {sys.getsizeof(n)} bytes, has __dict__: {hasattr(n, &#x27;__dict__&#x27;)}&quot;)
+print(f&quot;With    slots: {sys.getsizeof(s)} bytes, has __dict__: {hasattr(s, &#x27;__dict__&#x27;)}&quot;)
+
+# Slots prevents adding arbitrary attributes
+try:
+    s.z = 3.0
+except AttributeError as e:
+    print(&quot;Cannot add:&quot;, e)
+
+# Memory comparison with many instances
+normal_mem = sum(sys.getsizeof(PointNormal(i, i)) for i in range(1000))
+slots_mem  = sum(sys.getsizeof(PointSlots(i, i))  for i in range(1000))
+print(f&quot;1000 objects — normal: {normal_mem} bytes, slots: {slots_mem} bytes&quot;)
+print(f&quot;Slots saves: {normal_mem - slots_mem} bytes ({(1-slots_mem/normal_mem)*100:.1f}%)&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Validated Configuration Class</div><div class="rd">A configuration system uses descriptors to validate settings when they are set, providing clear error messages without if-statement clutter in __init__.</div><pre><code class="language-python">class TypedAttr:
+    def __init__(self, expected_type, default=None):
+        self.expected_type = expected_type
+        self.default = default
+        self.name = None
+
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, obj, objtype=None):
+        if obj is None: return self
+        return obj.__dict__.get(self.name, self.default)
+
+    def __set__(self, obj, value):
+        if not isinstance(value, self.expected_type):
+            raise TypeError(
+                f&quot;{self.name} must be {self.expected_type.__name__}, &quot;
+                f&quot;got {type(value).__name__}&quot;
+            )
+        obj.__dict__[self.name] = value
+
+class AppConfig:
+    host     = TypedAttr(str, &quot;localhost&quot;)
+    port     = TypedAttr(int, 8080)
+    debug    = TypedAttr(bool, False)
+    timeout  = TypedAttr(float, 30.0)
+
+cfg = AppConfig()
+cfg.host    = &quot;0.0.0.0&quot;
+cfg.port    = 443
+cfg.debug   = True
+cfg.timeout = 5.0
+
+print(f&quot;Config: {cfg.host}:{cfg.port} debug={cfg.debug} timeout={cfg.timeout}s&quot;)
+
+try:
+    cfg.port = &quot;8080&quot;  # wrong type!
+except TypeError as e:
+    print(&quot;Caught:&quot;, e)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unit-Enforced Measurement</div><div class="pd">Create a descriptor class UnitFloat(unit, min_val, max_val) that stores a float and records its unit. On __get__, return a namedtuple (value, unit). Create a class Measurement with descriptors for temperature (unit=&#x27;C&#x27;, min=-273.15), pressure (unit=&#x27;Pa&#x27;, min=0), and humidity (unit=&#x27;%&#x27;, min=0, max=100).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">from collections import namedtuple
+
+class UnitFloat:
+    Reading = namedtuple(&quot;Reading&quot;, [&quot;value&quot;, &quot;unit&quot;])
+
+    def __init__(self, unit, min_val=None, max_val=None):
+        self.unit    = unit
+        self.min_val = min_val
+        self.max_val = max_val
+        self.name    = None
+
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, obj, objtype=None):
+        if obj is None: return self
+        val = obj.__dict__.get(self.name)
+        # TODO: return UnitFloat.Reading(val, self.unit) if val is not None else None
+        pass
+
+    def __set__(self, obj, value):
+        # TODO: validate type is float or int, validate min/max, store
+        pass
+
+class Measurement:
+    temperature = UnitFloat(&quot;C&quot;, min_val=-273.15)
+    pressure    = UnitFloat(&quot;Pa&quot;, min_val=0)
+    humidity    = UnitFloat(&quot;%&quot;, min_val=0, max_val=100)
+
+m = Measurement()
+m.temperature = 22.5
+m.pressure    = 101325.0
+m.humidity    = 65.0
+print(m.temperature)  # Reading(value=22.5, unit=&#x27;C&#x27;)
+print(m.humidity)
+</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Memory Management &amp; Profiling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python manages memory via reference counting and a cyclic garbage collector. Use sys, gc, tracemalloc, and cProfile to find memory leaks and performance bottlenecks.</p><div class="code-block"><div class="ch"><span>sys.getsizeof, id(), and reference counting</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sys
+
+# Basic sizes
+for obj in [0, 1, 255, 2**100, 3.14, &quot;hi&quot;, &quot;hello world&quot;, [], [1,2,3], {}, {&quot;a&quot;:1}]:
+    print(f&quot;  {repr(obj):&lt;25} {sys.getsizeof(obj):&gt;6} bytes&quot;)
+
+# id() returns memory address
+a = [1, 2, 3]
+b = a          # same object
+c = a.copy()   # different object
+
+print(&quot;a is b:&quot;, a is b)  # True
+print(&quot;a is c:&quot;, a is c)  # False
+print(&quot;id(a)==id(b):&quot;, id(a) == id(b))  # True
+
+# Small integers are cached
+x, y = 100, 100
+print(&quot;100 is 100:&quot;, x is y)  # True (cached)
+
+x, y = 1000, 1000
+print(&quot;1000 is 1000:&quot;, x is y)  # False (not cached)
+
+# Nested containers: getsizeof is shallow!
+lst = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(&quot;Shallow size:&quot;, sys.getsizeof(lst))   # just the list object</code></pre></div><div class="code-block"><div class="ch"><span>gc module and reference cycles</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import gc
+
+print(&quot;GC enabled:&quot;, gc.isenabled())
+print(&quot;GC thresholds:&quot;, gc.get_threshold())  # (700, 10, 10)
+
+# Reference cycle: a -&gt; b -&gt; a, both become unreachable
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.ref = None
+
+a = Node(&quot;A&quot;)
+b = Node(&quot;B&quot;)
+a.ref = b  # a -&gt; b
+b.ref = a  # b -&gt; a (cycle!)
+
+# Delete our references
+del a, b
+
+before = gc.collect(0)
+print(f&quot;GC collected {before} objects in gen-0&quot;)
+
+# Check what gc is tracking
+tracked = gc.get_count()
+print(&quot;GC counts (gen0, gen1, gen2):&quot;, tracked)
+
+# Use __del__ to observe collection
+class Tracked:
+    def __del__(self):
+        print(f&quot;  {self!r} collected&quot;)
+
+x = Tracked()
+del x           # collected immediately (refcount -&gt; 0)
+gc.collect()    # collect cycles</code></pre></div><div class="code-block"><div class="ch"><span>tracemalloc and cProfile</span><button onclick="cp('c24_2')">Copy</button></div><pre><code id="c24_2" class="language-python">import tracemalloc, cProfile, io, pstats
+
+# --- tracemalloc: trace memory allocations ---
+tracemalloc.start()
+
+snapshot1 = tracemalloc.take_snapshot()
+big_list = [i**2 for i in range(10_000)]
+snapshot2 = tracemalloc.take_snapshot()
+
+stats = snapshot2.compare_to(snapshot1, &quot;lineno&quot;)
+for stat in stats[:3]:
+    print(f&quot;  {stat}&quot;)
+
+tracemalloc.stop()
+del big_list
+
+# --- cProfile: find slow functions ---
+def slow_sum(n):
+    return sum(i**2 for i in range(n))
+
+def fast_sum(n):
+    return n * (n-1) * (2*n-1) // 6  # formula
+
+pr = cProfile.Profile()
+pr.enable()
+slow_sum(50_000)
+fast_sum(50_000)
+pr.disable()
+
+sio = io.StringIO()
+ps  = pstats.Stats(pr, stream=sio).sort_stats(&quot;cumulative&quot;)
+ps.print_stats(5)
+print(sio.getvalue())</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Memory Leak Detector</div><div class="rd">A long-running service monitors its own memory usage between requests to detect leaks early.</div><pre><code class="language-python">import tracemalloc, sys
+
+def deep_size(obj, seen=None):
+    # Recursively estimate size of a container
+    size = sys.getsizeof(obj)
+    if seen is None:
+        seen = set()
+    obj_id = id(obj)
+    if obj_id in seen:
+        return 0
+    seen.add(obj_id)
+    if isinstance(obj, dict):
+        size += sum(deep_size(v, seen) for v in obj.values())
+        size += sum(deep_size(k, seen) for k in obj.keys())
+    elif hasattr(obj, &#x27;__iter__&#x27;) and not isinstance(obj, (str, bytes)):
+        size += sum(deep_size(i, seen) for i in obj)
+    return size
+
+# Simulate a request that leaks memory
+cache = {}
+
+def handle_request(key, data):
+    cache[key] = data  # intentional &quot;leak&quot; into global cache
+    return len(data)
+
+tracemalloc.start()
+snap1 = tracemalloc.take_snapshot()
+
+for i in range(5):
+    handle_request(f&quot;req_{i}&quot;, list(range(1000)))
+
+snap2 = tracemalloc.take_snapshot()
+top = snap2.compare_to(snap1, &quot;lineno&quot;)[:2]
+for stat in top:
+    print(f&quot;  Memory diff: {stat}&quot;)
+print(f&quot;Cache deep size: {deep_size(cache):,} bytes&quot;)
+tracemalloc.stop()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Profile and Optimize</div><div class="pd">Write two versions of a function that finds all prime numbers up to n: (1) trial_division(n) using a simple loop, (2) sieve(n) using the Sieve of Eratosthenes. Use timeit to benchmark both for n=10000. Use cProfile to show which lines of trial_division are slowest.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import cProfile, timeit
+
+def trial_division(n):
+    primes = []
+    for num in range(2, n+1):
+        if all(num % i != 0 for i in range(2, int(num**0.5)+1)):
+            primes.append(num)
+    return primes
+
+def sieve(n):
+    is_prime = [True] * (n+1)
+    is_prime[0] = is_prime[1] = False
+    for i in range(2, int(n**0.5)+1):
+        if is_prime[i]:
+            for j in range(i*i, n+1, i):
+                is_prime[j] = False
+    return [i for i, p in enumerate(is_prime) if p]
+
+N = 10_000
+
+# Benchmark
+t1 = timeit.timeit(lambda: trial_division(N), number=3)
+t2 = timeit.timeit(lambda: sieve(N), number=3)
+print(f&quot;trial_division: {t1:.3f}s&quot;)
+print(f&quot;sieve:          {t2:.3f}s&quot;)
+print(f&quot;Speedup: {t1/t2:.1f}x&quot;)
+
+# Profile trial_division
+cProfile.run(&quot;trial_division(5000)&quot;, sort=&quot;cumulative&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Logging Best Practices</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use the logging module instead of print() for production code. It supports levels, handlers, formatters, and log rotation — all configurable without code changes.</p><div class="code-block"><div class="ch"><span>Basic logging setup and levels</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import logging
+
+# Configure root logger
+logging.basicConfig(
+    level=logging.DEBUG,
+    format=&quot;%(asctime)s [%(levelname)-8s] %(name)s: %(message)s&quot;,
+    datefmt=&quot;%H:%M:%S&quot;,
+)
+
+logger = logging.getLogger(&quot;myapp&quot;)
+
+# Five standard levels (low to high)
+logger.debug(&quot;Detailed info for debugging&quot;)
+logger.info(&quot;Normal operation: user logged in&quot;)
+logger.warning(&quot;Something unexpected but not fatal&quot;)
+logger.error(&quot;A failure occurred — function returned None&quot;)
+logger.critical(&quot;Service is down!&quot;)
+
+# Log exceptions with traceback
+try:
+    result = 1 / 0
+except ZeroDivisionError:
+    logger.exception(&quot;Division failed&quot;)  # includes traceback
+
+# Extra context
+user_id = 42
+logger.info(&quot;Processing order&quot;, extra={&quot;user&quot;: user_id})
+
+# Check effective level
+print(&quot;Effective level:&quot;, logger.getEffectiveLevel())  # 10 = DEBUG</code></pre></div><div class="code-block"><div class="ch"><span>Multiple handlers and formatters</span><button onclick="cp('c25_1')">Copy</button></div><pre><code id="c25_1" class="language-python">import logging, io
+
+logger = logging.getLogger(&quot;pipeline&quot;)
+logger.setLevel(logging.DEBUG)
+logger.handlers.clear()  # avoid duplicate handlers in notebooks
+
+# Handler 1: console with simple format
+ch = logging.StreamHandler()
+ch.setLevel(logging.WARNING)  # console only shows WARNING+
+ch.setFormatter(logging.Formatter(&quot;%(levelname)s: %(message)s&quot;))
+
+# Handler 2: &quot;file&quot; (using StringIO here for demo)
+log_buffer = io.StringIO()
+fh = logging.StreamHandler(log_buffer)
+fh.setLevel(logging.DEBUG)   # file gets everything
+fh.setFormatter(logging.Formatter(
+    &quot;%(asctime)s %(levelname)-8s [%(funcName)s:%(lineno)d] %(message)s&quot;,
+    datefmt=&quot;%H:%M:%S&quot;
+))
+
+logger.addHandler(ch)
+logger.addHandler(fh)
+
+def process(data):
+    logger.debug(&quot;Starting process with %d items&quot;, len(data))
+    logger.info(&quot;Processing...&quot;)
+    if not data:
+        logger.warning(&quot;Empty input&quot;)
+    logger.debug(&quot;Done&quot;)
+
+process([1, 2, 3])
+process([])
+
+print(&quot;--- File log ---&quot;)
+print(log_buffer.getvalue())</code></pre></div><div class="code-block"><div class="ch"><span>Logger hierarchy and module-level loggers</span><button onclick="cp('c25_2')">Copy</button></div><pre><code id="c25_2" class="language-python">import logging
+
+# Best practice: use __name__ as logger name
+# This creates a hierarchy: &quot;myapp&quot; -&gt; &quot;myapp.db&quot; -&gt; &quot;myapp.db.query&quot;
+
+root = logging.getLogger()
+app  = logging.getLogger(&quot;myapp&quot;)
+db   = logging.getLogger(&quot;myapp.db&quot;)
+qry  = logging.getLogger(&quot;myapp.db.query&quot;)
+
+# Set up root handler for the demo
+logging.basicConfig(
+    level=logging.DEBUG,
+    format=&quot;%(name)-20s %(levelname)s: %(message)s&quot;
+)
+
+# Child loggers propagate to parent by default
+app.setLevel(logging.INFO)
+db.setLevel(logging.DEBUG)   # db subtree shows DEBUG
+
+app.info(&quot;App started&quot;)
+app.debug(&quot;This won&#x27;t show — app is INFO level&quot;)
+db.debug(&quot;DB connection established&quot;)
+qry.debug(&quot;SELECT * FROM users&quot;)
+
+# Disable propagation to avoid double-logging
+# child_logger.propagate = False
+
+# Silence noisy third-party libraries
+logging.getLogger(&quot;urllib3&quot;).setLevel(logging.WARNING)
+logging.getLogger(&quot;boto3&quot;).setLevel(logging.WARNING)
+print(&quot;Third-party loggers silenced&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Pipeline Logger</div><div class="rd">A data processing pipeline uses structured logging to track progress, errors, and timing without print statements.</div><pre><code class="language-python">import logging, time, io
+
+def setup_logger(name, level=logging.DEBUG):
+    log = logging.getLogger(name)
+    log.setLevel(level)
+    if not log.handlers:
+        h = logging.StreamHandler()
+        h.setFormatter(logging.Formatter(
+            &quot;%(asctime)s %(name)s %(levelname)-8s %(message)s&quot;,
+            datefmt=&quot;%H:%M:%S&quot;
+        ))
+        log.addHandler(h)
+    return log
+
+log = setup_logger(&quot;etl&quot;)
+
+def extract(source):
+    log.info(&quot;Extracting from %s&quot;, source)
+    data = list(range(100))  # simulated data
+    log.debug(&quot;Extracted %d records&quot;, len(data))
+    return data
+
+def transform(data):
+    log.info(&quot;Transforming %d records&quot;, len(data))
+    t0 = time.time()
+    result = [x * 2 for x in data if x % 5 != 0]
+    log.debug(&quot;Transform took %.3fs, %d records remain&quot;, time.time()-t0, len(result))
+    return result
+
+def load(data, target):
+    log.info(&quot;Loading %d records to %s&quot;, len(data), target)
+    # Simulate occasional error
+    if len(data) &gt; 70:
+        log.warning(&quot;Large batch — consider chunking&quot;)
+    log.info(&quot;Load complete&quot;)
+
+try:
+    d = extract(&quot;sales.csv&quot;)
+    d = transform(d)
+    load(d, &quot;warehouse&quot;)
+except Exception:
+    log.exception(&quot;Pipeline failed&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Analyzer</div><div class="pd">Write a function parse_log_line(line) that extracts timestamp, level, and message from a log line like &#x27;12:34:56 WARNING myapp: disk 90% full&#x27;. Write analyze_logs(lines) that counts occurrences of each level and returns a dict like {&#x27;WARNING&#x27;: 3, &#x27;ERROR&#x27;: 1}. Use the logging module to emit a summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import logging, re
+from collections import Counter
+
+def parse_log_line(line):
+    # Pattern: HH:MM:SS LEVEL name: message
+    pattern = r&quot;(\d{2}:\d{2}:\d{2}) (\w+) (\S+): (.+)&quot;
+    m = re.match(pattern, line)
+    if m:
+        return {&quot;time&quot;: m.group(1), &quot;level&quot;: m.group(2),
+                &quot;name&quot;: m.group(3), &quot;msg&quot;: m.group(4)}
+    return None
+
+def analyze_logs(lines):
+    # TODO: parse each line, count levels, return Counter dict
+    pass
+
+sample_logs = [
+    &quot;12:00:01 INFO myapp: started&quot;,
+    &quot;12:00:02 DEBUG myapp.db: query took 0.1s&quot;,
+    &quot;12:00:03 WARNING myapp: memory 80% full&quot;,
+    &quot;12:00:04 ERROR myapp: connection refused&quot;,
+    &quot;12:00:05 WARNING myapp: retry 1/3&quot;,
+]
+
+counts = analyze_logs(sample_logs)
+print(&quot;Level counts:&quot;, counts)
+</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Argparse &amp; CLI Tools</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">argparse is Python&#x27;s standard library for building command-line interfaces. It handles argument parsing, type validation, help generation, and subcommands.</p><div class="code-block"><div class="ch"><span>Basic ArgumentParser with positional and optional args</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import argparse
+
+# Simulate command-line arguments (replace sys.argv for demo)
+parser = argparse.ArgumentParser(
+    description=&quot;Process a data file&quot;,
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter
+)
+
+# Positional argument (required)
+parser.add_argument(&quot;filename&quot;, help=&quot;Input CSV file path&quot;)
+
+# Optional arguments
+parser.add_argument(&quot;-o&quot;, &quot;--output&quot;,  default=&quot;output.csv&quot;, help=&quot;Output file&quot;)
+parser.add_argument(&quot;-n&quot;, &quot;--rows&quot;,    type=int, default=100, help=&quot;Number of rows&quot;)
+parser.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, action=&quot;store_true&quot;,   help=&quot;Verbose output&quot;)
+parser.add_argument(&quot;--format&quot;,        choices=[&quot;csv&quot;,&quot;json&quot;,&quot;parquet&quot;], default=&quot;csv&quot;)
+
+# Parse a fake argument list
+args = parser.parse_args([&quot;data.csv&quot;, &quot;--rows&quot;, &quot;500&quot;, &quot;--verbose&quot;, &quot;--format&quot;, &quot;json&quot;])
+
+print(f&quot;File:    {args.filename}&quot;)
+print(f&quot;Output:  {args.output}&quot;)
+print(f&quot;Rows:    {args.rows}&quot;)
+print(f&quot;Verbose: {args.verbose}&quot;)
+print(f&quot;Format:  {args.format}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Subcommands (subparsers)</span><button onclick="cp('c26_1')">Copy</button></div><pre><code id="c26_1" class="language-python">import argparse
+
+parser = argparse.ArgumentParser(prog=&quot;datool&quot;, description=&quot;Data pipeline tool&quot;)
+subs   = parser.add_subparsers(dest=&quot;command&quot;, required=True)
+
+# Subcommand: convert
+convert = subs.add_parser(&quot;convert&quot;, help=&quot;Convert file format&quot;)
+convert.add_argument(&quot;input&quot;,  help=&quot;Input file&quot;)
+convert.add_argument(&quot;output&quot;, help=&quot;Output file&quot;)
+convert.add_argument(&quot;--compression&quot;, choices=[&quot;none&quot;,&quot;gzip&quot;,&quot;snappy&quot;], default=&quot;none&quot;)
+
+# Subcommand: stats
+stats = subs.add_parser(&quot;stats&quot;, help=&quot;Show file statistics&quot;)
+stats.add_argument(&quot;file&quot;,  help=&quot;File to analyze&quot;)
+stats.add_argument(&quot;--col&quot;, action=&quot;append&quot;, dest=&quot;cols&quot;, help=&quot;Column to analyze (repeatable)&quot;)
+
+# Subcommand: validate
+validate = subs.add_parser(&quot;validate&quot;, help=&quot;Validate schema&quot;)
+validate.add_argument(&quot;file&quot;)
+validate.add_argument(&quot;--schema&quot;, required=True)
+
+# Demo: parse &quot;convert&quot; command
+args = parser.parse_args([&quot;convert&quot;, &quot;input.csv&quot;, &quot;output.parquet&quot;, &quot;--compression&quot;, &quot;snappy&quot;])
+print(f&quot;Command:     {args.command}&quot;)
+print(f&quot;Input:       {args.input}&quot;)
+print(f&quot;Output:      {args.output}&quot;)
+print(f&quot;Compression: {args.compression}&quot;)
+
+# Demo: parse &quot;stats&quot; command
+args2 = parser.parse_args([&quot;stats&quot;, &quot;data.csv&quot;, &quot;--col&quot;, &quot;price&quot;, &quot;--col&quot;, &quot;qty&quot;])
+print(f&quot;Stats cols:  {args2.cols}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Argument groups, mutual exclusion, and type validators</span><button onclick="cp('c26_2')">Copy</button></div><pre><code id="c26_2" class="language-python">import argparse
+
+parser = argparse.ArgumentParser(description=&quot;Model training CLI&quot;)
+
+# Argument group for visual organization in --help
+data_group = parser.add_argument_group(&quot;Data options&quot;)
+data_group.add_argument(&quot;--train&quot;,  required=True, help=&quot;Training data path&quot;)
+data_group.add_argument(&quot;--val&quot;,    required=True, help=&quot;Validation data path&quot;)
+data_group.add_argument(&quot;--test&quot;,   help=&quot;Test data path&quot;)
+
+# Argument group for model options
+model_group = parser.add_argument_group(&quot;Model options&quot;)
+model_group.add_argument(&quot;--lr&quot;,     type=float, default=0.001)
+model_group.add_argument(&quot;--epochs&quot;, type=int,   default=10)
+
+# Mutually exclusive: can&#x27;t use --gpu and --cpu together
+device = parser.add_mutually_exclusive_group()
+device.add_argument(&quot;--gpu&quot;, action=&quot;store_true&quot;)
+device.add_argument(&quot;--cpu&quot;, action=&quot;store_true&quot;)
+
+# Custom type validator
+def positive_int(value):
+    ivalue = int(value)
+    if ivalue &lt;= 0:
+        raise argparse.ArgumentTypeError(f&quot;{value} must be a positive integer&quot;)
+    return ivalue
+
+model_group.add_argument(&quot;--batch&quot;, type=positive_int, default=32)
+
+args = parser.parse_args([&quot;--train&quot;, &quot;train.csv&quot;, &quot;--val&quot;, &quot;val.csv&quot;,
+                          &quot;--lr&quot;, &quot;0.01&quot;, &quot;--gpu&quot;, &quot;--batch&quot;, &quot;64&quot;])
+print(vars(args))</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: ETL Pipeline CLI</div><div class="rd">A data engineering team builds a CLI tool to run ETL jobs with configurable sources, targets, and options.</div><pre><code class="language-python">import argparse, sys
+
+def run_etl(args):
+    print(f&quot;ETL Job: {args.job_name}&quot;)
+    print(f&quot;  Source:   {args.source} (format={args.format})&quot;)
+    print(f&quot;  Target:   {args.target}&quot;)
+    print(f&quot;  Batch:    {args.batch_size}&quot;)
+    print(f&quot;  Dry run:  {args.dry_run}&quot;)
+
+    if args.dry_run:
+        print(&quot;  [DRY RUN] No data written.&quot;)
+        return 0
+    print(&quot;  Writing data...&quot;)
+    return 0
+
+parser = argparse.ArgumentParser(description=&quot;ETL Pipeline Runner&quot;)
+parser.add_argument(&quot;job_name&quot;,   help=&quot;Job identifier&quot;)
+parser.add_argument(&quot;source&quot;,     help=&quot;Source connection string&quot;)
+parser.add_argument(&quot;target&quot;,     help=&quot;Target connection string&quot;)
+parser.add_argument(&quot;--format&quot;,   choices=[&quot;csv&quot;,&quot;json&quot;,&quot;parquet&quot;], default=&quot;csv&quot;)
+parser.add_argument(&quot;--batch-size&quot;, type=int, default=1000, dest=&quot;batch_size&quot;)
+parser.add_argument(&quot;--dry-run&quot;,  action=&quot;store_true&quot;, dest=&quot;dry_run&quot;)
+
+# Demo
+args = parser.parse_args([
+    &quot;daily_sales&quot;, &quot;s3://bucket/sales.parquet&quot;, &quot;postgres://db/warehouse&quot;,
+    &quot;--format&quot;, &quot;parquet&quot;, &quot;--batch-size&quot;, &quot;5000&quot;, &quot;--dry-run&quot;
+])
+sys.exit(run_etl(args))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File Processor CLI</div><div class="pd">Build a CLI with two subcommands: (1) count — takes a filename, optional --pattern (regex), prints count of matching lines; (2) summary — takes a filename, --cols (repeatable), prints first/last/count for each column in a CSV. Use argparse with proper help strings and type validation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import argparse, csv, re
+
+parser = argparse.ArgumentParser(prog=&quot;fileproc&quot;)
+subs = parser.add_subparsers(dest=&quot;cmd&quot;, required=True)
+
+# count subcommand
+count_p = subs.add_parser(&quot;count&quot;, help=&quot;Count lines matching pattern&quot;)
+count_p.add_argument(&quot;file&quot;)
+count_p.add_argument(&quot;--pattern&quot;, default=&quot;.*&quot;, help=&quot;Regex pattern&quot;)
+
+# summary subcommand
+sum_p = subs.add_parser(&quot;summary&quot;, help=&quot;Summarize CSV columns&quot;)
+sum_p.add_argument(&quot;file&quot;)
+sum_p.add_argument(&quot;--col&quot;, action=&quot;append&quot;, dest=&quot;cols&quot;)
+
+def cmd_count(args):
+    pattern = re.compile(args.pattern)
+    # TODO: open args.file, count lines matching pattern
+    pass
+
+def cmd_summary(args):
+    # TODO: open CSV, for each col in args.cols, print first/last/count
+    pass
+
+args = parser.parse_args([&quot;count&quot;, &quot;data.txt&quot;, &quot;--pattern&quot;, &quot;ERROR&quot;])
+if args.cmd == &quot;count&quot;:
+    cmd_count(args)
+elif args.cmd == &quot;summary&quot;:
+    cmd_summary(args)
+</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. JSON &amp; Data Serialization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s json module handles serialization to/from JSON. For Python-specific objects, use pickle. For configuration, use configparser or tomllib.</p><div class="code-block"><div class="ch"><span>json.dumps / loads with custom encoder</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import json
+from datetime import datetime, date
+from decimal import Decimal
+
+# Basic usage
+data = {&quot;name&quot;: &quot;Alice&quot;, &quot;scores&quot;: [95, 87, 92], &quot;active&quot;: True}
+text = json.dumps(data, indent=2)
+print(&quot;JSON string:&quot;)
+print(text)
+
+loaded = json.loads(text)
+print(&quot;Loaded back:&quot;, loaded)
+
+# Custom encoder for non-serializable types
+class AppEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, set):
+            return sorted(list(obj))
+        return super().default(obj)
+
+record = {
+    &quot;created&quot;: datetime(2024, 1, 15, 9, 30),
+    &quot;price&quot;:   Decimal(&quot;29.99&quot;),
+    &quot;tags&quot;:    {&quot;python&quot;, &quot;data&quot;, &quot;tutorial&quot;},
+}
+
+print(json.dumps(record, cls=AppEncoder, indent=2))</code></pre></div><div class="code-block"><div class="ch"><span>Custom decoder and JSON schema validation pattern</span><button onclick="cp('c27_1')">Copy</button></div><pre><code id="c27_1" class="language-python">import json
+from datetime import datetime
+
+# Custom decoder using object_hook
+def decode_record(d):
+    for key, val in d.items():
+        # Auto-parse ISO datetime strings
+        if isinstance(val, str) and len(val) &gt;= 19 and &quot;T&quot; in val:
+            try:
+                d[key] = datetime.fromisoformat(val)
+            except ValueError:
+                pass
+    return d
+
+json_str = &#x27;&#x27;&#x27;
+{
+    &quot;id&quot;: 42,
+    &quot;name&quot;: &quot;Order #42&quot;,
+    &quot;created_at&quot;: &quot;2024-01-15T09:30:00&quot;,
+    &quot;updated_at&quot;: &quot;2024-03-20T14:00:00&quot;,
+    &quot;amount&quot;: 299.99
+}
+&#x27;&#x27;&#x27;
+
+obj = json.loads(json_str, object_hook=decode_record)
+print(&quot;Type of created_at:&quot;, type(obj[&quot;created_at&quot;]))  # datetime
+print(&quot;Year:&quot;, obj[&quot;created_at&quot;].year)
+
+# Simple schema validation pattern
+def validate(data, schema):
+    errors = []
+    for field, expected_type in schema.items():
+        if field not in data:
+            errors.append(f&quot;Missing: {field}&quot;)
+        elif not isinstance(data[field], expected_type):
+            errors.append(f&quot;{field}: expected {expected_type.__name__}, got {type(data[field]).__name__}&quot;)
+    return errors
+
+schema = {&quot;id&quot;: int, &quot;name&quot;: str, &quot;amount&quot;: float}
+print(&quot;Errors:&quot;, validate(obj, schema) or &quot;None&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>pickle, configparser, and tomllib</span><button onclick="cp('c27_2')">Copy</button></div><pre><code id="c27_2" class="language-python">import pickle, configparser, io
+
+# ─── pickle: serialize any Python object ───────────────────────────────────
+class Model:
+    def __init__(self, weights):
+        self.weights = weights
+    def predict(self, x):
+        return sum(w * xi for w, xi in zip(self.weights, x))
+
+model = Model([0.5, -0.3, 1.2])
+buf = io.BytesIO()
+
+pickle.dump(model, buf)
+print(&quot;Pickled size:&quot;, buf.tell(), &quot;bytes&quot;)
+
+buf.seek(0)
+loaded_model = pickle.load(buf)
+print(&quot;Prediction:&quot;, loaded_model.predict([1.0, 2.0, 3.0]))
+
+# ─── configparser: INI-format config files ─────────────────────────────────
+config_text = &#x27;&#x27;&#x27;
+[database]
+host = localhost
+port = 5432
+name = mydb
+
+[app]
+debug = true
+workers = 4
+log_level = INFO
+&#x27;&#x27;&#x27;
+cfg = configparser.ConfigParser()
+cfg.read_string(config_text)
+
+print(&quot;DB host:&quot;, cfg[&quot;database&quot;][&quot;host&quot;])
+print(&quot;DB port:&quot;, cfg.getint(&quot;database&quot;, &quot;port&quot;))
+print(&quot;Debug:  &quot;, cfg.getboolean(&quot;app&quot;, &quot;debug&quot;))
+print(&quot;Workers:&quot;, cfg.getint(&quot;app&quot;, &quot;workers&quot;))
+print(&quot;Sections:&quot;, cfg.sections())</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: API Response Cache</div><div class="rd">A data ingestion service serializes API responses to JSON with metadata, then deserializes and validates them on re-read.</div><pre><code class="language-python">import json, hashlib
+from datetime import datetime
+
+class APICache:
+    def __init__(self):
+        self._store = {}  # in memory; use file I/O in production
+
+    def _key(self, url, params):
+        raw = json.dumps({&quot;url&quot;: url, &quot;params&quot;: params}, sort_keys=True)
+        return hashlib.md5(raw.encode()).hexdigest()
+
+    def get(self, url, params=None):
+        k = self._key(url, params or {})
+        if k in self._store:
+            entry = json.loads(self._store[k])
+            age = (datetime.now() - datetime.fromisoformat(entry[&quot;cached_at&quot;])).seconds
+            print(f&quot;  [cache hit] age={age}s, key={k[:8]}&quot;)
+            return entry[&quot;data&quot;]
+        return None
+
+    def set(self, url, params, data):
+        k = self._key(url, params or {})
+        entry = {&quot;data&quot;: data, &quot;cached_at&quot;: datetime.now().isoformat(), &quot;url&quot;: url}
+        self._store[k] = json.dumps(entry)
+        print(f&quot;  [cache set] key={k[:8]}&quot;)
+
+cache = APICache()
+url = &quot;https://api.example.com/prices&quot;
+params = {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;period&quot;: &quot;1d&quot;}
+
+result = cache.get(url, params)
+if result is None:
+    data = {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 195.50, &quot;volume&quot;: 1_200_000}
+    cache.set(url, params, data)
+    result = data
+
+print(&quot;Result:&quot;, result)
+cache.get(url, params)  # should be cache hit</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Config File Manager</div><div class="pd">Write a ConfigManager class that loads from a JSON file (on init) and falls back to defaults if the file does not exist. Support get(key, default=None), set(key, value), and save() (writes back to JSON). Write a test that creates a temp file, sets values, saves, reloads, and verifies.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import json, pathlib
+
+class ConfigManager:
+    def __init__(self, path, defaults=None):
+        self.path = pathlib.Path(path)
+        self._data = dict(defaults or {})
+        # TODO: if self.path exists, load and merge with self._data
+        pass
+
+    def get(self, key, default=None):
+        # TODO: return self._data.get(key, default)
+        pass
+
+    def set(self, key, value):
+        # TODO: update self._data[key] = value
+        pass
+
+    def save(self):
+        # TODO: write self._data to self.path as JSON (indent=2)
+        pass
+
+# Test
+import tempfile, os
+with tempfile.NamedTemporaryFile(suffix=&quot;.json&quot;, delete=False, mode=&quot;w&quot;) as f:
+    json.dump({&quot;theme&quot;: &quot;dark&quot;}, f)
+    tmp = f.name
+
+cfg = ConfigManager(tmp, defaults={&quot;theme&quot;: &quot;light&quot;, &quot;font_size&quot;: 12})
+print(&quot;theme:&quot;, cfg.get(&quot;theme&quot;))      # dark (from file)
+print(&quot;font:&quot;, cfg.get(&quot;font_size&quot;))   # 12 (from defaults)
+cfg.set(&quot;font_size&quot;, 14)
+cfg.save()
+
+cfg2 = ConfigManager(tmp)
+print(&quot;reloaded font:&quot;, cfg2.get(&quot;font_size&quot;))  # 14
+os.unlink(tmp)
+</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Pathlib &amp; File System Ops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">pathlib.Path is the modern way to handle filesystem paths in Python. It&#x27;s cross-platform, object-oriented, and integrates with all standard file operations.</p><div class="code-block"><div class="ch"><span>Path manipulation and navigation</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">from pathlib import Path
+
+# Create a Path object — cross-platform!
+p = Path(&quot;/home/user/data/sales_2024.csv&quot;)
+
+# Path components
+print(&quot;name:       &quot;, p.name)         # sales_2024.csv
+print(&quot;stem:       &quot;, p.stem)         # sales_2024
+print(&quot;suffix:     &quot;, p.suffix)       # .csv
+print(&quot;suffixes:   &quot;, Path(&quot;a.tar.gz&quot;).suffixes)  # [&#x27;.tar&#x27;, &#x27;.gz&#x27;]
+print(&quot;parent:     &quot;, p.parent)       # /home/user/data
+print(&quot;parts:      &quot;, p.parts)
+
+# Building paths with / operator
+base    = Path(&quot;/home/user&quot;)
+data    = base / &quot;data&quot;
+outfile = data / &quot;reports&quot; / &quot;q1.xlsx&quot;
+print(&quot;Built path:&quot;, outfile)
+
+# Resolve, absolute, relative_to
+cwd = Path.cwd()
+print(&quot;CWD:&quot;, cwd)
+print(&quot;Home:&quot;, Path.home())
+
+# Check existence
+print(&quot;exists:&quot;, p.exists())
+print(&quot;is_file:&quot;, p.is_file())
+print(&quot;is_dir: &quot;, p.is_dir())
+
+# Change suffix
+renamed = p.with_suffix(&quot;.parquet&quot;)
+print(&quot;With new suffix:&quot;, renamed)</code></pre></div><div class="code-block"><div class="ch"><span>Glob patterns and directory walking</span><button onclick="cp('c28_1')">Copy</button></div><pre><code id="c28_1" class="language-python">import tempfile, pathlib
+
+# Create a temp directory structure for demo
+tmp = pathlib.Path(tempfile.mkdtemp())
+(tmp / &quot;data&quot;).mkdir()
+(tmp / &quot;data&quot; / &quot;sales.csv&quot;).write_text(&quot;a,b&quot;)
+(tmp / &quot;data&quot; / &quot;costs.csv&quot;).write_text(&quot;c,d&quot;)
+(tmp / &quot;reports&quot;).mkdir()
+(tmp / &quot;reports&quot; / &quot;q1.xlsx&quot;).write_text(&quot;x&quot;)
+(tmp / &quot;reports&quot; / &quot;q2.xlsx&quot;).write_text(&quot;y&quot;)
+(tmp / &quot;config.json&quot;).write_text(&quot;{}&quot;)
+
+# glob: match in one directory
+csvs = list(tmp.glob(&quot;data/*.csv&quot;))
+print(&quot;CSVs:&quot;, [f.name for f in csvs])
+
+# rglob: recursive glob
+all_files = list(tmp.rglob(&quot;*&quot;))
+print(&quot;All files:&quot;)
+for f in sorted(all_files):
+    print(&quot;  &quot;, f.relative_to(tmp))
+
+# Filter only files (not directories)
+only_files = [f for f in tmp.rglob(&quot;*&quot;) if f.is_file()]
+print(&quot;File count:&quot;, len(only_files))
+
+# Cleanup
+import shutil
+shutil.rmtree(tmp)
+print(&quot;Temp dir removed&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Reading, writing, and file operations</span><button onclick="cp('c28_2')">Copy</button></div><pre><code id="c28_2" class="language-python">import tempfile, pathlib, shutil
+
+tmp = pathlib.Path(tempfile.mkdtemp())
+
+# Write and read text
+(tmp / &quot;hello.txt&quot;).write_text(&quot;Hello, World!&quot;)
+content = (tmp / &quot;hello.txt&quot;).read_text()
+print(&quot;read_text:&quot;, content)
+
+# Write and read bytes
+(tmp / &quot;data.bin&quot;).write_bytes(b&quot;\x00\x01\x02\x03&quot;)
+raw = (tmp / &quot;data.bin&quot;).read_bytes()
+print(&quot;read_bytes:&quot;, raw.hex())
+
+# Open with context manager for large files
+log = tmp / &quot;log.txt&quot;
+with log.open(&quot;w&quot;) as f:
+    for i in range(5):
+        f.write(f&quot;line {i}\n&quot;)
+
+with log.open() as f:
+    for line in f:
+        print(&quot; &quot;, line.rstrip())
+
+# stat: file metadata
+s = log.stat()
+print(f&quot;Size: {s.st_size} bytes&quot;)
+
+# mkdir, rename, unlink, shutil operations
+(tmp / &quot;subdir&quot;).mkdir(parents=True, exist_ok=True)
+shutil.copy(log, tmp / &quot;subdir&quot; / &quot;log_copy.txt&quot;)
+print(&quot;Copied:&quot;, list((tmp / &quot;subdir&quot;).iterdir()))
+
+shutil.rmtree(tmp)
+print(&quot;Done&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Data File Organizer</div><div class="rd">A data engineer uses pathlib to scan a raw data directory, classify files by type, and move them to organized subdirectories.</div><pre><code class="language-python">import tempfile, pathlib, shutil
+
+# Setup demo files
+src = pathlib.Path(tempfile.mkdtemp())
+for name in [&quot;sales.csv&quot;, &quot;costs.csv&quot;, &quot;model.pkl&quot;, &quot;report.pdf&quot;,
+             &quot;config.json&quot;, &quot;weights.pkl&quot;, &quot;notes.txt&quot;]:
+    (src / name).write_text(f&quot;content of {name}&quot;)
+
+print(&quot;Input files:&quot;, [f.name for f in sorted(src.iterdir())])
+
+# Classification map
+TYPE_MAP = {
+    &quot;.csv&quot;:  &quot;data&quot;,
+    &quot;.pkl&quot;:  &quot;models&quot;,
+    &quot;.json&quot;: &quot;config&quot;,
+    &quot;.pdf&quot;:  &quot;reports&quot;,
+    &quot;.txt&quot;:  &quot;misc&quot;,
+}
+
+moved = []
+for file in src.iterdir():
+    if not file.is_file():
+        continue
+    category = TYPE_MAP.get(file.suffix, &quot;other&quot;)
+    dest_dir = src / category
+    dest_dir.mkdir(exist_ok=True)
+    dest = dest_dir / file.name
+    shutil.move(str(file), dest)
+    moved.append(f&quot;{file.name} -&gt; {category}/&quot;)
+
+for m in moved:
+    print(&quot; &quot;, m)
+
+# Show final structure
+for subdir in sorted(src.iterdir()):
+    if subdir.is_dir():
+        print(f&quot;  {subdir.name}/:&quot;, [f.name for f in subdir.iterdir()])
+
+shutil.rmtree(src)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Archiver</div><div class="pd">Write a function archive_logs(log_dir, archive_dir, days_old=7) that uses pathlib to: (1) find all .log files in log_dir older than days_old days, (2) compress each with shutil.make_archive (or just move for simplicity), (3) move them to archive_dir/YYYY-MM/ subfolders based on file modification date. Return a list of moved files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import pathlib, shutil, tempfile
+from datetime import datetime, timedelta
+
+def archive_logs(log_dir, archive_dir, days_old=7):
+    log_dir     = pathlib.Path(log_dir)
+    archive_dir = pathlib.Path(archive_dir)
+    cutoff      = datetime.now() - timedelta(days=days_old)
+    moved       = []
+
+    for log_file in log_dir.glob(&quot;*.log&quot;):
+        mtime = datetime.fromtimestamp(log_file.stat().st_mtime)
+        if mtime &lt; cutoff:
+            # TODO: create archive_dir/YYYY-MM/ folder
+            # TODO: move log_file there
+            # TODO: append (log_file.name, dest) to moved
+            pass
+
+    return moved
+
+# Demo setup
+import os, time
+tmp_logs    = pathlib.Path(tempfile.mkdtemp())
+tmp_archive = pathlib.Path(tempfile.mkdtemp())
+
+# Create fake old log files
+for i in range(3):
+    f = tmp_logs / f&quot;app_{i}.log&quot;
+    f.write_text(f&quot;log content {i}&quot;)
+    # Make it 10 days old
+    old_time = time.time() - 10 * 86400
+    os.utime(f, (old_time, old_time))
+
+(tmp_logs / &quot;recent.log&quot;).write_text(&quot;recent&quot;)  # should NOT be archived
+
+result = archive_logs(tmp_logs, tmp_archive, days_old=7)
+print(&quot;Archived:&quot;, result)
+shutil.rmtree(tmp_logs); shutil.rmtree(tmp_archive)
+</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. String Formatting Mastery</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Master Python&#x27;s string formatting mini-language: f-strings, format(), format spec DSL, textwrap, and Template strings for safe user-controlled formatting.</p><div class="code-block"><div class="ch"><span>f-string advanced features and format spec</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python"># Format spec: [[fill]align][sign][z][#][0][width][grouping][.precision][type]
+pi = 3.14159265358979
+
+# Width, precision, type
+print(f&quot;{pi:.2f}&quot;)        # 3.14
+print(f&quot;{pi:10.4f}&quot;)      # right-aligned in width 10
+print(f&quot;{pi:&lt;10.4f}|&quot;)    # left-aligned
+print(f&quot;{pi:^10.4f}|&quot;)    # center-aligned
+print(f&quot;{pi:+.3f}&quot;)       # force + sign
+
+# Integer formatting
+n = 1_234_567
+print(f&quot;{n:,}&quot;)            # 1,234,567
+print(f&quot;{n:_}&quot;)            # 1_234_567
+print(f&quot;{n:&gt;15,}&quot;)         # right-aligned width 15
+print(f&quot;{255:#x}&quot;)         # 0xff  hex with prefix
+print(f&quot;{255:08b}&quot;)        # 11111111  binary, zero-padded
+
+# Percentage
+print(f&quot;{0.857:.1%}&quot;)      # 85.7%
+
+# Datetime in f-string
+from datetime import datetime
+now = datetime(2024, 3, 15, 9, 5, 7)
+print(f&quot;{now:%Y-%m-%d %H:%M:%S}&quot;)  # 2024-03-15 09:05:07
+print(f&quot;{now:%B %d, %Y}&quot;)          # March 15, 2024
+
+# Expression in f-string
+data = [1, 2, 3, 4, 5]
+print(f&quot;Mean: {sum(data)/len(data):.2f}, Max: {max(data)}&quot;)
+
+# Self-documenting expressions (Python 3.8+)
+x = 42
+print(f&quot;{x=}&quot;)   # x=42</code></pre></div><div class="code-block"><div class="ch"><span>textwrap, Template, and str methods</span><button onclick="cp('c29_1')">Copy</button></div><pre><code id="c29_1" class="language-python">import textwrap
+from string import Template
+
+# textwrap.wrap / fill: wrap long text
+long_text = (&quot;Python is a high-level, interpreted, general-purpose programming language. &quot;
+             &quot;Its design philosophy emphasizes code readability with the use of significant indentation.&quot;)
+
+wrapped = textwrap.fill(long_text, width=50)
+print(wrapped)
+print()
+
+# Dedent: remove common leading whitespace (useful after triple-quote strings)
+indented = &#x27;&#x27;&#x27;
+    def foo():
+        return 42
+    &#x27;&#x27;&#x27;
+print(repr(textwrap.dedent(indented).strip()))
+
+# Template: safe for user-provided format strings (no code execution risk)
+tmpl = Template(&quot;Hello $name, your balance is $$${balance:.2f}&quot;)
+print(tmpl.substitute(name=&quot;Alice&quot;, balance=1234.56))
+
+# safe_substitute: does not raise for missing keys
+tmpl2 = Template(&quot;Dear $name, ref: $ref_id&quot;)
+print(tmpl2.safe_substitute(name=&quot;Bob&quot;))  # $ref_id stays
+
+# str methods useful for formatting
+cols = [&quot;id&quot;, &quot;name&quot;, &quot;price&quot;, &quot;qty&quot;]
+print(&quot; | &quot;.join(c.ljust(10) for c in cols))
+print(&quot;-&quot; * 45)
+row = [1, &quot;apple&quot;, 1.20, 50]
+print(&quot; | &quot;.join(str(v).ljust(10) for v in row))</code></pre></div><div class="code-block"><div class="ch"><span>Building tables and reports with format()</span><button onclick="cp('c29_2')">Copy</button></div><pre><code id="c29_2" class="language-python"># format() with the mini-language directly
+print(format(3.14159, &quot;.2f&quot;))
+print(format(1234567, &quot;,&quot;))
+print(format(&quot;hello&quot;, &quot;&gt;20&quot;))
+
+# Building a text table
+headers = [&quot;Product&quot;, &quot;Qty&quot;, &quot;Price&quot;, &quot;Total&quot;]
+rows = [
+    (&quot;Apple&quot;,    50, 1.20, 60.00),
+    (&quot;Banana&quot;,  200, 0.50, 100.00),
+    (&quot;Cherry&quot;,   30, 2.00, 60.00),
+    (&quot;Durian&quot;,    5, 8.75, 43.75),
+]
+
+# Column widths
+w = [12, 6, 8, 10]
+fmt_h = &quot;  &quot;.join(f&quot;{h:&gt;{ww}}&quot; for h, ww in zip(headers, w))
+sep   = &quot;  &quot;.join(&quot;-&quot;*ww for ww in w)
+print(fmt_h)
+print(sep)
+for row in rows:
+    vals = [f&quot;{row[0]:&lt;{w[0]}}&quot;, f&quot;{row[1]:&gt;{w[1]}&quot;,
+            f&quot;{row[2]:&gt;{w[2]}.2f}&quot;, f&quot;{row[3]:&gt;{w[3]}.2f}&quot;]
+    print(&quot;  &quot;.join(vals))
+
+total = sum(r[3] for r in rows)
+print(sep)
+print(f&quot;{&#x27;TOTAL&#x27;:&gt;{sum(w)+6}}: {total:.2f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Report Generator</div><div class="rd">A finance team generates formatted summary reports from sales data using f-strings and textwrap.</div><pre><code class="language-python">from datetime import date
+import textwrap
+
+def format_report(title, data, width=60):
+    border  = &quot;=&quot; * width
+    today   = date.today().strftime(&quot;%B %d, %Y&quot;)
+    lines   = [border, f&quot;  {title}&quot;.center(width), f&quot;  Generated: {today}&quot;.center(width), border, &quot;&quot;]
+
+    # Summary stats
+    totals  = [r[&quot;revenue&quot;] for r in data]
+    lines  += [
+        f&quot;  {&#x27;Region&#x27;:&lt;15} {&#x27;Revenue&#x27;:&gt;12} {&#x27;Units&#x27;:&gt;8} {&#x27;Avg/Unit&#x27;:&gt;10}&quot;,
+        &quot;  &quot; + &quot;-&quot; * (width - 2),
+    ]
+
+    for r in data:
+        avg = r[&quot;revenue&quot;] / r[&quot;units&quot;] if r[&quot;units&quot;] else 0
+        lines.append(
+            f&quot;  {r[&#x27;region&#x27;]:&lt;15} ${r[&#x27;revenue&#x27;]:&gt;11,.0f} {r[&#x27;units&#x27;]:&gt;8,} ${avg:&gt;9.2f}&quot;
+        )
+
+    lines += [&quot;  &quot; + &quot;-&quot; * (width - 2),
+              f&quot;  {&#x27;TOTAL&#x27;:&lt;15} ${sum(totals):&gt;11,.0f}&quot;,
+              &quot;&quot;, border]
+    return &quot;\n&quot;.join(lines)
+
+data = [
+    {&quot;region&quot;: &quot;North&quot;,  &quot;revenue&quot;: 1_450_000, &quot;units&quot;: 9_800},
+    {&quot;region&quot;: &quot;South&quot;,  &quot;revenue&quot;:   980_000, &quot;units&quot;: 7_200},
+    {&quot;region&quot;: &quot;East&quot;,   &quot;revenue&quot;: 2_100_000, &quot;units&quot;: 14_500},
+    {&quot;region&quot;: &quot;West&quot;,   &quot;revenue&quot;: 1_750_000, &quot;units&quot;: 11_000},
+]
+
+print(format_report(&quot;Q1 2024 Sales Report&quot;, data))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Invoice Formatter</div><div class="pd">Write a function format_invoice(company, items, tax_rate) where items is a list of (desc, qty, unit_price) tuples. Print a formatted invoice with: header (company name, date), line items table (description, qty, unit price, line total), subtotal, tax amount, and grand total. Use f-strings with format specs for alignment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">from datetime import date
+
+def format_invoice(company, items, tax_rate=0.08):
+    today    = date.today()
+    subtotal = sum(qty * price for _, qty, price in items)
+    tax      = subtotal * tax_rate
+    total    = subtotal + tax
+
+    w = 55
+    print(&quot;=&quot; * w)
+    print(f&quot;  {company}&quot;.center(w))
+    print(f&quot;  Invoice Date: {today}&quot;.center(w))
+    print(&quot;=&quot; * w)
+    print(f&quot;  {&#x27;Description&#x27;:&lt;22} {&#x27;Qty&#x27;:&gt;4} {&#x27;Unit&#x27;:&gt;8} {&#x27;Total&#x27;:&gt;10}&quot;)
+    print(&quot;  &quot; + &quot;-&quot; * (w-2))
+
+    for desc, qty, price in items:
+        # TODO: print each line with f-string formatting
+        pass
+
+    print(&quot;  &quot; + &quot;-&quot; * (w-2))
+    # TODO: print subtotal, tax, and grand total rows
+    print(&quot;=&quot; * w)
+
+format_invoice(&quot;Acme Corp&quot;, [
+    (&quot;Python Training&quot;,  1, 2500.00),
+    (&quot;Jupyter Setup&quot;,    3,  150.00),
+    (&quot;Cloud Credits&quot;,   10,   49.99),
+], tax_rate=0.09)
+</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Optimization &amp; Caching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Profile before optimizing. Use timeit for micro-benchmarks, functools.cache for memoization, __slots__ for memory, and algorithmic improvements for the biggest wins.</p><div class="code-block"><div class="ch"><span>timeit for micro-benchmarking</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import timeit
+
+# Compare list comprehension vs map() vs for-loop
+setup = &quot;data = list(range(10_000))&quot;
+
+t_comp  = timeit.timeit(&quot;[x**2 for x in data]&quot;,      setup=setup, number=1000)
+t_map   = timeit.timeit(&quot;list(map(lambda x: x**2, data))&quot;, setup=setup, number=1000)
+t_loop  = timeit.timeit(&#x27;&#x27;&#x27;
+result = []
+for x in data:
+    result.append(x**2)
+&#x27;&#x27;&#x27;, setup=setup, number=1000)
+
+print(f&quot;List comprehension: {t_comp:.3f}s&quot;)
+print(f&quot;map(lambda):        {t_map:.3f}s&quot;)
+print(f&quot;for loop + append:  {t_loop:.3f}s&quot;)
+
+# Compare string joining methods
+setup2 = &quot;parts = [&#x27;a&#x27;] * 1000&quot;
+t_join  = timeit.timeit(&quot;&#x27;&#x27;.join(parts)&quot;,        setup=setup2, number=5000)
+t_plus  = timeit.timeit(&quot;s=&#x27;&#x27;
+for p in parts: s += p&quot;, setup=setup2, number=5000)
+print(f&quot;join():     {t_join:.4f}s&quot;)
+print(f&quot;+=:         {t_plus:.4f}s&quot;)
+print(f&quot;join speedup: {t_plus/t_join:.1f}x&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>functools.cache and lru_cache</span><button onclick="cp('c30_1')">Copy</button></div><pre><code id="c30_1" class="language-python">import functools, time
+
+# lru_cache: memoize with a max size limit
+@functools.lru_cache(maxsize=128)
+def fib_lru(n):
+    if n &lt;= 1: return n
+    return fib_lru(n-1) + fib_lru(n-2)
+
+# functools.cache: unlimited cache (Python 3.9+)
+@functools.cache
+def fib_cache(n):
+    if n &lt;= 1: return n
+    return fib_cache(n-1) + fib_cache(n-2)
+
+t0 = time.perf_counter()
+result = fib_lru(40)
+print(f&quot;fib(40) = {result}, lru_cache time: {(time.perf_counter()-t0)*1000:.2f}ms&quot;)
+print(&quot;Cache info:&quot;, fib_lru.cache_info())
+
+# cached_property: compute once, then return stored value
+class DataStats:
+    def __init__(self, data):
+        self._data = data
+
+    @functools.cached_property
+    def mean(self):
+        print(&quot;  (computing mean...)&quot;)
+        return sum(self._data) / len(self._data)
+
+    @functools.cached_property
+    def std(self):
+        print(&quot;  (computing std...)&quot;)
+        m = self.mean
+        return (sum((x-m)**2 for x in self._data) / len(self._data)) ** 0.5
+
+ds = DataStats(list(range(1000)))
+print(&quot;mean:&quot;, ds.mean)
+print(&quot;mean:&quot;, ds.mean)  # no recompute
+print(&quot;std: &quot;, ds.std)</code></pre></div><div class="code-block"><div class="ch"><span>Algorithmic improvements and built-in speed</span><button onclick="cp('c30_2')">Copy</button></div><pre><code id="c30_2" class="language-python">import timeit, collections
+
+# O(n) lookup with set vs list
+data_list = list(range(10_000))
+data_set  = set(data_list)
+
+t_list = timeit.timeit(&quot;9999 in data_list&quot;, globals=locals(), number=100_000)
+t_set  = timeit.timeit(&quot;9999 in data_set&quot;,  globals=locals(), number=100_000)
+print(f&quot;list &#x27;in&#x27;: {t_list:.4f}s&quot;)
+print(f&quot;set  &#x27;in&#x27;: {t_set:.4f}s&quot;)
+print(f&quot;Set speedup: {t_list/t_set:.0f}x&quot;)
+
+# Counter vs manual counting
+words = &quot;the quick brown fox jumps over the lazy dog the fox&quot;.split()
+
+t_manual = timeit.timeit(&#x27;&#x27;&#x27;
+counts = {}
+for w in words:
+    counts[w] = counts.get(w, 0) + 1
+&#x27;&#x27;&#x27;, globals={&quot;words&quot;: words}, number=50_000)
+
+t_counter = timeit.timeit(&quot;collections.Counter(words)&quot;,
+                           globals={&quot;collections&quot;: collections, &quot;words&quot;: words},
+                           number=50_000)
+print(f&quot;Manual count: {t_manual:.4f}s&quot;)
+print(f&quot;Counter:      {t_counter:.4f}s&quot;)
+
+# Use sorted() key function instead of cmp
+records = [{&quot;name&quot;: n, &quot;score&quot;: s} for n, s in [(&quot;Bob&quot;, 72), (&quot;Alice&quot;, 95), (&quot;Charlie&quot;, 88)]]
+sorted_records = sorted(records, key=lambda r: r[&quot;score&quot;], reverse=True)
+for r in sorted_records:
+    print(f&quot;  {r[&#x27;name&#x27;]:10s}: {r[&#x27;score&#x27;]}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: DataFrame-like Aggregator</div><div class="rd">A custom data aggregation class uses caching and efficient data structures to compute statistics on large datasets without pandas.</div><pre><code class="language-python">import functools, collections, statistics
+
+class FastAggregator:
+    def __init__(self, records):
+        self._records = records
+        self._by_key  = None  # lazy
+
+    def _ensure_index(self):
+        if self._by_key is None:
+            self._by_key = collections.defaultdict(list)
+            for r in self._records:
+                self._by_key[r[&quot;group&quot;]].append(r[&quot;value&quot;])
+
+    @functools.cached_property
+    def group_means(self):
+        self._ensure_index()
+        return {k: statistics.mean(v) for k, v in self._by_key.items()}
+
+    @functools.cached_property
+    def group_counts(self):
+        self._ensure_index()
+        return {k: len(v) for k, v in self._by_key.items()}
+
+    @functools.cached_property
+    def overall_mean(self):
+        vals = [r[&quot;value&quot;] for r in self._records]
+        return statistics.mean(vals)
+
+import random
+random.seed(42)
+records = [{&quot;group&quot;: f&quot;G{i%5}&quot;, &quot;value&quot;: random.gauss(50, 10)} for i in range(10_000)]
+
+agg = FastAggregator(records)
+print(&quot;Group means:&quot;, {k: f&quot;{v:.2f}&quot; for k, v in agg.group_means.items()})
+print(&quot;Group counts:&quot;, agg.group_counts)
+print(&quot;Overall mean:&quot;, f&quot;{agg.overall_mean:.2f}&quot;)
+print(&quot;(Accessing again — no recompute):&quot;, f&quot;{agg.overall_mean:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Challenge</div><div class="pd">Write three versions of a function find_duplicates(lst) that returns a list of values appearing more than once: (1) brute_force using nested loops O(n^2), (2) sort_based by sorting first O(n log n), (3) hash_based using Counter O(n). Benchmark all three with timeit on a list of 10,000 integers. Report the speedups.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import timeit, collections, random
+
+random.seed(42)
+data = [random.randint(0, 500) for _ in range(10_000)]
+
+def brute_force(lst):
+    dups = set()
+    for i in range(len(lst)):
+        for j in range(i+1, len(lst)):
+            if lst[i] == lst[j]:
+                dups.add(lst[i])
+    return list(dups)
+
+def sort_based(lst):
+    # TODO: sort, then check adjacent equal elements
+    pass
+
+def hash_based(lst):
+    # TODO: use collections.Counter, return keys with count &gt; 1
+    pass
+
+# Only benchmark sort_based and hash_based (brute force is too slow)
+for name, fn in [(&quot;sort_based&quot;, sort_based), (&quot;hash_based&quot;, hash_based)]:
+    t = timeit.timeit(lambda: fn(data), number=100)
+    print(f&quot;{name}: {t:.4f}s, found {len(fn(data))} duplicates&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Virtual Environments &amp; Package Management</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Virtual environments isolate project dependencies. pip manages packages, and importlib enables dynamic imports at runtime — essential for building extensible systems.</p><div class="code-block"><div class="ch"><span>venv and pip (commands and concepts)</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python"># These commands are run in the terminal (not runnable as Python code)
+# They are shown here as strings for educational purposes
+
+venv_commands = &#x27;&#x27;&#x27;
+# Create a virtual environment
+python -m venv .venv
+
+# Activate (macOS/Linux)
+source .venv/bin/activate
+
+# Activate (Windows)
+.venv\\Scripts\\activate
+
+# Install packages
+pip install requests pandas scikit-learn
+
+# Install from requirements file
+pip install -r requirements.txt
+
+# Freeze current environment
+pip freeze &gt; requirements.txt
+
+# Upgrade a package
+pip install --upgrade numpy
+
+# Show installed packages
+pip list
+pip show numpy
+
+# Deactivate
+deactivate
+&#x27;&#x27;&#x27;
+
+# requirements.txt format:
+req_txt = &#x27;&#x27;&#x27;
+# requirements.txt
+numpy&gt;=1.24,&lt;2.0
+pandas==2.1.0
+scikit-learn&gt;=1.3
+requests&gt;=2.31
+matplotlib&gt;=3.7; python_version &gt;= &quot;3.9&quot;
+&#x27;&#x27;&#x27;
+
+# pyproject.toml format (modern, preferred):
+pyproject_toml = &#x27;&#x27;&#x27;
+[project]
+name = &quot;my-ml-project&quot;
+version = &quot;0.1.0&quot;
+requires-python = &quot;&gt;=3.10&quot;
+dependencies = [
+    &quot;numpy&gt;=1.24&quot;,
+    &quot;pandas&gt;=2.1&quot;,
+    &quot;scikit-learn&gt;=1.3&quot;,
+]
+
+[project.optional-dependencies]
+dev = [&quot;pytest&quot;, &quot;black&quot;, &quot;mypy&quot;]
+&#x27;&#x27;&#x27;
+
+print(&quot;Common venv workflow:&quot;)
+for cmd in [&quot;python -m venv .venv&quot;, &quot;source .venv/bin/activate&quot;, &quot;pip install -r requirements.txt&quot;]:
+    print(f&quot;  $ {cmd}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>importlib: dynamic imports at runtime</span><button onclick="cp('c31_1')">Copy</button></div><pre><code id="c31_1" class="language-python">import importlib, sys
+
+# Basic dynamic import
+math = importlib.import_module(&quot;math&quot;)
+print(&quot;sqrt(16):&quot;, math.sqrt(16))
+
+# Import a submodule
+pprint = importlib.import_module(&quot;pprint&quot;)
+pprint.pprint({&quot;a&quot;: 1, &quot;b&quot;: [2, 3]})
+
+# Conditional import: use fast version if available
+def import_or_fallback(preferred, fallback):
+    try:
+        return importlib.import_module(preferred)
+    except ImportError:
+        print(f&quot;  {preferred} not found, using {fallback}&quot;)
+        return importlib.import_module(fallback)
+
+json_mod = import_or_fallback(&quot;ujson&quot;, &quot;json&quot;)  # ujson is faster if installed
+print(&quot;json module:&quot;, json_mod.__name__)
+
+# importlib.util: check if a module is available without importing it
+import importlib.util
+
+for pkg in [&quot;numpy&quot;, &quot;pandas&quot;, &quot;flask&quot;, &quot;fastapi&quot;, &quot;nonexistent_pkg&quot;]:
+    spec = importlib.util.find_spec(pkg)
+    status = &quot;installed&quot; if spec else &quot;NOT installed&quot;
+    print(f&quot;  {pkg:&lt;20} {status}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Package structure and __init__.py</span><button onclick="cp('c31_2')">Copy</button></div><pre><code id="c31_2" class="language-python">import tempfile, pathlib, sys, importlib
+
+# Create a minimal package structure in a temp directory
+tmp = pathlib.Path(tempfile.mkdtemp())
+pkg = tmp / &quot;mypackage&quot;
+pkg.mkdir()
+
+# Package init
+(pkg / &quot;__init__.py&quot;).write_text(&#x27;&#x27;&#x27;
+__version__ = &quot;1.0.0&quot;
+from mypackage.utils import add, multiply
+&#x27;&#x27;&#x27;)
+
+(pkg / &quot;utils.py&quot;).write_text(&#x27;&#x27;&#x27;
+def add(a, b):
+    return a + b
+
+def multiply(a, b):
+    return a * b
+&#x27;&#x27;&#x27;)
+
+(pkg / &quot;models.py&quot;).write_text(&#x27;&#x27;&#x27;
+class LinearModel:
+    def __init__(self, slope=1, intercept=0):
+        self.slope = slope
+        self.intercept = intercept
+
+    def predict(self, x):
+        return self.slope * x + self.intercept
+&#x27;&#x27;&#x27;)
+
+# Add tmp to path so Python can find our package
+sys.path.insert(0, str(tmp))
+
+# Import our package
+mypackage = importlib.import_module(&quot;mypackage&quot;)
+print(&quot;Version:&quot;, mypackage.__version__)
+print(&quot;add:&quot;, mypackage.add(3, 4))
+print(&quot;multiply:&quot;, mypackage.multiply(3, 4))
+
+models = importlib.import_module(&quot;mypackage.models&quot;)
+m = models.LinearModel(slope=2.5, intercept=-1)
+print(&quot;predict(10):&quot;, m.predict(10))
+
+sys.path.pop(0)
+import shutil; shutil.rmtree(tmp)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Plugin Loader System</div><div class="rd">An application dynamically loads analysis plugins from a directory at startup using importlib, without hardcoding plugin names.</div><pre><code class="language-python">import importlib, importlib.util, pathlib, sys, tempfile, shutil
+
+# Create plugin directory with two demo plugins
+tmp = pathlib.Path(tempfile.mkdtemp())
+plugin_dir = tmp / &quot;plugins&quot;
+plugin_dir.mkdir()
+
+(plugin_dir / &quot;plugin_stats.py&quot;).write_text(&#x27;&#x27;&#x27;
+def run(data):
+    n = len(data)
+    mean = sum(data) / n
+    return {&quot;plugin&quot;: &quot;stats&quot;, &quot;count&quot;: n, &quot;mean&quot;: round(mean, 2)}
+&#x27;&#x27;&#x27;)
+
+(plugin_dir / &quot;plugin_filter.py&quot;).write_text(&#x27;&#x27;&#x27;
+def run(data):
+    filtered = [x for x in data if x &gt; 0]
+    return {&quot;plugin&quot;: &quot;filter&quot;, &quot;kept&quot;: len(filtered), &quot;dropped&quot;: len(data)-len(filtered)}
+&#x27;&#x27;&#x27;)
+
+def load_plugins(plugin_dir):
+    plugins = {}
+    for path in sorted(pathlib.Path(plugin_dir).glob(&quot;plugin_*.py&quot;)):
+        name = path.stem
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod  = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        plugins[name] = mod
+        print(f&quot;  Loaded: {name}&quot;)
+    return plugins
+
+sys.path.insert(0, str(plugin_dir))
+plugins = load_plugins(plugin_dir)
+
+data = [3, -1, 7, 0, -2, 5, 9]
+for name, plugin in plugins.items():
+    print(f&quot;  {name}: {plugin.run(data)}&quot;)
+
+sys.path.pop(0)
+shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dependency Checker</div><div class="pd">Write a function check_dependencies(requirements) that takes a list of package names and uses importlib.util.find_spec() to check if each is installed. Return a dict with &#x27;installed&#x27; and &#x27;missing&#x27; lists. Write another function install_missing(missing) that prints the pip install command needed (don&#x27;t actually run it — just print it).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import importlib.util
+
+def check_dependencies(requirements):
+    installed = []
+    missing   = []
+    for pkg in requirements:
+        # Note: package names may differ from import names (e.g. scikit-learn -&gt; sklearn)
+        import_name = pkg.replace(&quot;-&quot;, &quot;_&quot;).split(&quot;&gt;=&quot;)[0].split(&quot;==&quot;)[0].strip()
+        spec = importlib.util.find_spec(import_name)
+        if spec:
+            installed.append(pkg)
+        else:
+            missing.append(pkg)
+    return {&quot;installed&quot;: installed, &quot;missing&quot;: missing}
+
+def install_missing(missing):
+    # TODO: print pip install command for each missing package
+    pass
+
+packages = [&quot;numpy&quot;, &quot;pandas&quot;, &quot;requests&quot;, &quot;flask&quot;, &quot;nonexistent_lib&quot;, &quot;anotherMissingPkg&quot;]
+result = check_dependencies(packages)
+print(&quot;Installed:&quot;, result[&quot;installed&quot;])
+print(&quot;Missing:&quot;,   result[&quot;missing&quot;])
+install_missing(result[&quot;missing&quot;])
+</code></pre></div></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>33. Introspection &amp; Metaprogramming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s runtime lets you inspect and modify objects, classes, and functions dynamically. Use inspect, dir(), getattr(), and metaclasses for powerful abstractions.</p><div class="code-block"><div class="ch"><span>dir(), type(), getattr(), hasattr(), inspect</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import inspect
+
+class Rectangle:
+    width: float
+    height: float
+
+    def __init__(self, w, h):
+        self.width = w
+        self.height = h
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+r = Rectangle(4, 6)
+
+# dir() lists all attributes and methods
+attrs = [a for a in dir(r) if not a.startswith(&quot;_&quot;)]
+print(&quot;Public attrs:&quot;, attrs)
+
+# type() and isinstance()
+print(&quot;type:&quot;, type(r).__name__)
+print(&quot;isinstance(r, Rectangle):&quot;, isinstance(r, Rectangle))
+print(&quot;isinstance(r, object):   &quot;, isinstance(r, object))
+
+# getattr / setattr / hasattr / delattr
+for method in [&quot;area&quot;, &quot;perimeter&quot;, &quot;nonexistent&quot;]:
+    if hasattr(r, method):
+        fn = getattr(r, method)
+        print(f&quot;{method}(): {fn()}&quot;)
+    else:
+        print(f&quot;{method}: not found&quot;)
+
+# inspect module
+print(&quot;Source file:&quot;, inspect.getfile(Rectangle))
+sig = inspect.signature(Rectangle.__init__)
+print(&quot;Signature:&quot;, sig)
+print(&quot;Parameters:&quot;, list(sig.parameters.keys()))</code></pre></div><div class="code-block"><div class="ch"><span>__dict__, __class__, MRO, and vars()</span><button onclick="cp('c32_1')">Copy</button></div><pre><code id="c32_1" class="language-python">class Animal:
+    kingdom = &quot;Animalia&quot;
+
+    def __init__(self, name, species):
+        self.name    = name
+        self.species = species
+
+    def speak(self):
+        return &quot;...&quot;
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name, &quot;Canis lupus familiaris&quot;)
+
+    def speak(self):
+        return &quot;Woof!&quot;
+
+class GoldenRetriever(Dog):
+    breed = &quot;Golden Retriever&quot;
+
+g = GoldenRetriever(&quot;Buddy&quot;)
+
+# Instance __dict__: instance attributes only
+print(&quot;Instance __dict__:&quot;, g.__dict__)
+
+# Class __dict__: class attributes only
+print(&quot;Class __dict__ keys:&quot;, list(GoldenRetriever.__dict__.keys()))
+
+# vars(): same as __dict__ for objects
+print(&quot;vars(g):&quot;, vars(g))
+
+# Method Resolution Order (MRO)
+print(&quot;MRO:&quot;, [c.__name__ for c in GoldenRetriever.__mro__])
+
+# Class attributes vs instance attributes
+print(&quot;Class attr &#x27;kingdom&#x27;:&quot;, g.kingdom)  # inherited from Animal
+g.kingdom = &quot;override&quot;                      # creates instance attr
+print(&quot;Instance attr &#x27;kingdom&#x27;:&quot;, g.__dict__[&quot;kingdom&quot;])
+print(&quot;Class still has:&quot;, Animal.kingdom)</code></pre></div><div class="code-block"><div class="ch"><span>Metaclasses and __init_subclass__</span><button onclick="cp('c32_2')">Copy</button></div><pre><code id="c32_2" class="language-python"># Metaclass: controls how classes are created
+
+class SingletonMeta(type):
+    # Ensure only one instance per class
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class AppConfig(metaclass=SingletonMeta):
+    def __init__(self):
+        self.debug = False
+        self.host  = &quot;localhost&quot;
+
+c1 = AppConfig()
+c2 = AppConfig()
+c1.debug = True
+
+print(&quot;Same object:&quot;, c1 is c2)  # True
+print(&quot;c2.debug:&quot;, c2.debug)     # True — same instance!
+
+# __init_subclass__: called when a subclass is defined
+class PluginBase:
+    _registry = {}
+
+    def __init_subclass__(cls, plugin_name=None, **kwargs):
+        super().__init_subclass__(**kwargs)
+        name = plugin_name or cls.__name__.lower()
+        PluginBase._registry[name] = cls
+        print(f&quot;Registered plugin: {name!r}&quot;)
+
+class CSVPlugin(PluginBase, plugin_name=&quot;csv&quot;):
+    def run(self): return &quot;csv output&quot;
+
+class JSONPlugin(PluginBase, plugin_name=&quot;json&quot;):
+    def run(self): return &quot;json output&quot;
+
+print(&quot;Registry:&quot;, list(PluginBase._registry.keys()))
+plugin = PluginBase._registry[&quot;csv&quot;]()
+print(&quot;CSV plugin run:&quot;, plugin.run())</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Auto-Documented API</div><div class="rd">A REST API framework uses introspection to auto-generate documentation from function signatures and docstrings.</div><pre><code class="language-python">import inspect
+
+class APIRouter:
+    def __init__(self):
+        self.routes = {}
+
+    def route(self, path, method=&quot;GET&quot;):
+        def decorator(func):
+            sig    = inspect.signature(func)
+            doc    = inspect.getdoc(func) or &quot;No description&quot;
+            params = {
+                name: {&quot;annotation&quot;: str(p.annotation.__name__ if p.annotation is not inspect.Parameter.empty else &quot;any&quot;),
+                       &quot;default&quot;: str(p.default) if p.default is not inspect.Parameter.empty else &quot;required&quot;}
+                for name, p in list(sig.parameters.items())[1:]  # skip &#x27;self&#x27;
+            }
+            self.routes[f&quot;{method} {path}&quot;] = {
+                &quot;handler&quot;: func.__name__,
+                &quot;doc&quot;:     doc,
+                &quot;params&quot;:  params,
+            }
+            return func
+        return decorator
+
+    def docs(self):
+        for endpoint, info in self.routes.items():
+            print(f&quot;\n{endpoint} -&gt; {info[&#x27;handler&#x27;]}&quot;)
+            print(f&quot;  {info[&#x27;doc&#x27;]}&quot;)
+            for p, meta in info[&quot;params&quot;].items():
+                print(f&quot;  - {p}: {meta[&#x27;annotation&#x27;]} (default={meta[&#x27;default&#x27;]})&quot;)
+
+router = APIRouter()
+
+@router.route(&quot;/users&quot;, &quot;GET&quot;)
+def list_users(limit: int = 20, offset: int = 0):
+    # Return paginated list of users.
+    pass
+
+@router.route(&quot;/users/{id}&quot;, &quot;GET&quot;)
+def get_user(user_id: int, include_meta: bool = False):
+    # Fetch a single user by ID.
+    pass
+
+router.docs()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Inspector</div><div class="pd">Write a function inspect_class(cls) that returns a dict with: &#x27;name&#x27; (class name), &#x27;bases&#x27; (list of base class names), &#x27;mro&#x27; (list of names), &#x27;class_attrs&#x27; (non-dunder class-level attributes), &#x27;methods&#x27; (public methods with their signatures as strings). Test it on a class you define with inheritance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import inspect
+
+def inspect_class(cls):
+    result = {
+        &quot;name&quot;:        cls.__name__,
+        &quot;bases&quot;:       [b.__name__ for b in cls.__bases__],
+        &quot;mro&quot;:         [c.__name__ for c in cls.__mro__],
+        &quot;class_attrs&quot;: {},
+        &quot;methods&quot;:     {},
+    }
+
+    for name, val in cls.__dict__.items():
+        if name.startswith(&quot;_&quot;):
+            continue
+        if callable(val):
+            sig = inspect.signature(val)
+            result[&quot;methods&quot;][name] = str(sig)
+        else:
+            result[&quot;class_attrs&quot;][name] = repr(val)
+
+    return result
+
+class Vehicle:
+    wheels = 4
+    fuel   = &quot;gasoline&quot;
+
+    def __init__(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
+
+    def drive(self, distance: float) -&gt; float:
+        return distance / self.speed
+
+class ElectricCar(Vehicle):
+    fuel = &quot;electric&quot;
+
+    def charge(self, hours: int) -&gt; str:
+        return f&quot;Charging for {hours}h&quot;
+
+for cls in [Vehicle, ElectricCar]:
+    info = inspect_class(cls)
+    print(f&quot;\n{info[&#x27;name&#x27;]}:&quot;)
+    print(f&quot;  bases: {info[&#x27;bases&#x27;]}&quot;)
+    print(f&quot;  attrs: {info[&#x27;class_attrs&#x27;]}&quot;)
+    print(f&quot;  methods: {info[&#x27;methods&#x27;]}&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>34. Advanced Type Hints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s typing module enables static analysis with TypeVar, Generic, Protocol, overload, and Literal. Well-typed code is self-documenting and catches bugs before runtime.</p><div class="code-block"><div class="ch"><span>TypeVar and Generic classes</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">from typing import TypeVar, Generic, Iterable, Optional
+
+T = TypeVar(&quot;T&quot;)
+K = TypeVar(&quot;K&quot;)
+V = TypeVar(&quot;V&quot;)
+
+# Generic function: type-safe identity
+def first(items: list[T]) -&gt; Optional[T]:
+    return items[0] if items else None
+
+print(first([1, 2, 3]))        # int
+print(first([&quot;a&quot;, &quot;b&quot;]))       # str
+print(first([]))               # None
+
+# Generic class: type-safe stack
+class Stack(Generic[T]):
+    def __init__(self) -&gt; None:
+        self._items: list[T] = []
+
+    def push(self, item: T) -&gt; None:
+        self._items.append(item)
+
+    def pop(self) -&gt; T:
+        if not self._items:
+            raise IndexError(&quot;pop from empty stack&quot;)
+        return self._items.pop()
+
+    def peek(self) -&gt; Optional[T]:
+        return self._items[-1] if self._items else None
+
+    def __len__(self) -&gt; int:
+        return len(self._items)
+
+int_stack: Stack[int] = Stack()
+int_stack.push(1)
+int_stack.push(2)
+int_stack.push(3)
+print(&quot;peek:&quot;, int_stack.peek())  # 3
+print(&quot;pop: &quot;, int_stack.pop())   # 3
+print(&quot;len: &quot;, len(int_stack))    # 2</code></pre></div><div class="code-block"><div class="ch"><span>Union, Optional, Literal, Final, TypeAlias</span><button onclick="cp('c33_1')">Copy</button></div><pre><code id="c33_1" class="language-python">from typing import Union, Optional, Literal, Final
+import sys
+
+# Union: accepts multiple types (Python 3.10+: int | str)
+def process(value: Union[int, str, float]) -&gt; str:
+    return f&quot;Got {type(value).__name__}: {value}&quot;
+
+print(process(42))
+print(process(&quot;hello&quot;))
+print(process(3.14))
+
+# Optional[T] is shorthand for Union[T, None]
+def find_user(user_id: int) -&gt; Optional[dict]:
+    db = {1: {&quot;name&quot;: &quot;Alice&quot;}, 2: {&quot;name&quot;: &quot;Bob&quot;}}
+    return db.get(user_id)
+
+user = find_user(1)
+if user:
+    print(&quot;Found:&quot;, user[&quot;name&quot;])
+
+# Literal: restrict to specific values
+Mode = Literal[&quot;read&quot;, &quot;write&quot;, &quot;append&quot;]
+
+def open_file(path: str, mode: Mode) -&gt; str:
+    return f&quot;Opening {path} in {mode} mode&quot;
+
+print(open_file(&quot;data.csv&quot;, &quot;read&quot;))
+
+# Final: constant that cannot be reassigned
+MAX_RETRIES: Final = 3
+API_URL:     Final[str] = &quot;https://api.example.com&quot;
+
+# TypeAlias (Python 3.10+)
+if sys.version_info &gt;= (3, 10):
+    from typing import TypeAlias
+    Vector: TypeAlias = list[float]
+    Matrix: TypeAlias = list[list[float]]
+
+print(f&quot;MAX_RETRIES: {MAX_RETRIES}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>@overload for multiple signatures</span><button onclick="cp('c33_2')">Copy</button></div><pre><code id="c33_2" class="language-python">from typing import overload, Union
+
+# @overload allows multiple type signatures for the same function
+# Only the implementation signature uses the body
+
+@overload
+def parse(value: str) -&gt; int: ...
+@overload
+def parse(value: bytes) -&gt; float: ...
+@overload
+def parse(value: int) -&gt; str: ...
+
+def parse(value: Union[str, bytes, int]) -&gt; Union[int, float, str]:
+    if isinstance(value, str):
+        return int(value)
+    elif isinstance(value, bytes):
+        return float(value.decode())
+    else:
+        return str(value)
+
+print(parse(&quot;42&quot;))    # int
+print(parse(b&quot;3.14&quot;)) # float
+print(parse(100))     # str
+
+# TypedDict: dict with typed keys
+from typing import TypedDict, NotRequired
+
+class UserRecord(TypedDict):
+    id:    int
+    name:  str
+    email: str
+    age:   NotRequired[int]  # optional key
+
+def create_user(data: UserRecord) -&gt; str:
+    return f&quot;User {data[&#x27;name&#x27;]} ({data[&#x27;email&#x27;]})&quot;
+
+user: UserRecord = {&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;, &quot;email&quot;: &quot;alice@example.com&quot;, &quot;age&quot;: 30}
+print(create_user(user))
+
+user2: UserRecord = {&quot;id&quot;: 2, &quot;name&quot;: &quot;Bob&quot;, &quot;email&quot;: &quot;bob@example.com&quot;}
+print(create_user(user2))  # age is optional</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Typed Data Pipeline</div><div class="rd">A production data pipeline uses TypedDict, Generic, and Union to enforce type contracts across stages, catching mismatches early.</div><pre><code class="language-python">from typing import TypedDict, Generic, TypeVar, Optional, Callable
+from dataclasses import dataclass, field
+
+T = TypeVar(&quot;T&quot;)
+R = TypeVar(&quot;R&quot;)
+
+class RawRecord(TypedDict):
+    id:    int
+    name:  str
+    value: float
+    valid: bool
+
+class CleanRecord(TypedDict):
+    id:    int
+    name:  str
+    value: float
+
+@dataclass
+class Pipeline(Generic[T, R]):
+    steps: list[Callable[[T], R]] = field(default_factory=list)
+
+    def add_step(self, fn: Callable) -&gt; &quot;Pipeline&quot;:
+        self.steps.append(fn)
+        return self
+
+    def run(self, data: list[T]) -&gt; list:
+        result = data
+        for step in self.steps:
+            result = [step(r) for r in result if r is not None]
+        return result
+
+def filter_valid(r: RawRecord) -&gt; Optional[RawRecord]:
+    return r if r[&quot;valid&quot;] and r[&quot;value&quot;] &gt; 0 else None
+
+def normalize(r: RawRecord) -&gt; CleanRecord:
+    return {&quot;id&quot;: r[&quot;id&quot;], &quot;name&quot;: r[&quot;name&quot;].strip().title(), &quot;value&quot;: round(r[&quot;value&quot;], 2)}
+
+records: list[RawRecord] = [
+    {&quot;id&quot;: 1, &quot;name&quot;: &quot;alice smith&quot;,  &quot;value&quot;: 129.5,  &quot;valid&quot;: True},
+    {&quot;id&quot;: 2, &quot;name&quot;: &quot;BOB JONES&quot;,    &quot;value&quot;: -5.0,   &quot;valid&quot;: False},
+    {&quot;id&quot;: 3, &quot;name&quot;: &quot;  carol lee &quot;, &quot;value&quot;: 89.99,  &quot;valid&quot;: True},
+]
+
+pipeline: Pipeline[RawRecord, CleanRecord] = Pipeline()
+pipeline.add_step(filter_valid).add_step(normalize)
+result = pipeline.run(records)
+for r in result:
+    print(f&quot;  {r}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generic Result Type</div><div class="pd">Implement a generic Result[T, E] class (inspired by Rust) with two states: Ok(value: T) and Err(error: E). Add methods: is_ok(), is_err(), unwrap() (returns value or raises), unwrap_or(default), map(fn) (applies fn to value if Ok, returns new Result). Write tests using Result[int, str].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">from typing import Generic, TypeVar, Callable, Optional
+from dataclasses import dataclass
+
+T = TypeVar(&quot;T&quot;)
+E = TypeVar(&quot;E&quot;)
+U = TypeVar(&quot;U&quot;)
+
+@dataclass
+class Result(Generic[T, E]):
+    _value: Optional[T] = None
+    _error: Optional[E] = None
+
+    @classmethod
+    def ok(cls, value: T) -&gt; &quot;Result[T, E]&quot;:
+        return cls(_value=value)
+
+    @classmethod
+    def err(cls, error: E) -&gt; &quot;Result[T, E]&quot;:
+        return cls(_error=error)
+
+    def is_ok(self) -&gt; bool:
+        return self._error is None
+
+    def is_err(self) -&gt; bool:
+        return self._error is not None
+
+    def unwrap(self) -&gt; T:
+        if self.is_err():
+            raise ValueError(f&quot;Called unwrap on Err: {self._error}&quot;)
+        return self._value
+
+    def unwrap_or(self, default: T) -&gt; T:
+        # TODO: return value if ok, else default
+        pass
+
+    def map(self, fn: Callable[[T], U]) -&gt; &quot;Result[U, E]&quot;:
+        # TODO: if ok, return Result.ok(fn(self._value)), else return self
+        pass
+
+# Tests
+r1 = Result.ok(42)
+r2 = Result.err(&quot;not found&quot;)
+
+print(r1.is_ok(), r1.unwrap())
+print(r2.is_err(), r2.unwrap_or(-1))
+print(r1.map(lambda x: x * 2).unwrap())
+try:    r2.unwrap()
+except ValueError as e: print(&quot;Caught:&quot;, e)
 </code></pre></div></div></div></div>
 </main>
 <script>

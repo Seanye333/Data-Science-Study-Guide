@@ -21,7 +21,7 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
 .practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
 .ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
 .pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
-<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 16 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 32 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup &amp; Themes</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Distribution Plots</a></li>
@@ -38,8 +38,24 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d
     <li><a href="#s12" onclick="act(this,event)">13. Regression &amp; Distribution Plots</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. FacetGrid &amp; PairGrid</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. Statistical Visualization Deep Dive</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Custom Seaborn Themes &amp; Styling</a></li></ul></aside>
-<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">16 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s15" onclick="act(this,event)">16. Custom Seaborn Themes &amp; Styling</a></li>
+    <li><a href="#s16" onclick="act(this,event)">17. Strip Plot &amp; Swarm Plot</a></li>
+    <li><a href="#s17" onclick="act(this,event)">18. Point Plot &amp; Statistical Line Plots</a></li>
+    <li><a href="#s18" onclick="act(this,event)">19. ECDF &amp; Distribution Comparison</a></li>
+    <li><a href="#s19" onclick="act(this,event)">20. Cluster Map</a></li>
+    <li><a href="#s20" onclick="act(this,event)">21. Joint Plot Advanced</a></li>
+    <li><a href="#s21" onclick="act(this,event)">22. catplot — Figure-Level Categorical</a></li>
+    <li><a href="#s22" onclick="act(this,event)">23. displot — Figure-Level Distributions</a></li>
+    <li><a href="#s23" onclick="act(this,event)">24. relplot — Figure-Level Relational</a></li>
+    <li><a href="#s24" onclick="act(this,event)">25. Heatmap Advanced</a></li>
+    <li><a href="#s25" onclick="act(this,event)">26. PairGrid Advanced</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Residual &amp; Regression Diagnostics</a></li>
+    <li><a href="#s27" onclick="act(this,event)">28. Mixed Seaborn + Matplotlib</a></li>
+    <li><a href="#s28" onclick="act(this,event)">29. Seaborn with Real Datasets</a></li>
+    <li><a href="#s29" onclick="act(this,event)">30. Object-Oriented Seaborn</a></li>
+    <li><a href="#s30" onclick="act(this,event)">31. Color Systems &amp; Accessibility</a></li>
+    <li><a href="#s31" onclick="act(this,event)">32. Seaborn Dashboard Composition</a></li></ul></aside>
+<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">32 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -2414,7 +2430,2595 @@ import pandas as pd
 # TODO: set_theme dark background rc params
 # TODO: 3-panel: histplot, scatterplot, barplot
 # TODO: suptitle, tight_layout, save &#x27;night_report.png&#x27; 150 DPI
-# TODO: sns.set_theme() at end</code></pre></div></div></div></div></main>
+# TODO: sns.set_theme() at end</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Strip Plot &amp; Swarm Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use stripplot() to show individual data points by category and swarmplot() to avoid overplotting by spacing points. Layer them over box or violin plots for richer displays.</p><div class="code-block"><div class="ch"><span>Basic strip and swarm comparison</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5))
+sns.stripplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, ax=ax1,
+              palette=&#x27;Set2&#x27;, jitter=True, alpha=0.7, size=5)
+ax1.set_title(&#x27;Strip Plot (jitter)&#x27;)
+
+sns.swarmplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, ax=ax2,
+              palette=&#x27;Set2&#x27;, size=4)
+ax2.set_title(&#x27;Swarm Plot (no overlap)&#x27;)
+
+for ax in (ax1, ax2):
+    ax.set_xlabel(&#x27;Day&#x27;); ax.set_ylabel(&#x27;Total Bill ($)&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;strip_swarm.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved strip_swarm.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Strip plot layered over box plot</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+sns.boxplot(data=iris, x=&#x27;species&#x27;, y=&#x27;sepal_length&#x27;, ax=ax,
+            palette=&#x27;pastel&#x27;, width=0.5,
+            boxprops=dict(alpha=0.6))
+sns.stripplot(data=iris, x=&#x27;species&#x27;, y=&#x27;sepal_length&#x27;, ax=ax,
+              palette=&#x27;Set2&#x27;, size=5, jitter=True, alpha=0.7,
+              linewidth=0.5, edgecolor=&#x27;gray&#x27;)
+ax.set_title(&#x27;Box + Strip Plot Overlay&#x27;)
+ax.set_xlabel(&#x27;Species&#x27;); ax.set_ylabel(&#x27;Sepal Length (cm)&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;box_strip.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved box_strip.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Swarm layered over violin</span><button onclick="cp('c16_2')">Copy</button></div><pre><code id="c16_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+df = pd.DataFrame({
+    &#x27;score&#x27;: np.concatenate([np.random.normal(m, 1, 60) for m in [5, 6.5, 8]]),
+    &#x27;group&#x27;: np.repeat([&#x27;Control&#x27;, &#x27;Low Dose&#x27;, &#x27;High Dose&#x27;], 60)
+})
+
+fig, ax = plt.subplots(figsize=(8, 5))
+sns.violinplot(data=df, x=&#x27;group&#x27;, y=&#x27;score&#x27;, ax=ax,
+               palette=&#x27;muted&#x27;, inner=None, alpha=0.6)
+sns.swarmplot(data=df, x=&#x27;group&#x27;, y=&#x27;score&#x27;, ax=ax,
+              color=&#x27;black&#x27;, size=3, alpha=0.6)
+ax.set_title(&#x27;Violin + Swarm: Treatment Groups&#x27;)
+ax.set_xlabel(&#x27;Group&#x27;); ax.set_ylabel(&#x27;Score&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;violin_swarm.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved violin_swarm.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Strip plot with hue and dodge</span><button onclick="cp('c16_3')">Copy</button></div><pre><code id="c16_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.stripplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, hue=&#x27;sex&#x27;,
+              dodge=True, jitter=True, alpha=0.7, size=5,
+              palette=&#x27;Set1&#x27;, ax=ax)
+ax.set_title(&#x27;Strip Plot: Tip Amount by Day and Sex (Dodged)&#x27;)
+ax.set_xlabel(&#x27;Day&#x27;); ax.set_ylabel(&#x27;Total Bill ($)&#x27;)
+ax.legend(title=&#x27;Sex&#x27;, bbox_to_anchor=(1, 1))
+fig.tight_layout()
+fig.savefig(&#x27;strip_hue.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved strip_hue.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Employee Salary Audit</div><div class="rd">HR needs to show individual salaries by department and gender on top of a violin plot to reveal outliers and within-group spread. Use dodge=True so genders are side by side.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(7)
+depts = [&#x27;Eng&#x27;, &#x27;Sales&#x27;, &#x27;Mktg&#x27;, &#x27;HR&#x27;]
+df = pd.DataFrame({
+    &#x27;salary&#x27;: np.concatenate([
+        np.random.normal(m, s, 60)
+        for m, s in [(95,15),(70,12),(75,13),(65,10)] for _ in range(1)
+    ] * 2),
+    &#x27;dept&#x27;: np.tile(np.repeat(depts, 60), 2),
+    &#x27;gender&#x27;: np.repeat([&#x27;Female&#x27;,&#x27;Male&#x27;], 240)
+})
+
+fig, ax = plt.subplots(figsize=(11, 6))
+sns.violinplot(data=df, x=&#x27;dept&#x27;, y=&#x27;salary&#x27;, hue=&#x27;gender&#x27;,
+               split=True, inner=None, palette=&#x27;pastel&#x27;, alpha=0.6, ax=ax)
+sns.stripplot(data=df, x=&#x27;dept&#x27;, y=&#x27;salary&#x27;, hue=&#x27;gender&#x27;,
+              dodge=True, jitter=True, alpha=0.5, size=3,
+              palette=&#x27;dark:#333333&#x27;, ax=ax, legend=False)
+ax.set_title(&#x27;Salary Distribution by Department &amp; Gender&#x27;, fontweight=&#x27;bold&#x27;)
+ax.set_xlabel(&#x27;Department&#x27;); ax.set_ylabel(&#x27;Salary ($K)&#x27;)
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles[:2], labels[:2], title=&#x27;Gender&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;salary_audit.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved salary_audit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strip/Swarm Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a 1x2 subplot: (1) swarmplot of body_mass_g by species with hue=sex, (2) stripplot of flipper_length_mm by island with box overlay. Use palette=&#x27;colorblind&#x27; and whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+# TODO: swarmplot body_mass_g by species, hue=sex
+# TODO: boxplot + stripplot flipper_length_mm by island
+# TODO: colorblind palette, titles, labels
+fig.tight_layout()
+fig.savefig(&#x27;penguin_points.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved penguin_points.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Point Plot &amp; Statistical Line Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use pointplot() to display means with confidence intervals for categorical variables. Use lineplot() with hue for multi-group time series with automatic CI shading.</p><div class="code-block"><div class="ch"><span>pointplot: means with CI by category</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5))
+sns.pointplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, ax=ax1,
+              palette=&#x27;Set2&#x27;, capsize=0.1, errwidth=2,
+              markers=&#x27;o&#x27;, linestyles=&#x27;-&#x27;)
+ax1.set_title(&#x27;Point Plot: Mean Bill by Day&#x27;)
+
+sns.pointplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, hue=&#x27;sex&#x27;,
+              ax=ax2, palette=&#x27;Set1&#x27;, dodge=True,
+              capsize=0.08, errwidth=1.5)
+ax2.set_title(&#x27;Point Plot: By Day and Sex&#x27;)
+
+for ax in (ax1, ax2):
+    ax.set_xlabel(&#x27;Day&#x27;); ax.set_ylabel(&#x27;Mean Total Bill ($)&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;pointplot.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved pointplot.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>lineplot with confidence interval shading</span><button onclick="cp('c17_1')">Copy</button></div><pre><code id="c17_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;darkgrid&#x27;)
+np.random.seed(0)
+n = 50
+df = pd.DataFrame({
+    &#x27;t&#x27;: np.tile(np.arange(n), 3),
+    &#x27;value&#x27;: np.concatenate([
+        np.cumsum(np.random.randn(n)) + 5,
+        np.cumsum(np.random.randn(n)) + 3,
+        np.cumsum(np.random.randn(n)) + 7,
+    ]),
+    &#x27;model&#x27;: np.repeat([&#x27;Model A&#x27;, &#x27;Model B&#x27;, &#x27;Model C&#x27;], n)
+})
+
+# Add repeated measurements for CI
+df_rep = pd.concat([df.assign(value=df.value + np.random.randn(len(df))*0.5)
+                    for _ in range(5)], ignore_index=True)
+
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.lineplot(data=df_rep, x=&#x27;t&#x27;, y=&#x27;value&#x27;, hue=&#x27;model&#x27;,
+             palette=&#x27;Set2&#x27;, linewidth=2, ax=ax)
+ax.set_title(&#x27;lineplot with 95% CI Shading&#x27;)
+ax.set_xlabel(&#x27;Time Step&#x27;); ax.set_ylabel(&#x27;Value&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;lineplot_ci.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved lineplot_ci.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>lineplot with markers and styles</span><button onclick="cp('c17_2')">Copy</button></div><pre><code id="c17_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+months = list(range(1, 13))
+df = pd.DataFrame({
+    &#x27;month&#x27;: months * 3,
+    &#x27;revenue&#x27;: (
+        [100 + i*8 + np.random.randn()*5 for i in range(12)] +
+        [80 + i*6 + np.random.randn()*4 for i in range(12)] +
+        [60 + i*10 + np.random.randn()*6 for i in range(12)]
+    ),
+    &#x27;region&#x27;: [&#x27;North&#x27;]*12 + [&#x27;South&#x27;]*12 + [&#x27;East&#x27;]*12
+})
+
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.lineplot(data=df, x=&#x27;month&#x27;, y=&#x27;revenue&#x27;, hue=&#x27;region&#x27;,
+             style=&#x27;region&#x27;, markers=True, dashes=False,
+             palette=&#x27;Set1&#x27;, linewidth=2, ax=ax)
+ax.set_title(&#x27;Monthly Revenue by Region&#x27;)
+ax.set_xlabel(&#x27;Month&#x27;); ax.set_ylabel(&#x27;Revenue ($K)&#x27;)
+ax.legend(title=&#x27;Region&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;lineplot_markers.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved lineplot_markers.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>pointplot vs barplot comparison</span><button onclick="cp('c17_3')">Copy</button></div><pre><code id="c17_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;)
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+# Bar: shows aggregated height
+sns.barplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;survived&#x27;, hue=&#x27;sex&#x27;,
+            palette=&#x27;Set2&#x27;, ax=axes[0])
+axes[0].set_title(&#x27;barplot: Mean Survival Rate&#x27;)
+
+# Point: cleaner for comparison
+sns.pointplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;survived&#x27;, hue=&#x27;sex&#x27;,
+              palette=&#x27;Set1&#x27;, dodge=True, capsize=0.1, ax=axes[1])
+axes[1].set_title(&#x27;pointplot: Same Data&#x27;)
+
+# Count the actual survivors
+surv = titanic.groupby([&#x27;class&#x27;,&#x27;sex&#x27;])[&#x27;survived&#x27;].mean().reset_index()
+sns.pointplot(data=surv, x=&#x27;class&#x27;, y=&#x27;survived&#x27;, hue=&#x27;sex&#x27;,
+              palette=&#x27;Set1&#x27;, dodge=True, capsize=0.1, ax=axes[2],
+              markers=[&#x27;o&#x27;, &#x27;s&#x27;], linestyles=[&#x27;-&#x27;,&#x27;--&#x27;])
+axes[2].set_title(&#x27;pointplot: Precomputed&#x27;)
+
+for ax in axes:
+    ax.set_ylim(0, 1); ax.set_ylabel(&#x27;Survival Rate&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;point_vs_bar.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved point_vs_bar.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Student Performance Tracking</div><div class="rd">Plot mean exam scores with 95% CI for 4 subjects across 3 school terms. Use pointplot with dodge for gender comparison and a lineplot showing term-over-term trend with shaded uncertainty.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(42)
+subjects = [&#x27;Math&#x27;, &#x27;Science&#x27;, &#x27;English&#x27;, &#x27;History&#x27;]
+terms = [&#x27;T1&#x27;, &#x27;T2&#x27;, &#x27;T3&#x27;]
+rows = []
+for subj in subjects:
+    base = np.random.uniform(60, 85)
+    for term in terms:
+        for gender in [&#x27;Female&#x27;, &#x27;Male&#x27;]:
+            n = 30
+            offset = {&#x27;T1&#x27;: 0, &#x27;T2&#x27;: 3, &#x27;T3&#x27;: 6}[term]
+            g_offset = 2 if gender == &#x27;Female&#x27; else 0
+            scores = np.random.normal(base + offset + g_offset, 8, n)
+            for s in scores:
+                rows.append({&#x27;subject&#x27;: subj, &#x27;term&#x27;: term, &#x27;gender&#x27;: gender, &#x27;score&#x27;: s})
+df = pd.DataFrame(rows)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+sns.pointplot(data=df, x=&#x27;subject&#x27;, y=&#x27;score&#x27;, hue=&#x27;gender&#x27;,
+              dodge=True, capsize=0.08, palette=&#x27;Set1&#x27;,
+              markers=[&#x27;o&#x27;,&#x27;s&#x27;], linestyles=[&#x27;-&#x27;,&#x27;--&#x27;], ax=ax1)
+ax1.set_title(&#x27;Mean Score by Subject &amp; Gender&#x27;, fontweight=&#x27;bold&#x27;)
+ax1.set_xlabel(&#x27;Subject&#x27;); ax1.set_ylabel(&#x27;Mean Score&#x27;)
+
+term_df = df.groupby([&#x27;term&#x27;,&#x27;subject&#x27;]).score.mean().reset_index()
+sns.lineplot(data=df, x=&#x27;term&#x27;, y=&#x27;score&#x27;, hue=&#x27;subject&#x27;,
+             palette=&#x27;tab10&#x27;, linewidth=2, markers=True, ax=ax2)
+ax2.set_title(&#x27;Score Trend by Term&#x27;, fontweight=&#x27;bold&#x27;)
+ax2.set_xlabel(&#x27;Term&#x27;); ax2.set_ylabel(&#x27;Score&#x27;)
+ax2.legend(title=&#x27;Subject&#x27;, bbox_to_anchor=(1,1))
+fig.tight_layout()
+fig.savefig(&#x27;student_performance.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved student_performance.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Point/Line Plot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset from seaborn. Plot a lineplot of signal by timepoint, with hue=event and style=region. Add a pointplot below it showing mean signal per region. Use a 2x1 subplot with shared x-axis.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;darkgrid&#x27;)
+fmri = sns.load_dataset(&#x27;fmri&#x27;)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 8), sharex=False)
+# TODO: lineplot signal by timepoint, hue=event, style=region
+# TODO: pointplot mean signal by region with capsize
+# TODO: titles, labels, tight_layout
+fig.savefig(&#x27;fmri_plots.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved fmri_plots.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. ECDF &amp; Distribution Comparison</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use ecdfplot() for empirical CDFs, histplot() with multiple groups, and kdeplot() to compare distributions across categories without assuming a parametric form.</p><div class="code-block"><div class="ch"><span>ECDF plot for group comparison</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+df = pd.DataFrame({
+    &#x27;value&#x27;: np.concatenate([
+        np.random.normal(5, 1.5, 200),
+        np.random.normal(7, 1.0, 200),
+        np.random.exponential(2, 200) + 3,
+    ]),
+    &#x27;group&#x27;: np.repeat([&#x27;Normal(5,1.5)&#x27;, &#x27;Normal(7,1)&#x27;, &#x27;Exp+3&#x27;], 200)
+})
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.ecdfplot(data=df, x=&#x27;value&#x27;, hue=&#x27;group&#x27;, palette=&#x27;Set2&#x27;, linewidth=2)
+ax.axhline(0.5, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=1, label=&#x27;Median&#x27;)
+ax.set_title(&#x27;ECDF: Distribution Comparison&#x27;)
+ax.set_xlabel(&#x27;Value&#x27;); ax.set_ylabel(&#x27;Cumulative Proportion&#x27;)
+ax.legend(title=&#x27;Group&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;ecdf.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved ecdf.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Overlapping KDE comparison</span><button onclick="cp('c18_1')">Copy</button></div><pre><code id="c18_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+# Separate feature distributions per species
+for feat, ax in zip([&#x27;sepal_length&#x27;, &#x27;petal_length&#x27;], axes):
+    sns.kdeplot(data=iris, x=feat, hue=&#x27;species&#x27;,
+                fill=True, alpha=0.35, linewidth=2, palette=&#x27;Set2&#x27;, ax=ax)
+    ax.set_title(f&#x27;KDE: {feat.replace(&quot;_&quot;,&quot; &quot;).title()}&#x27;)
+    ax.set_xlabel(feat.replace(&#x27;_&#x27;,&#x27; &#x27;).title())
+fig.tight_layout()
+fig.savefig(&#x27;kde_compare.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved kde_compare.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>histplot with stat=&#x27;density&#x27; and kde overlay</span><button onclick="cp('c18_2')">Copy</button></div><pre><code id="c18_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+df = pd.DataFrame({
+    &#x27;response_ms&#x27;: np.concatenate([
+        np.random.lognormal(5, 0.5, 300),
+        np.random.lognormal(5.5, 0.4, 200),
+    ]),
+    &#x27;endpoint&#x27;: np.repeat([&#x27;/api/search&#x27;, &#x27;/api/checkout&#x27;], [300, 200])
+})
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+sns.histplot(data=df, x=&#x27;response_ms&#x27;, hue=&#x27;endpoint&#x27;,
+             stat=&#x27;density&#x27;, kde=True, alpha=0.4, palette=&#x27;Set1&#x27;,
+             common_norm=False, ax=ax1)
+ax1.set_title(&#x27;Histogram with KDE — Linear scale&#x27;)
+ax1.set_xlabel(&#x27;Response Time (ms)&#x27;)
+
+sns.histplot(data=df, x=&#x27;response_ms&#x27;, hue=&#x27;endpoint&#x27;,
+             stat=&#x27;density&#x27;, kde=True, alpha=0.4, palette=&#x27;Set1&#x27;,
+             common_norm=False, log_scale=True, ax=ax2)
+ax2.set_title(&#x27;Histogram with KDE — Log scale&#x27;)
+ax2.set_xlabel(&#x27;Response Time (ms)&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;hist_kde_compare.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hist_kde_compare.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>ECDF with percentile markers</span><button onclick="cp('c18_3')">Copy</button></div><pre><code id="c18_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(2)
+data = pd.DataFrame({
+    &#x27;latency_ms&#x27;: np.random.lognormal(5, 0.7, 1000),
+    &#x27;server&#x27;: np.random.choice([&#x27;US-East&#x27;, &#x27;EU-West&#x27;, &#x27;AP-South&#x27;], 1000)
+})
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.ecdfplot(data=data, x=&#x27;latency_ms&#x27;, hue=&#x27;server&#x27;,
+             palette=&#x27;tab10&#x27;, linewidth=2, ax=ax)
+
+# Mark p50, p95, p99
+for pct, label, color in [(50,&#x27;p50&#x27;,&#x27;gray&#x27;),(95,&#x27;p95&#x27;,&#x27;orange&#x27;),(99,&#x27;p99&#x27;,&#x27;red&#x27;)]:
+    val = np.percentile(data[&#x27;latency_ms&#x27;], pct)
+    ax.axvline(val, color=color, linestyle=&#x27;--&#x27;, linewidth=1.2, alpha=0.8)
+    ax.axhline(pct/100, color=color, linestyle=&#x27;:&#x27;, linewidth=0.8, alpha=0.5)
+    ax.text(val+50, pct/100-0.04, f&#x27;{label}: {val:.0f}ms&#x27;,
+            fontsize=8, color=color)
+
+ax.set_title(&#x27;API Latency ECDF by Server Region&#x27;)
+ax.set_xlabel(&#x27;Latency (ms)&#x27;); ax.set_ylabel(&#x27;Cumulative Proportion&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;ecdf_percentiles.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved ecdf_percentiles.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: A/B Test Distribution Analysis</div><div class="rd">Compare three e-commerce funnel variants: show ECDF of conversion values, overlapping KDE of order sizes, and a combined histplot with p50/p90 markers for each variant.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(99)
+variants = {&#x27;Control&#x27;: (45, 12), &#x27;Variant A&#x27;: (52, 14), &#x27;Variant B&#x27;: (48, 10)}
+dfs = [pd.DataFrame({&#x27;order_value&#x27;: np.random.normal(mu, sd, 300).clip(5), &#x27;variant&#x27;: name})
+       for name, (mu, sd) in variants.items()]
+df = pd.concat(dfs, ignore_index=True)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+sns.ecdfplot(data=df, x=&#x27;order_value&#x27;, hue=&#x27;variant&#x27;,
+             palette=&#x27;Set1&#x27;, linewidth=2, ax=ax1)
+for pct, ls in [(50,&#x27;--&#x27;),(90,&#x27;:&#x27;)]:
+    ax1.axhline(pct/100, color=&#x27;gray&#x27;, linestyle=ls, linewidth=1)
+    ax1.text(ax1.get_xlim()[0]+1, pct/100+0.01, f&#x27;p{pct}&#x27;, fontsize=8, color=&#x27;gray&#x27;)
+ax1.set_title(&#x27;ECDF of Order Value by Variant&#x27;, fontweight=&#x27;bold&#x27;)
+ax1.set_xlabel(&#x27;Order Value ($)&#x27;)
+
+sns.kdeplot(data=df, x=&#x27;order_value&#x27;, hue=&#x27;variant&#x27;,
+            fill=True, alpha=0.3, linewidth=2, palette=&#x27;Set1&#x27;,
+            common_norm=False, ax=ax2)
+ax2.set_title(&#x27;KDE: Order Value Distribution&#x27;, fontweight=&#x27;bold&#x27;)
+ax2.set_xlabel(&#x27;Order Value ($)&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;ab_distribution.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved ab_distribution.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Practice</div><div class="pd">Load the &#x27;titanic&#x27; dataset. Create a 1x3 figure: (1) ecdfplot of &#x27;fare&#x27; by &#x27;class&#x27;, (2) kdeplot of &#x27;age&#x27; by &#x27;survived&#x27; (use hue), (3) histplot of &#x27;fare&#x27; with log_scale=True, hue=&#x27;class&#x27;. Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;).dropna(subset=[&#x27;age&#x27;,&#x27;fare&#x27;])
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+# TODO: ecdfplot fare by class
+# TODO: kdeplot age by survived
+# TODO: histplot fare log scale by class
+fig.tight_layout()
+fig.savefig(&#x27;titanic_dist.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved titanic_dist.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Cluster Map</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use clustermap() to apply hierarchical clustering to rows and columns of a matrix, revealing natural groupings in correlation matrices, gene expression, or feature similarity data.</p><div class="code-block"><div class="ch"><span>Basic clustermap on iris correlation</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+corr = iris.drop(&#x27;species&#x27;, axis=1).corr()
+
+g = sns.clustermap(corr, cmap=&#x27;RdBu_r&#x27;, vmin=-1, vmax=1,
+                   annot=True, fmt=&#x27;.2f&#x27;, figsize=(7, 7),
+                   linewidths=0.5)
+g.ax_heatmap.set_title(&#x27;Iris Feature Correlation Clustermap&#x27;, pad=50)
+plt.savefig(&#x27;clustermap_iris.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved clustermap_iris.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Clustermap with row/col color bars</span><button onclick="cp('c19_1')">Copy</button></div><pre><code id="c19_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(0)
+n_genes, n_samples = 20, 12
+groups = [&#x27;A&#x27;,&#x27;A&#x27;,&#x27;A&#x27;,&#x27;A&#x27;,&#x27;B&#x27;,&#x27;B&#x27;,&#x27;B&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;C&#x27;,&#x27;C&#x27;,&#x27;C&#x27;]
+data = pd.DataFrame(
+    np.random.randn(n_genes, n_samples) +
+    np.array([np.sin(np.linspace(0,3,n_samples))*(i%3-1) for i in range(n_genes)]),
+    index=[f&#x27;Gene_{i:02d}&#x27; for i in range(n_genes)],
+    columns=[f&#x27;S{i+1:02d}&#x27; for i in range(n_samples)]
+)
+palette = {&#x27;A&#x27;:&#x27;#4c72b0&#x27;, &#x27;B&#x27;:&#x27;#dd8452&#x27;, &#x27;C&#x27;:&#x27;#55a868&#x27;}
+col_colors = pd.Series(groups, index=data.columns).map(palette)
+
+g = sns.clustermap(data, cmap=&#x27;vlag&#x27;, figsize=(10, 8),
+                   col_colors=col_colors,
+                   row_cluster=True, col_cluster=True,
+                   z_score=0, linewidths=0.3)
+g.ax_heatmap.set_title(&#x27;Gene Expression Clustermap&#x27;, pad=50)
+plt.savefig(&#x27;clustermap_genes.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved clustermap_genes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Clustermap with standard_scale</span><button onclick="cp('c19_2')">Copy</button></div><pre><code id="c19_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(1)
+features = [&#x27;Revenue&#x27;, &#x27;Growth&#x27;, &#x27;Margin&#x27;, &#x27;CAC&#x27;, &#x27;LTV&#x27;, &#x27;Churn&#x27;]
+companies = [f&#x27;Co{i:02d}&#x27; for i in range(1, 16)]
+data = pd.DataFrame(
+    np.random.randn(len(companies), len(features)),
+    index=companies, columns=features
+)
+# Add cluster structure
+data.iloc[:5, :3] += 2
+data.iloc[5:10, 3:] -= 2
+data.iloc[10:, [0,2,4]] += 1.5
+
+g = sns.clustermap(data, cmap=&#x27;coolwarm&#x27;, figsize=(8, 10),
+                   standard_scale=1,  # standardize each column
+                   linewidths=0.4, annot=False,
+                   dendrogram_ratio=(0.15, 0.2))
+g.ax_heatmap.set_title(&#x27;Company KPI Clustermap
+(column-standardized)&#x27;, pad=50)
+plt.savefig(&#x27;clustermap_kpi.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved clustermap_kpi.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Clustermap method and metric options</span><button onclick="cp('c19_3')">Copy</button></div><pre><code id="c19_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(2)
+data = pd.DataFrame(
+    np.random.randn(15, 10),
+    index=[f&#x27;R{i}&#x27; for i in range(15)],
+    columns=[f&#x27;C{j}&#x27; for j in range(10)]
+)
+data.iloc[:5, :4] += 2.5
+data.iloc[10:, 6:] += 2.5
+
+fig, axes_list = plt.subplots(1, 2, figsize=(14, 6))
+for ax, (method, metric) in zip(axes_list, [(&#x27;ward&#x27;,&#x27;euclidean&#x27;),(&#x27;average&#x27;,&#x27;correlation&#x27;)]):
+    g = sns.clustermap(data, cmap=&#x27;RdYlBu_r&#x27;, figsize=(6, 5),
+                       method=method, metric=metric,
+                       linewidths=0.3)
+    g.fig.suptitle(f&#x27;method={method}, metric={metric}&#x27;, y=1.01, fontsize=10)
+    g.fig.savefig(f&#x27;clustermap_{method}.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+    plt.close(g.fig)
+print(&#x27;Saved clustermap_ward.png and clustermap_average.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Customer Segment Heatmap</div><div class="rd">Build a clustermap of customer segments vs. behavioral features (purchase frequency, avg order, recency, CLV, support tickets). Use z_score=0, vlag colormap, and annotate row colors by segment.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(55)
+segments = [&#x27;Loyal&#x27;,&#x27;At-Risk&#x27;,&#x27;New&#x27;,&#x27;Churned&#x27;,&#x27;VIP&#x27;]
+features = [&#x27;Frequency&#x27;,&#x27;Avg Order&#x27;,&#x27;Recency&#x27;,&#x27;CLV&#x27;,&#x27;Tickets&#x27;]
+n_each = 15
+rows = []
+centroids = {
+    &#x27;Loyal&#x27;:   [8, 120, 5, 960, 1],
+    &#x27;At-Risk&#x27;: [2, 80, 45, 160, 4],
+    &#x27;New&#x27;:     [1, 95, 15, 95, 0],
+    &#x27;Churned&#x27;: [0, 60, 120, 0, 6],
+    &#x27;VIP&#x27;:     [12, 400, 3, 4800, 2],
+}
+for seg, center in centroids.items():
+    noise = np.random.randn(n_each, len(features)) * np.array([1, 20, 10, 200, 1])
+    block = np.array(center) + noise
+    df_seg = pd.DataFrame(block, columns=features)
+    df_seg[&#x27;segment&#x27;] = seg
+    rows.append(df_seg)
+df = pd.concat(rows, ignore_index=True)
+matrix = df[features].values
+row_labels = df[&#x27;segment&#x27;]
+palette_seg = {&#x27;Loyal&#x27;:&#x27;#55a868&#x27;,&#x27;At-Risk&#x27;:&#x27;#dd8452&#x27;,&#x27;New&#x27;:&#x27;#4c72b0&#x27;,
+               &#x27;Churned&#x27;:&#x27;#c44e52&#x27;,&#x27;VIP&#x27;:&#x27;#9467bd&#x27;}
+row_colors = row_labels.map(palette_seg)
+
+data_df = pd.DataFrame(matrix, columns=features,
+                        index=[f&#x27;{seg}_{i}&#x27; for seg, n in [(s, n_each) for s in segments]
+                               for i in range(n_each)])
+g = sns.clustermap(pd.DataFrame(matrix, columns=features),
+                   cmap=&#x27;vlag&#x27;, z_score=0, figsize=(9, 11),
+                   row_colors=row_colors.values,
+                   linewidths=0.2, dendrogram_ratio=(0.2, 0.15))
+g.ax_heatmap.set_title(&#x27;Customer Segment Behavioral Clustermap&#x27;, pad=50, fontsize=12)
+plt.savefig(&#x27;customer_clustermap.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved customer_clustermap.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clustermap Practice</div><div class="pd">Generate a 12x8 random matrix with 3 obvious block clusters (add +2 to block (0:4, 0:3), +(-2) to block (4:8, 3:6)). Plot a clustermap with method=&#x27;ward&#x27;, cmap=&#x27;RdBu_r&#x27;, and z_score=0. Annotate the values with fmt=&#x27;.1f&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(3)
+data = np.random.randn(12, 8)
+data[:4, :3] += 2.5
+data[4:8, 3:6] -= 2.5
+data[8:, 5:] += 1.5
+df = pd.DataFrame(data,
+                  index=[f&#x27;R{i}&#x27; for i in range(12)],
+                  columns=[f&#x27;C{j}&#x27; for j in range(8)])
+# TODO: clustermap method=&#x27;ward&#x27;, cmap=&#x27;RdBu_r&#x27;, z_score=0, annot=True
+# TODO: save &#x27;block_clustermap.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Joint Plot Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use jointplot() to show the bivariate relationship alongside marginal univariate distributions. Explore kind=&#x27;hex&#x27;, &#x27;kde&#x27;, &#x27;reg&#x27;, and custom marginal plots with JointGrid.</p><div class="code-block"><div class="ch"><span>jointplot: hex, kde, reg, scatter kinds</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+kinds = [&#x27;scatter&#x27;, &#x27;hex&#x27;, &#x27;kde&#x27;, &#x27;reg&#x27;]
+for kind in kinds:
+    g = sns.jointplot(data=tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;,
+                      kind=kind, palette=&#x27;Set2&#x27;, height=5,
+                      marginal_kws=dict(bins=25))
+    g.fig.suptitle(f&quot;kind=&#x27;{kind}&#x27;&quot;, y=1.02)
+    g.fig.savefig(f&#x27;joint_{kind}.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+    plt.close(g.fig)
+print(&#x27;Saved joint_scatter/hex/kde/reg.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>jointplot with hue</span><button onclick="cp('c20_1')">Copy</button></div><pre><code id="c20_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+
+g = sns.jointplot(data=iris, x=&#x27;sepal_length&#x27;, y=&#x27;petal_length&#x27;,
+                  hue=&#x27;species&#x27;, palette=&#x27;Set2&#x27;,
+                  height=6, marginal_kws=dict(fill=True, alpha=0.4))
+g.fig.suptitle(&#x27;Iris: Sepal vs Petal Length (hue=species)&#x27;, y=1.02)
+g.fig.savefig(&#x27;joint_hue.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved joint_hue.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>JointGrid: custom marginals</span><button onclick="cp('c20_2')">Copy</button></div><pre><code id="c20_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(42)
+df = pd.DataFrame({
+    &#x27;x&#x27;: np.random.lognormal(2, 0.5, 300),
+    &#x27;y&#x27;: np.random.lognormal(1.5, 0.6, 300)
+})
+
+g = sns.JointGrid(data=df, x=&#x27;x&#x27;, y=&#x27;y&#x27;, height=6)
+g.plot_joint(sns.scatterplot, alpha=0.4, color=&#x27;steelblue&#x27;, s=25)
+g.plot_joint(sns.kdeplot, levels=5, color=&#x27;navy&#x27;, linewidths=1.0)
+g.plot_marginals(sns.histplot, kde=True, bins=25, color=&#x27;steelblue&#x27;, alpha=0.6)
+
+g.ax_joint.set_xlabel(&#x27;X (lognormal)&#x27;); g.ax_joint.set_ylabel(&#x27;Y (lognormal)&#x27;)
+g.fig.suptitle(&#x27;JointGrid: Scatter + KDE + Histogram Marginals&#x27;, y=1.01)
+g.fig.savefig(&#x27;joint_grid_custom.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved joint_grid_custom.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>jointplot with regression and stats</span><button onclick="cp('c20_3')">Copy</button></div><pre><code id="c20_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(5)
+n = 150
+x = np.random.uniform(10, 100, n)
+y = 0.5*x + np.random.randn(n)*8 + 5
+
+df = pd.DataFrame({&#x27;x&#x27;: x, &#x27;y&#x27;: y})
+
+g = sns.jointplot(data=df, x=&#x27;x&#x27;, y=&#x27;y&#x27;,
+                  kind=&#x27;reg&#x27;, height=6,
+                  scatter_kws=dict(alpha=0.5, s=30, color=&#x27;steelblue&#x27;),
+                  line_kws=dict(color=&#x27;red&#x27;, linewidth=2),
+                  marginal_kws=dict(bins=20, kde=True))
+# Compute and annotate correlation
+r = df.corr().iloc[0,1]
+g.ax_joint.text(0.05, 0.92, f&#x27;r = {r:.3f}&#x27;, transform=g.ax_joint.transAxes,
+                fontsize=11, fontweight=&#x27;bold&#x27;, color=&#x27;red&#x27;)
+g.fig.suptitle(&#x27;Joint Regression Plot with Correlation&#x27;, y=1.02)
+g.fig.savefig(&#x27;joint_reg.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved joint_reg.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Height-Weight Bivariate Analysis</div><div class="rd">Show the joint distribution of height and weight across gender using JointGrid: central scatter colored by gender, marginal KDEs filled by gender, and a correlation annotation in the joint panel.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(77)
+df = pd.DataFrame({
+    &#x27;height_cm&#x27;: np.concatenate([
+        np.random.normal(165, 7, 200),
+        np.random.normal(178, 8, 200)]),
+    &#x27;weight_kg&#x27;: np.concatenate([
+        np.random.normal(62, 9, 200),
+        np.random.normal(78, 11, 200)]),
+    &#x27;gender&#x27;: np.repeat([&#x27;Female&#x27;,&#x27;Male&#x27;], 200)
+})
+
+g = sns.JointGrid(data=df, x=&#x27;height_cm&#x27;, y=&#x27;weight_kg&#x27;, height=7)
+palette = {&#x27;Female&#x27;:&#x27;#dd8452&#x27;,&#x27;Male&#x27;:&#x27;#4c72b0&#x27;}
+for gender, grp in df.groupby(&#x27;gender&#x27;):
+    g.ax_joint.scatter(grp.height_cm, grp.weight_kg,
+                       alpha=0.4, s=20, color=palette[gender], label=gender)
+    sns.kdeplot(data=grp, x=&#x27;height_cm&#x27;, ax=g.ax_marg_x,
+                fill=True, alpha=0.4, color=palette[gender], linewidth=1.5)
+    sns.kdeplot(data=grp, y=&#x27;weight_kg&#x27;, ax=g.ax_marg_y,
+                fill=True, alpha=0.4, color=palette[gender], linewidth=1.5)
+
+g.ax_joint.legend(title=&#x27;Gender&#x27;)
+r = df[[&#x27;height_cm&#x27;,&#x27;weight_kg&#x27;]].corr().iloc[0,1]
+g.ax_joint.text(0.05,0.92,f&#x27;r = {r:.3f}&#x27;,transform=g.ax_joint.transAxes,
+                fontsize=11,fontweight=&#x27;bold&#x27;,color=&#x27;darkred&#x27;)
+g.ax_joint.set_xlabel(&#x27;Height (cm)&#x27;); g.ax_joint.set_ylabel(&#x27;Weight (kg)&#x27;)
+g.fig.suptitle(&#x27;Height-Weight Joint Distribution by Gender&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;height_weight_joint.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved height_weight_joint.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Plot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a JointGrid for bill_length_mm vs bill_depth_mm: (1) scatter in the joint with hue=species and s=30, (2) boxplot in the marginals (ax_marg_x and ax_marg_y). Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+g = sns.JointGrid(data=penguins, x=&#x27;bill_length_mm&#x27;, y=&#x27;bill_depth_mm&#x27;, height=6)
+# TODO: scatterplot joint with hue=species, s=30
+# TODO: boxplot marginals for x and y
+# TODO: legend, labels, title
+# TODO: save &#x27;penguin_joint.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. catplot — Figure-Level Categorical</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use catplot() as a unified interface for all categorical plots. Control kind=&#x27;strip&#x27;|&#x27;swarm&#x27;|&#x27;box&#x27;|&#x27;violin&#x27;|&#x27;bar&#x27;|&#x27;count&#x27;|&#x27;point&#x27; and use col/row to create FacetGrid-powered small multiples.</p><div class="code-block"><div class="ch"><span>catplot with col splitting</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+g = sns.catplot(data=tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;,
+                hue=&#x27;sex&#x27;, col=&#x27;time&#x27;,
+                kind=&#x27;box&#x27;, palette=&#x27;Set2&#x27;,
+                height=5, aspect=0.85,
+                order=[&#x27;Thur&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;])
+g.set_axis_labels(&#x27;Day&#x27;, &#x27;Total Bill ($)&#x27;)
+g.set_titles(&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Bill by Day, Sex, and Time (catplot col)&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;catplot_col.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved catplot_col.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>catplot kind=&#x27;violin&#x27; with row and col</span><button onclick="cp('c21_1')">Copy</button></div><pre><code id="c21_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;)
+
+g = sns.catplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;age&#x27;,
+                col=&#x27;survived&#x27;, hue=&#x27;sex&#x27;,
+                kind=&#x27;violin&#x27;, split=True, inner=&#x27;quartile&#x27;,
+                palette=&#x27;pastel&#x27;, height=5, aspect=0.9)
+g.set_axis_labels(&#x27;Class&#x27;, &#x27;Age&#x27;)
+g.set_titles(col_template=&#x27;Survived: {col_name}&#x27;)
+g.fig.suptitle(&#x27;Titanic Age by Class, Gender &amp; Survival&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;catplot_violin.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved catplot_violin.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>catplot kind=&#x27;count&#x27; and &#x27;bar&#x27;</span><button onclick="cp('c21_2')">Copy</button></div><pre><code id="c21_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+# Count plot via catplot saved to file; replicate on axes
+sns.countplot(data=tips, x=&#x27;day&#x27;, hue=&#x27;sex&#x27;, palette=&#x27;Set1&#x27;, ax=axes[0])
+axes[0].set_title(&quot;countplot: Visits by Day&quot;)
+
+sns.barplot(data=tips, x=&#x27;day&#x27;, y=&#x27;tip&#x27;, hue=&#x27;sex&#x27;,
+            palette=&#x27;Set2&#x27;, capsize=0.08, ax=axes[1])
+axes[1].set_title(&quot;barplot: Mean Tip by Day&quot;)
+for ax in axes:
+    ax.set_xlabel(&#x27;Day&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;catplot_count_bar.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved catplot_count_bar.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>catplot kind=&#x27;point&#x27; with order control</span><button onclick="cp('c21_3')">Copy</button></div><pre><code id="c21_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;)
+
+g = sns.catplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;survived&#x27;,
+                hue=&#x27;sex&#x27;, col=&#x27;embarked&#x27;,
+                kind=&#x27;point&#x27;, dodge=True, capsize=0.1,
+                markers=[&#x27;o&#x27;,&#x27;s&#x27;], linestyles=[&#x27;-&#x27;,&#x27;--&#x27;],
+                palette=&#x27;Set1&#x27;, height=4, aspect=0.85,
+                order=[&#x27;First&#x27;,&#x27;Second&#x27;,&#x27;Third&#x27;])
+g.set_axis_labels(&#x27;Class&#x27;, &#x27;Survival Rate&#x27;)
+g.set_titles(col_template=&#x27;Embarked: {col_name}&#x27;)
+g.fig.suptitle(&#x27;Survival Rate by Class, Sex &amp; Port&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;catplot_point.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved catplot_point.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Product Feedback Dashboard</div><div class="rd">Use catplot to compare NPS scores across 4 product categories and 3 user segments. Show kind=&#x27;box&#x27; with col=category, hue=segment, and a separate catplot kind=&#x27;point&#x27; for mean scores.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(42)
+categories = [&#x27;Mobile App&#x27;,&#x27;Web Platform&#x27;,&#x27;API&#x27;,&#x27;Support&#x27;]
+segments = [&#x27;Enterprise&#x27;,&#x27;SMB&#x27;,&#x27;Startup&#x27;]
+rows = []
+bases = {&#x27;Mobile App&#x27;: 7.0,&#x27;Web Platform&#x27;: 6.5,&#x27;API&#x27;: 8.0,&#x27;Support&#x27;: 5.5}
+seg_offsets = {&#x27;Enterprise&#x27;: 0.5,&#x27;SMB&#x27;: 0.0,&#x27;Startup&#x27;: -0.3}
+for cat in categories:
+    for seg in segments:
+        mu = bases[cat] + seg_offsets[seg]
+        scores = np.random.normal(mu, 1.5, 40).clip(0, 10)
+        for s in scores:
+            rows.append({&#x27;category&#x27;: cat,&#x27;segment&#x27;: seg,&#x27;nps&#x27;: s})
+df = pd.DataFrame(rows)
+
+g = sns.catplot(data=df, x=&#x27;segment&#x27;, y=&#x27;nps&#x27;, col=&#x27;category&#x27;,
+                kind=&#x27;box&#x27;, hue=&#x27;segment&#x27;, palette=&#x27;Set2&#x27;,
+                height=4, aspect=0.85, col_wrap=2,
+                order=segments, legend=False)
+g.set_axis_labels(&#x27;Segment&#x27;, &#x27;NPS Score&#x27;)
+g.set_titles(&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Product NPS by Category &amp; Segment&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;nps_catplot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved nps_catplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: catplot Practice</div><div class="pd">Load the &#x27;exercise&#x27; dataset from seaborn. Use catplot with x=&#x27;time&#x27;, y=&#x27;pulse&#x27;, hue=&#x27;kind&#x27;, col=&#x27;diet&#x27;, kind=&#x27;point&#x27;. Then create a second catplot with kind=&#x27;box&#x27;. Add appropriate titles and labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+exercise = sns.load_dataset(&#x27;exercise&#x27;)
+
+# TODO: catplot pointplot: x=time, y=pulse, hue=kind, col=diet
+# TODO: catplot boxplot: same variables
+# TODO: save &#x27;exercise_catplot.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. displot — Figure-Level Distributions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use displot() as the figure-level interface for histplot, kdeplot, and ecdfplot. Add col/row faceting for small-multiple distribution comparisons.</p><div class="code-block"><div class="ch"><span>displot: hist, kde, ecdf kinds</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+df = pd.DataFrame({
+    &#x27;value&#x27;: np.concatenate([np.random.normal(0,1,300), np.random.normal(4,1.5,300)]),
+    &#x27;group&#x27;: np.repeat([&#x27;A&#x27;,&#x27;B&#x27;], 300)
+})
+
+for kind in [&#x27;hist&#x27;,&#x27;kde&#x27;,&#x27;ecdf&#x27;]:
+    g = sns.displot(data=df, x=&#x27;value&#x27;, hue=&#x27;group&#x27;,
+                    kind=kind, height=4, aspect=1.5, palette=&#x27;Set2&#x27;,
+                    fill=(kind != &#x27;ecdf&#x27;), alpha=0.5, linewidth=2)
+    g.fig.suptitle(f&quot;displot kind=&#x27;{kind}&#x27;&quot;, y=1.02)
+    g.fig.savefig(f&#x27;displot_{kind}.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+    plt.close(g.fig)
+print(&#x27;Saved displot_hist/kde/ecdf.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>displot with col faceting</span><button onclick="cp('c22_1')">Copy</button></div><pre><code id="c22_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;).dropna(subset=[&#x27;age&#x27;])
+
+g = sns.displot(data=titanic, x=&#x27;age&#x27;, col=&#x27;class&#x27;,
+                hue=&#x27;survived&#x27;, kind=&#x27;hist&#x27;, stat=&#x27;density&#x27;,
+                kde=True, alpha=0.5, palette=&#x27;Set1&#x27;,
+                height=4, aspect=0.85, col_order=[&#x27;First&#x27;,&#x27;Second&#x27;,&#x27;Third&#x27;])
+g.set_axis_labels(&#x27;Age&#x27;, &#x27;Density&#x27;)
+g.set_titles(col_template=&#x27;{col_name} Class&#x27;)
+g.fig.suptitle(&#x27;Age Distribution by Class and Survival&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;displot_col.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved displot_col.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>displot with row and col</span><button onclick="cp('c22_2')">Copy</button></div><pre><code id="c22_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+regions = [&#x27;North&#x27;,&#x27;South&#x27;]
+periods = [&#x27;Q1&#x27;,&#x27;Q2&#x27;,&#x27;Q3&#x27;,&#x27;Q4&#x27;]
+rows = []
+for region in regions:
+    base = 50 if region == &#x27;North&#x27; else 35
+    for period in periods:
+        offset = periods.index(period) * 5
+        vals = np.random.normal(base + offset, 12, 100)
+        for v in vals:
+            rows.append({&#x27;region&#x27;: region, &#x27;period&#x27;: period, &#x27;sales&#x27;: v})
+df = pd.DataFrame(rows)
+
+g = sns.displot(data=df, x=&#x27;sales&#x27;, row=&#x27;region&#x27;, col=&#x27;period&#x27;,
+                kind=&#x27;kde&#x27;, fill=True, alpha=0.5, palette=&#x27;Set2&#x27;,
+                height=3, aspect=1.1, col_order=periods)
+g.set_axis_labels(&#x27;Sales ($K)&#x27;, &#x27;Density&#x27;)
+g.fig.suptitle(&#x27;Sales Distribution by Region &amp; Quarter&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;displot_grid.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved displot_grid.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>displot with rug and binwidth</span><button onclick="cp('c22_3')">Copy</button></div><pre><code id="c22_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(2)
+df = pd.DataFrame({
+    &#x27;latency&#x27;: np.concatenate([
+        np.random.lognormal(3, 0.4, 500),
+        np.random.lognormal(4, 0.5, 200),
+    ]),
+    &#x27;endpoint&#x27;: np.repeat([&#x27;/fast&#x27;,&#x27;/slow&#x27;], [500,200])
+})
+
+g = sns.displot(data=df, x=&#x27;latency&#x27;, hue=&#x27;endpoint&#x27;,
+                kind=&#x27;hist&#x27;, stat=&#x27;density&#x27;, kde=True,
+                rug=True, rug_kws=dict(height=0.05, alpha=0.3),
+                log_scale=True, alpha=0.4, palette=&#x27;Set1&#x27;,
+                height=5, aspect=1.6, binwidth=0.05)
+g.set_axis_labels(&#x27;Latency (ms, log scale)&#x27;, &#x27;Density&#x27;)
+g.fig.suptitle(&#x27;Endpoint Latency Distribution with Rug&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;displot_rug.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved displot_rug.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Multi-Experiment Distribution Report</div><div class="rd">Use displot to compare test metric distributions across 3 ML experiments and 2 datasets (col=dataset, hue=experiment). Show kind=&#x27;kde&#x27; with fill=True. Then show kind=&#x27;ecdf&#x27; for cumulative comparison.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(88)
+experiments = [&#x27;Baseline&#x27;,&#x27;DropoutReg&#x27;,&#x27;AugData&#x27;]
+datasets = [&#x27;CIFAR-10&#x27;,&#x27;ImageNet&#x27;]
+rows = []
+means = {&#x27;Baseline&#x27;: (72,80), &#x27;DropoutReg&#x27;: (75,83), &#x27;AugData&#x27;: (77,85)}
+for exp, (m1, m2) in means.items():
+    for ds, mu in zip(datasets, [m1, m2]):
+        vals = np.random.normal(mu, 3, 150)
+        for v in vals:
+            rows.append({&#x27;experiment&#x27;: exp, &#x27;dataset&#x27;: ds, &#x27;accuracy&#x27;: v})
+df = pd.DataFrame(rows)
+
+g = sns.displot(data=df, x=&#x27;accuracy&#x27;, hue=&#x27;experiment&#x27;, col=&#x27;dataset&#x27;,
+                kind=&#x27;kde&#x27;, fill=True, alpha=0.4, linewidth=2,
+                palette=&#x27;Set2&#x27;, height=4, aspect=1.2, common_norm=False)
+g.set_axis_labels(&#x27;Accuracy (%)&#x27;, &#x27;Density&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Model Accuracy Distribution by Experiment &amp; Dataset&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;experiment_displot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved experiment_displot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: displot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Use displot to create: (1) hist kind with col=species, x=body_mass_g, hue=sex — set kde=True, (2) ecdf kind with same grouping on a new figure. Save both as separate PNGs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+# TODO: displot hist kind, col=species, x=body_mass_g, hue=sex, kde=True
+# TODO: save &#x27;penguin_hist.png&#x27;
+# TODO: displot ecdf kind, same grouping
+# TODO: save &#x27;penguin_ecdf.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. relplot — Figure-Level Relational</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use relplot() as the figure-level interface for scatterplot and lineplot. Use col, row, and hue to create multi-panel relational grids with consistent scaling.</p><div class="code-block"><div class="ch"><span>relplot scatter with col and hue</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+g = sns.relplot(data=tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;,
+                hue=&#x27;sex&#x27;, col=&#x27;time&#x27;, style=&#x27;sex&#x27;,
+                palette=&#x27;Set1&#x27;, s=60, alpha=0.7,
+                height=4, aspect=1.0)
+g.set_axis_labels(&#x27;Total Bill ($)&#x27;, &#x27;Tip ($)&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Tips: Scatter by Time and Sex (relplot)&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;relplot_scatter.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved relplot_scatter.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>relplot lineplot with col_wrap</span><button onclick="cp('c23_1')">Copy</button></div><pre><code id="c23_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;darkgrid&#x27;)
+np.random.seed(0)
+subjects = [f&#x27;Subject_{i:02d}&#x27; for i in range(1, 7)]
+df_list = []
+for subj in subjects:
+    t = np.arange(20)
+    y = np.sin(t*0.3 + np.random.uniform(0,3)) + np.random.randn(20)*0.2
+    df_list.append(pd.DataFrame({&#x27;time&#x27;:t,&#x27;value&#x27;:y,&#x27;subject&#x27;:subj}))
+df = pd.concat(df_list, ignore_index=True)
+
+g = sns.relplot(data=df, x=&#x27;time&#x27;, y=&#x27;value&#x27;, col=&#x27;subject&#x27;,
+                kind=&#x27;line&#x27;, col_wrap=3, palette=&#x27;tab10&#x27;,
+                height=3, aspect=1.3, linewidth=2)
+g.set_axis_labels(&#x27;Time&#x27;, &#x27;Signal&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Subject Time Series (relplot col_wrap=3)&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;relplot_line.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved relplot_line.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>relplot with size and style encoding</span><button onclick="cp('c23_2')">Copy</button></div><pre><code id="c23_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+n = 200
+df = pd.DataFrame({
+    &#x27;x&#x27;: np.random.randn(n),
+    &#x27;y&#x27;: np.random.randn(n),
+    &#x27;size_var&#x27;: np.random.uniform(50, 300, n),
+    &#x27;category&#x27;: np.random.choice([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;], n),
+    &#x27;quality&#x27;: np.random.choice([&#x27;High&#x27;,&#x27;Low&#x27;], n)
+})
+
+g = sns.relplot(data=df, x=&#x27;x&#x27;, y=&#x27;y&#x27;,
+                hue=&#x27;category&#x27;, size=&#x27;size_var&#x27;, style=&#x27;quality&#x27;,
+                palette=&#x27;Set2&#x27;, sizes=(20, 300), alpha=0.7,
+                height=5, aspect=1.2)
+g.ax.set_title(&#x27;Multi-Encoding Scatter: hue + size + style&#x27;, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;relplot_multi.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved relplot_multi.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>relplot row and col grid</span><button onclick="cp('c23_3')">Copy</button></div><pre><code id="c23_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(2)
+conditions = [&#x27;Fast&#x27;,&#x27;Slow&#x27;]
+groups = [&#x27;Treatment&#x27;,&#x27;Control&#x27;]
+rows = []
+for cond in conditions:
+    for grp in groups:
+        mu = (4 if grp==&#x27;Treatment&#x27; else 2) + (1 if cond==&#x27;Fast&#x27; else 0)
+        t = np.arange(30)
+        y = mu + np.cumsum(np.random.randn(30)*0.3) + np.sin(t*0.2)
+        df_part = pd.DataFrame({&#x27;time&#x27;:t,&#x27;signal&#x27;:y,
+                                 &#x27;condition&#x27;:cond,&#x27;group&#x27;:grp})
+        rows.append(df_part)
+df = pd.concat(rows, ignore_index=True)
+
+g = sns.relplot(data=df, x=&#x27;time&#x27;, y=&#x27;signal&#x27;,
+                row=&#x27;group&#x27;, col=&#x27;condition&#x27;,
+                kind=&#x27;line&#x27;, palette=&#x27;Set1&#x27;, hue=&#x27;group&#x27;,
+                height=3.5, aspect=1.2, linewidth=2)
+g.set_axis_labels(&#x27;Time&#x27;, &#x27;Signal&#x27;)
+g.set_titles(row_template=&#x27;{row_name}&#x27;, col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Signal by Group × Condition (relplot grid)&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;relplot_grid.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved relplot_grid.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Marketing Campaign Performance</div><div class="rd">Plot click-through rate vs spend for 4 campaign types across 3 channels (col=channel). Use relplot kind=&#x27;scatter&#x27;, size=impressions (scaled), hue=campaign_type. Add a regression line for each panel.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(66)
+channels = [&#x27;Search&#x27;,&#x27;Social&#x27;,&#x27;Display&#x27;]
+campaigns = [&#x27;Brand&#x27;,&#x27;Retargeting&#x27;,&#x27;Prospecting&#x27;,&#x27;Seasonal&#x27;]
+rows = []
+for ch in channels:
+    for camp in campaigns:
+        n = 40
+        spend = np.random.uniform(500, 5000, n)
+        ctr   = 0.02 + spend/100000 + np.random.randn(n)*0.005
+        ctr   = np.clip(ctr, 0.001, 0.15)
+        impr  = spend * np.random.uniform(100, 500, n)
+        for s, c, im in zip(spend, ctr, impr):
+            rows.append({&#x27;channel&#x27;:ch,&#x27;campaign&#x27;:camp,&#x27;spend&#x27;:s,&#x27;ctr&#x27;:c,&#x27;impressions&#x27;:im})
+df = pd.DataFrame(rows)
+
+g = sns.relplot(data=df, x=&#x27;spend&#x27;, y=&#x27;ctr&#x27;,
+                col=&#x27;channel&#x27;, hue=&#x27;campaign&#x27;, style=&#x27;campaign&#x27;,
+                size=&#x27;impressions&#x27;, sizes=(20, 200),
+                palette=&#x27;tab10&#x27;, alpha=0.7, height=4, aspect=1.1)
+# Overlay regression line for each axis
+for ax in g.axes.flat:
+    if ax is not None:
+        ch_data = df[df.channel == ax.get_title().strip()]
+        if len(ch_data):
+            m, b = np.polyfit(ch_data.spend, ch_data.ctr, 1)
+            x_line = np.linspace(ch_data.spend.min(), ch_data.spend.max(), 50)
+            ax.plot(x_line, m*x_line+b, &#x27;r--&#x27;, linewidth=1.5, alpha=0.8)
+g.set_axis_labels(&#x27;Spend ($)&#x27;, &#x27;CTR&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Campaign CTR vs Spend by Channel&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;campaign_relplot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved campaign_relplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: relplot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset. Use relplot with kind=&#x27;line&#x27;, x=&#x27;timepoint&#x27;, y=&#x27;signal&#x27;, hue=&#x27;event&#x27;, col=&#x27;region&#x27;. Then create a second relplot kind=&#x27;scatter&#x27; with the same groupings and size=0.5. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;darkgrid&#x27;)
+fmri = sns.load_dataset(&#x27;fmri&#x27;)
+
+# TODO: relplot line, x=timepoint, y=signal, hue=event, col=region
+# TODO: save &#x27;fmri_line.png&#x27;
+# TODO: relplot scatter, same grouping
+# TODO: save &#x27;fmri_scatter.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Heatmap Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond basic heatmaps: annotate with custom formats, apply diverging colormaps for signed values, mask upper triangles, and combine with matplotlib for multi-panel layouts.</p><div class="code-block"><div class="ch"><span>Masked upper-triangle correlation heatmap</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(0)
+n = 8
+labels = [f&#x27;Var_{i}&#x27; for i in range(1, n+1)]
+data = np.random.randn(200, n)
+for i in range(n):
+    for j in range(i):
+        data[:, j] += data[:, i] * np.random.uniform(-0.5, 0.8)
+corr = np.corrcoef(data.T)
+df_corr = pd.DataFrame(corr, index=labels, columns=labels)
+
+mask = np.triu(np.ones_like(corr, dtype=bool), k=1)  # mask upper
+
+fig, ax = plt.subplots(figsize=(8, 7))
+sns.heatmap(df_corr, mask=mask, cmap=&#x27;RdBu_r&#x27;, vmin=-1, vmax=1,
+            annot=True, fmt=&#x27;.2f&#x27;, linewidths=0.5,
+            ax=ax, square=True, cbar_kws={&#x27;label&#x27;: &#x27;Pearson r&#x27;})
+ax.set_title(&#x27;Lower-Triangle Correlation Matrix&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;corr_heatmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved corr_heatmap.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Heatmap with custom fmt and colorbar</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(1)
+days = [&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;]
+hours = [f&#x27;{h:02d}:00&#x27; for h in range(7, 23)]
+traffic = np.random.poisson(50, (len(hours), len(days)))
+traffic[:, 5:] = np.random.poisson(80, (len(hours), 2))
+traffic[8:12, :] += 30
+traffic[17:20, :] += 40
+
+df = pd.DataFrame(traffic, index=hours, columns=days)
+fig, ax = plt.subplots(figsize=(10, 7))
+sns.heatmap(df, cmap=&#x27;YlOrRd&#x27;, annot=True, fmt=&#x27;d&#x27;,
+            linewidths=0.3, ax=ax,
+            cbar_kws={&#x27;label&#x27;: &#x27;Page Views&#x27;, &#x27;shrink&#x27;: 0.8})
+ax.set_title(&#x27;Website Traffic by Hour &amp; Day&#x27;, fontweight=&#x27;bold&#x27;)
+ax.set_xlabel(&#x27;Day of Week&#x27;); ax.set_ylabel(&#x27;Hour&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;traffic_heatmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved traffic_heatmap.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Heatmap with custom annotation text</span><button onclick="cp('c24_2')">Copy</button></div><pre><code id="c24_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(2)
+models = [&#x27;LR&#x27;,&#x27;RF&#x27;,&#x27;XGB&#x27;,&#x27;SVM&#x27;,&#x27;NN&#x27;]
+metrics = [&#x27;Accuracy&#x27;,&#x27;Precision&#x27;,&#x27;Recall&#x27;,&#x27;F1&#x27;,&#x27;AUC&#x27;]
+values = np.random.uniform(0.70, 0.98, (len(models), len(metrics)))
+df = pd.DataFrame(values, index=models, columns=metrics)
+
+# Custom annotations: highlight best per metric
+annot = df.copy().applymap(lambda v: f&#x27;{v:.3f}&#x27;)
+best_rows = df.idxmax(axis=0)
+highlights = pd.DataFrame(&#x27;&#x27;, index=df.index, columns=df.columns)
+for metric in metrics:
+    highlights.loc[best_rows[metric], metric] = f&#x27;★{df.loc[best_rows[metric],metric]:.3f}&#x27;
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.heatmap(df, cmap=&#x27;Blues&#x27;, vmin=0.65, vmax=1.0, ax=ax,
+            annot=df.round(3), fmt=&#x27;&#x27;, linewidths=0.5)
+ax.set_title(&#x27;Model Comparison Heatmap (★ = best per metric)&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;model_heatmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved model_heatmap.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Diverging heatmap for signed changes</span><button onclick="cp('c24_3')">Copy</button></div><pre><code id="c24_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(3)
+products = [f&#x27;P{i:02d}&#x27; for i in range(1, 9)]
+kpis = [&#x27;Revenue&#x27;,&#x27;Margin&#x27;,&#x27;Units&#x27;,&#x27;Traffic&#x27;,&#x27;Conv%&#x27;,&#x27;Retention&#x27;]
+changes = np.random.randn(len(products), len(kpis)) * 15
+df = pd.DataFrame(changes, index=products, columns=kpis)
+
+fig, ax = plt.subplots(figsize=(9, 6))
+sns.heatmap(df, cmap=&#x27;RdYlGn&#x27;, center=0,
+            annot=True, fmt=&#x27;.1f&#x27;, linewidths=0.5, ax=ax,
+            cbar_kws={&#x27;label&#x27;: &#x27;YoY Change (%)&#x27;})
+ax.set_title(&#x27;Product KPI Year-over-Year Change (%)&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;diverging_heatmap.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved diverging_heatmap.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Confusion Matrix Dashboard</div><div class="rd">Create a styled confusion matrix heatmap for a 5-class classifier. Normalize by true class (row), show counts in top-left and percentages in bottom-right of each cell, use Blues cmap.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(42)
+classes = [&#x27;Cat&#x27;,&#x27;Dog&#x27;,&#x27;Bird&#x27;,&#x27;Fish&#x27;,&#x27;Horse&#x27;]
+n = 5
+cm = np.array([
+    [45, 3, 1, 0, 1],
+    [2, 48, 0, 1, 0],
+    [1, 0, 42, 3, 2],
+    [0, 1, 4, 44, 1],
+    [2, 0, 3, 1, 43]
+])
+cm_norm = cm.astype(float) / cm.sum(axis=1, keepdims=True)
+
+# Build annotation: count + pct
+annot = np.empty_like(cm, dtype=object)
+for i in range(n):
+    for j in range(n):
+        annot[i,j] = f&#x27;{cm[i,j]}
+{cm_norm[i,j]*100:.1f}%&#x27;
+
+fig, ax = plt.subplots(figsize=(8, 7))
+sns.heatmap(cm_norm, annot=annot, fmt=&#x27;&#x27;, cmap=&#x27;Blues&#x27;,
+            xticklabels=classes, yticklabels=classes,
+            vmin=0, vmax=1, linewidths=0.5, ax=ax,
+            cbar_kws={&#x27;label&#x27;: &#x27;Precision (row-normalized)&#x27;})
+ax.set_title(&#x27;5-Class Confusion Matrix&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+ax.set_xlabel(&#x27;Predicted&#x27;); ax.set_ylabel(&#x27;True&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;confusion_matrix.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved confusion_matrix.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Heatmap Practice</div><div class="pd">Generate a 10x6 DataFrame of monthly sales by region (random integers 100-500). Create: (1) a standard heatmap with annot=True and YlGn cmap, (2) the same data as a diverging heatmap centered on the mean (RdYlGn), side by side in a 1x2 figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(9)
+months = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;][:10]
+regions = [&#x27;North&#x27;,&#x27;South&#x27;,&#x27;East&#x27;,&#x27;West&#x27;,&#x27;Central&#x27;,&#x27;Pacific&#x27;]
+df = pd.DataFrame(np.random.randint(100,500,(10,6)), index=months, columns=regions)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+# TODO: standard heatmap YlGn on ax1, annot=True
+# TODO: diverging heatmap RdYlGn centered at mean on ax2
+# TODO: titles, tight_layout, save &#x27;sales_heatmap.png&#x27;
+plt.close()</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. PairGrid Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use PairGrid for full control over diagonal, upper, and lower triangle plots. Map different plot types per region and use hue for group-aware multi-variable comparison.</p><div class="code-block"><div class="ch"><span>PairGrid: hist diagonal, scatter off-diag</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+
+g = sns.PairGrid(iris, hue=&#x27;species&#x27;, palette=&#x27;Set2&#x27;,
+                 vars=[&#x27;sepal_length&#x27;,&#x27;sepal_width&#x27;,&#x27;petal_length&#x27;,&#x27;petal_width&#x27;])
+g.map_diag(sns.histplot, kde=True, alpha=0.6)
+g.map_offdiag(sns.scatterplot, s=25, alpha=0.6)
+g.add_legend(title=&#x27;Species&#x27;)
+g.fig.suptitle(&#x27;PairGrid: Histogram Diagonal + Scatter&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;pairgrid_hist.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved pairgrid_hist.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>PairGrid: KDE diagonal, upper KDE, lower scatter</span><button onclick="cp('c25_1')">Copy</button></div><pre><code id="c25_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+vars_ = [&#x27;sepal_length&#x27;,&#x27;sepal_width&#x27;,&#x27;petal_length&#x27;,&#x27;petal_width&#x27;]
+
+g = sns.PairGrid(iris, hue=&#x27;species&#x27;, palette=&#x27;Set1&#x27;, vars=vars_)
+g.map_diag(sns.kdeplot, fill=True, alpha=0.4, linewidth=1.5)
+g.map_upper(sns.kdeplot, levels=4, warn_singular=False)
+g.map_lower(sns.scatterplot, s=20, alpha=0.5)
+g.add_legend(title=&#x27;Species&#x27;, fontsize=9)
+g.fig.suptitle(&#x27;PairGrid: KDE + Scatter Split&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;pairgrid_split.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved pairgrid_split.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>PairGrid: boxplot on diagonal</span><button onclick="cp('c25_2')">Copy</button></div><pre><code id="c25_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+vars_ = [&#x27;sepal_length&#x27;,&#x27;petal_length&#x27;,&#x27;petal_width&#x27;]
+
+g = sns.PairGrid(iris, hue=&#x27;species&#x27;, palette=&#x27;Set2&#x27;, vars=vars_)
+
+def diag_box(x, **kwargs):
+    ax = plt.gca()
+    data = kwargs.get(&#x27;data&#x27;, x)
+    groups = x.groupby(level=0) if hasattr(x,&#x27;groupby&#x27;) else None
+    ax.boxplot([x[x.index == i] for i in x.unique()], vert=True)
+
+g.map_diag(sns.kdeplot, fill=True, alpha=0.5)
+g.map_upper(sns.scatterplot, s=20, alpha=0.5)
+g.map_lower(sns.regplot, scatter_kws=dict(s=10,alpha=0.4),
+            line_kws=dict(linewidth=1.5))
+g.add_legend()
+g.fig.suptitle(&#x27;PairGrid: KDE / Scatter / Regression&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;pairgrid_reg.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved pairgrid_reg.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>PairGrid with correlation annotation</span><button onclick="cp('c25_3')">Copy</button></div><pre><code id="c25_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+n = 150
+df = pd.DataFrame({
+    &#x27;A&#x27;: np.random.randn(n),
+    &#x27;B&#x27;: np.random.randn(n),
+    &#x27;C&#x27;: np.random.randn(n),
+    &#x27;group&#x27;: np.random.choice([&#x27;X&#x27;,&#x27;Y&#x27;], n)
+})
+df[&#x27;B&#x27;] += df[&#x27;A&#x27;] * 0.7
+df[&#x27;C&#x27;] = df[&#x27;A&#x27;] * (-0.5) + np.random.randn(n) * 0.7
+
+def corrfunc(x, y, **kwargs):
+    r = np.corrcoef(x, y)[0,1]
+    ax = plt.gca()
+    ax.annotate(f&#x27;r = {r:.2f}&#x27;, xy=(0.5,0.5), xycoords=&#x27;axes fraction&#x27;,
+                ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=12,
+                color=&#x27;darkred&#x27; if abs(r) &gt; 0.4 else &#x27;gray&#x27;,
+                fontweight=&#x27;bold&#x27; if abs(r) &gt; 0.4 else &#x27;normal&#x27;)
+
+g = sns.PairGrid(df[[&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;group&#x27;]], hue=&#x27;group&#x27;, palette=&#x27;Set1&#x27;,
+                 vars=[&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;])
+g.map_diag(sns.kdeplot, fill=True, alpha=0.4)
+g.map_lower(sns.scatterplot, s=20, alpha=0.5)
+g.map_upper(corrfunc)
+g.add_legend()
+g.fig.suptitle(&#x27;PairGrid: Lower=Scatter, Upper=Correlation&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;pairgrid_corr.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved pairgrid_corr.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Penguins Multi-Variable EDA</div><div class="rd">Create a PairGrid on the penguins dataset (4 numeric features, hue=species): diagonal = KDE filled, upper = KDE contour, lower = scatter. Annotate correlation values in each upper cell.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+vars_ = [&#x27;bill_length_mm&#x27;,&#x27;bill_depth_mm&#x27;,&#x27;flipper_length_mm&#x27;,&#x27;body_mass_g&#x27;]
+
+def upper_corr(x, y, **kwargs):
+    r = np.corrcoef(x, y)[0,1]
+    ax = plt.gca()
+    ax.annotate(f&#x27;r={r:.2f}&#x27;, xy=(0.5,0.5), xycoords=&#x27;axes fraction&#x27;,
+                ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=10,
+                color=&#x27;darkred&#x27; if abs(r) &gt; 0.5 else &#x27;gray&#x27;,
+                fontweight=&#x27;bold&#x27;)
+
+g = sns.PairGrid(penguins, hue=&#x27;species&#x27;, palette=&#x27;Set2&#x27;, vars=vars_)
+g.map_diag(sns.kdeplot, fill=True, alpha=0.5, linewidth=1.5)
+g.map_lower(sns.scatterplot, s=20, alpha=0.5)
+g.map_upper(upper_corr)
+g.add_legend(title=&#x27;Species&#x27;)
+g.fig.suptitle(&#x27;Penguins PairGrid EDA&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;penguins_pairgrid.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved penguins_pairgrid.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: PairGrid Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a PairGrid with vars=[&#x27;mpg&#x27;,&#x27;horsepower&#x27;,&#x27;weight&#x27;,&#x27;acceleration&#x27;], hue=&#x27;origin&#x27;. Map: diagonal=histplot, upper=scatterplot, lower=regplot. Add legend and a suptitle.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+mpg = sns.load_dataset(&#x27;mpg&#x27;).dropna()
+vars_ = [&#x27;mpg&#x27;,&#x27;horsepower&#x27;,&#x27;weight&#x27;,&#x27;acceleration&#x27;]
+
+g = sns.PairGrid(mpg, hue=&#x27;origin&#x27;, palette=&#x27;tab10&#x27;, vars=vars_)
+# TODO: map_diag histplot
+# TODO: map_upper scatterplot
+# TODO: map_lower regplot (scatter_kws, line_kws)
+# TODO: add_legend, suptitle
+# TODO: save &#x27;mpg_pairgrid.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Residual &amp; Regression Diagnostics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use residplot() for visual residual checks, lmplot() for grouped regression, and regplot() with custom order for polynomial fits. Combine with matplotlib for full diagnostic panels.</p><div class="code-block"><div class="ch"><span>residplot: detect non-linearity</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+n = 150
+x = np.linspace(0, 10, n)
+y_linear  = 2*x + 1 + np.random.randn(n)*2
+y_nonlin  = 2*x + 0.3*x**2 + np.random.randn(n)*3
+
+df = pd.DataFrame({&#x27;x&#x27;:x,&#x27;y_linear&#x27;:y_linear,&#x27;y_nonlin&#x27;:y_nonlin})
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+sns.residplot(data=df, x=&#x27;x&#x27;, y=&#x27;y_linear&#x27;, lowess=True,
+              scatter_kws=dict(alpha=0.5, s=20),
+              line_kws=dict(color=&#x27;red&#x27;, linewidth=2), ax=ax1)
+ax1.set_title(&#x27;Residuals: Linear Data (good fit)&#x27;)
+ax1.axhline(0, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=1)
+
+sns.residplot(data=df, x=&#x27;x&#x27;, y=&#x27;y_nonlin&#x27;, lowess=True,
+              scatter_kws=dict(alpha=0.5, s=20),
+              line_kws=dict(color=&#x27;red&#x27;, linewidth=2), ax=ax2)
+ax2.set_title(&#x27;Residuals: Nonlinear Data (pattern visible)&#x27;)
+ax2.axhline(0, color=&#x27;gray&#x27;, linestyle=&#x27;--&#x27;, linewidth=1)
+
+fig.suptitle(&#x27;residplot — Lowess Smoother&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;residplot.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved residplot.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>lmplot: grouped regression per hue</span><button onclick="cp('c26_1')">Copy</button></div><pre><code id="c26_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+g = sns.lmplot(data=tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;,
+               hue=&#x27;sex&#x27;, palette=&#x27;Set1&#x27;,
+               scatter_kws=dict(s=30, alpha=0.6),
+               line_kws=dict(linewidth=2),
+               height=5, aspect=1.3)
+g.set_axis_labels(&#x27;Total Bill ($)&#x27;, &#x27;Tip ($)&#x27;)
+g.fig.suptitle(&#x27;lmplot: Regression by Sex&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;lmplot_hue.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved lmplot_hue.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>lmplot with col faceting</span><button onclick="cp('c26_2')">Copy</button></div><pre><code id="c26_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+g = sns.lmplot(data=tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;,
+               col=&#x27;time&#x27;, hue=&#x27;smoker&#x27;,
+               palette=&#x27;Set2&#x27;,
+               scatter_kws=dict(s=30, alpha=0.6),
+               height=4, aspect=1.1)
+g.set_axis_labels(&#x27;Total Bill ($)&#x27;, &#x27;Tip ($)&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;lmplot: Regression by Time and Smoker&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;lmplot_col.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved lmplot_col.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Polynomial regression with regplot order</span><button onclick="cp('c26_3')">Copy</button></div><pre><code id="c26_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+x = np.linspace(-3, 3, 100)
+y = 2*x**3 - x**2 + x + np.random.randn(100)*3
+df = pd.DataFrame({&#x27;x&#x27;:x,&#x27;y&#x27;:y})
+
+fig, axes = plt.subplots(1, 3, figsize=(13, 4))
+for ax, order, title in zip(axes, [1,2,3], [&#x27;Linear (order=1)&#x27;,&#x27;Quadratic (order=2)&#x27;,&#x27;Cubic (order=3)&#x27;]):
+    sns.regplot(data=df, x=&#x27;x&#x27;, y=&#x27;y&#x27;, order=order,
+                scatter_kws=dict(s=15, alpha=0.5),
+                line_kws=dict(linewidth=2, color=&#x27;tomato&#x27;),
+                ax=ax)
+    ax.set_title(title)
+    ax.grid(True, alpha=0.3)
+fig.suptitle(&#x27;Polynomial Regression Orders with regplot&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;poly_regplot.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved poly_regplot.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Housing Price Regression Diagnostics</div><div class="rd">Fit a linear regression of house price on size and show: (1) lmplot by neighborhood, (2) residplot of residuals, (3) regplot with CI band.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(33)
+hoods = [&#x27;Downtown&#x27;,&#x27;Suburbs&#x27;,&#x27;Rural&#x27;]
+rows = []
+for hood in hoods:
+    base = {&#x27;Downtown&#x27;:300,&#x27;Suburbs&#x27;:200,&#x27;Rural&#x27;:120}[hood]
+    n = 80
+    size = np.random.uniform(50, 250, n)
+    price = base + 1.2*size + np.random.randn(n)*30
+    rows.append(pd.DataFrame({&#x27;size_sqm&#x27;:size,&#x27;price_k&#x27;:price,&#x27;neighborhood&#x27;:hood}))
+df = pd.concat(rows, ignore_index=True)
+
+g = sns.lmplot(data=df, x=&#x27;size_sqm&#x27;, y=&#x27;price_k&#x27;, col=&#x27;neighborhood&#x27;,
+               hue=&#x27;neighborhood&#x27;, palette=&#x27;Set2&#x27;,
+               scatter_kws=dict(s=25, alpha=0.6),
+               line_kws=dict(linewidth=2),
+               height=4, aspect=1.0, legend=False)
+g.set_axis_labels(&#x27;Size (sqm)&#x27;, &#x27;Price ($K)&#x27;)
+g.set_titles(col_template=&#x27;{col_name}&#x27;)
+g.fig.suptitle(&#x27;Housing Price Regression by Neighborhood&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
+g.fig.savefig(&#x27;housing_regression.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+print(&#x27;Saved housing_regression.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regression Diagnostics Practice</div><div class="pd">Generate 100 data points: x = linspace(0,10), y = sin(x) + noise. Use a 1x3 panel: (1) regplot order=1, (2) regplot order=3, (3) residplot for the order=3 fit. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(4)
+x = np.linspace(0, 10, 100)
+y = np.sin(x) + np.random.randn(100)*0.4
+df = pd.DataFrame({&#x27;x&#x27;:x,&#x27;y&#x27;:y})
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+# TODO: regplot order=1 on axes[0]
+# TODO: regplot order=3 on axes[1]
+# TODO: residplot order=3 on axes[2]
+fig.suptitle(&#x27;Regression &amp; Residuals: sin(x)&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;sin_regression.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sin_regression.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Mixed Seaborn + Matplotlib</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Combine Seaborn plots with raw matplotlib artists: add reference lines, spans, custom patches, secondary axes, and annotations on top of seaborn outputs.</p><div class="code-block"><div class="ch"><span>Add reference line and span to seaborn plot</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+df = pd.DataFrame({
+    &#x27;score&#x27;: np.random.normal(72, 15, 200),
+    &#x27;group&#x27;: np.random.choice([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;], 200)
+})
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.boxplot(data=df, x=&#x27;group&#x27;, y=&#x27;score&#x27;, palette=&#x27;Set2&#x27;, ax=ax)
+
+# Matplotlib overlays
+ax.axhline(70, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, linewidth=2, label=&#x27;Target&#x27;)
+ax.axhspan(0, 60, color=&#x27;red&#x27;, alpha=0.07, label=&#x27;Fail zone&#x27;)
+ax.axhspan(90, 100, color=&#x27;green&#x27;, alpha=0.07, label=&#x27;Excellent&#x27;)
+ax.set_title(&#x27;Test Scores by Group with Reference Lines&#x27;, fontweight=&#x27;bold&#x27;)
+ax.legend()
+ax.set_ylim(20, 110)
+fig.tight_layout()
+fig.savefig(&#x27;sns_mpl_lines.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sns_mpl_lines.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Annotate outliers on seaborn plot</span><button onclick="cp('c27_1')">Copy</button></div><pre><code id="c27_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+df = pd.DataFrame({
+    &#x27;revenue&#x27;: np.concatenate([np.random.normal(100, 20, 95), [220, 230, 240, 10, 5]]),
+    &#x27;region&#x27;: np.random.choice([&#x27;East&#x27;,&#x27;West&#x27;], 100)
+})
+
+fig, ax = plt.subplots(figsize=(9, 5))
+sns.stripplot(data=df, x=&#x27;region&#x27;, y=&#x27;revenue&#x27;, jitter=True,
+              palette=&#x27;Set2&#x27;, size=6, alpha=0.7, ax=ax)
+
+# Annotate extreme outliers
+q1, q3 = df.revenue.quantile([0.25, 0.75])
+iqr = q3 - q1
+outliers = df[df.revenue &gt; q3 + 1.5*iqr]
+for _, row in outliers.iterrows():
+    x_jit = {&#x27;East&#x27;:0,&#x27;West&#x27;:1}[row.region] + np.random.uniform(-0.1,0.1)
+    ax.annotate(f&#x27;${row.revenue:.0f}K&#x27;,
+                xy=(x_jit, row.revenue),
+                xytext=(x_jit+0.2, row.revenue),
+                fontsize=8, color=&#x27;darkred&#x27;,
+                arrowprops=dict(arrowstyle=&#x27;-&gt;&#x27;, color=&#x27;darkred&#x27;, lw=1))
+
+ax.axhline(q3+1.5*iqr, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, linewidth=1.2, label=&#x27;Upper fence&#x27;)
+ax.set_title(&#x27;Revenue Distribution with Outlier Annotations&#x27;, fontweight=&#x27;bold&#x27;)
+ax.legend()
+fig.tight_layout()
+fig.savefig(&#x27;sns_annotate_outliers.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sns_annotate_outliers.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>seaborn heatmap + matplotlib patch overlay</span><button onclick="cp('c27_2')">Copy</button></div><pre><code id="c27_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import matplotlib.patches as mpatches
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(2)
+data = np.random.randn(8, 8)
+data[2:4, 5:7] += 3  # hot cluster
+
+fig, ax = plt.subplots(figsize=(7, 6))
+sns.heatmap(data, cmap=&#x27;RdBu_r&#x27;, center=0, ax=ax,
+            annot=True, fmt=&#x27;.1f&#x27;, linewidths=0.3)
+
+# Highlight cluster with rectangle
+rect = mpatches.Rectangle((5, 2), 2, 2,
+    linewidth=3, edgecolor=&#x27;gold&#x27;, facecolor=&#x27;none&#x27;,
+    transform=ax.transData)
+ax.add_patch(rect)
+ax.text(6.5, 1.7, &#x27;Hot cluster&#x27;, ha=&#x27;center&#x27;, fontsize=10,
+        color=&#x27;gold&#x27;, fontweight=&#x27;bold&#x27;)
+ax.set_title(&#x27;Heatmap with Cluster Highlight&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;sns_heatmap_patch.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sns_heatmap_patch.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>twinx on seaborn axes</span><button onclick="cp('c27_3')">Copy</button></div><pre><code id="c27_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(3)
+months = list(range(1, 13))
+df = pd.DataFrame({
+    &#x27;month&#x27;: months,
+    &#x27;revenue&#x27;: [80+i*5+np.random.randn()*4 for i in range(12)],
+    &#x27;users&#x27;: [1000+i*80+np.random.randn()*50 for i in range(12)]
+})
+
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax2 = ax1.twinx()
+
+sns.lineplot(data=df, x=&#x27;month&#x27;, y=&#x27;revenue&#x27;, color=&#x27;steelblue&#x27;,
+             linewidth=2, marker=&#x27;o&#x27;, label=&#x27;Revenue ($K)&#x27;, ax=ax1)
+sns.lineplot(data=df, x=&#x27;month&#x27;, y=&#x27;users&#x27;, color=&#x27;tomato&#x27;,
+             linewidth=2, marker=&#x27;s&#x27;, linestyle=&#x27;--&#x27;, label=&#x27;Users&#x27;, ax=ax2)
+
+ax1.set_ylabel(&#x27;Revenue ($K)&#x27;, color=&#x27;steelblue&#x27;)
+ax2.set_ylabel(&#x27;Users&#x27;, color=&#x27;tomato&#x27;)
+ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;steelblue&#x27;)
+ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;tomato&#x27;)
+ax1.set_xlabel(&#x27;Month&#x27;)
+
+lines1, lab1 = ax1.get_legend_handles_labels()
+lines2, lab2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1+lines2, lab1+lab2, loc=&#x27;upper left&#x27;)
+ax1.get_legend().remove() if ax2.get_legend() else None
+ax1.set_title(&#x27;Revenue &amp; Users (seaborn + twinx)&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;sns_twinx.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sns_twinx.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Marketing KPI Report</div><div class="rd">Combine a seaborn barplot for monthly revenue with twinx for conversion rate, axhspan for target zones, and annotate bars that exceed the target with a star marker.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(88)
+months = [&#x27;Jan&#x27;,&#x27;Feb&#x27;,&#x27;Mar&#x27;,&#x27;Apr&#x27;,&#x27;May&#x27;,&#x27;Jun&#x27;,&#x27;Jul&#x27;,&#x27;Aug&#x27;,&#x27;Sep&#x27;,&#x27;Oct&#x27;,&#x27;Nov&#x27;,&#x27;Dec&#x27;]
+revenue = [120+i*8+np.random.randn()*10 for i in range(12)]
+conv_rate = [3.2+i*0.1+np.random.randn()*0.2 for i in range(12)]
+target_rev = 160
+
+df = pd.DataFrame({&#x27;month&#x27;:months,&#x27;revenue&#x27;:revenue,&#x27;conv_rate&#x27;:conv_rate})
+
+fig, ax1 = plt.subplots(figsize=(12, 6))
+ax2 = ax1.twinx()
+
+bar_colors = [&#x27;seagreen&#x27; if r &gt;= target_rev else &#x27;steelblue&#x27; for r in revenue]
+bars = ax1.bar(months, revenue, color=bar_colors, alpha=0.7, width=0.6)
+ax2.plot(months, conv_rate, &#x27;ro-&#x27;, linewidth=2, markersize=6, label=&#x27;Conv Rate (%)&#x27;)
+
+ax1.axhline(target_rev, color=&#x27;green&#x27;, linestyle=&#x27;--&#x27;, linewidth=2, label=&#x27;Revenue target&#x27;)
+ax1.axhspan(target_rev, max(revenue)*1.05, color=&#x27;green&#x27;, alpha=0.05)
+
+# Annotate exceeding months
+for i,(m,r) in enumerate(zip(months,revenue)):
+    if r &gt;= target_rev:
+        ax1.text(i, r+3, &#x27;★&#x27;, ha=&#x27;center&#x27;, fontsize=14, color=&#x27;gold&#x27;)
+
+ax1.set_ylabel(&#x27;Revenue ($K)&#x27;, color=&#x27;steelblue&#x27;)
+ax2.set_ylabel(&#x27;Conversion Rate (%)&#x27;, color=&#x27;tomato&#x27;)
+ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;steelblue&#x27;)
+ax2.tick_params(axis=&#x27;y&#x27;, labelcolor=&#x27;tomato&#x27;)
+lines1, lab1 = ax1.get_legend_handles_labels()
+lines2, lab2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1+lines2, lab1+lab2, loc=&#x27;upper left&#x27;)
+ax1.set_title(&#x27;Marketing KPI: Revenue vs Conversion Rate&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;marketing_kpi.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved marketing_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mixed Plot Practice</div><div class="pd">Create a seaborn violinplot of exam scores by subject (4 subjects). Overlay a horizontal line at the passing grade (60), a shaded band for distinction (85-100), and annotate the subject with highest median. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(5)
+subjects = [&#x27;Math&#x27;,&#x27;Science&#x27;,&#x27;English&#x27;,&#x27;History&#x27;]
+df = pd.DataFrame({
+    &#x27;score&#x27;: np.concatenate([np.random.normal(m, 15, 80) for m in [65,70,75,60]]).clip(0,100),
+    &#x27;subject&#x27;: np.repeat(subjects, 80)
+})
+
+fig, ax = plt.subplots(figsize=(9, 5))
+# TODO: violinplot
+# TODO: axhline at 60 (passing)
+# TODO: axhspan 85-100 (distinction zone)
+# TODO: annotate highest median subject
+# TODO: save &#x27;exam_violin.png&#x27;
+plt.close()</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Seaborn with Real Datasets</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Practice EDA workflows on seaborn&#x27;s built-in datasets: titanic, penguins, diamonds, mpg, and fmri. Apply multiple plot types to reveal patterns, relationships, and anomalies.</p><div class="code-block"><div class="ch"><span>Titanic survival EDA</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+titanic = sns.load_dataset(&#x27;titanic&#x27;)
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+# Survival by class
+sns.barplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;survived&#x27;, hue=&#x27;sex&#x27;,
+            palette=&#x27;Set1&#x27;, capsize=0.08, ax=axes[0,0])
+axes[0,0].set_title(&#x27;Survival Rate by Class &amp; Sex&#x27;)
+axes[0,0].set_ylim(0,1)
+
+# Age distribution by survival
+sns.kdeplot(data=titanic.dropna(subset=[&#x27;age&#x27;]), x=&#x27;age&#x27;, hue=&#x27;survived&#x27;,
+            fill=True, alpha=0.4, palette=&#x27;Set2&#x27;, ax=axes[0,1])
+axes[0,1].set_title(&#x27;Age Distribution by Survival&#x27;)
+
+# Fare vs survival (box)
+sns.boxplot(data=titanic, x=&#x27;class&#x27;, y=&#x27;fare&#x27;, hue=&#x27;survived&#x27;,
+            palette=&#x27;pastel&#x27;, ax=axes[1,0])
+axes[1,0].set_title(&#x27;Fare Distribution by Class &amp; Survival&#x27;)
+
+# Count by embarkation port
+sns.countplot(data=titanic, x=&#x27;embarked&#x27;, hue=&#x27;survived&#x27;,
+              palette=&#x27;Set2&#x27;, ax=axes[1,1])
+axes[1,1].set_title(&#x27;Counts by Port of Embarkation&#x27;)
+
+fig.suptitle(&#x27;Titanic Dataset — EDA Dashboard&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;titanic_eda.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved titanic_eda.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Diamonds dataset analysis</span><button onclick="cp('c28_1')">Copy</button></div><pre><code id="c28_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+diamonds = sns.load_dataset(&#x27;diamonds&#x27;)
+sample = diamonds.sample(2000, random_state=42)
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+# Price by cut
+sns.violinplot(data=sample, x=&#x27;cut&#x27;, y=&#x27;price&#x27;, palette=&#x27;Set2&#x27;,
+               inner=&#x27;quartile&#x27;, ax=axes[0])
+axes[0].set_title(&#x27;Price by Cut&#x27;)
+
+# Carat vs price scatter
+sns.scatterplot(data=sample, x=&#x27;carat&#x27;, y=&#x27;price&#x27;, hue=&#x27;color&#x27;,
+                palette=&#x27;RdYlGn&#x27;, s=15, alpha=0.5, ax=axes[1])
+axes[1].set_title(&#x27;Carat vs Price by Color&#x27;)
+
+# Correlation heatmap of numeric cols
+corr = sample[[&#x27;carat&#x27;,&#x27;depth&#x27;,&#x27;table&#x27;,&#x27;price&#x27;,&#x27;x&#x27;,&#x27;y&#x27;,&#x27;z&#x27;]].corr()
+sns.heatmap(corr, annot=True, fmt=&#x27;.2f&#x27;, cmap=&#x27;coolwarm&#x27;,
+            center=0, linewidths=0.5, ax=axes[2])
+axes[2].set_title(&#x27;Feature Correlation&#x27;)
+
+fig.suptitle(&#x27;Diamonds EDA&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;diamonds_eda.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved diamonds_eda.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Penguins complete EDA</span><button onclick="cp('c28_2')">Copy</button></div><pre><code id="c28_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+sns.scatterplot(data=penguins, x=&#x27;bill_length_mm&#x27;, y=&#x27;bill_depth_mm&#x27;,
+                hue=&#x27;species&#x27;, style=&#x27;island&#x27;, s=60, alpha=0.7, ax=axes[0,0])
+axes[0,0].set_title(&#x27;Bill Length vs Depth by Species &amp; Island&#x27;)
+
+sns.violinplot(data=penguins, x=&#x27;species&#x27;, y=&#x27;body_mass_g&#x27;,
+               hue=&#x27;sex&#x27;, split=True, palette=&#x27;Set2&#x27;, inner=&#x27;box&#x27;,
+               ax=axes[0,1])
+axes[0,1].set_title(&#x27;Body Mass by Species &amp; Sex&#x27;)
+
+sns.ecdfplot(data=penguins, x=&#x27;flipper_length_mm&#x27;, hue=&#x27;species&#x27;,
+             palette=&#x27;Set1&#x27;, linewidth=2, ax=axes[1,0])
+axes[1,0].set_title(&#x27;Flipper Length ECDF by Species&#x27;)
+
+counts = penguins.groupby([&#x27;species&#x27;,&#x27;island&#x27;]).size().reset_index(name=&#x27;count&#x27;)
+sns.barplot(data=counts, x=&#x27;species&#x27;, y=&#x27;count&#x27;, hue=&#x27;island&#x27;,
+            palette=&#x27;pastel&#x27;, ax=axes[1,1])
+axes[1,1].set_title(&#x27;Population by Species &amp; Island&#x27;)
+
+fig.suptitle(&#x27;Penguins Complete EDA&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;penguins_eda.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved penguins_eda.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>MPG fuel efficiency analysis</span><button onclick="cp('c28_3')">Copy</button></div><pre><code id="c28_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+mpg = sns.load_dataset(&#x27;mpg&#x27;).dropna()
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+# MPG trend by model year and origin
+sns.lineplot(data=mpg, x=&#x27;model_year&#x27;, y=&#x27;mpg&#x27;, hue=&#x27;origin&#x27;,
+             palette=&#x27;Set1&#x27;, linewidth=2, markers=True, ax=axes[0])
+axes[0].set_title(&#x27;MPG by Year &amp; Origin&#x27;)
+
+# Weight vs MPG regression by cylinders
+cyl_order = sorted(mpg[&#x27;cylinders&#x27;].unique())
+pal = sns.color_palette(&#x27;coolwarm&#x27;, len(cyl_order))
+for i, cyl in enumerate(cyl_order):
+    sub = mpg[mpg.cylinders == cyl]
+    axes[1].scatter(sub.weight, sub.mpg, s=20, alpha=0.5, color=pal[i], label=f&#x27;{cyl}cyl&#x27;)
+axes[1].set_xlabel(&#x27;Weight (lbs)&#x27;); axes[1].set_ylabel(&#x27;MPG&#x27;)
+axes[1].legend(title=&#x27;Cylinders&#x27;, fontsize=8); axes[1].set_title(&#x27;Weight vs MPG by Cylinders&#x27;)
+
+# Horsepower distribution by origin
+sns.boxplot(data=mpg, x=&#x27;origin&#x27;, y=&#x27;horsepower&#x27;, palette=&#x27;Set2&#x27;, ax=axes[2])
+axes[2].set_title(&#x27;Horsepower by Origin&#x27;)
+
+fig.suptitle(&#x27;MPG Dataset — Fuel Efficiency EDA&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;mpg_eda.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved mpg_eda.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Complete Data Story</div><div class="rd">Using the &#x27;diamonds&#x27; dataset: tell a 4-panel data story: (1) price distribution by cut (violin), (2) price vs carat regression by clarity, (3) ECDF of price by cut, (4) heatmap of median price by cut×color.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+diamonds = sns.load_dataset(&#x27;diamonds&#x27;)
+sample = diamonds.sample(3000, random_state=7)
+cut_order = [&#x27;Fair&#x27;,&#x27;Good&#x27;,&#x27;Very Good&#x27;,&#x27;Premium&#x27;,&#x27;Ideal&#x27;]
+
+fig, axes = plt.subplots(2, 2, figsize=(13, 10))
+
+sns.violinplot(data=sample, x=&#x27;cut&#x27;, y=&#x27;price&#x27;, palette=&#x27;YlOrRd&#x27;,
+               inner=&#x27;quartile&#x27;, order=cut_order, ax=axes[0,0])
+axes[0,0].set_title(&#x27;Price by Cut&#x27;, fontweight=&#x27;bold&#x27;)
+axes[0,0].set_xlabel(&#x27;Cut&#x27;); axes[0,0].set_ylabel(&#x27;Price ($)&#x27;)
+
+clarity_order = [&#x27;I1&#x27;,&#x27;SI2&#x27;,&#x27;SI1&#x27;,&#x27;VS2&#x27;,&#x27;VS1&#x27;,&#x27;VVS2&#x27;,&#x27;VVS1&#x27;,&#x27;IF&#x27;]
+sns.scatterplot(data=sample, x=&#x27;carat&#x27;, y=&#x27;price&#x27;, hue=&#x27;clarity&#x27;,
+                palette=&#x27;RdYlGn&#x27;, s=15, alpha=0.5,
+                hue_order=clarity_order, ax=axes[0,1])
+axes[0,1].set_title(&#x27;Carat vs Price by Clarity&#x27;, fontweight=&#x27;bold&#x27;)
+
+sns.ecdfplot(data=sample, x=&#x27;price&#x27;, hue=&#x27;cut&#x27;, palette=&#x27;YlOrRd&#x27;,
+             linewidth=2, hue_order=cut_order, ax=axes[1,0])
+axes[1,0].set_title(&#x27;Price ECDF by Cut&#x27;, fontweight=&#x27;bold&#x27;)
+axes[1,0].set_xlabel(&#x27;Price ($)&#x27;)
+
+pivot = diamonds.groupby([&#x27;cut&#x27;,&#x27;color&#x27;])[&#x27;price&#x27;].median().unstack()
+pivot = pivot.loc[cut_order]
+sns.heatmap(pivot, cmap=&#x27;YlOrRd&#x27;, annot=True, fmt=&#x27;.0f&#x27;,
+            linewidths=0.3, ax=axes[1,1])
+axes[1,1].set_title(&#x27;Median Price: Cut × Color&#x27;, fontweight=&#x27;bold&#x27;)
+
+fig.suptitle(&#x27;Diamond Price Analysis — Complete Story&#x27;, fontweight=&#x27;bold&#x27;, fontsize=14)
+fig.tight_layout()
+fig.savefig(&#x27;diamond_story.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved diamond_story.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real Dataset EDA Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a 2x2 EDA dashboard: (1) lmplot of mpg vs weight by origin, (2) pairplot of [mpg, horsepower, weight] with hue=origin (quick version), (3) boxplot of mpg by cylinders, (4) lineplot of mean mpg by model_year. Drop NaN first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+mpg = sns.load_dataset(&#x27;mpg&#x27;).dropna()
+
+# Pairplot separately (it creates its own figure)
+g = sns.pairplot(mpg[[&#x27;mpg&#x27;,&#x27;horsepower&#x27;,&#x27;weight&#x27;,&#x27;origin&#x27;]],
+                 hue=&#x27;origin&#x27;, palette=&#x27;Set2&#x27;, plot_kws=dict(s=15, alpha=0.5))
+g.fig.suptitle(&#x27;MPG Pairplot&#x27;, y=1.01)
+g.fig.savefig(&#x27;mpg_pairplot.png&#x27;, dpi=80, bbox_inches=&#x27;tight&#x27;)
+plt.close(g.fig)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+# TODO: boxplot mpg by cylinders
+# TODO: lineplot mean mpg by model_year, hue=origin
+# TODO: scatterplot weight vs mpg, hue=origin, regplot overlay
+fig.tight_layout()
+fig.savefig(&#x27;mpg_dashboard.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved mpg_dashboard.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Object-Oriented Seaborn</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use the modern Seaborn Figure API: create a Figure object, add Subplots with share axes, and chain .plot() calls. Use Figure.save() and Figure.show(). Available in Seaborn 0.12+.</p><div class="code-block"><div class="ch"><span>Seaborn objects API: basic scatter</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+p = (
+    so.Plot(tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;, color=&#x27;sex&#x27;)
+    .add(so.Dot(alpha=0.6, pointsize=5))
+    .add(so.Line(), so.PolyFit(order=1))
+    .label(x=&#x27;Total Bill ($)&#x27;, y=&#x27;Tip ($)&#x27;, color=&#x27;Sex&#x27;,
+           title=&#x27;Tips: Scatter + Regression (objects API)&#x27;)
+)
+p.save(&#x27;so_scatter.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved so_scatter.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Seaborn objects: Bar plot with grouping</span><button onclick="cp('c29_1')">Copy</button></div><pre><code id="c29_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+p = (
+    so.Plot(tips, x=&#x27;day&#x27;, y=&#x27;total_bill&#x27;, color=&#x27;sex&#x27;)
+    .add(so.Bar(), so.Agg(&#x27;mean&#x27;), so.Dodge())
+    .label(x=&#x27;Day&#x27;, y=&#x27;Mean Total Bill ($)&#x27;, color=&#x27;Sex&#x27;,
+           title=&#x27;Mean Bill by Day &amp; Sex (objects API)&#x27;)
+)
+p.save(&#x27;so_bar.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved so_bar.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Seaborn objects: histogram with KDE</span><button onclick="cp('c29_2')">Copy</button></div><pre><code id="c29_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+iris = sns.load_dataset(&#x27;iris&#x27;)
+
+p = (
+    so.Plot(iris, x=&#x27;petal_length&#x27;, color=&#x27;species&#x27;)
+    .add(so.Bars(), so.Hist(binwidth=0.3), so.Norm(&#x27;percent&#x27;))
+    .add(so.Line(), so.KDE())
+    .label(x=&#x27;Petal Length (cm)&#x27;, y=&#x27;Percent&#x27;,
+           title=&#x27;Petal Length Distribution (objects API)&#x27;)
+)
+p.save(&#x27;so_hist.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved so_hist.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Seaborn objects: faceted grid</span><button onclick="cp('c29_3')">Copy</button></div><pre><code id="c29_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+p = (
+    so.Plot(tips, x=&#x27;total_bill&#x27;, y=&#x27;tip&#x27;, color=&#x27;sex&#x27;)
+    .facet(col=&#x27;time&#x27;, row=&#x27;smoker&#x27;)
+    .add(so.Dot(alpha=0.5, pointsize=4))
+    .label(x=&#x27;Total Bill ($)&#x27;, y=&#x27;Tip ($)&#x27;,
+           title=&#x27;Tips: Faceted Grid (objects API)&#x27;)
+    .limit(x=(0, 55), y=(0, 11))
+)
+p.save(&#x27;so_faceted.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved so_faceted.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Modern API Visualization</div><div class="rd">Use the seaborn.objects API to create a 3-part analysis of the &#x27;penguins&#x27; dataset: (1) scatter bill_length vs bill_depth with color=species, (2) bar mean body_mass by species+sex with dodge, (3) line flipper_length trend — all using so.Plot.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+p1 = (
+    so.Plot(penguins, x=&#x27;bill_length_mm&#x27;, y=&#x27;bill_depth_mm&#x27;, color=&#x27;species&#x27;)
+    .add(so.Dot(alpha=0.6, pointsize=5))
+    .label(x=&#x27;Bill Length (mm)&#x27;, y=&#x27;Bill Depth (mm)&#x27;,
+           title=&#x27;Bill Dimensions by Species&#x27;)
+)
+p1.save(&#x27;so_penguin_scatter.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+
+p2 = (
+    so.Plot(penguins, x=&#x27;species&#x27;, y=&#x27;body_mass_g&#x27;, color=&#x27;sex&#x27;)
+    .add(so.Bar(), so.Agg(&#x27;mean&#x27;), so.Dodge())
+    .label(x=&#x27;Species&#x27;, y=&#x27;Mean Body Mass (g)&#x27;,
+           title=&#x27;Body Mass by Species &amp; Sex&#x27;)
+)
+p2.save(&#x27;so_penguin_bar.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+print(&#x27;Saved so_penguin_scatter.png and so_penguin_bar.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Objects API Practice</div><div class="pd">Using the seaborn objects API (so.Plot), recreate a regression scatter of tips total_bill vs tip, color by day, with a PolyFit(order=1) line. Facet by time (col=&#x27;time&#x27;). Save as &#x27;so_practice.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import seaborn.objects as so
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+# TODO: so.Plot with x=total_bill, y=tip, color=day
+# TODO: .add(so.Dot) + .add(so.Line, so.PolyFit(order=1))
+# TODO: .facet(col=&#x27;time&#x27;)
+# TODO: .save(&#x27;so_practice.png&#x27;, dpi=120)</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Color Systems &amp; Accessibility</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Choose colorblind-safe palettes, use perceptually uniform colormaps, distinguish sequential vs. diverging vs. qualitative palettes, and apply Seaborn color_palette utilities.</p><div class="code-block"><div class="ch"><span>Qualitative palettes for categorical data</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(0)
+df = pd.DataFrame({
+    &#x27;value&#x27;: np.random.randn(200),
+    &#x27;group&#x27;: np.random.choice(list(&#x27;ABCDE&#x27;), 200)
+})
+
+qual_palettes = [&#x27;Set1&#x27;,&#x27;Set2&#x27;,&#x27;Set3&#x27;,&#x27;tab10&#x27;,&#x27;colorblind&#x27;,&#x27;deep&#x27;]
+fig, axes = plt.subplots(2, 3, figsize=(14, 8))
+for ax, pal in zip(axes.flat, qual_palettes):
+    sns.boxplot(data=df, x=&#x27;group&#x27;, y=&#x27;value&#x27;, palette=pal, ax=ax)
+    ax.set_title(f&#x27;palette=&quot;{pal}&quot;&#x27;)
+fig.suptitle(&#x27;Qualitative Palettes Comparison&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;qual_palettes.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved qual_palettes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Sequential palettes for ordered data</span><button onclick="cp('c30_1')">Copy</button></div><pre><code id="c30_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(1)
+x = y = np.linspace(-3, 3, 60)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(X) * np.cos(Y)
+
+seq_palettes = [&#x27;Blues&#x27;,&#x27;YlOrRd&#x27;,&#x27;viridis&#x27;,&#x27;magma&#x27;]
+fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+for ax, pal in zip(axes, seq_palettes):
+    im = ax.pcolormesh(X, Y, Z, cmap=pal)
+    fig.colorbar(im, ax=ax, shrink=0.8)
+    ax.set_title(f&#x27;cmap=&quot;{pal}&quot;&#x27;)
+    ax.set_aspect(&#x27;equal&#x27;)
+fig.suptitle(&#x27;Sequential Palettes for Heatmap Data&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;seq_palettes.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved seq_palettes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Diverging palettes for signed values</span><button onclick="cp('c30_2')">Copy</button></div><pre><code id="c30_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;white&#x27;)
+np.random.seed(2)
+data = np.random.randn(10, 8) * 2
+df = pd.DataFrame(data,
+    index=[f&#x27;Product {i}&#x27; for i in range(1,11)],
+    columns=[f&#x27;Q{q}&#x27; for q in range(1,9)])
+
+div_palettes = [&#x27;RdBu_r&#x27;,&#x27;RdYlGn&#x27;,&#x27;coolwarm&#x27;,&#x27;PiYG&#x27;]
+fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+for ax, pal in zip(axes, div_palettes):
+    sns.heatmap(df, cmap=pal, center=0, ax=ax,
+                cbar_kws={&#x27;shrink&#x27;:0.8}, xticklabels=True, yticklabels=False)
+    ax.set_title(f&#x27;cmap=&quot;{pal}&quot;&#x27;)
+fig.suptitle(&#x27;Diverging Palettes for Change Data&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;div_palettes.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved div_palettes.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Colorblind-safe vs non-safe comparison</span><button onclick="cp('c30_3')">Copy</button></div><pre><code id="c30_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(3)
+df = pd.DataFrame({
+    &#x27;x&#x27;: np.linspace(0, 10, 80),
+    &#x27;A&#x27;: np.sin(np.linspace(0, 10, 80)) + np.random.randn(80)*0.2,
+    &#x27;B&#x27;: np.cos(np.linspace(0, 10, 80)) + np.random.randn(80)*0.2,
+    &#x27;C&#x27;: np.sin(np.linspace(0, 10, 80)*1.5) + np.random.randn(80)*0.2,
+})
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+# Non-safe: red-green confusion
+colors_bad = [&#x27;#ff0000&#x27;,&#x27;#00aa00&#x27;,&#x27;#0000ff&#x27;]
+for col, c in zip([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;], colors_bad):
+    axes[0].plot(df.x, df[col], color=c, linewidth=2, label=col,
+                 linestyle=&#x27;-&#x27;)
+axes[0].set_title(&#x27;Non-colorblind-safe (avoid red/green)&#x27;)
+axes[0].legend()
+
+# Colorblind-safe (Wong palette) with markers
+cb_colors = [&#x27;#0072B2&#x27;,&#x27;#D55E00&#x27;,&#x27;#009E73&#x27;]
+markers = [&#x27;o&#x27;,&#x27;s&#x27;,&#x27;^&#x27;]
+for col, c, m in zip([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;], cb_colors, markers):
+    axes[1].plot(df.x, df[col], color=c, linewidth=2,
+                 label=col, marker=m, markevery=8, markersize=7)
+axes[1].set_title(&#x27;Colorblind-safe (Wong palette + markers)&#x27;)
+axes[1].legend()
+
+for ax in axes:
+    ax.set_xlabel(&#x27;x&#x27;); ax.set_ylabel(&#x27;y&#x27;)
+    ax.grid(True, alpha=0.3)
+fig.suptitle(&#x27;Accessibility: Color Choice Matters&#x27;, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;colorblind_safe.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved colorblind_safe.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Accessible Dashboard Design</div><div class="rd">Redesign a 4-panel report using only colorblind-safe palettes: use &#x27;colorblind&#x27; for categorical, &#x27;Blues&#x27; for sequential, &#x27;RdBu_r&#x27; for diverging, and add hatch patterns or markers as secondary encodings.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(42)
+df_cat = pd.DataFrame({
+    &#x27;group&#x27;: np.repeat([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;],60),
+    &#x27;value&#x27;: np.concatenate([np.random.normal(m,1.2,60) for m in [3,5,4,6]])
+})
+df_seq = pd.DataFrame(np.random.rand(8,6)*100,
+                       columns=[f&#x27;M{i}&#x27; for i in range(1,7)],
+                       index=[f&#x27;R{i}&#x27; for i in range(1,9)])
+df_div = pd.DataFrame(np.random.randn(6,5)*20,
+                       columns=[&#x27;Q1&#x27;,&#x27;Q2&#x27;,&#x27;Q3&#x27;,&#x27;Q4&#x27;,&#x27;Q5&#x27;],
+                       index=[f&#x27;P{i}&#x27; for i in range(1,7)])
+
+fig, axes = plt.subplots(2, 2, figsize=(13, 10))
+
+# Categorical: colorblind + hatch
+bars = sns.barplot(data=df_cat, x=&#x27;group&#x27;, y=&#x27;value&#x27;,
+                   palette=&#x27;colorblind&#x27;, capsize=0.1, ax=axes[0,0])
+hatches = [&#x27;&#x27;,&#x27;///&#x27;,&#x27;xxx&#x27;,&#x27;...&#x27;]
+for bar, hatch in zip(axes[0,0].patches, hatches*10):
+    bar.set_hatch(hatch)
+axes[0,0].set_title(&#x27;Categorical: colorblind + hatch&#x27;)
+
+# Sequential heatmap
+sns.heatmap(df_seq, cmap=&#x27;Blues&#x27;, annot=False, ax=axes[0,1],
+            cbar_kws={&#x27;label&#x27;:&#x27;Value&#x27;})
+axes[0,1].set_title(&#x27;Sequential: Blues&#x27;)
+
+# Diverging heatmap
+sns.heatmap(df_div, cmap=&#x27;RdBu_r&#x27;, center=0, annot=True, fmt=&#x27;.0f&#x27;,
+            linewidths=0.3, ax=axes[1,0])
+axes[1,0].set_title(&#x27;Diverging: RdBu_r&#x27;)
+
+# Line with markers
+cb_colors = [&#x27;#0072B2&#x27;,&#x27;#D55E00&#x27;,&#x27;#009E73&#x27;,&#x27;#CC79A7&#x27;]
+x = np.arange(12)
+for i,(col,m) in enumerate(zip(cb_colors,[&#x27;o&#x27;,&#x27;s&#x27;,&#x27;^&#x27;,&#x27;D&#x27;])):
+    y = np.cumsum(np.random.randn(12)*0.5) + i
+    axes[1,1].plot(x, y, color=col, marker=m, linewidth=2,
+                   markevery=3, markersize=7, label=f&#x27;Series {i+1}&#x27;)
+axes[1,1].legend(fontsize=8); axes[1,1].set_title(&#x27;Lines: Wong palette + markers&#x27;)
+axes[1,1].grid(True, alpha=0.3)
+
+fig.suptitle(&#x27;Accessible Dashboard — Colorblind-Safe Design&#x27;, fontweight=&#x27;bold&#x27;, fontsize=13)
+fig.tight_layout()
+fig.savefig(&#x27;accessible_seaborn.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved accessible_seaborn.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color Accessibility Practice</div><div class="pd">Create a 4-group comparison plot (your choice of data). First plot with the red/green palette (unsafe). Then create a duplicate using the &#x27;colorblind&#x27; palette with different markers per group. Save both as &#x27;color_bad.png&#x27; and &#x27;color_good.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(6)
+groups = [&#x27;Control&#x27;,&#x27;TreatmentA&#x27;,&#x27;TreatmentB&#x27;,&#x27;TreatmentC&#x27;]
+df = pd.DataFrame({
+    &#x27;value&#x27;: np.concatenate([np.random.normal(m,1.5,60) for m in [3,4.5,3.8,5.2]]),
+    &#x27;group&#x27;: np.repeat(groups,60)
+})
+
+# TODO: barplot with non-safe red/green palette, save &#x27;color_bad.png&#x27;
+# TODO: barplot with colorblind palette + stripplot with markers, save &#x27;color_good.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Seaborn Dashboard Composition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Combine multiple seaborn plot types, matplotlib GridSpec, annotation overlays, and consistent theming to produce publication-quality, multi-panel analytical dashboards.</p><div class="code-block"><div class="ch"><span>4-panel EDA dashboard</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.gridspec import GridSpec
+
+sns.set_theme(style=&#x27;whitegrid&#x27;, palette=&#x27;Set2&#x27;, font_scale=0.95)
+np.random.seed(42)
+df = pd.DataFrame({
+    &#x27;revenue&#x27;: np.random.lognormal(5, 0.5, 300),
+    &#x27;spend&#x27;:   np.random.uniform(1000, 10000, 300),
+    &#x27;channel&#x27;: np.random.choice([&#x27;Search&#x27;,&#x27;Social&#x27;,&#x27;Email&#x27;,&#x27;Direct&#x27;], 300),
+    &#x27;month&#x27;:   np.random.choice(range(1,13), 300)
+})
+df[&#x27;revenue&#x27;] = df[&#x27;spend&#x27;] * np.random.uniform(0.1, 0.5, 300) + np.random.randn(300)*50
+
+fig = plt.figure(figsize=(14, 9))
+gs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.35)
+
+ax1 = fig.add_subplot(gs[0, :2])
+ax2 = fig.add_subplot(gs[0, 2])
+ax3 = fig.add_subplot(gs[1, :])
+
+sns.scatterplot(data=df, x=&#x27;spend&#x27;, y=&#x27;revenue&#x27;, hue=&#x27;channel&#x27;,
+                style=&#x27;channel&#x27;, s=50, alpha=0.6, ax=ax1)
+ax1.set_title(&#x27;Revenue vs Spend by Channel&#x27;, fontweight=&#x27;bold&#x27;)
+
+sns.violinplot(data=df, x=&#x27;channel&#x27;, y=&#x27;revenue&#x27;, palette=&#x27;Set2&#x27;,
+               inner=&#x27;quartile&#x27;, ax=ax2)
+ax2.set_title(&#x27;Revenue Distribution&#x27;, fontweight=&#x27;bold&#x27;)
+ax2.set_xticklabels(ax2.get_xticklabels(), rotation=20, ha=&#x27;right&#x27;, fontsize=8)
+
+month_agg = df.groupby([&#x27;month&#x27;,&#x27;channel&#x27;])[&#x27;revenue&#x27;].mean().reset_index()
+sns.lineplot(data=month_agg, x=&#x27;month&#x27;, y=&#x27;revenue&#x27;, hue=&#x27;channel&#x27;,
+             palette=&#x27;Set2&#x27;, linewidth=2, markers=True, ax=ax3)
+ax3.set_title(&#x27;Monthly Average Revenue by Channel&#x27;, fontweight=&#x27;bold&#x27;)
+ax3.set_xlabel(&#x27;Month&#x27;)
+
+fig.suptitle(&#x27;Marketing Revenue Dashboard&#x27;, fontsize=14, fontweight=&#x27;bold&#x27;)
+fig.savefig(&#x27;sns_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved sns_dashboard.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Statistical report: hypothesis testing visual</span><button onclick="cp('c31_1')">Copy</button></div><pre><code id="c31_1" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from scipy import stats
+
+sns.set_theme(style=&#x27;whitegrid&#x27;)
+np.random.seed(1)
+control    = np.random.normal(70, 12, 100)
+treatment  = np.random.normal(75, 11, 100)
+t_stat, p_val = stats.ttest_ind(control, treatment)
+effect_size = (treatment.mean() - control.mean()) / np.sqrt(
+    ((len(control)-1)*control.std()**2 + (len(treatment)-1)*treatment.std()**2) /
+    (len(control)+len(treatment)-2))
+
+df = pd.DataFrame({
+    &#x27;score&#x27;: np.concatenate([control, treatment]),
+    &#x27;group&#x27;: np.repeat([&#x27;Control&#x27;,&#x27;Treatment&#x27;], 100)
+})
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+sns.histplot(data=df, x=&#x27;score&#x27;, hue=&#x27;group&#x27;, kde=True, alpha=0.4,
+             palette=&#x27;Set1&#x27;, stat=&#x27;density&#x27;, common_norm=False, ax=axes[0])
+axes[0].set_title(&#x27;Score Distributions&#x27;)
+
+sns.violinplot(data=df, x=&#x27;group&#x27;, y=&#x27;score&#x27;, palette=&#x27;Set1&#x27;,
+               inner=&#x27;box&#x27;, ax=axes[1])
+axes[1].set_title(&#x27;Violin Comparison&#x27;)
+
+sns.ecdfplot(data=df, x=&#x27;score&#x27;, hue=&#x27;group&#x27;, palette=&#x27;Set1&#x27;,
+             linewidth=2, ax=axes[2])
+axes[2].set_title(&#x27;ECDF Comparison&#x27;)
+
+for ax in axes:
+    ax.set_xlabel(&#x27;Score&#x27;)
+
+fig.suptitle(f&#x27;A/B Test: t={t_stat:.2f}, p={p_val:.4f}, d={effect_size:.2f}&#x27;,
+             fontsize=13, fontweight=&#x27;bold&#x27;)
+fig.tight_layout()
+fig.savefig(&#x27;hypothesis_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved hypothesis_dashboard.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Full EDA report: penguins deep dive</span><button onclick="cp('c31_2')">Copy</button></div><pre><code id="c31_2" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.gridspec import GridSpec
+
+sns.set_theme(style=&#x27;whitegrid&#x27;, palette=&#x27;colorblind&#x27;)
+penguins = sns.load_dataset(&#x27;penguins&#x27;).dropna()
+
+fig = plt.figure(figsize=(15, 10), facecolor=&#x27;white&#x27;)
+gs = GridSpec(3, 3, figure=fig, hspace=0.5, wspace=0.4)
+
+# Banner
+ax0 = fig.add_subplot(gs[0, :])
+ax0.text(0.5, 0.6, &#x27;Palmer Penguins — Deep Dive EDA&#x27;,
+         ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=16, fontweight=&#x27;bold&#x27;,
+         transform=ax0.transAxes)
+ax0.text(0.5, 0.1, f&#x27;n={len(penguins)} penguins | 3 species | 3 islands&#x27;,
+         ha=&#x27;center&#x27;, va=&#x27;center&#x27;, fontsize=11, color=&#x27;gray&#x27;,
+         transform=ax0.transAxes)
+ax0.axis(&#x27;off&#x27;)
+
+# Scatter bill dimensions
+ax1 = fig.add_subplot(gs[1, :2])
+sns.scatterplot(data=penguins, x=&#x27;bill_length_mm&#x27;, y=&#x27;bill_depth_mm&#x27;,
+                hue=&#x27;species&#x27;, style=&#x27;island&#x27;, s=60, alpha=0.7, ax=ax1)
+ax1.set_title(&#x27;Bill Dimensions by Species &amp; Island&#x27;, fontweight=&#x27;bold&#x27;)
+
+# Count by species
+ax2 = fig.add_subplot(gs[1, 2])
+sns.countplot(data=penguins, x=&#x27;species&#x27;, hue=&#x27;sex&#x27;,
+              palette=&#x27;Set2&#x27;, ax=ax2)
+ax2.set_title(&#x27;Counts by Species &amp; Sex&#x27;, fontweight=&#x27;bold&#x27;)
+ax2.set_xlabel(&#x27;Species&#x27;)
+
+# Body mass violin
+ax3 = fig.add_subplot(gs[2, :2])
+sns.violinplot(data=penguins, x=&#x27;species&#x27;, y=&#x27;body_mass_g&#x27;,
+               hue=&#x27;sex&#x27;, split=True, palette=&#x27;pastel&#x27;, inner=&#x27;box&#x27;, ax=ax3)
+ax3.set_title(&#x27;Body Mass Distribution&#x27;, fontweight=&#x27;bold&#x27;)
+
+# Flipper ECDF
+ax4 = fig.add_subplot(gs[2, 2])
+sns.ecdfplot(data=penguins, x=&#x27;flipper_length_mm&#x27;, hue=&#x27;species&#x27;,
+             palette=&#x27;colorblind&#x27;, linewidth=2, ax=ax4)
+ax4.set_title(&#x27;Flipper Length ECDF&#x27;, fontweight=&#x27;bold&#x27;)
+ax4.set_xlabel(&#x27;Flipper Length (mm)&#x27;)
+
+fig.savefig(&#x27;penguins_deep_dive.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;,
+            facecolor=fig.get_facecolor())
+plt.close()
+print(&#x27;Saved penguins_deep_dive.png&#x27;)</code></pre></div><div class="code-block"><div class="ch"><span>Time series analytics dashboard</span><button onclick="cp('c31_3')">Copy</button></div><pre><code id="c31_3" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.gridspec import GridSpec
+
+sns.set_theme(style=&#x27;darkgrid&#x27;, palette=&#x27;Set2&#x27;)
+np.random.seed(77)
+n_days = 90
+dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=n_days)
+products = [&#x27;Widget&#x27;,&#x27;Gadget&#x27;,&#x27;Doohickey&#x27;]
+rows = []
+for prod in products:
+    base = np.random.uniform(80, 150)
+    trend = np.cumsum(np.random.randn(n_days)*2) + base
+    for d, v in zip(dates, trend):
+        rows.append({&#x27;date&#x27;:d,&#x27;product&#x27;:prod,&#x27;sales&#x27;:max(0,v),
+                     &#x27;returns&#x27;:max(0,v*0.05+np.random.randn())})
+df = pd.DataFrame(rows)
+df[&#x27;month&#x27;] = df[&#x27;date&#x27;].dt.month
+
+fig = plt.figure(figsize=(14, 9))
+gs = GridSpec(2, 2, figure=fig, hspace=0.4, wspace=0.35)
+
+ax1 = fig.add_subplot(gs[0, :])
+sns.lineplot(data=df, x=&#x27;date&#x27;, y=&#x27;sales&#x27;, hue=&#x27;product&#x27;,
+             palette=&#x27;Set2&#x27;, linewidth=2, ax=ax1)
+ax1.set_title(&#x27;Daily Sales Trend by Product&#x27;, fontweight=&#x27;bold&#x27;)
+ax1.set_xlabel(&#x27;Date&#x27;); ax1.set_ylabel(&#x27;Sales ($)&#x27;)
+
+ax2 = fig.add_subplot(gs[1, 0])
+month_df = df.groupby([&#x27;month&#x27;,&#x27;product&#x27;])[&#x27;sales&#x27;].mean().reset_index()
+sns.barplot(data=month_df, x=&#x27;month&#x27;, y=&#x27;sales&#x27;, hue=&#x27;product&#x27;,
+            palette=&#x27;Set2&#x27;, ax=ax2)
+ax2.set_title(&#x27;Mean Monthly Sales&#x27;, fontweight=&#x27;bold&#x27;)
+ax2.set_xlabel(&#x27;Month&#x27;)
+
+ax3 = fig.add_subplot(gs[1, 1])
+sns.scatterplot(data=df, x=&#x27;sales&#x27;, y=&#x27;returns&#x27;, hue=&#x27;product&#x27;,
+                palette=&#x27;Set2&#x27;, s=20, alpha=0.4, ax=ax3)
+# Add regression per product
+for prod, grp in df.groupby(&#x27;product&#x27;):
+    m,b = np.polyfit(grp.sales, grp.returns, 1)
+    x_l = np.linspace(grp.sales.min(), grp.sales.max(), 50)
+    ax3.plot(x_l, m*x_l+b, linewidth=1.5, alpha=0.8)
+ax3.set_title(&#x27;Sales vs Returns&#x27;, fontweight=&#x27;bold&#x27;)
+
+fig.suptitle(&#x27;Product Analytics Dashboard&#x27;, fontsize=14, fontweight=&#x27;bold&#x27;)
+fig.savefig(&#x27;time_series_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
+plt.close()
+print(&#x27;Saved time_series_dashboard.png&#x27;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Comprehensive Analysis Report</div><div class="rd">Design a 5-panel Seaborn+GridSpec report on the &#x27;diamonds&#x27; dataset: (1) banner with dataset stats, (2) price by cut violin, (3) carat vs price scatter by clarity, (4) price ECDF by cut, (5) heatmap of counts cut×color.</div><pre><code class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.gridspec import GridSpec
+
+sns.set_theme(style=&#x27;whitegrid&#x27;, palette=&#x27;Set2&#x27;)
+diamonds = sns.load_dataset(&#x27;diamonds&#x27;)
+sample = diamonds.sample(2000, random_state=42)
+cut_order = [&#x27;Fair&#x27;,&#x27;Good&#x27;,&#x27;Very Good&#x27;,&#x27;Premium&#x27;,&#x27;Ideal&#x27;]
+
+fig = plt.figure(figsize=(14, 11), facecolor=&#x27;white&#x27;)
+gs = GridSpec(3, 3, figure=fig, hspace=0.5, wspace=0.4)
+
+# Banner
+ax0 = fig.add_subplot(gs[0, :])
+ax0.text(0.5, 0.6, &#x27;Diamonds Dataset — Comprehensive Report&#x27;,
+         ha=&#x27;center&#x27;, fontsize=15, fontweight=&#x27;bold&#x27;, transform=ax0.transAxes)
+ax0.text(0.5, 0.1, f&#x27;{len(diamonds):,} diamonds | {diamonds.cut.nunique()} cuts | &#x27;
+                   f&#x27;Price: ${diamonds.price.min():,}–${diamonds.price.max():,}&#x27;,
+         ha=&#x27;center&#x27;, fontsize=10, color=&#x27;gray&#x27;, transform=ax0.transAxes)
+ax0.axis(&#x27;off&#x27;)
+
+ax1 = fig.add_subplot(gs[1, :2])
+sns.violinplot(data=sample, x=&#x27;cut&#x27;, y=&#x27;price&#x27;, palette=&#x27;YlOrRd&#x27;,
+               inner=&#x27;quartile&#x27;, order=cut_order, ax=ax1)
+ax1.set_title(&#x27;Price by Cut&#x27;, fontweight=&#x27;bold&#x27;)
+
+ax2 = fig.add_subplot(gs[1, 2])
+clarity_order = [&#x27;I1&#x27;,&#x27;SI2&#x27;,&#x27;SI1&#x27;,&#x27;VS2&#x27;,&#x27;VS1&#x27;,&#x27;VVS2&#x27;,&#x27;VVS1&#x27;,&#x27;IF&#x27;]
+sns.scatterplot(data=sample, x=&#x27;carat&#x27;, y=&#x27;price&#x27;, hue=&#x27;clarity&#x27;,
+                palette=&#x27;RdYlGn&#x27;, s=10, alpha=0.4,
+                hue_order=clarity_order, ax=ax2, legend=False)
+ax2.set_title(&#x27;Carat vs Price&#x27;, fontweight=&#x27;bold&#x27;)
+
+ax3 = fig.add_subplot(gs[2, :2])
+sns.ecdfplot(data=sample, x=&#x27;price&#x27;, hue=&#x27;cut&#x27;, palette=&#x27;YlOrRd&#x27;,
+             linewidth=2, hue_order=cut_order, ax=ax3)
+ax3.set_title(&#x27;Price ECDF by Cut&#x27;, fontweight=&#x27;bold&#x27;)
+
+ax4 = fig.add_subplot(gs[2, 2])
+counts = diamonds.groupby([&#x27;cut&#x27;,&#x27;color&#x27;]).size().unstack().loc[cut_order]
+sns.heatmap(counts, cmap=&#x27;Blues&#x27;, annot=True, fmt=&#x27;d&#x27;,
+            linewidths=0.3, ax=ax4, cbar=False)
+ax4.set_title(&#x27;Count: Cut × Color&#x27;, fontweight=&#x27;bold&#x27;)
+
+fig.suptitle(&#x27;Diamond Market Analysis&#x27;, fontsize=15, fontweight=&#x27;bold&#x27;, y=1.01)
+fig.savefig(&#x27;diamonds_report.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;,
+            facecolor=fig.get_facecolor())
+plt.close()
+print(&#x27;Saved diamonds_report.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Practice</div><div class="pd">Build your own 4-panel seaborn dashboard using any dataset you prefer (tips, penguins, titanic, mpg, etc.). Requirements: (1) GridSpec layout with at least one spanning panel, (2) 4 different plot types, (3) consistent palette and theme, (4) suptitle banner, (5) save at 150 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import matplotlib
+matplotlib.use(&#x27;Agg&#x27;)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.gridspec import GridSpec
+
+sns.set_theme(style=&#x27;whitegrid&#x27;, palette=&#x27;Set2&#x27;)
+# Choose your dataset
+tips = sns.load_dataset(&#x27;tips&#x27;)
+
+fig = plt.figure(figsize=(13, 9))
+gs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.35)
+
+# TODO: Panel 1 — spanning top row (gs[0, :])
+# TODO: Panel 2 — bottom-left (gs[1, :2])
+# TODO: Panel 3 — bottom-right (gs[1, 2])
+# Pick 4 different plot types across panels
+# TODO: suptitle banner
+# TODO: save &#x27;my_sns_dashboard.png&#x27; at 150 DPI
+plt.close()
+print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}

@@ -41,7 +41,7 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
 .pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
 </style></head><body>
 <aside class="sidebar">
-  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 16 topics</p>
+  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 32 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Array Creation</a></li>
@@ -59,11 +59,27 @@ pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
     <li><a href="#s12" onclick="act(this,event)">13. Linear Algebra &amp; Polynomial Fitting</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. Advanced Indexing &amp; Fancy Indexing</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. NumPy Performance &amp; Vectorization</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Signal Processing with NumPy</a></li></ul>
+    <li><a href="#s15" onclick="act(this,event)">16. Signal Processing with NumPy</a></li>
+    <li><a href="#s16" onclick="act(this,event)">17. Sorting, Searching &amp; Partitioning</a></li>
+    <li><a href="#s17" onclick="act(this,event)">18. Set Operations on Arrays</a></li>
+    <li><a href="#s18" onclick="act(this,event)">19. Numerical Stability, NaN &amp; Inf Handling</a></li>
+    <li><a href="#s19" onclick="act(this,event)">20. Probability Distributions &amp; Random Sampling</a></li>
+    <li><a href="#s20" onclick="act(this,event)">21. Image Arrays &amp; 2D Operations</a></li>
+    <li><a href="#s21" onclick="act(this,event)">22. Statistical Aggregations</a></li>
+    <li><a href="#s22" onclick="act(this,event)">23. Array I/O (save, load, text, memmap)</a></li>
+    <li><a href="#s23" onclick="act(this,event)">24. Datetime64 &amp; Time Arithmetic</a></li>
+    <li><a href="#s24" onclick="act(this,event)">25. Meshgrid &amp; Grid Operations</a></li>
+    <li><a href="#s25" onclick="act(this,event)">26. Advanced Broadcasting &amp; Pairwise Operations</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Universal Functions (ufuncs) in Depth</a></li>
+    <li><a href="#s27" onclick="act(this,event)">28. Masked Arrays (np.ma)</a></li>
+    <li><a href="#s28" onclick="act(this,event)">29. Memory Layout, Strides &amp; Contiguity</a></li>
+    <li><a href="#s29" onclick="act(this,event)">30. Advanced Linear Algebra Operations</a></li>
+    <li><a href="#s30" onclick="act(this,event)">31. Numerical Differentiation &amp; Optimization</a></li>
+    <li><a href="#s31" onclick="act(this,event)">32. NumPy in Data Science Workflows</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🔢 NumPy</h1>
-  <p class="ps">16 topics &bull; Click any card to expand</p>
+  <p class="ps">32 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Array Creation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays are the foundation of scientific computing. Create them from lists, ranges, or built-in factory functions.</p><div class="code-block"><div class="ch"><span>From lists and factory functions</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 
 a = np.array([1, 2, 3, 4, 5])
@@ -1752,6 +1768,2437 @@ noisy = clean + np.random.randn(fs) * 0.8
 # TODO: (3) Reconstruct with ifft
 # TODO: (4) SNR before and after
 # TODO: (5) Compare with 21-pt Gaussian convolution
+</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Sorting, Searching &amp; Partitioning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s sort, argsort, searchsorted, and partition give O(n log n) and O(n) ordering operations that operate on arrays without Python loops.</p><div class="code-block"><div class="ch"><span>sort and argsort</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import numpy as np
+
+arr = np.array([3, 1, 4, 1, 5, 9, 2, 6])
+
+# sort: returns sorted copy
+sorted_arr = np.sort(arr)
+print(&quot;sorted:&quot;, sorted_arr)
+
+# argsort: indices that would sort the array
+idx = np.argsort(arr)
+print(&quot;argsort:&quot;, idx)
+print(&quot;verify:&quot;, arr[idx])   # same as sorted_arr
+
+# Sort along an axis (2D)
+m = np.array([[3, 1, 4], [1, 5, 9], [2, 6, 5]])
+print(&quot;row-wise sort:\n&quot;, np.sort(m, axis=1))
+print(&quot;col-wise sort:\n&quot;, np.sort(m, axis=0))
+
+# Stable sort for multi-key sorting
+records = np.array([(2, &#x27;b&#x27;), (1, &#x27;a&#x27;), (2, &#x27;a&#x27;), (1, &#x27;b&#x27;)],
+                   dtype=[(&#x27;key&#x27;, int), (&#x27;val&#x27;, &#x27;U1&#x27;)])
+records.sort(order=[&#x27;key&#x27;, &#x27;val&#x27;])
+print(&quot;multi-key sort:&quot;, records)</code></pre></div><div class="code-block"><div class="ch"><span>argmin, argmax, searchsorted</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">import numpy as np
+
+data = np.array([10, 5, 8, 3, 15, 7, 2, 12])
+
+print(&quot;min:&quot;, data.min(), &quot;at index:&quot;, data.argmin())
+print(&quot;max:&quot;, data.max(), &quot;at index:&quot;, data.argmax())
+
+# 2D: axis parameter
+m = np.array([[3, 1, 4], [1, 5, 9], [2, 6, 5]])
+print(&quot;argmin per row:&quot;, m.argmin(axis=1))   # [1, 0, 0]
+print(&quot;argmax per col:&quot;, m.argmax(axis=0))   # [0, 2, 1]
+
+# searchsorted: binary search in sorted array (O(log n))
+sorted_data = np.array([1, 3, 5, 7, 9, 11, 13])
+vals = np.array([0, 3, 6, 14])
+
+# &#x27;left&#x27;: index where val would be inserted to keep sorted
+left_idx  = np.searchsorted(sorted_data, vals, side=&#x27;left&#x27;)
+right_idx = np.searchsorted(sorted_data, vals, side=&#x27;right&#x27;)
+print(&quot;left insert positions:&quot;, left_idx)
+print(&quot;right insert positions:&quot;, right_idx)
+
+# Use case: check if value exists
+def is_in_sorted(arr, vals):
+    idx = np.searchsorted(arr, vals)
+    return (idx &lt; len(arr)) &amp; (arr[np.minimum(idx, len(arr)-1)] == vals)
+
+print(&quot;vals in array:&quot;, is_in_sorted(sorted_data, vals))</code></pre></div><div class="code-block"><div class="ch"><span>partition and argpartition (O(n) top-k)</span><button onclick="cp('c16_2')">Copy</button></div><pre><code id="c16_2" class="language-python">import numpy as np
+
+np.random.seed(42)
+scores = np.random.randint(0, 100, size=20)
+print(&quot;Scores:&quot;, scores)
+
+# partition: rearrange so k-th element is in sorted position
+# Elements left of k are &lt;= arr[k], right are &gt;= arr[k]
+k = 5
+partitioned = np.partition(scores, k)
+print(f&quot;After partition(k={k}): {partitioned}&quot;)
+print(f&quot;Element at k={k}: {partitioned[k]} (this is the {k+1}th smallest)&quot;)
+
+# Get top-5 scores (not sorted — just the 5 largest)
+top5_idx  = np.argpartition(scores, -5)[-5:]
+top5_vals = scores[top5_idx]
+print(f&quot;Top-5 values (unsorted): {top5_vals}&quot;)
+print(f&quot;Top-5 values (sorted):   {np.sort(top5_vals)[::-1]}&quot;)
+
+# Bottom-5 (smallest)
+bot5_idx  = np.argpartition(scores, 5)[:5]
+bot5_vals = scores[bot5_idx]
+print(f&quot;Bottom-5 values: {np.sort(bot5_vals)}&quot;)
+
+# Speed comparison concept: partition is O(n), sort is O(n log n)
+# For finding top-k from 1M elements, argpartition is much faster</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Ranking Sales Reps</div><div class="rd">A sales dashboard needs to rank 10,000 reps by revenue but only display the top 100, using argpartition for O(n) efficiency instead of a full sort.</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+n_reps = 10_000
+rep_ids = np.arange(n_reps)
+revenues = np.random.lognormal(mean=10, sigma=1.5, size=n_reps)
+
+K = 100  # top 100 reps
+
+# Efficient: O(n) to get top-K indices, O(K log K) to sort only those
+top_k_idx = np.argpartition(revenues, -K)[-K:]
+top_k_sorted = top_k_idx[np.argsort(revenues[top_k_idx])[::-1]]
+
+print(&quot;Top 10 reps:&quot;)
+for rank, idx in enumerate(top_k_sorted[:10], 1):
+    print(f&quot;  Rank {rank:3d}: Rep #{rep_ids[idx]:5d} | Revenue: ${revenues[idx]:&gt;12,.0f}&quot;)
+
+# Percentile ranks using searchsorted
+sorted_rev = np.sort(revenues)
+sample_rev = np.array([50_000, 100_000, 500_000])
+pct_ranks  = np.searchsorted(sorted_rev, sample_rev) / n_reps * 100
+for rev, pct in zip(sample_rev, pct_ranks):
+    print(f&quot;  ${rev:&gt;8,} is at the {pct:.1f}th percentile&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top-K Selector</div><div class="pd">Write a function top_k_products(sales, k) that takes a 2D array (rows=products, cols=days) and returns the indices of the k products with the highest total sales. Use argpartition for efficiency. Also write bottom_k_days(sales, k) that returns the k days (columns) with lowest average sales across all products.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import numpy as np
+
+def top_k_products(sales, k):
+    # Sum across days (axis=1), then use argpartition
+    totals = sales.sum(axis=1)
+    idx = np.argpartition(totals, -k)[-k:]
+    return idx[np.argsort(totals[idx])[::-1]]
+
+def bottom_k_days(sales, k):
+    # Mean across products (axis=0), then argpartition
+    daily_avg = sales.mean(axis=0)
+    idx = np.argpartition(daily_avg, k)[:k]
+    return idx[np.argsort(daily_avg[idx])]
+
+np.random.seed(42)
+sales = np.random.poisson(100, (50, 30))   # 50 products, 30 days
+top3  = top_k_products(sales, 3)
+bot3  = bottom_k_days(sales, 3)
+print(&quot;Top 3 products (by total):&quot;, top3, &quot;-&gt;&quot;, sales[top3].sum(axis=1))
+print(&quot;Worst 3 days (by avg):   &quot;, bot3, &quot;-&gt;&quot;, sales[:, bot3].mean(axis=0).round(1))
+</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Set Operations on Arrays</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides unique(), union1d(), intersect1d(), setdiff1d(), and in1d()/isin() for fast set-like operations on 1D arrays using sorted-array algorithms.</p><div class="code-block"><div class="ch"><span>unique and value counts</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np
+
+arr = np.array([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5])
+
+# unique: sorted unique values
+u = np.unique(arr)
+print(&quot;unique:&quot;, u)
+
+# return_counts: how many times each value appears
+vals, counts = np.unique(arr, return_counts=True)
+print(&quot;value counts:&quot;)
+for v, c in zip(vals, counts):
+    print(f&quot;  {v}: {c}&quot;)
+
+# return_index: first occurrence index
+vals, idx = np.unique(arr, return_index=True)
+print(&quot;first occurrence indices:&quot;, idx)
+
+# return_inverse: reconstruct original from unique
+vals, inv = np.unique(arr, return_inverse=True)
+print(&quot;unique:&quot;, vals)
+print(&quot;inverse:&quot;, inv)
+print(&quot;reconstructed:&quot;, vals[inv])  # should match arr
+
+# Most common value (mode-like)
+mode_val = vals[np.argmax(counts)]
+print(f&quot;Mode: {mode_val} (appears {counts.max()} times)&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>union1d, intersect1d, setdiff1d, setxor1d</span><button onclick="cp('c17_1')">Copy</button></div><pre><code id="c17_1" class="language-python">import numpy as np
+
+a = np.array([1, 2, 3, 4, 5])
+b = np.array([3, 4, 5, 6, 7])
+
+print(&quot;union (a | b):      &quot;, np.union1d(a, b))
+print(&quot;intersect (a &amp; b):  &quot;, np.intersect1d(a, b))
+print(&quot;a - b (in a not b): &quot;, np.setdiff1d(a, b))
+print(&quot;b - a (in b not a): &quot;, np.setdiff1d(b, a))
+print(&quot;symmetric diff:     &quot;, np.setxor1d(a, b))
+
+# With return_indices for intersect
+common, a_idx, b_idx = np.intersect1d(a, b, return_indices=True)
+print(&quot;Common:&quot;, common, &quot;at a:&quot;, a_idx, &quot;at b:&quot;, b_idx)
+
+# Practical: find new customers
+old_customers = np.array([101, 102, 103, 104, 105])
+new_customers = np.array([103, 104, 106, 107, 108])
+returning = np.intersect1d(old_customers, new_customers)
+brand_new = np.setdiff1d(new_customers, old_customers)
+churned   = np.setdiff1d(old_customers, new_customers)
+print(f&quot;Returning: {returning}&quot;)
+print(f&quot;Brand new: {brand_new}&quot;)
+print(f&quot;Churned:   {churned}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>isin / in1d for membership testing</span><button onclick="cp('c17_2')">Copy</button></div><pre><code id="c17_2" class="language-python">import numpy as np
+
+products = np.array([&#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;, &#x27;date&#x27;, &#x27;elderberry&#x27;])
+blacklist = np.array([&#x27;banana&#x27;, &#x27;date&#x27;, &#x27;fig&#x27;])
+
+# isin: element-wise membership test
+mask = np.isin(products, blacklist)
+print(&quot;Is in blacklist:&quot;, mask)
+print(&quot;Allowed products:&quot;, products[~mask])
+print(&quot;Blocked products:&quot;, products[mask])
+
+# Large-scale membership test (much faster than Python loops)
+np.random.seed(42)
+user_ids      = np.arange(1_000_000)
+premium_users = np.random.choice(user_ids, size=50_000, replace=False)
+
+# Check a sample of 1000 users
+sample = np.random.choice(user_ids, size=1000, replace=False)
+is_premium = np.isin(sample, premium_users)
+print(f&quot;Sample size: {len(sample)}, Premium users in sample: {is_premium.sum()}&quot;)
+
+# in1d is equivalent (older API)
+same_result = np.in1d(sample, premium_users)
+print(&quot;isin == in1d:&quot;, np.all(is_premium == same_result))
+
+# Invert: users NOT in premium
+non_premium = sample[~is_premium]
+print(f&quot;Non-premium in sample: {len(non_premium)}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Inventory Reconciliation</div><div class="rd">A warehouse system compares today&#x27;s scan vs expected manifest using NumPy set operations to find missing, extra, and duplicate items instantly across 100K SKUs.</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+manifest = np.random.choice(np.arange(200_000), size=100_000, replace=False)
+
+# Simulate scanning: miss 500, add 300 unexpected
+missed_idx   = np.random.choice(len(manifest), size=500, replace=False)
+extra_skus   = np.random.randint(200_000, 201_000, size=300)
+scanned      = np.concatenate([np.delete(manifest, missed_idx), extra_skus])
+
+manifest_u = np.unique(manifest)
+scanned_u  = np.unique(scanned)
+
+missing      = np.setdiff1d(manifest_u, scanned_u)
+unexpected   = np.setdiff1d(scanned_u, manifest_u)
+confirmed    = np.intersect1d(manifest_u, scanned_u)
+
+# Duplicates in scan
+vals, counts = np.unique(scanned, return_counts=True)
+duplicates   = vals[counts &gt; 1]
+
+print(f&quot;Manifest:    {len(manifest_u):,} SKUs&quot;)
+print(f&quot;Scanned:     {len(scanned_u):,} unique SKUs&quot;)
+print(f&quot;Confirmed:   {len(confirmed):,} ({len(confirmed)/len(manifest_u):.1%})&quot;)
+print(f&quot;Missing:     {len(missing):,}&quot;)
+print(f&quot;Unexpected:  {len(unexpected):,}&quot;)
+print(f&quot;Duplicates:  {len(duplicates):,}&quot;)
+print(f&quot;Accuracy:    {len(confirmed)/len(manifest_u):.2%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cohort Analysis</div><div class="pd">Write a function cohort_analysis(cohorts: dict) where cohorts maps week labels to user_id arrays. For each week, compute: (1) new users (not seen in any previous week), (2) returning users (seen in at least one previous week), (3) churned from previous week. Return a list of dicts with these counts.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import numpy as np
+
+def cohort_analysis(cohorts):
+    results = []
+    seen_so_far = np.array([], dtype=int)
+    prev_week   = np.array([], dtype=int)
+
+    for week, users in sorted(cohorts.items()):
+        users = np.unique(users)
+        new_users  = np.setdiff1d(users, seen_so_far)
+        returning  = np.intersect1d(users, seen_so_far)
+        churned    = np.setdiff1d(prev_week, users)
+
+        results.append({
+            &quot;week&quot;: week, &quot;total&quot;: len(users),
+            &quot;new&quot;: len(new_users), &quot;returning&quot;: len(returning),
+            &quot;churned_from_prev&quot;: len(churned),
+        })
+        seen_so_far = np.union1d(seen_so_far, users)
+        prev_week   = users
+    return results
+
+np.random.seed(42)
+cohorts = {
+    &quot;W1&quot;: np.random.randint(0, 100, 50),
+    &quot;W2&quot;: np.random.randint(20, 120, 60),
+    &quot;W3&quot;: np.random.randint(40, 140, 55),
+    &quot;W4&quot;: np.random.randint(60, 160, 70),
+}
+for r in cohort_analysis(cohorts):
+    print(r)
+</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Numerical Stability, NaN &amp; Inf Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Floating-point arithmetic has precision limits, NaN propagation, and overflow. NumPy provides tools to detect, mask, and safely handle these edge cases.</p><div class="code-block"><div class="ch"><span>NaN detection and handling</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import numpy as np
+
+data = np.array([1.0, 2.0, np.nan, 4.0, np.nan, 6.0])
+
+# Detection
+print(&quot;isnan:&quot;, np.isnan(data))
+print(&quot;Count NaNs:&quot;, np.isnan(data).sum())
+print(&quot;Any NaN:&quot;, np.any(np.isnan(data)))
+
+# NaN-safe aggregations
+print(&quot;mean with NaN:&quot;, np.mean(data))          # nan
+print(&quot;nanmean:&quot;, np.nanmean(data))              # 3.25
+print(&quot;nansum:&quot;, np.nansum(data))               # 13.0
+print(&quot;nanstd:&quot;, np.nanstd(data).round(4))
+print(&quot;nanmin/nanmax:&quot;, np.nanmin(data), np.nanmax(data))
+
+# Replace NaN
+filled_mean = np.where(np.isnan(data), np.nanmean(data), data)
+print(&quot;NaN -&gt; mean:&quot;, filled_mean)
+
+filled_zero = np.nan_to_num(data, nan=0.0)
+print(&quot;NaN -&gt; 0:   &quot;, filled_zero)
+
+# Forward fill (pandas-style, pure numpy)
+def ffill(arr):
+    mask = np.isnan(arr)
+    idx = np.where(~mask, np.arange(len(arr)), 0)
+    np.maximum.accumulate(idx, out=idx)
+    return arr[idx]
+
+print(&quot;Forward fill:&quot;, ffill(data))</code></pre></div><div class="code-block"><div class="ch"><span>Inf, overflow, and finfo</span><button onclick="cp('c18_1')">Copy</button></div><pre><code id="c18_1" class="language-python">import numpy as np
+
+# Infinity
+x = np.array([1.0, -1.0, 0.0, np.inf, -np.inf, np.nan])
+print(&quot;isinf:&quot;, np.isinf(x))
+print(&quot;isfinite:&quot;, np.isfinite(x))
+print(&quot;isnan:&quot;, np.isnan(x))
+
+# All-in-one
+print(&quot;Any problem:&quot;, ~np.isfinite(x).all())
+
+# Replace inf with large values
+clean = np.nan_to_num(x, nan=0.0, posinf=1e9, neginf=-1e9)
+print(&quot;Cleaned:&quot;, clean)
+
+# Overflow
+float32 = np.float32(1e38)
+print(&quot;float32 * 100:&quot;, float32 * 100)     # inf
+print(&quot;float32 dtype max:&quot;, np.finfo(np.float32).max)
+
+# Machine epsilon
+for dtype in [np.float16, np.float32, np.float64]:
+    fi = np.finfo(dtype)
+    print(f&quot;{dtype.__name__:10s}: eps={fi.eps:.2e}, max={fi.max:.2e}&quot;)
+
+# Division edge cases
+print(&quot;0/0:&quot;, np.float64(0) / np.float64(0))  # nan
+print(&quot;1/0:&quot;, np.float64(1) / np.float64(0))  # inf</code></pre></div><div class="code-block"><div class="ch"><span>Numerical precision and stable computations</span><button onclick="cp('c18_2')">Copy</button></div><pre><code id="c18_2" class="language-python">import numpy as np
+
+# Floating-point is NOT exact
+a = 0.1 + 0.2
+print(&quot;0.1 + 0.2 ==  0.3:&quot;, a == 0.3)     # False!
+print(&quot;value:&quot;, repr(a))
+print(&quot;allclose:&quot;, np.isclose(a, 0.3))     # True (with tolerance)
+
+# np.isclose with tolerances
+x = np.array([1.0, 1.0 + 1e-8, 1.0 + 1e-5, 1.1])
+print(&quot;isclose to 1.0:&quot;, np.isclose(x, 1.0, rtol=1e-5, atol=1e-8))
+
+# Unstable: sum of large+small+large
+big  = np.float32(1e8)
+tiny = np.float32(1.0)
+print(&quot;float32 (1e8 + 1 - 1e8):&quot;, big + tiny - big)  # may be 0!
+
+# Kahan compensated summation is more stable
+# np.sum uses pairwise summation which is better than naive
+x = np.random.randn(1_000_000).astype(np.float32)
+naive_sum = float(x[0])
+for v in x[1:]:
+    naive_sum += float(v)
+
+np_sum = float(np.sum(x, dtype=np.float64))  # promote to float64
+print(f&quot;Naive float32 sum: {naive_sum:.4f}&quot;)
+print(f&quot;NumPy float64 sum: {np_sum:.4f}&quot;)
+
+# Log-sum-exp trick for numerical stability (important in ML)
+logits = np.array([1000.0, 1001.0, 999.0])  # would overflow exp()
+lse = logits.max() + np.log(np.sum(np.exp(logits - logits.max())))
+print(f&quot;Log-sum-exp (stable): {lse:.6f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Financial Return Calculator</div><div class="rd">A risk system computes daily returns from price series that contain missing quotes (NaN), halted trading (0), and data errors (negative prices).</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+n_days = 252
+prices = 100 * np.exp(np.cumsum(np.random.randn(n_days) * 0.01))
+
+# Inject data quality issues
+prices[10]  = np.nan    # missing quote
+prices[50]  = 0.0       # trading halt
+prices[100] = -5.0      # data error
+
+def clean_prices(prices):
+    p = prices.copy()
+    # Remove physically impossible values
+    p[p &lt;= 0] = np.nan
+    # Forward-fill NaN
+    mask = np.isnan(p)
+    idx  = np.where(~mask, np.arange(len(p)), 0)
+    np.maximum.accumulate(idx, out=idx)
+    p = p[idx]
+    return p
+
+def daily_returns(prices):
+    p = clean_prices(prices)
+    rets = np.diff(p) / p[:-1]
+    rets = rets[np.isfinite(rets)]
+    return rets
+
+rets = daily_returns(prices)
+print(f&quot;Days cleaned: {np.isnan(prices).sum() + (prices &lt;= 0).sum()}&quot;)
+print(f&quot;Valid returns: {len(rets)}&quot;)
+print(f&quot;Mean return: {np.nanmean(rets):.4%}&quot;)
+print(f&quot;Volatility:  {np.nanstd(rets):.4%}&quot;)
+print(f&quot;Sharpe (approx): {np.nanmean(rets)/np.nanstd(rets)*np.sqrt(252):.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stable Softmax</div><div class="pd">Implement stable_softmax(x) that computes softmax using the log-sum-exp trick to avoid overflow. Implement log_softmax(x) using the same trick. Verify both give the same probabilities on x = [1000, 1001, 999] and x = [-1000, -999, -1001]. Compare against naive softmax to show instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import numpy as np
+
+def naive_softmax(x):
+    e = np.exp(x)
+    return e / e.sum()
+
+def stable_softmax(x):
+    # TODO: subtract max(x) before exp, then normalize
+    pass
+
+def log_softmax(x):
+    # TODO: return log of stable softmax (more numerically stable version)
+    # hint: x - max(x) - log(sum(exp(x - max(x))))
+    pass
+
+for x in [np.array([1.0, 2.0, 3.0]),
+          np.array([1000.0, 1001.0, 999.0]),
+          np.array([-1000.0, -999.0, -1001.0])]:
+    print(f&quot;x = {x}&quot;)
+    print(f&quot;  naive:  {naive_softmax(x)}&quot;)
+    print(f&quot;  stable: {stable_softmax(x)}&quot;)
+    print(f&quot;  log:    {log_softmax(x)}&quot;)
+    print(f&quot;  exp(log) == stable: {np.allclose(np.exp(log_softmax(x)), stable_softmax(x))}&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Probability Distributions &amp; Random Sampling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s random module (Generator API) provides reproducible random sampling from dozens of distributions. Essential for simulations, bootstrapping, and synthetic data.</p><div class="code-block"><div class="ch"><span>Generator API and reproducibility</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import numpy as np
+
+# Modern API: use default_rng (preferred over np.random.seed)
+rng = np.random.default_rng(seed=42)
+
+# Uniform
+u = rng.uniform(low=0, high=10, size=5)
+print(&quot;uniform:&quot;, u.round(2))
+
+# Integers
+dice = rng.integers(1, 7, size=10)
+print(&quot;dice rolls:&quot;, dice)
+
+# Shuffle and choice
+items = np.arange(10)
+rng.shuffle(items)
+print(&quot;shuffled:&quot;, items)
+
+sample = rng.choice(items, size=5, replace=False)
+print(&quot;sample without replacement:&quot;, sample)
+
+# Weighted choice
+weights  = np.array([0.5, 0.3, 0.2])
+outcomes = np.array([&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;])
+draws    = rng.choice(outcomes, size=20, p=weights)
+vals, counts = np.unique(draws, return_counts=True)
+print(&quot;Weighted draws:&quot;, dict(zip(vals, counts)))
+
+# Verify reproducibility
+rng2 = np.random.default_rng(seed=42)
+print(&quot;Same sequence:&quot;, np.all(rng2.uniform(size=5) == np.random.default_rng(42).uniform(size=5)))</code></pre></div><div class="code-block"><div class="ch"><span>Statistical distributions</span><button onclick="cp('c19_1')">Copy</button></div><pre><code id="c19_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Normal distribution
+heights = rng.normal(loc=170, scale=10, size=10_000)
+print(f&quot;Normal(170, 10): mean={heights.mean():.2f}, std={heights.std():.2f}&quot;)
+
+# Lognormal (for prices, incomes)
+prices = rng.lognormal(mean=3.0, sigma=0.5, size=5000)
+print(f&quot;Lognormal: median={np.median(prices):.2f}, mean={prices.mean():.2f}&quot;)
+
+# Exponential (wait times, inter-arrivals)
+wait_times = rng.exponential(scale=5.0, size=1000)  # mean = 5 min
+print(f&quot;Exponential(lambda=0.2): mean={wait_times.mean():.2f}&quot;)
+
+# Poisson (event counts)
+requests_per_sec = rng.poisson(lam=30, size=60)  # 30 req/s for 1 min
+print(f&quot;Poisson(30): mean={requests_per_sec.mean():.1f}, std={requests_per_sec.std():.1f}&quot;)
+
+# Binomial (successes in n trials)
+successes = rng.binomial(n=100, p=0.35, size=1000)  # conversion rate
+print(f&quot;Binomial(100, 0.35): mean={successes.mean():.1f} (expected 35)&quot;)
+
+# Beta (probabilities, proportions)
+click_rates = rng.beta(a=2, b=5, size=1000)
+print(f&quot;Beta(2, 5): mean={click_rates.mean():.3f} (expected {2/(2+5):.3f})&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Bootstrap sampling and Monte Carlo</span><button onclick="cp('c19_2')">Copy</button></div><pre><code id="c19_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Bootstrap confidence interval
+data = np.array([2.3, 4.1, 3.8, 5.2, 2.9, 4.7, 3.5, 6.1, 2.8, 4.4])
+
+n_boot = 10_000
+boot_means = np.array([
+    rng.choice(data, size=len(data), replace=True).mean()
+    for _ in range(n_boot)
+])
+
+ci_low, ci_high = np.percentile(boot_means, [2.5, 97.5])
+print(f&quot;Sample mean: {data.mean():.3f}&quot;)
+print(f&quot;95% bootstrap CI: [{ci_low:.3f}, {ci_high:.3f}]&quot;)
+
+# Monte Carlo Pi estimation
+N = 1_000_000
+x = rng.uniform(-1, 1, N)
+y = rng.uniform(-1, 1, N)
+inside = (x**2 + y**2) &lt;= 1.0
+pi_est = 4 * inside.mean()
+print(f&quot;Pi estimate (N={N:,}): {pi_est:.5f} (true: {np.pi:.5f})&quot;)
+
+# Simulate portfolio returns (Monte Carlo)
+n_assets, n_sims, n_days = 5, 10_000, 252
+mu    = rng.uniform(0.0001, 0.001, n_assets)   # daily expected return
+sigma = rng.uniform(0.01, 0.03, n_assets)       # daily vol
+daily_rets = rng.normal(mu, sigma, (n_sims, n_days, n_assets))
+port_rets  = daily_rets.mean(axis=2).sum(axis=1)  # equal weight
+var_95 = np.percentile(port_rets, 5)
+print(f&quot;Portfolio annual return mean: {port_rets.mean():.2%}&quot;)
+print(f&quot;VaR 95%: {var_95:.2%}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: A/B Test Simulation</div><div class="rd">A product team uses bootstrap simulation to determine whether a 2-percentage-point conversion rate improvement is statistically significant given their sample sizes.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Observed data
+n_control    = 5000
+n_treatment  = 5000
+conv_control = 0.10   # 10% baseline
+conv_treat   = 0.12   # 12% treatment (absolute +2pp)
+
+# Sample from observed proportions
+control   = rng.binomial(1, conv_control, n_control)
+treatment = rng.binomial(1, conv_treat,   n_treatment)
+
+obs_diff = treatment.mean() - control.mean()
+print(f&quot;Observed difference: {obs_diff:.4f} ({obs_diff:.2%})&quot;)
+
+# Permutation test
+N_PERM = 10_000
+combined = np.concatenate([control, treatment])
+perm_diffs = np.empty(N_PERM)
+for i in range(N_PERM):
+    rng.shuffle(combined)
+    perm_diffs[i] = combined[:n_treatment].mean() - combined[n_treatment:].mean()
+
+p_value = (np.abs(perm_diffs) &gt;= np.abs(obs_diff)).mean()
+print(f&quot;Permutation test p-value: {p_value:.4f}&quot;)
+print(f&quot;Significant at alpha=0.05: {p_value &lt; 0.05}&quot;)
+
+ci = np.percentile(perm_diffs, [2.5, 97.5])
+print(f&quot;Null distribution 95% CI: [{ci[0]:.4f}, {ci[1]:.4f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Fitter</div><div class="pd">Write fit_normal(data) that uses np.mean and np.std to estimate parameters, then generates n_samples from that distribution and computes the KS-like statistic (max absolute difference between sorted empirical CDF and normal CDF). Also write simulate_geometric_brownian(S0, mu, sigma, T, n_steps) for stock price simulation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import numpy as np
+
+def fit_normal(data, n_samples=1000, seed=42):
+    rng = np.random.default_rng(seed)
+    mu  = np.mean(data)
+    std = np.std(data, ddof=1)
+    # Generate from fitted distribution
+    synthetic = rng.normal(mu, std, n_samples)
+    # Empirical CDF comparison
+    emp  = np.sort(data)
+    emp_cdf = np.arange(1, len(emp)+1) / len(emp)
+    # Normal CDF at emp points: use error function approximation
+    from math import erf
+    norm_cdf = np.array([0.5 * (1 + erf((x-mu)/(std*2**0.5))) for x in emp])
+    ks_stat  = np.max(np.abs(emp_cdf - norm_cdf))
+    return {&quot;mu&quot;: mu, &quot;std&quot;: std, &quot;ks&quot;: ks_stat, &quot;synthetic&quot;: synthetic}
+
+def simulate_gbm(S0, mu, sigma, T, n_steps, seed=42):
+    rng = np.random.default_rng(seed)
+    dt  = T / n_steps
+    Z   = rng.standard_normal(n_steps)
+    # TODO: compute log returns and cumulative prices
+    pass
+
+rng = np.random.default_rng(42)
+data = rng.normal(50, 10, 200)
+result = fit_normal(data)
+print(f&quot;Fitted: mu={result[&#x27;mu&#x27;]:.2f}, std={result[&#x27;std&#x27;]:.2f}, KS={result[&#x27;ks&#x27;]:.4f}&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Image Arrays &amp; 2D Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Images are 2D (grayscale) or 3D (H x W x C) NumPy arrays. Understanding array operations on images builds intuition for convolutions, pooling, and data augmentation.</p><div class="code-block"><div class="ch"><span>Image as array: channels and pixel operations</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np
+
+# Images are (H, W) for grayscale, (H, W, C) for color
+np.random.seed(42)
+H, W = 64, 64
+
+# Synthetic grayscale (0-255 uint8)
+gray = np.random.randint(0, 256, (H, W), dtype=np.uint8)
+print(f&quot;Grayscale shape: {gray.shape}, dtype: {gray.dtype}&quot;)
+print(f&quot;Pixel range: [{gray.min()}, {gray.max()}]&quot;)
+
+# Synthetic RGB image
+rgb = np.random.randint(0, 256, (H, W, 3), dtype=np.uint8)
+print(f&quot;RGB shape: {rgb.shape}&quot;)
+
+# Extract channels
+R, G, B = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
+print(f&quot;R channel mean: {R.mean():.1f}&quot;)
+
+# RGB to grayscale (luminosity formula)
+gray_from_rgb = (0.2989 * R + 0.5870 * G + 0.1140 * B).astype(np.uint8)
+print(f&quot;Converted gray shape: {gray_from_rgb.shape}&quot;)
+
+# Normalize to [0, 1] float
+img_float = rgb.astype(np.float32) / 255.0
+print(f&quot;Normalized range: [{img_float.min():.3f}, {img_float.max():.3f}]&quot;)
+
+# Crop a region
+crop = rgb[10:40, 15:50, :]
+print(f&quot;Crop shape: {crop.shape}&quot;)
+
+# Horizontal flip
+flipped = rgb[:, ::-1, :]
+print(f&quot;Flipped shape: {flipped.shape}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Convolution and pooling with strides</span><button onclick="cp('c20_1')">Copy</button></div><pre><code id="c20_1" class="language-python">import numpy as np
+
+def convolve2d(img, kernel):
+    H, W = img.shape
+    kH, kW = kernel.shape
+    pad_h, pad_w = kH // 2, kW // 2
+    # Zero-pad
+    padded = np.pad(img, ((pad_h, pad_h), (pad_w, pad_w)), mode=&#x27;constant&#x27;)
+    output = np.zeros_like(img, dtype=float)
+    for i in range(H):
+        for j in range(W):
+            output[i, j] = (padded[i:i+kH, j:j+kW] * kernel).sum()
+    return output
+
+# Faster with stride_tricks (no Python loop)
+def convolve2d_fast(img, kernel):
+    from numpy.lib.stride_tricks import sliding_window_view
+    H, W = img.shape
+    kH, kW = kernel.shape
+    pad_h, pad_w = kH // 2, kW // 2
+    padded = np.pad(img, ((pad_h, pad_h), (pad_w, pad_w)), mode=&#x27;constant&#x27;)
+    windows = sliding_window_view(padded, (kH, kW))
+    return (windows * kernel).sum(axis=(-2, -1))
+
+img = np.random.rand(32, 32)
+# Edge detection kernel (Sobel-like)
+sobel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=float)
+edges = convolve2d_fast(img, sobel_x)
+print(f&quot;Edge response range: [{edges.min():.3f}, {edges.max():.3f}]&quot;)
+
+# Max pooling (2x2)
+def max_pool2d(img, size=2):
+    H, W = img.shape
+    pH, pW = H // size, W // size
+    return img[:pH*size, :pW*size].reshape(pH, size, pW, size).max(axis=(1, 3))
+
+pooled = max_pool2d(img, 2)
+print(f&quot;After 2x2 max pool: {img.shape} -&gt; {pooled.shape}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Data augmentation with NumPy</span><button onclick="cp('c20_2')">Copy</button></div><pre><code id="c20_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+def augment_batch(images, rng):
+    # Augment a batch of images (N, H, W, C).
+    batch = images.copy().astype(np.float32)
+
+    # Random horizontal flip (50% chance per image)
+    flip_mask = rng.random(len(batch)) &gt; 0.5
+    batch[flip_mask] = batch[flip_mask, :, ::-1, :]
+
+    # Random brightness adjustment
+    brightness = rng.uniform(0.8, 1.2, (len(batch), 1, 1, 1))
+    batch = np.clip(batch * brightness, 0, 255)
+
+    # Random crop and resize (simplified: just crop to 80% size)
+    H, W = batch.shape[1:3]
+    ch, cw = int(H * 0.8), int(W * 0.8)
+    for i in range(len(batch)):
+        y0 = rng.integers(0, H - ch)
+        x0 = rng.integers(0, W - cw)
+        # In real pipeline you would resize; here just show crop
+        batch[i, :ch, :cw, :] = batch[i, y0:y0+ch, x0:x0+cw, :]
+
+    # Gaussian noise
+    noise = rng.normal(0, 5, batch.shape)
+    batch = np.clip(batch + noise, 0, 255)
+
+    return batch.astype(np.uint8)
+
+# Demo
+N, H, W, C = 8, 64, 64, 3
+batch = rng.integers(50, 200, (N, H, W, C), dtype=np.uint8)
+augmented = augment_batch(batch, rng)
+print(f&quot;Batch: {batch.shape} | Augmented: {augmented.shape}&quot;)
+print(f&quot;Orig mean: {batch.mean():.1f} | Aug mean: {augmented.mean():.1f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Batch Preprocessing Pipeline</div><div class="rd">A CNN training loop preprocesses a batch of 64x64 RGB images: normalize per-channel, apply random augmentation, and flatten into model input.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+N, H, W, C = 32, 64, 64, 3
+
+# Simulate a batch
+batch = rng.integers(0, 256, (N, H, W, C), dtype=np.uint8)
+
+# ImageNet-style normalization (per-channel mean/std)
+MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
+STD  = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+
+def preprocess(batch):
+    x = batch.astype(np.float32) / 255.0  # [0,1]
+    x = (x - MEAN) / STD                  # normalize
+    x = x.transpose(0, 3, 1, 2)           # NHWC -&gt; NCHW for PyTorch
+    return x
+
+# Random horizontal flip augmentation
+def random_hflip(batch, rng, p=0.5):
+    mask = rng.random(len(batch)) &lt; p
+    out  = batch.copy()
+    out[mask] = batch[mask, :, ::-1, :]
+    return out
+
+processed = preprocess(random_hflip(batch, rng))
+print(f&quot;Input: {batch.shape} uint8&quot;)
+print(f&quot;Output: {processed.shape} float32&quot;)
+print(f&quot;Channel 0: mean={processed[:,0,:,:].mean():.3f}, std={processed[:,0,:,:].std():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Statistics</div><div class="pd">Write a function image_stats(img) that takes a (H,W,3) uint8 image and returns a dict with per-channel mean, std, min, max, and the percentage of &#x27;near-white&#x27; pixels (all channels &gt; 200) and &#x27;near-black&#x27; pixels (all channels &lt; 55). Also write normalize_contrast(img) that maps pixel values to [0,255] using min-max normalization per channel.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import numpy as np
+
+def image_stats(img):
+    # img is (H, W, 3) uint8
+    stats = {}
+    for c, name in enumerate([&#x27;R&#x27;, &#x27;G&#x27;, &#x27;B&#x27;]):
+        ch = img[:, :, c].astype(float)
+        stats[name] = {&quot;mean&quot;: ch.mean(), &quot;std&quot;: ch.std(),
+                       &quot;min&quot;: int(ch.min()), &quot;max&quot;: int(ch.max())}
+    # Near white: all channels &gt; 200
+    near_white = (img &gt; 200).all(axis=2)
+    # Near black: all channels &lt; 55
+    near_black = (img &lt; 55).all(axis=2)
+    stats[&quot;near_white_pct&quot;] = near_white.mean() * 100
+    stats[&quot;near_black_pct&quot;] = near_black.mean() * 100
+    return stats
+
+def normalize_contrast(img):
+    # TODO: for each channel, map min-&gt;0, max-&gt;255
+    out = np.empty_like(img, dtype=np.uint8)
+    for c in range(3):
+        ch = img[:, :, c].astype(float)
+        lo, hi = ch.min(), ch.max()
+        if hi &gt; lo:
+            out[:, :, c] = ((ch - lo) / (hi - lo) * 255).astype(np.uint8)
+        else:
+            out[:, :, c] = 0
+    return out
+
+rng = np.random.default_rng(42)
+img = rng.integers(0, 256, (128, 128, 3), dtype=np.uint8)
+stats = image_stats(img)
+for k, v in stats.items():
+    print(f&quot;{k}: {v}&quot;)
+normed = normalize_contrast(img)
+print(&quot;Normalized range:&quot;, normed.min(), normed.max())
+</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Statistical Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides percentiles, histograms, correlation, and covariance for descriptive statistics. These underpin nearly all data analysis workflows.</p><div class="code-block"><div class="ch"><span>Percentile, quantile, and descriptive stats</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+data = rng.lognormal(mean=4.5, sigma=0.8, size=10_000)
+
+# Percentiles and quantiles
+p25, p50, p75 = np.percentile(data, [25, 50, 75])
+print(f&quot;Q1={p25:.1f}, Median={p50:.1f}, Q3={p75:.1f}&quot;)
+print(f&quot;IQR={p75-p25:.1f}&quot;)
+
+# Quantile (equivalent but takes fractions 0-1)
+q  = np.quantile(data, [0, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1.0])
+labels = [&quot;0%&quot;, &quot;25%&quot;, &quot;50%&quot;, &quot;75%&quot;, &quot;90%&quot;, &quot;95%&quot;, &quot;99%&quot;, &quot;100%&quot;]
+for l, v in zip(labels, q):
+    print(f&quot;  {l:&gt;4s}: {v:&gt;8.1f}&quot;)
+
+# Outlier detection via IQR
+iqr_mult = 1.5
+lower = p25 - iqr_mult * (p75 - p25)
+upper = p75 + iqr_mult * (p75 - p25)
+outliers = data[(data &lt; lower) | (data &gt; upper)]
+print(f&quot;Outliers: {len(outliers)} ({len(outliers)/len(data):.1%})&quot;)
+
+# 2D: percentile per column
+m = rng.normal(0, 1, (100, 5))
+col_medians = np.median(m, axis=0)
+print(&quot;Col medians:&quot;, col_medians.round(2))</code></pre></div><div class="code-block"><div class="ch"><span>Histogram and frequency analysis</span><button onclick="cp('c21_1')">Copy</button></div><pre><code id="c21_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+data = np.concatenate([rng.normal(30, 5, 3000),   # young cohort
+                       rng.normal(55, 8, 2000)])   # senior cohort
+
+# Basic histogram
+counts, edges = np.histogram(data, bins=20)
+centers = (edges[:-1] + edges[1:]) / 2
+print(&quot;Histogram (first 5 bins):&quot;)
+for c, n in zip(centers[:5], counts[:5]):
+    print(f&quot;  {c:.1f}: {&#x27;#&#x27; * (n//50)} ({n})&quot;)
+
+# Normalized (density)
+density, _ = np.histogram(data, bins=20, density=True)
+print(f&quot;Density sums to: {density.sum() * np.diff(edges).mean():.4f}&quot;)  # ~1.0
+
+# 2D histogram
+x = rng.normal(0, 1, 5000)
+y = 0.7 * x + rng.normal(0, 0.5, 5000)  # correlated
+counts_2d, xedges, yedges = np.histogram2d(x, y, bins=10)
+print(f&quot;2D histogram shape: {counts_2d.shape}&quot;)
+print(f&quot;Peak bin count: {counts_2d.max():.0f}&quot;)
+
+# Digitize: assign each value to a bin
+salary_bins = np.array([0, 30_000, 60_000, 100_000, 200_000, np.inf])
+labels = [&#x27;entry&#x27;, &#x27;junior&#x27;, &#x27;mid&#x27;, &#x27;senior&#x27;, &#x27;exec&#x27;]
+salaries = np.array([25000, 45000, 75000, 120000, 350000, 58000])
+bin_idx  = np.digitize(salaries, salary_bins) - 1
+print(&quot;Salary bands:&quot;, [labels[min(i, len(labels)-1)] for i in bin_idx])</code></pre></div><div class="code-block"><div class="ch"><span>Correlation and covariance</span><button onclick="cp('c21_2')">Copy</button></div><pre><code id="c21_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+n = 200
+
+# Generate correlated variables
+x1 = rng.normal(0, 1, n)
+x2 = 0.8 * x1 + rng.normal(0, 0.6, n)   # strong positive correlation
+x3 = rng.normal(0, 1, n)                  # uncorrelated
+
+data = np.column_stack([x1, x2, x3])
+
+# Pearson correlation matrix
+corr = np.corrcoef(data.T)  # data.T because corrcoef expects (n_vars, n_obs)
+print(&quot;Correlation matrix:&quot;)
+for row in corr:
+    print(&quot;  &quot;, &quot; &quot;.join(f&quot;{v:+.3f}&quot; for v in row))
+
+# Covariance matrix
+cov = np.cov(data.T)
+print(&quot;Covariance matrix diagonal (variances):&quot;, np.diag(cov).round(3))
+
+# Manual Pearson r for two variables
+def pearson_r(a, b):
+    a_c, b_c = a - a.mean(), b - b.mean()
+    return (a_c * b_c).sum() / (np.sqrt((a_c**2).sum()) * np.sqrt((b_c**2).sum()))
+
+r12 = pearson_r(x1, x2)
+r13 = pearson_r(x1, x3)
+print(f&quot;Pearson r(x1,x2)={r12:.3f}, r(x1,x3)={r13:.3f}&quot;)
+
+# Rolling correlation
+window = 30
+roll_corr = np.array([
+    pearson_r(x1[i:i+window], x2[i:i+window])
+    for i in range(n - window)
+])
+print(f&quot;Rolling({window}) correlation: mean={roll_corr.mean():.3f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Multi-Asset Risk Analysis</div><div class="rd">A risk team computes the 1-day 99% VaR and expected shortfall for a 10-asset portfolio using historical simulation on 5 years of daily returns.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+n_assets = 10
+n_days   = 1260   # 5 trading years
+
+# Simulate correlated returns
+true_corr = 0.3 * np.ones((n_assets, n_assets)) + 0.7 * np.eye(n_assets)
+L = np.linalg.cholesky(true_corr)
+Z = rng.standard_normal((n_days, n_assets))
+returns = (Z @ L.T) * 0.01  # ~1% daily vol
+
+# Equal-weight portfolio returns
+weights  = np.ones(n_assets) / n_assets
+port_ret = returns @ weights
+
+# Risk metrics
+var_99   = np.percentile(port_ret, 1)
+es_99    = port_ret[port_ret &lt;= var_99].mean()
+ann_vol  = port_ret.std() * np.sqrt(252)
+
+print(f&quot;Portfolio daily returns: mean={port_ret.mean():.4%}, vol={port_ret.std():.4%}&quot;)
+print(f&quot;Annualized vol:    {ann_vol:.2%}&quot;)
+print(f&quot;1-day VaR (99%):   {var_99:.4%}&quot;)
+print(f&quot;Expected Shortfall (CVaR 99%): {es_99:.4%}&quot;)
+
+# Correlation matrix
+corr = np.corrcoef(returns.T)
+print(f&quot;Avg pairwise correlation: {corr[np.triu_indices(n_assets, k=1)].mean():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weighted Statistics</div><div class="pd">Implement weighted_mean(data, weights), weighted_std(data, weights, ddof=0), and weighted_percentile(data, weights, q) where weights represent observation frequencies. Verify weighted_mean on data=[1,2,3,4,5] with weights=[5,1,1,1,1] (mean should be close to 1 since 5 is heavily weighted).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import numpy as np
+
+def weighted_mean(data, weights):
+    data, weights = np.asarray(data, float), np.asarray(weights, float)
+    # TODO: return sum(data * weights) / sum(weights)
+    pass
+
+def weighted_std(data, weights, ddof=0):
+    mean = weighted_mean(data, weights)
+    # TODO: compute weighted variance then sqrt
+    # variance = sum(w * (x - mean)^2) / sum(w) for ddof=0
+    pass
+
+def weighted_percentile(data, weights, q):
+    # Sort data by value, then compute cumulative weight fraction
+    data, weights = np.asarray(data, float), np.asarray(weights, float)
+    idx     = np.argsort(data)
+    sdata   = data[idx]
+    sweights = weights[idx]
+    cumw    = np.cumsum(sweights) / sweights.sum()
+    # TODO: interpolate to find value at quantile q (0-100)
+    pass
+
+data    = np.array([1, 2, 3, 4, 5], float)
+weights = np.array([5, 1, 1, 1, 1], float)
+print(&quot;Weighted mean:&quot;, weighted_mean(data, weights))   # should be ~1.5
+print(&quot;Weighted std: &quot;, weighted_std(data, weights))
+print(&quot;Weighted 50th:&quot;, weighted_percentile(data, weights, 50))
+</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Array I/O (save, load, text, memmap)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy supports binary (.npy, .npz), text (savetxt/genfromtxt), and memory-mapped file formats for efficient large array storage and loading.</p><div class="code-block"><div class="ch"><span>np.save, np.load, np.savez</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import numpy as np
+import tempfile, pathlib
+
+tmp = pathlib.Path(tempfile.mkdtemp())
+
+# Save/load single array (.npy)
+arr = np.arange(12).reshape(3, 4)
+np.save(tmp / &#x27;array.npy&#x27;, arr)
+
+loaded = np.load(tmp / &#x27;array.npy&#x27;)
+print(&quot;Loaded:&quot;, loaded)
+print(&quot;Same data:&quot;, np.array_equal(arr, loaded))
+print(&quot;File size:&quot;, (tmp / &#x27;array.npy&#x27;).stat().st_size, &quot;bytes&quot;)
+
+# Save multiple arrays in one file (.npz = numpy zip)
+x  = np.linspace(0, 10, 100)
+y  = np.sin(x)
+dy = np.cos(x)
+np.savez(tmp / &#x27;signals.npz&#x27;, x=x, y=y, dy=dy)
+
+data = np.load(tmp / &#x27;signals.npz&#x27;)
+print(&quot;Keys in npz:&quot;, list(data.keys()))
+print(&quot;x[0:3]:&quot;, data[&#x27;x&#x27;][:3].round(3))
+
+# savez_compressed: gzip compression
+np.savez_compressed(tmp / &#x27;signals_compressed.npz&#x27;, **dict(data))
+orig_size = (tmp / &#x27;signals.npz&#x27;).stat().st_size
+comp_size = (tmp / &#x27;signals_compressed.npz&#x27;).stat().st_size
+print(f&quot;Original: {orig_size} bytes, Compressed: {comp_size} bytes ({comp_size/orig_size:.0%})&quot;)
+
+import shutil; shutil.rmtree(tmp)</code></pre></div><div class="code-block"><div class="ch"><span>savetxt and genfromtxt</span><button onclick="cp('c22_1')">Copy</button></div><pre><code id="c22_1" class="language-python">import numpy as np
+import tempfile, pathlib
+
+tmp = pathlib.Path(tempfile.mkdtemp())
+
+# savetxt: write to CSV/TSV
+data = np.array([[1, 2.5, 3.7], [4, 5.1, 6.8], [7, 8.3, 9.0]])
+np.savetxt(tmp / &#x27;data.csv&#x27;, data, delimiter=&#x27;,&#x27;, fmt=&#x27;%.2f&#x27;,
+           header=&#x27;col1,col2,col3&#x27;, comments=&#x27;&#x27;)
+
+# Read it back
+loaded = np.genfromtxt(tmp / &#x27;data.csv&#x27;, delimiter=&#x27;,&#x27;, skip_header=1)
+print(&quot;Loaded from CSV:\n&quot;, loaded)
+
+# genfromtxt with mixed data and missing values
+csv_content = &#x27;&#x27;&#x27;id,temp,humidity,status
+1,22.5,65.0,OK
+2,nan,72.0,OK
+3,19.8,,WARN
+4,25.1,80.5,OK&#x27;&#x27;&#x27;
+
+(tmp / &#x27;sensors.csv&#x27;).write_text(csv_content)
+sensors = np.genfromtxt(
+    tmp / &#x27;sensors.csv&#x27;,
+    delimiter=&#x27;,&#x27;,
+    names=True,         # use header row as field names
+    dtype=None,         # auto-detect dtypes
+    encoding=&#x27;utf-8&#x27;,
+    filling_values=np.nan  # fill missing with nan
+)
+print(&quot;dtype:&quot;, sensors.dtype)
+print(&quot;temps:&quot;, sensors[&#x27;temp&#x27;])
+print(&quot;humidity:&quot;, sensors[&#x27;humidity&#x27;])
+
+import shutil; shutil.rmtree(tmp)</code></pre></div><div class="code-block"><div class="ch"><span>Memory-mapped arrays (np.memmap)</span><button onclick="cp('c22_2')">Copy</button></div><pre><code id="c22_2" class="language-python">import numpy as np
+import tempfile, pathlib
+
+tmp = pathlib.Path(tempfile.mkdtemp())
+fpath = tmp / &#x27;large_array.dat&#x27;
+
+# Create a memory-mapped array (simulating large data)
+shape = (1000, 500)
+# &#x27;w+&#x27; = write+read, &#x27;r+&#x27; = read+write existing, &#x27;r&#x27; = read-only
+mm_write = np.memmap(fpath, dtype=&#x27;float32&#x27;, mode=&#x27;w+&#x27;, shape=shape)
+
+# Fill with data (only the modified pages are loaded into RAM)
+mm_write[:100, :] = np.random.randn(100, 500).astype(&#x27;float32&#x27;)
+mm_write.flush()  # ensure data is written to disk
+del mm_write
+
+# Read back without loading everything into memory
+mm_read = np.memmap(fpath, dtype=&#x27;float32&#x27;, mode=&#x27;r&#x27;, shape=shape)
+print(f&quot;Array shape: {mm_read.shape}, dtype: {mm_read.dtype}&quot;)
+print(f&quot;First row (first 5): {mm_read[0, :5]}&quot;)
+print(f&quot;File size: {fpath.stat().st_size:,} bytes&quot;)
+print(f&quot;Expected: {shape[0]*shape[1]*4:,} bytes (float32 = 4 bytes)&quot;)
+
+# Slice a subarray (still memory-mapped, not loaded)
+sub = mm_read[:50, :100]
+print(f&quot;Subarray shape: {sub.shape}, mean={sub.mean():.4f}&quot;)
+
+del mm_read
+import shutil; shutil.rmtree(tmp)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Model Checkpoint System</div><div class="rd">A deep learning workflow saves model weights and training history to compressed .npz files and reloads them for inference, logging the disk footprint.</div><pre><code class="language-python">import numpy as np, tempfile, pathlib, shutil
+
+tmp = pathlib.Path(tempfile.mkdtemp())
+
+# Simulate model weights for a small neural network
+rng = np.random.default_rng(42)
+weights = {
+    &quot;W1&quot;: rng.standard_normal((784, 256)).astype(np.float32),
+    &quot;b1&quot;: np.zeros(256, dtype=np.float32),
+    &quot;W2&quot;: rng.standard_normal((256, 128)).astype(np.float32),
+    &quot;b2&quot;: np.zeros(128, dtype=np.float32),
+    &quot;W3&quot;: rng.standard_normal((128, 10)).astype(np.float32),
+    &quot;b3&quot;: np.zeros(10, dtype=np.float32),
+}
+history = {
+    &quot;train_loss&quot;: rng.uniform(0.5, 2.0, 50).cumsum() ** 0 * np.linspace(2, 0.2, 50),
+    &quot;val_loss&quot;:   rng.uniform(0.5, 2.0, 50).cumsum() ** 0 * np.linspace(2.1, 0.25, 50),
+    &quot;epoch&quot;:      np.arange(50),
+}
+
+def save_checkpoint(path, weights, history, epoch):
+    np.savez_compressed(path, epoch=epoch, **weights, **history)
+    return path.stat().st_size
+
+def load_checkpoint(path):
+    data = np.load(path)
+    epoch = int(data[&#x27;epoch&#x27;])
+    W = {k: data[k] for k in [&#x27;W1&#x27;,&#x27;b1&#x27;,&#x27;W2&#x27;,&#x27;b2&#x27;,&#x27;W3&#x27;,&#x27;b3&#x27;]}
+    H = {k: data[k] for k in [&#x27;train_loss&#x27;,&#x27;val_loss&#x27;,&#x27;epoch&#x27;]}
+    return epoch, W, H
+
+ckpt_path = tmp / &#x27;checkpoint_ep50.npz&#x27;
+size = save_checkpoint(ckpt_path, weights, history, epoch=50)
+print(f&quot;Checkpoint saved: {size:,} bytes ({size/1024:.1f} KB)&quot;)
+
+ep, W, H = load_checkpoint(ckpt_path)
+print(f&quot;Loaded epoch {ep}, W1 shape: {W[&#x27;W1&#x27;].shape}&quot;)
+print(f&quot;Final train loss: {H[&#x27;train_loss&#x27;][-1]:.4f}&quot;)
+
+shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Pipeline with npz Cache</div><div class="pd">Write a DataCache class that saves a numpy array to disk as .npz if it doesn&#x27;t exist, or loads it if it does. Add methods: cache_exists(key), save(key, **arrays), load(key), and delete(key). The cache directory should be configurable in __init__. Test by saving and loading a feature matrix and label array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import numpy as np, pathlib
+
+class DataCache:
+    def __init__(self, cache_dir=&#x27;./cache&#x27;):
+        self.dir = pathlib.Path(cache_dir)
+        self.dir.mkdir(parents=True, exist_ok=True)
+
+    def _path(self, key):
+        return self.dir / f&quot;{key}.npz&quot;
+
+    def exists(self, key):
+        return self._path(key).exists()
+
+    def save(self, key, **arrays):
+        np.savez_compressed(self._path(key), **arrays)
+
+    def load(self, key):
+        if not self.exists(key):
+            raise FileNotFoundError(f&quot;Cache key {key!r} not found&quot;)
+        return dict(np.load(self._path(key)))
+
+    def delete(self, key):
+        p = self._path(key)
+        if p.exists(): p.unlink()
+
+import tempfile, shutil
+tmp = tempfile.mkdtemp()
+cache = DataCache(tmp)
+
+rng = np.random.default_rng(42)
+X = rng.standard_normal((1000, 20))
+y = rng.integers(0, 5, 1000)
+
+cache.save(&#x27;features&#x27;, X=X, y=y)
+print(&quot;Exists:&quot;, cache.exists(&#x27;features&#x27;))
+
+data = cache.load(&#x27;features&#x27;)
+print(&quot;Loaded X:&quot;, data[&#x27;X&#x27;].shape, &quot;y:&quot;, data[&#x27;y&#x27;].shape)
+print(&quot;Data matches:&quot;, np.allclose(X, data[&#x27;X&#x27;]))
+
+cache.delete(&#x27;features&#x27;)
+print(&quot;After delete:&quot;, cache.exists(&#x27;features&#x27;))
+shutil.rmtree(tmp)
+</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Datetime64 &amp; Time Arithmetic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s datetime64 and timedelta64 types enable vectorized date/time arithmetic without Python loops. Essential for time series alignment and resampling.</p><div class="code-block"><div class="ch"><span>datetime64 basics and arithmetic</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np
+
+# Create datetime64 scalars and arrays
+d1 = np.datetime64(&#x27;2024-01-15&#x27;)
+d2 = np.datetime64(&#x27;2024-03-20&#x27;)
+print(&quot;d1:&quot;, d1, &quot;d2:&quot;, d2)
+
+# Arithmetic
+delta = d2 - d1
+print(f&quot;Delta: {delta}&quot;)               # timedelta64
+print(f&quot;Days between: {delta.astype(&#x27;timedelta64[D]&#x27;).astype(int)}&quot;)
+
+# Add days
+d3 = d1 + np.timedelta64(30, &#x27;D&#x27;)
+print(f&quot;30 days after d1: {d3}&quot;)
+
+# Date range
+dates = np.arange(&#x27;2024-01&#x27;, &#x27;2025-01&#x27;, dtype=&#x27;datetime64[M]&#x27;)  # monthly
+print(&quot;Monthly dates:&quot;, dates)
+print(&quot;Count:&quot;, len(dates))
+
+# Different units
+dt_ns = np.datetime64(&#x27;2024-01-15T09:30:00.000000000&#x27;, &#x27;ns&#x27;)
+dt_s  = np.datetime64(&#x27;2024-01-15T09:30:00&#x27;, &#x27;s&#x27;)
+print(&quot;Nanosecond precision:&quot;, dt_ns)
+print(&quot;Second precision:&quot;, dt_s)
+
+# Year, month, day extraction via astype
+day_arr  = np.arange(&#x27;2024-01-01&#x27;, &#x27;2024-02-01&#x27;, dtype=&#x27;datetime64[D]&#x27;)
+months   = day_arr.astype(&#x27;datetime64[M]&#x27;).astype(int) % 12 + 1
+dom      = (day_arr - day_arr.astype(&#x27;datetime64[M]&#x27;)).astype(int) + 1
+print(&quot;Days of month:&quot;, dom[:7])</code></pre></div><div class="code-block"><div class="ch"><span>Business day operations and calendar</span><button onclick="cp('c23_1')">Copy</button></div><pre><code id="c23_1" class="language-python">import numpy as np
+
+# busdaycalendar: define which days are business days
+# Default: Mon-Fri, no holidays
+bdc = np.busdaycalendar()
+
+# busday_count: count business days between dates
+start = np.datetime64(&#x27;2024-01-01&#x27;)
+end   = np.datetime64(&#x27;2024-12-31&#x27;)
+n_bdays = np.busday_count(start, end)
+print(f&quot;Business days in 2024: {n_bdays}&quot;)
+
+# is_busday: check if date is a business day
+dates = np.arange(&#x27;2024-01-01&#x27;, &#x27;2024-01-08&#x27;, dtype=&#x27;datetime64[D]&#x27;)
+for d in dates:
+    bd = np.is_busday(d)
+    print(f&quot;  {d} ({[&#x27;Mon&#x27;,&#x27;Tue&#x27;,&#x27;Wed&#x27;,&#x27;Thu&#x27;,&#x27;Fri&#x27;,&#x27;Sat&#x27;,&#x27;Sun&#x27;][(d.astype(&#x27;datetime64[D]&#x27;).astype(int))%7]}): {&#x27;Business&#x27; if bd else &#x27;Weekend&#x27;}&quot;)
+
+# offset_busdays: advance by N business days
+t_plus_5bd = np.busday_offset(&#x27;2024-01-15&#x27;, 5, roll=&#x27;forward&#x27;)
+print(f&quot;5 business days after Jan 15: {t_plus_5bd}&quot;)
+
+# Custom calendar with holidays
+holidays  = np.array([&#x27;2024-01-01&#x27;, &#x27;2024-12-25&#x27;], dtype=&#x27;datetime64[D]&#x27;)
+bdc_h = np.busdaycalendar(holidays=holidays)
+# Settlement: T+2 business days (like equity markets)
+trade_dates = np.array([&#x27;2024-01-03&#x27;, &#x27;2024-12-24&#x27;, &#x27;2024-12-26&#x27;], dtype=&#x27;datetime64&#x27;)
+settlement  = np.busday_offset(trade_dates, 2, busdaycal=bdc_h)
+for t, s in zip(trade_dates, settlement):
+    print(f&quot;  Trade {t} -&gt; Settle {s}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Time series alignment and resampling</span><button onclick="cp('c23_2')">Copy</button></div><pre><code id="c23_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Generate irregular timestamps (like real tick data)
+n = 200
+base  = np.datetime64(&#x27;2024-01-15T09:30:00&#x27;, &#x27;s&#x27;)
+gaps  = rng.integers(1, 60, n).astype(&#x27;timedelta64[s]&#x27;)   # 1-60 sec gaps
+times = base + np.cumsum(gaps)
+
+prices = 100 + np.cumsum(rng.normal(0, 0.05, n))
+
+print(f&quot;First timestamp: {times[0]}&quot;)
+print(f&quot;Last timestamp:  {times[-1]}&quot;)
+print(f&quot;Total duration: {(times[-1] - times[0]).astype(int)} seconds&quot;)
+
+# Bin into 1-minute buckets (OHLCV)
+minute_start = times.astype(&#x27;datetime64[m]&#x27;)
+unique_mins  = np.unique(minute_start)
+
+print(f&quot;Number of 1-minute bars: {len(unique_mins)}&quot;)
+
+# OHLCV for each minute
+for m in unique_mins[:3]:
+    mask = (minute_start == m)
+    bar_prices = prices[mask]
+    print(f&quot;  {m}: O={bar_prices[0]:.2f} H={bar_prices.max():.2f} &quot;
+          f&quot;L={bar_prices.min():.2f} C={bar_prices[-1]:.2f} V={mask.sum()}&quot;)
+
+# Time-based filtering
+morning = (times &gt;= np.datetime64(&#x27;2024-01-15T09:30:00&#x27;, &#x27;s&#x27;)) &amp; \
+          (times &lt;  np.datetime64(&#x27;2024-01-15T10:00:00&#x27;, &#x27;s&#x27;))
+print(f&quot;Ticks in first 30 min: {morning.sum()}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Market Hours Filter</div><div class="rd">A trading system filters raw tick data to keep only regular market hours (9:30-16:00 ET), exclude weekends and holidays, and compute daily OHLCV bars.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Simulate a week of irregular tick data
+days = np.arange(&#x27;2024-01-08&#x27;, &#x27;2024-01-13&#x27;, dtype=&#x27;datetime64[D]&#x27;)  # Mon-Fri
+all_times, all_prices = [], []
+price = 100.0
+for day in days:
+    open_ns  = day.astype(&#x27;datetime64[s]&#x27;) + np.timedelta64(9*3600+30*60, &#x27;s&#x27;)
+    close_ns = day.astype(&#x27;datetime64[s]&#x27;) + np.timedelta64(16*3600, &#x27;s&#x27;)
+    n_ticks  = rng.integers(50, 150)
+    t_offsets = rng.integers(0, int((close_ns - open_ns).astype(int)), n_ticks)
+    t_offsets.sort()
+    tick_times = open_ns + t_offsets.astype(&#x27;timedelta64[s]&#x27;)
+    rets = rng.normal(0, 0.01, n_ticks)
+    tick_prices = price * np.exp(np.cumsum(rets))
+    price = tick_prices[-1]
+    all_times.extend(tick_times.tolist())
+    all_prices.extend(tick_prices.tolist())
+
+times  = np.array(all_times, dtype=&#x27;datetime64[s]&#x27;)
+prices = np.array(all_prices)
+
+# OHLCV per day
+print(&quot;Daily OHLCV:&quot;)
+day_buckets = times.astype(&#x27;datetime64[D]&#x27;)
+for day in np.unique(day_buckets):
+    m = (day_buckets == day)
+    p = prices[m]
+    print(f&quot;  {day}: O={p[0]:.2f} H={p.max():.2f} L={p.min():.2f} C={p[-1]:.2f} V={m.sum()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holiday Calendar</div><div class="pd">Write a function get_trading_days(start, end, holidays) that returns all business days between start and end (as datetime64 strings) excluding the given holidays. Write next_trading_day(date, holidays) that returns the next business day on or after date. Test with US holidays from 2024.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import numpy as np
+
+def get_trading_days(start, end, holidays=None):
+    start = np.datetime64(start, &#x27;D&#x27;)
+    end   = np.datetime64(end, &#x27;D&#x27;)
+    hols  = np.array(holidays or [], dtype=&#x27;datetime64[D]&#x27;)
+    bdc   = np.busdaycalendar(holidays=hols)
+    # Generate all calendar days, filter to business days
+    all_days = np.arange(start, end, dtype=&#x27;datetime64[D]&#x27;)
+    return all_days[np.is_busday(all_days, busdaycal=bdc)]
+
+def next_trading_day(date, holidays=None):
+    date = np.datetime64(date, &#x27;D&#x27;)
+    hols = np.array(holidays or [], dtype=&#x27;datetime64[D]&#x27;)
+    bdc  = np.busdaycalendar(holidays=hols)
+    return np.busday_offset(date, 0, roll=&#x27;forward&#x27;, busdaycal=bdc)
+
+us_holidays_2024 = [
+    &#x27;2024-01-01&#x27;, &#x27;2024-01-15&#x27;, &#x27;2024-02-19&#x27;,
+    &#x27;2024-05-27&#x27;, &#x27;2024-07-04&#x27;, &#x27;2024-09-02&#x27;,
+    &#x27;2024-11-28&#x27;, &#x27;2024-12-25&#x27;
+]
+trading_days = get_trading_days(&#x27;2024-01-01&#x27;, &#x27;2024-04-01&#x27;, us_holidays_2024)
+print(f&quot;Trading days in Q1 2024: {len(trading_days)}&quot;)
+print(&quot;First 5:&quot;, trading_days[:5])
+print(&quot;Last 3: &quot;, trading_days[-3:])
+
+print(&quot;Next trading day after 2024-12-24:&quot;, next_trading_day(&#x27;2024-12-24&#x27;, us_holidays_2024))
+</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Meshgrid &amp; Grid Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.meshgrid, np.ogrid, and np.mgrid create coordinate grids for evaluating functions over 2D/3D spaces — essential for plotting, distance fields, and convolutions.</p><div class="code-block"><div class="ch"><span>np.meshgrid for 2D function evaluation</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
+
+# meshgrid creates coordinate matrices
+x = np.linspace(-2, 2, 5)
+y = np.linspace(-1, 1, 4)
+X, Y = np.meshgrid(x, y)
+
+print(&quot;x:&quot;, x)
+print(&quot;y:&quot;, y)
+print(&quot;X shape:&quot;, X.shape, &quot;  Y shape:&quot;, Y.shape)
+print(&quot;X:\n&quot;, X)
+print(&quot;Y:\n&quot;, Y)
+
+# Evaluate a 2D function over the grid
+Z = np.sin(X) * np.exp(-Y**2)
+print(&quot;Z shape:&quot;, Z.shape)
+print(&quot;Z max:&quot;, Z.max().round(4))
+
+# Find point closest to (1.0, 0.5)
+target_x, target_y = 1.0, 0.5
+dist = np.sqrt((X - target_x)**2 + (Y - target_y)**2)
+iy, ix = np.unravel_index(dist.argmin(), dist.shape)
+print(f&quot;Closest grid point to ({target_x}, {target_y}): ({X[iy,ix]:.1f}, {Y[iy,ix]:.1f})&quot;)
+
+# &#x27;ij&#x27; indexing (matrix-style, transposed from default)
+X_ij, Y_ij = np.meshgrid(x, y, indexing=&#x27;ij&#x27;)
+print(&quot;With indexing=&#x27;ij&#x27;: X shape:&quot;, X_ij.shape)</code></pre></div><div class="code-block"><div class="ch"><span>ogrid and mgrid for memory-efficient grids</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import numpy as np
+
+# ogrid: open grid — returns 1D arrays that broadcast
+oy, ox = np.ogrid[-3:3:7j, -3:3:7j]   # 7 points from -3 to 3
+print(&quot;ogrid ox shape:&quot;, ox.shape, &quot; oy shape:&quot;, oy.shape)  # (1,7) and (7,1)
+
+# Broadcasting creates the 2D result without full grid in memory
+Z = ox**2 + oy**2  # broadcasts to (7,7)
+print(&quot;Z shape:&quot;, Z.shape)
+print(&quot;Radial distance from origin:\n&quot;, np.sqrt(Z).round(2))
+
+# mgrid: closed grid — returns full arrays
+y_grid, x_grid = np.mgrid[0:4, 0:5]  # like meshgrid but shorter syntax
+print(&quot;mgrid shapes:&quot;, x_grid.shape, y_grid.shape)
+print(&quot;x_grid:\n&quot;, x_grid)
+
+# Useful: create coordinate pairs for all pixels
+H, W = 8, 8
+rows, cols = np.mgrid[0:H, 0:W]
+center = np.array([H/2, W/2])
+dist_from_center = np.sqrt((rows - center[0])**2 + (cols - center[1])**2)
+circle_mask = dist_from_center &lt;= 3
+print(f&quot;Pixels within radius 3 of center: {circle_mask.sum()}&quot;)
+
+# All coordinate pairs as (N, 2) array
+coords = np.column_stack([rows.ravel(), cols.ravel()])
+print(f&quot;All {H}x{W} pixel coordinates shape: {coords.shape}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Distance fields and spatial operations</span><button onclick="cp('c24_2')">Copy</button></div><pre><code id="c24_2" class="language-python">import numpy as np
+
+# Create a distance field from a set of source points
+H, W = 20, 20
+rows, cols = np.mgrid[0:H, 0:W]
+
+source_points = np.array([[3, 3], [10, 15], [17, 5]])
+
+# Distance to nearest source point
+dist_field = np.full((H, W), np.inf)
+for pt in source_points:
+    d = np.sqrt((rows - pt[0])**2 + (cols - pt[1])**2)
+    dist_field = np.minimum(dist_field, d)
+
+print(f&quot;Distance field shape: {dist_field.shape}&quot;)
+print(f&quot;Max distance: {dist_field.max():.2f}&quot;)
+print(f&quot;Pixels within 5 units of any source: {(dist_field &lt;= 5).sum()}&quot;)
+
+# Voronoi diagram: which source is closest to each pixel?
+labels = np.zeros((H, W), dtype=int)
+for k, pt in enumerate(source_points):
+    d = np.sqrt((rows - pt[0])**2 + (cols - pt[1])**2)
+    mask = d &lt; dist_field  # strictly closer than current min
+    labels[mask] = k
+    dist_field = np.minimum(dist_field, d)
+
+for k in range(len(source_points)):
+    print(f&quot;Region {k}: {(labels == k).sum()} pixels&quot;)
+
+# Gaussian RBF kernel centered at each source
+sigma = 3.0
+rbf = sum(np.exp(-(((rows-pt[0])**2+(cols-pt[1])**2)/(2*sigma**2)))
+          for pt in source_points)
+print(f&quot;RBF max: {rbf.max():.3f}, sum: {rbf.sum():.1f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Heat Map Generator</div><div class="rd">A geographic data team generates a density heat map from GPS coordinates by evaluating a Gaussian kernel density estimate over a grid covering the study area.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+# Simulate GPS points (lat/lon in some area)
+n_points = 500
+lat = rng.normal(40.7, 0.05, n_points)   # NYC-like
+lon = rng.normal(-74.0, 0.08, n_points)
+
+# Create grid
+lat_grid, lon_grid = np.mgrid[
+    lat.min()-0.02 : lat.max()+0.02 : 50j,
+    lon.min()-0.02 : lon.max()+0.02 : 60j
+]
+
+# Gaussian KDE
+def kde_density(lat_g, lon_g, lat_pts, lon_pts, bw=0.01):
+    density = np.zeros_like(lat_g)
+    for la, lo in zip(lat_pts, lon_pts):
+        d2 = (lat_g - la)**2 + (lon_g - lo)**2
+        density += np.exp(-d2 / (2 * bw**2))
+    return density / (len(lat_pts) * 2 * np.pi * bw**2)
+
+density = kde_density(lat_grid, lon_grid, lat, lon)
+print(f&quot;Grid shape: {density.shape}&quot;)
+print(f&quot;Density range: [{density.min():.4f}, {density.max():.4f}]&quot;)
+print(f&quot;Peak density at: lat={lat_grid.ravel()[density.argmax()]:.4f}, &quot;
+      f&quot;lon={lon_grid.ravel()[density.argmax()]:.4f}&quot;)
+
+# Hot spots: top 10% density cells
+threshold = np.percentile(density, 90)
+hot_spots  = density &gt; threshold
+print(f&quot;Hot spot cells: {hot_spots.sum()} ({hot_spots.mean():.1%} of grid)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bivariate Gaussian</div><div class="pd">Write a function bivariate_gaussian(X, Y, mu_x, mu_y, sigma_x, sigma_y, rho) that evaluates the bivariate normal PDF at grid points (X, Y). Parameters: mu = means, sigma = std devs, rho = correlation. Use meshgrid to create a 50x50 grid over [-3, 3] x [-3, 3] and plot (print stats). Verify the PDF integrates to ~1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np
+
+def bivariate_gaussian(X, Y, mu_x=0, mu_y=0, sigma_x=1, sigma_y=1, rho=0):
+    z = ((X - mu_x)**2 / sigma_x**2
+         - 2*rho*(X - mu_x)*(Y - mu_y) / (sigma_x*sigma_y)
+         + (Y - mu_y)**2 / sigma_y**2)
+    coeff = 1 / (2 * np.pi * sigma_x * sigma_y * np.sqrt(1 - rho**2))
+    return coeff * np.exp(-z / (2 * (1 - rho**2)))
+
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-3, 3, 50)
+X, Y = np.meshgrid(x, y)
+dx = x[1] - x[0]
+dy = y[1] - y[0]
+
+# Standard normal (rho=0)
+Z1 = bivariate_gaussian(X, Y)
+print(f&quot;Standard: max={Z1.max():.4f}, integral={Z1.sum()*dx*dy:.4f}&quot;)
+
+# Correlated (rho=0.7)
+Z2 = bivariate_gaussian(X, Y, mu_x=0.5, mu_y=-0.5, sigma_x=1.2, sigma_y=0.8, rho=0.7)
+print(f&quot;Correlated: max={Z2.max():.4f}, integral={Z2.sum()*dx*dy:.4f}&quot;)
+print(f&quot;Peak at: ({X.ravel()[Z2.argmax()]:.2f}, {Y.ravel()[Z2.argmax()]:.2f})&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Advanced Broadcasting &amp; Pairwise Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Broadcasting rules let NumPy operate on arrays of different shapes without copying data. Master broadcasting for pairwise distances, outer products, and vectorized scoring.</p><div class="code-block"><div class="ch"><span>Broadcasting rules and shape alignment</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import numpy as np
+
+# Broadcasting rule: align shapes from the right,
+# size-1 dimensions are stretched to match
+
+# Example 1: add row vector to each row of a matrix
+m = np.ones((4, 3))
+v = np.array([10, 20, 30])         # shape (3,)
+print(&quot;m + v:&quot;, m + v)             # (4,3) + (3,) -&gt; (4,3)
+
+# Example 2: add column vector to each column
+col = np.array([[1], [2], [3], [4]])   # shape (4, 1)
+print(&quot;m + col:\n&quot;, m + col)          # (4,3) + (4,1) -&gt; (4,3)
+
+# Example 3: outer product via broadcasting
+a = np.array([1, 2, 3])     # shape (3,)
+b = np.array([10, 20])      # shape (2,)
+outer = a[:, np.newaxis] * b[np.newaxis, :]  # (3,1) * (1,2) -&gt; (3,2)
+print(&quot;Outer product:\n&quot;, outer)
+print(&quot;Same as np.outer:&quot;, np.array_equal(outer, np.outer(a, b)))
+
+# Shape check
+shapes = [(3, 4, 5), (4, 5), (5,), (1,)]
+base = np.zeros((3, 4, 5))
+for s in shapes:
+    arr = np.ones(s)
+    print(f&quot;(3,4,5) + {s} = {(base + arr).shape}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Pairwise distances (no loops)</span><button onclick="cp('c25_1')">Copy</button></div><pre><code id="c25_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Euclidean distance matrix: D[i,j] = dist(A[i], B[j])
+def pairwise_euclidean(A, B):
+    # A: (m, d), B: (n, d) -&gt; (m, n)
+    # ||a - b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+    sq_A = (A**2).sum(axis=1, keepdims=True)  # (m, 1)
+    sq_B = (B**2).sum(axis=1, keepdims=True)  # (n, 1)
+    dot  = A @ B.T                            # (m, n)
+    return np.sqrt(np.maximum(sq_A + sq_B.T - 2*dot, 0))
+
+A = rng.standard_normal((50, 3))   # 50 query points
+B = rng.standard_normal((100, 3))  # 100 database points
+
+D = pairwise_euclidean(A, B)
+print(f&quot;Distance matrix: {D.shape}&quot;)
+print(f&quot;Min dist: {D.min():.3f}, Max dist: {D.max():.3f}&quot;)
+
+# Nearest neighbor for each query
+nn_idx = D.argmin(axis=1)
+nn_dist = D.min(axis=1)
+print(f&quot;Query 0: nearest is B[{nn_idx[0]}] at distance {nn_dist[0]:.3f}&quot;)
+
+# k-NN: top-k closest
+k = 3
+knn_idx = np.argpartition(D, k, axis=1)[:, :k]
+print(f&quot;3-NN indices for query 0: {knn_idx[0]}&quot;)
+
+# Cosine similarity matrix
+def cosine_sim(A, B):
+    A_norm = A / (np.linalg.norm(A, axis=1, keepdims=True) + 1e-9)
+    B_norm = B / (np.linalg.norm(B, axis=1, keepdims=True) + 1e-9)
+    return A_norm @ B_norm.T
+
+C = cosine_sim(A, B)
+print(f&quot;Cosine sim range: [{C.min():.3f}, {C.max():.3f}]&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Vectorized scoring and ranking</span><button onclick="cp('c25_2')">Copy</button></div><pre><code id="c25_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Multi-criteria scoring: score[i,j] = dot(weights, features[i,j])
+# items: (N, F) features, weights: (F,) -&gt; scores: (N,)
+n_items, n_features = 1000, 10
+features = rng.uniform(0, 1, (n_items, n_features))
+weights  = np.array([0.3, 0.2, 0.15, 0.1, 0.1, 0.05, 0.04, 0.03, 0.02, 0.01])
+
+scores = features @ weights   # (N,F) @ (F,) -&gt; (N,)
+print(f&quot;Scores shape: {scores.shape}, range: [{scores.min():.3f}, {scores.max():.3f}]&quot;)
+
+# Rank items (descending score)
+ranks = np.argsort(scores)[::-1]
+print(&quot;Top 5 items:&quot;, ranks[:5], &quot;scores:&quot;, scores[ranks[:5]].round(3))
+
+# Broadcasting for threshold matrix: flag (user, item) pairs
+n_users = 20
+user_thresholds = rng.uniform(0.4, 0.7, n_users)     # (20,)
+# recommended[i,j] = True if scores[j] &gt;= thresholds[i]
+recommended = scores[np.newaxis, :] &gt;= user_thresholds[:, np.newaxis]  # (20, 1000)
+print(f&quot;Recommendation matrix: {recommended.shape}&quot;)
+print(f&quot;Avg recommendations per user: {recommended.sum(axis=1).mean():.1f}&quot;)
+
+# Pairwise similarity between items (feature dot products)
+item_sim = features @ features.T  # (N, N)
+print(f&quot;Item similarity matrix: {item_sim.shape}&quot;)
+print(f&quot;Self-similarity range: [{np.diag(item_sim).min():.3f}, {np.diag(item_sim).max():.3f}]&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Embedding Search Engine</div><div class="rd">A semantic search system finds the top-5 most similar documents to a query by computing cosine similarity between query embedding and 50,000 document embeddings using broadcasting.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Simulate document embeddings and a query
+n_docs, dim = 50_000, 128
+docs  = rng.standard_normal((n_docs, dim))
+docs /= np.linalg.norm(docs, axis=1, keepdims=True)  # L2 normalize
+
+query = rng.standard_normal(dim)
+query /= np.linalg.norm(query)
+
+# Cosine similarity: since both normalized, just dot product
+sims = docs @ query   # (50000,)
+
+# Top-5 results
+top5_idx = np.argpartition(sims, -5)[-5:]
+top5_idx = top5_idx[np.argsort(sims[top5_idx])[::-1]]
+
+print(&quot;Top 5 similar documents:&quot;)
+for rank, idx in enumerate(top5_idx, 1):
+    print(f&quot;  Rank {rank}: doc_id={idx:5d}, similarity={sims[idx]:.4f}&quot;)
+
+# Retrieval metrics: how many docs above threshold?
+threshold = 0.1
+n_relevant = (sims &gt;= threshold).sum()
+print(f&quot;Docs with similarity &gt;= {threshold}: {n_relevant} ({n_relevant/n_docs:.2%})&quot;)
+
+# Batch queries
+n_queries = 100
+queries = rng.standard_normal((n_queries, dim))
+queries /= np.linalg.norm(queries, axis=1, keepdims=True)
+batch_sims = queries @ docs.T   # (100, 50000)
+batch_top1 = batch_sims.argmax(axis=1)
+print(f&quot;Batch top-1 for {n_queries} queries: mean sim={batch_sims.max(axis=1).mean():.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Attention Scores</div><div class="pd">Implement scaled_dot_product_attention(Q, K, V) where Q, K have shape (seq_len, d_k) and V has shape (seq_len, d_v). Compute scores = softmax(Q @ K.T / sqrt(d_k)) @ V using only NumPy. Also implement multi_head_attention(Q, K, V, n_heads) that splits into n_heads, applies attention, and concatenates.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import numpy as np
+
+def softmax(x, axis=-1):
+    e = np.exp(x - x.max(axis=axis, keepdims=True))
+    return e / e.sum(axis=axis, keepdims=True)
+
+def scaled_dot_product_attention(Q, K, V):
+    # Q: (seq, d_k), K: (seq, d_k), V: (seq, d_v)
+    d_k = Q.shape[-1]
+    # TODO: scores = softmax(Q @ K.T / sqrt(d_k))
+    # TODO: return scores @ V
+    pass
+
+def multi_head_attention(Q, K, V, n_heads):
+    seq, d = Q.shape
+    d_k = d // n_heads
+    heads = []
+    for h in range(n_heads):
+        # TODO: slice Q[:,h*d_k:(h+1)*d_k], K, V similarly
+        # TODO: apply scaled_dot_product_attention, collect output
+        pass
+    # TODO: concatenate heads along last axis
+    pass
+
+rng = np.random.default_rng(42)
+seq, d = 10, 64
+Q = rng.standard_normal((seq, d))
+K = rng.standard_normal((seq, d))
+V = rng.standard_normal((seq, d))
+
+out1 = scaled_dot_product_attention(Q, K, V)
+print(&quot;Single-head output shape:&quot;, out1.shape)  # (10, 64)
+
+out2 = multi_head_attention(Q, K, V, n_heads=8)
+print(&quot;Multi-head output shape:&quot;, out2.shape)   # (10, 64)
+</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Universal Functions (ufuncs) in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Ufuncs are vectorized functions that operate element-wise on arrays. They support reduce, accumulate, outer, and reduceat — and you can create custom ufuncs with np.frompyfunc or Numba.</p><div class="code-block"><div class="ch"><span>Built-in ufunc methods: reduce, accumulate, outer</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+
+# reduce: apply ufunc repeatedly to reduce array
+print(&quot;np.add.reduce:&quot;, np.add.reduce(arr))         # 15 (sum)
+print(&quot;np.multiply.reduce:&quot;, np.multiply.reduce(arr))  # 120 (product)
+print(&quot;np.maximum.reduce:&quot;, np.maximum.reduce(arr))  # 5
+
+# accumulate: like reduce but keeps intermediate results
+print(&quot;np.add.accumulate:&quot;, np.add.accumulate(arr))        # cumsum
+print(&quot;np.multiply.accumulate:&quot;, np.multiply.accumulate(arr))  # cumprod
+print(&quot;np.maximum.accumulate:&quot;, np.maximum.accumulate(arr))
+
+# outer: compute all pairs
+a = np.array([1, 2, 3])
+b = np.array([10, 20, 30])
+print(&quot;np.add.outer:\n&quot;, np.add.outer(a, b))
+print(&quot;np.multiply.outer:\n&quot;, np.multiply.outer(a, b))
+
+# 2D reduce along axis
+m = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print(&quot;Row sums:&quot;, np.add.reduce(m, axis=1))       # [6, 15, 24]
+print(&quot;Col products:&quot;, np.multiply.reduce(m, axis=0))  # [28, 80, 162]
+
+# reduceat: reduce in segments
+data = np.arange(10)
+# Reduce segments: [0:3], [3:6], [6:10]
+result = np.add.reduceat(data, [0, 3, 6])
+print(&quot;Segment sums:&quot;, result)   # [0+1+2, 3+4+5, 6+7+8+9]</code></pre></div><div class="code-block"><div class="ch"><span>Creating custom ufuncs</span><button onclick="cp('c26_1')">Copy</button></div><pre><code id="c26_1" class="language-python">import numpy as np
+
+# np.frompyfunc: wrap a Python function as a ufunc
+def clip_and_scale(x, lo=0, hi=1):
+    return min(max(x, lo), hi) * 100
+
+# frompyfunc returns object dtype by default
+ufunc_cas = np.frompyfunc(lambda x: clip_and_scale(x), 1, 1)
+data = np.array([-0.5, 0.0, 0.3, 0.7, 1.0, 1.5])
+print(&quot;clip_and_scale:&quot;, ufunc_cas(data).astype(float))
+
+# vectorize: more user-friendly, supports output dtype
+clip_pct = np.vectorize(clip_and_scale, otypes=[float])
+print(&quot;vectorize:&quot;, clip_pct(data))
+
+# Common ufuncs catalogue
+x = np.linspace(0.1, 2.0, 5)
+print(&quot;exp:&quot;, np.exp(x).round(3))
+print(&quot;log:&quot;, np.log(x).round(3))
+print(&quot;log2:&quot;, np.log2(x).round(3))
+print(&quot;log10:&quot;, np.log10(x).round(3))
+print(&quot;sqrt:&quot;, np.sqrt(x).round(3))
+print(&quot;cbrt:&quot;, np.cbrt(x).round(3))
+
+# Trigonometric
+angles = np.array([0, np.pi/6, np.pi/4, np.pi/3, np.pi/2])
+print(&quot;sin:&quot;, np.sin(angles).round(3))
+print(&quot;arcsin:&quot;, np.arcsin(np.sin(angles)).round(3))</code></pre></div><div class="code-block"><div class="ch"><span>Ufunc performance and where argument</span><button onclick="cp('c26_2')">Copy</button></div><pre><code id="c26_2" class="language-python">import numpy as np
+import timeit
+
+# where argument: apply ufunc only to selected elements
+rng = np.random.default_rng(42)
+data = rng.uniform(-5, 5, 1_000_000)
+
+# np.sqrt only where data &gt; 0, else keep 0
+result = np.zeros_like(data)
+np.sqrt(data, out=result, where=data &gt; 0)
+print(f&quot;sqrt(data) where &gt; 0: {result[:5].round(3)}&quot;)
+
+# np.log1p (log(1+x)) is more numerically stable for small x
+small = np.array([1e-10, 1e-5, 0.001, 0.01, 0.1])
+print(&quot;log(1+x):  &quot;, np.log(1 + small))
+print(&quot;log1p(x):  &quot;, np.log1p(small))
+
+# Ufunc with out argument (in-place, avoids allocation)
+a = np.random.rand(1_000_000)
+b = np.empty_like(a)
+
+t1 = timeit.timeit(lambda: np.exp(a), number=10)
+t2 = timeit.timeit(lambda: np.exp(a, out=b), number=10)
+print(f&quot;exp(a) without out: {t1:.3f}s&quot;)
+print(f&quot;exp(a, out=b):      {t2:.3f}s&quot;)
+
+# at: unbuffered in-place operation (useful for scatter operations)
+arr = np.zeros(5)
+indices = np.array([0, 1, 0, 2, 1])
+values  = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+np.add.at(arr, indices, values)
+print(&quot;add.at result:&quot;, arr)  # handles duplicate indices correctly</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Vectorized Activation Functions</div><div class="rd">A neural network training loop applies activation functions to millions of neurons — using ufuncs with out= buffers halves memory allocation overhead.</div><pre><code class="language-python">import numpy as np
+
+# Pre-allocated buffers
+rng  = np.random.default_rng(42)
+N    = 1_000_000
+x    = rng.standard_normal(N).astype(np.float32)
+buf  = np.empty_like(x)
+
+def relu(x, out=None):
+    return np.maximum(x, 0, out=out)
+
+def sigmoid(x, out=None):
+    out = np.empty_like(x) if out is None else out
+    np.negative(x, out=out)
+    np.exp(out, out=out)
+    out += 1
+    np.reciprocal(out, out=out)
+    return out
+
+def gelu(x, out=None):
+    # Approximate GELU: x * sigmoid(1.702 * x)
+    s = sigmoid(1.702 * x)
+    return np.multiply(x, s, out=out)
+
+def swish(x, out=None):
+    return np.multiply(x, sigmoid(x), out=out)
+
+# Compute and compare
+activations = {
+    &quot;ReLU&quot;:    relu(x, buf.copy()),
+    &quot;Sigmoid&quot;: sigmoid(x, buf.copy()),
+    &quot;GELU&quot;:    gelu(x, buf.copy()),
+    &quot;Swish&quot;:   swish(x, buf.copy()),
+}
+
+for name, act in activations.items():
+    print(f&quot;{name:8s}: mean={act.mean():.4f}, std={act.std():.4f}, &quot;
+          f&quot;range=[{act.min():.3f}, {act.max():.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Ufunc</div><div class="pd">Use np.frompyfunc to create a ufunc haversine_ufunc that computes the great-circle distance in km between a (lat1, lon1) and (lat2, lon2) point pair. Then use vectorize to wrap it into a function that accepts arrays of lat/lon pairs. Compute distances between New York and a grid of 100 cities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import numpy as np
+
+def haversine_scalar(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth radius in km
+    dlat = np.radians(lat2 - lat1)
+    dlon = np.radians(lon2 - lon1)
+    a = np.sin(dlat/2)**2 + np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) * np.sin(dlon/2)**2
+    return 2 * R * np.arcsin(np.sqrt(a))
+
+# Vectorize to work on arrays
+haversine = np.vectorize(haversine_scalar, otypes=[float])
+
+# New York City
+ny_lat, ny_lon = 40.7128, -74.0060
+
+rng = np.random.default_rng(42)
+n_cities = 100
+city_lats = rng.uniform(-60, 70, n_cities)
+city_lons = rng.uniform(-180, 180, n_cities)
+
+distances = haversine(ny_lat, ny_lon, city_lats, city_lons)
+print(f&quot;Distances computed: {len(distances)}&quot;)
+print(f&quot;Nearest city: {distances.min():.0f} km&quot;)
+print(f&quot;Farthest city: {distances.max():.0f} km&quot;)
+print(f&quot;Average distance from NYC: {distances.mean():.0f} km&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Masked Arrays (np.ma)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.ma.MaskedArray transparently handles missing data by maintaining a boolean mask alongside values. Useful for sensor data with gaps or any dataset with invalid entries.</p><div class="code-block"><div class="ch"><span>Creating and using masked arrays</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import numpy as np
+
+# Create masked array
+data = np.array([1.0, 2.0, -999.0, 4.0, -999.0, 6.0])
+mask = data == -999.0
+
+ma = np.ma.array(data, mask=mask)
+print(&quot;Data:  &quot;, ma)
+print(&quot;Mask:  &quot;, ma.mask)
+print(&quot;Filled:&quot;, ma.filled(fill_value=0))
+
+# Operations automatically skip masked values
+print(&quot;Mean (excludes masked):&quot;, ma.mean())   # (1+2+4+6)/4 = 3.25
+print(&quot;Sum:&quot;, ma.sum())                        # 13
+print(&quot;Std:&quot;, ma.std().round(4))
+
+# np.ma.masked_where
+arr = np.array([10, 25, -5, 0, 8, -1, 15])
+ma2 = np.ma.masked_where(arr &lt;= 0, arr)
+print(&quot;Masked non-positive:&quot;, ma2)
+print(&quot;Log (safe):&quot;, np.log(ma2))   # no error for masked values
+
+# np.ma.masked_invalid: auto-mask NaN and Inf
+dirty = np.array([1.0, np.nan, 3.0, np.inf, 5.0, -np.inf])
+clean = np.ma.masked_invalid(dirty)
+print(&quot;Masked invalid:&quot;, clean)
+print(&quot;Safe mean:&quot;, clean.mean())</code></pre></div><div class="code-block"><div class="ch"><span>Masked array operations and conversions</span><button onclick="cp('c27_1')">Copy</button></div><pre><code id="c27_1" class="language-python">import numpy as np
+
+# 2D masked array
+temps = np.array([[15.2, 16.1, -999, 18.5],
+                  [-999, 14.8, 15.9, 16.7],
+                  [13.1, -999, -999, 15.3]])
+m = np.ma.masked_equal(temps, -999)
+
+print(&quot;Masked temps:\n&quot;, m)
+print(&quot;Row means (excl. missing):&quot;, m.mean(axis=1))
+print(&quot;Col means (excl. missing):&quot;, m.mean(axis=0))
+
+# Fill with column means
+col_means = m.mean(axis=0)
+filled = m.filled(fill_value=col_means)  # broadcasts col_means
+print(&quot;Filled temps:\n&quot;, filled.round(1))
+
+# Stacking masked arrays
+a = np.ma.array([1, 2, 3, 4], mask=[0, 1, 0, 0])
+b = np.ma.array([5, 6, 7, 8], mask=[0, 0, 1, 0])
+stacked = np.ma.vstack([a, b])
+print(&quot;Stacked:\n&quot;, stacked)
+print(&quot;Column min (ignoring masks):&quot;, stacked.min(axis=0))
+
+# Convert to/from regular arrays
+arr = m.compressed()         # 1D array of valid values only
+print(&quot;Compressed:&quot;, arr)
+arr2 = np.ma.filled(m, -1)  # replace mask with -1
+print(&quot;Filled(-1):\n&quot;, arr2)</code></pre></div><div class="code-block"><div class="ch"><span>Masked array with statistics and aggregations</span><button onclick="cp('c27_2')">Copy</button></div><pre><code id="c27_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+N = 1000
+
+# Simulate sensor readings with random dropouts
+raw = rng.normal(20, 3, N)          # temperature readings
+dropout_mask = rng.random(N) &lt; 0.15  # 15% missing
+
+sensor = np.ma.array(raw, mask=dropout_mask)
+print(f&quot;Total readings: {N}&quot;)
+print(f&quot;Valid readings: {sensor.count()} ({sensor.count()/N:.1%})&quot;)
+print(f&quot;Masked readings: {sensor.mask.sum()}&quot;)
+
+# Robust statistics (automatically use only valid data)
+print(f&quot;Mean:   {sensor.mean():.3f}&quot;)
+print(f&quot;Median: {np.ma.median(sensor):.3f}&quot;)
+print(f&quot;Std:    {sensor.std():.3f}&quot;)
+print(f&quot;Min:    {sensor.min():.3f}&quot;)
+print(f&quot;Max:    {sensor.max():.3f}&quot;)
+
+# Percentiles (need filled for np.percentile)
+filled_for_pct = sensor.compressed()
+print(f&quot;P25/P75: {np.percentile(filled_for_pct, [25,75]).round(2)}&quot;)
+
+# Anomaly detection: flag values &gt; 3 sigma (on top of existing mask)
+mean, std = sensor.mean(), sensor.std()
+anomaly_mask = (sensor &lt; mean - 3*std) | (sensor &gt; mean + 3*std)
+sensor_clean = np.ma.array(sensor.data, mask=sensor.mask | anomaly_mask.filled(False))
+print(f&quot;After anomaly removal: {sensor_clean.count()} valid readings&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Oceanographic Data Cleaner</div><div class="rd">A research station processes 5-year daily ocean temperature data with sensor failures (flagged as -9999) and physical impossibilities (&lt;-2°C or &gt;35°C), using masked arrays to compute clean statistics.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+n_years = 5
+n_days  = n_years * 365
+
+# Simulate ocean temps with seasonal pattern
+t = np.linspace(0, n_years * 2 * np.pi, n_days)
+base_temp = 15 + 10 * np.sin(t - np.pi/2)  # seasonal cycle
+temps = base_temp + rng.normal(0, 1.5, n_days)
+
+# Inject data quality issues
+sensor_fail   = rng.random(n_days) &lt; 0.08    # 8% sensor failures
+physical_anom = rng.random(n_days) &lt; 0.02    # 2% physical anomalies
+temps[sensor_fail]   = -9999.0
+temps[physical_anom] = rng.choice([-5.0, 40.0], physical_anom.sum())
+
+# Build mask: flag everything invalid
+mask = ((temps == -9999.0) |
+        (temps &lt; -2.0) |
+        (temps &gt; 35.0))
+clean = np.ma.array(temps, mask=mask)
+
+print(f&quot;Data coverage: {clean.count()/n_days:.1%} valid ({clean.count()} of {n_days} days)&quot;)
+print(f&quot;Mean temperature: {clean.mean():.2f}°C&quot;)
+print(f&quot;Seasonal range: [{clean.min():.2f}, {clean.max():.2f}]°C&quot;)
+
+# Annual stats (reshape to years x 365)
+annual = clean[:n_years*365].reshape(n_years, 365)
+for y in range(n_years):
+    row = annual[y]
+    print(f&quot;  Year {y+1}: mean={row.mean():.2f}°C, valid={row.count()} days&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Masked Correlation</div><div class="pd">Write masked_corrcoef(X) that computes a pairwise correlation matrix for a 2D masked array X (shape n_obs x n_vars), where each pair of variables is correlated only using rows where BOTH are valid. Return a regular (n_vars x n_vars) ndarray. Test on a dataset where each column has independent random missing values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import numpy as np
+
+def masked_corrcoef(X):
+    n_obs, n_vars = X.shape
+    corr = np.eye(n_vars)
+    for i in range(n_vars):
+        for j in range(i+1, n_vars):
+            # Rows valid for BOTH columns i and j
+            valid = (~X[:, i].mask) &amp; (~X[:, j].mask)
+            if valid.sum() &lt; 2:
+                corr[i, j] = corr[j, i] = np.nan
+                continue
+            xi = X[valid, i].data
+            xj = X[valid, j].data
+            r  = np.corrcoef(xi, xj)[0, 1]
+            corr[i, j] = corr[j, i] = r
+    return corr
+
+rng = np.random.default_rng(42)
+n, p = 200, 4
+data = rng.standard_normal((n, p))
+# Create correlated structure
+data[:, 1] = 0.7 * data[:, 0] + 0.3 * rng.standard_normal(n)
+
+masks = rng.random((n, p)) &lt; 0.2   # 20% missing per column
+X = np.ma.array(data, mask=masks)
+
+corr = masked_corrcoef(X)
+print(&quot;Pairwise correlations (with per-pair valid observations):&quot;)
+print(corr.round(3))
+print(&quot;Expected corr(0,1) ~ 0.7:&quot;, corr[0, 1].round(2))
+</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Memory Layout, Strides &amp; Contiguity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays store data in contiguous memory blocks. Understanding C/F order, strides, and views vs copies is critical for performance and interoperability with C/Fortran libraries.</p><div class="code-block"><div class="ch"><span>C vs Fortran order, flags, and strides</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import numpy as np
+
+# C order (row-major): last axis varies fastest (default)
+arr_c = np.array([[1, 2, 3], [4, 5, 6]], order=&#x27;C&#x27;)
+print(&quot;C order strides:&quot;, arr_c.strides)   # (12, 4) for float32
+
+# F order (column-major): first axis varies fastest
+arr_f = np.array([[1, 2, 3], [4, 5, 6]], order=&#x27;F&#x27;)
+print(&quot;F order strides:&quot;, arr_f.strides)   # (4, 8) for float32
+
+# Check flags
+print(&quot;C-contiguous:&quot;, arr_c.flags[&#x27;C_CONTIGUOUS&#x27;])   # True
+print(&quot;F-contiguous:&quot;, arr_c.flags[&#x27;F_CONTIGUOUS&#x27;])   # False
+
+# Transpose only changes strides, no data copy
+T = arr_c.T
+print(&quot;Transposed strides:&quot;, T.strides)
+print(&quot;T is view:&quot;, T.base is arr_c)   # True
+
+# ascontiguousarray: ensure C-contiguous copy
+T_c = np.ascontiguousarray(T)
+print(&quot;After ascontiguousarray:&quot;, T_c.flags[&#x27;C_CONTIGUOUS&#x27;])
+
+# Strides as bytes
+arr = np.arange(24, dtype=np.float64).reshape(2, 3, 4)
+print(f&quot;Shape: {arr.shape}, Strides (bytes): {arr.strides}&quot;)
+print(f&quot;Itemsize: {arr.itemsize} bytes&quot;)
+# stride[k] = itemsize * product(shape[k+1:])</code></pre></div><div class="code-block"><div class="ch"><span>Views vs copies and memory sharing</span><button onclick="cp('c28_1')">Copy</button></div><pre><code id="c28_1" class="language-python">import numpy as np
+
+arr = np.arange(20, dtype=float)
+
+# Slice creates a VIEW (shares memory)
+view = arr[2:10:2]   # every 2nd element from 2 to 10
+print(&quot;view:&quot;, view)
+print(&quot;view.base is arr:&quot;, view.base is arr)
+
+view[0] = 999        # modifies arr!
+print(&quot;arr after view[0]=999:&quot;, arr[:12])
+
+# copy() creates an independent copy
+arr2 = arr.copy()
+arr2[0] = -1
+print(&quot;Original arr[0] unchanged:&quot;, arr[0])  # still 999 (from earlier)
+
+# Fancy indexing always copies
+fancy = arr[[0, 3, 7]]
+print(&quot;fancy.base:&quot;, fancy.base)   # None = not a view
+
+# reshape: usually a view if data is contiguous
+arr3 = np.arange(12)
+reshaped = arr3.reshape(3, 4)
+print(&quot;reshape is view:&quot;, reshaped.base is arr3)
+reshaped[0, 0] = -1
+print(&quot;arr3[0] changed:&quot;, arr3[0])   # -1
+
+# np.shares_memory: robust check
+a = np.arange(10)
+b = a[::2]
+c = a.copy()
+print(&quot;a and b share memory:&quot;, np.shares_memory(a, b))   # True
+print(&quot;a and c share memory:&quot;, np.shares_memory(a, c))   # False</code></pre></div><div class="code-block"><div class="ch"><span>Stride tricks for rolling windows</span><button onclick="cp('c28_2')">Copy</button></div><pre><code id="c28_2" class="language-python">import numpy as np
+from numpy.lib.stride_tricks import sliding_window_view, as_strided
+
+arr = np.arange(10, dtype=float)
+
+# sliding_window_view: safe way to get overlapping windows
+windows = sliding_window_view(arr, window_shape=4)
+print(&quot;Windows shape:&quot;, windows.shape)   # (7, 4)
+print(&quot;First 3 windows:\n&quot;, windows[:3])
+
+# Each window is a VIEW — no data copy!
+windows[0, 0] = 999
+print(&quot;arr[0] changed:&quot;, arr[0])   # yes, 999
+
+arr = np.arange(10, dtype=float)  # reset
+
+# 2D rolling windows (for image patches)
+img = np.arange(16, dtype=float).reshape(4, 4)
+patches = sliding_window_view(img, window_shape=(2, 2))
+print(&quot;2D patches shape:&quot;, patches.shape)   # (3, 3, 2, 2)
+print(&quot;Patch at [0,0]:\n&quot;, patches[0, 0])
+
+# as_strided: manual stride tricks (use with care!)
+# Rolling mean via strides
+def rolling_mean_strided(arr, window):
+    w = sliding_window_view(arr, window)
+    return w.mean(axis=1)
+
+rolling = rolling_mean_strided(np.arange(10, dtype=float), 3)
+print(&quot;Rolling mean (window=3):&quot;, rolling)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Cache-Friendly Matrix Multiply</div><div class="rd">A performance-critical simulation avoids unnecessary transpositions and ensures arrays are contiguous before passing to BLAS-backed np.dot, cutting computation time significantly.</div><pre><code class="language-python">import numpy as np, timeit
+
+rng = np.random.default_rng(42)
+
+A = rng.standard_normal((500, 300))
+B = rng.standard_normal((300, 400))
+
+# C-contiguous vs non-contiguous performance
+B_T_F = np.asfortranarray(B.T)       # F-order, non-contiguous for @
+B_T_C = np.ascontiguousarray(B.T)    # C-contiguous copy
+
+print(&quot;B.T C-contiguous:&quot;, B.T.flags[&#x27;C_CONTIGUOUS&#x27;])      # False
+print(&quot;B_T_C contiguous:&quot;, B_T_C.flags[&#x27;C_CONTIGUOUS&#x27;])    # True
+
+# GEMM: A @ B (B is 300x400 C-contiguous)
+t1 = timeit.timeit(lambda: A @ B, number=100)
+t2 = timeit.timeit(lambda: A @ B_T_F.T, number=100)
+t3 = timeit.timeit(lambda: A @ B_T_C.T, number=100)
+
+print(f&quot;A @ B (contiguous):      {t1:.4f}s&quot;)
+print(f&quot;A @ B_T_F.T (F-order):   {t2:.4f}s&quot;)
+print(f&quot;A @ B_T_C.T (C-order):   {t3:.4f}s&quot;)
+
+# Verify results are the same
+C1 = A @ B
+C2 = A @ B_T_F.T
+print(&quot;Results match:&quot;, np.allclose(C1, C2))
+
+# Memory usage check
+import sys
+print(f&quot;B.T.copy() size: {sys.getsizeof(B.T.copy()):,} bytes&quot;)
+print(f&quot;B.T view size:   {sys.getsizeof(B.T):,} bytes (metadata only)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stride Inspector</div><div class="pd">Write inspect_array(arr) that prints: shape, dtype, strides, itemsize, nbytes, is_C_contiguous, is_F_contiguous, is_view (arr.base is not None), total elements. Then write reshape_safe(arr, shape) that reshapes arr to shape, ensuring the result is C-contiguous (copy only if needed). Test with various slices and transpositions.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import numpy as np
+
+def inspect_array(arr):
+    print(f&quot;Shape:           {arr.shape}&quot;)
+    print(f&quot;dtype:           {arr.dtype}&quot;)
+    print(f&quot;strides (bytes): {arr.strides}&quot;)
+    print(f&quot;itemsize:        {arr.itemsize}&quot;)
+    print(f&quot;nbytes:          {arr.nbytes:,}&quot;)
+    print(f&quot;C-contiguous:    {arr.flags[&#x27;C_CONTIGUOUS&#x27;]}&quot;)
+    print(f&quot;F-contiguous:    {arr.flags[&#x27;F_CONTIGUOUS&#x27;]}&quot;)
+    print(f&quot;Is view:         {arr.base is not None}&quot;)
+    print(f&quot;N elements:      {arr.size}&quot;)
+
+def reshape_safe(arr, shape):
+    if not arr.flags[&#x27;C_CONTIGUOUS&#x27;]:
+        arr = np.ascontiguousarray(arr)
+    return arr.reshape(shape)
+
+base = np.arange(24, dtype=np.float32).reshape(4, 6)
+print(&quot;=== Base array ===&quot;)
+inspect_array(base)
+
+print(&quot;\n=== Transposed ===&quot;)
+T = base.T
+inspect_array(T)
+
+print(&quot;\n=== Slice (non-contiguous) ===&quot;)
+s = base[::2, ::2]
+inspect_array(s)
+
+print(&quot;\n=== Reshape safe (from transposed) ===&quot;)
+r = reshape_safe(T, (24,))
+inspect_array(r)
+</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Advanced Linear Algebra Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Beyond basic dot products: matrix decompositions (SVD, QR, Cholesky), determinants, null spaces, pseudo-inverse, and Kronecker products for systems of equations and dimensionality reduction.</p><div class="code-block"><div class="ch"><span>QR decomposition and least squares</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# QR decomposition: A = Q @ R
+A = rng.standard_normal((6, 4))
+Q, R = np.linalg.qr(A)
+print(f&quot;A: {A.shape}, Q: {Q.shape}, R: {R.shape}&quot;)
+print(&quot;Q orthonormal:&quot;, np.allclose(Q.T @ Q, np.eye(4)))
+print(&quot;A = Q@R:&quot;, np.allclose(A, Q @ R))
+
+# Least squares: solve Ax = b for overdetermined system
+m, n = 100, 5
+A = rng.standard_normal((m, n))
+true_x = rng.standard_normal(n)
+b = A @ true_x + rng.normal(0, 0.1, m)   # noisy measurements
+
+# lstsq: minimize ||Ax - b||^2
+x, residuals, rank, sv = np.linalg.lstsq(A, b, rcond=None)
+print(f&quot;True x:   {true_x[:3].round(3)}&quot;)
+print(f&quot;Solved x: {x[:3].round(3)}&quot;)
+print(f&quot;Matrix rank: {rank}, condition number: {sv[0]/sv[-1]:.1f}&quot;)
+
+# Via normal equations (less stable but educational)
+x_normal = np.linalg.solve(A.T @ A, A.T @ b)
+print(&quot;Normal eq error:&quot;, np.abs(x - x_normal).max())</code></pre></div><div class="code-block"><div class="ch"><span>Cholesky, determinant, and null space</span><button onclick="cp('c29_1')">Copy</button></div><pre><code id="c29_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Cholesky decomposition: A = L @ L.T (for positive definite A)
+# Used for sampling multivariate normal and inverting covariance matrices
+n = 5
+A = rng.standard_normal((n, n))
+S = A.T @ A + n * np.eye(n)  # make it positive definite
+
+L = np.linalg.cholesky(S)
+print(&quot;L shape:&quot;, L.shape)
+print(&quot;L @ L.T == S:&quot;, np.allclose(L @ L.T, S))
+print(&quot;L is lower triangular:&quot;, np.allclose(L, np.tril(L)))
+
+# Sample from multivariate normal using Cholesky
+mu  = np.zeros(n)
+cov = S / S.max()   # scale to reasonable range
+L   = np.linalg.cholesky(cov)
+samples = mu + rng.standard_normal((1000, n)) @ L.T
+print(f&quot;Sample covariance matches target: {np.allclose(np.cov(samples.T), cov, atol=0.1)}&quot;)
+
+# Determinant (log for numerical stability)
+logdet_sign, logdet = np.linalg.slogdet(S)
+print(f&quot;logdet(S): {logdet:.3f}, sign: {logdet_sign}&quot;)
+print(f&quot;det(S) = exp({logdet:.1f}) ~ {np.exp(logdet):.2e}&quot;)
+
+# Pseudo-inverse (Moore-Penrose)
+m = np.array([[1, 2], [3, 4], [5, 6]])
+pinv = np.linalg.pinv(m)
+print(&quot;Pseudo-inverse shape:&quot;, pinv.shape)
+print(&quot;m @ pinv @ m == m:&quot;, np.allclose(m @ pinv @ m, m))</code></pre></div><div class="code-block"><div class="ch"><span>Eigendecomposition and PCA from scratch</span><button onclick="cp('c29_2')">Copy</button></div><pre><code id="c29_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Eigendecomposition: A v = lambda v
+A = np.array([[4, -2], [1,  1]])
+eigenvalues, eigenvectors = np.linalg.eig(A)
+print(&quot;Eigenvalues:&quot;, eigenvalues)
+print(&quot;Eigenvectors:\n&quot;, eigenvectors)
+
+# Verify: A @ v = lambda * v
+for i in range(len(eigenvalues)):
+    v = eigenvectors[:, i]
+    print(f&quot;  A @ v{i} == {eigenvalues[i]:.1f} * v{i}: {np.allclose(A @ v, eigenvalues[i] * v)}&quot;)
+
+# Symmetric matrix: use eigh (more stable, guaranteed real eigenvalues)
+S = np.array([[3, 1], [1, 3]])
+w, v = np.linalg.eigh(S)
+print(&quot;Symmetric eigs:&quot;, w)
+
+# PCA from scratch using SVD
+n, d = 200, 5
+X = rng.standard_normal((n, d))
+X[:, 1] = 0.8 * X[:, 0] + 0.6 * X[:, 1]  # create correlation
+
+# Center data
+X_c = X - X.mean(axis=0)
+
+# SVD of centered data
+U, s, Vt = np.linalg.svd(X_c, full_matrices=False)
+explained = s**2 / (s**2).sum()
+print(&quot;Explained variance ratio:&quot;, explained.round(3))
+print(&quot;Cumulative:&quot;, explained.cumsum().round(3))
+
+# Project to 2 components
+X_2d = X_c @ Vt[:2].T
+print(f&quot;PCA 2D shape: {X_2d.shape}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Recommender via Matrix Factorization</div><div class="rd">A collaborative filtering system factorizes a user-item rating matrix using SVD to find latent factors and predict missing ratings.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+n_users, n_items, n_factors = 100, 200, 10
+
+# Simulate a low-rank rating matrix (most entries unknown)
+U_true = rng.standard_normal((n_users, n_factors))
+V_true = rng.standard_normal((n_items, n_factors))
+R_true = U_true @ V_true.T + rng.normal(0, 0.5, (n_users, n_items))
+R_true = np.clip(R_true, 1, 5)
+
+# Only observe 20% of ratings
+observed_mask = rng.random((n_users, n_items)) &lt; 0.2
+R_obs = np.where(observed_mask, R_true, 0.0)
+
+# Truncated SVD on observed (imperfect but illustrative)
+U, s, Vt = np.linalg.svd(R_obs, full_matrices=False)
+k = n_factors
+R_hat = U[:, :k] @ np.diag(s[:k]) @ Vt[:k, :]
+R_hat = np.clip(R_hat, 1, 5)
+
+# RMSE on observed entries
+observed_pred = R_hat[observed_mask]
+observed_true = R_true[observed_mask]
+rmse = np.sqrt(np.mean((observed_pred - observed_true)**2))
+print(f&quot;RMSE on observed ratings: {rmse:.3f}&quot;)
+
+# Top-5 recommendations for user 0
+user0_scores = R_hat[0]
+user0_unseen = ~observed_mask[0]
+top5 = np.argsort(user0_scores * user0_unseen)[::-1][:5]
+print(f&quot;Top-5 recommendations for user 0: items {top5} with scores {user0_scores[top5].round(2)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: System of Equations Solver</div><div class="pd">Write solve_system(A, b) that checks if the system Ax=b is (1) well-determined (use rank), (2) overdetermined (least squares), or (3) underdetermined (minimum-norm solution via pinv), and solves accordingly with a label. Also write condition_number(A) and show how ill-conditioned matrices cause solution instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import numpy as np
+
+def solve_system(A, b):
+    m, n = A.shape
+    rank = np.linalg.matrix_rank(A)
+    if m == n and rank == n:
+        label = &quot;well-determined&quot;
+        x = np.linalg.solve(A, b)
+    elif m &gt; n:
+        label = &quot;overdetermined (least squares)&quot;
+        x, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
+    else:
+        label = &quot;underdetermined (min-norm)&quot;
+        x = np.linalg.pinv(A) @ b
+    return x, label
+
+def condition_number(A):
+    s = np.linalg.svd(A, compute_uv=False)
+    return s[0] / s[-1] if s[-1] &gt; 0 else np.inf
+
+# Test cases
+rng = np.random.default_rng(42)
+
+# Well-determined 3x3
+A1 = rng.standard_normal((3, 3))
+b1 = rng.standard_normal(3)
+x1, lbl1 = solve_system(A1, b1)
+print(f&quot;{lbl1}: cond={condition_number(A1):.1f}, error={np.linalg.norm(A1@x1-b1):.2e}&quot;)
+
+# Overdetermined 10x3
+A2 = rng.standard_normal((10, 3))
+b2 = rng.standard_normal(10)
+x2, lbl2 = solve_system(A2, b2)
+print(f&quot;{lbl2}: cond={condition_number(A2):.1f}, residual={np.linalg.norm(A2@x2-b2):.4f}&quot;)
+
+# Ill-conditioned
+A3 = np.array([[1, 1], [1, 1+1e-10]])
+b3 = np.array([2.0, 2.0])
+x3, lbl3 = solve_system(A3, b3)
+print(f&quot;{lbl3}: cond={condition_number(A3):.2e}&quot;)
+</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Numerical Differentiation &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Finite differences approximate gradients of black-box functions. Combined with np.gradient, they enable sensitivity analysis, gradient checking, and simple optimization without symbolic math.</p><div class="code-block"><div class="ch"><span>Finite differences: forward, backward, central</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import numpy as np
+
+# First derivative via finite differences
+def forward_diff(f, x, h=1e-5):
+    return (f(x + h) - f(x)) / h
+
+def backward_diff(f, x, h=1e-5):
+    return (f(x) - f(x - h)) / h
+
+def central_diff(f, x, h=1e-5):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+def second_diff(f, x, h=1e-5):
+    return (f(x + h) - 2*f(x) + f(x - h)) / h**2
+
+# Test on f(x) = sin(x), f&#x27;(x) = cos(x)
+f = np.sin
+x = np.pi / 4
+true_deriv = np.cos(x)
+
+print(f&quot;True f&#x27;(pi/4) = {true_deriv:.10f}&quot;)
+print(f&quot;Forward:   {forward_diff(f, x):.10f}  err={abs(forward_diff(f,x)-true_deriv):.2e}&quot;)
+print(f&quot;Backward:  {backward_diff(f, x):.10f}  err={abs(backward_diff(f,x)-true_deriv):.2e}&quot;)
+print(f&quot;Central:   {central_diff(f, x):.10f}  err={abs(central_diff(f,x)-true_deriv):.2e}&quot;)
+print(f&quot;Second:    {second_diff(f, x):.10f}  true=-sin(pi/4)={-np.sin(x):.10f}&quot;)
+
+# Vectorized on array
+x_arr = np.linspace(0, 2*np.pi, 100)
+deriv_arr = central_diff(np.sin, x_arr)
+error = np.abs(deriv_arr - np.cos(x_arr))
+print(f&quot;Max error over array: {error.max():.2e}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>np.gradient for array derivatives</span><button onclick="cp('c30_1')">Copy</button></div><pre><code id="c30_1" class="language-python">import numpy as np
+
+# np.gradient: uses central differences internally, handles edges with one-sided
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+
+dydx = np.gradient(y, x)   # pass x for proper spacing
+true  = np.cos(x)
+print(f&quot;Max error vs cos(x): {np.abs(dydx - true).max():.4e}&quot;)
+
+# Partial derivatives of 2D function
+nx, ny = 50, 60
+x_1d = np.linspace(0, 2, nx)
+y_1d = np.linspace(0, 3, ny)
+X, Y = np.meshgrid(x_1d, y_1d)
+
+Z = np.sin(X) * np.cos(Y)
+
+# gradient returns [dZ/dy, dZ/dx] for 2D (row, col ordering)
+dZ_dy, dZ_dx = np.gradient(Z, y_1d, x_1d)
+
+true_dZ_dx = np.cos(X) * np.cos(Y)
+true_dZ_dy = -np.sin(X) * np.sin(Y)
+
+print(f&quot;dZ/dx error: {np.abs(dZ_dx - true_dZ_dx).max():.4e}&quot;)
+print(f&quot;dZ/dy error: {np.abs(dZ_dy - true_dZ_dy).max():.4e}&quot;)
+
+# Gradient magnitude (for edge detection in images)
+mag = np.sqrt(dZ_dx**2 + dZ_dy**2)
+print(f&quot;Gradient magnitude: min={mag.min():.3f}, max={mag.max():.3f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Gradient descent with NumPy</span><button onclick="cp('c30_2')">Copy</button></div><pre><code id="c30_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Optimize f(x, y) = (x-3)^2 + 2*(y+1)^2 (minimum at (3, -1))
+def f(params):
+    x, y = params
+    return (x - 3)**2 + 2*(y + 1)**2
+
+def grad_f(params):
+    x, y = params
+    return np.array([2*(x - 3), 4*(y + 1)])
+
+# Gradient descent
+params  = np.array([0.0, 0.0])
+lr      = 0.1
+history = [params.copy()]
+
+for i in range(50):
+    g = grad_f(params)
+    params = params - lr * g
+    history.append(params.copy())
+    if i % 10 == 9:
+        print(f&quot;  iter {i+1:3d}: f={f(params):.6f}, params=({params[0]:.3f}, {params[1]:.3f})&quot;)
+
+print(f&quot;True minimum: (3, -1), found: ({params[0]:.4f}, {params[1]:.4f})&quot;)
+
+# Numerical gradient check (compare analytic vs finite diff)
+test_pt = rng.standard_normal(2)
+analytic = grad_f(test_pt)
+h = 1e-6
+numeric  = np.array([(f(test_pt + h*e) - f(test_pt - h*e)) / (2*h)
+                      for e in np.eye(2)])
+print(f&quot;Gradient check: analytic={analytic.round(4)}, numeric={numeric.round(4)}&quot;)
+print(f&quot;Max error: {np.abs(analytic - numeric).max():.2e}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Gradient-Based Calibration</div><div class="rd">A financial model calibrates parameters to match observed option prices by minimizing a loss function using gradient descent with numerical gradients.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Simulate: find mu, sigma that best fit observed log returns
+n_obs = 500
+true_mu, true_sigma = 0.001, 0.02
+observed = rng.normal(true_mu, true_sigma, n_obs)
+
+def neg_log_likelihood(params, data):
+    mu, log_sigma = params
+    sigma = np.exp(log_sigma)  # log parameterization ensures sigma &gt; 0
+    return 0.5 * np.sum(np.log(2*np.pi*sigma**2) + ((data - mu)/sigma)**2)
+
+def numerical_gradient(f, params, h=1e-6):
+    grad = np.zeros_like(params)
+    for i in range(len(params)):
+        e = np.zeros_like(params)
+        e[i] = h
+        grad[i] = (f(params + e) - f(params - e)) / (2 * h)
+    return grad
+
+params = np.array([0.0, np.log(0.01)])  # initial guess
+lr = 1e-4
+
+for epoch in range(500):
+    loss = neg_log_likelihood(params, observed)
+    grad = numerical_gradient(lambda p: neg_log_likelihood(p, observed), params)
+    params -= lr * grad
+
+mu_hat    = params[0]
+sigma_hat = np.exp(params[1])
+print(f&quot;True:      mu={true_mu:.4f}, sigma={true_sigma:.4f}&quot;)
+print(f&quot;Estimated: mu={mu_hat:.4f}, sigma={sigma_hat:.4f}&quot;)
+print(f&quot;Error:     mu={abs(mu_hat-true_mu):.2e}, sigma={abs(sigma_hat-true_sigma):.2e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jacobian Checker</div><div class="pd">Write jacobian(f, x, h=1e-6) that computes the Jacobian matrix of a vector-valued function f: R^n -&gt; R^m using central differences. Then write gradient_check(f, grad_f, x) that compares the numerical Jacobian with the analytic gradient and reports the relative error. Test with f(x) = [sin(x0)*x1, x0^2 + exp(x1)].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import numpy as np
+
+def jacobian(f, x, h=1e-6):
+    x  = np.asarray(x, float)
+    f0 = np.asarray(f(x), float)
+    m  = f0.size
+    n  = x.size
+    J  = np.zeros((m, n))
+    for j in range(n):
+        dx    = np.zeros(n)
+        dx[j] = h
+        J[:, j] = (np.asarray(f(x + dx)) - np.asarray(f(x - dx))) / (2 * h)
+    return J
+
+def gradient_check(f, grad_f, x, h=1e-6):
+    J_num = jacobian(f, x, h)
+    J_ana = np.asarray(grad_f(x))
+    err   = np.abs(J_num - J_ana)
+    rel   = err / (np.abs(J_ana) + 1e-8)
+    return {&quot;max_abs_err&quot;: err.max(), &quot;max_rel_err&quot;: rel.max(), &quot;ok&quot;: rel.max() &lt; 1e-4}
+
+# Test function: f(x) = [sin(x0)*x1, x0^2 + exp(x1)]
+def f_vec(x):
+    return [np.sin(x[0])*x[1], x[0]**2 + np.exp(x[1])]
+
+def df_vec(x):
+    return np.array([
+        [np.cos(x[0])*x[1], np.sin(x[0])],
+        [2*x[0],              np.exp(x[1])],
+    ])
+
+x0 = np.array([0.5, 1.2])
+result = gradient_check(f_vec, df_vec, x0)
+print(&quot;Jacobian check:&quot;, result)
+print(&quot;Numerical J:\n&quot;, jacobian(f_vec, x0).round(6))
+print(&quot;Analytic J:\n&quot;,  df_vec(x0).round(6))
+</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. NumPy in Data Science Workflows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy integrates tightly with pandas, scikit-learn, PyTorch, and SciPy. Understanding these bridges — arrays, dtypes, memory sharing — makes you faster at the whole pipeline.</p><div class="code-block"><div class="ch"><span>NumPy &lt;-&gt; Pandas integration</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import numpy as np
+
+# Simulate what pandas does under the hood
+# A DataFrame is essentially a dict of 1D NumPy arrays
+
+# From numpy to structured array (pandas-like)
+n = 5
+ids    = np.arange(1, n+1)
+names  = np.array([&#x27;Alice&#x27;, &#x27;Bob&#x27;, &#x27;Carol&#x27;, &#x27;Dave&#x27;, &#x27;Eve&#x27;])
+scores = np.array([92.5, 78.3, 88.1, 95.0, 70.2])
+grades = np.where(scores &gt;= 90, &#x27;A&#x27;, np.where(scores &gt;= 80, &#x27;B&#x27;, &#x27;C&#x27;))
+
+# Operations you&#x27;d do in pandas, using only NumPy
+mean_score = scores.mean()
+top_scorers = names[scores &gt;= 90]
+passing     = names[scores &gt;= 75]
+
+print(&quot;Mean score:&quot;, mean_score.round(2))
+print(&quot;Top scorers (A grade):&quot;, top_scorers)
+print(&quot;Passing (&gt;=75):&quot;, passing)
+
+# Group by grade
+for grade in np.unique(grades):
+    mask = grades == grade
+    print(f&quot;Grade {grade}: {names[mask].tolist()}, avg={scores[mask].mean():.1f}&quot;)
+
+# NumPy array -&gt; pandas DataFrame conversion info
+try:
+    import pandas as pd
+    df = pd.DataFrame({&#x27;id&#x27;: ids, &#x27;name&#x27;: names, &#x27;score&#x27;: scores, &#x27;grade&#x27;: grades})
+    # df.values returns numpy array (may copy depending on dtypes)
+    arr = df[[&#x27;id&#x27;, &#x27;score&#x27;]].to_numpy()
+    print(&quot;DataFrame to numpy:&quot;, arr.shape, arr.dtype)
+except ImportError:
+    print(&quot;(pandas not available, but the pattern works)&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>NumPy for feature engineering</span><button onclick="cp('c31_1')">Copy</button></div><pre><code id="c31_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+n, d = 1000, 5
+
+X = rng.standard_normal((n, d))
+
+# 1. Normalization
+def z_score(X):
+    return (X - X.mean(axis=0)) / (X.std(axis=0) + 1e-8)
+
+def min_max(X):
+    lo, hi = X.min(axis=0), X.max(axis=0)
+    return (X - lo) / (hi - lo + 1e-8)
+
+Xz = z_score(X)
+Xm = min_max(X)
+print(f&quot;Z-score: mean={Xz.mean(axis=0).round(2)}, std={Xz.std(axis=0).round(2)}&quot;)
+print(f&quot;MinMax: [{Xm.min():.3f}, {Xm.max():.3f}]&quot;)
+
+# 2. Polynomial features (degree 2, first 3 columns)
+Xp = np.column_stack([X[:, :3], X[:, :3]**2,
+                       X[:, 0:1]*X[:, 1:2], X[:, 1:2]*X[:, 2:3]])
+print(f&quot;Polynomial features: {X.shape} -&gt; {Xp.shape}&quot;)
+
+# 3. One-hot encoding
+cats = rng.integers(0, 4, n)   # 4 categories
+ohe  = (cats[:, np.newaxis] == np.arange(4)[np.newaxis, :]).astype(float)
+print(f&quot;OHE: shape={ohe.shape}, sum per row all 1: {np.all(ohe.sum(axis=1)==1)}&quot;)
+
+# 4. Interaction features (outer product per row)
+a = X[:, :3]   # 3 features
+# Row-wise outer: shape (n, 3, 3) -&gt; upper triangle -&gt; (n, 6) interaction terms
+combos = np.einsum(&#x27;ni,nj-&gt;nij&#x27;, a, a)
+triu_idx = np.triu_indices(3, k=0)
+interactions = combos[:, triu_idx[0], triu_idx[1]]
+print(f&quot;Interaction features shape: {interactions.shape}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>NumPy in ML inference</span><button onclick="cp('c31_2')">Copy</button></div><pre><code id="c31_2" class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+
+# Manually implement a 2-layer neural network forward pass
+def relu(x): return np.maximum(0, x)
+def softmax(x):
+    e = np.exp(x - x.max(axis=1, keepdims=True))
+    return e / e.sum(axis=1, keepdims=True)
+
+# Simulated trained weights (normally loaded from file)
+n_in, n_hidden, n_out = 784, 256, 10
+W1 = rng.standard_normal((n_in, n_hidden)) * 0.01
+b1 = np.zeros(n_hidden)
+W2 = rng.standard_normal((n_hidden, n_out)) * 0.01
+b2 = np.zeros(n_out)
+
+def forward(X):
+    h1  = relu(X @ W1 + b1)
+    out = softmax(X @ W1 @ W2 + b2)  # simplified
+    return out
+
+# Batch inference
+batch_size = 64
+X_batch = rng.standard_normal((batch_size, n_in)).astype(np.float32)
+probs = forward(X_batch)
+preds = probs.argmax(axis=1)
+conf  = probs.max(axis=1)
+
+print(f&quot;Batch: {X_batch.shape} -&gt; probs: {probs.shape}&quot;)
+print(f&quot;Predictions: {preds[:10]}&quot;)
+print(f&quot;Confidence: min={conf.min():.3f}, max={conf.max():.3f}, mean={conf.mean():.3f}&quot;)
+
+# Top-3 predictions per sample
+top3 = np.argsort(probs, axis=1)[:, -3:][:, ::-1]
+print(f&quot;Top-3 class indices for sample 0: {top3[0]}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: End-to-End ML Pipeline</div><div class="rd">A data scientist implements a complete train/eval cycle using only NumPy: feature normalization, train/val/test split, logistic regression with gradient descent, and evaluation metrics.</div><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(42)
+N, D = 1000, 10
+
+# Synthetic binary classification data
+X = rng.standard_normal((N, D))
+true_w = rng.standard_normal(D)
+y = (X @ true_w + rng.normal(0, 0.5, N) &gt; 0).astype(float)
+
+# Train/val/test split (70/15/15)
+idx = rng.permutation(N)
+n_train = int(0.7*N); n_val = int(0.15*N)
+tr, va, te = idx[:n_train], idx[n_train:n_train+n_val], idx[n_train+n_val:]
+
+def normalize(X_tr, X_te):
+    mu, std = X_tr.mean(0), X_tr.std(0) + 1e-8
+    return (X_tr-mu)/std, (X_te-mu)/std
+
+X_tr, X_te = normalize(X[tr], X[te])
+X_tr, X_va = normalize(X[tr], X[va])
+
+# Logistic regression with SGD
+def sigmoid(z): return 1 / (1 + np.exp(-np.clip(z, -100, 100)))
+
+w = np.zeros(D)
+lr, n_epochs, bs = 0.1, 20, 32
+for epoch in range(n_epochs):
+    perm = rng.permutation(len(tr))
+    for i in range(0, len(tr), bs):
+        xi = X_tr[perm[i:i+bs]]
+        yi = y[tr][perm[i:i+bs]]
+        pred = sigmoid(xi @ w)
+        grad = xi.T @ (pred - yi) / len(yi)
+        w -= lr * grad
+
+def accuracy(X, y_true, w):
+    return ((sigmoid(X @ w) &gt;= 0.5) == y_true.astype(bool)).mean()
+
+print(f&quot;Train acc: {accuracy(X_tr, y[tr], w):.3f}&quot;)
+print(f&quot;Val   acc: {accuracy(X_va, y[va], w):.3f}&quot;)
+print(f&quot;Test  acc: {accuracy(X_te, y[te], w):.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validation</div><div class="pd">Implement k_fold_cv(X, y, model_fn, k=5, seed=42) where model_fn(X_train, y_train, X_val) returns predictions. Split data into k folds, train on k-1 folds, predict on the held-out fold, compute accuracy for each fold, and return mean and std. Test with a simple threshold classifier.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import numpy as np
+
+def k_fold_cv(X, y, model_fn, k=5, seed=42):
+    rng  = np.random.default_rng(seed)
+    idx  = rng.permutation(len(y))
+    fold_size = len(y) // k
+    scores = []
+    for fold in range(k):
+        val_idx   = idx[fold*fold_size:(fold+1)*fold_size]
+        train_idx = np.concatenate([idx[:fold*fold_size], idx[(fold+1)*fold_size:]])
+        X_tr, y_tr = X[train_idx], y[train_idx]
+        X_va, y_va = X[val_idx],   y[val_idx]
+        preds = model_fn(X_tr, y_tr, X_va)
+        scores.append((preds == y_va).mean())
+    return {&quot;mean&quot;: np.mean(scores), &quot;std&quot;: np.std(scores), &quot;folds&quot;: scores}
+
+# Threshold classifier: predict 1 if feature 0 &gt; median
+def threshold_model(X_tr, y_tr, X_va):
+    threshold = np.median(X_tr[:, 0])
+    return (X_va[:, 0] &gt; threshold).astype(int)
+
+rng = np.random.default_rng(42)
+N, D = 500, 5
+X = rng.standard_normal((N, D))
+y = (X[:, 0] + 0.5 * X[:, 1] &gt; 0).astype(int)
+
+result = k_fold_cv(X, y, threshold_model, k=5)
+print(f&quot;5-fold CV: {result[&#x27;mean&#x27;]:.3f} ± {result[&#x27;std&#x27;]:.3f}&quot;)
+print(f&quot;Per-fold: {[round(s,3) for s in result[&#x27;folds&#x27;]]}&quot;)
 </code></pre></div></div></div></div>
 </main>
 <script>
