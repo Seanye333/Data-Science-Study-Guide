@@ -4,7 +4,7 @@ An interactive, self-paced study guide covering the full data science stack — 
 
 ## Live Site
 
-> [https://seanyhwong.github.io/data-science-study-path/](https://seanyhwong.github.io/data-science-study-path/)
+> [https://seanye333.github.io/Data-Science-Study-Guide/](https://seanye333.github.io/Data-Science-Study-Guide/)
 
 ---
 
