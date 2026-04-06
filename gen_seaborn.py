@@ -42,40 +42,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -113,6 +110,13 @@ SECTIONS = [
 
 {
 "title": "1. Setup & Themes",
+"todos": [
+    "Call sns.set_theme() with style='darkgrid' and palette='colorblind' at the top of a notebook",
+    "Try all 5 style options ('darkgrid','whitegrid','dark','white','ticks') on the same bar chart",
+    "Create a custom 5-color palette using hex codes and pass it to sns.barplot",
+    "Use sns.despine() to remove the top and right spines from a box plot",
+    "Override figure size via rc={'figure.figsize': (8,3)} inside sns.set_theme()",
+],
 "desc": "Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.",
 "examples": [
 {"label": "sns.set_theme and built-in datasets", "code":
@@ -304,6 +308,13 @@ my_colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
 
 {
 "title": "2. Distribution Plots",
+"todos": [
+    "Plot a histogram of a normally distributed sample and overlay a KDE curve",
+    "Compare distributions of smokers vs non-smokers using sns.histplot with hue='smoker'",
+    "Create a violin plot and interpret what the thick bar in the middle represents",
+    "Use sns.ecdfplot to compare cumulative distributions of total_bill by day",
+    "Add a rug plot under a KDE curve using sns.rugplot() to show individual data points",
+],
 "desc": "histplot and kdeplot show how data is distributed. displot combines both into a faceted figure-level function.",
 "examples": [
 {"label": "histplot and kdeplot", "code":
@@ -509,6 +520,13 @@ print("Saved practice_dist.png")"""
 
 {
 "title": "3. Categorical Plots — Bar & Count",
+"todos": [
+    "Create a grouped barplot of mean tip by day, colored by sex, with capsize=0.1",
+    "Sort bars by value using the order= parameter to show highest to lowest",
+    "Add value labels on top of each bar by iterating over ax.patches",
+    "Use sns.countplot to show the frequency of meals per day, colored by time of day",
+    "Switch the estimator to np.median in catplot and compare the result to the mean",
+],
 "desc": "barplot shows mean ± CI of a numeric variable by category. countplot shows frequency. Both accept hue for a third dimension.",
 "examples": [
 {"label": "barplot and countplot", "code":
@@ -725,6 +743,13 @@ print("Saved practice_bar.png")"""
 
 {
 "title": "4. Box Plot & Violin Plot",
+"todos": [
+    "Create side-by-side box plots of total_bill by day using the tips dataset",
+    "Set inner='quartile' on a violin plot to show quartile lines inside the violin",
+    "Overlay a narrow boxplot (width=0.12) on top of a violin plot for dual insight",
+    "Add a stripplot layer on top of a boxenplot to show all individual data points",
+    "Use split=True in violinplot to show male/female halves in the same shape",
+],
 "desc": "Box plots show the 5-number summary (min, Q1, median, Q3, max). Violin plots also show the distribution shape via KDE.",
 "examples": [
 {"label": "boxplot and violinplot", "code":

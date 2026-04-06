@@ -3,43 +3,8 @@
 <title>NumPy Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#79c0ff}
-*{box-sizing:border-box;margin:0;padding:0}
-body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}
-.sbh h2{font-size:1.05rem;color:var(--acc)}
-.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}
-#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}
-.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}
-.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}
-.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}
-.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}
-.arr{color:var(--mut);transition:transform .2s}
-.tb{display:none;padding:18px;border-top:1px solid var(--brd)}
-.tb.open{display:block}
-.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}
-.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}
-.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}
-.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
-.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}
-.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#79c0ff}</style></head><body class="page-module">
 <aside class="sidebar">
   <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 32 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
@@ -172,7 +137,11 @@ scale = np.array([1, 2, 3, 4, 5])
 # 3. Log-spaced points, find closest to 500
 pts = np.logspace(1, 4, 20)   # 10^1 to 10^4
 # TODO: idx = np.argmin(np.abs(pts - 500))
-# print(f&quot;Closest to 500: {pts[idx]:.2f} at index {idx}&quot;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Array Attributes &amp; Inspection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Every NumPy array carries metadata: shape, dtype, number of dimensions, and memory size. Understanding these prevents bugs.</p><div class="code-block"><div class="ch"><span>shape, ndim, dtype, size, nbytes</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import numpy as np
+# print(f&quot;Closest to 500: {pts[idx]:.2f} at index {idx}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3x4 array of zeros and a 3x4 array of ones — add them together</label></li>
+<li><label><input type="checkbox"> Use np.arange(0, 100, 5) and reshape it to (4, 5) — print shape and values</label></li>
+<li><label><input type="checkbox"> Generate a 3x3 identity matrix with np.eye(3) and verify the diagonal is all 1s</label></li>
+<li><label><input type="checkbox"> Use np.linspace(0, 1, 11) and np.logspace(0, 3, 4) and print both results</label></li>
+<li><label><input type="checkbox"> Create a 5x5 checkerboard of 0s and 1s using np.tile and a 2x2 unit pattern</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Array Attributes &amp; Inspection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Every NumPy array carries metadata: shape, dtype, number of dimensions, and memory size. Understanding these prevents bugs.</p><div class="code-block"><div class="ch"><span>shape, ndim, dtype, size, nbytes</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import numpy as np
 
 a = np.array([[1.5, 2.0, 3.1],
               [4.0, 5.5, 6.2]], dtype=np.float32)
@@ -268,7 +237,11 @@ for dt in dtypes:
 # Reshape and verify view
 a = np.arange(20, dtype=np.float32).reshape(4, 5)
 # TODO: b = a.reshape(2, 2, 5)
-# TODO: print(&quot;shares_memory:&quot;, np.shares_memory(a, b))</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Indexing &amp; Slicing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy supports element access, slices, fancy (list-based) indexing, and boolean masks — all without Python loops.</p><div class="code-block"><div class="ch"><span>1D and 2D indexing</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import numpy as np
+# TODO: print(&quot;shares_memory:&quot;, np.shares_memory(a, b))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (3, 4) float32 array and print its shape, ndim, dtype, itemsize, and nbytes</label></li>
+<li><label><input type="checkbox"> Reshape np.arange(12) to (3, 4) then use .reshape(2, -1) and verify the shapes</label></li>
+<li><label><input type="checkbox"> Use .astype(np.float32) on an int64 array and compare the nbytes before and after</label></li>
+<li><label><input type="checkbox"> Slice an array to create a view, modify the view, and confirm the original changed</label></li>
+<li><label><input type="checkbox"> Use np.shares_memory to distinguish a view from a .copy()</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Indexing &amp; Slicing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy supports element access, slices, fancy (list-based) indexing, and boolean masks — all without Python loops.</p><div class="code-block"><div class="ch"><span>1D and 2D indexing</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import numpy as np
 
 a = np.arange(10)
 print(a[2])           # 2
@@ -369,7 +342,11 @@ m_copy = m.copy()
 
 # 4. Every other element from last row
 # TODO: every_other = m[-1, ???]
-# print(&quot;Every other (last row):&quot;, every_other)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Mathematical Operations &amp; Ufuncs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy ufuncs (universal functions) operate element-wise on entire arrays — far faster than Python loops.</p><div class="code-block"><div class="ch"><span>Arithmetic and ufuncs</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import numpy as np
+# print(&quot;Every other (last row):&quot;, every_other)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Index a 2D array to extract a single element, a full row, and a full column</label></li>
+<li><label><input type="checkbox"> Use a slice with step to extract every other element from a 1D array</label></li>
+<li><label><input type="checkbox"> Use fancy indexing with an integer list to reorder rows of a 2D array</label></li>
+<li><label><input type="checkbox"> Use np.ix_([0,2], [1,3]) to extract a 2x2 sub-matrix from a 4x4 array</label></li>
+<li><label><input type="checkbox"> Set all values greater than 10 to 0 in a copy of an array using boolean indexing</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Mathematical Operations &amp; Ufuncs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy ufuncs (universal functions) operate element-wise on entire arrays — far faster than Python loops.</p><div class="code-block"><div class="ch"><span>Arithmetic and ufuncs</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import numpy as np
 
 a = np.array([1.0, 4.0, 9.0, 16.0])
 b = np.array([2.0, 2.0, 3.0,  4.0])
@@ -477,7 +454,11 @@ data = np.random.randn(100) * 10
 # TODO: p10, p90 = np.percentile(data, [10, 90])
 # TODO: clipped = np.clip(data, p10, p90)
 # print(f&quot;Original range: [{data.min():.1f}, {data.max():.1f}]&quot;)
-# print(f&quot;Clipped range:  [{clipped.min():.1f}, {clipped.max():.1f}]&quot;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Broadcasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Broadcasting lets NumPy perform operations on arrays of different shapes without copying data — memory-efficient and fast.</p><div class="code-block"><div class="ch"><span>Scalar and vector broadcasting</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
+# print(f&quot;Clipped range:  [{clipped.min():.1f}, {clipped.max():.1f}]&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply np.sqrt, np.log, and np.exp to a 1D array and print results side by side</label></li>
+<li><label><input type="checkbox"> Compute np.cumsum and np.cumprod on [1, 2, 3, 4, 5] and verify values manually</label></li>
+<li><label><input type="checkbox"> Use np.clip to keep all values in a random array within [0.1, 0.9]</label></li>
+<li><label><input type="checkbox"> Compute pairwise squared Euclidean distances between 4 points using broadcasting (no loop)</label></li>
+<li><label><input type="checkbox"> Use np.einsum(&#x27;ij,jk-&gt;ik&#x27;, A, B) to multiply two matrices and verify with A @ B</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Broadcasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Broadcasting lets NumPy perform operations on arrays of different shapes without copying data — memory-efficient and fast.</p><div class="code-block"><div class="ch"><span>Scalar and vector broadcasting</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
 
 a = np.array([[1, 2, 3],
               [4, 5, 6]])
@@ -570,7 +551,11 @@ logits = np.random.randn(3, 5)
 M = np.random.randn(4, 6)
 # TODO: row_means = M.mean(axis=1, keepdims=True)
 # TODO: M_centered = M - row_means
-# print(&quot;Row means after centering:&quot;, M_centered.mean(axis=1).round(10))</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Boolean Indexing &amp; np.where</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Filter arrays with boolean conditions. np.where and np.select let you apply transformations without explicit loops.</p><div class="code-block"><div class="ch"><span>Boolean masks</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import numpy as np
+# print(&quot;Row means after centering:&quot;, M_centered.mean(axis=1).round(10))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar 10 to a (3, 4) array and then multiply by a (4,) row vector — verify broadcast shapes</label></li>
+<li><label><input type="checkbox"> Subtract the per-column mean from a (100, 5) array using axis=0 and keepdims=True</label></li>
+<li><label><input type="checkbox"> Compute the outer product of [1,2,3] and [10,20,30] using broadcasting (a[:,None] * b[None,:])</label></li>
+<li><label><input type="checkbox"> Compute pairwise L2 distances between 5 points in 2D using (pts[:,None,:] - pts[None,:,:])</label></li>
+<li><label><input type="checkbox"> Implement row-wise softmax on a (3, 5) logit matrix and verify each row sums to 1.0</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Boolean Indexing &amp; np.where</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Filter arrays with boolean conditions. np.where and np.select let you apply transformations without explicit loops.</p><div class="code-block"><div class="ch"><span>Boolean masks</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import numpy as np
 
 a = np.array([10, 25, 3, 47, 18, 32, 5])
 
@@ -685,7 +670,11 @@ conds = [
 
 # 3. Clip and verify
 # TODO: clipped = np.clip(data, 60, 140)
-# TODO: print(&quot;All in [60,140]:&quot;, np.all((clipped &gt;= 60) &amp; (clipped &lt;= 140)))</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Statistical Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides fast descriptive statistics along any axis, plus correlation, covariance, and percentile functions.</p><div class="code-block"><div class="ch"><span>Descriptive stats and axis parameter</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import numpy as np
+# TODO: print(&quot;All in [60,140]:&quot;, np.all((clipped &gt;= 60) &amp; (clipped &lt;= 140)))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a boolean mask for values &gt; 20 in a 1D array and use it to extract those values</label></li>
+<li><label><input type="checkbox"> Use np.where to replace all negatives in an array with 0 (ReLU-style activation)</label></li>
+<li><label><input type="checkbox"> Use np.select to assign &#x27;low&#x27;, &#x27;medium&#x27;, &#x27;high&#x27; labels based on score thresholds</label></li>
+<li><label><input type="checkbox"> Use np.argwhere to find the (row, col) indices of all zeros in a 2D array</label></li>
+<li><label><input type="checkbox"> Combine two boolean conditions with &amp; to find values in a range, then replace outliers with median</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Statistical Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides fast descriptive statistics along any axis, plus correlation, covariance, and percentile functions.</p><div class="code-block"><div class="ch"><span>Descriptive stats and axis parameter</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import numpy as np
 
 data = np.array([4, 7, 13, 16, 21, 23, 24, 28, 30])
 print(&quot;mean:   &quot;, np.mean(data))
@@ -799,7 +788,11 @@ for j, subj in enumerate(subjects):
 
 # 4. Correlation matrix
 # TODO: corr = np.corrcoef(scores.T)
-# print(&quot;Correlation:\n&quot;, corr.round(2))</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Linear Algebra</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">numpy.linalg provides matrix operations essential for machine learning, portfolio optimization, and scientific computing.</p><div class="code-block"><div class="ch"><span>Matrix multiply, inverse, determinant</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
+# print(&quot;Correlation:\n&quot;, corr.round(2))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute mean, median, std, min, and max on a 1D array and verify with manual calculation</label></li>
+<li><label><input type="checkbox"> Use axis=0 and axis=1 on a (4, 5) array to compute column-wise and row-wise sums</label></li>
+<li><label><input type="checkbox"> Compute the Pearson correlation matrix for 3 variables using np.corrcoef</label></li>
+<li><label><input type="checkbox"> Use np.histogram with 10 bins on 1000 normal samples and verify bin counts sum to 1000</label></li>
+<li><label><input type="checkbox"> Use np.nanmean on an array with NaN values and compare the result to np.mean</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Linear Algebra</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">numpy.linalg provides matrix operations essential for machine learning, portfolio optimization, and scientific computing.</p><div class="code-block"><div class="ch"><span>Matrix multiply, inverse, determinant</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
 
 A = np.array([[2, 1], [1, 3]], dtype=float)
 B = np.array([[1, 2], [3, 4]], dtype=float)
@@ -903,7 +896,11 @@ b = np.array([8.0, -11.0, -3.0])
 # print(f&quot;det(A) = {det_A:.2f}&quot;)
 
 # TODO: inv_A = np.linalg.inv(A)
-# print(&quot;A @ inv(A) is identity:&quot;, np.allclose(A @ inv_A, np.eye(3)))</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Array Manipulation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reshape, stack, split, and transpose arrays to match the formats expected by algorithms and frameworks.</p><div class="code-block"><div class="ch"><span>reshape, flatten, transpose</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
+# print(&quot;A @ inv(A) is identity:&quot;, np.allclose(A @ inv_A, np.eye(3)))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a 2x2 system Ax=b and solve it with np.linalg.solve — verify with A @ x == b</label></li>
+<li><label><input type="checkbox"> Compute the inverse of a 3x3 matrix and confirm A @ inv(A) == identity using np.allclose</label></li>
+<li><label><input type="checkbox"> Decompose a matrix with np.linalg.svd and reconstruct it from U, s, Vt</label></li>
+<li><label><input type="checkbox"> Compute eigenvalues and eigenvectors of a 2x2 matrix and verify A @ v == lambda * v</label></li>
+<li><label><input type="checkbox"> Use np.linalg.lstsq to fit a line y = mx + b to noisy data and print the fitted coefficients</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Array Manipulation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reshape, stack, split, and transpose arrays to match the formats expected by algorithms and frameworks.</p><div class="code-block"><div class="ch"><span>reshape, flatten, transpose</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
 
 a = np.arange(24)
 
@@ -1016,7 +1013,11 @@ m3 = np.full((4, 3), 2.0)
 big = np.arange(96).reshape(12, 8)
 # TODO: chunks = np.split(big, 4, axis=0)  # 4 chunks of (3, 8)
 # TODO: result = np.stack(chunks, axis=2)  # (3, 8, 4)
-# print(&quot;Result shape:&quot;, result.shape)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Random Number Generation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s random module (use default_rng for new code) generates arrays from many distributions — key for simulations and augmentation.</p><div class="code-block"><div class="ch"><span>Seeding and common distributions</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
+# print(&quot;Result shape:&quot;, result.shape)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Reshape np.arange(24) to (2, 3, 4) and then transpose to (4, 3, 2) — print both shapes</label></li>
+<li><label><input type="checkbox"> Use np.hstack and np.vstack to join two (3, 4) arrays horizontally and vertically</label></li>
+<li><label><input type="checkbox"> Split np.arange(12) into 3 equal parts with np.split and print each part</label></li>
+<li><label><input type="checkbox"> Use np.pad to add a border of zeros around a (3, 3) array of ones</label></li>
+<li><label><input type="checkbox"> Use np.roll to shift a 1D array right by 2 positions and verify the wrap-around</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Random Number Generation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s random module (use default_rng for new code) generates arrays from many distributions — key for simulations and augmentation.</p><div class="code-block"><div class="ch"><span>Seeding and common distributions</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
 
 rng = np.random.default_rng(seed=42)   # recommended API
 
@@ -1138,7 +1139,11 @@ for s in range(2, 13):
 
 # 3. Craps win (7 or 11 on first roll)
 # TODO: craps_win = ((sums == 7) | (sums == 11)).mean()
-# print(f&quot;Craps first-roll win: {craps_win:.4f} (expected 0.2222)&quot;)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Memory Layout &amp; Strides</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand how NumPy stores data in memory — C vs Fortran order, strides, views vs copies, and how layout affects performance.</p><div class="code-block"><div class="ch"><span>C-order vs Fortran-order arrays</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
+# print(f&quot;Craps first-roll win: {craps_win:.4f} (expected 0.2222)&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.random.default_rng(42) to generate 1000 uniform samples and verify the mean is ~0.5</label></li>
+<li><label><input type="checkbox"> Simulate 10,000 coin flips with rng.integers(0, 2) and compute the empirical P(heads)</label></li>
+<li><label><input type="checkbox"> Generate 1000 values from a normal distribution and verify ~68% fall within one std of the mean</label></li>
+<li><label><input type="checkbox"> Use rng.choice on a list of outcomes with unequal probabilities and check the empirical distribution</label></li>
+<li><label><input type="checkbox"> Implement bootstrap resampling: draw 10,000 bootstrap means from a small dataset and find the 95% CI</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Memory Layout &amp; Strides</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand how NumPy stores data in memory — C vs Fortran order, strides, views vs copies, and how layout affects performance.</p><div class="code-block"><div class="ch"><span>C-order vs Fortran-order arrays</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
 
 # C-order: row-major (default)
 A = np.array([[1,2,3],[4,5,6]], order=&#x27;C&#x27;)
@@ -1214,7 +1219,11 @@ ts = np.cumsum(np.random.randn(50))  # random walk
 # TODO: create sliding window view with window_size=4
 # TODO: compute mean and std of each window row
 # TODO: stack into feature matrix (n_samples x 3): [window_mean, window_std, last_value]
-# TODO: print shape and first 5 rows</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Structured Arrays</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Store heterogeneous data (mixed types) in a single NumPy array using structured dtypes — combine ints, floats, and strings like a lightweight in-memory table.</p><div class="code-block"><div class="ch"><span>Creating structured arrays with named fields</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import numpy as np
+# TODO: print shape and first 5 rows</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inspect the .strides of a C-order and F-order version of the same array and compare</label></li>
+<li><label><input type="checkbox"> Modify a view and confirm the original array changes — then use .copy() to prevent this</label></li>
+<li><label><input type="checkbox"> Use sliding_window_view on a 1D array of length 10 with window_size=3 and print all windows</label></li>
+<li><label><input type="checkbox"> Apply np.add(a, b, out=result) to avoid allocating a new array in a tight loop</label></li>
+<li><label><input type="checkbox"> Compute a rolling mean using sliding_window_view(...).mean(axis=1) without any Python loop</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Structured Arrays</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Store heterogeneous data (mixed types) in a single NumPy array using structured dtypes — combine ints, floats, and strings like a lightweight in-memory table.</p><div class="code-block"><div class="ch"><span>Creating structured arrays with named fields</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import numpy as np
 
 # Define dtype with field names and types
 dtype = np.dtype([
@@ -1301,7 +1310,11 @@ students = np.array([
 ], dtype=dtype)
 
 # TODO: sort by gpa descending, print top 3
-# TODO: for each unique grade, compute and print average gpa</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Linear Algebra &amp; Polynomial Fitting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s linear algebra routines and polynomial tools — solve systems of equations, compute eigendecompositions, SVD, and fit curves to data.</p><div class="code-block"><div class="ch"><span>Solving linear systems with np.linalg.solve</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+# TODO: for each unique grade, compute and print average gpa</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a structured dtype with name (U20), age (i4), score (f8) and create a 4-row array</label></li>
+<li><label><input type="checkbox"> Access a field by name (data[&#x27;score&#x27;]) and sort the structured array by that field</label></li>
+<li><label><input type="checkbox"> Filter a structured array to keep only rows where dept == &#x27;Eng&#x27;</label></li>
+<li><label><input type="checkbox"> Convert a structured array to a pandas DataFrame and back with to_records()</label></li>
+<li><label><input type="checkbox"> Use np.recarray to access fields as attributes (rec.name instead of rec[&#x27;name&#x27;])</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Linear Algebra &amp; Polynomial Fitting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s linear algebra routines and polynomial tools — solve systems of equations, compute eigendecompositions, SVD, and fit curves to data.</p><div class="code-block"><div class="ch"><span>Solving linear systems with np.linalg.solve</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
 
 # Solve Ax = b
 # 3x + y = 9
@@ -1385,7 +1398,11 @@ y = np.sin(x) + np.random.randn(60) * 0.2
 #   - compute y_hat with np.polyval
 #   - compute RMSE
 #   - print results
-# TODO: print which degree has lowest RMSE</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Advanced Indexing &amp; Fancy Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use integer arrays, boolean masks, np.where, np.take, and advanced multi-dimensional indexing to select and modify array elements efficiently.</p><div class="code-block"><div class="ch"><span>Integer array indexing</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+# TODO: print which degree has lowest RMSE</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Solve a 2x2 linear system with np.linalg.solve and verify the solution with A @ x == b</label></li>
+<li><label><input type="checkbox"> Compute SVD of a 4x3 matrix and reconstruct it — verify with np.allclose</label></li>
+<li><label><input type="checkbox"> Find eigenvalues of a symmetric matrix and verify they are all real</label></li>
+<li><label><input type="checkbox"> Use np.polyfit to fit a line to noisy data and print slope and intercept</label></li>
+<li><label><input type="checkbox"> Compute a rank-1 approximation of a matrix using the largest singular value and compare to original</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Advanced Indexing &amp; Fancy Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use integer arrays, boolean masks, np.where, np.take, and advanced multi-dimensional indexing to select and modify array elements efficiently.</p><div class="code-block"><div class="ch"><span>Integer array indexing</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 arr = np.random.randint(0, 100, (5, 6))
@@ -1489,7 +1506,11 @@ print(&#x27;Score matrix shape:&#x27;, scores.shape)
 # TODO: (2) Top 5 students by total score (np.argpartition)
 # TODO: (3) Assign letter grades A/B/C/D/F using np.where
 # TODO: (4) Pass/fail mask (avg &gt;= 70 in at least 3 subjects)
-</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. NumPy Performance &amp; Vectorization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Profile NumPy code, replace Python loops with vectorized operations, use einsum, out= parameters, and Numba JIT compilation for maximum speed.</p><div class="code-block"><div class="ch"><span>Loop vs vectorized benchmark</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Select rows [0, 2, 4] from a 5x5 array using a list index — verify it creates a copy</label></li>
+<li><label><input type="checkbox"> Use (row_idx, col_idx) paired indexing to extract specific cells (one per row) from a 2D array</label></li>
+<li><label><input type="checkbox"> Use np.argpartition to find the top-3 values in a 1D array without fully sorting it</label></li>
+<li><label><input type="checkbox"> Use np.take to reorder rows of a 2D array by a custom index order</label></li>
+<li><label><input type="checkbox"> Apply np.searchsorted on a sorted array to find where new values would be inserted</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. NumPy Performance &amp; Vectorization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Profile NumPy code, replace Python loops with vectorized operations, use einsum, out= parameters, and Numba JIT compilation for maximum speed.</p><div class="code-block"><div class="ch"><span>Loop vs vectorized benchmark</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
 import time
 
 np.random.seed(42)
@@ -1640,7 +1661,11 @@ X = np.random.randn(1000, 5)
 # TODO: (2) NumPy broadcasting: (n,1,d) - (1,n,d), then norm
 # TODO: (3) scipy or einsum approach
 # TODO: Benchmark all three and print speedups
-</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Signal Processing with NumPy</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply Fourier transforms, filtering, convolution, and spectral analysis to 1D and 2D signals using NumPy&#x27;s FFT routines.</p><div class="code-block"><div class="ch"><span>FFT and frequency spectrum</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Time a Python for-loop that sums 1M numbers vs np.sum — report the speedup</label></li>
+<li><label><input type="checkbox"> Replace a nested loop that computes a pairwise operation with a vectorized broadcasting expression</label></li>
+<li><label><input type="checkbox"> Use np.einsum(&#x27;ij,jk-&gt;ik&#x27;, A, B) for matrix multiplication and compare speed with A @ B</label></li>
+<li><label><input type="checkbox"> Use out= parameter with np.sin to write results directly into a pre-allocated buffer</label></li>
+<li><label><input type="checkbox"> Use np.vectorize to wrap a scalar classify() function and apply it to a 1000-element array</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Signal Processing with NumPy</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply Fourier transforms, filtering, convolution, and spectral analysis to 1D and 2D signals using NumPy&#x27;s FFT routines.</p><div class="code-block"><div class="ch"><span>FFT and frequency spectrum</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -1768,7 +1793,11 @@ noisy = clean + np.random.randn(fs) * 0.8
 # TODO: (3) Reconstruct with ifft
 # TODO: (4) SNR before and after
 # TODO: (5) Compare with 21-pt Gaussian convolution
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Sorting, Searching &amp; Partitioning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s sort, argsort, searchsorted, and partition give O(n log n) and O(n) ordering operations that operate on arrays without Python loops.</p><div class="code-block"><div class="ch"><span>sort and argsort</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 5Hz + 20Hz composite signal and use np.fft.rfft to find dominant frequencies</label></li>
+<li><label><input type="checkbox"> Implement a low-pass FFT filter: zero out frequency components above a cutoff_hz and reconstruct</label></li>
+<li><label><input type="checkbox"> Use np.convolve with a uniform kernel np.ones(5)/5 to compute a 5-sample moving average</label></li>
+<li><label><input type="checkbox"> Compute a Gaussian smoothing kernel and apply it with np.convolve to a noisy signal</label></li>
+<li><label><input type="checkbox"> Compute the 2D FFT of a synthetic image and apply a circular low-pass mask in the frequency domain</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Sorting, Searching &amp; Partitioning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s sort, argsort, searchsorted, and partition give O(n log n) and O(n) ordering operations that operate on arrays without Python loops.</p><div class="code-block"><div class="ch"><span>sort and argsort</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import numpy as np
 
 arr = np.array([3, 1, 4, 1, 5, 9, 2, 6])
 
@@ -1884,7 +1913,11 @@ top3  = top_k_products(sales, 3)
 bot3  = bottom_k_days(sales, 3)
 print(&quot;Top 3 products (by total):&quot;, top3, &quot;-&gt;&quot;, sales[top3].sum(axis=1))
 print(&quot;Worst 3 days (by avg):   &quot;, bot3, &quot;-&gt;&quot;, sales[:, bot3].mean(axis=0).round(1))
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Set Operations on Arrays</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides unique(), union1d(), intersect1d(), setdiff1d(), and in1d()/isin() for fast set-like operations on 1D arrays using sorted-array algorithms.</p><div class="code-block"><div class="ch"><span>unique and value counts</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.sort and np.argsort on a 1D array and verify arr[argsort] == sorted array</label></li>
+<li><label><input type="checkbox"> Sort a 2D array along axis=1 (row-wise) and along axis=0 (column-wise) and print results</label></li>
+<li><label><input type="checkbox"> Use np.argpartition to find the top-5 values in a 100-element array — O(n) operation</label></li>
+<li><label><input type="checkbox"> Use np.searchsorted to binary-search a sorted array and find insert positions for new values</label></li>
+<li><label><input type="checkbox"> Sort a structured array by two fields (first by dept, then by salary) using order=[f1, f2]</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Set Operations on Arrays</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides unique(), union1d(), intersect1d(), setdiff1d(), and in1d()/isin() for fast set-like operations on 1D arrays using sorted-array algorithms.</p><div class="code-block"><div class="ch"><span>unique and value counts</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np
 
 arr = np.array([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5])
 
@@ -2018,7 +2051,11 @@ cohorts = {
 }
 for r in cohort_analysis(cohorts):
     print(r)
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Numerical Stability, NaN &amp; Inf Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Floating-point arithmetic has precision limits, NaN propagation, and overflow. NumPy provides tools to detect, mask, and safely handle these edge cases.</p><div class="code-block"><div class="ch"><span>NaN detection and handling</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.unique with return_counts=True to count how many times each value appears in an array</label></li>
+<li><label><input type="checkbox"> Use np.union1d and np.intersect1d to find shared and exclusive elements between two ID arrays</label></li>
+<li><label><input type="checkbox"> Use np.setdiff1d to find elements in array A that are not in array B</label></li>
+<li><label><input type="checkbox"> Use np.isin to mask a large array, keeping only elements that appear in a whitelist array</label></li>
+<li><label><input type="checkbox"> Use np.unique(arr, return_inverse=True) to reconstruct the original array from the unique values</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Numerical Stability, NaN &amp; Inf Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Floating-point arithmetic has precision limits, NaN propagation, and overflow. NumPy provides tools to detect, mask, and safely handle these edge cases.</p><div class="code-block"><div class="ch"><span>NaN detection and handling</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import numpy as np
 
 data = np.array([1.0, 2.0, np.nan, 4.0, np.nan, 6.0])
 
@@ -2162,7 +2199,11 @@ for x in [np.array([1.0, 2.0, 3.0]),
     print(f&quot;  stable: {stable_softmax(x)}&quot;)
     print(f&quot;  log:    {log_softmax(x)}&quot;)
     print(f&quot;  exp(log) == stable: {np.allclose(np.exp(log_softmax(x)), stable_softmax(x))}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Probability Distributions &amp; Random Sampling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s random module (Generator API) provides reproducible random sampling from dozens of distributions. Essential for simulations, bootstrapping, and synthetic data.</p><div class="code-block"><div class="ch"><span>Generator API and reproducibility</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect all NaN values in an array and replace them with the column mean using np.nanmean</label></li>
+<li><label><input type="checkbox"> Use np.isfinite to mask both NaN and Inf values in one step</label></li>
+<li><label><input type="checkbox"> Use np.nan_to_num to replace NaN with 0, +Inf with 1e9, and -Inf with -1e9</label></li>
+<li><label><input type="checkbox"> Demonstrate float32 overflow: show that 1e38 * 100 == inf for float32</label></li>
+<li><label><input type="checkbox"> Apply the log-sum-exp trick to compute softmax of [1000, 1001, 999] without overflow</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Probability Distributions &amp; Random Sampling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s random module (Generator API) provides reproducible random sampling from dozens of distributions. Essential for simulations, bootstrapping, and synthetic data.</p><div class="code-block"><div class="ch"><span>Generator API and reproducibility</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import numpy as np
 
 # Modern API: use default_rng (preferred over np.random.seed)
 rng = np.random.default_rng(seed=42)
@@ -2309,7 +2350,11 @@ rng = np.random.default_rng(42)
 data = rng.normal(50, 10, 200)
 result = fit_normal(data)
 print(f&quot;Fitted: mu={result[&#x27;mu&#x27;]:.2f}, std={result[&#x27;std&#x27;]:.2f}, KS={result[&#x27;ks&#x27;]:.4f}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Image Arrays &amp; 2D Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Images are 2D (grayscale) or 3D (H x W x C) NumPy arrays. Understanding array operations on images builds intuition for convolutions, pooling, and data augmentation.</p><div class="code-block"><div class="ch"><span>Image as array: channels and pixel operations</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use rng.normal(loc=50, scale=10, size=1000) and verify mean/std match the parameters</label></li>
+<li><label><input type="checkbox"> Generate lognormal data and observe its mean &gt; median (positive skew)</label></li>
+<li><label><input type="checkbox"> Simulate 100,000 coin flips with rng.binomial(1, 0.5) and compute empirical P(heads)</label></li>
+<li><label><input type="checkbox"> Run a Monte Carlo Pi estimate: generate uniform (x, y) pairs and check x^2 + y^2 &lt;= 1</label></li>
+<li><label><input type="checkbox"> Use rng.choice with replace=True to bootstrap a sample and compute a 95% confidence interval for the mean</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Image Arrays &amp; 2D Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Images are 2D (grayscale) or 3D (H x W x C) NumPy arrays. Understanding array operations on images builds intuition for convolutions, pooling, and data augmentation.</p><div class="code-block"><div class="ch"><span>Image as array: channels and pixel operations</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np
 
 # Images are (H, W) for grayscale, (H, W, C) for color
 np.random.seed(42)
@@ -2479,7 +2524,11 @@ for k, v in stats.items():
     print(f&quot;{k}: {v}&quot;)
 normed = normalize_contrast(img)
 print(&quot;Normalized range:&quot;, normed.min(), normed.max())
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Statistical Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides percentiles, histograms, correlation, and covariance for descriptive statistics. These underpin nearly all data analysis workflows.</p><div class="code-block"><div class="ch"><span>Percentile, quantile, and descriptive stats</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (64, 64, 3) uint8 image array and extract each RGB channel separately</label></li>
+<li><label><input type="checkbox"> Convert an RGB image to grayscale using the luminosity formula: 0.2989*R + 0.5870*G + 0.1140*B</label></li>
+<li><label><input type="checkbox"> Normalize a uint8 image to float [0, 1] and back — verify round-trip preserves values</label></li>
+<li><label><input type="checkbox"> Flip an image horizontally using [:, ::-1, :] and vertically using [::-1, :, :]</label></li>
+<li><label><input type="checkbox"> Apply a 3x3 Sobel edge-detection kernel using sliding_window_view for a convolution-like effect</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Statistical Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy provides percentiles, histograms, correlation, and covariance for descriptive statistics. These underpin nearly all data analysis workflows.</p><div class="code-block"><div class="ch"><span>Percentile, quantile, and descriptive stats</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
 
 rng = np.random.default_rng(42)
 data = rng.lognormal(mean=4.5, sigma=0.8, size=10_000)
@@ -2627,7 +2676,11 @@ weights = np.array([5, 1, 1, 1, 1], float)
 print(&quot;Weighted mean:&quot;, weighted_mean(data, weights))   # should be ~1.5
 print(&quot;Weighted std: &quot;, weighted_std(data, weights))
 print(&quot;Weighted 50th:&quot;, weighted_percentile(data, weights, 50))
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Array I/O (save, load, text, memmap)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy supports binary (.npy, .npz), text (savetxt/genfromtxt), and memory-mapped file formats for efficient large array storage and loading.</p><div class="code-block"><div class="ch"><span>np.save, np.load, np.savez</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the Q1, median, Q3, and IQR of a dataset using np.percentile</label></li>
+<li><label><input type="checkbox"> Use np.histogram to bin 10,000 normal samples and manually verify the counts sum to 10,000</label></li>
+<li><label><input type="checkbox"> Compute the Pearson correlation between two variables and verify the formula manually</label></li>
+<li><label><input type="checkbox"> Use np.digitize to assign salary bins (entry/junior/mid/senior) to an array of salaries</label></li>
+<li><label><input type="checkbox"> Use np.histogram2d to compute the joint distribution of two correlated variables</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Array I/O (save, load, text, memmap)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy supports binary (.npy, .npz), text (savetxt/genfromtxt), and memory-mapped file formats for efficient large array storage and loading.</p><div class="code-block"><div class="ch"><span>np.save, np.load, np.savez</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import numpy as np
 import tempfile, pathlib
 
 tmp = pathlib.Path(tempfile.mkdtemp())
@@ -2801,7 +2854,11 @@ print(&quot;Data matches:&quot;, np.allclose(X, data[&#x27;X&#x27;]))
 cache.delete(&#x27;features&#x27;)
 print(&quot;After delete:&quot;, cache.exists(&#x27;features&#x27;))
 shutil.rmtree(tmp)
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Datetime64 &amp; Time Arithmetic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s datetime64 and timedelta64 types enable vectorized date/time arithmetic without Python loops. Essential for time series alignment and resampling.</p><div class="code-block"><div class="ch"><span>datetime64 basics and arithmetic</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a (3, 4) array with np.save, reload it, and verify np.array_equal returns True</label></li>
+<li><label><input type="checkbox"> Save multiple arrays in one .npz file with np.savez and inspect the keys after loading</label></li>
+<li><label><input type="checkbox"> Use np.savez_compressed vs np.savez and compare file sizes for a large float array</label></li>
+<li><label><input type="checkbox"> Write a float array to CSV with np.savetxt and read it back with np.genfromtxt</label></li>
+<li><label><input type="checkbox"> Create a memory-mapped array with np.memmap in &#x27;w+&#x27; mode, write to it, and reload in &#x27;r&#x27; mode</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Datetime64 &amp; Time Arithmetic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy&#x27;s datetime64 and timedelta64 types enable vectorized date/time arithmetic without Python loops. Essential for time series alignment and resampling.</p><div class="code-block"><div class="ch"><span>datetime64 basics and arithmetic</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np
 
 # Create datetime64 scalars and arrays
 d1 = np.datetime64(&#x27;2024-01-15&#x27;)
@@ -2951,7 +3008,11 @@ print(&quot;First 5:&quot;, trading_days[:5])
 print(&quot;Last 3: &quot;, trading_days[-3:])
 
 print(&quot;Next trading day after 2024-12-24:&quot;, next_trading_day(&#x27;2024-12-24&#x27;, us_holidays_2024))
-</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Meshgrid &amp; Grid Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.meshgrid, np.ogrid, and np.mgrid create coordinate grids for evaluating functions over 2D/3D spaces — essential for plotting, distance fields, and convolutions.</p><div class="code-block"><div class="ch"><span>np.meshgrid for 2D function evaluation</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a datetime64 date range for all days in January 2024 using np.arange with dtype=&#x27;datetime64[D]&#x27;</label></li>
+<li><label><input type="checkbox"> Compute the number of days between two datetime64 dates by subtracting them</label></li>
+<li><label><input type="checkbox"> Use np.busday_count to count business days between two dates in a given quarter</label></li>
+<li><label><input type="checkbox"> Use np.is_busday on an array of dates to identify which ones fall on weekdays</label></li>
+<li><label><input type="checkbox"> Use np.busday_offset to compute settlement dates (trade date + 2 business days) for a batch of trades</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Meshgrid &amp; Grid Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.meshgrid, np.ogrid, and np.mgrid create coordinate grids for evaluating functions over 2D/3D spaces — essential for plotting, distance fields, and convolutions.</p><div class="code-block"><div class="ch"><span>np.meshgrid for 2D function evaluation</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
 
 # meshgrid creates coordinate matrices
 x = np.linspace(-2, 2, 5)
@@ -3090,7 +3151,11 @@ print(f&quot;Standard: max={Z1.max():.4f}, integral={Z1.sum()*dx*dy:.4f}&quot;)
 Z2 = bivariate_gaussian(X, Y, mu_x=0.5, mu_y=-0.5, sigma_x=1.2, sigma_y=0.8, rho=0.7)
 print(f&quot;Correlated: max={Z2.max():.4f}, integral={Z2.sum()*dx*dy:.4f}&quot;)
 print(f&quot;Peak at: ({X.ravel()[Z2.argmax()]:.2f}, {Y.ravel()[Z2.argmax()]:.2f})&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Advanced Broadcasting &amp; Pairwise Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Broadcasting rules let NumPy operate on arrays of different shapes without copying data. Master broadcasting for pairwise distances, outer products, and vectorized scoring.</p><div class="code-block"><div class="ch"><span>Broadcasting rules and shape alignment</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.meshgrid on x = linspace(-2,2,5) and y = linspace(-1,1,4) and evaluate Z = sin(X)*cos(Y)</label></li>
+<li><label><input type="checkbox"> Use np.ogrid to create open grids for a 7x7 grid and compute the radial distance from the center</label></li>
+<li><label><input type="checkbox"> Create a circular mask on an 8x8 grid where distance from center &lt;= 3 using mgrid</label></li>
+<li><label><input type="checkbox"> Find the (row, col) grid point nearest to a target (x, y) using argmin on a distance field</label></li>
+<li><label><input type="checkbox"> Evaluate a bivariate Gaussian PDF on a meshgrid and verify it integrates to approximately 1</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Advanced Broadcasting &amp; Pairwise Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Broadcasting rules let NumPy operate on arrays of different shapes without copying data. Master broadcasting for pairwise distances, outer products, and vectorized scoring.</p><div class="code-block"><div class="ch"><span>Broadcasting rules and shape alignment</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import numpy as np
 
 # Broadcasting rule: align shapes from the right,
 # size-1 dimensions are stretched to match
@@ -3250,7 +3315,11 @@ print(&quot;Single-head output shape:&quot;, out1.shape)  # (10, 64)
 
 out2 = multi_head_attention(Q, K, V, n_heads=8)
 print(&quot;Multi-head output shape:&quot;, out2.shape)   # (10, 64)
-</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Universal Functions (ufuncs) in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Ufuncs are vectorized functions that operate element-wise on arrays. They support reduce, accumulate, outer, and reduceat — and you can create custom ufuncs with np.frompyfunc or Numba.</p><div class="code-block"><div class="ch"><span>Built-in ufunc methods: reduce, accumulate, outer</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar, a (4,) row vector, and a (4,1) column vector to a (3,4) matrix — print all three results</label></li>
+<li><label><input type="checkbox"> Compute the outer product of two 1D arrays using a[:, None] * b[None, :] and verify with np.outer</label></li>
+<li><label><input type="checkbox"> Compute pairwise Euclidean distances between 5 2D points using (pts[:,None,:] - pts[None,:,:]).norm</label></li>
+<li><label><input type="checkbox"> Implement row-wise softmax using broadcasting: exp(x) / exp(x).sum(axis=1, keepdims=True)</label></li>
+<li><label><input type="checkbox"> Use broadcasting to flag (user, item) pairs where item score &gt;= user threshold in a recommendation setting</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Universal Functions (ufuncs) in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Ufuncs are vectorized functions that operate element-wise on arrays. They support reduce, accumulate, outer, and reduceat — and you can create custom ufuncs with np.frompyfunc or Numba.</p><div class="code-block"><div class="ch"><span>Built-in ufunc methods: reduce, accumulate, outer</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import numpy as np
 
 arr = np.array([1, 2, 3, 4, 5])
 
@@ -3399,7 +3468,11 @@ print(f&quot;Distances computed: {len(distances)}&quot;)
 print(f&quot;Nearest city: {distances.min():.0f} km&quot;)
 print(f&quot;Farthest city: {distances.max():.0f} km&quot;)
 print(f&quot;Average distance from NYC: {distances.mean():.0f} km&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Masked Arrays (np.ma)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.ma.MaskedArray transparently handles missing data by maintaining a boolean mask alongside values. Useful for sensor data with gaps or any dataset with invalid entries.</p><div class="code-block"><div class="ch"><span>Creating and using masked arrays</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.add.reduce on an array and verify it equals np.sum</label></li>
+<li><label><input type="checkbox"> Use np.multiply.accumulate to compute a running product (like cumprod)</label></li>
+<li><label><input type="checkbox"> Use np.add.outer on two 1D arrays to get a 2D addition table</label></li>
+<li><label><input type="checkbox"> Wrap a scalar classify(x) function with np.vectorize and apply it to a 500-element array</label></li>
+<li><label><input type="checkbox"> Use np.sqrt(data, out=buffer, where=data &gt; 0) to compute sqrt only for positive values in-place</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Masked Arrays (np.ma)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">np.ma.MaskedArray transparently handles missing data by maintaining a boolean mask alongside values. Useful for sensor data with gaps or any dataset with invalid entries.</p><div class="code-block"><div class="ch"><span>Creating and using masked arrays</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import numpy as np
 
 # Create masked array
 data = np.array([1.0, 2.0, -999.0, 4.0, -999.0, 6.0])
@@ -3544,7 +3617,11 @@ corr = masked_corrcoef(X)
 print(&quot;Pairwise correlations (with per-pair valid observations):&quot;)
 print(corr.round(3))
 print(&quot;Expected corr(0,1) ~ 0.7:&quot;, corr[0, 1].round(2))
-</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Memory Layout, Strides &amp; Contiguity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays store data in contiguous memory blocks. Understanding C/F order, strides, and views vs copies is critical for performance and interoperability with C/Fortran libraries.</p><div class="code-block"><div class="ch"><span>C vs Fortran order, flags, and strides</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a masked array from a list with np.ma.array and a boolean mask — compute the mean</label></li>
+<li><label><input type="checkbox"> Use np.ma.masked_where(arr &lt;= 0, arr) to mask non-positive values and apply np.log safely</label></li>
+<li><label><input type="checkbox"> Use np.ma.masked_invalid to mask NaN and Inf in one step and compute nanmean</label></li>
+<li><label><input type="checkbox"> Fill masked values with the column mean using m.filled(fill_value=col_means)</label></li>
+<li><label><input type="checkbox"> Add anomaly detection: mask values &gt; 3 sigma from mean on top of an existing sensor dropout mask</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Memory Layout, Strides &amp; Contiguity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays store data in contiguous memory blocks. Understanding C/F order, strides, and views vs copies is critical for performance and interoperability with C/Fortran libraries.</p><div class="code-block"><div class="ch"><span>C vs Fortran order, flags, and strides</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import numpy as np
 
 # C order (row-major): last axis varies fastest (default)
 arr_c = np.array([[1, 2, 3], [4, 5, 6]], order=&#x27;C&#x27;)
@@ -3697,7 +3774,11 @@ inspect_array(s)
 print(&quot;\n=== Reshape safe (from transposed) ===&quot;)
 r = reshape_safe(T, (24,))
 inspect_array(r)
-</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Advanced Linear Algebra Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Beyond basic dot products: matrix decompositions (SVD, QR, Cholesky), determinants, null spaces, pseudo-inverse, and Kronecker products for systems of equations and dimensionality reduction.</p><div class="code-block"><div class="ch"><span>QR decomposition and least squares</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compare .strides of a C-order array vs its transpose — verify they are just swapped</label></li>
+<li><label><input type="checkbox"> Check arr.flags[&#x27;C_CONTIGUOUS&#x27;] on a normal array, a transposed array, and a non-contiguous slice</label></li>
+<li><label><input type="checkbox"> Confirm that a slice is a view (arr.base is not None) while fancy indexing creates a copy</label></li>
+<li><label><input type="checkbox"> Use np.ascontiguousarray on a transposed array and verify it becomes C-contiguous</label></li>
+<li><label><input type="checkbox"> Build a rolling window view with sliding_window_view(arr, 4) and verify it shares memory</label></li></ul></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Advanced Linear Algebra Operations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Beyond basic dot products: matrix decompositions (SVD, QR, Cholesky), determinants, null spaces, pseudo-inverse, and Kronecker products for systems of equations and dimensionality reduction.</p><div class="code-block"><div class="ch"><span>QR decomposition and least squares</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import numpy as np
 
 rng = np.random.default_rng(42)
 
@@ -3861,7 +3942,11 @@ A3 = np.array([[1, 1], [1, 1+1e-10]])
 b3 = np.array([2.0, 2.0])
 x3, lbl3 = solve_system(A3, b3)
 print(f&quot;{lbl3}: cond={condition_number(A3):.2e}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Numerical Differentiation &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Finite differences approximate gradients of black-box functions. Combined with np.gradient, they enable sensitivity analysis, gradient checking, and simple optimization without symbolic math.</p><div class="code-block"><div class="ch"><span>Finite differences: forward, backward, central</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform QR decomposition of a (6,4) matrix and verify A = Q @ R with np.allclose</label></li>
+<li><label><input type="checkbox"> Use np.linalg.cholesky on a positive-definite matrix and confirm L @ L.T == S</label></li>
+<li><label><input type="checkbox"> Compute the pseudo-inverse of a non-square matrix and verify M @ pinv @ M == M</label></li>
+<li><label><input type="checkbox"> Implement PCA from scratch: center data, compute SVD, project onto top 2 components</label></li>
+<li><label><input type="checkbox"> Use the Cholesky decomposition to sample from a multivariate normal distribution</label></li></ul></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Numerical Differentiation &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Finite differences approximate gradients of black-box functions. Combined with np.gradient, they enable sensitivity analysis, gradient checking, and simple optimization without symbolic math.</p><div class="code-block"><div class="ch"><span>Finite differences: forward, backward, central</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import numpy as np
 
 # First derivative via finite differences
 def forward_diff(f, x, h=1e-5):
@@ -4024,7 +4109,11 @@ result = gradient_check(f_vec, df_vec, x0)
 print(&quot;Jacobian check:&quot;, result)
 print(&quot;Numerical J:\n&quot;, jacobian(f_vec, x0).round(6))
 print(&quot;Analytic J:\n&quot;,  df_vec(x0).round(6))
-</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. NumPy in Data Science Workflows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy integrates tightly with pandas, scikit-learn, PyTorch, and SciPy. Understanding these bridges — arrays, dtypes, memory sharing — makes you faster at the whole pipeline.</p><div class="code-block"><div class="ch"><span>NumPy &lt;-&gt; Pandas integration</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the forward, backward, and central difference approximations of f&#x27;(x) for f=sin at x=pi/4</label></li>
+<li><label><input type="checkbox"> Use np.gradient on a 1D array with known f&#x27;(x)=cos(x) and measure the max approximation error</label></li>
+<li><label><input type="checkbox"> Implement gradient descent for f(x,y)=(x-3)^2 + 2*(y+1)^2 and verify convergence to (3,-1)</label></li>
+<li><label><input type="checkbox"> Compute a numerical Jacobian by applying central differences to each input dimension</label></li>
+<li><label><input type="checkbox"> Use np.gradient on a 2D function Z=sin(X)*cos(Y) and compare dZ/dx to the analytic cos(X)*cos(Y)</label></li></ul></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. NumPy in Data Science Workflows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy integrates tightly with pandas, scikit-learn, PyTorch, and SciPy. Understanding these bridges — arrays, dtypes, memory sharing — makes you faster at the whole pipeline.</p><div class="code-block"><div class="ch"><span>NumPy &lt;-&gt; Pandas integration</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import numpy as np
 
 # Simulate what pandas does under the hood
 # A DataFrame is essentially a dict of 1D NumPy arrays
@@ -4199,12 +4288,16 @@ y = (X[:, 0] + 0.5 * X[:, 1] &gt; 0).astype(int)
 result = k_fold_cv(X, y, threshold_model, k=5)
 print(f&quot;5-fold CV: {result[&#x27;mean&#x27;]:.3f} ± {result[&#x27;std&#x27;]:.3f}&quot;)
 print(f&quot;Per-fold: {[round(s,3) for s in result[&#x27;folds&#x27;]]}&quot;)
-</code></pre></div></div></div></div>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert a pandas DataFrame to a NumPy array with .to_numpy() and verify dtype</label></li>
+<li><label><input type="checkbox"> Implement Z-score normalization using only NumPy: (X - X.mean(0)) / (X.std(0) + 1e-8)</label></li>
+<li><label><input type="checkbox"> Build one-hot encoded labels from a class index array using broadcasting == arange trick</label></li>
+<li><label><input type="checkbox"> Implement a 2-layer neural network forward pass (relu + softmax) using only NumPy operations</label></li>
+<li><label><input type="checkbox"> Write a logistic regression training loop using NumPy gradient descent and measure accuracy</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

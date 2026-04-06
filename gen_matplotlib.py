@@ -42,40 +42,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -116,6 +113,13 @@ SECTIONS = [
 
 {
 "title": "1. Line Plot",
+"todos": [
+    "Plot sin(x) and cos(x) on the same axes with different colors and linestyles",
+    "Add a fill_between() confidence band around a noisy signal",
+    "Use errorbar() to show mean ± std for 6 data points",
+    "Apply a 7-point moving average to a random walk and overlay both lines",
+    "Save the figure as both PNG (dpi=150) and SVG, then compare file sizes",
+],
 "desc": "The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.",
 "examples": [
 {"label": "Simple line plot", "code":
@@ -288,6 +292,13 @@ print('Saved traffic_trend.png')"""}
 
 {
 "title": "2. Bar Chart",
+"todos": [
+    "Create a vertical bar chart with value labels above each bar",
+    "Build a grouped bar chart for 3 products across 4 quarters",
+    "Make a horizontal bar chart sorted by value (largest at top)",
+    "Add error bars to each bar using yerr= with random standard deviations",
+    "Color bars conditionally: green if value >= 70, orange if >= 50, red otherwise",
+],
 "desc": "Bar charts compare discrete categories. Use plt.bar() for vertical and plt.barh() for horizontal. Add value labels for clarity.",
 "examples": [
 {"label": "Vertical bar chart", "code":
@@ -488,6 +499,13 @@ print('Saved bar_region.png')"""}
 
 {
 "title": "3. Scatter Plot",
+"todos": [
+    "Create a scatter plot of 200 points with color mapped to a third numeric variable",
+    "Add a least-squares regression line using np.polyfit() and np.polyval()",
+    "Build a bubble chart where marker size encodes a fourth variable",
+    "Use hexbin() to handle overplotting for 5,000 points and add a colorbar",
+    "Annotate the point with the highest y-value using ax.annotate() with an arrow",
+],
 "desc": "Scatter plots reveal relationships between two numeric variables. Control color, size, and alpha to encode extra dimensions.",
 "examples": [
 {"label": "Basic scatter and color mapping", "code":
@@ -676,6 +694,13 @@ print('Saved scatter_housing.png')"""}
 
 {
 "title": "4. Histogram",
+"todos": [
+    "Plot a histogram with density=True and overlay the manually computed normal PDF",
+    "Compare two overlapping histograms using alpha=0.6 and different colors",
+    "Switch histtype between 'bar', 'step', and 'stepfilled' — observe the differences",
+    "Plot a cumulative histogram and overlay the theoretical CDF for exponential data",
+    "Add vertical dashed lines for the mean and plus/minus 1 standard deviation",
+],
 "desc": "Histograms show the distribution of a single variable. Control bins and density to compare distributions or estimate PDFs.",
 "examples": [
 {"label": "Basic histogram with density", "code":
@@ -963,6 +988,13 @@ print('Saved hist_credit.png')"""}
 
 {
 "title": "5. Subplots",
+"todos": [
+    "Create a 2x2 subplot grid with four different chart types and a global suptitle",
+    "Share x-axis across two vertically stacked subplots using sharex=True",
+    "Use GridSpec to make one wide panel spanning the top row and three below",
+    "Adjust spacing between subplots using plt.tight_layout() and subplots_adjust(hspace=)",
+    "Save the multi-panel figure as both PNG and PDF using savefig()",
+],
 "desc": "plt.subplots() creates a grid of axes in a single figure. Essential for dashboards and side-by-side comparisons.",
 "examples": [
 {"label": "2×2 subplot grid", "code":
@@ -1292,6 +1324,13 @@ print('Saved subplots_ml_dashboard.png')"""}
 
 {
 "title": "6. Figure Customization",
+"todos": [
+    "Remove the top and right spines from a line plot for a cleaner look",
+    "Format the y-axis as currency (e.g., '$42K') using matplotlib.ticker.FuncFormatter",
+    "Annotate the peak value of a time series with an arrow using ax.annotate()",
+    "Rotate x-axis tick labels 45 degrees using set_xticklabels with rotation=45",
+    "Add color-shaded background regions for each quarter using axvspan()",
+],
 "desc": "Control colors, line styles, markers, fonts, spines, and tick formatting. Good styling makes charts publication-ready.",
 "examples": [
 {"label": "Markers, styles, colors, spines", "code":
@@ -1522,6 +1561,13 @@ print('Saved custom_kpi.png')"""}
 
 {
 "title": "7. Pie & Donut Chart",
+"todos": [
+    "Create a pie chart with 5 slices, explode the largest slice by 0.08",
+    "Convert the pie to a donut by setting wedgeprops=dict(width=0.5)",
+    "Add a center text label inside the donut showing the total value",
+    "Build a nested (two-ring) donut chart for category and subcategory breakdowns",
+    "Limit to 5 slices — group all others into an 'Other' slice to avoid clutter",
+],
 "desc": "Pie charts show part-to-whole relationships. Donut charts are a modern alternative. Avoid too many slices — use 5 or fewer.",
 "examples": [
 {"label": "Pie chart with explode", "code":
@@ -1707,6 +1753,13 @@ print('Saved pie_budget.png')"""}
 
 {
 "title": "8. Heatmap with imshow/pcolor",
+"todos": [
+    "Create a correlation heatmap using imshow with the 'coolwarm' colormap",
+    "Annotate each cell with its value using ax.text() in a nested loop",
+    "Use pcolormesh to show a 10x12 monthly returns matrix with a diverging colormap",
+    "Build a GitHub-style activity calendar heatmap using a custom LinearSegmentedColormap",
+    "Rotate x-axis tick labels 45 degrees and adjust alignment with ha='right'",
+],
 "desc": "Heatmaps encode a 2D matrix as color intensities. Great for correlation matrices, confusion matrices, and time×metric data.",
 "examples": [
 {"label": "Correlation heatmap", "code":
@@ -1923,6 +1976,13 @@ print('Saved heatmap_confusion.png')"""}
 
 {
 "title": "9. Twin Axes & Secondary Y-Axis",
+"todos": [
+    "Create a dual-axis plot: bar chart for revenue on the left, line for margin% on the right",
+    "Color each y-axis label to match its corresponding data series",
+    "Combine legends from both axes into a single legend using get_legend_handles_labels()",
+    "Add a shaded axvspan() event region that spans both y-axes simultaneously",
+    "Use twinx() to overlay temperature (line) and humidity (dashed line) on a 24-hour plot",
+],
 "desc": "twinx() creates a second y-axis sharing the same x-axis — essential when two variables have different scales.",
 "examples": [
 {"label": "Dual y-axis line + bar", "code":
@@ -2139,6 +2199,13 @@ print('Saved twin_ecommerce.png')"""}
 
 {
 "title": "10. Saving Figures & Style Sheets",
+"todos": [
+    "Save a figure as PNG at 72, 150, and 300 DPI and compare file sizes",
+    "Use plt.style.context('seaborn-v0_8-whitegrid') to apply a style to one figure only",
+    "Export a figure as SVG with matplotlib.rcParams['svg.fonttype'] = 'none'",
+    "Use PdfPages to save three plots as a 3-page PDF report",
+    "Apply custom rcParams (font.size, axes.spines, grid.alpha) and reset with plt.rcParams.update(plt.rcParamsDefault)",
+],
 "desc": "Save plots as PNG, PDF, SVG, or EPS with savefig(). Use plt.style.use() or rcParams to apply consistent styling across all charts.",
 "examples": [
 {"label": "Saving figures with savefig", "code":
@@ -2376,6 +2443,13 @@ if os.path.exists('revenue_report.png'):
 ,
 {
     "title": "11. 3D Plotting",
+    "todos": [
+        "Create a 3D scatter plot of 100 random points with color mapped to the z-axis",
+        "Plot the surface Z = sin(sqrt(X^2 + Y^2)) using plot_surface with a 'viridis' colormap",
+        "Overlay a contour projection on the floor of a surface plot using contour(zdir='z')",
+        "Draw a 3D helix using ax.plot() with x=sin(t), y=cos(t), z=t/(4pi)",
+        "Add axis labels and a colorbar, then save to PNG using savefig()",
+    ],
     "desc": "Create 3D visualizations with Axes3D — surface plots, wireframes, 3D scatter plots, and line trajectories that reveal multi-dimensional structure.",
     "examples": [
         {
@@ -2405,6 +2479,13 @@ if os.path.exists('revenue_report.png'):
 },
 {
     "title": "12. Custom Styles & Themes",
+    "todos": [
+        "Apply three different built-in style sheets to the same chart and compare visually",
+        "Define a custom dark theme by updating plt.rcParams with a dark background color",
+        "Set a custom color cycle using matplotlib.cycler and confirm it applies to a 5-line chart",
+        "Write a context manager that yields a configured (fig, ax) pair for reusable pub styling",
+        "Reset all rcParams to defaults using plt.rcParams.update(plt.rcParamsDefault)",
+    ],
     "desc": "Make publication-quality figures with style sheets, rcParams, custom color cycles, and reusable theming functions.",
     "examples": [
         {
@@ -2434,6 +2515,13 @@ if os.path.exists('revenue_report.png'):
 },
 {
     "title": "13. Annotations & Text Elements",
+    "todos": [
+        "Annotate the maximum point on a curve with an arrow using ax.annotate()",
+        "Add a text box with a 'round' boxstyle and custom facecolor using ax.text(bbox=...)",
+        "Shade a 'crash period' on a time series chart using axvspan with alpha=0.15",
+        "Write a LaTeX-formatted y-axis label using r'$f(x) = ...$' syntax",
+        "Annotate three events on a price chart with colored vertical dashed lines and labels",
+    ],
     "desc": "Add rich annotations — arrows, text boxes, spans, and LaTeX math expressions — to communicate insights directly on the plot.",
     "examples": [
         {
@@ -2464,6 +2552,13 @@ if os.path.exists('revenue_report.png'):
 
     {
         "title": "14. Animations & GIF Export",
+        "todos": [
+            "Create a FuncAnimation that updates a sine wave by shifting the phase each frame",
+            "Animate 20 random-walk particles and save to a GIF using writer='pillow'",
+            "Use ArtistAnimation to pre-render 10 histogram frames and play them back",
+            "Add a frame counter text element that updates each frame using ax.text()",
+            "Set blit=True and confirm the animation is faster than without it",
+        ],
         "examples": [
             {
                 "label": "FuncAnimation — rolling sine wave",
@@ -2626,6 +2721,13 @@ if os.path.exists('revenue_report.png'):
     },
     {
         "title": "15. Publication-Quality Figures",
+        "todos": [
+            "Apply 'seaborn-v0_8-paper' style and export the figure at 300 DPI",
+            "Use LaTeX math notation in axis labels and titles with r'$...$' strings",
+            "Create a 2x3 shared-axis grid and add a common x-label using fig.text()",
+            "Add an inset zoom panel using ax.inset_axes() and ax.indicate_inset_zoom()",
+            "Switch font to 'serif' via rcParams and compare with the default sans-serif look",
+        ],
         "examples": [
             {
                 "label": "Style sheets comparison",
@@ -2771,6 +2873,13 @@ if os.path.exists('revenue_report.png'):
     },
     {
         "title": "16. Custom Colormaps & Color Science",
+        "todos": [
+            "Create a custom 4-color LinearSegmentedColormap and apply it to a heatmap",
+            "Use TwoSlopeNorm to center a diverging colormap on zero with asymmetric bounds",
+            "Build a discrete 5-level BoundaryNorm colormap and annotate each cell with its level label",
+            "Compare viridis, plasma, inferno, and cividis on the same 2D data side-by-side",
+            "Apply a corporate color palette as a ListedColormap with a custom colorbar legend",
+        ],
         "examples": [
             {
                 "label": "LinearSegmentedColormap from color list",
@@ -2922,6 +3031,13 @@ if os.path.exists('revenue_report.png'):
     },
 {
 "title": "17. Error Bars & Confidence Intervals",
+"todos": [
+    "Plot symmetric error bars using ax.errorbar() with capsize=5 and elinewidth=2",
+    "Add asymmetric error bars using yerr=[lower_array, upper_array]",
+    "Draw a 95% confidence band with fill_between() around a regression line",
+    "Overlay multiple confidence bands for three model variants on the same axes",
+    "Annotate the error bar with significance stars ('*', '**', '***') using ax.text()",
+],
 "desc": "Visualize measurement uncertainty with errorbar(), fill_between() for confidence bands, and asymmetric errors.",
 "examples": [
         {"label": "Basic symmetric error bars", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(0)\nx = np.arange(1, 8)\ny = np.array([2.3, 3.1, 2.8, 4.5, 3.9, 5.2, 4.8])\nyerr = np.random.uniform(0.2, 0.6, len(x))\n\nfig, ax = plt.subplots(figsize=(8, 4))\nax.errorbar(x, y, yerr=yerr, fmt=\'o-\', color=\'steelblue\',\n            ecolor=\'lightsteelblue\', elinewidth=2, capsize=5,\n            capthick=2, label=\'Mean ± SD\')\nax.set_xlabel(\'Experiment\')\nax.set_ylabel(\'Value\')\nax.set_title(\'Error Bars — Symmetric\')\nax.legend()\nax.grid(True, alpha=0.3)\nfig.tight_layout()\nfig.savefig(\'errorbars_sym.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved errorbars_sym.png\')"},
@@ -2943,6 +3059,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "18. Box Plots & Violin Plots",
+"todos": [
+    "Create notched box plots for 5 groups using patch_artist=True and custom colors",
+    "Overlay a violin plot and a narrow box plot on the same axes for comparison",
+    "Build grouped box plots for two treatments across 4 months",
+    "Create a raincloud plot: half-violin + jitter scatter + median line",
+    "Color outlier markers differently using flierprops=dict(marker='x', color='red')",
+],
 "desc": "Compare distributions across groups with boxplot() for quartile summaries and violinplot() for full density shapes. Combine both for richer insights.",
 "examples": [
         {"label": "Side-by-side box plots", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(0)\ndata = [np.random.normal(loc, 1.0, 80) for loc in [2, 3.5, 2.8, 4.2, 3.0]]\nlabels = [\'A\', \'B\', \'C\', \'D\', \'E\']\n\nfig, ax = plt.subplots(figsize=(8, 5))\nbp = ax.boxplot(data, labels=labels, patch_artist=True, notch=True,\n                medianprops=dict(color=\'white\', linewidth=2))\ncolors = [\'#4c72b0\',\'#dd8452\',\'#55a868\',\'#c44e52\',\'#8172b2\']\nfor patch, color in zip(bp[\'boxes\'], colors):\n    patch.set_facecolor(color)\n    patch.set_alpha(0.8)\nax.set_xlabel(\'Group\')\nax.set_ylabel(\'Value\')\nax.set_title(\'Notched Box Plots by Group\')\nax.grid(True, axis=\'y\', alpha=0.3)\nfig.tight_layout()\nfig.savefig(\'boxplot.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved boxplot.png\')"},
@@ -2964,6 +3087,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "19. Contour Plots",
+"todos": [
+    "Plot a filled contour of Z = sin(X)*cos(Y) using contourf with 20 levels and a colorbar",
+    "Add labeled contour lines on top of a filled contour using clabel(inline=True)",
+    "Visualize a classifier's decision boundary over a 2D feature grid using contourf",
+    "Overlay a KDE contour on a scatter plot of bimodal data using gaussian_kde",
+    "Add hillshading to a topographic contour map using matplotlib.colors.LightSource",
+],
 "desc": "Use contour() for lines and contourf() for filled regions to display 2D scalar fields, decision boundaries, and topographic data.",
 "examples": [
         {"label": "Basic contour and contourf", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nx = y = np.linspace(-3, 3, 200)\nX, Y = np.meshgrid(x, y)\nZ = np.sin(X) * np.cos(Y)\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))\n# Filled contour\ncf = ax1.contourf(X, Y, Z, levels=20, cmap=\'RdBu_r\')\nfig.colorbar(cf, ax=ax1, label=\'Z\')\nax1.set_title(\'contourf — filled\')\n\n# Line contour with labels\ncs = ax2.contour(X, Y, Z, levels=15, cmap=\'RdBu_r\')\nax2.clabel(cs, inline=True, fontsize=8, fmt=\'%.1f\')\nax2.set_title(\'contour — lines with labels\')\n\nfor ax in (ax1, ax2):\n    ax.set_xlabel(\'x\'); ax.set_ylabel(\'y\')\nfig.tight_layout()\nfig.savefig(\'contour_basic.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved contour_basic.png\')"},
@@ -2985,6 +3115,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "20. Polar Plots",
+"todos": [
+    "Plot a rose curve r = 1 + 0.5*cos(3theta) on a polar axis and fill with alpha=0.2",
+    "Create a wind rose bar chart with 16 directions and color bars by magnitude",
+    "Build a radar (spider) chart for 6 skills comparing two candidates",
+    "Set theta_zero_location='N' and theta_direction=-1 for compass-style orientation",
+    "Add a polar scatter plot with exponential radii and an HSV colormap",
+],
 "desc": "Use polar projections for directional data, radar charts, and rose diagrams. Access the polar axes with subplot_kw={\'projection\':\'polar\'}.",
 "examples": [
         {"label": "Basic polar line and fill", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ntheta = np.linspace(0, 2*np.pi, 300)\nr = 1 + 0.5 * np.cos(3*theta)\n\nfig, ax = plt.subplots(figsize=(6, 6), subplot_kw={\'projection\': \'polar\'})\nax.plot(theta, r, color=\'steelblue\', linewidth=2)\nax.fill(theta, r, color=\'steelblue\', alpha=0.2)\nax.set_title(\'Rose Curve: 1 + 0.5·cos(3θ)\', pad=20)\nax.grid(True, alpha=0.3)\nfig.tight_layout()\nfig.savefig(\'polar_rose.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved polar_rose.png\')"},
@@ -3006,6 +3143,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "21. Stacked Bar & Area Charts",
+"todos": [
+    "Create a stacked bar chart for 4 quarters with 3 products using ax.bar() with bottom=",
+    "Build a stacked area chart using ax.stackplot() with a custom color list",
+    "Normalize a stacked bar to 100% to show share-of-total proportions",
+    "Add value labels inside each stacked segment at its vertical midpoint",
+    "Compare a stacked bar and 100%-stacked bar side-by-side in a 1x2 subplot",
+],
 "desc": "Show part-to-whole relationships over categories or time with stacked bar charts and area plots using stackplot().",
 "examples": [
         {"label": "Stacked bar chart", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ncategories = [\'Q1\',\'Q2\',\'Q3\',\'Q4\']\nproduct_a = [120, 145, 160, 180]\nproduct_b = [90,  110, 95,  130]\nproduct_c = [60,  75,  80,  95]\nx = np.arange(len(categories))\ncolors = [\'#4c72b0\',\'#dd8452\',\'#55a868\']\n\nfig, ax = plt.subplots(figsize=(8, 5))\nax.bar(x, product_a, label=\'Product A\', color=colors[0], width=0.5)\nax.bar(x, product_b, bottom=product_a, label=\'Product B\', color=colors[1], width=0.5)\nbottom_c = [a+b for a,b in zip(product_a, product_b)]\nax.bar(x, product_c, bottom=bottom_c, label=\'Product C\', color=colors[2], width=0.5)\nax.set_xticks(x); ax.set_xticklabels(categories)\nax.set_ylabel(\'Revenue ($K)\')\nax.set_title(\'Quarterly Revenue by Product — Stacked\')\nax.legend(loc=\'upper left\')\nax.grid(True, axis=\'y\', alpha=0.3)\nfig.tight_layout()\nfig.savefig(\'stacked_bar.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved stacked_bar.png\')"},
@@ -3027,6 +3171,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "22. Step Plots & Eventplot",
+"todos": [
+    "Plot a step function with where='mid', 'pre', and 'post' side-by-side",
+    "Use ax.eventplot() to visualize spike trains for 3 neuron channels",
+    "Overlay a step plot on a regular bar chart to compare histogram styles",
+    "Add fill_between() shading below a step function using step='mid'",
+    "Plot a cumulative step function (ECDF) manually using np.sort() and np.arange()",
+],
 "desc": "Use step() and drawstyle=\'steps-*\' for discrete/piecewise data, stairs() for histograms, and eventplot() for spike-train and event sequence data.",
 "examples": [
         {"label": "step() and stairs() basics", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nx = np.arange(0, 10)\ny = np.array([2, 3, 3, 5, 4, 6, 5, 7, 6, 8])\n\nfig, axes = plt.subplots(1, 3, figsize=(12, 4))\nfor ax, where, title in zip(axes,\n                             [\'pre\',\'mid\',\'post\'],\n                             [\'steps-pre\',\'steps-mid\',\'steps-post\']):\n    ax.step(x, y, where=where, color=\'steelblue\', linewidth=2)\n    ax.scatter(x, y, color=\'steelblue\', zorder=5)\n    ax.set_title(title); ax.grid(True, alpha=0.3)\nfig.suptitle(\'Step Plot Variants\', fontweight=\'bold\')\nfig.tight_layout()\nfig.savefig(\'step_variants.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved step_variants.png\')"},
@@ -3048,6 +3199,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "23. Log Scale & Symlog",
+"todos": [
+    "Switch a plot to log scale using ax.set_yscale('log') and observe axis behavior",
+    "Use log-log scale on a scatter plot to reveal a power-law relationship",
+    "Apply symlog scale to handle data spanning positive and negative values",
+    "Plot an exponential decay on linear and log scale side-by-side to compare",
+    "Use np.logspace() to set meaningful tick positions on a log-scale axis",
+],
 "desc": "Use set_xscale/set_yscale with \'log\', \'symlog\', or \'logit\' to handle data spanning many orders of magnitude.",
 "examples": [
         {"label": "Log-log plot: power-law relationship", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nx = np.logspace(0, 4, 100)\ny_power = 2.5 * x**1.7\nnoise = np.random.lognormal(0, 0.1, 100)\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))\nax1.plot(x, y_power * noise, \'o\', markersize=4, alpha=0.6, color=\'steelblue\')\nax1.set_title(\'Linear Scale\'); ax1.set_xlabel(\'x\'); ax1.set_ylabel(\'y\')\nax1.grid(True, alpha=0.3)\n\nax2.loglog(x, y_power * noise, \'o\', markersize=4, alpha=0.6, color=\'steelblue\')\nax2.loglog(x, y_power, \'r--\', linewidth=2, label=r\'y = 2.5 x^{1.7}\')\nax2.set_title(\'Log-Log Scale\'); ax2.set_xlabel(\'x\'); ax2.set_ylabel(\'y\')\nax2.legend(); ax2.grid(True, which=\'both\', alpha=0.3)\nfig.suptitle(\'Power-Law: Linear vs Log-Log\', fontweight=\'bold\')\nfig.tight_layout()\nfig.savefig(\'loglog.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved loglog.png\')"},
@@ -3069,6 +3227,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "24. GridSpec & Complex Layouts",
+"todos": [
+    "Use GridSpec(2, 3) to create a wide top panel spanning all 3 columns",
+    "Specify height_ratios=[3, 1] for a main chart and a smaller indicator below",
+    "Use subplot2grid() to place 5 panels of varying sizes in one figure",
+    "Add a colorbar axis manually using fig.add_axes([left, bottom, width, height])",
+    "Adjust hspace and wspace to control spacing between panels",
+],
 "desc": "Go beyond plt.subplots() using GridSpec for unequal column/row spans, subplot_mosaic() for named panels, and add_axes() for insets.",
 "examples": [
         {"label": "GridSpec: unequal column widths", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom matplotlib.gridspec import GridSpec\n\nnp.random.seed(0)\nfig = plt.figure(figsize=(11, 5))\ngs = GridSpec(2, 3, figure=fig, width_ratios=[2,1,1], hspace=0.4, wspace=0.3)\n\nax_main = fig.add_subplot(gs[:, 0])   # spans both rows, col 0\nax_tr   = fig.add_subplot(gs[0, 1])\nax_br   = fig.add_subplot(gs[1, 1])\nax_tall = fig.add_subplot(gs[:, 2])\n\nx = np.random.randn(200); y = np.random.randn(200)\nax_main.scatter(x, y, s=15, alpha=0.5, color=\'steelblue\')\nax_main.set_title(\'Main Scatter\')\nax_tr.hist(x, bins=20, color=\'steelblue\', alpha=0.7); ax_tr.set_title(\'X dist\')\nax_br.hist(y, bins=20, orientation=\'horizontal\', color=\'tomato\', alpha=0.7)\nax_br.set_title(\'Y dist\')\nax_tall.boxplot([x, y], labels=[\'X\',\'Y\'], patch_artist=True)\nax_tall.set_title(\'Box\')\n\nfig.suptitle(\'GridSpec Complex Layout\', fontweight=\'bold\')\nfig.savefig(\'gridspec.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved gridspec.png\')"},
@@ -3090,6 +3255,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "25. Hexbin & 2D Density Plots",
+"todos": [
+    "Create a hexbin plot of 5,000 points with gridsize=40 and a 'YlOrRd' colormap",
+    "Set mincnt=1 to hide empty hexagons in sparse regions",
+    "Overlay a hexbin with a scatter at low alpha to show the density gradient",
+    "Use hist2d() as an alternative to hexbin and compare the visual output",
+    "Add a colorbar labeled 'Count per bin' to the hexbin plot",
+],
 "desc": "Use hexbin() for large scatter datasets, hist2d() for rectangular binning, and KDE-based density coloring to visualize joint distributions.",
 "examples": [
         {"label": "hexbin with colorbar", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(0)\nn = 5000\nx = np.random.normal(0, 1.5, n)\ny = 0.6*x + np.random.normal(0, 1, n)\n\nfig, ax = plt.subplots(figsize=(7, 5))\nhb = ax.hexbin(x, y, gridsize=40, cmap=\'YlOrRd\', mincnt=1)\ncb = fig.colorbar(hb, ax=ax, label=\'Count\')\nax.set_xlabel(\'X\'); ax.set_ylabel(\'Y\')\nax.set_title(\'Hexbin — 5000 Points\')\nfig.tight_layout()\nfig.savefig(\'hexbin.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved hexbin.png\')"},
@@ -3111,6 +3283,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "26. Patch Artists & Custom Shapes",
+"todos": [
+    "Draw a Rectangle patch at (2, 3) with width=4, height=2, and a custom facecolor",
+    "Add a Circle patch centered at (0, 0) with radius=1.5 to mark a region of interest",
+    "Use FancyArrowPatch to draw a curved arrow between two plot elements",
+    "Create a FancyBboxPatch with boxstyle='round,pad=0.1' as a callout annotation",
+    "Loop over a list of (x, y, r) tuples and draw multiple Circle patches at once",
+],
 "desc": "Draw custom geometric shapes with matplotlib.patches: Rectangle, Circle, Ellipse, Polygon, FancyArrow, and Arc for annotations and diagrams.",
 "examples": [
         {"label": "Basic patches: Rectangle, Circle, Ellipse", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nimport matplotlib.patches as mpatches\n\nfig, ax = plt.subplots(figsize=(8, 6))\nax.set_xlim(0, 10); ax.set_ylim(0, 8)\nax.set_aspect(\'equal\')\n\nrect = mpatches.Rectangle((1, 1), 2.5, 1.5, linewidth=2,\n                            edgecolor=\'steelblue\', facecolor=\'lightblue\', alpha=0.8)\ncirc = mpatches.Circle((6, 4), radius=1.5, linewidth=2,\n                         edgecolor=\'tomato\', facecolor=\'lightsalmon\', alpha=0.8)\nellip = mpatches.Ellipse((4, 6), width=3, height=1.2, angle=30,\n                           linewidth=2, edgecolor=\'seagreen\', facecolor=\'lightgreen\', alpha=0.8)\n\nfor patch in [rect, circ, ellip]:\n    ax.add_patch(patch)\n\nax.text(2.25, 1.75, \'Rectangle\', ha=\'center\', fontsize=9)\nax.text(6, 4, \'Circle\', ha=\'center\', fontsize=9)\nax.text(4, 6, \'Ellipse\', ha=\'center\', fontsize=9)\nax.set_title(\'Basic Patch Artists\')\nax.grid(True, alpha=0.2)\nfig.tight_layout()\nfig.savefig(\'patches_basic.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved patches_basic.png\')"},
@@ -3132,6 +3311,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "27. Quiver & Streamplot",
+"todos": [
+    "Plot a 2D vector field using ax.quiver() over a meshgrid of X, Y",
+    "Color quiver arrows by vector magnitude using c=np.sqrt(U**2+V**2)",
+    "Use ax.streamplot() to visualize flow lines of a vector field",
+    "Set linewidth proportional to speed in streamplot using linewidth=speed/speed.max()*2",
+    "Normalize vectors before quivering to show direction only, not magnitude",
+],
 "desc": "Visualize 2D vector fields with quiver() for arrow grids and streamplot() for continuous flow lines. Used for fluid dynamics, electric fields, and gradient maps.",
 "examples": [
         {"label": "Basic quiver plot", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nx = y = np.linspace(-2, 2, 15)\nX, Y = np.meshgrid(x, y)\nU = -Y      # velocity components\nV =  X\n\nfig, ax = plt.subplots(figsize=(6, 6))\nq = ax.quiver(X, Y, U, V, np.sqrt(U**2+V**2),\n              cmap=\'coolwarm\', scale=30, pivot=\'mid\')\nfig.colorbar(q, ax=ax, label=\'Speed\')\nax.set_title(\'Rotational Vector Field\')\nax.set_xlabel(\'x\'); ax.set_ylabel(\'y\')\nax.set_aspect(\'equal\')\nax.grid(True, alpha=0.2)\nfig.tight_layout()\nfig.savefig(\'quiver_basic.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved quiver_basic.png\')"},
@@ -3153,6 +3339,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "28. Broken Axis & Dual Axis",
+"todos": [
+    "Simulate a broken y-axis using two stacked subplots and hiding the shared spines",
+    "Add diagonal break marks (/ /) to signal the broken axis region",
+    "Use twinx() to add a secondary y-axis on the right side of a chart",
+    "Color both y-axis labels and ticks to match their respective data series",
+    "Add a combined legend from both axes using ax1.get_legend_handles_labels()",
+],
 "desc": "Handle datasets with extreme outliers using a broken y-axis (two subplots with different ylim), and compare two unrelated scales with twinx()/twiny().",
 "examples": [
         {"label": "Broken y-axis with diagonal break markers", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(0)\nx = np.arange(10)\ny = np.array([2, 3, 4, 3, 5, 4, 6, 5, 4, 3], dtype=float)\ny[4] = 95   # outlier\n\nfig, (ax_top, ax_bot) = plt.subplots(2, 1, figsize=(8, 6),\n    sharex=True, gridspec_kw={\'hspace\': 0.08, \'height_ratios\': [1, 3]})\n\nax_top.bar(x, y, color=\'steelblue\', alpha=0.8)\nax_bot.bar(x, y, color=\'steelblue\', alpha=0.8)\n\nax_top.set_ylim(85, 100)\nax_bot.set_ylim(0, 10)\nax_top.spines[\'bottom\'].set_visible(False)\nax_bot.spines[\'top\'].set_visible(False)\nax_top.tick_params(bottom=False)\n\n# Break markers\nd = 0.015\nkwargs = dict(transform=ax_top.transAxes, color=\'k\', clip_on=False, linewidth=1.5)\nax_top.plot((-d, +d), (-d, +d), **kwargs)\nax_top.plot((1-d, 1+d), (-d, +d), **kwargs)\nkwargs.update(transform=ax_bot.transAxes)\nax_bot.plot((-d, +d), (1-d, 1+d), **kwargs)\nax_bot.plot((1-d, 1+d), (1-d, 1+d), **kwargs)\n\nax_bot.set_xlabel(\'Category\')\nfig.text(0.04, 0.5, \'Value\', va=\'center\', rotation=\'vertical\')\nfig.suptitle(\'Broken Y-Axis — Outlier Handling\', fontweight=\'bold\')\nfig.savefig(\'broken_axis.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved broken_axis.png\')"},
@@ -3174,6 +3367,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "29. Image Processing with imshow",
+"todos": [
+    "Display a grayscale image using ax.imshow(data, cmap='gray')",
+    "Show an RGB image and annotate it with text at a specific pixel coordinate",
+    "Apply a zoom inset to a specific region of an image using ax.inset_axes()",
+    "Overlay a semi-transparent colormap heatmap on top of an image",
+    "Compare the effect of different interpolation modes: 'nearest', 'bilinear', 'bicubic'",
+],
 "desc": "Use imshow() for displaying arrays as images, applying colormaps, performing simple transformations, and visualizing feature maps from neural networks.",
 "examples": [
         {"label": "Display and compare colormaps", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom matplotlib.colors import Normalize\n\nnp.random.seed(0)\nimg = np.random.randn(40, 40).cumsum(axis=1)\n\ncmaps_show = [\'gray\', \'viridis\', \'plasma\', \'RdBu_r\']\nfig, axes = plt.subplots(1, 4, figsize=(14, 3.5))\nfor ax, cmap in zip(axes, cmaps_show):\n    im = ax.imshow(img, cmap=cmap, aspect=\'auto\')\n    plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)\n    ax.set_title(cmap, fontsize=10)\n    ax.axis(\'off\')\nfig.suptitle(\'Same Array — Different Colormaps\', fontweight=\'bold\')\nfig.tight_layout()\nfig.savefig(\'colormaps_compare.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved colormaps_compare.png\')"},
@@ -3195,6 +3395,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "30. Statistical Plots",
+"todos": [
+    "Draw a vertical violin plot for 4 groups and add strip points on top",
+    "Create a Q-Q plot using scipy.stats.probplot to assess normality",
+    "Plot boxplots for 5 groups and annotate the median value above each box",
+    "Use ax.violinplot() and customize the colors of the violin bodies manually",
+    "Combine a histogram (density=True), a KDE line, and a rug plot on one axes",
+],
 "desc": "Create publication-quality statistical visualizations: regression plots, residual diagnostics, Q-Q plots, correlation matrices, and bootstrapped confidence intervals.",
 "examples": [
         {"label": "Scatter with linear regression and confidence band", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(0)\nn = 80\nx = np.linspace(0, 10, n)\ny = 2.5*x + 1.0 + np.random.randn(n)*3\n\n# Manual OLS\ncoeffs = np.polyfit(x, y, 1)\npoly = np.poly1d(coeffs)\ny_pred = poly(x)\nresiduals = y - y_pred\nse = np.std(residuals) * np.sqrt(1/n + (x - x.mean())**2 / ((x - x.mean())**2).sum())\nt_val = 1.99  # ~95% CI for n=80\n\nfig, ax = plt.subplots(figsize=(8, 5))\nax.scatter(x, y, s=25, alpha=0.6, color=\'steelblue\', label=\'Data\')\nax.plot(x, y_pred, \'r-\', linewidth=2, label=f\'y={coeffs[0]:.2f}x+{coeffs[1]:.2f}\')\nax.fill_between(x, y_pred - t_val*se, y_pred + t_val*se,\n                alpha=0.2, color=\'red\', label=\'95% CI\')\nax.set_xlabel(\'X\'); ax.set_ylabel(\'Y\')\nax.set_title(\'Linear Regression with Confidence Band\')\nax.legend(); ax.grid(True, alpha=0.3)\nfig.tight_layout()\nfig.savefig(\'regression_plot.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved regression_plot.png\')"},
@@ -3216,6 +3423,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "31. Multi-Figure Export & Backends",
+"todos": [
+    "Save three different charts to a single multi-page PDF using PdfPages",
+    "Export a figure at 72, 150, and 300 DPI and print each file size",
+    "Save a figure as SVG with svg.fonttype='none' for editable text in Inkscape",
+    "Use plt.close('all') after batch export to free memory",
+    "Write a loop that generates one chart per dataset and saves each as a named PNG",
+],
 "desc": "Export single figures at various DPIs, save multiple pages to PDF with PdfPages, create figure collections, and control backends for headless rendering.",
 "examples": [
         {"label": "PdfPages: multi-page PDF report", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom matplotlib.backends.backend_pdf import PdfPages\n\nnp.random.seed(0)\npdf_path = \'multi_page_report.pdf\'\n\nwith PdfPages(pdf_path) as pdf:\n    # Page 1: line plot\n    fig, ax = plt.subplots(figsize=(8, 5))\n    x = np.linspace(0, 10, 200)\n    ax.plot(x, np.sin(x), color=\'steelblue\', linewidth=2)\n    ax.set_title(\'Page 1: Sine Wave\')\n    ax.grid(True, alpha=0.3)\n    fig.tight_layout()\n    pdf.savefig(fig); plt.close()\n\n    # Page 2: bar chart\n    fig, ax = plt.subplots(figsize=(8, 5))\n    vals = np.random.randint(10, 100, 8)\n    ax.bar(range(8), vals, color=\'tomato\', alpha=0.8)\n    ax.set_title(\'Page 2: Bar Chart\')\n    fig.tight_layout()\n    pdf.savefig(fig); plt.close()\n\n    # Page 3: scatter\n    fig, ax = plt.subplots(figsize=(8, 5))\n    ax.scatter(*np.random.randn(2, 200), s=20, alpha=0.5)\n    ax.set_title(\'Page 3: Scatter\')\n    fig.tight_layout()\n    pdf.savefig(fig); plt.close()\n\n    d = pdf.infodict()\n    d[\'Title\'] = \'Data Science Report\'\n    d[\'Author\'] = \'matplotlib\'\n\nprint(f\'Saved {pdf_path} (3 pages)\')"},
@@ -3237,6 +3451,13 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "32. Dashboard Composition",
+"todos": [
+    "Use GridSpec to compose a dashboard with at least one spanning panel",
+    "Add KPI 'tiles' as small colored axes with large text using ax.axis('off')",
+    "Combine a trend line chart with a dual-axis overlay on one dashboard panel",
+    "Apply a dark background theme to the entire figure using fig.set_facecolor()",
+    "Export the dashboard at 200 DPI and verify readability at both screen and print sizes",
+],
 "desc": "Compose production-quality dashboards by combining GridSpec layouts, dual axes, custom patches, annotation, and multi-figure export. Design for clarity, color accessibility, and print quality.",
 "examples": [
         {"label": "KPI summary dashboard with mixed chart types", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom matplotlib.gridspec import GridSpec\nimport matplotlib.patches as mpatches\n\nnp.random.seed(42)\nfig = plt.figure(figsize=(14, 9), facecolor=\'#0f1117\')\ngs = GridSpec(3, 4, figure=fig, hspace=0.45, wspace=0.4)\n\ndef dark_ax(ax, title=\'\'):\n    ax.set_facecolor(\'#1c2128\')\n    for sp in ax.spines.values(): sp.set_color(\'#30363d\')\n    ax.tick_params(colors=\'#c9d1d9\', labelsize=8)\n    if title: ax.set_title(title, color=\'white\', fontsize=9, fontweight=\'bold\')\n    return ax\n\n# Top row: KPI boxes (4 mini panels)\nkpis = [(\'Revenue\', \'$2.4M\', \'+12%\', \'#4c72b0\'),\n        (\'DAU\',     \'84K\',   \'+8%\',  \'#55a868\'),\n        (\'Conv%\',   \'3.7%\',  \'+0.3\', \'#dd8452\'),\n        (\'NPS\',     \'72\',    \'+5\',   \'#c44e52\')]\nfor col, (label, val, delta, color) in enumerate(kpis):\n    ax = fig.add_subplot(gs[0, col])\n    ax.set_facecolor(color); ax.axis(\'off\')\n    ax.text(0.5, 0.6, val, ha=\'center\', va=\'center\', fontsize=18,\n            fontweight=\'bold\', color=\'white\', transform=ax.transAxes)\n    ax.text(0.5, 0.2, f\'{label}  {delta}\', ha=\'center\', fontsize=9,\n            color=\'white\', transform=ax.transAxes)\n\n# Mid-left: trend line (spans 2 cols)\nax_trend = dark_ax(fig.add_subplot(gs[1, :2]), \'Monthly Revenue Trend\')\nmonths = np.arange(12)\nrev = 1.5 + np.cumsum(np.random.randn(12)*0.08) + np.linspace(0,0.9,12)\nax_trend.plot(months, rev, color=\'#58a6ff\', linewidth=2)\nax_trend.fill_between(months, rev.min(), rev, alpha=0.15, color=\'#58a6ff\')\nax_trend.set_xticks(months)\nax_trend.set_xticklabels([\'J\',\'F\',\'M\',\'A\',\'M\',\'J\',\'J\',\'A\',\'S\',\'O\',\'N\',\'D\'],\n                          color=\'#8b949e\', fontsize=7)\n\n# Mid-right: bar chart (spans 2 cols)\nax_bar = dark_ax(fig.add_subplot(gs[1, 2:]), \'Revenue by Region\')\nregions = [\'North\',\'South\',\'East\',\'West\']\nvals = [2.4, 1.8, 1.3, 2.1]\ncolors_r = [\'#4c72b0\',\'#55a868\',\'#dd8452\',\'#c44e52\']\nax_bar.bar(regions, vals, color=colors_r, alpha=0.85, width=0.6)\nfor i, (r, v) in enumerate(zip(regions, vals)):\n    ax_bar.text(i, v+0.05, f\'${v}M\', ha=\'center\', fontsize=8, color=\'white\')\n\n# Bottom: scatter + right-side donut\nax_scatter = dark_ax(fig.add_subplot(gs[2, :3]), \'User Engagement\')\nn = 300\nsessions = np.random.lognormal(1, 0.5, n)\nrevenue_pts = sessions * np.random.uniform(5, 30, n)\nsc = ax_scatter.scatter(sessions, revenue_pts, c=np.log(sessions),\n                         cmap=\'plasma\', s=20, alpha=0.6)\nax_scatter.set_xlabel(\'Sessions\', color=\'#8b949e\', fontsize=8)\nax_scatter.set_ylabel(\'Revenue ($)\', color=\'#8b949e\', fontsize=8)\n\nax_pie = dark_ax(fig.add_subplot(gs[2, 3]), \'Traffic Mix\')\nwedges, _ = ax_pie.pie([35,30,20,15], colors=[\'#4c72b0\',\'#55a868\',\'#dd8452\',\'#8172b2\'],\n                        startangle=90, wedgeprops=dict(width=0.5))\nax_pie.legend(wedges, [\'Direct\',\'Organic\',\'Paid\',\'Ref\'], loc=\'lower center\',\n              fontsize=7, labelcolor=\'white\', facecolor=\'#1c2128\',\n              bbox_to_anchor=(0.5,-0.15), ncol=2)\nax_pie.axis(\'off\'); ax_pie.set_facecolor(\'#1c2128\')\n\nfig.suptitle(\'Business Intelligence Dashboard\', color=\'white\',\n             fontsize=15, fontweight=\'bold\', y=0.98)\nfig.savefig(\'bi_dashboard.png\', dpi=150, bbox_inches=\'tight\',\n            facecolor=fig.get_facecolor())\nplt.close()\nprint(\'Saved bi_dashboard.png\')"},

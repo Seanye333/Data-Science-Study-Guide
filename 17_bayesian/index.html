@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Probability &amp; Bayesian Thinking Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#a78bfa}</style>
+</head><body class="page-module">
+<aside class="sidebar">
+  <div class="sbh"><h2>🎲 Bayesian Thinking</h2><p>Study Guide &bull; 10 topics</p>
+    <input id="q" placeholder="Search..." oninput="filt(this.value)">
+  </div>
+  <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Probability Foundations Refresher</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Bayes&#x27; Theorem — The Foundation</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Prior Distributions — Encoding Beliefs</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Bayesian A/B Testing</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Monte Carlo Simulation</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. Bayesian Linear Regression</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Markov Chain Monte Carlo (MCMC)</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Probabilistic Programming with PyMC</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Bayesian vs Frequentist — When to Use Which</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Bayesian Optimization for Hyperparameter Tuning</a></li></ul>
+</aside>
+<main class="main">
+  <h1 class="pt">🎲 Probability &amp; Bayesian Thinking</h1>
+  <p class="ps">10 topics &bull; Click any card to expand</p>
+  <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Probability Foundations Refresher</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A quick refresher on core probability concepts: sample spaces, events, axioms, and the rules that everything else builds on.</p><div class="code-block"><div class="ch"><span>Basic probability rules</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
+
+# Probability axioms:
+# P(A) &gt;= 0 for any event A
+# P(sample space) = 1
+# P(A or B) = P(A) + P(B) - P(A and B)
+
+# Example: Rolling a fair die
+n_sides = 6
+P_even = 3 / n_sides       # {2, 4, 6}
+P_gt4  = 2 / n_sides       # {5, 6}
+P_even_and_gt4 = 1 / n_sides  # {6}
+
+# Union rule
+P_even_or_gt4 = P_even + P_gt4 - P_even_and_gt4
+print(f&quot;P(even) = {P_even:.4f}&quot;)
+print(f&quot;P(&gt;4)   = {P_gt4:.4f}&quot;)
+print(f&quot;P(even OR &gt;4) = {P_even_or_gt4:.4f}&quot;)
+print(f&quot;P(even AND &gt;4) = {P_even_and_gt4:.4f}&quot;)
+
+# Complement
+P_not_even = 1 - P_even
+print(f&quot;P(odd)  = {P_not_even:.4f}&quot;)
+
+# Simulation verification
+rolls = np.random.randint(1, 7, 100000)
+print(f&quot;\nSimulated P(even) = {np.mean(rolls % 2 == 0):.4f}&quot;)
+print(f&quot;Simulated P(even OR &gt;4) = {np.mean((rolls % 2 == 0) | (rolls &gt; 4)):.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Conditional probability</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-python">import numpy as np
+
+# P(A|B) = P(A and B) / P(B)
+# &quot;Probability of A given that B has occurred&quot;
+
+# Example: Medical test
+# 1% of population has disease
+# Test: 95% sensitivity (true positive), 90% specificity (true negative)
+P_disease = 0.01
+sensitivity = 0.95    # P(positive | disease)
+specificity = 0.90    # P(negative | no disease)
+
+# What&#x27;s P(disease | positive test)?
+P_positive_given_disease = sensitivity
+P_positive_given_no_disease = 1 - specificity  # false positive rate
+
+# Total probability of positive test
+P_positive = (P_positive_given_disease * P_disease +
+              P_positive_given_no_disease * (1 - P_disease))
+
+# Bayes&#x27; theorem!
+P_disease_given_positive = (P_positive_given_disease * P_disease) / P_positive
+
+print(f&quot;P(disease)            = {P_disease:.4f}&quot;)
+print(f&quot;P(positive test)      = {P_positive:.4f}&quot;)
+print(f&quot;P(disease | positive) = {P_disease_given_positive:.4f}&quot;)
+print(f&quot;\nSurprising! Even with a positive test, only {P_disease_given_positive:.1%}&quot;)
+print(&quot;chance of actually having the disease (when prevalence is low).&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Independence and conditional independence</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-python">import numpy as np
+
+# Two events are independent if: P(A and B) = P(A) * P(B)
+# Equivalently: P(A|B) = P(A)
+
+# Simulate: coin flips are independent
+np.random.seed(42)
+n = 100000
+flip1 = np.random.choice([&quot;H&quot;, &quot;T&quot;], n)
+flip2 = np.random.choice([&quot;H&quot;, &quot;T&quot;], n)
+
+P_H1 = np.mean(flip1 == &quot;H&quot;)
+P_H2 = np.mean(flip2 == &quot;H&quot;)
+P_both_H = np.mean((flip1 == &quot;H&quot;) &amp; (flip2 == &quot;H&quot;))
+
+print(f&quot;P(H1) = {P_H1:.4f}&quot;)
+print(f&quot;P(H2) = {P_H2:.4f}&quot;)
+print(f&quot;P(H1)*P(H2) = {P_H1 * P_H2:.4f}&quot;)
+print(f&quot;P(H1 and H2) = {P_both_H:.4f}&quot;)
+print(f&quot;Independent? {abs(P_H1 * P_H2 - P_both_H) &lt; 0.01}&quot;)
+
+# NOT independent: drawing cards without replacement
+# P(2nd ace | 1st ace) != P(2nd ace)
+P_ace1 = 4/52
+P_ace2_given_ace1 = 3/51
+P_ace2 = 4/52  # unconditional
+print(f&quot;\nCards: P(ace2|ace1) = {P_ace2_given_ace1:.4f} != P(ace2) = {P_ace2:.4f}&quot;)
+print(&quot;Drawing without replacement → NOT independent&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Probability in Spam Filtering</div><div class="rd">A spam filter uses word probabilities to classify emails. Understanding conditional probability is key to how Naive Bayes classifiers work.</div><pre><code class="language-python">import numpy as np
+
+# Simplified spam classifier using probability
+# Training data statistics:
+P_spam = 0.40       # 40% of emails are spam
+
+# Word frequencies (simplified)
+# P(word | spam) and P(word | ham)
+word_probs = {
+    &quot;free&quot;:    {&quot;spam&quot;: 0.60, &quot;ham&quot;: 0.05},
+    &quot;meeting&quot;: {&quot;spam&quot;: 0.02, &quot;ham&quot;: 0.30},
+    &quot;winner&quot;:  {&quot;spam&quot;: 0.45, &quot;ham&quot;: 0.01},
+    &quot;project&quot;: {&quot;spam&quot;: 0.01, &quot;ham&quot;: 0.25},
+    &quot;click&quot;:   {&quot;spam&quot;: 0.50, &quot;ham&quot;: 0.03},
+}
+
+def classify_email(words, word_probs, P_spam):
+    &quot;&quot;&quot;Naive Bayes classifier (assumes word independence).&quot;&quot;&quot;
+    log_spam = np.log(P_spam)
+    log_ham = np.log(1 - P_spam)
+
+    for word in words:
+        if word in word_probs:
+            log_spam += np.log(word_probs[word][&quot;spam&quot;])
+            log_ham += np.log(word_probs[word][&quot;ham&quot;])
+
+    # Convert back from log space
+    P_spam_given_words = np.exp(log_spam) / (np.exp(log_spam) + np.exp(log_ham))
+    return P_spam_given_words
+
+# Test emails
+emails = [
+    ([&quot;free&quot;, &quot;click&quot;, &quot;winner&quot;], &quot;Obvious spam&quot;),
+    ([&quot;meeting&quot;, &quot;project&quot;], &quot;Likely ham&quot;),
+    ([&quot;free&quot;, &quot;meeting&quot;], &quot;Ambiguous&quot;),
+]
+
+for words, desc in emails:
+    prob = classify_email(words, word_probs, P_spam)
+    label = &quot;SPAM&quot; if prob &gt; 0.5 else &quot;HAM&quot;
+    print(f&quot;  {desc:15s} words={words} → P(spam)={prob:.4f} [{label}]&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute P(A union B) and P(A intersection B) for two events using the addition rule — verify with simulation</label></li>
+<li><label><input type="checkbox"> Calculate P(disease | positive test) for disease prevalences of 0.1%, 1%, 5%, and 10%</label></li>
+<li><label><input type="checkbox"> Verify independence of two coin flips by checking P(H1 and H2) == P(H1) * P(H2) via simulation</label></li>
+<li><label><input type="checkbox"> Implement a simple Naive Bayes classifier from scratch for 3 email categories</label></li>
+<li><label><input type="checkbox"> Show that P(ace2 | ace1) differs from P(ace2) in a deck without replacement — calculate both</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bayes&#x27; Theorem — The Foundation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bayes&#x27; theorem is the mathematical framework for updating beliefs with evidence. It&#x27;s the bridge from &#x27;what we knew before&#x27; (prior) to &#x27;what we know now&#x27; (posterior).</p><div class="code-block"><div class="ch"><span>Bayes&#x27; theorem step by step</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import numpy as np
+
+# Bayes&#x27; Theorem:
+# P(H|D) = P(D|H) * P(H) / P(D)
+#
+# P(H|D)  = posterior  — updated belief after seeing data
+# P(H)    = prior      — belief before seeing data
+# P(D|H)  = likelihood — probability of data given hypothesis
+# P(D)    = evidence   — total probability of data
+
+# Example: Cookie problem
+# Bowl 1: 30 vanilla, 10 chocolate cookies
+# Bowl 2: 20 vanilla, 20 chocolate cookies
+# You randomly pick a bowl (50/50), then pick a vanilla cookie.
+# What&#x27;s the probability it came from Bowl 1?
+
+P_bowl1 = 0.5          # prior: equal chance of each bowl
+P_bowl2 = 0.5
+P_vanilla_given_bowl1 = 30/40    # likelihood
+P_vanilla_given_bowl2 = 20/40
+
+# Total probability of vanilla (evidence)
+P_vanilla = (P_vanilla_given_bowl1 * P_bowl1 +
+             P_vanilla_given_bowl2 * P_bowl2)
+
+# Posterior
+P_bowl1_given_vanilla = (P_vanilla_given_bowl1 * P_bowl1) / P_vanilla
+
+print(f&quot;Prior P(Bowl1)             = {P_bowl1:.4f}&quot;)
+print(f&quot;Likelihood P(V|Bowl1)      = {P_vanilla_given_bowl1:.4f}&quot;)
+print(f&quot;Evidence P(V)              = {P_vanilla:.4f}&quot;)
+print(f&quot;Posterior P(Bowl1|V)       = {P_bowl1_given_vanilla:.4f}&quot;)
+print(f&quot;\nAfter seeing vanilla, Bowl 1 is {P_bowl1_given_vanilla:.1%} likely (up from 50%)&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Sequential Bayesian updating</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-python">import numpy as np
+
+# Bayesian updating: each new observation updates the posterior
+# The posterior becomes the new prior!
+
+# Is this coin fair? Start with no strong belief.
+# Prior: P(fair) = 0.5
+P_fair = 0.5
+
+# Likelihoods
+P_heads_if_fair = 0.5
+P_heads_if_biased = 0.8  # biased coin: 80% heads
+
+observations = &quot;HHHTHHHHHH&quot;  # 9 heads, 1 tail
+
+print(f&quot;{&#x27;Obs&#x27;:&gt;4} {&#x27;Prior(fair)&#x27;:&gt;12} {&#x27;Posterior(fair)&#x27;:&gt;15}&quot;)
+print(f&quot;{&#x27;&#x27;:&gt;4} {P_fair:&gt;12.4f} {&#x27;&#x27;:&gt;15}&quot;)
+
+for obs in observations:
+    if obs == &quot;H&quot;:
+        likelihood_fair = P_heads_if_fair
+        likelihood_biased = P_heads_if_biased
+    else:
+        likelihood_fair = 1 - P_heads_if_fair
+        likelihood_biased = 1 - P_heads_if_biased
+
+    # Evidence
+    P_obs = likelihood_fair * P_fair + likelihood_biased * (1 - P_fair)
+
+    # Update
+    P_fair = (likelihood_fair * P_fair) / P_obs
+    print(f&quot;   {obs} {P_fair:&gt;28.4f}&quot;)
+
+print(f&quot;\nAfter {len(observations)} flips: P(fair) = {P_fair:.4f}&quot;)
+print(f&quot;P(biased) = {1 - P_fair:.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Bayes&#x27; theorem with multiple hypotheses</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-python">import numpy as np
+
+# You have 3 possible models. Which is most likely given the data?
+# Model A: coin is fair (P(H)=0.5)
+# Model B: coin favors heads (P(H)=0.7)
+# Model C: coin favors tails (P(H)=0.3)
+
+models = {
+    &quot;Fair (0.5)&quot;: {&quot;prior&quot;: 1/3, &quot;p_heads&quot;: 0.5},
+    &quot;Heads (0.7)&quot;: {&quot;prior&quot;: 1/3, &quot;p_heads&quot;: 0.7},
+    &quot;Tails (0.3)&quot;: {&quot;prior&quot;: 1/3, &quot;p_heads&quot;: 0.3},
+}
+
+data = &quot;HHTHHHTHHH&quot;  # 8 heads, 2 tails
+
+for obs in data:
+    evidence = 0
+    for name, m in models.items():
+        p_obs = m[&quot;p_heads&quot;] if obs == &quot;H&quot; else (1 - m[&quot;p_heads&quot;])
+        evidence += p_obs * m[&quot;prior&quot;]
+
+    for name, m in models.items():
+        p_obs = m[&quot;p_heads&quot;] if obs == &quot;H&quot; else (1 - m[&quot;p_heads&quot;])
+        m[&quot;prior&quot;] = (p_obs * m[&quot;prior&quot;]) / evidence
+
+print(&quot;After observing:&quot;, data)
+print(f&quot;{&#x27;Model&#x27;:&lt;15} {&#x27;Posterior&#x27;:&gt;10}&quot;)
+for name, m in models.items():
+    bar = &quot;#&quot; * int(m[&quot;prior&quot;] * 50)
+    print(f&quot;{name:&lt;15} {m[&#x27;prior&#x27;]:&gt;10.4f} {bar}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Bayesian A/B Testing</div><div class="rd">An e-commerce company wants to know if a new checkout page (B) converts better than the original (A). Instead of frequentist p-values, they use Bayesian analysis to get a direct probability.</div><pre><code class="language-python">import numpy as np
+
+def bayesian_ab_test(successes_a, trials_a, successes_b, trials_b, n_simulations=100000):
+    &quot;&quot;&quot;Bayesian A/B test using Beta-Binomial model.&quot;&quot;&quot;
+    # Beta(1,1) = uniform prior (no prior knowledge)
+    # Posterior: Beta(1 + successes, 1 + failures)
+
+    # Sample from posterior distributions
+    samples_a = np.random.beta(1 + successes_a, 1 + trials_a - successes_a, n_simulations)
+    samples_b = np.random.beta(1 + successes_b, 1 + trials_b - successes_b, n_simulations)
+
+    # Direct probability that B &gt; A
+    prob_b_better = np.mean(samples_b &gt; samples_a)
+
+    # Expected lift
+    lift = (samples_b - samples_a) / samples_a
+    mean_lift = np.mean(lift)
+
+    # Credible interval for the difference
+    diff = samples_b - samples_a
+    ci_low, ci_high = np.percentile(diff, [2.5, 97.5])
+
+    return {
+        &quot;prob_b_better&quot;: prob_b_better,
+        &quot;mean_lift&quot;: mean_lift,
+        &quot;ci_95&quot;: (ci_low, ci_high),
+        &quot;mean_a&quot;: np.mean(samples_a),
+        &quot;mean_b&quot;: np.mean(samples_b),
+    }
+
+# Results: A had 120/1000 conversions, B had 145/1000
+result = bayesian_ab_test(120, 1000, 145, 1000)
+
+print(&quot;Bayesian A/B Test Results&quot;)
+print(&quot;=&quot; * 40)
+print(f&quot;Conversion A: {result[&#x27;mean_a&#x27;]:.4f}&quot;)
+print(f&quot;Conversion B: {result[&#x27;mean_b&#x27;]:.4f}&quot;)
+print(f&quot;P(B &gt; A):     {result[&#x27;prob_b_better&#x27;]:.4f}&quot;)
+print(f&quot;Expected lift: {result[&#x27;mean_lift&#x27;]:.1%}&quot;)
+print(f&quot;95% CI for diff: ({result[&#x27;ci_95&#x27;][0]:.4f}, {result[&#x27;ci_95&#x27;][1]:.4f})&quot;)
+
+# Decision
+if result[&quot;prob_b_better&quot;] &gt; 0.95:
+    print(&quot;\nDecision: SHIP B (&gt;95% probability it&#x27;s better)&quot;)
+elif result[&quot;prob_b_better&quot;] &lt; 0.05:
+    print(&quot;\nDecision: KEEP A (B is worse)&quot;)
+else:
+    print(&quot;\nDecision: CONTINUE TESTING (inconclusive)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Coin Classifier</div><div class="pd">Write a function that takes a sequence of coin flips and computes the posterior probability distribution over possible bias values (0.0 to 1.0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import numpy as np
+
+def bayesian_coin_analysis(flips, n_hypotheses=101):
+    &quot;&quot;&quot;Compute posterior over possible coin biases.
+
+    Args:
+        flips: string of &#x27;H&#x27; and &#x27;T&#x27;
+        n_hypotheses: number of bias values to test (0.0 to 1.0)
+
+    Returns:
+        biases: array of bias values
+        posteriors: normalized posterior probabilities
+    &quot;&quot;&quot;
+    biases = np.linspace(0, 1, n_hypotheses)
+    # Start with uniform prior
+    priors = np.ones(n_hypotheses) / n_hypotheses
+
+    # TODO: for each flip, update the prior → posterior
+    # TODO: normalize posteriors after each update
+    # Hint: P(H|bias=b) = b, P(T|bias=b) = 1-b
+
+    return biases, priors
+
+# Test
+biases, posteriors = bayesian_coin_analysis(&quot;HHHHHTHH&quot;)
+
+# Find MAP estimate
+map_bias = biases[np.argmax(posteriors)]
+print(f&quot;MAP estimate of bias: {map_bias:.2f}&quot;)
+print(f&quot;Expected bias: {np.sum(biases * posteriors):.4f}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Manually compute P(disease|positive test) for 1%, 5%, and 10% disease prevalence</label></li>
+<li><label><input type="checkbox"> Update a prior belief sequentially with 5 coin flips — plot posterior after each</label></li>
+<li><label><input type="checkbox"> Implement Bayes&#x27; theorem for 3 hypotheses and verify posteriors sum to 1</label></li>
+<li><label><input type="checkbox"> Calculate how many observations are needed to overcome a strong prior</label></li>
+<li><label><input type="checkbox"> Compare posterior means from uniform vs informative priors on the same data</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Prior Distributions — Encoding Beliefs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The prior distribution represents what you believe before seeing data. Choosing the right prior is part art, part science — it encodes domain knowledge and assumptions.</p><div class="code-block"><div class="ch"><span>Common prior distributions</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import numpy as np
+from scipy import stats
+
+# Beta distribution — for probabilities (0 to 1)
+# Beta(1,1) = uniform (no preference)
+# Beta(10,10) = believe ~0.5, moderately confident
+# Beta(2,8) = believe ~0.2
+x = np.linspace(0, 1, 100)
+
+priors = {
+    &quot;Uniform Beta(1,1)&quot;: stats.beta(1, 1),
+    &quot;Informative Beta(10,10)&quot;: stats.beta(10, 10),
+    &quot;Skewed Beta(2,8)&quot;: stats.beta(2, 8),
+}
+
+for name, dist in priors.items():
+    mean = dist.mean()
+    std = dist.std()
+    print(f&quot;{name:30s} mean={mean:.3f}, std={std:.3f}&quot;)
+
+# Normal distribution — for continuous parameters
+# N(0, 1) = weakly informative
+# N(100, 10) = centered at 100, fairly certain
+priors_normal = {
+    &quot;Weak N(0,10)&quot;: stats.norm(0, 10),
+    &quot;Strong N(100,5)&quot;: stats.norm(100, 5),
+}
+
+for name, dist in priors_normal.items():
+    ci = dist.interval(0.95)
+    print(f&quot;{name:30s} 95% CI: ({ci[0]:.1f}, {ci[1]:.1f})&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>How priors affect posteriors</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-python">import numpy as np
+from scipy import stats
+
+# Same data, different priors → different posteriors
+# Data: 7 heads out of 10 flips
+
+successes, trials = 7, 10
+
+# Prior 1: Uniform (no prior knowledge)
+# Beta(1,1) + 7H,3T → Beta(8, 4)
+post1 = stats.beta(1 + successes, 1 + trials - successes)
+
+# Prior 2: Strong belief coin is fair
+# Beta(50,50) + 7H,3T → Beta(57, 53)
+post2 = stats.beta(50 + successes, 50 + trials - successes)
+
+# Prior 3: Belief coin is biased toward heads
+# Beta(8,2) + 7H,3T → Beta(15, 5)
+post3 = stats.beta(8 + successes, 2 + trials - successes)
+
+print(&quot;Data: 7 heads in 10 flips&quot;)
+print(f&quot;{&#x27;Prior&#x27;:&lt;30} {&#x27;Post Mean&#x27;:&gt;10} {&#x27;Post 95% CI&#x27;:&gt;25}&quot;)
+print(&quot;-&quot; * 65)
+for name, post in [
+    (&quot;Uniform Beta(1,1)&quot;, post1),
+    (&quot;Fair-biased Beta(50,50)&quot;, post2),
+    (&quot;Heads-biased Beta(8,2)&quot;, post3),
+]:
+    ci = post.interval(0.95)
+    print(f&quot;{name:&lt;30} {post.mean():&gt;10.4f} ({ci[0]:.4f}, {ci[1]:.4f})&quot;)
+
+print(&quot;\nWith enough data, the prior matters less (posteriors converge).&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Conjugate priors — analytical solutions</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-python">import numpy as np
+from scipy import stats
+
+# Conjugate priors give closed-form posteriors:
+# Likelihood     | Conjugate Prior | Posterior
+# Binomial       | Beta            | Beta
+# Poisson        | Gamma           | Gamma
+# Normal (known var) | Normal      | Normal
+# Normal (known mean)| Inv-Gamma   | Inv-Gamma
+
+# Example: Estimating website conversion rate
+# Prior: Beta(2, 8) — believe ~20% conversion rate
+# Data: 15 conversions out of 80 visitors
+
+alpha_prior, beta_prior = 2, 8
+successes, failures = 15, 65
+
+# Posterior is Beta(alpha_prior + successes, beta_prior + failures)
+alpha_post = alpha_prior + successes
+beta_post = beta_prior + failures
+posterior = stats.beta(alpha_post, beta_post)
+
+print(f&quot;Prior:     Beta({alpha_prior}, {beta_prior})&quot;)
+print(f&quot;Data:      {successes} successes / {successes + failures} trials&quot;)
+print(f&quot;Posterior: Beta({alpha_post}, {beta_post})&quot;)
+print(f&quot;\nPrior mean:     {stats.beta(alpha_prior, beta_prior).mean():.4f}&quot;)
+print(f&quot;MLE (data only): {successes / (successes + failures):.4f}&quot;)
+print(f&quot;Posterior mean:  {posterior.mean():.4f}&quot;)
+print(f&quot;Posterior mode:  {(alpha_post - 1) / (alpha_post + beta_post - 2):.4f}&quot;)
+print(f&quot;95% Credible:    ({posterior.ppf(0.025):.4f}, {posterior.ppf(0.975):.4f})&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Choosing Priors for Click-Through Rate</div><div class="rd">A marketing team launches a new ad campaign. They use historical CTR data from previous campaigns to set an informative prior, then update with new data.</div><pre><code class="language-python">import numpy as np
+from scipy import stats
+
+# Historical CTR data from 10 past campaigns
+historical_ctrs = [0.02, 0.03, 0.025, 0.018, 0.035, 0.022, 0.028, 0.032, 0.015, 0.04]
+
+# Fit a Beta prior from historical data (method of moments)
+mean_ctr = np.mean(historical_ctrs)
+var_ctr = np.var(historical_ctrs)
+
+# Beta method of moments
+alpha_0 = mean_ctr * (mean_ctr * (1 - mean_ctr) / var_ctr - 1)
+beta_0 = (1 - mean_ctr) * (mean_ctr * (1 - mean_ctr) / var_ctr - 1)
+
+print(f&quot;Historical CTR: mean={mean_ctr:.4f}, var={var_ctr:.6f}&quot;)
+print(f&quot;Fitted prior: Beta({alpha_0:.1f}, {beta_0:.1f})&quot;)
+
+# New campaign data comes in daily
+daily_data = [(500, 12), (600, 18), (550, 15), (700, 25), (650, 20)]
+
+alpha, beta = alpha_0, beta_0
+print(f&quot;\n{&#x27;Day&#x27;:&gt;4} {&#x27;Shown&#x27;:&gt;6} {&#x27;Clicks&#x27;:&gt;7} {&#x27;Post Mean&#x27;:&gt;10} {&#x27;95% CI&#x27;:&gt;25}&quot;)
+for day, (shown, clicks) in enumerate(daily_data, 1):
+    alpha += clicks
+    beta += shown - clicks
+    post = stats.beta(alpha, beta)
+    ci = post.interval(0.95)
+    print(f&quot;{day:&gt;4} {shown:&gt;6} {clicks:&gt;7} {post.mean():&gt;10.4f} ({ci[0]:.4f}, {ci[1]:.4f})&quot;)
+
+print(f&quot;\nFinal estimate: CTR = {stats.beta(alpha, beta).mean():.4f}&quot;)
+print(f&quot;Compare to raw: {sum(c for _,c in daily_data)/sum(s for s,_ in daily_data):.4f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create Beta(1,1), Beta(5,5), and Beta(2,8) distributions — print their means and 95% credible intervals</label></li>
+<li><label><input type="checkbox"> Show that with 100 observations, a strong prior Beta(50,50) and a weak prior Beta(1,1) converge</label></li>
+<li><label><input type="checkbox"> Update a Beta prior sequentially with daily conversion data — print the posterior mean each day</label></li>
+<li><label><input type="checkbox"> Use the Beta conjugate update rule to compute the posterior after 15 successes in 80 trials</label></li>
+<li><label><input type="checkbox"> Fit a Beta prior from historical data using method of moments — verify the mean matches the data mean</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Bayesian A/B Testing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bayesian A/B testing gives you what you actually want: &#x27;What&#x27;s the probability that B is better than A?&#x27; — not a confusing p-value. It&#x27;s intuitive, flexible, and allows early stopping.</p><div class="code-block"><div class="ch"><span>Full Bayesian A/B test</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import numpy as np
+from scipy import stats
+
+def bayesian_ab(control_success, control_total,
+                treatment_success, treatment_total,
+                prior_alpha=1, prior_beta=1, n_samples=200000):
+    &quot;&quot;&quot;Complete Bayesian A/B test with actionable metrics.&quot;&quot;&quot;
+
+    # Posterior distributions
+    post_a = stats.beta(prior_alpha + control_success,
+                        prior_beta + control_total - control_success)
+    post_b = stats.beta(prior_alpha + treatment_success,
+                        prior_beta + treatment_total - treatment_success)
+
+    # Monte Carlo sampling
+    samples_a = post_a.rvs(n_samples)
+    samples_b = post_b.rvs(n_samples)
+
+    # Key metrics
+    prob_b_wins = np.mean(samples_b &gt; samples_a)
+    relative_lift = (samples_b - samples_a) / samples_a
+    expected_loss_a = np.mean(np.maximum(samples_b - samples_a, 0))  # loss if we pick A
+    expected_loss_b = np.mean(np.maximum(samples_a - samples_b, 0))  # loss if we pick B
+
+    return {
+        &quot;P(B&gt;A)&quot;: prob_b_wins,
+        &quot;E[lift]&quot;: np.mean(relative_lift),
+        &quot;lift_95ci&quot;: np.percentile(relative_lift, [2.5, 97.5]),
+        &quot;expected_loss_A&quot;: expected_loss_a,
+        &quot;expected_loss_B&quot;: expected_loss_b,
+        &quot;rate_A&quot;: post_a.mean(),
+        &quot;rate_B&quot;: post_b.mean(),
+    }
+
+# Test: Control 10% CR, Treatment 12% CR
+result = bayesian_ab(100, 1000, 120, 1000)
+
+print(&quot;Bayesian A/B Test&quot;)
+print(&quot;=&quot; * 45)
+print(f&quot;Control rate:   {result[&#x27;rate_A&#x27;]:.4f}&quot;)
+print(f&quot;Treatment rate: {result[&#x27;rate_B&#x27;]:.4f}&quot;)
+print(f&quot;P(B &gt; A):       {result[&#x27;P(B&gt;A)&#x27;]:.4f}&quot;)
+print(f&quot;Expected lift:  {result[&#x27;E[lift]&#x27;]:.1%}&quot;)
+print(f&quot;Lift 95% CI:    ({result[&#x27;lift_95ci&#x27;][0]:.1%}, {result[&#x27;lift_95ci&#x27;][1]:.1%})&quot;)
+print(f&quot;Expected loss if choose A: {result[&#x27;expected_loss_A&#x27;]:.5f}&quot;)
+print(f&quot;Expected loss if choose B: {result[&#x27;expected_loss_B&#x27;]:.5f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Multi-variant test (A/B/C/D)</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-python">import numpy as np
+
+def bayesian_multivariate(variants, n_samples=200000):
+    &quot;&quot;&quot;Test multiple variants simultaneously.&quot;&quot;&quot;
+    # Sample from each variant&#x27;s posterior
+    samples = {}
+    for name, (successes, trials) in variants.items():
+        samples[name] = np.random.beta(1 + successes, 1 + trials - successes, n_samples)
+
+    # Probability each variant is the best
+    all_samples = np.column_stack(list(samples.values()))
+    best_idx = np.argmax(all_samples, axis=1)
+    names = list(variants.keys())
+
+    results = {}
+    for i, name in enumerate(names):
+        results[name] = {
+            &quot;mean_rate&quot;: np.mean(samples[name]),
+            &quot;prob_best&quot;: np.mean(best_idx == i),
+        }
+
+    return results
+
+variants = {
+    &quot;Control&quot;:    (100, 1000),   # 10.0%
+    &quot;Variant B&quot;:  (115, 1000),   # 11.5%
+    &quot;Variant C&quot;:  (125, 1000),   # 12.5%
+    &quot;Variant D&quot;:  (108, 1000),   # 10.8%
+}
+
+results = bayesian_multivariate(variants)
+print(f&quot;{&#x27;Variant&#x27;:&lt;15} {&#x27;Conv Rate&#x27;:&gt;10} {&#x27;P(Best)&#x27;:&gt;10}&quot;)
+print(&quot;-&quot; * 35)
+for name, r in sorted(results.items(), key=lambda x: -x[1][&quot;prob_best&quot;]):
+    print(f&quot;{name:&lt;15} {r[&#x27;mean_rate&#x27;]:&gt;10.4f} {r[&#x27;prob_best&#x27;]:&gt;10.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>When to stop: expected loss threshold</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-python">import numpy as np
+
+def should_stop_test(successes_a, trials_a, successes_b, trials_b,
+                     loss_threshold=0.001, n_samples=100000):
+    &quot;&quot;&quot;Decide whether to stop A/B test based on expected loss.&quot;&quot;&quot;
+    samples_a = np.random.beta(1 + successes_a, 1 + trials_a - successes_a, n_samples)
+    samples_b = np.random.beta(1 + successes_b, 1 + trials_b - successes_b, n_samples)
+
+    # Expected loss of choosing each variant
+    loss_a = np.mean(np.maximum(samples_b - samples_a, 0))
+    loss_b = np.mean(np.maximum(samples_a - samples_b, 0))
+
+    min_loss = min(loss_a, loss_b)
+    winner = &quot;A&quot; if loss_a &lt; loss_b else &quot;B&quot;
+
+    return {
+        &quot;stop&quot;: min_loss &lt; loss_threshold,
+        &quot;winner&quot;: winner,
+        &quot;loss_a&quot;: loss_a,
+        &quot;loss_b&quot;: loss_b,
+    }
+
+# Simulate daily results
+np.random.seed(42)
+sa, ta, sb, tb = 0, 0, 0, 0
+true_rate_a, true_rate_b = 0.10, 0.12  # B is actually better
+
+for day in range(1, 31):
+    daily_visitors = 100
+    sa += np.random.binomial(daily_visitors, true_rate_a)
+    ta += daily_visitors
+    sb += np.random.binomial(daily_visitors, true_rate_b)
+    tb += daily_visitors
+
+    result = should_stop_test(sa, ta, sb, tb)
+    if day % 5 == 0 or result[&quot;stop&quot;]:
+        print(f&quot;Day {day:2d}: A={sa}/{ta} B={sb}/{tb} | &quot;
+              f&quot;loss_A={result[&#x27;loss_a&#x27;]:.5f} loss_B={result[&#x27;loss_b&#x27;]:.5f} | &quot;
+              f&quot;{&#x27;STOP → &#x27;+result[&#x27;winner&#x27;] if result[&#x27;stop&#x27;] else &#x27;continue&#x27;}&quot;)
+    if result[&quot;stop&quot;]:
+        break</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Production A/B Testing Framework</div><div class="rd">A product team runs A/B tests on website features. They need a dashboard-ready analysis that reports probability of improvement, expected revenue impact, and a clear recommendation.</div><pre><code class="language-python">import numpy as np
+
+class ABTestAnalyzer:
+    def __init__(self, revenue_per_conversion=50):
+        self.rev = revenue_per_conversion
+
+    def analyze(self, data, n_samples=200000):
+        results = []
+        samples = {}
+
+        for name, (s, n) in data.items():
+            post = np.random.beta(1 + s, 1 + n - s, n_samples)
+            samples[name] = post
+            results.append({&quot;name&quot;: name, &quot;rate&quot;: (s+1)/(n+2), &quot;n&quot;: n})
+
+        names = list(data.keys())
+        control = names[0]
+
+        print(&quot;A/B TEST REPORT&quot;)
+        print(&quot;=&quot; * 55)
+        for name in names:
+            s, n = data[name]
+            print(f&quot;  {name}: {s}/{n} conversions ({s/n:.2%})&quot;)
+
+        print(f&quot;\n{&#x27;Variant&#x27;:&lt;12} {&#x27;vs Control&#x27;:&gt;12} {&#x27;P(Better)&#x27;:&gt;10} {&#x27;Rev Impact&#x27;:&gt;12}&quot;)
+        print(&quot;-&quot; * 50)
+
+        for name in names[1:]:
+            prob_better = np.mean(samples[name] &gt; samples[control])
+            lift = samples[name] - samples[control]
+            monthly_impact = np.mean(lift) * 10000 * self.rev  # 10k monthly visitors
+
+            print(f&quot;{name:&lt;12} {np.mean(lift):&gt;+12.4f} {prob_better:&gt;10.1%} ${monthly_impact:&gt;11,.0f}/mo&quot;)
+
+        return samples
+
+data = {
+    &quot;Control&quot;:    (500, 5000),
+    &quot;New CTA&quot;:    (560, 5000),
+    &quot;New Layout&quot;: (540, 5000),
+}
+
+analyzer = ABTestAnalyzer(revenue_per_conversion=75)
+analyzer.analyze(data)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a Bayesian A/B test where B has 120/1000 vs A&#x27;s 100/1000 — compute P(B &gt; A) and expected lift</label></li>
+<li><label><input type="checkbox"> Extend the test to 4 variants (A/B/C/D) and compute the probability each variant is the best</label></li>
+<li><label><input type="checkbox"> Simulate a 30-day test with a 2pp lift — track when the expected loss drops below 0.001</label></li>
+<li><label><input type="checkbox"> Change the prior from Beta(1,1) to Beta(10,10) and observe how it slows down the posterior update</label></li>
+<li><label><input type="checkbox"> Compute the 95% credible interval for the lift and interpret what it means for a business decision</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Monte Carlo Simulation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When math gets hard, simulate! Monte Carlo methods use random sampling to approximate complex probabilities, integrals, and distributions.</p><div class="code-block"><div class="ch"><span>Estimating probabilities by simulation</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
+
+np.random.seed(42)
+n_simulations = 100000
+
+# Birthday problem: P(at least 2 share a birthday) in group of n
+def birthday_simulation(group_size, n_sims=100000):
+    matches = 0
+    for _ in range(n_sims):
+        birthdays = np.random.randint(0, 365, group_size)
+        if len(set(birthdays)) &lt; group_size:  # at least one match
+            matches += 1
+    return matches / n_sims
+
+for n in [10, 20, 23, 30, 50]:
+    prob = birthday_simulation(n)
+    print(f&quot;Group of {n:2d}: P(shared birthday) = {prob:.4f}&quot;)
+
+# Monty Hall problem
+def monty_hall(switch, n_sims=100000):
+    wins = 0
+    for _ in range(n_sims):
+        car = np.random.randint(3)        # car behind door 0, 1, or 2
+        choice = np.random.randint(3)     # contestant picks
+        # Host opens a door (not car, not choice)
+        if switch:
+            # Switch to the remaining unopened door
+            wins += (choice != car)
+        else:
+            wins += (choice == car)
+    return wins / n_sims
+
+print(f&quot;\nMonty Hall (stay):   P(win) = {monty_hall(switch=False):.4f}&quot;)
+print(f&quot;Monty Hall (switch): P(win) = {monty_hall(switch=True):.4f}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Monte Carlo integration</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-python">import numpy as np
+
+# Estimate pi using Monte Carlo
+np.random.seed(42)
+n = 1000000
+
+# Random points in unit square
+x = np.random.uniform(0, 1, n)
+y = np.random.uniform(0, 1, n)
+
+# Count points inside quarter circle (x^2 + y^2 &lt;= 1)
+inside = (x**2 + y**2) &lt;= 1
+pi_estimate = 4 * np.mean(inside)
+print(f&quot;Pi estimate (n={n:,}): {pi_estimate:.6f}&quot;)
+print(f&quot;True pi:              {np.pi:.6f}&quot;)
+print(f&quot;Error:                {abs(pi_estimate - np.pi):.6f}&quot;)
+
+# Estimate complex integral: integral of sin(x)*exp(-x) from 0 to inf
+# True value = 0.5
+n = 500000
+x = np.random.exponential(1, n)  # sample from exp(1)
+# Importance sampling: E[f(x)/g(x)] where g is the sampling distribution
+estimate = np.mean(np.sin(x))  # sin(x) * exp(-x) / exp(-x) = sin(x)
+print(f&quot;\nIntegral estimate: {estimate:.6f}&quot;)
+print(f&quot;True value:        0.500000&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Bootstrap confidence intervals</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Sample data
+data = np.random.exponential(50, size=100)  # skewed distribution
+
+# Bootstrap: resample with replacement many times
+n_bootstrap = 10000
+boot_means = []
+boot_medians = []
+
+for _ in range(n_bootstrap):
+    sample = np.random.choice(data, size=len(data), replace=True)
+    boot_means.append(np.mean(sample))
+    boot_medians.append(np.median(sample))
+
+boot_means = np.array(boot_means)
+boot_medians = np.array(boot_medians)
+
+# Confidence intervals
+mean_ci = np.percentile(boot_means, [2.5, 97.5])
+median_ci = np.percentile(boot_medians, [2.5, 97.5])
+
+print(f&quot;Sample mean:   {np.mean(data):.2f}&quot;)
+print(f&quot;95% CI (mean): ({mean_ci[0]:.2f}, {mean_ci[1]:.2f})&quot;)
+print(f&quot;\nSample median: {np.median(data):.2f}&quot;)
+print(f&quot;95% CI (median): ({median_ci[0]:.2f}, {median_ci[1]:.2f})&quot;)
+print(f&quot;\nBootstrap std of mean:   {np.std(boot_means):.2f}&quot;)
+print(f&quot;Bootstrap std of median: {np.std(boot_medians):.2f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Risk Analysis with Monte Carlo</div><div class="rd">A startup estimates annual revenue by simulating uncertain variables: customer acquisition rate, churn, and average revenue per user.</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+n_sims = 50000
+
+# Uncertain inputs (distributions based on estimates)
+initial_customers = 1000
+monthly_new = np.random.normal(200, 50, (n_sims, 12)).clip(0)
+monthly_churn_rate = np.random.beta(2, 20, (n_sims, 12))  # ~9% churn
+arpu = np.random.lognormal(np.log(50), 0.3, n_sims)       # ~$50 ARPU
+
+# Simulate 12 months
+annual_revenue = np.zeros(n_sims)
+for sim in range(n_sims):
+    customers = initial_customers
+    total_rev = 0
+    for month in range(12):
+        customers = customers * (1 - monthly_churn_rate[sim, month]) + monthly_new[sim, month]
+        total_rev += customers * arpu[sim]
+    annual_revenue[sim] = total_rev
+
+# Results
+print(&quot;Annual Revenue Forecast (Monte Carlo)&quot;)
+print(&quot;=&quot; * 45)
+print(f&quot;Mean:          ${np.mean(annual_revenue):&gt;12,.0f}&quot;)
+print(f&quot;Median:        ${np.median(annual_revenue):&gt;12,.0f}&quot;)
+print(f&quot;Std Dev:       ${np.std(annual_revenue):&gt;12,.0f}&quot;)
+print(f&quot;5th pctile:    ${np.percentile(annual_revenue, 5):&gt;12,.0f}&quot;)
+print(f&quot;95th pctile:   ${np.percentile(annual_revenue, 95):&gt;12,.0f}&quot;)
+print(f&quot;P(rev &gt; $1M):  {np.mean(annual_revenue &gt; 1_000_000):&gt;12.1%}&quot;)
+print(f&quot;P(rev &gt; $2M):  {np.mean(annual_revenue &gt; 2_000_000):&gt;12.1%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monte Carlo Portfolio Simulator</div><div class="pd">Simulate a stock portfolio&#x27;s performance over 1 year. Model daily returns as normally distributed, compute the probability of different outcomes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+
+def simulate_portfolio(initial_value, mean_daily_return, daily_volatility,
+                       n_days=252, n_simulations=10000):
+    &quot;&quot;&quot;Simulate portfolio value over n_days trading days.&quot;&quot;&quot;
+    # TODO: Generate random daily returns for each simulation
+    # TODO: Compute cumulative portfolio value
+    # TODO: Return final values for all simulations
+    pass
+
+# Parameters (typical S&amp;P 500)
+results = simulate_portfolio(
+    initial_value=100000,
+    mean_daily_return=0.0004,    # ~10% annual
+    daily_volatility=0.012,      # ~19% annual vol
+)
+
+# TODO: Print statistics:
+# - Mean final value
+# - P(gain &gt; 10%)
+# - P(loss &gt; 10%)
+# - Value at Risk (5th percentile)
+# - Best and worst case (1st and 99th percentile)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate the birthday problem for group sizes 10 to 50 and verify the 23-person crossover at ~50%</label></li>
+<li><label><input type="checkbox"> Estimate pi using Monte Carlo with 10k, 100k, and 1M samples — observe how error shrinks</label></li>
+<li><label><input type="checkbox"> Compute bootstrap 95% CI for the median of a skewed distribution with n=50 samples</label></li>
+<li><label><input type="checkbox"> Run a Monte Carlo revenue forecast with at least 3 uncertain inputs and compute P(revenue &gt; target)</label></li>
+<li><label><input type="checkbox"> Simulate the Monty Hall problem and confirm switching wins ~67% of the time</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Bayesian Linear Regression</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Instead of single point estimates for coefficients, Bayesian regression gives you full distributions — capturing uncertainty in your model parameters.</p><div class="code-block"><div class="ch"><span>Bayesian regression from scratch</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Generate data: y = 2x + 1 + noise
+n = 50
+X = np.random.uniform(0, 10, n)
+y = 2 * X + 1 + np.random.normal(0, 2, n)
+
+# Bayesian Linear Regression (conjugate prior)
+# Prior: w ~ N(0, sigma_prior^2 * I)
+# Likelihood: y ~ N(Xw, sigma_noise^2 * I)
+
+# Design matrix (add bias column)
+Phi = np.column_stack([np.ones(n), X])
+
+# Prior parameters
+sigma_prior = 10      # vague prior
+sigma_noise = 2       # assume known noise
+
+# Posterior parameters (closed form!)
+S_prior_inv = np.eye(2) / sigma_prior**2
+S_post_inv = S_prior_inv + Phi.T @ Phi / sigma_noise**2
+S_post = np.linalg.inv(S_post_inv)
+mu_post = S_post @ (Phi.T @ y / sigma_noise**2)
+
+print(&quot;Bayesian Linear Regression Results&quot;)
+print(f&quot;  Intercept: {mu_post[0]:.3f} +/- {np.sqrt(S_post[0,0]):.3f}&quot;)
+print(f&quot;  Slope:     {mu_post[1]:.3f} +/- {np.sqrt(S_post[1,1]):.3f}&quot;)
+
+# Compare with frequentist OLS
+from numpy.linalg import lstsq
+w_ols = lstsq(Phi, y, rcond=None)[0]
+print(f&quot;\n  OLS intercept: {w_ols[0]:.3f}&quot;)
+print(f&quot;  OLS slope:     {w_ols[1]:.3f}&quot;)
+print(&quot;\n  (Similar with vague prior — prior barely matters with enough data)&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Predictive distributions</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Same model from above (simplified)
+n = 50
+X = np.random.uniform(0, 10, n)
+y = 2 * X + 1 + np.random.normal(0, 2, n)
+Phi = np.column_stack([np.ones(n), X])
+
+sigma_noise = 2
+S_prior_inv = np.eye(2) / 100
+S_post_inv = S_prior_inv + Phi.T @ Phi / sigma_noise**2
+S_post = np.linalg.inv(S_post_inv)
+mu_post = S_post @ (Phi.T @ y / sigma_noise**2)
+
+# Predict at new points
+x_new = np.array([2.0, 5.0, 8.0])
+Phi_new = np.column_stack([np.ones(len(x_new)), x_new])
+
+# Predictive mean
+y_pred_mean = Phi_new @ mu_post
+
+# Predictive variance (includes both parameter and noise uncertainty)
+y_pred_var = np.array([
+    phi @ S_post @ phi + sigma_noise**2
+    for phi in Phi_new
+])
+
+print(&quot;Bayesian Predictions (with uncertainty!)&quot;)
+print(f&quot;{&#x27;x&#x27;:&gt;5} {&#x27;Mean&#x27;:&gt;8} {&#x27;Std&#x27;:&gt;8} {&#x27;95% CI&#x27;:&gt;20}&quot;)
+for x, m, v in zip(x_new, y_pred_mean, y_pred_var):
+    std = np.sqrt(v)
+    print(f&quot;{x:&gt;5.1f} {m:&gt;8.3f} {std:&gt;8.3f} ({m-1.96*std:&gt;7.3f}, {m+1.96*std:&gt;7.3f})&quot;)
+
+print(&quot;\nKey advantage: uncertainty GROWS as we extrapolate away from data!&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Bayesian Demand Forecasting</div><div class="rd">A retailer uses Bayesian regression to forecast product demand. The posterior uncertainty helps them set safety stock levels — wider uncertainty means more safety stock.</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Historical demand data (with trend and noise)
+weeks = np.arange(1, 53)
+true_trend = 100 + 2 * weeks  # growing demand
+demand = true_trend + np.random.normal(0, 15, 52)
+
+# Bayesian regression
+Phi = np.column_stack([np.ones(52), weeks])
+sigma_noise = 15
+S_prior_inv = np.eye(2) / 1000
+S_post_inv = S_prior_inv + Phi.T @ Phi / sigma_noise**2
+S_post = np.linalg.inv(S_post_inv)
+mu_post = S_post @ (Phi.T @ demand / sigma_noise**2)
+
+# Forecast next 4 weeks
+future_weeks = np.array([53, 54, 55, 56])
+Phi_future = np.column_stack([np.ones(4), future_weeks])
+
+means = Phi_future @ mu_post
+stds = np.array([
+    np.sqrt(phi @ S_post @ phi + sigma_noise**2)
+    for phi in Phi_future
+])
+
+print(&quot;4-Week Demand Forecast&quot;)
+print(&quot;=&quot; * 55)
+print(f&quot;{&#x27;Week&#x27;:&gt;5} {&#x27;Forecast&#x27;:&gt;10} {&#x27;Low (5%)&#x27;:&gt;10} {&#x27;High (95%)&#x27;:&gt;10} {&#x27;Safety Stock&#x27;:&gt;13}&quot;)
+for w, m, s in zip(future_weeks, means, stds):
+    low = m - 1.645 * s
+    high = m + 1.645 * s
+    safety = 1.645 * s  # extra stock to cover 95% of demand scenarios
+    print(f&quot;{w:&gt;5} {m:&gt;10.0f} {low:&gt;10.0f} {high:&gt;10.0f} {safety:&gt;13.0f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Bayesian linear regression from scratch and compare slope/intercept to OLS on the same data</label></li>
+<li><label><input type="checkbox"> Vary the prior sigma from 0.1 to 100 and observe how much the posterior slope changes</label></li>
+<li><label><input type="checkbox"> Compute the predictive distribution at x=0 vs x=20 and compare uncertainty widths</label></li>
+<li><label><input type="checkbox"> Show that with 200 data points, a strong informative prior has little effect on the posterior</label></li>
+<li><label><input type="checkbox"> Plot the 95% predictive interval at several x values and confirm it widens in extrapolation regions</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Markov Chain Monte Carlo (MCMC)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When posterior distributions don&#x27;t have closed-form solutions, MCMC algorithms draw samples from the posterior by constructing a Markov chain. This enables Bayesian inference for complex models.</p><div class="code-block"><div class="ch"><span>Metropolis-Hastings from scratch</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Goal: sample from a posterior distribution
+# Likelihood: data ~ Normal(mu, sigma=2) — we observe data
+# Prior: mu ~ Normal(0, 10)
+# Posterior: mu | data ~ ?
+
+data = np.random.normal(5, 2, 30)  # true mu = 5
+
+def log_posterior(mu, data, sigma=2, prior_mean=0, prior_std=10):
+    # Log-likelihood
+    log_lik = -0.5 * np.sum(((data - mu) / sigma) ** 2)
+    # Log-prior
+    log_prior = -0.5 * ((mu - prior_mean) / prior_std) ** 2
+    return log_lik + log_prior
+
+# Metropolis-Hastings algorithm
+n_samples = 10000
+samples = np.zeros(n_samples)
+current = 0  # starting value
+proposal_std = 0.5
+
+accepted = 0
+for i in range(n_samples):
+    # Propose new value
+    proposal = current + np.random.normal(0, proposal_std)
+
+    # Accept/reject
+    log_ratio = log_posterior(proposal, data) - log_posterior(current, data)
+    if np.log(np.random.random()) &lt; log_ratio:
+        current = proposal
+        accepted += 1
+
+    samples[i] = current
+
+# Discard burn-in
+burn_in = 1000
+samples = samples[burn_in:]
+
+print(f&quot;True mu:          5.000&quot;)
+print(f&quot;Sample mean:      {np.mean(data):.3f}&quot;)
+print(f&quot;MCMC posterior mean: {np.mean(samples):.3f}&quot;)
+print(f&quot;MCMC posterior std:  {np.std(samples):.3f}&quot;)
+print(f&quot;95% Credible:     ({np.percentile(samples, 2.5):.3f}, {np.percentile(samples, 97.5):.3f})&quot;)
+print(f&quot;Acceptance rate:   {accepted/n_samples:.1%}&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>MCMC diagnostics</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-python">import numpy as np
+
+def run_mcmc_chain(data, n_samples=5000, start=0, proposal_std=0.5, seed=None):
+    if seed: np.random.seed(seed)
+
+    def log_post(mu):
+        return -0.5 * np.sum(((data - mu) / 2) ** 2) - 0.5 * (mu / 10) ** 2
+
+    samples = np.zeros(n_samples)
+    current = start
+    for i in range(n_samples):
+        proposal = current + np.random.normal(0, proposal_std)
+        if np.log(np.random.random()) &lt; log_post(proposal) - log_post(current):
+            current = proposal
+        samples[i] = current
+    return samples
+
+data = np.random.normal(5, 2, 30)
+
+# Run multiple chains with different starting points
+chains = [run_mcmc_chain(data, seed=i, start=s)
+          for i, s in enumerate([0, 10, -10, 5])]
+
+# Diagnostic 1: Trace plot statistics
+for i, chain in enumerate(chains):
+    print(f&quot;Chain {i}: mean={np.mean(chain[1000:]):.3f}, std={np.std(chain[1000:]):.3f}&quot;)
+
+# Diagnostic 2: R-hat (Gelman-Rubin statistic)
+# Should be &lt; 1.01 for convergence
+chain_means = [np.mean(c[1000:]) for c in chains]
+chain_vars = [np.var(c[1000:]) for c in chains]
+n = len(chains[0]) - 1000
+W = np.mean(chain_vars)  # within-chain variance
+B = n * np.var(chain_means)  # between-chain variance
+var_hat = (1 - 1/n) * W + B/n
+R_hat = np.sqrt(var_hat / W)
+print(f&quot;\nR-hat: {R_hat:.4f} ({&#x27;converged&#x27; if R_hat &lt; 1.01 else &#x27;NOT converged&#x27;})&quot;)
+
+# Diagnostic 3: Effective sample size (approximate)
+# Autocorrelation reduces effective samples
+for i, chain in enumerate(chains):
+    c = chain[1000:]
+    autocorr = np.corrcoef(c[:-1], c[1:])[0, 1]
+    ess = len(c) * (1 - autocorr) / (1 + autocorr)
+    print(f&quot;Chain {i}: autocorr={autocorr:.3f}, ESS≈{ess:.0f}&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Bayesian Parameter Estimation for A/B Testing</div><div class="rd">Using MCMC to estimate both conversion rate AND the difference between variants, giving rich posterior distributions for decision-making.</div><pre><code class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# A/B test data
+data_a = np.random.binomial(1, 0.10, 500)  # 10% true conversion
+data_b = np.random.binomial(1, 0.13, 500)  # 13% true conversion
+
+def log_posterior_ab(theta_a, theta_b, data_a, data_b):
+    if not (0 &lt; theta_a &lt; 1 and 0 &lt; theta_b &lt; 1):
+        return -np.inf
+    log_lik_a = np.sum(data_a * np.log(theta_a) + (1-data_a) * np.log(1-theta_a))
+    log_lik_b = np.sum(data_b * np.log(theta_b) + (1-data_b) * np.log(1-theta_b))
+    # Uniform prior on (0,1) — log(1) = 0
+    return log_lik_a + log_lik_b
+
+# MCMC sampling
+n_samples = 20000
+samples_a = np.zeros(n_samples)
+samples_b = np.zeros(n_samples)
+current_a, current_b = 0.1, 0.1
+
+for i in range(n_samples):
+    prop_a = current_a + np.random.normal(0, 0.02)
+    prop_b = current_b + np.random.normal(0, 0.02)
+
+    log_ratio = (log_posterior_ab(prop_a, prop_b, data_a, data_b) -
+                 log_posterior_ab(current_a, current_b, data_a, data_b))
+    if np.log(np.random.random()) &lt; log_ratio:
+        current_a, current_b = prop_a, prop_b
+
+    samples_a[i] = current_a
+    samples_b[i] = current_b
+
+# Burn-in
+sa, sb = samples_a[5000:], samples_b[5000:]
+diff = sb - sa
+
+print(&quot;MCMC A/B Test Results&quot;)
+print(f&quot;theta_A: {np.mean(sa):.4f} ({np.percentile(sa, 2.5):.4f}, {np.percentile(sa, 97.5):.4f})&quot;)
+print(f&quot;theta_B: {np.mean(sb):.4f} ({np.percentile(sb, 2.5):.4f}, {np.percentile(sb, 97.5):.4f})&quot;)
+print(f&quot;diff:    {np.mean(diff):.4f} ({np.percentile(diff, 2.5):.4f}, {np.percentile(diff, 97.5):.4f})&quot;)
+print(f&quot;P(B&gt;A):  {np.mean(diff &gt; 0):.4f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Metropolis-Hastings from scratch to sample from a Normal posterior — check acceptance rate</label></li>
+<li><label><input type="checkbox"> Run 4 chains from different starting points and compute R-hat — verify it is below 1.01</label></li>
+<li><label><input type="checkbox"> Vary the proposal standard deviation (0.01 vs 1.0 vs 5.0) and compare acceptance rates</label></li>
+<li><label><input type="checkbox"> Discard burn-in of 100, 500, and 2000 samples — see how much the posterior mean changes</label></li>
+<li><label><input type="checkbox"> Compute the effective sample size for a chain and compare it to the raw number of samples</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Probabilistic Programming with PyMC</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">PyMC (formerly PyMC3) lets you define Bayesian models in Python and automatically runs MCMC inference. It handles the hard sampling algorithms so you can focus on modeling.</p><div class="code-block"><div class="ch"><span>Getting started with PyMC</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python"># pip install pymc arviz
+import numpy as np
+
+# PyMC model syntax (conceptual — requires pymc installed)
+# This shows the pattern; actual execution needs PyMC
+
+np.random.seed(42)
+data = np.random.normal(5, 2, 100)
+
+print(&quot;PyMC Model Definition (install pymc to run):&quot;)
+print(&quot;&quot;&quot;
+import pymc as pm
+import arviz as az
+
+with pm.Model() as model:
+    # Priors
+    mu = pm.Normal(&quot;mu&quot;, mu=0, sigma=10)
+    sigma = pm.HalfNormal(&quot;sigma&quot;, sigma=5)
+
+    # Likelihood
+    obs = pm.Normal(&quot;obs&quot;, mu=mu, sigma=sigma, observed=data)
+
+    # Inference (NUTS sampler — automatic!)
+    trace = pm.sample(2000, tune=1000, cores=2)
+
+# Results
+print(az.summary(trace))
+az.plot_posterior(trace)
+&quot;&quot;&quot;)
+
+# Without PyMC, we can do the same with scipy
+from scipy import stats
+
+# Analytical posterior for Normal-Normal model
+n = len(data)
+x_bar = np.mean(data)
+sigma_known = 2
+prior_mu, prior_sigma = 0, 10
+
+post_var = 1 / (n/sigma_known**2 + 1/prior_sigma**2)
+post_mean = post_var * (n * x_bar / sigma_known**2 + prior_mu / prior_sigma**2)
+post_std = np.sqrt(post_var)
+
+print(f&quot;\nAnalytical posterior: mu = {post_mean:.3f} +/- {post_std:.3f}&quot;)
+print(f&quot;95% CI: ({post_mean - 1.96*post_std:.3f}, {post_mean + 1.96*post_std:.3f})&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Bayesian logistic regression concept</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-python">import numpy as np
+from scipy.special import expit  # sigmoid function
+
+np.random.seed(42)
+
+# Generate classification data
+n = 200
+X = np.random.normal(0, 1, (n, 2))
+true_w = np.array([1.5, -2.0])
+true_b = 0.5
+probs = expit(X @ true_w + true_b)
+y = np.random.binomial(1, probs)
+
+print(f&quot;Generated {n} samples, {y.sum()} positive&quot;)
+print(f&quot;True weights: {true_w}, bias: {true_b}&quot;)
+
+# Bayesian approach: place priors on weights
+# w ~ Normal(0, 2)
+# b ~ Normal(0, 5)
+
+# With PyMC:
+print(&quot;&quot;&quot;
+with pm.Model() as logistic_model:
+    # Priors on weights
+    w = pm.Normal(&quot;w&quot;, mu=0, sigma=2, shape=2)
+    b = pm.Normal(&quot;b&quot;, mu=0, sigma=5)
+
+    # Linear predictor
+    logit_p = pm.math.dot(X, w) + b
+
+    # Likelihood
+    obs = pm.Bernoulli(&quot;obs&quot;, logit_p=logit_p, observed=y)
+
+    # Sample posterior
+    trace = pm.sample(2000, tune=1000)
+
+# Now you have DISTRIBUTIONS over w and b, not just point estimates!
+# This gives you uncertainty in predictions.
+&quot;&quot;&quot;)
+
+# Quick frequentist comparison
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(C=1/4)  # C = 1/prior_var
+lr.fit(X, y)
+print(f&quot;\nFrequentist: w = {lr.coef_[0]}, b = {lr.intercept_[0]:.3f}&quot;)
+print(&quot;(Bayesian gives distributions, not just point estimates)&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Bayesian Customer Lifetime Value</div><div class="rd">A subscription business models customer lifetime value (CLV) using Bayesian methods, giving not just an estimate but uncertainty bounds for financial planning.</div><pre><code class="language-python">import numpy as np
+from scipy import stats
+
+np.random.seed(42)
+
+# Customer data: monthly churn rates observed over 12 months
+monthly_churns = [15, 12, 10, 8, 11, 9, 7, 10, 8, 6, 9, 7]
+monthly_active = [1000, 985, 973, 963, 955, 944, 935, 928, 918, 910, 904, 895]
+
+# Bayesian estimation of churn rate
+total_churns = sum(monthly_churns)
+total_observations = sum(monthly_active)
+
+# Beta posterior for monthly churn rate
+alpha = 1 + total_churns
+beta = 1 + total_observations - total_churns
+
+# Sample churn rates from posterior
+n_samples = 50000
+churn_samples = np.random.beta(alpha, beta, n_samples)
+
+# For each churn rate, compute CLV
+monthly_revenue = 50  # $50/month subscription
+discount_rate = 0.01  # monthly discount rate
+
+# CLV = monthly_revenue / (churn_rate + discount_rate)
+clv_samples = monthly_revenue / (churn_samples + discount_rate)
+
+print(&quot;Bayesian CLV Analysis&quot;)
+print(&quot;=&quot; * 45)
+print(f&quot;Monthly churn rate: {np.mean(churn_samples):.4f} &quot;
+      f&quot;({np.percentile(churn_samples, 2.5):.4f}, {np.percentile(churn_samples, 97.5):.4f})&quot;)
+print(f&quot;\nCustomer Lifetime Value:&quot;)
+print(f&quot;  Mean:   ${np.mean(clv_samples):&gt;10,.2f}&quot;)
+print(f&quot;  Median: ${np.median(clv_samples):&gt;10,.2f}&quot;)
+print(f&quot;  5th %%:  ${np.percentile(clv_samples, 5):&gt;10,.2f}&quot;)
+print(f&quot;  95th %%: ${np.percentile(clv_samples, 95):&gt;10,.2f}&quot;)
+print(f&quot;\nFor 1000 customers:&quot;)
+total_clv = clv_samples * 1000
+print(f&quot;  Expected: ${np.mean(total_clv):&gt;12,.0f}&quot;)
+print(f&quot;  Worst 5%%: ${np.percentile(total_clv, 5):&gt;12,.0f}&quot;)
+print(f&quot;  Best 95%%: ${np.percentile(total_clv, 95):&gt;12,.0f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write out a PyMC model definition (as a comment/string) for a simple Normal likelihood problem</label></li>
+<li><label><input type="checkbox"> Implement the analytical Normal-Normal posterior update and compare it to a Metropolis-Hastings estimate</label></li>
+<li><label><input type="checkbox"> Compute a Bayesian CLV estimate from monthly churn data — report mean, 5th, and 95th percentile</label></li>
+<li><label><input type="checkbox"> Model Bayesian logistic regression weights manually using MCMC and compare to sklearn&#x27;s coefficients</label></li>
+<li><label><input type="checkbox"> Interpret a PyMC trace summary — identify which parameters have converged vs are still uncertain</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Bayesian vs Frequentist — When to Use Which</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Both approaches have strengths. Understanding the differences helps you choose the right tool for each problem.</p><div class="code-block"><div class="ch"><span>Side-by-side comparison</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
+from scipy import stats
+
+np.random.seed(42)
+data = np.random.normal(5, 2, 30)
+
+# ─── FREQUENTIST APPROACH ───
+sample_mean = np.mean(data)
+sample_se = stats.sem(data)
+ci_freq = stats.t.interval(0.95, df=len(data)-1, loc=sample_mean, scale=sample_se)
+p_value = stats.ttest_1samp(data, 0).pvalue
+
+print(&quot;FREQUENTIST&quot;)
+print(f&quot;  Point estimate: {sample_mean:.3f}&quot;)
+print(f&quot;  95% CI: ({ci_freq[0]:.3f}, {ci_freq[1]:.3f})&quot;)
+print(f&quot;  p-value (mu=0): {p_value:.6f}&quot;)
+print(f&quot;  Interpretation: &#x27;If we repeated this experiment,&quot;)
+print(f&quot;   95% of CIs would contain the true mean.&#x27;&quot;)
+
+# ─── BAYESIAN APPROACH ───
+# Prior: mu ~ Normal(0, 10)  (vague prior)
+prior_mu, prior_sigma = 0, 10
+sigma_known = 2
+n = len(data)
+
+post_var = 1 / (n/sigma_known**2 + 1/prior_sigma**2)
+post_mean = post_var * (n * sample_mean / sigma_known**2 + prior_mu / prior_sigma**2)
+post_std = np.sqrt(post_var)
+ci_bayes = (post_mean - 1.96*post_std, post_mean + 1.96*post_std)
+P_positive = 1 - stats.norm(post_mean, post_std).cdf(0)
+
+print(f&quot;\nBAYESIAN&quot;)
+print(f&quot;  Posterior mean: {post_mean:.3f}&quot;)
+print(f&quot;  95% Credible: ({ci_bayes[0]:.3f}, {ci_bayes[1]:.3f})&quot;)
+print(f&quot;  P(mu &gt; 0): {P_positive:.6f}&quot;)
+print(f&quot;  Interpretation: &#x27;There is a {P_positive:.1%} probability&quot;)
+print(f&quot;   that the true mean is positive.&#x27;&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Decision guide</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-python"># When to use BAYESIAN methods:
+# ✓ You have prior knowledge to incorporate
+# ✓ You want probability statements about parameters
+# ✓ You need uncertainty quantification
+# ✓ Small sample sizes (prior helps regularize)
+# ✓ A/B testing (direct P(B&gt;A))
+# ✓ Hierarchical/multilevel models
+# ✓ Sequential updating (online learning)
+
+# When to use FREQUENTIST methods:
+# ✓ Large samples (results converge anyway)
+# ✓ Regulatory/publication requirements (p-values expected)
+# ✓ Simple hypothesis testing
+# ✓ No strong prior knowledge
+# ✓ Computational simplicity needed
+# ✓ Objective analysis required (no prior debate)
+
+import pandas as pd
+
+comparison = pd.DataFrame({
+    &quot;Aspect&quot;: [&quot;Probability meaning&quot;, &quot;Parameters&quot;, &quot;Data&quot;, &quot;Uncertainty&quot;,
+               &quot;Prior needed&quot;, &quot;Sample size&quot;, &quot;Computation&quot;],
+    &quot;Frequentist&quot;: [&quot;Long-run frequency&quot;, &quot;Fixed (unknown)&quot;, &quot;Random&quot;,
+                    &quot;Confidence intervals&quot;, &quot;No&quot;, &quot;Needs large N&quot;, &quot;Fast&quot;],
+    &quot;Bayesian&quot;: [&quot;Degree of belief&quot;, &quot;Random variables&quot;, &quot;Fixed (observed)&quot;,
+                 &quot;Credible intervals&quot;, &quot;Yes&quot;, &quot;Works with small N&quot;, &quot;Can be slow&quot;],
+})
+print(comparison.to_string(index=False))</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a frequentist 95% CI and a Bayesian 95% credible interval on the same dataset — explain the difference</label></li>
+<li><label><input type="checkbox"> Run a t-test and a Bayesian test on the same data — compare the p-value to P(mu &gt; 0)</label></li>
+<li><label><input type="checkbox"> Show that with n=5 samples, a strong prior substantially changes the posterior mean vs MLE</label></li>
+<li><label><input type="checkbox"> Identify 3 real problems from your work where Bayesian thinking would be more appropriate than p-values</label></li>
+<li><label><input type="checkbox"> Compute P(mu &gt; 0) using a Bayesian posterior and interpret it as a probability statement</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Bayesian Optimization for Hyperparameter Tuning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bayesian optimization uses a probabilistic model to smartly search hyperparameter space — much more efficient than grid or random search.</p><div class="code-block"><div class="ch"><span>Bayesian optimization concept</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
+
+np.random.seed(42)
+
+# Bayesian optimization builds a surrogate model (usually Gaussian Process)
+# of the objective function and uses an acquisition function to decide
+# where to sample next.
+
+# Simulate optimizing a black-box function
+def objective(x):
+    &quot;&quot;&quot;Expensive function we want to maximize (e.g., model accuracy).&quot;&quot;&quot;
+    return -(x - 3)**2 + 10 + np.random.normal(0, 0.1)
+
+# Random search (baseline)
+n_random = 20
+random_x = np.random.uniform(0, 10, n_random)
+random_y = [objective(x) for x in random_x]
+best_random = random_x[np.argmax(random_y)]
+print(f&quot;Random search best: x={best_random:.3f}, y={max(random_y):.3f}&quot;)
+
+# Simple Bayesian-inspired search (acquisition = upper confidence bound)
+# In practice, use libraries like Optuna or scikit-optimize
+evaluated_x = list(np.random.uniform(0, 10, 3))
+evaluated_y = [objective(x) for x in evaluated_x]
+
+for i in range(17):  # same budget as random search
+    # Simplified: explore near best + some randomness
+    best_so_far = evaluated_x[np.argmax(evaluated_y)]
+    next_x = best_so_far + np.random.normal(0, 2 / (i + 1))
+    next_x = np.clip(next_x, 0, 10)
+    next_y = objective(next_x)
+    evaluated_x.append(next_x)
+    evaluated_y.append(next_y)
+
+best_bayes = evaluated_x[np.argmax(evaluated_y)]
+print(f&quot;Bayesian search best: x={best_bayes:.3f}, y={max(evaluated_y):.3f}&quot;)
+print(f&quot;True optimum: x=3.000, y=10.000&quot;)</code></pre></div><div class="code-block"><div class="ch"><span>Optuna — practical Bayesian hyperparameter tuning</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-python"># pip install optuna
+# Optuna uses Tree-structured Parzen Estimator (TPE) — a Bayesian method
+
+import numpy as np
+
+# Example: tuning a model (without optuna, showing the pattern)
+print(&quot;&quot;&quot;
+import optuna
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+
+def objective(trial):
+    # Optuna suggests hyperparameters
+    n_estimators = trial.suggest_int(&quot;n_estimators&quot;, 50, 500)
+    max_depth = trial.suggest_int(&quot;max_depth&quot;, 3, 20)
+    min_samples_split = trial.suggest_int(&quot;min_samples_split&quot;, 2, 20)
+    max_features = trial.suggest_categorical(&quot;max_features&quot;, [&quot;sqrt&quot;, &quot;log2&quot;])
+
+    model = RandomForestClassifier(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        min_samples_split=min_samples_split,
+        max_features=max_features,
+        random_state=42,
+    )
+
+    score = cross_val_score(model, X_train, y_train, cv=5, scoring=&quot;accuracy&quot;)
+    return score.mean()
+
+# Run optimization
+study = optuna.create_study(direction=&quot;maximize&quot;)
+study.optimize(objective, n_trials=100)
+
+print(f&quot;Best accuracy: {study.best_value:.4f}&quot;)
+print(f&quot;Best params: {study.best_params}&quot;)
+&quot;&quot;&quot;)
+
+# Key advantages of Bayesian optimization:
+print(&quot;Advantages over Grid/Random Search:&quot;)
+print(&quot;  1. Learns from previous evaluations&quot;)
+print(&quot;  2. Focuses on promising regions&quot;)
+print(&quot;  3. Typically finds better results in fewer trials&quot;)
+print(&quot;  4. Handles conditional parameters naturally&quot;)
+print(&quot;  5. Works well with expensive objective functions&quot;)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Bayesian Model Selection Pipeline</div><div class="rd">A data science team uses Bayesian optimization to efficiently search across both model types and hyperparameters, finding the best configuration in minimal compute time.</div><pre><code class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+
+np.random.seed(42)
+X, y = make_classification(n_samples=500, n_features=20,
+                           n_informative=10, random_state=42)
+
+# Simple Bayesian-inspired model search
+# (In production, use Optuna for this)
+results = []
+
+configs = [
+    (&quot;LR C=0.1&quot;, LogisticRegression(C=0.1, max_iter=1000)),
+    (&quot;LR C=1&quot;,   LogisticRegression(C=1.0, max_iter=1000)),
+    (&quot;LR C=10&quot;,  LogisticRegression(C=10, max_iter=1000)),
+    (&quot;RF n=50&quot;,  RandomForestClassifier(n_estimators=50, random_state=42)),
+    (&quot;RF n=200&quot;, RandomForestClassifier(n_estimators=200, random_state=42)),
+    (&quot;GB n=100&quot;, GradientBoostingClassifier(n_estimators=100, random_state=42)),
+    (&quot;GB n=200&quot;, GradientBoostingClassifier(n_estimators=200, learning_rate=0.05, random_state=42)),
+]
+
+print(f&quot;{&#x27;Config&#x27;:&lt;12} {&#x27;Mean CV&#x27;:&gt;8} {&#x27;Std&#x27;:&gt;6}&quot;)
+print(&quot;-&quot; * 28)
+for name, model in configs:
+    scores = cross_val_score(model, X, y, cv=5, scoring=&quot;accuracy&quot;)
+    results.append((name, scores.mean(), scores.std()))
+    print(f&quot;{name:&lt;12} {scores.mean():&gt;8.4f} {scores.std():&gt;6.4f}&quot;)
+
+best = max(results, key=lambda x: x[1])
+print(f&quot;\nBest: {best[0]} with accuracy {best[1]:.4f}&quot;)
+print(&quot;\nWith Optuna, this search is automated and more efficient!&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a simple random search vs a greedy exploit-and-explore search on a 1D objective function</label></li>
+<li><label><input type="checkbox"> Install Optuna and run a 20-trial study on a RandomForest — print best params and accuracy</label></li>
+<li><label><input type="checkbox"> Compare 50-trial random search vs 50-trial Optuna TPE on the same model — which finds better params?</label></li>
+<li><label><input type="checkbox"> Add early pruning to an Optuna study using a pruner and observe how it skips bad trials</label></li>
+<li><label><input type="checkbox"> Use Optuna to tune both model type (RF vs GB) and hyperparameters in a single categorical study</label></li></ul></div></div></div>
+</main>
+<script>
+hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>

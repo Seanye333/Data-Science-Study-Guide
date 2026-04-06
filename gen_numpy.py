@@ -52,12 +52,25 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (
             f'<div class="topic" id="s{i}">'
             f'<div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
             f'<span class="arr">&#9660;</span></div>'
             f'<div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-            f'{blks}{rw_html}{practice_html}</div></div>'
+            f'{blks}{rw_html}{practice_html}{todos_html}</div></div>'
         )
     n = len(sections)
     return f"""<!DOCTYPE html>
@@ -65,43 +78,8 @@ def make_html(sections):
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}
-.sbh h2{{font-size:1.05rem;color:var(--acc)}}
-.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}
-#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}
-.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}
-.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}
-.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}
-.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}
-.arr{{color:var(--mut);transition:transform .2s}}
-.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}
-.tb.open{{display:block}}
-.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}
-.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}
-.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}
-.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}
-.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}
-.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar">
   <div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
@@ -116,7 +94,7 @@ pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}
 <script>
 hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -238,6 +216,13 @@ students = np.array([
 print("\\nStructured array:", students)
 print("Names:", students['name'])
 print("Top scorer:", students[np.argmax(students['score'])]['name'])"""}
+],
+"todos": [
+    "Create a 3x4 array of zeros and a 3x4 array of ones — add them together",
+    "Use np.arange(0, 100, 5) and reshape it to (4, 5) — print shape and values",
+    "Generate a 3x3 identity matrix with np.eye(3) and verify the diagonal is all 1s",
+    "Use np.linspace(0, 1, 11) and np.logspace(0, 3, 4) and print both results",
+    "Create a 5x5 checkerboard of 0s and 1s using np.tile and a 2x2 unit pattern",
 ],
 "practice": {
 "title": "Array Construction Challenge",
@@ -361,6 +346,13 @@ t = a.T
 print("\\nTranspose strides:", t.strides)     # (8, 32)
 print("Shares memory with original:", np.shares_memory(a, t))"""}
 ],
+"todos": [
+    "Create a (3, 4) float32 array and print its shape, ndim, dtype, itemsize, and nbytes",
+    "Reshape np.arange(12) to (3, 4) then use .reshape(2, -1) and verify the shapes",
+    "Use .astype(np.float32) on an int64 array and compare the nbytes before and after",
+    "Slice an array to create a view, modify the view, and confirm the original changed",
+    "Use np.shares_memory to distinguish a view from a .copy()",
+],
 "practice": {
 "title": "Array Attribute Inspector",
 "desc": "Create three arrays of different dtypes (int8, float32, complex128), each shaped (4, 5). For each: print shape, ndim, dtype, itemsize, nbytes, and compute the memory saving vs float64. Then reshape one to (2, 2, 5) and verify shares_memory returns True.",
@@ -481,6 +473,13 @@ gathered = batch[:, np.ix_(sample_rows, sample_cols)[0],
                     np.ix_(sample_rows, sample_cols)[1]]
 print("\\nBatch gather shape:", gathered.shape)  # (3, 2, 3)
 print("First matrix block:\\n", gathered[0])"""}
+],
+"todos": [
+    "Index a 2D array to extract a single element, a full row, and a full column",
+    "Use a slice with step to extract every other element from a 1D array",
+    "Use fancy indexing with an integer list to reorder rows of a 2D array",
+    "Use np.ix_([0,2], [1,3]) to extract a 2x2 sub-matrix from a 4x4 array",
+    "Set all values greater than 10 to 0 in a copy of an array using boolean indexing",
 ],
 "practice": {
 "title": "Matrix Surgery",
@@ -610,6 +609,13 @@ y = np.piecewise(x,
 print("\\npiecewise input: ", x.round(2))
 print("piecewise output:", y.round(2))"""}
 ],
+"todos": [
+    "Apply np.sqrt, np.log, and np.exp to a 1D array and print results side by side",
+    "Compute np.cumsum and np.cumprod on [1, 2, 3, 4, 5] and verify values manually",
+    "Use np.clip to keep all values in a random array within [0.1, 0.9]",
+    "Compute pairwise squared Euclidean distances between 4 points using broadcasting (no loop)",
+    "Use np.einsum('ij,jk->ik', A, B) to multiply two matrices and verify with A @ B",
+],
 "practice": {
 "title": "Vectorized Math Challenge",
 "desc": "1) Given angles in degrees [0, 30, 45, 60, 90, 120, 180], compute sin and cos without a loop. Verify sin²+cos²=1 for all. 2) Given a 1D price array, compute: % daily return, 5-day moving average (using np.convolve), and cumulative return. 3) Use np.clip to cap values between the 10th and 90th percentile.",
@@ -735,6 +741,13 @@ W_shared = rng.random((K, N))           # single weight matrix
 C_shared = A_batch @ W_shared           # (4,3,5) @ (5,2) -> (4,3,2)
 print("Shared-weight batch:", A_batch.shape, "@", W_shared.shape, "->", C_shared.shape)
 print("All batch outputs equal?", False, "(each row of A_batch differs)")"""}
+],
+"todos": [
+    "Add a scalar 10 to a (3, 4) array and then multiply by a (4,) row vector — verify broadcast shapes",
+    "Subtract the per-column mean from a (100, 5) array using axis=0 and keepdims=True",
+    "Compute the outer product of [1,2,3] and [10,20,30] using broadcasting (a[:,None] * b[None,:])",
+    "Compute pairwise L2 distances between 5 points in 2D using (pts[:,None,:] - pts[None,:,:])",
+    "Implement row-wise softmax on a (3, 5) logit matrix and verify each row sums to 1.0",
 ],
 "practice": {
 "title": "Broadcasting Workout",
@@ -868,6 +881,13 @@ print(f"Hot hours (index): {hot_idx}  values: {temps[hot_idx]}")
 # Compound OR mask
 extreme = np.where((temps < 5) | (temps >= 30), 'extreme', 'normal')
 print("Extreme flag:", extreme)"""}
+],
+"todos": [
+    "Create a boolean mask for values > 20 in a 1D array and use it to extract those values",
+    "Use np.where to replace all negatives in an array with 0 (ReLU-style activation)",
+    "Use np.select to assign 'low', 'medium', 'high' labels based on score thresholds",
+    "Use np.argwhere to find the (row, col) indices of all zeros in a 2D array",
+    "Combine two boolean conditions with & to find values in a range, then replace outliers with median",
 ],
 "practice": {
 "title": "Boolean Filtering & Replacement",
@@ -1004,6 +1024,13 @@ print("\\n2D histogram (counts):\\n", H.astype(int))
 print("x edges:", xedges.round(2))
 print("y edges:", yedges.round(2))
 print("Most occupied bin count:", int(H.max()))"""}
+],
+"todos": [
+    "Compute mean, median, std, min, and max on a 1D array and verify with manual calculation",
+    "Use axis=0 and axis=1 on a (4, 5) array to compute column-wise and row-wise sums",
+    "Compute the Pearson correlation matrix for 3 variables using np.corrcoef",
+    "Use np.histogram with 10 bins on 1000 normal samples and verify bin counts sum to 1000",
+    "Use np.nanmean on an array with NaN values and compare the result to np.mean",
 ],
 "practice": {
 "title": "Statistics on a 2D Dataset",
@@ -1144,6 +1171,13 @@ ill  = np.array([[1., 1.], [1., 1.0001]])
 print(f"\\nCondition (well-conditioned): {np.linalg.cond(well):.2f}")
 print(f"Condition (ill-conditioned):  {np.linalg.cond(ill):.0f}")"""}
 ],
+"todos": [
+    "Set up a 2x2 system Ax=b and solve it with np.linalg.solve — verify with A @ x == b",
+    "Compute the inverse of a 3x3 matrix and confirm A @ inv(A) == identity using np.allclose",
+    "Decompose a matrix with np.linalg.svd and reconstruct it from U, s, Vt",
+    "Compute eigenvalues and eigenvectors of a 2x2 matrix and verify A @ v == lambda * v",
+    "Use np.linalg.lstsq to fit a line y = mx + b to noisy data and print the fitted coefficients",
+],
 "practice": {
 "title": "Solve a 3x3 Linear System",
 "desc": "Solve this system: 2x + y - z = 8, -3x - y + 2z = -11, -2x + y + 2z = -3. Set up as Ax=b, solve with np.linalg.solve, verify with np.allclose. Then compute det(A), inv(A), and confirm A @ inv(A) is the identity.",
@@ -1280,6 +1314,13 @@ print("concat axis=1 (col join):", col_join.shape)
 chunks = np.array_split(data, [2, 3], axis=0)  # at rows 2 and 3
 restored = np.concatenate(chunks, axis=0)
 print("\\nRound-trip split->concat matches original:", np.array_equal(data, restored))"""}
+],
+"todos": [
+    "Reshape np.arange(24) to (2, 3, 4) and then transpose to (4, 3, 2) — print both shapes",
+    "Use np.hstack and np.vstack to join two (3, 4) arrays horizontally and vertically",
+    "Split np.arange(12) into 3 equal parts with np.split and print each part",
+    "Use np.pad to add a border of zeros around a (3, 3) array of ones",
+    "Use np.roll to shift a 1D array right by 2 positions and verify the wrap-around",
 ],
 "practice": {
 "title": "Shape Manipulation Challenge",
@@ -1423,6 +1464,13 @@ norm_clipped = np.clip(norm, 0, 1)
 print(f"\\nNormal values outside [0,1]: {((norm<0)|(norm>1)).sum()} / {N}")
 print(f"Uniform values outside [0,1]: {((unif<0)|(unif>1)).sum()} / {N}")"""}
 ],
+"todos": [
+    "Use np.random.default_rng(42) to generate 1000 uniform samples and verify the mean is ~0.5",
+    "Simulate 10,000 coin flips with rng.integers(0, 2) and compute the empirical P(heads)",
+    "Generate 1000 values from a normal distribution and verify ~68% fall within one std of the mean",
+    "Use rng.choice on a list of outcomes with unequal probabilities and check the empirical distribution",
+    "Implement bootstrap resampling: draw 10,000 bootstrap means from a small dataset and find the 95% CI",
+],
 "practice": {
 "title": "Monte Carlo Dice Simulation",
 "desc": "Simulate 1,000,000 rolls of two 6-sided dice using NumPy (no Python loops). 1) Compute the frequency of each sum (2-12). 2) Compare to theoretical probability. 3) Find the empirical probability of rolling a sum of 7. 4) Simulate the 'Craps' first-roll win condition (sum 7 or 11).",
@@ -1505,6 +1553,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "A quant computing rolling volatility on 10M tick records needs zero-copy sliding windows — using stride tricks avoids allocating 40GB of intermediate arrays.",
     "rw_code": "import numpy as np\n\nnp.random.seed(42)\nprices = 100 * np.exp(np.cumsum(np.random.randn(500) * 0.01))\nreturns = np.diff(np.log(prices))\n\nwindow = 20  # 20-period rolling volatility\nroll_windows = np.lib.stride_tricks.sliding_window_view(returns, window)\nroll_vol = roll_windows.std(axis=1) * np.sqrt(252)  # annualized\n\nprint(f'Returns series: {len(returns)} points')\nprint(f'Rolling vol series: {len(roll_vol)} points')\nprint(f'Latest 20-day vol: {roll_vol[-1]:.2%}')\nprint(f'Max vol observed: {roll_vol.max():.2%}')\nprint(f'Min vol observed: {roll_vol.min():.2%}')",
+    "todos": [
+        "Inspect the .strides of a C-order and F-order version of the same array and compare",
+        "Modify a view and confirm the original array changes — then use .copy() to prevent this",
+        "Use sliding_window_view on a 1D array of length 10 with window_size=3 and print all windows",
+        "Apply np.add(a, b, out=result) to avoid allocating a new array in a tight loop",
+        "Compute a rolling mean using sliding_window_view(...).mean(axis=1) without any Python loop",
+    ],
     "practice": {
         "title": "Stride-Based Feature Matrix",
         "desc": "Given a 1D time series, use sliding_window_view to build a feature matrix where each row contains [t-3, t-2, t-1, t] values. Then compute the mean and std of each row as features.",
@@ -1534,6 +1589,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "A sensor network logs readings from multiple instruments with different data types (device ID, timestamp, float values, status flags) into a single compact binary array for fast I/O.",
     "rw_code": "import numpy as np\n\n# Simulate sensor readings\nnp.random.seed(42)\nn = 1000\nsensor_dtype = np.dtype([\n    ('device_id', 'U8'),\n    ('timestamp', 'f8'),\n    ('temp_c',    'f4'),\n    ('pressure',  'f4'),\n    ('humidity',  'f4'),\n    ('alert',     '?'),\n])\n\ndevices = ['SEN-001', 'SEN-002', 'SEN-003']\ndata = np.array([\n    (np.random.choice(devices),\n     i * 60.0,\n     20 + np.random.randn() * 3,\n     1013 + np.random.randn() * 5,\n     50 + np.random.randn() * 10,\n     False)\n    for i in range(n)\n], dtype=sensor_dtype)\n\n# Flag temperature anomalies\nalert_mask = (data['temp_c'] > 25) | (data['temp_c'] < 15)\ndata['alert'] = alert_mask\n\nfor device in devices:\n    subset = data[data['device_id'] == device]\n    n_alerts = subset['alert'].sum()\n    print(f'{device}: {len(subset)} readings, {n_alerts} alerts, avg_temp={subset[\"temp_c\"].mean():.1f}°C')",
+    "todos": [
+        "Define a structured dtype with name (U20), age (i4), score (f8) and create a 4-row array",
+        "Access a field by name (data['score']) and sort the structured array by that field",
+        "Filter a structured array to keep only rows where dept == 'Eng'",
+        "Convert a structured array to a pandas DataFrame and back with to_records()",
+        "Use np.recarray to access fields as attributes (rec.name instead of rec['name'])",
+    ],
     "practice": {
         "title": "Student Records Sorter",
         "desc": "Create a structured array with fields: name (str), grade (int), gpa (float) for 6 students. Sort by gpa descending and print the top 3. Then compute average gpa per grade level.",
@@ -1563,6 +1625,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "A data scientist uses SVD to compress a document-term matrix — keeping only the top 50 singular values captures 85% of the variance while reducing memory 20×.",
     "rw_code": "import numpy as np\n\nnp.random.seed(42)\n# Simulate a document-term matrix (100 docs x 500 terms)\nn_docs, n_terms = 100, 500\nX = np.random.poisson(0.5, (n_docs, n_terms)).astype(float)\n\nU, s, Vt = np.linalg.svd(X, full_matrices=False)\n\ncumulative_var = np.cumsum(s**2) / (s**2).sum()\nfor k in [10, 20, 50, 100]:\n    X_k = U[:, :k] @ np.diag(s[:k]) @ Vt[:k, :]\n    fro_err = np.linalg.norm(X - X_k, 'fro') / np.linalg.norm(X, 'fro')\n    mem_ratio = (n_docs*k + k + k*n_terms) / (n_docs*n_terms)\n    print(f'k={k:3d}: var_explained={cumulative_var[k-1]:.1%}, rel_error={fro_err:.3f}, memory={mem_ratio:.2%}')",
+    "todos": [
+        "Solve a 2x2 linear system with np.linalg.solve and verify the solution with A @ x == b",
+        "Compute SVD of a 4x3 matrix and reconstruct it — verify with np.allclose",
+        "Find eigenvalues of a symmetric matrix and verify they are all real",
+        "Use np.polyfit to fit a line to noisy data and print slope and intercept",
+        "Compute a rank-1 approximation of a matrix using the largest singular value and compare to original",
+    ],
     "practice": {
         "title": "Curve Fitting & Residuals",
         "desc": "Generate 60 points of noisy sine data (y = sin(x) + noise). Fit polynomial degrees 1, 3, 5, and 7. For each, compute the RMSE and plot residuals. Identify the degree with best bias-variance tradeoff.",
@@ -1592,6 +1661,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "A computer vision pipeline needs to efficiently extract top-k confidence pixels from a batch of heatmaps, mask background pixels below a threshold, and assign class labels based on score ranges.",
     "rw_code": "import numpy as np\n\nnp.random.seed(7)\nbatch_size, H, W, n_classes = 8, 16, 16, 5\nheatmaps = np.random.rand(batch_size, H, W, n_classes).astype(np.float32)\n\n# Assign class = argmax across last axis\npred_class = np.argmax(heatmaps, axis=-1)  # (batch, H, W)\npred_conf  = np.max(heatmaps, axis=-1)     # (batch, H, W)\n\n# Mask low-confidence predictions\nthresh = 0.6\nmask = pred_conf >= thresh\nprint(f'High-conf pixels: {mask.sum()} / {mask.size} ({mask.mean():.1%})')\n\n# Class distribution for high-conf pixels\nfor batch_i in range(3):\n    hi_classes = pred_class[batch_i][mask[batch_i]]\n    counts = np.bincount(hi_classes, minlength=n_classes)\n    print(f'Batch {batch_i}: class counts = {counts}')\n\n# Top-5 confidence pixels per image\nfor batch_i in range(2):\n    flat_conf = pred_conf[batch_i].ravel()\n    top5_idx  = np.argpartition(flat_conf, -5)[-5:]\n    top5_rc   = np.unravel_index(top5_idx, (H, W))\n    print(f'Batch {batch_i} top-5 pixels: {list(zip(*top5_rc))}')",
+    "todos": [
+        "Select rows [0, 2, 4] from a 5x5 array using a list index — verify it creates a copy",
+        "Use (row_idx, col_idx) paired indexing to extract specific cells (one per row) from a 2D array",
+        "Use np.argpartition to find the top-3 values in a 1D array without fully sorting it",
+        "Use np.take to reorder rows of a 2D array by a custom index order",
+        "Apply np.searchsorted on a sorted array to find where new values would be inserted",
+    ],
     "practice": {
         "title": "Student Score Analyzer",
         "desc": "Given a 2D array of exam scores (30 students x 5 subjects), use advanced indexing to: (1) find each student's best and worst subject, (2) select the top 5 students by total score using np.argpartition, (3) assign letter grades (A>=90, B>=80, C>=70, D>=60, F<60) using np.where, (4) create a pass/fail mask where students need avg >= 70 in at least 3 subjects.",
@@ -1621,6 +1697,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "A quantitative trading firm needs to compute a rolling 60-day correlation matrix for 200 stocks every second. Optimize using vectorized einsum operations and pre-allocated output buffers.",
     "rw_code": "import numpy as np\nimport time\n\nnp.random.seed(42)\nn_stocks, n_days = 200, 252\nreturns = np.random.randn(n_days, n_stocks).astype(np.float32)\n\ndef rolling_corr_slow(returns, window=60):\n    n = len(returns)\n    corrs = []\n    for i in range(window, n + 1):\n        window_data = returns[i-window:i]\n        corrs.append(np.corrcoef(window_data.T))\n    return np.array(corrs)\n\ndef rolling_corr_fast(returns, window=60):\n    n, m = returns.shape\n    out = np.empty((n - window + 1, m, m), dtype=np.float32)\n    for i in range(n - window + 1):\n        W = returns[i:i+window]\n        # Standardize\n        mu  = W.mean(0)\n        std = W.std(0) + 1e-8\n        W_std = (W - mu) / std\n        out[i] = (W_std.T @ W_std) / window\n    return out\n\nt0 = time.perf_counter()\nC_fast = rolling_corr_fast(returns)\nprint(f'Fast: {time.perf_counter()-t0:.3f}s | shape: {C_fast.shape}')\nprint(f'Avg diagonal (should be 1): {np.diagonal(C_fast, axis1=1, axis2=2).mean():.4f}')",
+    "todos": [
+        "Time a Python for-loop that sums 1M numbers vs np.sum — report the speedup",
+        "Replace a nested loop that computes a pairwise operation with a vectorized broadcasting expression",
+        "Use np.einsum('ij,jk->ik', A, B) for matrix multiplication and compare speed with A @ B",
+        "Use out= parameter with np.sin to write results directly into a pre-allocated buffer",
+        "Use np.vectorize to wrap a scalar classify() function and apply it to a 1000-element array",
+    ],
     "practice": {
         "title": "Vectorize a Distance Computation",
         "desc": "Given a matrix X of shape (1000, 5), compute the pairwise Euclidean distance matrix D[i,j] = ||x_i - x_j||. Implement three versions: (1) pure Python nested loop, (2) NumPy broadcasting (X[:,None,:] - X[None,:,:]), (3) using np.einsum or scipy.spatial.distance. Benchmark all three and report speedups.",
@@ -1650,6 +1733,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
     ],
     "rw_scenario": "An IoT sensor produces 1kHz vibration readings from industrial machinery. Detect bearing faults by identifying abnormal frequency peaks between 80-300Hz that exceed 3x the baseline RMS power in that band.",
     "rw_code": "import numpy as np\n\nnp.random.seed(42)\nfs = 1000\nt  = np.linspace(0, 5, 5*fs)  # 5 seconds\n\n# Normal vibration: low-freq mechanical\nnormal = np.sin(2*np.pi*15*t) + 0.2*np.random.randn(len(t))\n\n# Faulty vibration: adds bearing fault frequency at 120Hz\nfault_freq = 120\nfaulty = normal + 1.5*np.sin(2*np.pi*fault_freq*t)\n\ndef detect_fault(signal, fs, fault_band=(80,300), threshold=3.0):\n    fft_v  = np.fft.rfft(signal)\n    freqs  = np.fft.rfftfreq(len(signal), d=1/fs)\n    power  = np.abs(fft_v)**2\n    # Baseline: power outside fault band\n    base_mask = (freqs < fault_band[0]) | (freqs > fault_band[1])\n    fault_mask = (freqs >= fault_band[0]) & (freqs <= fault_band[1])\n    baseline_rms = np.sqrt(power[base_mask].mean())\n    fault_rms    = np.sqrt(power[fault_mask].mean())\n    ratio = fault_rms / (baseline_rms + 1e-8)\n    return ratio > threshold, ratio\n\nfor name, sig in [('Normal', normal), ('Faulty', faulty)]:\n    is_fault, ratio = detect_fault(sig, fs)\n    print(f'{name}: fault_band/baseline ratio={ratio:.2f} -> {\"FAULT\" if is_fault else \"OK\"}')",
+    "todos": [
+        "Create a 5Hz + 20Hz composite signal and use np.fft.rfft to find dominant frequencies",
+        "Implement a low-pass FFT filter: zero out frequency components above a cutoff_hz and reconstruct",
+        "Use np.convolve with a uniform kernel np.ones(5)/5 to compute a 5-sample moving average",
+        "Compute a Gaussian smoothing kernel and apply it with np.convolve to a noisy signal",
+        "Compute the 2D FFT of a synthetic image and apply a circular low-pass mask in the frequency domain",
+    ],
     "practice": {
         "title": "Audio Denoising Pipeline",
         "desc": "Simulate an audio signal: 440Hz tone + 880Hz harmonic + white noise. (1) Compute FFT and plot the power spectrum. (2) Design a bandpass FFT filter that keeps only 400-950Hz. (3) Reconstruct the signal with ifft. (4) Compute SNR before and after filtering. (5) Also try a 21-point Gaussian smoothing kernel via np.convolve as an alternative.",
@@ -1670,6 +1760,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A sales dashboard needs to rank 10,000 reps by revenue but only display the top 100, using argpartition for O(n) efficiency instead of a full sort.",
         "code": "import numpy as np\n\nnp.random.seed(42)\nn_reps = 10_000\nrep_ids = np.arange(n_reps)\nrevenues = np.random.lognormal(mean=10, sigma=1.5, size=n_reps)\n\nK = 100  # top 100 reps\n\n# Efficient: O(n) to get top-K indices, O(K log K) to sort only those\ntop_k_idx = np.argpartition(revenues, -K)[-K:]\ntop_k_sorted = top_k_idx[np.argsort(revenues[top_k_idx])[::-1]]\n\nprint(\"Top 10 reps:\")\nfor rank, idx in enumerate(top_k_sorted[:10], 1):\n    print(f\"  Rank {rank:3d}: Rep #{rep_ids[idx]:5d} | Revenue: ${revenues[idx]:>12,.0f}\")\n\n# Percentile ranks using searchsorted\nsorted_rev = np.sort(revenues)\nsample_rev = np.array([50_000, 100_000, 500_000])\npct_ranks  = np.searchsorted(sorted_rev, sample_rev) / n_reps * 100\nfor rev, pct in zip(sample_rev, pct_ranks):\n    print(f\"  ${rev:>8,} is at the {pct:.1f}th percentile\")"
     },
+    "todos": [
+        "Use np.sort and np.argsort on a 1D array and verify arr[argsort] == sorted array",
+        "Sort a 2D array along axis=1 (row-wise) and along axis=0 (column-wise) and print results",
+        "Use np.argpartition to find the top-5 values in a 100-element array — O(n) operation",
+        "Use np.searchsorted to binary-search a sorted array and find insert positions for new values",
+        "Sort a structured array by two fields (first by dept, then by salary) using order=[f1, f2]",
+    ],
     "practice": {
         "title": "Top-K Selector",
         "desc": "Write a function top_k_products(sales, k) that takes a 2D array (rows=products, cols=days) and returns the indices of the k products with the highest total sales. Use argpartition for efficiency. Also write bottom_k_days(sales, k) that returns the k days (columns) with lowest average sales across all products.",
@@ -1690,6 +1787,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A warehouse system compares today\'s scan vs expected manifest using NumPy set operations to find missing, extra, and duplicate items instantly across 100K SKUs.",
         "code": "import numpy as np\n\nnp.random.seed(42)\nmanifest = np.random.choice(np.arange(200_000), size=100_000, replace=False)\n\n# Simulate scanning: miss 500, add 300 unexpected\nmissed_idx   = np.random.choice(len(manifest), size=500, replace=False)\nextra_skus   = np.random.randint(200_000, 201_000, size=300)\nscanned      = np.concatenate([np.delete(manifest, missed_idx), extra_skus])\n\nmanifest_u = np.unique(manifest)\nscanned_u  = np.unique(scanned)\n\nmissing      = np.setdiff1d(manifest_u, scanned_u)\nunexpected   = np.setdiff1d(scanned_u, manifest_u)\nconfirmed    = np.intersect1d(manifest_u, scanned_u)\n\n# Duplicates in scan\nvals, counts = np.unique(scanned, return_counts=True)\nduplicates   = vals[counts > 1]\n\nprint(f\"Manifest:    {len(manifest_u):,} SKUs\")\nprint(f\"Scanned:     {len(scanned_u):,} unique SKUs\")\nprint(f\"Confirmed:   {len(confirmed):,} ({len(confirmed)/len(manifest_u):.1%})\")\nprint(f\"Missing:     {len(missing):,}\")\nprint(f\"Unexpected:  {len(unexpected):,}\")\nprint(f\"Duplicates:  {len(duplicates):,}\")\nprint(f\"Accuracy:    {len(confirmed)/len(manifest_u):.2%}\")"
     },
+    "todos": [
+        "Use np.unique with return_counts=True to count how many times each value appears in an array",
+        "Use np.union1d and np.intersect1d to find shared and exclusive elements between two ID arrays",
+        "Use np.setdiff1d to find elements in array A that are not in array B",
+        "Use np.isin to mask a large array, keeping only elements that appear in a whitelist array",
+        "Use np.unique(arr, return_inverse=True) to reconstruct the original array from the unique values",
+    ],
     "practice": {
         "title": "Cohort Analysis",
         "desc": "Write a function cohort_analysis(cohorts: dict) where cohorts maps week labels to user_id arrays. For each week, compute: (1) new users (not seen in any previous week), (2) returning users (seen in at least one previous week), (3) churned from previous week. Return a list of dicts with these counts.",
@@ -1710,6 +1814,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A risk system computes daily returns from price series that contain missing quotes (NaN), halted trading (0), and data errors (negative prices).",
         "code": "import numpy as np\n\nnp.random.seed(42)\nn_days = 252\nprices = 100 * np.exp(np.cumsum(np.random.randn(n_days) * 0.01))\n\n# Inject data quality issues\nprices[10]  = np.nan    # missing quote\nprices[50]  = 0.0       # trading halt\nprices[100] = -5.0      # data error\n\ndef clean_prices(prices):\n    p = prices.copy()\n    # Remove physically impossible values\n    p[p <= 0] = np.nan\n    # Forward-fill NaN\n    mask = np.isnan(p)\n    idx  = np.where(~mask, np.arange(len(p)), 0)\n    np.maximum.accumulate(idx, out=idx)\n    p = p[idx]\n    return p\n\ndef daily_returns(prices):\n    p = clean_prices(prices)\n    rets = np.diff(p) / p[:-1]\n    rets = rets[np.isfinite(rets)]\n    return rets\n\nrets = daily_returns(prices)\nprint(f\"Days cleaned: {np.isnan(prices).sum() + (prices <= 0).sum()}\")\nprint(f\"Valid returns: {len(rets)}\")\nprint(f\"Mean return: {np.nanmean(rets):.4%}\")\nprint(f\"Volatility:  {np.nanstd(rets):.4%}\")\nprint(f\"Sharpe (approx): {np.nanmean(rets)/np.nanstd(rets)*np.sqrt(252):.2f}\")"
     },
+    "todos": [
+        "Detect all NaN values in an array and replace them with the column mean using np.nanmean",
+        "Use np.isfinite to mask both NaN and Inf values in one step",
+        "Use np.nan_to_num to replace NaN with 0, +Inf with 1e9, and -Inf with -1e9",
+        "Demonstrate float32 overflow: show that 1e38 * 100 == inf for float32",
+        "Apply the log-sum-exp trick to compute softmax of [1000, 1001, 999] without overflow",
+    ],
     "practice": {
         "title": "Stable Softmax",
         "desc": "Implement stable_softmax(x) that computes softmax using the log-sum-exp trick to avoid overflow. Implement log_softmax(x) using the same trick. Verify both give the same probabilities on x = [1000, 1001, 999] and x = [-1000, -999, -1001]. Compare against naive softmax to show instability.",
@@ -1730,6 +1841,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A product team uses bootstrap simulation to determine whether a 2-percentage-point conversion rate improvement is statistically significant given their sample sizes.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\n# Observed data\nn_control    = 5000\nn_treatment  = 5000\nconv_control = 0.10   # 10% baseline\nconv_treat   = 0.12   # 12% treatment (absolute +2pp)\n\n# Sample from observed proportions\ncontrol   = rng.binomial(1, conv_control, n_control)\ntreatment = rng.binomial(1, conv_treat,   n_treatment)\n\nobs_diff = treatment.mean() - control.mean()\nprint(f\"Observed difference: {obs_diff:.4f} ({obs_diff:.2%})\")\n\n# Permutation test\nN_PERM = 10_000\ncombined = np.concatenate([control, treatment])\nperm_diffs = np.empty(N_PERM)\nfor i in range(N_PERM):\n    rng.shuffle(combined)\n    perm_diffs[i] = combined[:n_treatment].mean() - combined[n_treatment:].mean()\n\np_value = (np.abs(perm_diffs) >= np.abs(obs_diff)).mean()\nprint(f\"Permutation test p-value: {p_value:.4f}\")\nprint(f\"Significant at alpha=0.05: {p_value < 0.05}\")\n\nci = np.percentile(perm_diffs, [2.5, 97.5])\nprint(f\"Null distribution 95% CI: [{ci[0]:.4f}, {ci[1]:.4f}]\")"
     },
+    "todos": [
+        "Use rng.normal(loc=50, scale=10, size=1000) and verify mean/std match the parameters",
+        "Generate lognormal data and observe its mean > median (positive skew)",
+        "Simulate 100,000 coin flips with rng.binomial(1, 0.5) and compute empirical P(heads)",
+        "Run a Monte Carlo Pi estimate: generate uniform (x, y) pairs and check x^2 + y^2 <= 1",
+        "Use rng.choice with replace=True to bootstrap a sample and compute a 95% confidence interval for the mean",
+    ],
     "practice": {
         "title": "Distribution Fitter",
         "desc": "Write fit_normal(data) that uses np.mean and np.std to estimate parameters, then generates n_samples from that distribution and computes the KS-like statistic (max absolute difference between sorted empirical CDF and normal CDF). Also write simulate_geometric_brownian(S0, mu, sigma, T, n_steps) for stock price simulation.",
@@ -1750,6 +1868,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A CNN training loop preprocesses a batch of 64x64 RGB images: normalize per-channel, apply random augmentation, and flatten into model input.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\nN, H, W, C = 32, 64, 64, 3\n\n# Simulate a batch\nbatch = rng.integers(0, 256, (N, H, W, C), dtype=np.uint8)\n\n# ImageNet-style normalization (per-channel mean/std)\nMEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)\nSTD  = np.array([0.229, 0.224, 0.225], dtype=np.float32)\n\ndef preprocess(batch):\n    x = batch.astype(np.float32) / 255.0  # [0,1]\n    x = (x - MEAN) / STD                  # normalize\n    x = x.transpose(0, 3, 1, 2)           # NHWC -> NCHW for PyTorch\n    return x\n\n# Random horizontal flip augmentation\ndef random_hflip(batch, rng, p=0.5):\n    mask = rng.random(len(batch)) < p\n    out  = batch.copy()\n    out[mask] = batch[mask, :, ::-1, :]\n    return out\n\nprocessed = preprocess(random_hflip(batch, rng))\nprint(f\"Input: {batch.shape} uint8\")\nprint(f\"Output: {processed.shape} float32\")\nprint(f\"Channel 0: mean={processed[:,0,:,:].mean():.3f}, std={processed[:,0,:,:].std():.3f}\")"
     },
+    "todos": [
+        "Create a (64, 64, 3) uint8 image array and extract each RGB channel separately",
+        "Convert an RGB image to grayscale using the luminosity formula: 0.2989*R + 0.5870*G + 0.1140*B",
+        "Normalize a uint8 image to float [0, 1] and back — verify round-trip preserves values",
+        "Flip an image horizontally using [:, ::-1, :] and vertically using [::-1, :, :]",
+        "Apply a 3x3 Sobel edge-detection kernel using sliding_window_view for a convolution-like effect",
+    ],
     "practice": {
         "title": "Image Statistics",
         "desc": "Write a function image_stats(img) that takes a (H,W,3) uint8 image and returns a dict with per-channel mean, std, min, max, and the percentage of \'near-white\' pixels (all channels > 200) and \'near-black\' pixels (all channels < 55). Also write normalize_contrast(img) that maps pixel values to [0,255] using min-max normalization per channel.",
@@ -1770,6 +1895,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A risk team computes the 1-day 99% VaR and expected shortfall for a 10-asset portfolio using historical simulation on 5 years of daily returns.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\nn_assets = 10\nn_days   = 1260   # 5 trading years\n\n# Simulate correlated returns\ntrue_corr = 0.3 * np.ones((n_assets, n_assets)) + 0.7 * np.eye(n_assets)\nL = np.linalg.cholesky(true_corr)\nZ = rng.standard_normal((n_days, n_assets))\nreturns = (Z @ L.T) * 0.01  # ~1% daily vol\n\n# Equal-weight portfolio returns\nweights  = np.ones(n_assets) / n_assets\nport_ret = returns @ weights\n\n# Risk metrics\nvar_99   = np.percentile(port_ret, 1)\nes_99    = port_ret[port_ret <= var_99].mean()\nann_vol  = port_ret.std() * np.sqrt(252)\n\nprint(f\"Portfolio daily returns: mean={port_ret.mean():.4%}, vol={port_ret.std():.4%}\")\nprint(f\"Annualized vol:    {ann_vol:.2%}\")\nprint(f\"1-day VaR (99%):   {var_99:.4%}\")\nprint(f\"Expected Shortfall (CVaR 99%): {es_99:.4%}\")\n\n# Correlation matrix\ncorr = np.corrcoef(returns.T)\nprint(f\"Avg pairwise correlation: {corr[np.triu_indices(n_assets, k=1)].mean():.3f}\")"
     },
+    "todos": [
+        "Compute the Q1, median, Q3, and IQR of a dataset using np.percentile",
+        "Use np.histogram to bin 10,000 normal samples and manually verify the counts sum to 10,000",
+        "Compute the Pearson correlation between two variables and verify the formula manually",
+        "Use np.digitize to assign salary bins (entry/junior/mid/senior) to an array of salaries",
+        "Use np.histogram2d to compute the joint distribution of two correlated variables",
+    ],
     "practice": {
         "title": "Weighted Statistics",
         "desc": "Implement weighted_mean(data, weights), weighted_std(data, weights, ddof=0), and weighted_percentile(data, weights, q) where weights represent observation frequencies. Verify weighted_mean on data=[1,2,3,4,5] with weights=[5,1,1,1,1] (mean should be close to 1 since 5 is heavily weighted).",
@@ -1790,6 +1922,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A deep learning workflow saves model weights and training history to compressed .npz files and reloads them for inference, logging the disk footprint.",
         "code": "import numpy as np, tempfile, pathlib, shutil\n\ntmp = pathlib.Path(tempfile.mkdtemp())\n\n# Simulate model weights for a small neural network\nrng = np.random.default_rng(42)\nweights = {\n    \"W1\": rng.standard_normal((784, 256)).astype(np.float32),\n    \"b1\": np.zeros(256, dtype=np.float32),\n    \"W2\": rng.standard_normal((256, 128)).astype(np.float32),\n    \"b2\": np.zeros(128, dtype=np.float32),\n    \"W3\": rng.standard_normal((128, 10)).astype(np.float32),\n    \"b3\": np.zeros(10, dtype=np.float32),\n}\nhistory = {\n    \"train_loss\": rng.uniform(0.5, 2.0, 50).cumsum() ** 0 * np.linspace(2, 0.2, 50),\n    \"val_loss\":   rng.uniform(0.5, 2.0, 50).cumsum() ** 0 * np.linspace(2.1, 0.25, 50),\n    \"epoch\":      np.arange(50),\n}\n\ndef save_checkpoint(path, weights, history, epoch):\n    np.savez_compressed(path, epoch=epoch, **weights, **history)\n    return path.stat().st_size\n\ndef load_checkpoint(path):\n    data = np.load(path)\n    epoch = int(data[\'epoch\'])\n    W = {k: data[k] for k in [\'W1\',\'b1\',\'W2\',\'b2\',\'W3\',\'b3\']}\n    H = {k: data[k] for k in [\'train_loss\',\'val_loss\',\'epoch\']}\n    return epoch, W, H\n\nckpt_path = tmp / \'checkpoint_ep50.npz\'\nsize = save_checkpoint(ckpt_path, weights, history, epoch=50)\nprint(f\"Checkpoint saved: {size:,} bytes ({size/1024:.1f} KB)\")\n\nep, W, H = load_checkpoint(ckpt_path)\nprint(f\"Loaded epoch {ep}, W1 shape: {W[\'W1\'].shape}\")\nprint(f\"Final train loss: {H[\'train_loss\'][-1]:.4f}\")\n\nshutil.rmtree(tmp)"
     },
+    "todos": [
+        "Save a (3, 4) array with np.save, reload it, and verify np.array_equal returns True",
+        "Save multiple arrays in one .npz file with np.savez and inspect the keys after loading",
+        "Use np.savez_compressed vs np.savez and compare file sizes for a large float array",
+        "Write a float array to CSV with np.savetxt and read it back with np.genfromtxt",
+        "Create a memory-mapped array with np.memmap in 'w+' mode, write to it, and reload in 'r' mode",
+    ],
     "practice": {
         "title": "Data Pipeline with npz Cache",
         "desc": "Write a DataCache class that saves a numpy array to disk as .npz if it doesn\'t exist, or loads it if it does. Add methods: cache_exists(key), save(key, **arrays), load(key), and delete(key). The cache directory should be configurable in __init__. Test by saving and loading a feature matrix and label array.",
@@ -1810,6 +1949,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A trading system filters raw tick data to keep only regular market hours (9:30-16:00 ET), exclude weekends and holidays, and compute daily OHLCV bars.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\n# Simulate a week of irregular tick data\ndays = np.arange(\'2024-01-08\', \'2024-01-13\', dtype=\'datetime64[D]\')  # Mon-Fri\nall_times, all_prices = [], []\nprice = 100.0\nfor day in days:\n    open_ns  = day.astype(\'datetime64[s]\') + np.timedelta64(9*3600+30*60, \'s\')\n    close_ns = day.astype(\'datetime64[s]\') + np.timedelta64(16*3600, \'s\')\n    n_ticks  = rng.integers(50, 150)\n    t_offsets = rng.integers(0, int((close_ns - open_ns).astype(int)), n_ticks)\n    t_offsets.sort()\n    tick_times = open_ns + t_offsets.astype(\'timedelta64[s]\')\n    rets = rng.normal(0, 0.01, n_ticks)\n    tick_prices = price * np.exp(np.cumsum(rets))\n    price = tick_prices[-1]\n    all_times.extend(tick_times.tolist())\n    all_prices.extend(tick_prices.tolist())\n\ntimes  = np.array(all_times, dtype=\'datetime64[s]\')\nprices = np.array(all_prices)\n\n# OHLCV per day\nprint(\"Daily OHLCV:\")\nday_buckets = times.astype(\'datetime64[D]\')\nfor day in np.unique(day_buckets):\n    m = (day_buckets == day)\n    p = prices[m]\n    print(f\"  {day}: O={p[0]:.2f} H={p.max():.2f} L={p.min():.2f} C={p[-1]:.2f} V={m.sum()}\")"
     },
+    "todos": [
+        "Create a datetime64 date range for all days in January 2024 using np.arange with dtype='datetime64[D]'",
+        "Compute the number of days between two datetime64 dates by subtracting them",
+        "Use np.busday_count to count business days between two dates in a given quarter",
+        "Use np.is_busday on an array of dates to identify which ones fall on weekdays",
+        "Use np.busday_offset to compute settlement dates (trade date + 2 business days) for a batch of trades",
+    ],
     "practice": {
         "title": "Holiday Calendar",
         "desc": "Write a function get_trading_days(start, end, holidays) that returns all business days between start and end (as datetime64 strings) excluding the given holidays. Write next_trading_day(date, holidays) that returns the next business day on or after date. Test with US holidays from 2024.",
@@ -1830,6 +1976,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A geographic data team generates a density heat map from GPS coordinates by evaluating a Gaussian kernel density estimate over a grid covering the study area.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n# Simulate GPS points (lat/lon in some area)\nn_points = 500\nlat = rng.normal(40.7, 0.05, n_points)   # NYC-like\nlon = rng.normal(-74.0, 0.08, n_points)\n\n# Create grid\nlat_grid, lon_grid = np.mgrid[\n    lat.min()-0.02 : lat.max()+0.02 : 50j,\n    lon.min()-0.02 : lon.max()+0.02 : 60j\n]\n\n# Gaussian KDE\ndef kde_density(lat_g, lon_g, lat_pts, lon_pts, bw=0.01):\n    density = np.zeros_like(lat_g)\n    for la, lo in zip(lat_pts, lon_pts):\n        d2 = (lat_g - la)**2 + (lon_g - lo)**2\n        density += np.exp(-d2 / (2 * bw**2))\n    return density / (len(lat_pts) * 2 * np.pi * bw**2)\n\ndensity = kde_density(lat_grid, lon_grid, lat, lon)\nprint(f\"Grid shape: {density.shape}\")\nprint(f\"Density range: [{density.min():.4f}, {density.max():.4f}]\")\nprint(f\"Peak density at: lat={lat_grid.ravel()[density.argmax()]:.4f}, \"\n      f\"lon={lon_grid.ravel()[density.argmax()]:.4f}\")\n\n# Hot spots: top 10% density cells\nthreshold = np.percentile(density, 90)\nhot_spots  = density > threshold\nprint(f\"Hot spot cells: {hot_spots.sum()} ({hot_spots.mean():.1%} of grid)\")"
     },
+    "todos": [
+        "Use np.meshgrid on x = linspace(-2,2,5) and y = linspace(-1,1,4) and evaluate Z = sin(X)*cos(Y)",
+        "Use np.ogrid to create open grids for a 7x7 grid and compute the radial distance from the center",
+        "Create a circular mask on an 8x8 grid where distance from center <= 3 using mgrid",
+        "Find the (row, col) grid point nearest to a target (x, y) using argmin on a distance field",
+        "Evaluate a bivariate Gaussian PDF on a meshgrid and verify it integrates to approximately 1",
+    ],
     "practice": {
         "title": "Bivariate Gaussian",
         "desc": "Write a function bivariate_gaussian(X, Y, mu_x, mu_y, sigma_x, sigma_y, rho) that evaluates the bivariate normal PDF at grid points (X, Y). Parameters: mu = means, sigma = std devs, rho = correlation. Use meshgrid to create a 50x50 grid over [-3, 3] x [-3, 3] and plot (print stats). Verify the PDF integrates to ~1.",
@@ -1850,6 +2003,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A semantic search system finds the top-5 most similar documents to a query by computing cosine similarity between query embedding and 50,000 document embeddings using broadcasting.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\n# Simulate document embeddings and a query\nn_docs, dim = 50_000, 128\ndocs  = rng.standard_normal((n_docs, dim))\ndocs /= np.linalg.norm(docs, axis=1, keepdims=True)  # L2 normalize\n\nquery = rng.standard_normal(dim)\nquery /= np.linalg.norm(query)\n\n# Cosine similarity: since both normalized, just dot product\nsims = docs @ query   # (50000,)\n\n# Top-5 results\ntop5_idx = np.argpartition(sims, -5)[-5:]\ntop5_idx = top5_idx[np.argsort(sims[top5_idx])[::-1]]\n\nprint(\"Top 5 similar documents:\")\nfor rank, idx in enumerate(top5_idx, 1):\n    print(f\"  Rank {rank}: doc_id={idx:5d}, similarity={sims[idx]:.4f}\")\n\n# Retrieval metrics: how many docs above threshold?\nthreshold = 0.1\nn_relevant = (sims >= threshold).sum()\nprint(f\"Docs with similarity >= {threshold}: {n_relevant} ({n_relevant/n_docs:.2%})\")\n\n# Batch queries\nn_queries = 100\nqueries = rng.standard_normal((n_queries, dim))\nqueries /= np.linalg.norm(queries, axis=1, keepdims=True)\nbatch_sims = queries @ docs.T   # (100, 50000)\nbatch_top1 = batch_sims.argmax(axis=1)\nprint(f\"Batch top-1 for {n_queries} queries: mean sim={batch_sims.max(axis=1).mean():.4f}\")"
     },
+    "todos": [
+        "Add a scalar, a (4,) row vector, and a (4,1) column vector to a (3,4) matrix — print all three results",
+        "Compute the outer product of two 1D arrays using a[:, None] * b[None, :] and verify with np.outer",
+        "Compute pairwise Euclidean distances between 5 2D points using (pts[:,None,:] - pts[None,:,:]).norm",
+        "Implement row-wise softmax using broadcasting: exp(x) / exp(x).sum(axis=1, keepdims=True)",
+        "Use broadcasting to flag (user, item) pairs where item score >= user threshold in a recommendation setting",
+    ],
     "practice": {
         "title": "Attention Scores",
         "desc": "Implement scaled_dot_product_attention(Q, K, V) where Q, K have shape (seq_len, d_k) and V has shape (seq_len, d_v). Compute scores = softmax(Q @ K.T / sqrt(d_k)) @ V using only NumPy. Also implement multi_head_attention(Q, K, V, n_heads) that splits into n_heads, applies attention, and concatenates.",
@@ -1870,6 +2030,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A neural network training loop applies activation functions to millions of neurons — using ufuncs with out= buffers halves memory allocation overhead.",
         "code": "import numpy as np\n\n# Pre-allocated buffers\nrng  = np.random.default_rng(42)\nN    = 1_000_000\nx    = rng.standard_normal(N).astype(np.float32)\nbuf  = np.empty_like(x)\n\ndef relu(x, out=None):\n    return np.maximum(x, 0, out=out)\n\ndef sigmoid(x, out=None):\n    out = np.empty_like(x) if out is None else out\n    np.negative(x, out=out)\n    np.exp(out, out=out)\n    out += 1\n    np.reciprocal(out, out=out)\n    return out\n\ndef gelu(x, out=None):\n    # Approximate GELU: x * sigmoid(1.702 * x)\n    s = sigmoid(1.702 * x)\n    return np.multiply(x, s, out=out)\n\ndef swish(x, out=None):\n    return np.multiply(x, sigmoid(x), out=out)\n\n# Compute and compare\nactivations = {\n    \"ReLU\":    relu(x, buf.copy()),\n    \"Sigmoid\": sigmoid(x, buf.copy()),\n    \"GELU\":    gelu(x, buf.copy()),\n    \"Swish\":   swish(x, buf.copy()),\n}\n\nfor name, act in activations.items():\n    print(f\"{name:8s}: mean={act.mean():.4f}, std={act.std():.4f}, \"\n          f\"range=[{act.min():.3f}, {act.max():.3f}]\")"
     },
+    "todos": [
+        "Use np.add.reduce on an array and verify it equals np.sum",
+        "Use np.multiply.accumulate to compute a running product (like cumprod)",
+        "Use np.add.outer on two 1D arrays to get a 2D addition table",
+        "Wrap a scalar classify(x) function with np.vectorize and apply it to a 500-element array",
+        "Use np.sqrt(data, out=buffer, where=data > 0) to compute sqrt only for positive values in-place",
+    ],
     "practice": {
         "title": "Custom Ufunc",
         "desc": "Use np.frompyfunc to create a ufunc haversine_ufunc that computes the great-circle distance in km between a (lat1, lon1) and (lat2, lon2) point pair. Then use vectorize to wrap it into a function that accepts arrays of lat/lon pairs. Compute distances between New York and a grid of 100 cities.",
@@ -1890,6 +2057,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A research station processes 5-year daily ocean temperature data with sensor failures (flagged as -9999) and physical impossibilities (<-2°C or >35°C), using masked arrays to compute clean statistics.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\nn_years = 5\nn_days  = n_years * 365\n\n# Simulate ocean temps with seasonal pattern\nt = np.linspace(0, n_years * 2 * np.pi, n_days)\nbase_temp = 15 + 10 * np.sin(t - np.pi/2)  # seasonal cycle\ntemps = base_temp + rng.normal(0, 1.5, n_days)\n\n# Inject data quality issues\nsensor_fail   = rng.random(n_days) < 0.08    # 8% sensor failures\nphysical_anom = rng.random(n_days) < 0.02    # 2% physical anomalies\ntemps[sensor_fail]   = -9999.0\ntemps[physical_anom] = rng.choice([-5.0, 40.0], physical_anom.sum())\n\n# Build mask: flag everything invalid\nmask = ((temps == -9999.0) |\n        (temps < -2.0) |\n        (temps > 35.0))\nclean = np.ma.array(temps, mask=mask)\n\nprint(f\"Data coverage: {clean.count()/n_days:.1%} valid ({clean.count()} of {n_days} days)\")\nprint(f\"Mean temperature: {clean.mean():.2f}°C\")\nprint(f\"Seasonal range: [{clean.min():.2f}, {clean.max():.2f}]°C\")\n\n# Annual stats (reshape to years x 365)\nannual = clean[:n_years*365].reshape(n_years, 365)\nfor y in range(n_years):\n    row = annual[y]\n    print(f\"  Year {y+1}: mean={row.mean():.2f}°C, valid={row.count()} days\")"
     },
+    "todos": [
+        "Create a masked array from a list with np.ma.array and a boolean mask — compute the mean",
+        "Use np.ma.masked_where(arr <= 0, arr) to mask non-positive values and apply np.log safely",
+        "Use np.ma.masked_invalid to mask NaN and Inf in one step and compute nanmean",
+        "Fill masked values with the column mean using m.filled(fill_value=col_means)",
+        "Add anomaly detection: mask values > 3 sigma from mean on top of an existing sensor dropout mask",
+    ],
     "practice": {
         "title": "Masked Correlation",
         "desc": "Write masked_corrcoef(X) that computes a pairwise correlation matrix for a 2D masked array X (shape n_obs x n_vars), where each pair of variables is correlated only using rows where BOTH are valid. Return a regular (n_vars x n_vars) ndarray. Test on a dataset where each column has independent random missing values.",
@@ -1910,6 +2084,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A performance-critical simulation avoids unnecessary transpositions and ensures arrays are contiguous before passing to BLAS-backed np.dot, cutting computation time significantly.",
         "code": "import numpy as np, timeit\n\nrng = np.random.default_rng(42)\n\nA = rng.standard_normal((500, 300))\nB = rng.standard_normal((300, 400))\n\n# C-contiguous vs non-contiguous performance\nB_T_F = np.asfortranarray(B.T)       # F-order, non-contiguous for @\nB_T_C = np.ascontiguousarray(B.T)    # C-contiguous copy\n\nprint(\"B.T C-contiguous:\", B.T.flags[\'C_CONTIGUOUS\'])      # False\nprint(\"B_T_C contiguous:\", B_T_C.flags[\'C_CONTIGUOUS\'])    # True\n\n# GEMM: A @ B (B is 300x400 C-contiguous)\nt1 = timeit.timeit(lambda: A @ B, number=100)\nt2 = timeit.timeit(lambda: A @ B_T_F.T, number=100)\nt3 = timeit.timeit(lambda: A @ B_T_C.T, number=100)\n\nprint(f\"A @ B (contiguous):      {t1:.4f}s\")\nprint(f\"A @ B_T_F.T (F-order):   {t2:.4f}s\")\nprint(f\"A @ B_T_C.T (C-order):   {t3:.4f}s\")\n\n# Verify results are the same\nC1 = A @ B\nC2 = A @ B_T_F.T\nprint(\"Results match:\", np.allclose(C1, C2))\n\n# Memory usage check\nimport sys\nprint(f\"B.T.copy() size: {sys.getsizeof(B.T.copy()):,} bytes\")\nprint(f\"B.T view size:   {sys.getsizeof(B.T):,} bytes (metadata only)\")"
     },
+    "todos": [
+        "Compare .strides of a C-order array vs its transpose — verify they are just swapped",
+        "Check arr.flags['C_CONTIGUOUS'] on a normal array, a transposed array, and a non-contiguous slice",
+        "Confirm that a slice is a view (arr.base is not None) while fancy indexing creates a copy",
+        "Use np.ascontiguousarray on a transposed array and verify it becomes C-contiguous",
+        "Build a rolling window view with sliding_window_view(arr, 4) and verify it shares memory",
+    ],
     "practice": {
         "title": "Stride Inspector",
         "desc": "Write inspect_array(arr) that prints: shape, dtype, strides, itemsize, nbytes, is_C_contiguous, is_F_contiguous, is_view (arr.base is not None), total elements. Then write reshape_safe(arr, shape) that reshapes arr to shape, ensuring the result is C-contiguous (copy only if needed). Test with various slices and transpositions.",
@@ -1930,6 +2111,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A collaborative filtering system factorizes a user-item rating matrix using SVD to find latent factors and predict missing ratings.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\nn_users, n_items, n_factors = 100, 200, 10\n\n# Simulate a low-rank rating matrix (most entries unknown)\nU_true = rng.standard_normal((n_users, n_factors))\nV_true = rng.standard_normal((n_items, n_factors))\nR_true = U_true @ V_true.T + rng.normal(0, 0.5, (n_users, n_items))\nR_true = np.clip(R_true, 1, 5)\n\n# Only observe 20% of ratings\nobserved_mask = rng.random((n_users, n_items)) < 0.2\nR_obs = np.where(observed_mask, R_true, 0.0)\n\n# Truncated SVD on observed (imperfect but illustrative)\nU, s, Vt = np.linalg.svd(R_obs, full_matrices=False)\nk = n_factors\nR_hat = U[:, :k] @ np.diag(s[:k]) @ Vt[:k, :]\nR_hat = np.clip(R_hat, 1, 5)\n\n# RMSE on observed entries\nobserved_pred = R_hat[observed_mask]\nobserved_true = R_true[observed_mask]\nrmse = np.sqrt(np.mean((observed_pred - observed_true)**2))\nprint(f\"RMSE on observed ratings: {rmse:.3f}\")\n\n# Top-5 recommendations for user 0\nuser0_scores = R_hat[0]\nuser0_unseen = ~observed_mask[0]\ntop5 = np.argsort(user0_scores * user0_unseen)[::-1][:5]\nprint(f\"Top-5 recommendations for user 0: items {top5} with scores {user0_scores[top5].round(2)}\")"
     },
+    "todos": [
+        "Perform QR decomposition of a (6,4) matrix and verify A = Q @ R with np.allclose",
+        "Use np.linalg.cholesky on a positive-definite matrix and confirm L @ L.T == S",
+        "Compute the pseudo-inverse of a non-square matrix and verify M @ pinv @ M == M",
+        "Implement PCA from scratch: center data, compute SVD, project onto top 2 components",
+        "Use the Cholesky decomposition to sample from a multivariate normal distribution",
+    ],
     "practice": {
         "title": "System of Equations Solver",
         "desc": "Write solve_system(A, b) that checks if the system Ax=b is (1) well-determined (use rank), (2) overdetermined (least squares), or (3) underdetermined (minimum-norm solution via pinv), and solves accordingly with a label. Also write condition_number(A) and show how ill-conditioned matrices cause solution instability.",
@@ -1950,6 +2138,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A financial model calibrates parameters to match observed option prices by minimizing a loss function using gradient descent with numerical gradients.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\n# Simulate: find mu, sigma that best fit observed log returns\nn_obs = 500\ntrue_mu, true_sigma = 0.001, 0.02\nobserved = rng.normal(true_mu, true_sigma, n_obs)\n\ndef neg_log_likelihood(params, data):\n    mu, log_sigma = params\n    sigma = np.exp(log_sigma)  # log parameterization ensures sigma > 0\n    return 0.5 * np.sum(np.log(2*np.pi*sigma**2) + ((data - mu)/sigma)**2)\n\ndef numerical_gradient(f, params, h=1e-6):\n    grad = np.zeros_like(params)\n    for i in range(len(params)):\n        e = np.zeros_like(params)\n        e[i] = h\n        grad[i] = (f(params + e) - f(params - e)) / (2 * h)\n    return grad\n\nparams = np.array([0.0, np.log(0.01)])  # initial guess\nlr = 1e-4\n\nfor epoch in range(500):\n    loss = neg_log_likelihood(params, observed)\n    grad = numerical_gradient(lambda p: neg_log_likelihood(p, observed), params)\n    params -= lr * grad\n\nmu_hat    = params[0]\nsigma_hat = np.exp(params[1])\nprint(f\"True:      mu={true_mu:.4f}, sigma={true_sigma:.4f}\")\nprint(f\"Estimated: mu={mu_hat:.4f}, sigma={sigma_hat:.4f}\")\nprint(f\"Error:     mu={abs(mu_hat-true_mu):.2e}, sigma={abs(sigma_hat-true_sigma):.2e}\")"
     },
+    "todos": [
+        "Compute the forward, backward, and central difference approximations of f'(x) for f=sin at x=pi/4",
+        "Use np.gradient on a 1D array with known f'(x)=cos(x) and measure the max approximation error",
+        "Implement gradient descent for f(x,y)=(x-3)^2 + 2*(y+1)^2 and verify convergence to (3,-1)",
+        "Compute a numerical Jacobian by applying central differences to each input dimension",
+        "Use np.gradient on a 2D function Z=sin(X)*cos(Y) and compare dZ/dx to the analytic cos(X)*cos(Y)",
+    ],
     "practice": {
         "title": "Jacobian Checker",
         "desc": "Write jacobian(f, x, h=1e-6) that computes the Jacobian matrix of a vector-valued function f: R^n -> R^m using central differences. Then write gradient_check(f, grad_f, x) that compares the numerical Jacobian with the analytic gradient and reports the relative error. Test with f(x) = [sin(x0)*x1, x0^2 + exp(x1)].",
@@ -1970,6 +2165,13 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "scenario": "A data scientist implements a complete train/eval cycle using only NumPy: feature normalization, train/val/test split, logistic regression with gradient descent, and evaluation metrics.",
         "code": "import numpy as np\n\nrng = np.random.default_rng(42)\nN, D = 1000, 10\n\n# Synthetic binary classification data\nX = rng.standard_normal((N, D))\ntrue_w = rng.standard_normal(D)\ny = (X @ true_w + rng.normal(0, 0.5, N) > 0).astype(float)\n\n# Train/val/test split (70/15/15)\nidx = rng.permutation(N)\nn_train = int(0.7*N); n_val = int(0.15*N)\ntr, va, te = idx[:n_train], idx[n_train:n_train+n_val], idx[n_train+n_val:]\n\ndef normalize(X_tr, X_te):\n    mu, std = X_tr.mean(0), X_tr.std(0) + 1e-8\n    return (X_tr-mu)/std, (X_te-mu)/std\n\nX_tr, X_te = normalize(X[tr], X[te])\nX_tr, X_va = normalize(X[tr], X[va])\n\n# Logistic regression with SGD\ndef sigmoid(z): return 1 / (1 + np.exp(-np.clip(z, -100, 100)))\n\nw = np.zeros(D)\nlr, n_epochs, bs = 0.1, 20, 32\nfor epoch in range(n_epochs):\n    perm = rng.permutation(len(tr))\n    for i in range(0, len(tr), bs):\n        xi = X_tr[perm[i:i+bs]]\n        yi = y[tr][perm[i:i+bs]]\n        pred = sigmoid(xi @ w)\n        grad = xi.T @ (pred - yi) / len(yi)\n        w -= lr * grad\n\ndef accuracy(X, y_true, w):\n    return ((sigmoid(X @ w) >= 0.5) == y_true.astype(bool)).mean()\n\nprint(f\"Train acc: {accuracy(X_tr, y[tr], w):.3f}\")\nprint(f\"Val   acc: {accuracy(X_va, y[va], w):.3f}\")\nprint(f\"Test  acc: {accuracy(X_te, y[te], w):.3f}\")"
     },
+    "todos": [
+        "Convert a pandas DataFrame to a NumPy array with .to_numpy() and verify dtype",
+        "Implement Z-score normalization using only NumPy: (X - X.mean(0)) / (X.std(0) + 1e-8)",
+        "Build one-hot encoded labels from a class index array using broadcasting == arange trick",
+        "Implement a 2-layer neural network forward pass (relu + softmax) using only NumPy operations",
+        "Write a logistic regression training loop using NumPy gradient descent and measure accuracy",
+    ],
     "practice": {
         "title": "Cross-Validation",
         "desc": "Implement k_fold_cv(X, y, model_fn, k=5, seed=42) where model_fn(X_train, y_train, X_val) returns predictions. Split data into k folds, train on k-1 folds, predict on the held-out fold, compute accuracy for each fold, and return mean and std. Test with a simple threshold classifier.",

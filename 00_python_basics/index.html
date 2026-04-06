@@ -3,43 +3,9 @@
 <title>Python Basics Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#ffa657}
-*{box-sizing:border-box;margin:0;padding:0}
-body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}
-.sbh h2{font-size:1.05rem;color:var(--acc)}
-.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}
-#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}
-.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}
-.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}
-.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}
-.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}
-.arr{color:var(--mut);transition:transform .2s}
-.tb{display:none;padding:18px;border-top:1px solid var(--brd)}
-.tb.open{display:block}
-.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}
-.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}
-.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}
-.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}
-.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}
-.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#ffa657}</style>
+</head><body class="page-module">
 <aside class="sidebar">
   <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 34 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
@@ -193,7 +159,11 @@ height = 1.75        # set height in meters
 is_working_age = ???
 
 # Expected: &quot;Alice | Age: 1.75 | Height: 25m | Working age: True&quot;
-print(f&quot;{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}&quot;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Strings</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Strings are sequences of characters. Python provides rich built-in methods for slicing, formatting, searching, and transforming text.</p><div class="code-block"><div class="ch"><span>String methods and slicing</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">text = &quot;  Hello, World!  &quot;
+print(f&quot;{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Declare variables for your name, age, and favorite number — print their types with type()</label></li>
+<li><label><input type="checkbox"> Convert the string &#x27;3.14&#x27; to float, then to int — explain what happens to the decimal</label></li>
+<li><label><input type="checkbox"> Use f-strings to print a sentence combining an int and a string variable</label></li>
+<li><label><input type="checkbox"> Create a variable holding None and write an if-check for it using &#x27;is None&#x27;</label></li>
+<li><label><input type="checkbox"> Try assigning a, b, c = 1, 2, 3 and then swap a and b without a temp variable</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Strings</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Strings are sequences of characters. Python provides rich built-in methods for slicing, formatting, searching, and transforming text.</p><div class="code-block"><div class="ch"><span>String methods and slicing</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">text = &quot;  Hello, World!  &quot;
 
 print(text.strip())           # remove whitespace
 print(text.lower())           # lowercase
@@ -306,7 +276,11 @@ clean = raw.strip().title()
 print(f&quot;Clean: &#x27;{clean}&#x27;&quot;)
 # print(f&quot;Has pro: {has_pro}&quot;)
 # print(f&quot;Code: &#x27;{code}&#x27;&quot;)
-# Expected: Clean=&#x27;Super Pro Widget X200&#x27;, Code=&#x27;SUP200&#x27;</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Lists</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Lists are ordered, mutable sequences. They&#x27;re the most commonly used Python container — used for collections, stacks, queues, and more.</p><div class="code-block"><div class="ch"><span>Creating, accessing, modifying</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;date&quot;]
+# Expected: Clean=&#x27;Super Pro Widget X200&#x27;, Code=&#x27;SUP200&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use .strip(), .lower(), and .upper() on a messy string and print each result</label></li>
+<li><label><input type="checkbox"> Slice a string to get the first 3 characters, the last 3, and every other character</label></li>
+<li><label><input type="checkbox"> Use f-string with :&lt;10 and :&gt;10 to left- and right-align the same word in a fixed-width column</label></li>
+<li><label><input type="checkbox"> Split a comma-separated string into a list and join it back with &#x27; | &#x27; as separator</label></li>
+<li><label><input type="checkbox"> Check if &#x27;python&#x27; appears in a sentence (case-insensitive) using .lower() and &#x27;in&#x27;</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Lists</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Lists are ordered, mutable sequences. They&#x27;re the most commonly used Python container — used for collections, stacks, queues, and more.</p><div class="code-block"><div class="ch"><span>Creating, accessing, modifying</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;date&quot;]
 
 print(fruits[0])          # apple
 print(fruits[-1])         # date
@@ -413,7 +387,11 @@ print(&quot;Top 3:&quot;, ranked[:3])</code></pre></div><div class="practice"><d
 print(&quot;Fahrenheit:&quot;, [round(f, 1) for f in temps_f])
 print(&quot;Hot days:&quot;, sorted(hot_days))
 print(&quot;Sorted desc:&quot;, sorted_desc)
-print(f&quot;Range: {lo}°C — {hi}°C&quot;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Tuples, Sets &amp; Dictionaries</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tuples are immutable sequences; sets are unordered unique collections; dictionaries are key-value mappings.</p><div class="code-block"><div class="ch"><span>Tuples and sets</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python"># Tuple — immutable
+print(f&quot;Range: {lo}°C — {hi}°C&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a list of 5 integers and use append, insert, remove, and pop on it</label></li>
+<li><label><input type="checkbox"> Use a list comprehension to generate squares of even numbers from 0 to 20</label></li>
+<li><label><input type="checkbox"> Sort a list of strings by length (shortest first) using key=len</label></li>
+<li><label><input type="checkbox"> Flatten a 3x3 nested list into a single list using a nested comprehension</label></li>
+<li><label><input type="checkbox"> Use any() and all() to check if a list has at least one negative and all positives respectively</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Tuples, Sets &amp; Dictionaries</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tuples are immutable sequences; sets are unordered unique collections; dictionaries are key-value mappings.</p><div class="code-block"><div class="ch"><span>Tuples and sets</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python"># Tuple — immutable
 point = (3, 7)
 x, y  = point         # unpacking
 print(f&quot;x={x}, y={y}&quot;)
@@ -543,7 +521,11 @@ scores   = [92, 58, 76, 45, 88, 63]
 
 print(&quot;Grade book:&quot;, grade_book)
 print(&quot;Failed:&quot;, failed)
-print(&quot;Letter grades:&quot;, letter_grades)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Control Flow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">if/elif/else controls which code runs. Python uses indentation (4 spaces) instead of curly braces to define blocks.</p><div class="code-block"><div class="ch"><span>if / elif / else</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python"># Basic if-elif-else
+print(&quot;Letter grades:&quot;, letter_grades)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a dict from two lists (names and scores) using dict(zip(...))</label></li>
+<li><label><input type="checkbox"> Use a set to find unique tags from a list that contains duplicates</label></li>
+<li><label><input type="checkbox"> Write a dict comprehension that maps student names to their letter grades (A/B/C/D/F)</label></li>
+<li><label><input type="checkbox"> Merge two config dicts using ** so the second dict&#x27;s values override the first</label></li>
+<li><label><input type="checkbox"> Loop over a dict&#x27;s .items() and print each key-value pair on one line</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Control Flow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">if/elif/else controls which code runs. Python uses indentation (4 spaces) instead of curly braces to define blocks.</p><div class="code-block"><div class="ch"><span>if / elif / else</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python"># Basic if-elif-else
 temperature = 28
 
 if temperature &gt; 35:
@@ -713,7 +695,11 @@ print(traffic_action(&quot;green&quot;,  has_pedestrian=True))    # Go, watch fo
 print(traffic_action(&quot;yellow&quot;))                         # Slow down
 print(traffic_action(&quot;red&quot;,    has_pedestrian=True))    # Stop — pedestrians crossing
 print(traffic_action(&quot;red&quot;,    is_emergency=True))      # All yield for emergency
-print(traffic_action(&quot;purple&quot;))                         # Unknown signal: purple</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Loops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">for iterates over any iterable (list, range, string, dict). while loops run while a condition is True. Use break, continue, and enumerate for control.</p><div class="code-block"><div class="ch"><span>for loops</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python"># Loop over list
+print(traffic_action(&quot;purple&quot;))                         # Unknown signal: purple</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write an if/elif/else chain that assigns a letter grade based on a numeric score</label></li>
+<li><label><input type="checkbox"> Use the walrus operator := to check the length of a list inside an if condition</label></li>
+<li><label><input type="checkbox"> Implement a simple password strength checker using any() and all() with generator expressions</label></li>
+<li><label><input type="checkbox"> Write a match statement (Python 3.10+) to handle HTTP status codes 200, 404, 500, and a default</label></li>
+<li><label><input type="checkbox"> Use short-circuit evaluation: write an expression that avoids calling an expensive function if the first condition is False</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Loops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">for iterates over any iterable (list, range, string, dict). while loops run while a condition is True. Use break, continue, and enumerate for control.</p><div class="code-block"><div class="ch"><span>for loops</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python"># Loop over list
 fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
 for fruit in fruits:
     print(fruit)
@@ -852,7 +838,11 @@ for n in range(1, 31):
 for i in range(0, 30, 10):
     print(&quot;  &quot; + &quot;  &quot;.join(f&quot;{v:8s}&quot; for v in results[i:i+10]))
 
-# Expected row 1: 1  2  Fizz  4  Buzz  Fizz  Zap  8  Fizz  Buzz</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Functions let you encapsulate reusable logic. Python supports default arguments, *args, **kwargs, and lambda (anonymous) functions.</p><div class="code-block"><div class="ch"><span>Defining functions and default arguments</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">def greet(name, greeting=&quot;Hello&quot;):
+# Expected row 1: 1  2  Fizz  4  Buzz  Fizz  Zap  8  Fizz  Buzz</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use enumerate() to loop over a list and print each index alongside its value</label></li>
+<li><label><input type="checkbox"> Use zip() to loop over two lists simultaneously and print paired values</label></li>
+<li><label><input type="checkbox"> Write a while loop that halves a number each iteration until it drops below 1</label></li>
+<li><label><input type="checkbox"> Use break to exit a for loop early when you find the first number greater than 50</label></li>
+<li><label><input type="checkbox"> Use itertools.groupby to group a sorted list of (dept, name) tuples by department</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Functions let you encapsulate reusable logic. Python supports default arguments, *args, **kwargs, and lambda (anonymous) functions.</p><div class="code-block"><div class="ch"><span>Defining functions and default arguments</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">def greet(name, greeting=&quot;Hello&quot;):
     # Returns a greeting string
     return f&quot;{greeting}, {name}!&quot;
 
@@ -1005,7 +995,11 @@ def fibonacci(n):
 
 # Test: should complete instantly even for large n
 print([fibonacci(i) for i in range(10)])  # [0,1,1,2,3,5,8,13,21,34]
-print(fibonacci(35))                       # 9227465 — fast with memoize!</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Classes &amp; OOP</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Classes define blueprints for objects. Python supports encapsulation, inheritance, and special (dunder) methods like __str__ and __repr__.</p><div class="code-block"><div class="ch"><span>Defining a class with __init__ and methods</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">class BankAccount:
+print(fibonacci(35))                       # 9227465 — fast with memoize!</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function that accepts *args and returns their sum — test with varying argument counts</label></li>
+<li><label><input type="checkbox"> Write a function that accepts **kwargs and prints each key-value pair</label></li>
+<li><label><input type="checkbox"> Create a closure: a make_multiplier(n) factory that returns a lambda multiplying by n</label></li>
+<li><label><input type="checkbox"> Write a decorator @timer that prints how long a function takes to run</label></li>
+<li><label><input type="checkbox"> Use functools.reduce() to compute the product of all elements in a list without a loop</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Classes &amp; OOP</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Classes define blueprints for objects. Python supports encapsulation, inheritance, and special (dunder) methods like __str__ and __repr__.</p><div class="code-block"><div class="ch"><span>Defining a class with __init__ and methods</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">class BankAccount:
     def __init__(self, owner, balance=0):
         self.owner   = owner
         self.balance = balance
@@ -1235,7 +1229,11 @@ print(s)            # Stack([1, 2])
 try:
     Stack().pop()
 except IndexError as e:
-    print(f&quot;Caught: {e}&quot;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Error Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use try/except/finally to handle exceptions gracefully. Raise custom exceptions to signal application-level errors.</p><div class="code-block"><div class="ch"><span>try / except / finally</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python"># Basic exception handling
+    print(f&quot;Caught: {e}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a BankAccount class with deposit, withdraw, and __str__ — enforce non-negative balance</label></li>
+<li><label><input type="checkbox"> Implement inheritance: make SavingsAccount extend BankAccount with an interest_rate attribute</label></li>
+<li><label><input type="checkbox"> Add a @property to a class that computes a derived value (e.g., full_name from first + last)</label></li>
+<li><label><input type="checkbox"> Use @classmethod to write an alternative constructor (e.g., from_string)</label></li>
+<li><label><input type="checkbox"> Create an @dataclass for a 2D Point with a distance_to method and verify __eq__ works</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Error Handling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use try/except/finally to handle exceptions gracefully. Raise custom exceptions to signal application-level errors.</p><div class="code-block"><div class="ch"><span>try / except / finally</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python"># Basic exception handling
 def safe_divide(a, b):
     try:
         result = a / b
@@ -1400,7 +1398,11 @@ test_lines = [
 
 for line in test_lines:
     result = parse_record(line)
-    print(f&quot;  {line!r:25s} -&gt; {result}&quot;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. File I/O</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Read and write files using open(). Use the with statement to ensure files are always closed. Python handles text and binary files.</p><div class="code-block"><div class="ch"><span>Reading and writing text files</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import os
+    print(f&quot;  {line!r:25s} -&gt; {result}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Wrap a division by zero in try/except and return a custom error message</label></li>
+<li><label><input type="checkbox"> Create a custom exception InsufficientFundsError that stores the amount and balance</label></li>
+<li><label><input type="checkbox"> Use try/except/else/finally to read a file — handle missing file and always print &#x27;done&#x27;</label></li>
+<li><label><input type="checkbox"> Use contextlib.suppress to silently ignore a FileNotFoundError</label></li>
+<li><label><input type="checkbox"> Write a context manager using @contextmanager that prints &#x27;open&#x27; and &#x27;close&#x27; around a block</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. File I/O</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Read and write files using open(). Use the with statement to ensure files are always closed. Python handles text and binary files.</p><div class="code-block"><div class="ch"><span>Reading and writing text files</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import os
 
 # Write a file
 with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
@@ -1575,7 +1577,11 @@ log_data = &quot;&quot;&quot;2024-01-15 INFO    Server started on port 8080
 # Level counts: {&#x27;INFO&#x27;: 4, &#x27;DEBUG&#x27;: 1, &#x27;WARNING&#x27;: 2, &#x27;ERROR&#x27;: 2, &#x27;CRITICAL&#x27;: 1}
 # Error lines:
 #   2024-01-15 ERROR   Failed to connect to cache: timeout
-#   2024-01-15 ERROR   Database query failed: syntax error</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. List Comprehensions &amp; Generators</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Comprehensions create lists, dicts, and sets concisely. Generators produce values lazily, saving memory for large sequences.</p><div class="code-block"><div class="ch"><span>List, dict, and set comprehensions</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python"># List comprehension
+#   2024-01-15 ERROR   Database query failed: syntax error</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a file, read it back line by line, and strip newlines — use a with statement</label></li>
+<li><label><input type="checkbox"> Parse a JSON string containing a list of dicts and print each item&#x27;s &#x27;name&#x27; field</label></li>
+<li><label><input type="checkbox"> Write a CSV with 3 rows using csv.writer and read it back with csv.DictReader</label></li>
+<li><label><input type="checkbox"> Use pathlib.Path to build a cross-platform file path and check if it exists</label></li>
+<li><label><input type="checkbox"> Use io.StringIO to create an in-memory &#x27;file&#x27; and read from it without touching disk</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. List Comprehensions &amp; Generators</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Comprehensions create lists, dicts, and sets concisely. Generators produce values lazily, saving memory for large sequences.</p><div class="code-block"><div class="ch"><span>List, dict, and set comprehensions</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python"># List comprehension
 squares = [x**2 for x in range(10)]
 evens   = [x for x in range(20) if x % 2 == 0]
 matrix  = [[i*j for j in range(1,4)] for i in range(1,4)]
@@ -1733,7 +1739,11 @@ def high_value(sales, threshold=100):
 # Chain the pipeline
 pipeline = high_value(parse_sales(csv_rows(csv_data)))
 for sale in pipeline:
-    print(f&quot;  {sale[&#x27;date&#x27;]}  {sale[&#x27;product&#x27;]:12s}  ${sale[&#x27;revenue&#x27;]:.2f}&quot;)</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Modules &amp; Useful Built-ins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s standard library is vast. Key modules: os, sys, datetime, math, random, collections, itertools. Use import to access them.</p><div class="code-block"><div class="ch"><span>os, datetime, math</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import os
+    print(f&quot;  {sale[&#x27;date&#x27;]}  {sale[&#x27;product&#x27;]:12s}  ${sale[&#x27;revenue&#x27;]:.2f}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a list comprehension that creates squares, then rewrite it as a generator expression</label></li>
+<li><label><input type="checkbox"> Implement a generator function fibonacci(n) that yields Fibonacci numbers up to n</label></li>
+<li><label><input type="checkbox"> Use sum() with a generator expression to add squares of odd numbers from 1 to 99</label></li>
+<li><label><input type="checkbox"> Write a dict comprehension that inverts a dictionary (swapping keys and values)</label></li>
+<li><label><input type="checkbox"> Chain two generators: one that reads numbers, another that squares only the positive ones</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Modules &amp; Useful Built-ins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s standard library is vast. Key modules: os, sys, datetime, math, random, collections, itertools. Use import to access them.</p><div class="code-block"><div class="ch"><span>os, datetime, math</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import os
 import math
 import datetime
 
@@ -1906,7 +1916,11 @@ scores = [72, 88, 95, 63, 79, 91, 55, 84, 76, 90,
 # print(&quot;Grade bins:&quot;, dict(sorted(bins.items())))
 
 print(&quot;Top 5:   &quot;, top_5)
-print(&quot;Bottom 5:&quot;, bottom_5)</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Context Managers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Manage resources safely and cleanly with the with statement. Guarantee teardown even when exceptions occur.</p><div class="code-block"><div class="ch"><span>File handling with context managers</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import tempfile, pathlib, os
+print(&quot;Bottom 5:&quot;, bottom_5)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Counter to count word frequencies in a sentence and print the top 3 most common</label></li>
+<li><label><input type="checkbox"> Use defaultdict(list) to group a list of (key, value) pairs by key</label></li>
+<li><label><input type="checkbox"> Create a namedtuple Point(x, y) and compute the distance from origin</label></li>
+<li><label><input type="checkbox"> Use itertools.combinations to list all unique 2-player matchups from a list of 5 names</label></li>
+<li><label><input type="checkbox"> Use datetime.date.today() and timedelta to compute dates 30 and 90 days from now</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Context Managers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Manage resources safely and cleanly with the with statement. Guarantee teardown even when exceptions occur.</p><div class="code-block"><div class="ch"><span>File handling with context managers</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import tempfile, pathlib, os
 
 # Bad pattern: manual open/close risks resource leak
 # f = open(&#x27;data.txt&#x27;)
@@ -2043,7 +2057,11 @@ try:
     with DatabaseConnection(&#x27;sqlite:///app.db&#x27;) as db:
         raise ValueError(&#x27;Oops!&#x27;)
 except ValueError:
-    pass</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Regular Expressions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pattern matching and text extraction with the re module — character classes, groups, lookaheads, and real-world parsing patterns.</p><div class="code-block"><div class="ch"><span>Basic patterns — search, match, findall</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import re
+    pass</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use a with statement to open a file — observe that it closes automatically even on error</label></li>
+<li><label><input type="checkbox"> Open two files in one with statement for simultaneous reading and writing</label></li>
+<li><label><input type="checkbox"> Write a class-based context manager with __enter__ and __exit__ that times a code block</label></li>
+<li><label><input type="checkbox"> Use @contextmanager to create a log_section() context manager that prints entry/exit messages</label></li>
+<li><label><input type="checkbox"> Use contextlib.suppress to ignore a KeyError when accessing a missing dict key in a with block</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Regular Expressions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pattern matching and text extraction with the re module — character classes, groups, lookaheads, and real-world parsing patterns.</p><div class="code-block"><div class="ch"><span>Basic patterns — search, match, findall</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import re
 
 text = &#x27;Contact us at support@example.com or sales@company.org for help.&#x27;
 
@@ -2144,7 +2162,11 @@ MONEY_PATTERN = re.compile(r&#x27;&#x27;)   # TODO
 
 print(&#x27;Emails:&#x27;, EMAIL_PATTERN.findall(text))
 print(&#x27;Phones:&#x27;, PHONE_PATTERN.findall(text))
-print(&#x27;Amounts:&#x27;, MONEY_PATTERN.findall(text))</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Type Hints &amp; Dataclasses</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write self-documenting, IDE-friendly code with type annotations and eliminate boilerplate from data containers with @dataclass.</p><div class="code-block"><div class="ch"><span>Basic type hints for functions</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">from typing import Optional, Union, List
+print(&#x27;Amounts:&#x27;, MONEY_PATTERN.findall(text))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses from a text string</label></li>
+<li><label><input type="checkbox"> Use re.sub to replace all phone number formats (dashes, dots, spaces) with a normalized NNN-NNN-NNNN format</label></li>
+<li><label><input type="checkbox"> Write a regex with a named group (?P&lt;date&gt;...) to extract date strings from log lines</label></li>
+<li><label><input type="checkbox"> Compile a regex pattern with re.IGNORECASE and reuse it on multiple strings</label></li>
+<li><label><input type="checkbox"> Use re.split with a pattern that splits on any of , ; | surrounded by optional whitespace</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Type Hints &amp; Dataclasses</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write self-documenting, IDE-friendly code with type annotations and eliminate boilerplate from data containers with @dataclass.</p><div class="code-block"><div class="ch"><span>Basic type hints for functions</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">from typing import Optional, Union, List
 
 def greet(name: str, times: int = 1) -&gt; str:
     return (&#x27;Hello, &#x27; + name + &#x27;! &#x27;) * times
@@ -2294,7 +2316,11 @@ book.add(Person(&#x27;Bob&#x27;, 17, &#x27;bob@example.com&#x27;))
 book.add(Person(&#x27;Carol&#x27;, 25, &#x27;carol@example.com&#x27;, &#x27;555-5678&#x27;))
 
 print(book.find_by_name(&#x27;Alice&#x27;))
-print(&#x27;Adults:&#x27;, [p.name for p in book.adults()])</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Concurrency &amp; Async</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Speed up I/O-bound tasks with threading and asyncio, CPU-bound tasks with multiprocessing, and understand the GIL. Use concurrent.futures for clean parallel execution.</p><div class="code-block"><div class="ch"><span>Threading for I/O-bound tasks</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import threading
+print(&#x27;Adults:&#x27;, [p.name for p in book.adults()])</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add type hints to a function with List, Optional, and Dict return type — verify with mypy</label></li>
+<li><label><input type="checkbox"> Create a @dataclass for a Product with name, price, and tags — test auto-generated __repr__</label></li>
+<li><label><input type="checkbox"> Use frozen=True on a dataclass to make it hashable and add it to a set</label></li>
+<li><label><input type="checkbox"> Add a __post_init__ to a dataclass to validate that price &gt;= 0</label></li>
+<li><label><input type="checkbox"> Use field(default_factory=list) for a mutable default attribute in a dataclass</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Concurrency &amp; Async</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Speed up I/O-bound tasks with threading and asyncio, CPU-bound tasks with multiprocessing, and understand the GIL. Use concurrent.futures for clean parallel execution.</p><div class="code-block"><div class="ch"><span>Threading for I/O-bound tasks</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import threading
 import time
 import random
 
@@ -2426,7 +2452,11 @@ async def async_fetch(url):
 # TODO: (1) ThreadPoolExecutor: fetch all URLs, measure time
 # TODO: (2) asyncio.gather: fetch all URLs, measure time
 # TODO: (3) Print speedup vs sequential (sum of delays)
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Design Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply classic Gang-of-Four patterns in Python: Singleton, Factory, Observer, Strategy, and Decorator. Understand when and why to use each.</p><div class="code-block"><div class="ch"><span>Singleton and Factory patterns</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python"># Singleton: one instance per process
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run 5 simulated I/O tasks sequentially vs with ThreadPoolExecutor and measure the speedup</label></li>
+<li><label><input type="checkbox"> Use asyncio.gather to run 5 async sleep tasks concurrently and print total elapsed time</label></li>
+<li><label><input type="checkbox"> Use concurrent.futures.as_completed to process results as they arrive rather than in order</label></li>
+<li><label><input type="checkbox"> Implement a producer-consumer pattern with threading.Queue between two threads</label></li>
+<li><label><input type="checkbox"> Use a threading.Lock to protect a shared counter incremented by multiple threads</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Design Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply classic Gang-of-Four patterns in Python: Singleton, Factory, Observer, Strategy, and Decorator. Understand when and why to use each.</p><div class="code-block"><div class="ch"><span>Singleton and Factory patterns</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python"># Singleton: one instance per process
 class DatabasePool:
     _instance = None
 
@@ -2619,7 +2649,11 @@ def exporter_factory(fmt: str) -&gt; BaseExporter:
 
 data = [{&#x27;id&#x27;: i, &#x27;value&#x27;: i*2, &#x27;name&#x27;: f&#x27;item_{i}&#x27;} for i in range(100)]
 # TODO: export to &#x27;output.csv&#x27; and &#x27;output.json&#x27;, trigger events
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Testing with pytest</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write unit tests, parametrized tests, fixtures, and mocks with pytest. Apply TDD principles and measure code coverage.</p><div class="code-block"><div class="ch"><span>Basic pytest structure and assertions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python"># test_math_utils.py  (run with: pytest test_math_utils.py -v)
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a Singleton class using __new__ and verify two instances are the same object</label></li>
+<li><label><input type="checkbox"> Write a shape_factory(kind, **kwargs) that returns Circle or Rectangle from a string key</label></li>
+<li><label><input type="checkbox"> Implement the Observer pattern: create an EventBus with subscribe/publish and test with 2 listeners</label></li>
+<li><label><input type="checkbox"> Implement the Strategy pattern: write two sort strategies and swap them at runtime on a Sorter</label></li>
+<li><label><input type="checkbox"> Write a @retry(max_attempts=3) parameterized decorator that retries a flaky function</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Testing with pytest</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write unit tests, parametrized tests, fixtures, and mocks with pytest. Apply TDD principles and measure code coverage.</p><div class="code-block"><div class="ch"><span>Basic pytest structure and assertions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python"># test_math_utils.py  (run with: pytest test_math_utils.py -v)
 # Here we demonstrate by running inline
 import traceback
 
@@ -2812,7 +2846,11 @@ def test_no_nulls_fail(): ...  # TODO
 for t in [test_valid_types, test_invalid_type, test_range_pass,
           test_range_fail, test_no_nulls_pass, test_no_nulls_fail]:
     t()
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Functional Programming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python supports functional programming with map(), filter(), reduce(), and functools. These let you transform data declaratively without explicit loops.</p><div class="code-block"><div class="ch"><span>map() and filter() for data transformation</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 pytest-style test functions for an add(a, b) function covering normal, negative, and zero cases</label></li>
+<li><label><input type="checkbox"> Use parametrize-style manual looping to run the same assertion against multiple (input, expected) pairs</label></li>
+<li><label><input type="checkbox"> Use unittest.mock.patch to mock an external API call and verify the function handles the response</label></li>
+<li><label><input type="checkbox"> Write a test that checks a custom exception is raised with the correct message</label></li>
+<li><label><input type="checkbox"> Add a test fixture pattern: create a fresh FakeDB instance before each test function</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Functional Programming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python supports functional programming with map(), filter(), reduce(), and functools. These let you transform data declaratively without explicit loops.</p><div class="code-block"><div class="ch"><span>map() and filter() for data transformation</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 # map() applies a function to every element
 squares = list(map(lambda x: x**2, nums))
@@ -2916,7 +2954,11 @@ def keep_small(numbers, limit=100):
     return [n for n in numbers if abs(n) &lt; limit]
 
 process_small = partial(process_data, ...)  # TODO: use partial with keep_small
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Itertools in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The itertools module provides fast, memory-efficient tools for working with iterables. Essential for combinatorics, grouping, and chaining data streams.</p><div class="code-block"><div class="ch"><span>chain, islice, cycle, repeat for sequence control</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import itertools
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use map() to convert a list of strings to integers — handle it with list(map(int, ...))</label></li>
+<li><label><input type="checkbox"> Use filter() to keep only even numbers from a list of integers</label></li>
+<li><label><input type="checkbox"> Chain map and filter: square only the even numbers from a list in one expression</label></li>
+<li><label><input type="checkbox"> Use functools.partial to create a double() function from a general multiply(x, factor) function</label></li>
+<li><label><input type="checkbox"> Use functools.reduce() to compute the factorial of 7 without a loop</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Itertools in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The itertools module provides fast, memory-efficient tools for working with iterables. Essential for combinatorics, grouping, and chaining data streams.</p><div class="code-block"><div class="ch"><span>chain, islice, cycle, repeat for sequence control</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import itertools
 
 # chain: join multiple iterables
 combined = list(itertools.chain([1, 2], [3, 4], [5]))
@@ -3027,7 +3069,11 @@ def batch(iterable, n):
 print(all_pairs([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]))   # 6 pairs
 print(len(team_schedules([&#x27;X&#x27;,&#x27;Y&#x27;,&#x27;Z&#x27;])))  # 6 matchups
 print(list(batch(range(10), 3)))     # [[0,1,2],[3,4,5],[6,7,8],[9]]
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Closures &amp; Scoping</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python resolves names using the LEGB rule (Local, Enclosing, Global, Built-in). Closures capture variables from enclosing scopes and are the foundation of decorators and factories.</p><div class="code-block"><div class="ch"><span>LEGB scoping rule</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">x = &quot;global&quot;
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use itertools.chain to iterate over three separate lists as one without creating a combined list</label></li>
+<li><label><input type="checkbox"> Use itertools.product to generate all (size, color) variants from two lists</label></li>
+<li><label><input type="checkbox"> Use itertools.combinations to list all unique 2-player game matchups from 5 players</label></li>
+<li><label><input type="checkbox"> Use itertools.groupby to group a sorted list of words by their first letter</label></li>
+<li><label><input type="checkbox"> Use itertools.accumulate to build a running total from a list of daily sales figures</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Closures &amp; Scoping</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python resolves names using the LEGB rule (Local, Enclosing, Global, Built-in). Closures capture variables from enclosing scopes and are the foundation of decorators and factories.</p><div class="code-block"><div class="ch"><span>LEGB scoping rule</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">x = &quot;global&quot;
 
 def outer():
     x = &quot;enclosing&quot;
@@ -3163,7 +3209,11 @@ import time
 t0 = time.time()
 print(fib(35))     # should be fast after memoize
 print(f&quot;Time: {time.time()-t0:.4f}s&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Decorators in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decorators wrap functions or classes to add behavior without modifying their source. Master stacked, parameterized, and class-based decorators.</p><div class="code-block"><div class="ch"><span>Stacked decorators and functools.wraps</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import functools, time
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function and observe which scope (local/enclosing/global) each variable resolves to</label></li>
+<li><label><input type="checkbox"> Use the nonlocal keyword inside a nested function to increment an enclosing counter</label></li>
+<li><label><input type="checkbox"> Write a make_adder(n) factory and create add5 and add10 — verify they are independent</label></li>
+<li><label><input type="checkbox"> Demonstrate the late-binding closure gotcha with a list of lambdas in a for loop, then fix it</label></li>
+<li><label><input type="checkbox"> Inspect a closure&#x27;s captured variable using fn.__closure__[0].cell_contents</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Decorators in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decorators wrap functions or classes to add behavior without modifying their source. Master stacked, parameterized, and class-based decorators.</p><div class="code-block"><div class="ch"><span>Stacked decorators and functools.wraps</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import functools, time
 
 def timer(func):
     @functools.wraps(func)  # preserves __name__, __doc__
@@ -3309,7 +3359,11 @@ print(get_value(&quot;x&quot;))
 print(get_value(&quot;x&quot;))  # should be cache hit
 time.sleep(2.1)
 print(get_value(&quot;x&quot;))  # should re-fetch after TTL
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Abstract Base Classes &amp; Protocols</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ABCs enforce interface contracts at class creation time. Protocols (PEP 544) enable structural subtyping — duck typing with type-checker support.</p><div class="code-block"><div class="ch"><span>abc.ABC and @abstractmethod</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">from abc import ABC, abstractmethod
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a simple @timer decorator using functools.wraps and verify __name__ is preserved</label></li>
+<li><label><input type="checkbox"> Stack two decorators (@logger and @timer) on one function and observe the call order</label></li>
+<li><label><input type="checkbox"> Write a parameterized @repeat(n) decorator that calls the function n times</label></li>
+<li><label><input type="checkbox"> Create a class-based CallCounter decorator that tracks how many times a function is called</label></li>
+<li><label><input type="checkbox"> Write a @validate_positive decorator that raises ValueError for any negative numeric argument</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Abstract Base Classes &amp; Protocols</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ABCs enforce interface contracts at class creation time. Protocols (PEP 544) enable structural subtyping — duck typing with type-checker support.</p><div class="code-block"><div class="ch"><span>abc.ABC and @abstractmethod</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">from abc import ABC, abstractmethod
 
 class Shape(ABC):
     @abstractmethod
@@ -3466,7 +3520,11 @@ def save_all(items):
 
 products = [Product(&quot;apple&quot;, 1.2, 50), Product(&quot;banana&quot;, 0.5, 200)]
 print(save_all(products))
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Descriptors &amp; Properties</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptors control attribute access via __get__, __set__, __delete__. The property() built-in is the most common descriptor. __slots__ reduces memory overhead.</p><div class="code-block"><div class="ch"><span>property getter, setter, deleter</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">class Temperature:
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an ABC Shape with abstract area() and perimeter() — implement Circle and Rectangle subclasses</label></li>
+<li><label><input type="checkbox"> Try to instantiate the ABC directly and confirm it raises TypeError</label></li>
+<li><label><input type="checkbox"> Define a Protocol Drawable with a draw() method and write a function that accepts any Drawable</label></li>
+<li><label><input type="checkbox"> Use isinstance(obj, Protocol) with @runtime_checkable to check protocol conformance at runtime</label></li>
+<li><label><input type="checkbox"> Override __subclasshook__ in an ABC to make any class with __len__ automatically count as Sized</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Descriptors &amp; Properties</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptors control attribute access via __get__, __set__, __delete__. The property() built-in is the most common descriptor. __slots__ reduces memory overhead.</p><div class="code-block"><div class="ch"><span>property getter, setter, deleter</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">class Temperature:
     def __init__(self, celsius=0):
         self._celsius = celsius  # private storage
 
@@ -3638,7 +3696,11 @@ m.pressure    = 101325.0
 m.humidity    = 65.0
 print(m.temperature)  # Reading(value=22.5, unit=&#x27;C&#x27;)
 print(m.humidity)
-</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Memory Management &amp; Profiling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python manages memory via reference counting and a cyclic garbage collector. Use sys, gc, tracemalloc, and cProfile to find memory leaks and performance bottlenecks.</p><div class="code-block"><div class="ch"><span>sys.getsizeof, id(), and reference counting</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sys
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a @property to a class that computes fahrenheit from celsius — make it read-only</label></li>
+<li><label><input type="checkbox"> Add a @celsius.setter that raises ValueError if the value is below absolute zero</label></li>
+<li><label><input type="checkbox"> Write a Validated descriptor that enforces min/max constraints on an attribute</label></li>
+<li><label><input type="checkbox"> Use __slots__ on a simple Point class and verify you cannot add arbitrary attributes</label></li>
+<li><label><input type="checkbox"> Compare sys.getsizeof for 1000 instances of a class with and without __slots__</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Memory Management &amp; Profiling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python manages memory via reference counting and a cyclic garbage collector. Use sys, gc, tracemalloc, and cProfile to find memory leaks and performance bottlenecks.</p><div class="code-block"><div class="ch"><span>sys.getsizeof, id(), and reference counting</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sys
 
 # Basic sizes
 for obj in [0, 1, 255, 2**100, 3.14, &quot;hi&quot;, &quot;hello world&quot;, [], [1,2,3], {}, {&quot;a&quot;:1}]:
@@ -3792,7 +3854,11 @@ print(f&quot;Speedup: {t1/t2:.1f}x&quot;)
 
 # Profile trial_division
 cProfile.run(&quot;trial_division(5000)&quot;, sort=&quot;cumulative&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Logging Best Practices</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use the logging module instead of print() for production code. It supports levels, handlers, formatters, and log rotation — all configurable without code changes.</p><div class="code-block"><div class="ch"><span>Basic logging setup and levels</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import logging
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use sys.getsizeof to compare the memory footprint of an int, a list, and a large string</label></li>
+<li><label><input type="checkbox"> Create a reference cycle with two objects pointing to each other, then call gc.collect()</label></li>
+<li><label><input type="checkbox"> Use tracemalloc to snapshot memory before and after creating a large list — compare the diff</label></li>
+<li><label><input type="checkbox"> Use cProfile.run() on a slow function and identify which sub-function takes the most time</label></li>
+<li><label><input type="checkbox"> Use timeit to compare list comprehension vs a for-loop + append for building a list of squares</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Logging Best Practices</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use the logging module instead of print() for production code. It supports levels, handlers, formatters, and log rotation — all configurable without code changes.</p><div class="code-block"><div class="ch"><span>Basic logging setup and levels</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import logging
 
 # Configure root logger
 logging.basicConfig(
@@ -3953,7 +4019,11 @@ sample_logs = [
 
 counts = analyze_logs(sample_logs)
 print(&quot;Level counts:&quot;, counts)
-</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Argparse &amp; CLI Tools</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">argparse is Python&#x27;s standard library for building command-line interfaces. It handles argument parsing, type validation, help generation, and subcommands.</p><div class="code-block"><div class="ch"><span>Basic ArgumentParser with positional and optional args</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import argparse
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up basicConfig with DEBUG level and a custom format, then emit one log at each severity level</label></li>
+<li><label><input type="checkbox"> Create a named logger for a module and attach a StreamHandler with WARNING+ level</label></li>
+<li><label><input type="checkbox"> Log an exception with logger.exception() inside an except block and observe the traceback</label></li>
+<li><label><input type="checkbox"> Silence a noisy library by setting logging.getLogger(&#x27;requests&#x27;).setLevel(logging.WARNING)</label></li>
+<li><label><input type="checkbox"> Use logger.debug with %s formatting (not f-string) to defer string construction if DEBUG is disabled</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Argparse &amp; CLI Tools</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">argparse is Python&#x27;s standard library for building command-line interfaces. It handles argument parsing, type validation, help generation, and subcommands.</p><div class="code-block"><div class="ch"><span>Basic ArgumentParser with positional and optional args</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import argparse
 
 # Simulate command-line arguments (replace sys.argv for demo)
 parser = argparse.ArgumentParser(
@@ -4095,7 +4165,11 @@ if args.cmd == &quot;count&quot;:
     cmd_count(args)
 elif args.cmd == &quot;summary&quot;:
     cmd_summary(args)
-</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. JSON &amp; Data Serialization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s json module handles serialization to/from JSON. For Python-specific objects, use pickle. For configuration, use configparser or tomllib.</p><div class="code-block"><div class="ch"><span>json.dumps / loads with custom encoder</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import json
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a basic ArgumentParser with one positional and two optional arguments — print parsed values</label></li>
+<li><label><input type="checkbox"> Add a --verbose flag (store_true) and a --format choice argument with allowed values</label></li>
+<li><label><input type="checkbox"> Add subcommands (subparsers): &#x27;run&#x27; and &#x27;status&#x27;, each with their own arguments</label></li>
+<li><label><input type="checkbox"> Add a custom type validator that ensures a --port argument is between 1 and 65535</label></li>
+<li><label><input type="checkbox"> Use add_mutually_exclusive_group to make --debug and --quiet options mutually exclusive</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. JSON &amp; Data Serialization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s json module handles serialization to/from JSON. For Python-specific objects, use pickle. For configuration, use configparser or tomllib.</p><div class="code-block"><div class="ch"><span>json.dumps / loads with custom encoder</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import json
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -4275,7 +4349,11 @@ cfg.save()
 cfg2 = ConfigManager(tmp)
 print(&quot;reloaded font:&quot;, cfg2.get(&quot;font_size&quot;))  # 14
 os.unlink(tmp)
-</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Pathlib &amp; File System Ops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">pathlib.Path is the modern way to handle filesystem paths in Python. It&#x27;s cross-platform, object-oriented, and integrates with all standard file operations.</p><div class="code-block"><div class="ch"><span>Path manipulation and navigation</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">from pathlib import Path
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Serialize a Python dict containing a datetime object to JSON using a custom JSONEncoder</label></li>
+<li><label><input type="checkbox"> Parse a JSON string back to Python and use object_hook to auto-convert ISO date strings</label></li>
+<li><label><input type="checkbox"> Use pickle to round-trip a custom class instance through a BytesIO buffer</label></li>
+<li><label><input type="checkbox"> Read a multi-section .ini config file with configparser and access values with type conversion</label></li>
+<li><label><input type="checkbox"> Use json.dumps with indent=2 and sort_keys=True to produce deterministic formatted JSON output</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Pathlib &amp; File System Ops</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">pathlib.Path is the modern way to handle filesystem paths in Python. It&#x27;s cross-platform, object-oriented, and integrates with all standard file operations.</p><div class="code-block"><div class="ch"><span>Path manipulation and navigation</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">from pathlib import Path
 
 # Create a Path object — cross-platform!
 p = Path(&quot;/home/user/data/sales_2024.csv&quot;)
@@ -4444,7 +4522,11 @@ for i in range(3):
 result = archive_logs(tmp_logs, tmp_archive, days_old=7)
 print(&quot;Archived:&quot;, result)
 shutil.rmtree(tmp_logs); shutil.rmtree(tmp_archive)
-</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. String Formatting Mastery</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Master Python&#x27;s string formatting mini-language: f-strings, format(), format spec DSL, textwrap, and Template strings for safe user-controlled formatting.</p><div class="code-block"><div class="ch"><span>f-string advanced features and format spec</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python"># Format spec: [[fill]align][sign][z][#][0][width][grouping][.precision][type]
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Path(&#x27;/some/path/file.csv&#x27;) and print its .name, .stem, .suffix, and .parent</label></li>
+<li><label><input type="checkbox"> Build a path with the / operator: base / &#x27;data&#x27; / &#x27;reports&#x27; / &#x27;q1.csv&#x27;</label></li>
+<li><label><input type="checkbox"> Use rglob(&#x27;*.py&#x27;) to find all Python files under a directory and print their relative paths</label></li>
+<li><label><input type="checkbox"> Write and read text to a temp file using Path.write_text and Path.read_text</label></li>
+<li><label><input type="checkbox"> Use iterdir() to list all files and folders in a directory, filtering with .is_file()</label></li></ul></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. String Formatting Mastery</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Master Python&#x27;s string formatting mini-language: f-strings, format(), format spec DSL, textwrap, and Template strings for safe user-controlled formatting.</p><div class="code-block"><div class="ch"><span>f-string advanced features and format spec</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python"># Format spec: [[fill]align][sign][z][#][0][width][grouping][.precision][type]
 pi = 3.14159265358979
 
 # Width, precision, type
@@ -4597,7 +4679,11 @@ format_invoice(&quot;Acme Corp&quot;, [
     (&quot;Jupyter Setup&quot;,    3,  150.00),
     (&quot;Cloud Credits&quot;,   10,   49.99),
 ], tax_rate=0.09)
-</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Optimization &amp; Caching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Profile before optimizing. Use timeit for micro-benchmarks, functools.cache for memoization, __slots__ for memory, and algorithmic improvements for the biggest wins.</p><div class="code-block"><div class="ch"><span>timeit for micro-benchmarking</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import timeit
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format pi to 4 decimal places, in scientific notation, and as a percentage using f-string spec</label></li>
+<li><label><input type="checkbox"> Print a table of items and prices using f-string left/right alignment so columns line up</label></li>
+<li><label><input type="checkbox"> Use :, grouping to display 1234567 as 1,234,567 and :08b to show 42 in binary</label></li>
+<li><label><input type="checkbox"> Use textwrap.fill to wrap a long paragraph at 60 characters</label></li>
+<li><label><input type="checkbox"> Use string.Template to safely interpolate user-supplied values without risk of code injection</label></li></ul></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Optimization &amp; Caching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Profile before optimizing. Use timeit for micro-benchmarks, functools.cache for memoization, __slots__ for memory, and algorithmic improvements for the biggest wins.</p><div class="code-block"><div class="ch"><span>timeit for micro-benchmarking</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import timeit
 
 # Compare list comprehension vs map() vs for-loop
 setup = &quot;data = list(range(10_000))&quot;
@@ -4751,7 +4837,11 @@ def hash_based(lst):
 for name, fn in [(&quot;sort_based&quot;, sort_based), (&quot;hash_based&quot;, hash_based)]:
     t = timeit.timeit(lambda: fn(data), number=100)
     print(f&quot;{name}: {t:.4f}s, found {len(fn(data))} duplicates&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Virtual Environments &amp; Package Management</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Virtual environments isolate project dependencies. pip manages packages, and importlib enables dynamic imports at runtime — essential for building extensible systems.</p><div class="code-block"><div class="ch"><span>venv and pip (commands and concepts)</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python"># These commands are run in the terminal (not runnable as Python code)
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use timeit to compare list.append vs list comprehension for building a list of 10,000 squares</label></li>
+<li><label><input type="checkbox"> Apply @functools.lru_cache to a recursive Fibonacci function and compare speed for fib(35)</label></li>
+<li><label><input type="checkbox"> Use @functools.cached_property to compute an expensive statistic once and cache it on an object</label></li>
+<li><label><input type="checkbox"> Replace a linear O(n) list membership test with a set O(1) lookup and benchmark the difference</label></li>
+<li><label><input type="checkbox"> Use collections.Counter instead of a manual counting loop and compare speed with timeit</label></li></ul></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Virtual Environments &amp; Package Management</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Virtual environments isolate project dependencies. pip manages packages, and importlib enables dynamic imports at runtime — essential for building extensible systems.</p><div class="code-block"><div class="ch"><span>venv and pip (commands and concepts)</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python"># These commands are run in the terminal (not runnable as Python code)
 # They are shown here as strings for educational purposes
 
 venv_commands = &#x27;&#x27;&#x27;
@@ -4947,7 +5037,11 @@ result = check_dependencies(packages)
 print(&quot;Installed:&quot;, result[&quot;installed&quot;])
 print(&quot;Missing:&quot;,   result[&quot;missing&quot;])
 install_missing(result[&quot;missing&quot;])
-</code></pre></div></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>33. Introspection &amp; Metaprogramming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s runtime lets you inspect and modify objects, classes, and functions dynamically. Use inspect, dir(), getattr(), and metaclasses for powerful abstractions.</p><div class="code-block"><div class="ch"><span>dir(), type(), getattr(), hasattr(), inspect</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import inspect
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a venv, activate it, install requests, then run pip freeze to see the locked version</label></li>
+<li><label><input type="checkbox"> Use importlib.import_module(&#x27;math&#x27;) dynamically and call math.sqrt through the returned module</label></li>
+<li><label><input type="checkbox"> Use importlib.util.find_spec(&#x27;numpy&#x27;) to check if numpy is installed before importing it</label></li>
+<li><label><input type="checkbox"> Write a function that tries to import ujson and falls back to json if it&#x27;s not installed</label></li>
+<li><label><input type="checkbox"> Create a minimal Python package in a temp dir with __init__.py and import it using sys.path</label></li></ul></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>33. Introspection &amp; Metaprogramming</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s runtime lets you inspect and modify objects, classes, and functions dynamically. Use inspect, dir(), getattr(), and metaclasses for powerful abstractions.</p><div class="code-block"><div class="ch"><span>dir(), type(), getattr(), hasattr(), inspect</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import inspect
 
 class Rectangle:
     width: float
@@ -5152,7 +5246,11 @@ for cls in [Vehicle, ElectricCar]:
     print(f&quot;  bases: {info[&#x27;bases&#x27;]}&quot;)
     print(f&quot;  attrs: {info[&#x27;class_attrs&#x27;]}&quot;)
     print(f&quot;  methods: {info[&#x27;methods&#x27;]}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>34. Advanced Type Hints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s typing module enables static analysis with TypeVar, Generic, Protocol, overload, and Literal. Well-typed code is self-documenting and catches bugs before runtime.</p><div class="code-block"><div class="ch"><span>TypeVar and Generic classes</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">from typing import TypeVar, Generic, Iterable, Optional
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use dir() on an object and filter to only show non-dunder public attributes and methods</label></li>
+<li><label><input type="checkbox"> Use inspect.signature() to print parameter names and defaults for a function you wrote</label></li>
+<li><label><input type="checkbox"> Use getattr/hasattr to dynamically call a method by name from a string</label></li>
+<li><label><input type="checkbox"> Inspect a class&#x27;s __mro__ to see the inheritance chain for a multi-level class hierarchy</label></li>
+<li><label><input type="checkbox"> Use __init_subclass__ to auto-register subclasses into a class-level registry dict</label></li></ul></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>34. Advanced Type Hints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s typing module enables static analysis with TypeVar, Generic, Protocol, overload, and Literal. Well-typed code is self-documenting and catches bugs before runtime.</p><div class="code-block"><div class="ch"><span>TypeVar and Generic classes</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">from typing import TypeVar, Generic, Iterable, Optional
 
 T = TypeVar(&quot;T&quot;)
 K = TypeVar(&quot;K&quot;)
@@ -5364,12 +5462,16 @@ print(r2.is_err(), r2.unwrap_or(-1))
 print(r1.map(lambda x: x * 2).unwrap())
 try:    r2.unwrap()
 except ValueError as e: print(&quot;Caught:&quot;, e)
-</code></pre></div></div></div></div>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a generic Stack[T] class using Generic[T] and annotate push, pop, and peek correctly</label></li>
+<li><label><input type="checkbox"> Use Literal[&#x27;read&#x27;, &#x27;write&#x27;, &#x27;append&#x27;] to restrict the mode argument of an open_file function</label></li>
+<li><label><input type="checkbox"> Use @overload to define two signatures for a parse() function: str -&gt; int, bytes -&gt; float</label></li>
+<li><label><input type="checkbox"> Define a TypedDict for a user record with required and NotRequired fields</label></li>
+<li><label><input type="checkbox"> Use TypeVar T to write a generic first(items: list[T]) -&gt; Optional[T] function</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

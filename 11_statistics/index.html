@@ -3,24 +3,8 @@
 <title>Statistics with Python Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#58a6ff}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#58a6ff}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Descriptive Statistics</a></li>
@@ -137,7 +121,11 @@ daily_sales = np.concatenate([
 # TODO: Find outliers using IQR fence
 # TODO: Find outliers using z-score (|z| &gt; 2)
 # TODO: Report % of days above 90th percentile
-</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Probability Distributions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Probability distributions model the likelihood of outcomes. scipy.stats provides a unified interface for continuous distributions (normal, exponential) and discrete distributions (binomial, Poisson) with PDF/PMF, CDF, and random variates.</p><div class="code-block"><div class="ch"><span>Normal distribution — PDF, CDF, PPF</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute mean, median, mode, std, and IQR on a list of 20 numbers</label></li>
+<li><label><input type="checkbox"> Use np.percentile to find the 10th, 25th, 75th, and 90th percentiles of a dataset</label></li>
+<li><label><input type="checkbox"> Identify outliers with the IQR fence method (below Q1-1.5*IQR or above Q3+1.5*IQR)</label></li>
+<li><label><input type="checkbox"> Compute skewness and kurtosis with scipy.stats and interpret the result</label></li>
+<li><label><input type="checkbox"> Use pd.Series.describe() and compare its output to manually computed statistics</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Probability Distributions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Probability distributions model the likelihood of outcomes. scipy.stats provides a unified interface for continuous distributions (normal, exponential) and discrete distributions (binomial, Poisson) with PDF/PMF, CDF, and random variates.</p><div class="code-block"><div class="ch"><span>Normal distribution — PDF, CDF, PPF</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import numpy as np
 from scipy import stats
 
 mu, sigma = 0, 1
@@ -241,7 +229,11 @@ wait_times = np.random.exponential(scale=3.0, size=500)
 # TODO: Print fitted scale (mean wait time)
 # TODO: Compute P(wait &gt; 5 minutes) using fitted distribution
 # TODO: Compute 90th percentile wait time
-</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Sampling &amp; Central Limit Theorem</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Random sampling draws a subset from a population. The Central Limit Theorem (CLT) states that the distribution of sample means approaches normality as sample size grows, regardless of population shape. Bootstrap resampling estimates sampling distributions empirically.</p><div class="code-block"><div class="ch"><span>Simple random sampling with numpy</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the PDF, CDF, and PPF of a standard normal distribution for x = [-2,-1,0,1,2]</label></li>
+<li><label><input type="checkbox"> Use stats.binom to compute the probability of exactly 5 heads in 10 fair coin flips</label></li>
+<li><label><input type="checkbox"> Use stats.poisson to compute P(X &gt;= 8) for a Poisson distribution with lambda=5</label></li>
+<li><label><input type="checkbox"> Compute P(-1.96 &lt; Z &lt; 1.96) for the standard normal and verify it is approximately 0.95</label></li>
+<li><label><input type="checkbox"> Use stats.expon to find the 95th percentile and verify the memoryless property</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Sampling &amp; Central Limit Theorem</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Random sampling draws a subset from a population. The Central Limit Theorem (CLT) states that the distribution of sample means approaches normality as sample size grows, regardless of population shape. Bootstrap resampling estimates sampling distributions empirically.</p><div class="code-block"><div class="ch"><span>Simple random sampling with numpy</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 # Skewed population (exponential)
@@ -343,7 +335,11 @@ for n in [2, 10, 30, 100]:
     # TODO: Compute sample means array
     # TODO: Print mean of sample means, empirical SE, theoretical SE
     pass
-</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Confidence Intervals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A confidence interval (CI) gives a range of plausible values for a population parameter. A 95% CI means that if we repeated the study many times, 95% of the intervals would contain the true parameter. scipy.stats provides t-intervals; bootstrap CIs require no distributional assumptions.</p><div class="code-block"><div class="ch"><span>CI for mean using scipy.stats.t.interval</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Generate 10000 sample means from samples of size n=5 from an exponential distribution and plot/print the histogram shape</label></li>
+<li><label><input type="checkbox"> Verify the CLT: as n increases from 5 to 100, confirm the sample mean distribution becomes more normal</label></li>
+<li><label><input type="checkbox"> Compute the standard error of the mean for sample sizes 10, 50, and 200 from the same population</label></li>
+<li><label><input type="checkbox"> Compare the theoretical SE (sigma/sqrt(n)) to the empirical SE from bootstrap resampling</label></li>
+<li><label><input type="checkbox"> Demonstrate stratified sampling by drawing proportional samples from 3 groups with different sizes</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Confidence Intervals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A confidence interval (CI) gives a range of plausible values for a population parameter. A 95% CI means that if we repeated the study many times, 95% of the intervals would contain the true parameter. scipy.stats provides t-intervals; bootstrap CIs require no distributional assumptions.</p><div class="code-block"><div class="ch"><span>CI for mean using scipy.stats.t.interval</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -445,7 +441,11 @@ np.random.seed(77)
 # TODO: Sample 2 (n=100) from Normal(60,8) — compute 95% t-CI
 # TODO: Sample 3 (n=40) from Exponential(scale=5) — compute both t-CI and bootstrap CI
 # TODO: Compare widths and discuss
-</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Hypothesis Testing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hypothesis testing provides a framework for making statistical decisions. A null hypothesis (H0) is tested against an alternative. The p-value is the probability of observing data at least as extreme as the sample if H0 is true. scipy.stats provides t-tests, with significance typically judged at alpha=0.05.</p><div class="code-block"><div class="ch"><span>One-sample t-test</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% confidence interval for the mean using stats.t.interval for a sample of size 30</label></li>
+<li><label><input type="checkbox"> Compute a 95% bootstrap CI for the mean by resampling 5000 times and taking percentiles</label></li>
+<li><label><input type="checkbox"> Build a CI for a proportion using the normal approximation: p +/- 1.96*sqrt(p*(1-p)/n)</label></li>
+<li><label><input type="checkbox"> Compare the CI width for n=30 vs n=300 at the same confidence level</label></li>
+<li><label><input type="checkbox"> Verify that increasing confidence from 90% to 99% widens the CI as expected</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Hypothesis Testing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hypothesis testing provides a framework for making statistical decisions. A null hypothesis (H0) is tested against an alternative. The p-value is the probability of observing data at least as extreme as the sample if H0 is true. scipy.stats provides t-tests, with significance typically judged at alpha=0.05.</p><div class="code-block"><div class="ch"><span>One-sample t-test</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -560,7 +560,11 @@ afternoon  = np.random.normal(loc=3.6, scale=0.9, size=25)
 # TODO: One-sample t-test: H0: mean = 3.0 days
 # TODO: Two-sample t-test: morning vs afternoon
 # TODO: Print t, p, and conclusion for each
-</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. ANOVA &amp; Multiple Groups</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ANOVA (Analysis of Variance) tests whether means differ across three or more groups simultaneously, avoiding inflated Type I errors from multiple pairwise t-tests. One-way ANOVA requires normality and equal variances; Kruskal-Wallis is the non-parametric alternative. Post-hoc tests identify which specific pairs differ.</p><div class="code-block"><div class="ch"><span>One-way ANOVA with scipy.stats.f_oneway</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform a one-sample t-test on simulated data and interpret the resulting p-value</label></li>
+<li><label><input type="checkbox"> Generate two groups with different means and run a two-sample t-test with stats.ttest_ind</label></li>
+<li><label><input type="checkbox"> Check normality assumption using the Shapiro-Wilk test before running a t-test</label></li>
+<li><label><input type="checkbox"> Try changing the sample size from 10 to 1000 and observe how p-value changes</label></li>
+<li><label><input type="checkbox"> Run Welch&#x27;s t-test (equal_var=False) and compare to Student&#x27;s t-test on unequal variance data</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. ANOVA &amp; Multiple Groups</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ANOVA (Analysis of Variance) tests whether means differ across three or more groups simultaneously, avoiding inflated Type I errors from multiple pairwise t-tests. One-way ANOVA requires normality and equal variances; Kruskal-Wallis is the non-parametric alternative. Post-hoc tests identify which specific pairs differ.</p><div class="code-block"><div class="ch"><span>One-way ANOVA with scipy.stats.f_oneway</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -678,7 +682,11 @@ online  = np.random.normal(74, 10, 30)
 # TODO: If significant, Bonferroni post-hoc
 # TODO: Kruskal-Wallis test
 # TODO: Compare ANOVA vs Kruskal-Wallis conclusions
-</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Chi-Square Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Chi-square tests assess relationships between categorical variables. The goodness-of-fit test checks if observed frequencies match expected. The test of independence checks if two categorical variables are related. scipy.stats.chi2_contingency handles contingency tables directly.</p><div class="code-block"><div class="ch"><span>Chi-square goodness-of-fit test</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups using stats.f_oneway and interpret the F-statistic and p-value</label></li>
+<li><label><input type="checkbox"> Apply Tukey HSD post-hoc test to identify which specific group pairs differ significantly</label></li>
+<li><label><input type="checkbox"> Run Levene&#x27;s test to check the equal variance assumption before ANOVA</label></li>
+<li><label><input type="checkbox"> Try two-way ANOVA using statsmodels.formula.api.ols with an interaction term</label></li>
+<li><label><input type="checkbox"> Use Kruskal-Wallis H test as the non-parametric alternative when normality is violated</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Chi-Square Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Chi-square tests assess relationships between categorical variables. The goodness-of-fit test checks if observed frequencies match expected. The test of independence checks if two categorical variables are related. scipy.stats.chi2_contingency handles contingency tables directly.</p><div class="code-block"><div class="ch"><span>Chi-square goodness-of-fit test</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import numpy as np
 from scipy import stats
 
 # Test if a die is fair (expected: equal frequency for each face)
@@ -787,7 +795,11 @@ table = np.array([
 # TODO: Run chi2_contingency
 # TODO: Compute and interpret Cramer&#x27;s V
 # TODO: Also run Fisher&#x27;s exact as a check
-</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Correlation &amp; Regression</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Correlation measures the linear (Pearson) or monotonic (Spearman) relationship between two variables, ranging from -1 to +1. Simple linear regression models one variable as a linear function of another. scipy.stats.linregress provides slope, intercept, r-value, and p-value for the slope.</p><div class="code-block"><div class="ch"><span>Pearson and Spearman correlation</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 contingency table and run stats.chi2_contingency, print chi2, p, dof, expected</label></li>
+<li><label><input type="checkbox"> Compute Cramer&#x27;s V from the chi2 statistic to measure the strength of association</label></li>
+<li><label><input type="checkbox"> Run a goodness-of-fit chi-square test to check if a die is fair using stats.chisquare</label></li>
+<li><label><input type="checkbox"> Use stats.proportions_ztest to compare two proportions and interpret the z-statistic</label></li>
+<li><label><input type="checkbox"> Check that expected frequencies are all &gt;= 5 before applying the chi-square test</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Correlation &amp; Regression</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Correlation measures the linear (Pearson) or monotonic (Spearman) relationship between two variables, ranging from -1 to +1. Simple linear regression models one variable as a linear function of another. scipy.stats.linregress provides slope, intercept, r-value, and p-value for the slope.</p><div class="code-block"><div class="ch"><span>Pearson and Spearman correlation</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -910,7 +922,11 @@ sales    = 2000 + 3.5 * ad_spend + np.random.normal(0, 3000, 52)
 # TODO: Fit linear regression with scipy.stats.linregress
 # TODO: Print slope, intercept, R²
 # TODO: Predict sales for $7500 ad spend
-</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Non-Parametric Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Non-parametric tests make no assumptions about the underlying distribution. They operate on ranks rather than raw values, making them robust to outliers and skewed data. Key tests include Mann-Whitney U (two independent groups), Wilcoxon signed-rank (paired), and Shapiro-Wilk (normality check).</p><div class="code-block"><div class="ch"><span>Shapiro-Wilk normality test</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson and Spearman correlation between two variables and compare when they differ</label></li>
+<li><label><input type="checkbox"> Fit a simple linear regression with stats.linregress and print slope, intercept, and R-squared</label></li>
+<li><label><input type="checkbox"> Plot residuals vs fitted values to check for heteroscedasticity (or print residual statistics)</label></li>
+<li><label><input type="checkbox"> Compute partial correlation between X and Y while controlling for a confounding variable Z</label></li>
+<li><label><input type="checkbox"> Identify the 3 data points with the largest residuals from your regression</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Non-Parametric Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Non-parametric tests make no assumptions about the underlying distribution. They operate on ranks rather than raw values, making them robust to outliers and skewed data. Key tests include Mann-Whitney U (two independent groups), Wilcoxon signed-rank (paired), and Shapiro-Wilk (normality check).</p><div class="code-block"><div class="ch"><span>Shapiro-Wilk normality test</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -1022,7 +1038,11 @@ group_c = np.random.uniform(0, 100, 40)
 # TODO: For A vs B: t-test and Mann-Whitney
 # TODO: For A vs C: t-test and Mann-Whitney
 # TODO: Discuss which test is appropriate for each pair
-</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Effect Size &amp; Power Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Effect size quantifies the practical significance of a result, independent of sample size. Cohen&#x27;s d measures standardized mean differences. Statistical power (1 - beta) is the probability of detecting a true effect. Power analysis determines the sample size needed to achieve adequate power (typically 0.80).</p><div class="code-block"><div class="ch"><span>Cohen&#x27;s d — effect size for two groups</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run the Shapiro-Wilk test on normal, exponential, and uniform data samples</label></li>
+<li><label><input type="checkbox"> Use stats.mannwhitneyu to compare two exponentially distributed groups</label></li>
+<li><label><input type="checkbox"> Run stats.wilcoxon on paired before/after measurements and compare to stats.ttest_rel</label></li>
+<li><label><input type="checkbox"> Apply stats.ks_2samp to check if two samples come from the same distribution</label></li>
+<li><label><input type="checkbox"> Compute the effect size r = Z/sqrt(N) for a Mann-Whitney U result</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Effect Size &amp; Power Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Effect size quantifies the practical significance of a result, independent of sample size. Cohen&#x27;s d measures standardized mean differences. Statistical power (1 - beta) is the probability of detecting a true effect. Power analysis determines the sample size needed to achieve adequate power (typically 0.80).</p><div class="code-block"><div class="ch"><span>Cohen&#x27;s d — effect size for two groups</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -1146,7 +1166,11 @@ pooled_std    = 5.0
 # TODO: TTestIndPower: find n for power = 0.80, 0.85, 0.90
 # TODO: Simulate 3000 trials with n from 80% power calculation
 # TODO: Report empirical power
-</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Bayesian Inference</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Update beliefs with evidence using Bayes&#x27; theorem. Compute posterior distributions, credible intervals, and compare Bayesian vs frequentist approaches.</p><div class="code-block"><div class="ch"><span>Bayes&#x27; theorem — coin flip posterior</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Cohen&#x27;s d for two groups with different means using the pooled standard deviation</label></li>
+<li><label><input type="checkbox"> Use TTestIndPower.solve_power to find required n for effect_size=0.5 at 80% power</label></li>
+<li><label><input type="checkbox"> Calculate achieved power for d=0.3, n=100 per group at alpha=0.05</label></li>
+<li><label><input type="checkbox"> Find the minimum detectable effect (MDE) for n=200 per group at 80% power</label></li>
+<li><label><input type="checkbox"> Print a table of required n for effect sizes [0.2, 0.5, 0.8] and powers [0.70, 0.80, 0.90]</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Bayesian Inference</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Update beliefs with evidence using Bayes&#x27; theorem. Compute posterior distributions, credible intervals, and compare Bayesian vs frequentist approaches.</p><div class="code-block"><div class="ch"><span>Bayes&#x27; theorem — coin flip posterior</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -1287,7 +1311,11 @@ alpha_prior, beta_prior = 1, 1
 # TODO: compute posterior mean
 # TODO: compute 90% credible interval (5th and 95th percentile)
 # TODO: compute MLE estimate (conversions/visitors)
-# TODO: print comparison</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Survival Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Analyze time-to-event data — customer churn, equipment failure, clinical trials — with Kaplan-Meier curves and the log-rank test.</p><div class="code-block"><div class="ch"><span>Kaplan-Meier survival curve from scratch</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import numpy as np
+# TODO: print comparison</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Update a Beta(1,1) prior with 7 heads in 10 flips and print the posterior mean and 95% CI</label></li>
+<li><label><input type="checkbox"> Compute P(B &gt; A) via Monte Carlo sampling from two Beta posteriors for an A/B test</label></li>
+<li><label><input type="checkbox"> Start with a Beta(2,10) informative prior and compare the posterior to Beta(1,1) prior</label></li>
+<li><label><input type="checkbox"> Use the Normal-Normal conjugate to estimate the mean of 30 observations with a prior</label></li>
+<li><label><input type="checkbox"> Compute the posterior predictive: expected conversions in the next 100 visits from the posterior</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Survival Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Analyze time-to-event data — customer churn, equipment failure, clinical trials — with Kaplan-Meier curves and the log-rank test.</p><div class="code-block"><div class="ch"><span>Kaplan-Meier survival curve from scratch</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -1464,7 +1492,11 @@ np.random.seed(42)
 # TODO: implement km_curve function (or copy from examples)
 # TODO: plot both KM curves on same figure
 # TODO: compute and print log-rank test p-value
-# TODO: save to &#x27;equipment_survival.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Resampling &amp; Simulation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use bootstrapping, permutation tests, and Monte Carlo simulation to estimate uncertainty and test hypotheses without distributional assumptions.</p><div class="code-block"><div class="ch"><span>Bootstrap confidence intervals</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+# TODO: save to &#x27;equipment_survival.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate survival data with right censoring and compute the Kaplan-Meier estimate</label></li>
+<li><label><input type="checkbox"> Compare survival curves for two groups using the log-rank test</label></li>
+<li><label><input type="checkbox"> Print median survival time and 95% CI from the Kaplan-Meier estimator</label></li>
+<li><label><input type="checkbox"> Fit a Cox Proportional Hazards model and print hazard ratios for each covariate</label></li>
+<li><label><input type="checkbox"> Identify the time point where survival probability drops below 0.50 from the KM curve</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Resampling &amp; Simulation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use bootstrapping, permutation tests, and Monte Carlo simulation to estimate uncertainty and test hypotheses without distributional assumptions.</p><div class="code-block"><div class="ch"><span>Bootstrap confidence intervals</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 data = np.random.exponential(2.0, 50)  # skewed data
@@ -1566,7 +1598,11 @@ group_b = np.random.normal(4.8, 1.5, 50)
 # TODO: compute observed difference
 # TODO: combine groups, run 10000 permutations
 # TODO: compute permutation p-value (two-tailed)
-# TODO: print results</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Bootstrap Methods &amp; Resampling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Percentile Bootstrap CI</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+# TODO: print results</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean using 5000 resamples</label></li>
+<li><label><input type="checkbox"> Run a permutation test to compare two group means and compute the p-value</label></li>
+<li><label><input type="checkbox"> Bootstrap the median of a skewed distribution and compare to the analytical t-interval</label></li>
+<li><label><input type="checkbox"> Simulate the bootstrap distribution of the correlation coefficient between two variables</label></li>
+<li><label><input type="checkbox"> Compare bootstrap CI width at n=30 vs n=200 for the same population</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Bootstrap Methods &amp; Resampling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Percentile Bootstrap CI</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
 np.random.seed(42)
 data = np.random.exponential(scale=2, size=50)
 B = 10000
@@ -1632,7 +1668,11 @@ B = 10000
 # TODO: Bootstrap CI for 75th percentile LTV
 # TODO: Permutation test: premium vs standard mean LTV
 # TODO: Report Cohen&#x27;s d effect size
-</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Multiple Testing &amp; FDR Control</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Bonferroni &amp; Holm Corrections</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean of an exponential sample (n=50)</label></li>
+<li><label><input type="checkbox"> Implement a BCa bootstrap CI and compare to the simpler percentile method</label></li>
+<li><label><input type="checkbox"> Run a permutation test comparing two group means and print the two-sided p-value</label></li>
+<li><label><input type="checkbox"> Bootstrap the regression slope and compare to the analytical confidence interval</label></li>
+<li><label><input type="checkbox"> Vary the number of bootstrap resamples from 100 to 10000 and observe CI stability</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Multiple Testing &amp; FDR Control</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Bonferroni &amp; Holm Corrections</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
 from scipy import stats
 np.random.seed(42)
 k = 20
@@ -1727,7 +1767,11 @@ alpha = 0.05
 # TODO: BH FDR correction + reject/accept
 # TODO: Print comparison table
 # TODO: Discuss which method to use and why
-</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Dimensionality Reduction for Statistical Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>PCA for Outlier Detection</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply Bonferroni correction to 20 p-values and count how many are still significant</label></li>
+<li><label><input type="checkbox"> Apply Benjamini-Hochberg (BH) correction and compare the number of rejections to Bonferroni</label></li>
+<li><label><input type="checkbox"> Manually implement the BH procedure step-by-step on a sorted list of p-values</label></li>
+<li><label><input type="checkbox"> Use multipletests from statsmodels with method=&#x27;fdr_bh&#x27; and print adjusted p-values</label></li>
+<li><label><input type="checkbox"> Discuss when to prefer BH over Bonferroni and write your reasoning as a comment</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Dimensionality Reduction for Statistical Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>PCA for Outlier Detection</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 np.random.seed(0)
@@ -1809,7 +1853,11 @@ Xs = scaler.fit_transform(X)
 # TODO: ANOVA on top 3 PCs and 3 original features per cluster
 # TODO: Report eta-squared effect sizes
 # TODO: Plot 2D PCA colored by cluster
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Hypothesis Testing (t-tests &amp; z-tests)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hypothesis testing decides whether observed data supports a null hypothesis H0. One-sample, two-sample, and paired t-tests cover most practical scenarios. Always check assumptions: normality, equal variance.</p><div class="code-block"><div class="ch"><span>One-sample and two-sample t-tests</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit PCA and print how many components explain at least 90% of the variance</label></li>
+<li><label><input type="checkbox"> Run t-SNE with perplexity=30 and print the centroid coordinates of each cluster</label></li>
+<li><label><input type="checkbox"> Run t-tests on each PCA component to check if two groups differ significantly</label></li>
+<li><label><input type="checkbox"> Use PCA reconstruction error to identify outliers in a multivariate dataset</label></li>
+<li><label><input type="checkbox"> Compare logistic regression accuracy using raw features vs top PCA components</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Hypothesis Testing (t-tests &amp; z-tests)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hypothesis testing decides whether observed data supports a null hypothesis H0. One-sample, two-sample, and paired t-tests cover most practical scenarios. Always check assumptions: normality, equal variance.</p><div class="code-block"><div class="ch"><span>One-sample and two-sample t-tests</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">from scipy import stats
 import numpy as np
 
 np.random.seed(42)
@@ -1909,7 +1957,11 @@ n_b, open_b = 800, 117
 rate_a = open_a / n_a
 rate_b = open_b / n_b
 print(f&quot;Rate A: {rate_a:.3f}, Rate B: {rate_b:.3f}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. ANOVA &amp; Post-hoc Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">One-way ANOVA tests whether means differ across 3+ groups in a single factor. Two-way ANOVA adds a second factor and interaction. Post-hoc tests (Tukey, Bonferroni) identify which pairs differ.</p><div class="code-block"><div class="ch"><span>One-way ANOVA with post-hoc Tukey HSD</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a one-sample t-test on data simulated from normal(70,8) testing if the mean equals 72</label></li>
+<li><label><input type="checkbox"> Run a two-sample t-test on two groups and check if the difference is statistically significant</label></li>
+<li><label><input type="checkbox"> Run a paired t-test on before/after measurements and compute a 95% CI for the mean difference</label></li>
+<li><label><input type="checkbox"> Use stats.proportions_ztest to test if two conversion rates are significantly different</label></li>
+<li><label><input type="checkbox"> Calculate the effect size (Cohen&#x27;s d) alongside the t-test result</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. ANOVA &amp; Post-hoc Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">One-way ANOVA tests whether means differ across 3+ groups in a single factor. Two-way ANOVA adds a second factor and interaction. Post-hoc tests (Tukey, Bonferroni) identify which pairs differ.</p><div class="code-block"><div class="ch"><span>One-way ANOVA with post-hoc Tukey HSD</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">from scipy import stats
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import numpy as np
 
@@ -2011,7 +2063,11 @@ channels = {&#x27;Email&#x27;:   np.random.normal(120, 25, 25),
 # (2) Tukey HSD if significant
 # (3) eta-squared = SS_between / SS_total
 # SS_total = sum of (xi - grand_mean)^2 across all observations
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Correlation Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pearson measures linear association between continuous variables. Spearman and Kendall are rank-based (robust to outliers and non-linearity). Point-biserial handles binary-continuous pairs.</p><div class="code-block"><div class="ch"><span>Pearson, Spearman, Kendall correlation</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups and interpret whether F-statistic and p-value are significant</label></li>
+<li><label><input type="checkbox"> Run pairwise_tukeyhsd and print which group pairs differ at alpha=0.05</label></li>
+<li><label><input type="checkbox"> Run Kruskal-Wallis as the non-parametric alternative and compare the p-value to ANOVA</label></li>
+<li><label><input type="checkbox"> Compute eta-squared (SS_between / SS_total) as the ANOVA effect size</label></li>
+<li><label><input type="checkbox"> Run two-way ANOVA with statsmodels and check the interaction term significance</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Correlation Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pearson measures linear association between continuous variables. Spearman and Kendall are rank-based (robust to outliers and non-linearity). Point-biserial handles binary-continuous pairs.</p><div class="code-block"><div class="ch"><span>Pearson, Spearman, Kendall correlation</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">from scipy import stats
 import numpy as np
 
 np.random.seed(42)
@@ -2141,7 +2197,11 @@ df = pd.DataFrame({
 # (2) flag |r| &gt; 0.7 pairs
 # (3) point-biserial for binary vs continuous
 # (4) test significance
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Non-Parametric Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Non-parametric tests make no assumptions about distributions. Use them when data is ordinal, heavily skewed, or sample sizes are too small to verify normality. Wilcoxon, Mann-Whitney, and Kolmogorov-Smirnov are the workhorses.</p><div class="code-block"><div class="ch"><span>Normality tests: Shapiro-Wilk and D&#x27;Agostino</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson r between two linearly related variables and check the p-value</label></li>
+<li><label><input type="checkbox"> Compare Pearson and Spearman correlation on a dataset with a few outliers</label></li>
+<li><label><input type="checkbox"> Build a full correlation matrix for a DataFrame and flag pairs with absolute r &gt; 0.7</label></li>
+<li><label><input type="checkbox"> Compute partial correlation between X and Y controlling for a confound Z</label></li>
+<li><label><input type="checkbox"> Use stats.pointbiserialr to correlate a binary (pass/fail) variable with a continuous score</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Non-Parametric Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Non-parametric tests make no assumptions about distributions. Use them when data is ordinal, heavily skewed, or sample sizes are too small to verify normality. Wilcoxon, Mann-Whitney, and Kolmogorov-Smirnov are the workhorses.</p><div class="code-block"><div class="ch"><span>Normality tests: Shapiro-Wilk and D&#x27;Agostino</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">from scipy import stats
 import numpy as np
 
 np.random.seed(42)
@@ -2257,7 +2317,11 @@ skewed_b = np.random.exponential(3, 30)
 
 print(compare_groups(normal_a, normal_b))
 print(compare_groups(skewed_a, skewed_b))
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Bayesian Inference Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bayesian inference updates prior beliefs with observed data to produce a posterior distribution. Beta-Binomial and Normal-Normal conjugates let you compute posteriors analytically. Compare to frequentist interpretation of the same data.</p><div class="code-block"><div class="ch"><span>Beta-Binomial: updating conversion rate beliefs</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Test normality on normal, exponential, and uniform samples with Shapiro-Wilk</label></li>
+<li><label><input type="checkbox"> Use Mann-Whitney U to compare two exponentially distributed groups</label></li>
+<li><label><input type="checkbox"> Run Wilcoxon signed-rank test on paired before/after data and compare to paired t-test</label></li>
+<li><label><input type="checkbox"> Apply the two-sample KS test to check if two samples share the same distribution</label></li>
+<li><label><input type="checkbox"> Write a compare_groups(a, b) function that automatically picks parametric vs non-parametric test</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Bayesian Inference Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bayesian inference updates prior beliefs with observed data to produce a posterior distribution. Beta-Binomial and Normal-Normal conjugates let you compute posteriors analytically. Compare to frequentist interpretation of the same data.</p><div class="code-block"><div class="ch"><span>Beta-Binomial: updating conversion rate beliefs</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">from scipy import stats
 import numpy as np
 
 # Prior: Beta(alpha=2, beta=10) — we expect ~17% conversion
@@ -2780,7 +2844,7 @@ for name, data in datasets.items():
 </code></pre></div></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

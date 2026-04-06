@@ -150,6 +150,13 @@ SECTIONS = [
                 "# print('Numpy shape:', A_np.shape)"
             ),
         },
+        "todos": [
+            "Create a 3x3 tensor of random floats and compute its mean, std, and max",
+            "Reshape a 1D tensor of 12 elements into (3,4) and (2,2,3)",
+            "Move a tensor to GPU with .cuda() if available, else keep on CPU",
+            "Create two tensors and perform matrix multiplication with torch.matmul()",
+            "Convert a NumPy array to a tensor and back — check they share memory",
+        ],
     },
     {
         "title": "Autograd & Gradients",
@@ -305,6 +312,13 @@ SECTIONS = [
                 "# print(f'Converged to x={x.item():.4f}, y={y.item():.4f}')"
             ),
         },
+        "todos": [
+            "Create a tensor with requires_grad=True, compute a loss, call .backward(), inspect .grad",
+            "Zero gradients with .grad.zero_() after each backward pass and verify grad is zeroed",
+            "Use torch.no_grad() to run inference and confirm no gradients are computed",
+            "Implement gradient descent manually on f(x)=(x-5)^2 and verify convergence to x=5",
+            "Compare manual grad update vs torch.optim.SGD for the same function — results should match",
+        ],
     },
     {
         "title": "Building Neural Networks (nn.Module)",
@@ -493,6 +507,13 @@ SECTIONS = [
                 "# print('Output shape:', out.shape)"
             ),
         },
+        "todos": [
+            "Build a 3-layer MLP with nn.Sequential using Linear, ReLU, and Dropout layers",
+            "Count trainable parameters in a model using sum(p.numel() for p in model.parameters())",
+            "Add BatchNorm1d between every Linear and ReLU layer and observe training stability",
+            "Run a forward pass with a random batch and verify the output shape matches expectations",
+            "Print the model architecture with print(model) and understand each layer's dimensions",
+        ],
     },
     {
         "title": "Training Loop",
@@ -731,6 +752,13 @@ SECTIONS = [
                 "    pass  # remove once implemented"
             ),
         },
+        "todos": [
+            "Write a full training loop: optimizer.zero_grad(), loss.backward(), optimizer.step()",
+            "Add a validation loop using model.eval() and torch.no_grad() for memory efficiency",
+            "Track train and val loss per epoch and print them side by side",
+            "Implement early stopping that saves the best model state_dict when val loss improves",
+            "Plot train vs val loss curves after training to check for overfitting",
+        ],
     },
     {
         "title": "Convolutional Neural Networks",
@@ -944,6 +972,13 @@ SECTIONS = [
                 "# print('Loss:', loss.item())"
             ),
         },
+        "todos": [
+            "Build a CNN with two Conv2d layers, MaxPool2d, and a fully-connected head for 10 classes",
+            "Print output shape after each Conv and Pool layer to track spatial dimensions",
+            "Add BatchNorm2d after each Conv2d layer and verify training is more stable",
+            "Compute cross-entropy loss on random labels and call .backward() to verify gradients flow",
+            "Swap MaxPool2d for an additional strided Conv2d and compare parameter counts",
+        ],
     },
     {
         "title": "Transfer Learning",
@@ -1134,6 +1169,13 @@ SECTIONS = [
                 "# print('Output shape:', out.shape)  # should be (4, 5)"
             ),
         },
+        "todos": [
+            "Load a pretrained ResNet18 and freeze all its parameters with requires_grad=False",
+            "Replace the model's final FC layer with a new one for your number of classes",
+            "Count trainable vs frozen parameters and print the ratio",
+            "Train only the new head for 5 epochs on synthetic data and track val accuracy",
+            "Unfreeze the last block of the backbone and fine-tune with a 10x smaller LR",
+        ],
     },
     {
         "title": "Custom Datasets & DataLoaders",
@@ -1330,6 +1372,13 @@ SECTIONS = [
                 "# print('X batch:', xb.shape, '| y batch:', yb.shape)"
             ),
         },
+        "todos": [
+            "Implement a custom Dataset class with __len__ and __getitem__ for a NumPy array",
+            "Add a normalization transform that standardizes X inside __getitem__",
+            "Create train and val DataLoaders with 80/20 split and shuffle=True for train",
+            "Iterate one batch from the DataLoader and print X and y shapes",
+            "Test that the full DataLoader epoch covers all samples by counting batches * batch_size",
+        ],
     },
     {
         "title": "Regularization Techniques",
@@ -1564,6 +1613,13 @@ SECTIONS = [
                 "pass"
             ),
         },
+        "todos": [
+            "Add Dropout(p=0.3) after each hidden layer and verify it's disabled during model.eval()",
+            "Add BatchNorm1d before each ReLU and observe how it affects training stability",
+            "Add weight_decay=1e-4 to the Adam optimizer and compare val loss with and without it",
+            "Train two identical networks (regularized vs not) and compare val MSE after 30 epochs",
+            "Plot train and val loss curves for both networks to visualize overfitting",
+        ],
     },
     {
         "title": "Saving, Loading & ONNX Export",
@@ -1778,6 +1834,13 @@ SECTIONS = [
                 "# print('TorchScript saved')"
             ),
         },
+        "todos": [
+            "Save a model's state_dict with torch.save() and load it into a fresh model instance",
+            "Verify predictions are identical before and after loading with torch.allclose()",
+            "Save a full training checkpoint: model state, optimizer state, epoch, and loss",
+            "Export the model as TorchScript with torch.jit.script() and save to disk",
+            "Export to ONNX format and verify output shape using onnxruntime inference session",
+        ],
     },
     {
         "title": "RNNs, LSTMs & Sequence Models",
@@ -1983,6 +2046,13 @@ SECTIONS = [
                 "# print('Loss:', loss.item())"
             ),
         },
+        "todos": [
+            "Create an LSTM layer with nn.LSTM(input_size, hidden, batch_first=True) and run a forward pass",
+            "Print shapes of the LSTM output, h_n, and c_n tensors for a batch of sequences",
+            "Take the last timestep hidden state (out[:, -1, :]) and pass it through a linear classifier",
+            "Compare LSTM vs GRU (nn.GRU) on the same task — note the difference in cell state",
+            "Add a second LSTM layer (num_layers=2) with dropout=0.2 and verify shape is unchanged",
+        ],
     },
     {
         "title": "Attention Mechanisms",
@@ -2154,6 +2224,13 @@ SECTIONS = [
                 "# print('Causal upper triangle is 0:', (w_c[0] * np.triu(np.ones((L,L)),1) < 1e-9).all())\n"
             ),
         },
+        "todos": [
+            "Implement scaled dot-product attention: Q @ K.T / sqrt(d_k), softmax, then matmul with V",
+            "Verify attention weights sum to 1 along the last dimension (rows of softmax output)",
+            "Apply a causal (upper-triangular) mask and check the masked positions are ~zero",
+            "Wrap the attention in nn.MultiheadAttention and compare output with your manual version",
+            "Visualize attention weights as a heatmap for a small batch to see which tokens attend to what",
+        ],
     },
     {
         "title": "Generative Models",
@@ -2353,6 +2430,13 @@ SECTIONS = [
                 "# TODO: Print each component\n"
             ),
         },
+        "todos": [
+            "Implement the VAE encoder that outputs mu and log_var from an input batch",
+            "Apply the reparameterization trick: z = mu + exp(0.5*log_var) * epsilon",
+            "Compute the reconstruction loss (MSE or BCE) between input x and decoded x_hat",
+            "Compute the KL divergence term: -0.5 * sum(1 + log_var - mu^2 - exp(log_var))",
+            "Combine reconstruction and KL loss into the ELBO and print each component's magnitude",
+        ],
     },
     {
         "title": "Model Interpretability",
@@ -2524,6 +2608,13 @@ SECTIONS = [
                 "# TODO: Compare top-5 features across all methods\n"
             ),
         },
+        "todos": [
+            "Extract built-in feature_importances_ from a GradientBoosting model and rank them",
+            "Compute permutation importance on the test set and compare ranking with built-in importances",
+            "Find the 5 samples with the lowest predicted probability and explain them with a local model",
+            "Identify features that rank consistently in the top 5 across all three attribution methods",
+            "Create a bar chart of mean absolute SHAP values to visualize global feature importance",
+        ],
     },
     {
         "title": "14. Convolutional Neural Networks (CNNs)",
@@ -2754,6 +2845,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Build a CNN with 3 conv layers, BatchNorm2d after each, and a Dropout before the head",
+            "Add a residual (skip) connection around one conv block and verify gradient flows correctly",
+            "Train for 5 epochs on synthetic 32x32 images and log train loss and val accuracy per epoch",
+            "Count total and trainable parameters and note which layer has the most weights",
+            "Compare convergence at lr=1e-3 vs lr=1e-4 by plotting the loss curves side by side",
+        ],
     },
     {
         "title": "15. Transformer Architecture & Attention Mechanisms",
@@ -2933,6 +3031,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Build a single Transformer encoder block with nn.MultiheadAttention and a feedforward sublayer",
+            "Add sinusoidal positional encoding to the input embeddings and verify shape is unchanged",
+            "Stack 3 encoder blocks and run a forward pass with (batch=4, seq=50, d_model=64) input",
+            "Use mean pooling over the sequence dimension before the classification head",
+            "Train with AdamW + CosineAnnealingLR and compare val accuracy to a fixed-LR baseline",
+        ],
     },
     {
         "title": "16. Generative Models: VAE & GAN",
@@ -3148,6 +3253,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Build a VAE encoder that outputs mu and log_var from an input tensor",
+            "Implement the reparameterization trick and verify the latent z has the correct shape",
+            "Train the VAE and compute reconstruction error on all samples after training",
+            "Set the anomaly threshold as mean + 2*std of training reconstruction errors",
+            "Compute precision, recall, and F1 for anomaly detection using the chosen threshold",
+        ],
     },
     {
         "title": "17. LSTM & GRU for Sequence Modeling",
@@ -3348,6 +3460,13 @@ SECTIONS = [
             "# 5. Train both 50 epochs, compare val_acc\n"
         ),
         },
+        "todos": [
+            "Create 30-day sliding windows from a 400-day price series to build (X, y) training pairs",
+            "Build a GRU classifier that takes (batch, 30, 1) input and outputs a binary direction prediction",
+            "Build a bidirectional GRU by setting bidirectional=True and adjust the linear head accordingly",
+            "Train both unidirectional and bidirectional GRU for 50 epochs and compare val accuracy",
+            "Report whether the bidirectional model converges faster or achieves higher accuracy",
+        ],
     },
     {
         "title": "18. Transfer Learning & Fine-tuning",
@@ -3556,6 +3675,13 @@ SECTIONS = [
             "X = torch.randn(100, 32); y = torch.randint(0, 3, (100,))\n"
         ),
         },
+        "todos": [
+            "Load a pretrained model, freeze all parameters, and train only a new classification head",
+            "Phase 2: unfreeze the backbone and set a 10x smaller LR for it vs the head",
+            "Compare val accuracy after Phase 1 (head only) vs Phase 2 (full fine-tune)",
+            "Count frozen vs trainable params before and after unfreezing to verify the change",
+            "Apply early stopping in Phase 2 to avoid overfitting the small dataset",
+        ],
     },
     {
         "title": "19. Attention Mechanisms",
@@ -3734,6 +3860,13 @@ SECTIONS = [
             "# Assert: weights.sum(dim=-1).allclose(torch.ones(B, T))\n"
         ),
         },
+        "todos": [
+            "Implement sdp_attention: compute Q @ K.T / sqrt(d_k), apply softmax, return weights @ V",
+            "Verify attention weights sum to 1 along last dim with weights.sum(dim=-1).allclose(ones)",
+            "Apply a causal mask (upper-triangular) and check masked positions have ~zero weight",
+            "Wrap in nn.MultiheadAttention and compare output with your manual implementation",
+            "Visualize the 4x8x8 attention weight tensor as a heatmap using matplotlib",
+        ],
     },
     {
         "title": "20. Batch Normalization & Regularization",
@@ -3913,6 +4046,13 @@ SECTIONS = [
             "# 4. Print train_acc and val_acc for both\n"
         ),
         },
+        "todos": [
+            "Build a regularized MLP with BatchNorm1d + Dropout(0.3) after each hidden layer",
+            "Build an identical unregularized MLP (no BN, no Dropout) for comparison",
+            "Train both 100 epochs and print train_acc and val_acc every 10 epochs",
+            "Verify Dropout is inactive during model.eval() by comparing outputs in train vs eval mode",
+            "Add L2 weight decay to the optimizer (weight_decay=1e-4) and measure val accuracy impact",
+        ],
     },
     {
         "title": "21. Learning Rate Scheduling",
@@ -4082,6 +4222,13 @@ SECTIONS = [
             "# Apply scheduler over 500 steps, print LR at key checkpoints\n"
         ),
         },
+        "todos": [
+            "Implement a warmup+cosine LR function and print LR at steps [0, 50, 100, 200, 500]",
+            "Apply the scheduler with torch.optim.LambdaLR and verify LR values match your function",
+            "Compare convergence of fixed LR vs warmup+cosine on a simple regression task",
+            "Try ReduceLROnPlateau: reduce LR by 0.5 when val loss doesn't improve for 5 epochs",
+            "Apply CosineAnnealingLR and plot the LR schedule across all epochs",
+        ],
     },
     {
         "title": "22. Model Checkpointing & Early Stopping",
@@ -4290,6 +4437,13 @@ SECTIONS = [
             "Xv = torch.randn(50,10); yv = Xv[:,0:1]\n"
         ),
         },
+        "todos": [
+            "Implement EarlyStopping with patience=10 that saves best model weights via copy.deepcopy",
+            "After early stopping triggers, restore best weights and verify val_loss matches the saved best",
+            "Save a full training checkpoint every 5 epochs: epoch, model state, optimizer state, val_loss",
+            "Resume training from an epoch-10 checkpoint and verify loss continues from where it stopped",
+            "Test that training stops early when using synthetic data where val_loss plateaus at epoch ~15",
+        ],
     },
     {
         "title": "23. Gradient Clipping & Mixed Precision",
@@ -4471,6 +4625,13 @@ SECTIONS = [
             "# 6. optimizer.step()\n"
         ),
         },
+        "todos": [
+            "Compute gradient norm before clipping using torch.nn.utils.clip_grad_norm_() and print it",
+            "Apply clip_grad_norm_(max_norm=1.0) and print the norm after clipping to verify the cap",
+            "Train a deep RNN for 10 epochs and monitor whether gradients explode without clipping",
+            "Add torch.amp.autocast and GradScaler for mixed-precision training on a simple model",
+            "Compare training time per epoch with and without autocast on a batch of data",
+        ],
     },
     {
         "title": "24. Model Export & Deployment",
@@ -4667,6 +4828,13 @@ SECTIONS = [
             "# 5. Assert torch.allclose(model(x), loaded(x))\n"
         ),
         },
+        "todos": [
+            "Export a trained model with torch.jit.script() and save it to disk",
+            "Reload the TorchScript model with torch.jit.load() and verify predictions match with torch.allclose()",
+            "Export to ONNX with torch.onnx.export() and verify the file is created successfully",
+            "Run ONNX inference with onnxruntime and compare outputs to the original PyTorch model",
+            "Add type annotations to the model's forward() method to make TorchScript export work cleanly",
+        ],
     },
 
 ]
@@ -4713,6 +4881,19 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
 
         cards += f"""
 <div class="card" id="{sid}">
@@ -4734,6 +4915,7 @@ def make_html(sections):
     {code4_block}
     {rw_html}
     {practice_html}
+    {todos_html}
   </div>
 </div>"""
 
@@ -4745,43 +4927,10 @@ def make_html(sections):
 <title>Deep Learning Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--accent:{ACCENT};--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}}
-*{{box-sizing:border-box;margin:0;padding:0;}}
-body{{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}}
-nav{{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}}
-nav h2{{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}}
-nav input{{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}}
-nav a{{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}}
-nav a:hover{{color:var(--accent);border-left-color:var(--accent);background:rgba(249,115,22,.06);}}
-main{{flex:1;padding:32px;max-width:900px;}}
-header{{margin-bottom:32px;}}
-header h1{{font-size:2rem;font-weight:700;}}
-header h1 span{{color:var(--accent);}}
-header p{{color:var(--muted);margin-top:6px;}}
-.badge{{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.3);margin-top:8px;}}
-.card{{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}}
-.card-header{{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}}
-.card-header:hover{{background:#1c2128;color:var(--accent);}}
-.arrow{{transition:transform .25s;color:var(--accent);}}
-.card-body{{padding:18px;background:#0d1117;border-top:1px solid var(--border);}}
-.desc{{color:var(--muted);margin-bottom:14px;line-height:1.6;}}
-h4{{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}}
-.code-wrap{{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}}
-pre{{margin:0;overflow-x:auto;}}
-pre code{{font-size:.82rem;padding:14px!important;}}
-.copy-btn{{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}}
-.copy-btn:hover{{background:var(--accent);color:#000;}}
-.rw{{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.25);border-radius:8px;padding:14px;margin-top:16px;}}
-.rh{{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}}
-.rd{{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-@media(max-width:700px){{nav{{display:none;}}main{{padding:16px;}}}}
-</style>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT};--accent:{ACCENT}}}</style>
 </head>
-<body>
+<body class="page-module">
 <nav>
   <h2>Deep Learning</h2>
   <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">

@@ -48,12 +48,25 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (
             f'<div class="topic" id="s{i}">'
             f'<div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
             f'<span class="arr">&#9660;</span></div>'
             f'<div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-            f'{blks}{rw_html}{practice_html}</div></div>'
+            f'{blks}{rw_html}{practice_html}{todos_html}</div></div>'
         )
     n = len(sections)
     return f"""<!DOCTYPE html>
@@ -61,43 +74,9 @@ def make_html(sections):
 <title>Python Basics Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#ffa657}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}
-.sbh h2{{font-size:1.05rem;color:var(--acc)}}
-.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}
-#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}
-.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}
-.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}
-.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}
-.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}
-.arr{{color:var(--mut);transition:transform .2s}}
-.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}
-.tb.open{{display:block}}
-.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}
-.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}
-.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}
-.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}
-.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}
-.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:#ffa657}}</style>
+</head><body class="page-module">
 <aside class="sidebar">
   <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; {n} topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
@@ -112,7 +91,7 @@ pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}
 <script>
 hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -254,6 +233,13 @@ for v in values:
     print(f"  {str(v):8s}  int={isinstance(v, int)}  "
           f"float={isinstance(v, float)}  str={isinstance(v, str)}")"""}
 ],
+"todos": [
+    "Declare variables for your name, age, and favorite number — print their types with type()",
+    "Convert the string '3.14' to float, then to int — explain what happens to the decimal",
+    "Use f-strings to print a sentence combining an int and a string variable",
+    "Create a variable holding None and write an if-check for it using 'is None'",
+    "Try assigning a, b, c = 1, 2, 3 and then swap a and b without a temp variable",
+],
 "practice": {
 "title": "Variable Juggling",
 "desc": "Create name (str), age (int), height (float). Swap age and height using tuple unpacking. Check if original age is between 18 and 65 (inclusive). Print a formatted f-string summary.",
@@ -385,6 +371,13 @@ print(f"max={max(items)}, sum={sum(items)}, avg={sum(items)/len(items):.2f}")
 # Debug format (Python 3.8+): variable=value
 x = 42
 print(f"{x=}, {x**2=}, {math.sqrt(x)=:.4f}")"""}
+],
+"todos": [
+    "Use .strip(), .lower(), and .upper() on a messy string and print each result",
+    "Slice a string to get the first 3 characters, the last 3, and every other character",
+    "Use f-string with :<10 and :>10 to left- and right-align the same word in a fixed-width column",
+    "Split a comma-separated string into a list and join it back with ' | ' as separator",
+    "Check if 'python' appears in a sentence (case-insensitive) using .lower() and 'in'",
 ],
 "practice": {
 "title": "String Cleaning Pipeline",
@@ -521,6 +514,13 @@ pos = bisect.bisect_left(scores, new_score)
 bisect.insort(scores, new_score)   # inserts in sorted order
 print(f"Inserted {new_score} at index {pos}: {scores}")
 print(f"Rank from top: {len(scores) - pos} of {len(scores)}")"""}
+],
+"todos": [
+    "Create a list of 5 integers and use append, insert, remove, and pop on it",
+    "Use a list comprehension to generate squares of even numbers from 0 to 20",
+    "Sort a list of strings by length (shortest first) using key=len",
+    "Flatten a 3x3 nested list into a single list using a nested comprehension",
+    "Use any() and all() to check if a list has at least one negative and all positives respectively",
 ],
 "practice": {
 "title": "Temperature Converter",
@@ -672,6 +672,13 @@ a.update({8, 9})                 # union in-place (|=)
 print("After update:", sorted(a))
 a.intersection_update(b | {8})   # keep only items in both (a &= ...)
 print("After intersection_update:", sorted(a))"""}
+],
+"todos": [
+    "Create a dict from two lists (names and scores) using dict(zip(...))",
+    "Use a set to find unique tags from a list that contains duplicates",
+    "Write a dict comprehension that maps student names to their letter grades (A/B/C/D/F)",
+    "Merge two config dicts using ** so the second dict's values override the first",
+    "Loop over a dict's .items() and print each key-value pair on one line",
 ],
 "practice": {
 "title": "Grade Book Manager",
@@ -857,6 +864,13 @@ except ImportError:
 data = json_lib.dumps({"key": "value", "nums": [1, 2, 3]})
 print("Encoded:", data)"""}
 ],
+"todos": [
+    "Write an if/elif/else chain that assigns a letter grade based on a numeric score",
+    "Use the walrus operator := to check the length of a list inside an if condition",
+    "Implement a simple password strength checker using any() and all() with generator expressions",
+    "Write a match statement (Python 3.10+) to handle HTTP status codes 200, 404, 500, and a default",
+    "Use short-circuit evaluation: write an expression that avoids calling an expensive function if the first condition is False",
+],
 "practice": {
 "title": "Traffic Light Simulator",
 "desc": "Implement traffic_action(color, has_pedestrian, is_emergency) that returns the correct action string using if/elif/else logic.",
@@ -1031,6 +1045,13 @@ for dept, group in itertools.groupby(entries, key=lambda e: e[1]):
     names = [name for name, _ in group]
     print(f"  {dept}: {names}")"""}
 ],
+"todos": [
+    "Use enumerate() to loop over a list and print each index alongside its value",
+    "Use zip() to loop over two lists simultaneously and print paired values",
+    "Write a while loop that halves a number each iteration until it drops below 1",
+    "Use break to exit a for loop early when you find the first number greater than 50",
+    "Use itertools.groupby to group a sorted list of (dept, name) tuples by department",
+],
 "practice": {
 "title": "FizzBuzz Plus",
 "desc": "Loop from 1 to 30. For each number: if divisible by 3 add 'Fizz', by 5 add 'Buzz', by 7 add 'Zap'. Print the composed string, or the number if none apply.",
@@ -1200,6 +1221,13 @@ for name, param in sig.parameters.items():
     kind    = str(param.kind).split(".")[-1]
     default = param.default if param.default is not inspect.Parameter.empty else "required"
     print(f"  {name:10s} [{kind:20s}] default={default}")"""}
+],
+"todos": [
+    "Write a function that accepts *args and returns their sum — test with varying argument counts",
+    "Write a function that accepts **kwargs and prints each key-value pair",
+    "Create a closure: a make_multiplier(n) factory that returns a lambda multiplying by n",
+    "Write a decorator @timer that prints how long a function takes to run",
+    "Use functools.reduce() to compute the product of all elements in a list without a loop",
 ],
 "practice": {
 "title": "Memoize Decorator",
@@ -1428,6 +1456,13 @@ try:
 except AttributeError as e:
     print(f"AttributeError: {e}")"""}
 ],
+"todos": [
+    "Create a BankAccount class with deposit, withdraw, and __str__ — enforce non-negative balance",
+    "Implement inheritance: make SavingsAccount extend BankAccount with an interest_rate attribute",
+    "Add a @property to a class that computes a derived value (e.g., full_name from first + last)",
+    "Use @classmethod to write an alternative constructor (e.g., from_string)",
+    "Create an @dataclass for a 2D Point with a distance_to method and verify __eq__ works",
+],
 "practice": {
 "title": "Build a Stack",
 "desc": "Implement a Stack class with push, pop, peek, __len__, and __repr__. The stack should raise IndexError on pop/peek from an empty stack.",
@@ -1643,6 +1678,13 @@ log.info("Server started on port 8080")
 log.warning("Disk usage at 85%%")
 log.error("Failed to connect to database")"""}
 ],
+"todos": [
+    "Wrap a division by zero in try/except and return a custom error message",
+    "Create a custom exception InsufficientFundsError that stores the amount and balance",
+    "Use try/except/else/finally to read a file — handle missing file and always print 'done'",
+    "Use contextlib.suppress to silently ignore a FileNotFoundError",
+    "Write a context manager using @contextmanager that prints 'open' and 'close' around a block",
+],
 "practice": {
 "title": "Safe Data Parser",
 "desc": "Write parse_record(line) that parses a CSV line like 'Alice,28,92.5' into a dict with name (str), age (int), score (float). Return None on any error.",
@@ -1836,6 +1878,13 @@ print("Content:", tmp_path.read_text(encoding="utf-8"))
 tmp_path.unlink()   # manual cleanup since delete=False
 print("Temp file deleted:", not tmp_path.exists())"""}
 ],
+"todos": [
+    "Write a file, read it back line by line, and strip newlines — use a with statement",
+    "Parse a JSON string containing a list of dicts and print each item's 'name' field",
+    "Write a CSV with 3 rows using csv.writer and read it back with csv.DictReader",
+    "Use pathlib.Path to build a cross-platform file path and check if it exists",
+    "Use io.StringIO to create an in-memory 'file' and read from it without touching disk",
+],
 "practice": {
 "title": "Log File Analyzer",
 "desc": "Parse a multi-line log string (via io.StringIO), count occurrences of each log level, and collect all ERROR message lines.",
@@ -2019,6 +2068,13 @@ print("Running sales totals:", running)
 
 running_max = list(itertools.accumulate(sales, max))
 print("Running maximums:    ", running_max)"""}
+],
+"todos": [
+    "Write a list comprehension that creates squares, then rewrite it as a generator expression",
+    "Implement a generator function fibonacci(n) that yields Fibonacci numbers up to n",
+    "Use sum() with a generator expression to add squares of odd numbers from 1 to 99",
+    "Write a dict comprehension that inverts a dictionary (swapping keys and values)",
+    "Chain two generators: one that reads numbers, another that squares only the positive ones",
 ],
 "practice": {
 "title": "Data Processing Pipeline",
@@ -2220,6 +2276,13 @@ data = {
 }
 print("\\npprint output:")
 pprint.pprint(data, width=60, sort_dicts=False)"""}
+],
+"todos": [
+    "Use Counter to count word frequencies in a sentence and print the top 3 most common",
+    "Use defaultdict(list) to group a list of (key, value) pairs by key",
+    "Create a namedtuple Point(x, y) and compute the distance from origin",
+    "Use itertools.combinations to list all unique 2-player matchups from a list of 5 names",
+    "Use datetime.date.today() and timedelta to compute dates 30 and 90 days from now",
 ],
 "practice": {
 "title": "Analyze Dataset with Built-ins",
@@ -2463,6 +2526,13 @@ try:
                 print(' ', row)
 finally:
     tmp_db.unlink(missing_ok=True)""",
+    "todos": [
+        "Use a with statement to open a file — observe that it closes automatically even on error",
+        "Open two files in one with statement for simultaneous reading and writing",
+        "Write a class-based context manager with __enter__ and __exit__ that times a code block",
+        "Use @contextmanager to create a log_section() context manager that prints entry/exit messages",
+        "Use contextlib.suppress to ignore a KeyError when accessing a missing dict key in a with block",
+    ],
     "practice": {
         "title": "Database Connection Manager",
         "desc": "Write a context manager class DatabaseConnection that simulates opening/closing a DB connection (print messages). It should auto-rollback (print 'rolling back') if an exception occurs inside the with block, and auto-commit otherwise.",
@@ -2636,6 +2706,13 @@ print('Top IPs:', dict(top_ips.most_common(3)))
 print('Error requests:')
 for e in errors:
     print(f"  {e['ip']} -> {e['method']} {e['path']} [{e['status']}]")""",
+    "todos": [
+        "Use re.findall to extract all email addresses from a text string",
+        "Use re.sub to replace all phone number formats (dashes, dots, spaces) with a normalized NNN-NNN-NNNN format",
+        "Write a regex with a named group (?P<date>...) to extract date strings from log lines",
+        "Compile a regex pattern with re.IGNORECASE and reuse it on multiple strings",
+        "Use re.split with a pattern that splits on any of , ; | surrounded by optional whitespace",
+    ],
     "practice": {
         "title": "Data Extractor",
         "desc": "Write regex patterns to extract all email addresses, US phone numbers (xxx-xxx-xxxx format), and dollar amounts (e.g. $1,234.56) from the sample text below.",
@@ -2848,6 +2925,13 @@ print(f'Customer: {customer.name} ({customer.email})')
 print(f'Address:  {customer.address.city}, {customer.address.country}')
 print(f'Orders:   {len(customer.orders)}')
 print(f'Total spent: ${customer.total_spent:.2f}')""",
+    "todos": [
+        "Add type hints to a function with List, Optional, and Dict return type — verify with mypy",
+        "Create a @dataclass for a Product with name, price, and tags — test auto-generated __repr__",
+        "Use frozen=True on a dataclass to make it hashable and add it to a set",
+        "Add a __post_init__ to a dataclass to validate that price >= 0",
+        "Use field(default_factory=list) for a mutable default attribute in a dataclass",
+    ],
     "practice": {
         "title": "Typed Address Book",
         "desc": "Create a Person dataclass (name: str, age: int, email: str, phone: Optional[str] = None). Create an AddressBook dataclass holding a List[Person]. Add methods: add(person), find_by_name(name) -> Optional[Person], adults() -> List[Person] (age >= 18).",
@@ -3055,6 +3139,13 @@ print(f'Fetched & processed {len(signals)} tickers in {t_total:.2f}s')
 buys  = [s for s in signals if s['signal'] == 'BUY']
 sells = [s for s in signals if s['signal'] == 'SELL']
 print(f'BUY: {len(buys)}, SELL: {len(sells)}')""",
+    "todos": [
+        "Run 5 simulated I/O tasks sequentially vs with ThreadPoolExecutor and measure the speedup",
+        "Use asyncio.gather to run 5 async sleep tasks concurrently and print total elapsed time",
+        "Use concurrent.futures.as_completed to process results as they arrive rather than in order",
+        "Implement a producer-consumer pattern with threading.Queue between two threads",
+        "Use a threading.Lock to protect a shared counter incremented by multiple threads",
+    ],
     "practice": {
         "title": "Parallel Web Scraper Simulation",
         "desc": "Simulate fetching 15 URLs concurrently with ThreadPoolExecutor. Each 'fetch' sleeps for a random 0.05–0.3s and returns a fake HTML string. Collect results in order. Measure speedup vs sequential. Also implement a version using asyncio.gather. Report total time for both.",
@@ -3309,6 +3400,13 @@ preds = model.predict(X)
 latency = (time.perf_counter()-t0)*1000
 publish('predict', model_name=model.name, n_samples=len(X), latency_ms=latency)
 print('Predictions:', preds[:3])""",
+    "todos": [
+        "Implement a Singleton class using __new__ and verify two instances are the same object",
+        "Write a shape_factory(kind, **kwargs) that returns Circle or Rectangle from a string key",
+        "Implement the Observer pattern: create an EventBus with subscribe/publish and test with 2 listeners",
+        "Implement the Strategy pattern: write two sort strategies and swap them at runtime on a Sorter",
+        "Write a @retry(max_attempts=3) parameterized decorator that retries a flaky function",
+    ],
     "practice": {
         "title": "Plugin System with Factory + Observer",
         "desc": "Build a data export plugin system: (1) Factory creates exporter objects (CSV, JSON, Parquet) based on format string. Each implements export(data, path). (2) Observer pattern: attach at least 2 listeners (Logger, FileSizeChecker) that react to 'export_complete' events. Test with a list of 100 dicts as data.",
@@ -3571,6 +3669,13 @@ def test_missing_columns():
 
 for test in [test_drops_nulls, test_clips_outliers, test_missing_columns]:
     test()""",
+    "todos": [
+        "Write 3 pytest-style test functions for an add(a, b) function covering normal, negative, and zero cases",
+        "Use parametrize-style manual looping to run the same assertion against multiple (input, expected) pairs",
+        "Use unittest.mock.patch to mock an external API call and verify the function handles the response",
+        "Write a test that checks a custom exception is raised with the correct message",
+        "Add a test fixture pattern: create a fresh FakeDB instance before each test function",
+    ],
     "practice": {
         "title": "Test a Data Validation Class",
         "desc": "Implement and test a DataValidator class with methods: validate_types(df) checks column dtypes, validate_ranges(df, rules) checks min/max per column, validate_no_nulls(df, cols) checks specific columns. Write at least 6 tests covering: passing validation, each failure mode, and edge cases (empty df, single row).",
@@ -3622,6 +3727,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data pipeline uses functional tools to clean and transform a list of raw sales records without mutating state.",
     "code": "from functools import reduce, partial\n\nrecords = [\n    {\"item\": \"apple\",  \"qty\": 3,  \"price\": 1.20, \"valid\": True},\n    {\"item\": \"banana\", \"qty\": -1, \"price\": 0.50, \"valid\": False},\n    {\"item\": \"cherry\", \"qty\": 10, \"price\": 2.00, \"valid\": True},\n]\n\n# Filter valid records\nvalid = list(filter(lambda r: r[\"valid\"] and r[\"qty\"] > 0, records))\n\n# Map to compute total\nwith_total = list(map(lambda r: {**r, \"total\": r[\"qty\"] * r[\"price\"]}, valid))\n\n# Reduce to grand total\ngrand = reduce(lambda acc, r: acc + r[\"total\"], with_total, 0.0)\n\nfor r in with_total:\n    print(f\'  {r[\"item\"]:8s}: ${r[\"total\"]:.2f}\')\nprint(f\"Grand total: ${grand:.2f}\")"
 },
+"todos": [
+    "Use map() to convert a list of strings to integers — handle it with list(map(int, ...))",
+    "Use filter() to keep only even numbers from a list of integers",
+    "Chain map and filter: square only the even numbers from a list in one expression",
+    "Use functools.partial to create a double() function from a general multiply(x, factor) function",
+    "Use functools.reduce() to compute the factorial of 7 without a loop",
+],
 "practice": {
     "title": "Functional Data Processor",
     "desc": "Write a function process_data(numbers) that uses ONLY map(), filter(), and reduce() (no loops): remove negatives, multiply each by 3, return the sum. Then create a partial called process_small that pre-filters values below 100 before calling process_data.",
@@ -3642,6 +3754,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A machine learning hyperparameter search uses itertools.product to enumerate all combinations of parameters without nested loops.",
     "code": "import itertools\n\nparam_grid = {\n    \"learning_rate\": [0.01, 0.1, 0.001],\n    \"max_depth\":     [3, 5, 7],\n    \"n_estimators\":  [50, 100],\n}\n\nkeys = list(param_grid.keys())\nvalues = list(param_grid.values())\n\nconfigs = list(itertools.product(*values))\nprint(f\"Total configs: {len(configs)}\")\n\nfor i, combo in enumerate(itertools.islice(configs, 3)):\n    cfg = dict(zip(keys, combo))\n    print(f\"  Config {i+1}: {cfg}\")\nprint(\"  ...\")"
 },
+"todos": [
+    "Use itertools.chain to iterate over three separate lists as one without creating a combined list",
+    "Use itertools.product to generate all (size, color) variants from two lists",
+    "Use itertools.combinations to list all unique 2-player game matchups from 5 players",
+    "Use itertools.groupby to group a sorted list of words by their first letter",
+    "Use itertools.accumulate to build a running total from a list of daily sales figures",
+],
 "practice": {
     "title": "Itertools Combinatorics",
     "desc": "Write a function all_pairs(items) using itertools.combinations that returns all unique pairs. Write team_schedules(teams) using itertools.permutations(teams, 2) for home/away matchups. Write batch(iterable, n) using islice that yields chunks of size n.",
@@ -3662,6 +3781,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data validation system uses closures to create reusable validators with baked-in limits, avoiding class overhead.",
     "code": "def make_range_validator(min_val, max_val, field=\"value\"):\n    def validate(x):\n        if not (min_val <= x <= max_val):\n            raise ValueError(f\"{field} {x} out of range [{min_val}, {max_val}]\")\n        return True\n    return validate\n\ndef make_str_validator(max_len, allowed_chars=None):\n    def validate(s):\n        if len(s) > max_len:\n            raise ValueError(f\"String too long: {len(s)} > {max_len}\")\n        if allowed_chars and not all(c in allowed_chars for c in s):\n            raise ValueError(f\"Invalid characters in: {s!r}\")\n        return True\n    return validate\n\nvalidate_age   = make_range_validator(0, 120, \"age\")\nvalidate_score = make_range_validator(0.0, 1.0, \"score\")\nvalidate_name  = make_str_validator(50, allowed_chars=\"abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ\")\n\ntests = [(validate_age, 25), (validate_score, 0.85), (validate_name, \"Alice Smith\")]\nfor validator, val in tests:\n    try:\n        print(f\"  OK: {val!r}\")\n        validator(val)\n    except ValueError as e:\n        print(f\"  FAIL: {e}\")"
 },
+"todos": [
+    "Write a function and observe which scope (local/enclosing/global) each variable resolves to",
+    "Use the nonlocal keyword inside a nested function to increment an enclosing counter",
+    "Write a make_adder(n) factory and create add5 and add10 — verify they are independent",
+    "Demonstrate the late-binding closure gotcha with a list of lambdas in a for loop, then fix it",
+    "Inspect a closure's captured variable using fn.__closure__[0].cell_contents",
+],
 "practice": {
     "title": "Memoize with Closure",
     "desc": "Write a function memoize(func) that returns a new function. The new function caches results in a dict (stored in a closure). It should handle any positional arguments as the cache key. Test it with a slow Fibonacci function and verify the cache speeds it up.",
@@ -3682,6 +3808,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A web scraper applies a rate-limiting decorator to avoid overloading target servers, with configurable calls-per-second.",
     "code": "import functools, time\n\ndef rate_limit(calls_per_second=1):\n    min_interval = 1.0 / calls_per_second\n    last_called = [0.0]  # mutable container to allow mutation in closure\n\n    def decorator(func):\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            elapsed = time.time() - last_called[0]\n            wait = min_interval - elapsed\n            if wait > 0:\n                print(f\"  Rate limit: waiting {wait:.2f}s\")\n                time.sleep(wait)\n            last_called[0] = time.time()\n            return func(*args, **kwargs)\n        return wrapper\n    return decorator\n\n@rate_limit(calls_per_second=2)\ndef fetch(url):\n    return f\"Response from {url}\"\n\nurls = [\"http://a.com\", \"http://b.com\", \"http://c.com\"]\nfor url in urls:\n    print(fetch(url))"
 },
+"todos": [
+    "Write a simple @timer decorator using functools.wraps and verify __name__ is preserved",
+    "Stack two decorators (@logger and @timer) on one function and observe the call order",
+    "Write a parameterized @repeat(n) decorator that calls the function n times",
+    "Create a class-based CallCounter decorator that tracks how many times a function is called",
+    "Write a @validate_positive decorator that raises ValueError for any negative numeric argument",
+],
 "practice": {
     "title": "Cache Decorator with TTL",
     "desc": "Write a parameterized decorator @cache(ttl=60) that caches function results for ttl seconds. After the TTL expires, re-call the function and refresh the cache. Use a dict with (args, timestamp) as cache entries. Test with a function that returns time.time() so you can observe expiry.",
@@ -3702,6 +3835,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data pipeline enforces that all data sources implement a common interface using ABC, then iterates over any registered source.",
     "code": "from abc import ABC, abstractmethod\nfrom typing import Iterator, Any\n\nclass DataSource(ABC):\n    @abstractmethod\n    def connect(self) -> bool: ...\n    @abstractmethod\n    def read(self) -> Iterator[Any]: ...\n    @abstractmethod\n    def close(self) -> None: ...\n\n    def stream(self):\n        if self.connect():\n            yield from self.read()\n            self.close()\n\nclass CSVSource(DataSource):\n    def __init__(self, rows):\n        self.rows = rows\n    def connect(self):\n        print(\"CSV: opening\"); return True\n    def read(self):\n        return iter(self.rows)\n    def close(self):\n        print(\"CSV: closed\")\n\nclass APISource(DataSource):\n    def __init__(self, data):\n        self.data = data\n    def connect(self):\n        print(\"API: authenticated\"); return True\n    def read(self):\n        return iter(self.data)\n    def close(self):\n        print(\"API: session ended\")\n\nfor src in [CSVSource([1,2,3]), APISource([\"a\",\"b\"])]:\n    for record in src.stream():\n        print(\" \", record)"
 },
+"todos": [
+    "Create an ABC Shape with abstract area() and perimeter() — implement Circle and Rectangle subclasses",
+    "Try to instantiate the ABC directly and confirm it raises TypeError",
+    "Define a Protocol Drawable with a draw() method and write a function that accepts any Drawable",
+    "Use isinstance(obj, Protocol) with @runtime_checkable to check protocol conformance at runtime",
+    "Override __subclasshook__ in an ABC to make any class with __len__ automatically count as Sized",
+],
 "practice": {
     "title": "Serializable Protocol",
     "desc": "Define a Protocol called Serializable with methods to_dict() -> dict and classmethod from_dict(cls, d: dict). Implement it on a Product(name, price, qty) class. Write a function save_all(items) that checks isinstance(item, Serializable) before converting each item to dict.",
@@ -3722,6 +3862,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A configuration system uses descriptors to validate settings when they are set, providing clear error messages without if-statement clutter in __init__.",
     "code": "class TypedAttr:\n    def __init__(self, expected_type, default=None):\n        self.expected_type = expected_type\n        self.default = default\n        self.name = None\n\n    def __set_name__(self, owner, name):\n        self.name = name\n\n    def __get__(self, obj, objtype=None):\n        if obj is None: return self\n        return obj.__dict__.get(self.name, self.default)\n\n    def __set__(self, obj, value):\n        if not isinstance(value, self.expected_type):\n            raise TypeError(\n                f\"{self.name} must be {self.expected_type.__name__}, \"\n                f\"got {type(value).__name__}\"\n            )\n        obj.__dict__[self.name] = value\n\nclass AppConfig:\n    host     = TypedAttr(str, \"localhost\")\n    port     = TypedAttr(int, 8080)\n    debug    = TypedAttr(bool, False)\n    timeout  = TypedAttr(float, 30.0)\n\ncfg = AppConfig()\ncfg.host    = \"0.0.0.0\"\ncfg.port    = 443\ncfg.debug   = True\ncfg.timeout = 5.0\n\nprint(f\"Config: {cfg.host}:{cfg.port} debug={cfg.debug} timeout={cfg.timeout}s\")\n\ntry:\n    cfg.port = \"8080\"  # wrong type!\nexcept TypeError as e:\n    print(\"Caught:\", e)"
 },
+"todos": [
+    "Add a @property to a class that computes fahrenheit from celsius — make it read-only",
+    "Add a @celsius.setter that raises ValueError if the value is below absolute zero",
+    "Write a Validated descriptor that enforces min/max constraints on an attribute",
+    "Use __slots__ on a simple Point class and verify you cannot add arbitrary attributes",
+    "Compare sys.getsizeof for 1000 instances of a class with and without __slots__",
+],
 "practice": {
     "title": "Unit-Enforced Measurement",
     "desc": "Create a descriptor class UnitFloat(unit, min_val, max_val) that stores a float and records its unit. On __get__, return a namedtuple (value, unit). Create a class Measurement with descriptors for temperature (unit=\'C\', min=-273.15), pressure (unit=\'Pa\', min=0), and humidity (unit=\'%\', min=0, max=100).",
@@ -3742,6 +3889,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A long-running service monitors its own memory usage between requests to detect leaks early.",
     "code": "import tracemalloc, sys\n\ndef deep_size(obj, seen=None):\n    # Recursively estimate size of a container\n    size = sys.getsizeof(obj)\n    if seen is None:\n        seen = set()\n    obj_id = id(obj)\n    if obj_id in seen:\n        return 0\n    seen.add(obj_id)\n    if isinstance(obj, dict):\n        size += sum(deep_size(v, seen) for v in obj.values())\n        size += sum(deep_size(k, seen) for k in obj.keys())\n    elif hasattr(obj, \'__iter__\') and not isinstance(obj, (str, bytes)):\n        size += sum(deep_size(i, seen) for i in obj)\n    return size\n\n# Simulate a request that leaks memory\ncache = {}\n\ndef handle_request(key, data):\n    cache[key] = data  # intentional \"leak\" into global cache\n    return len(data)\n\ntracemalloc.start()\nsnap1 = tracemalloc.take_snapshot()\n\nfor i in range(5):\n    handle_request(f\"req_{i}\", list(range(1000)))\n\nsnap2 = tracemalloc.take_snapshot()\ntop = snap2.compare_to(snap1, \"lineno\")[:2]\nfor stat in top:\n    print(f\"  Memory diff: {stat}\")\nprint(f\"Cache deep size: {deep_size(cache):,} bytes\")\ntracemalloc.stop()"
 },
+"todos": [
+    "Use sys.getsizeof to compare the memory footprint of an int, a list, and a large string",
+    "Create a reference cycle with two objects pointing to each other, then call gc.collect()",
+    "Use tracemalloc to snapshot memory before and after creating a large list — compare the diff",
+    "Use cProfile.run() on a slow function and identify which sub-function takes the most time",
+    "Use timeit to compare list comprehension vs a for-loop + append for building a list of squares",
+],
 "practice": {
     "title": "Profile and Optimize",
     "desc": "Write two versions of a function that finds all prime numbers up to n: (1) trial_division(n) using a simple loop, (2) sieve(n) using the Sieve of Eratosthenes. Use timeit to benchmark both for n=10000. Use cProfile to show which lines of trial_division are slowest.",
@@ -3762,6 +3916,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data processing pipeline uses structured logging to track progress, errors, and timing without print statements.",
     "code": "import logging, time, io\n\ndef setup_logger(name, level=logging.DEBUG):\n    log = logging.getLogger(name)\n    log.setLevel(level)\n    if not log.handlers:\n        h = logging.StreamHandler()\n        h.setFormatter(logging.Formatter(\n            \"%(asctime)s %(name)s %(levelname)-8s %(message)s\",\n            datefmt=\"%H:%M:%S\"\n        ))\n        log.addHandler(h)\n    return log\n\nlog = setup_logger(\"etl\")\n\ndef extract(source):\n    log.info(\"Extracting from %s\", source)\n    data = list(range(100))  # simulated data\n    log.debug(\"Extracted %d records\", len(data))\n    return data\n\ndef transform(data):\n    log.info(\"Transforming %d records\", len(data))\n    t0 = time.time()\n    result = [x * 2 for x in data if x % 5 != 0]\n    log.debug(\"Transform took %.3fs, %d records remain\", time.time()-t0, len(result))\n    return result\n\ndef load(data, target):\n    log.info(\"Loading %d records to %s\", len(data), target)\n    # Simulate occasional error\n    if len(data) > 70:\n        log.warning(\"Large batch — consider chunking\")\n    log.info(\"Load complete\")\n\ntry:\n    d = extract(\"sales.csv\")\n    d = transform(d)\n    load(d, \"warehouse\")\nexcept Exception:\n    log.exception(\"Pipeline failed\")"
 },
+"todos": [
+    "Set up basicConfig with DEBUG level and a custom format, then emit one log at each severity level",
+    "Create a named logger for a module and attach a StreamHandler with WARNING+ level",
+    "Log an exception with logger.exception() inside an except block and observe the traceback",
+    "Silence a noisy library by setting logging.getLogger('requests').setLevel(logging.WARNING)",
+    "Use logger.debug with %s formatting (not f-string) to defer string construction if DEBUG is disabled",
+],
 "practice": {
     "title": "Log Analyzer",
     "desc": "Write a function parse_log_line(line) that extracts timestamp, level, and message from a log line like \'12:34:56 WARNING myapp: disk 90% full\'. Write analyze_logs(lines) that counts occurrences of each level and returns a dict like {\'WARNING\': 3, \'ERROR\': 1}. Use the logging module to emit a summary.",
@@ -3782,6 +3943,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data engineering team builds a CLI tool to run ETL jobs with configurable sources, targets, and options.",
     "code": "import argparse, sys\n\ndef run_etl(args):\n    print(f\"ETL Job: {args.job_name}\")\n    print(f\"  Source:   {args.source} (format={args.format})\")\n    print(f\"  Target:   {args.target}\")\n    print(f\"  Batch:    {args.batch_size}\")\n    print(f\"  Dry run:  {args.dry_run}\")\n\n    if args.dry_run:\n        print(\"  [DRY RUN] No data written.\")\n        return 0\n    print(\"  Writing data...\")\n    return 0\n\nparser = argparse.ArgumentParser(description=\"ETL Pipeline Runner\")\nparser.add_argument(\"job_name\",   help=\"Job identifier\")\nparser.add_argument(\"source\",     help=\"Source connection string\")\nparser.add_argument(\"target\",     help=\"Target connection string\")\nparser.add_argument(\"--format\",   choices=[\"csv\",\"json\",\"parquet\"], default=\"csv\")\nparser.add_argument(\"--batch-size\", type=int, default=1000, dest=\"batch_size\")\nparser.add_argument(\"--dry-run\",  action=\"store_true\", dest=\"dry_run\")\n\n# Demo\nargs = parser.parse_args([\n    \"daily_sales\", \"s3://bucket/sales.parquet\", \"postgres://db/warehouse\",\n    \"--format\", \"parquet\", \"--batch-size\", \"5000\", \"--dry-run\"\n])\nsys.exit(run_etl(args))"
 },
+"todos": [
+    "Build a basic ArgumentParser with one positional and two optional arguments — print parsed values",
+    "Add a --verbose flag (store_true) and a --format choice argument with allowed values",
+    "Add subcommands (subparsers): 'run' and 'status', each with their own arguments",
+    "Add a custom type validator that ensures a --port argument is between 1 and 65535",
+    "Use add_mutually_exclusive_group to make --debug and --quiet options mutually exclusive",
+],
 "practice": {
     "title": "File Processor CLI",
     "desc": "Build a CLI with two subcommands: (1) count — takes a filename, optional --pattern (regex), prints count of matching lines; (2) summary — takes a filename, --cols (repeatable), prints first/last/count for each column in a CSV. Use argparse with proper help strings and type validation.",
@@ -3802,6 +3970,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data ingestion service serializes API responses to JSON with metadata, then deserializes and validates them on re-read.",
     "code": "import json, hashlib\nfrom datetime import datetime\n\nclass APICache:\n    def __init__(self):\n        self._store = {}  # in memory; use file I/O in production\n\n    def _key(self, url, params):\n        raw = json.dumps({\"url\": url, \"params\": params}, sort_keys=True)\n        return hashlib.md5(raw.encode()).hexdigest()\n\n    def get(self, url, params=None):\n        k = self._key(url, params or {})\n        if k in self._store:\n            entry = json.loads(self._store[k])\n            age = (datetime.now() - datetime.fromisoformat(entry[\"cached_at\"])).seconds\n            print(f\"  [cache hit] age={age}s, key={k[:8]}\")\n            return entry[\"data\"]\n        return None\n\n    def set(self, url, params, data):\n        k = self._key(url, params or {})\n        entry = {\"data\": data, \"cached_at\": datetime.now().isoformat(), \"url\": url}\n        self._store[k] = json.dumps(entry)\n        print(f\"  [cache set] key={k[:8]}\")\n\ncache = APICache()\nurl = \"https://api.example.com/prices\"\nparams = {\"symbol\": \"AAPL\", \"period\": \"1d\"}\n\nresult = cache.get(url, params)\nif result is None:\n    data = {\"symbol\": \"AAPL\", \"price\": 195.50, \"volume\": 1_200_000}\n    cache.set(url, params, data)\n    result = data\n\nprint(\"Result:\", result)\ncache.get(url, params)  # should be cache hit"
 },
+"todos": [
+    "Serialize a Python dict containing a datetime object to JSON using a custom JSONEncoder",
+    "Parse a JSON string back to Python and use object_hook to auto-convert ISO date strings",
+    "Use pickle to round-trip a custom class instance through a BytesIO buffer",
+    "Read a multi-section .ini config file with configparser and access values with type conversion",
+    "Use json.dumps with indent=2 and sort_keys=True to produce deterministic formatted JSON output",
+],
 "practice": {
     "title": "Config File Manager",
     "desc": "Write a ConfigManager class that loads from a JSON file (on init) and falls back to defaults if the file does not exist. Support get(key, default=None), set(key, value), and save() (writes back to JSON). Write a test that creates a temp file, sets values, saves, reloads, and verifies.",
@@ -3822,6 +3997,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A data engineer uses pathlib to scan a raw data directory, classify files by type, and move them to organized subdirectories.",
     "code": "import tempfile, pathlib, shutil\n\n# Setup demo files\nsrc = pathlib.Path(tempfile.mkdtemp())\nfor name in [\"sales.csv\", \"costs.csv\", \"model.pkl\", \"report.pdf\",\n             \"config.json\", \"weights.pkl\", \"notes.txt\"]:\n    (src / name).write_text(f\"content of {name}\")\n\nprint(\"Input files:\", [f.name for f in sorted(src.iterdir())])\n\n# Classification map\nTYPE_MAP = {\n    \".csv\":  \"data\",\n    \".pkl\":  \"models\",\n    \".json\": \"config\",\n    \".pdf\":  \"reports\",\n    \".txt\":  \"misc\",\n}\n\nmoved = []\nfor file in src.iterdir():\n    if not file.is_file():\n        continue\n    category = TYPE_MAP.get(file.suffix, \"other\")\n    dest_dir = src / category\n    dest_dir.mkdir(exist_ok=True)\n    dest = dest_dir / file.name\n    shutil.move(str(file), dest)\n    moved.append(f\"{file.name} -> {category}/\")\n\nfor m in moved:\n    print(\" \", m)\n\n# Show final structure\nfor subdir in sorted(src.iterdir()):\n    if subdir.is_dir():\n        print(f\"  {subdir.name}/:\", [f.name for f in subdir.iterdir()])\n\nshutil.rmtree(src)"
 },
+"todos": [
+    "Use Path('/some/path/file.csv') and print its .name, .stem, .suffix, and .parent",
+    "Build a path with the / operator: base / 'data' / 'reports' / 'q1.csv'",
+    "Use rglob('*.py') to find all Python files under a directory and print their relative paths",
+    "Write and read text to a temp file using Path.write_text and Path.read_text",
+    "Use iterdir() to list all files and folders in a directory, filtering with .is_file()",
+],
 "practice": {
     "title": "Log File Archiver",
     "desc": "Write a function archive_logs(log_dir, archive_dir, days_old=7) that uses pathlib to: (1) find all .log files in log_dir older than days_old days, (2) compress each with shutil.make_archive (or just move for simplicity), (3) move them to archive_dir/YYYY-MM/ subfolders based on file modification date. Return a list of moved files.",
@@ -3842,6 +4024,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A finance team generates formatted summary reports from sales data using f-strings and textwrap.",
     "code": "from datetime import date\nimport textwrap\n\ndef format_report(title, data, width=60):\n    border  = \"=\" * width\n    today   = date.today().strftime(\"%B %d, %Y\")\n    lines   = [border, f\"  {title}\".center(width), f\"  Generated: {today}\".center(width), border, \"\"]\n\n    # Summary stats\n    totals  = [r[\"revenue\"] for r in data]\n    lines  += [\n        f\"  {\'Region\':<15} {\'Revenue\':>12} {\'Units\':>8} {\'Avg/Unit\':>10}\",\n        \"  \" + \"-\" * (width - 2),\n    ]\n\n    for r in data:\n        avg = r[\"revenue\"] / r[\"units\"] if r[\"units\"] else 0\n        lines.append(\n            f\"  {r[\'region\']:<15} ${r[\'revenue\']:>11,.0f} {r[\'units\']:>8,} ${avg:>9.2f}\"\n        )\n\n    lines += [\"  \" + \"-\" * (width - 2),\n              f\"  {\'TOTAL\':<15} ${sum(totals):>11,.0f}\",\n              \"\", border]\n    return \"\\n\".join(lines)\n\ndata = [\n    {\"region\": \"North\",  \"revenue\": 1_450_000, \"units\": 9_800},\n    {\"region\": \"South\",  \"revenue\":   980_000, \"units\": 7_200},\n    {\"region\": \"East\",   \"revenue\": 2_100_000, \"units\": 14_500},\n    {\"region\": \"West\",   \"revenue\": 1_750_000, \"units\": 11_000},\n]\n\nprint(format_report(\"Q1 2024 Sales Report\", data))"
 },
+"todos": [
+    "Format pi to 4 decimal places, in scientific notation, and as a percentage using f-string spec",
+    "Print a table of items and prices using f-string left/right alignment so columns line up",
+    "Use :, grouping to display 1234567 as 1,234,567 and :08b to show 42 in binary",
+    "Use textwrap.fill to wrap a long paragraph at 60 characters",
+    "Use string.Template to safely interpolate user-supplied values without risk of code injection",
+],
 "practice": {
     "title": "Invoice Formatter",
     "desc": "Write a function format_invoice(company, items, tax_rate) where items is a list of (desc, qty, unit_price) tuples. Print a formatted invoice with: header (company name, date), line items table (description, qty, unit price, line total), subtotal, tax amount, and grand total. Use f-strings with format specs for alignment.",
@@ -3862,6 +4051,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A custom data aggregation class uses caching and efficient data structures to compute statistics on large datasets without pandas.",
     "code": "import functools, collections, statistics\n\nclass FastAggregator:\n    def __init__(self, records):\n        self._records = records\n        self._by_key  = None  # lazy\n\n    def _ensure_index(self):\n        if self._by_key is None:\n            self._by_key = collections.defaultdict(list)\n            for r in self._records:\n                self._by_key[r[\"group\"]].append(r[\"value\"])\n\n    @functools.cached_property\n    def group_means(self):\n        self._ensure_index()\n        return {k: statistics.mean(v) for k, v in self._by_key.items()}\n\n    @functools.cached_property\n    def group_counts(self):\n        self._ensure_index()\n        return {k: len(v) for k, v in self._by_key.items()}\n\n    @functools.cached_property\n    def overall_mean(self):\n        vals = [r[\"value\"] for r in self._records]\n        return statistics.mean(vals)\n\nimport random\nrandom.seed(42)\nrecords = [{\"group\": f\"G{i%5}\", \"value\": random.gauss(50, 10)} for i in range(10_000)]\n\nagg = FastAggregator(records)\nprint(\"Group means:\", {k: f\"{v:.2f}\" for k, v in agg.group_means.items()})\nprint(\"Group counts:\", agg.group_counts)\nprint(\"Overall mean:\", f\"{agg.overall_mean:.2f}\")\nprint(\"(Accessing again — no recompute):\", f\"{agg.overall_mean:.2f}\")"
 },
+"todos": [
+    "Use timeit to compare list.append vs list comprehension for building a list of 10,000 squares",
+    "Apply @functools.lru_cache to a recursive Fibonacci function and compare speed for fib(35)",
+    "Use @functools.cached_property to compute an expensive statistic once and cache it on an object",
+    "Replace a linear O(n) list membership test with a set O(1) lookup and benchmark the difference",
+    "Use collections.Counter instead of a manual counting loop and compare speed with timeit",
+],
 "practice": {
     "title": "Benchmark Challenge",
     "desc": "Write three versions of a function find_duplicates(lst) that returns a list of values appearing more than once: (1) brute_force using nested loops O(n^2), (2) sort_based by sorting first O(n log n), (3) hash_based using Counter O(n). Benchmark all three with timeit on a list of 10,000 integers. Report the speedups.",
@@ -3882,6 +4078,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "An application dynamically loads analysis plugins from a directory at startup using importlib, without hardcoding plugin names.",
     "code": "import importlib, importlib.util, pathlib, sys, tempfile, shutil\n\n# Create plugin directory with two demo plugins\ntmp = pathlib.Path(tempfile.mkdtemp())\nplugin_dir = tmp / \"plugins\"\nplugin_dir.mkdir()\n\n(plugin_dir / \"plugin_stats.py\").write_text(\'\'\'\ndef run(data):\n    n = len(data)\n    mean = sum(data) / n\n    return {\"plugin\": \"stats\", \"count\": n, \"mean\": round(mean, 2)}\n\'\'\')\n\n(plugin_dir / \"plugin_filter.py\").write_text(\'\'\'\ndef run(data):\n    filtered = [x for x in data if x > 0]\n    return {\"plugin\": \"filter\", \"kept\": len(filtered), \"dropped\": len(data)-len(filtered)}\n\'\'\')\n\ndef load_plugins(plugin_dir):\n    plugins = {}\n    for path in sorted(pathlib.Path(plugin_dir).glob(\"plugin_*.py\")):\n        name = path.stem\n        spec = importlib.util.spec_from_file_location(name, path)\n        mod  = importlib.util.module_from_spec(spec)\n        spec.loader.exec_module(mod)\n        plugins[name] = mod\n        print(f\"  Loaded: {name}\")\n    return plugins\n\nsys.path.insert(0, str(plugin_dir))\nplugins = load_plugins(plugin_dir)\n\ndata = [3, -1, 7, 0, -2, 5, 9]\nfor name, plugin in plugins.items():\n    print(f\"  {name}: {plugin.run(data)}\")\n\nsys.path.pop(0)\nshutil.rmtree(tmp)"
 },
+"todos": [
+    "Create a venv, activate it, install requests, then run pip freeze to see the locked version",
+    "Use importlib.import_module('math') dynamically and call math.sqrt through the returned module",
+    "Use importlib.util.find_spec('numpy') to check if numpy is installed before importing it",
+    "Write a function that tries to import ujson and falls back to json if it's not installed",
+    "Create a minimal Python package in a temp dir with __init__.py and import it using sys.path",
+],
 "practice": {
     "title": "Dependency Checker",
     "desc": "Write a function check_dependencies(requirements) that takes a list of package names and uses importlib.util.find_spec() to check if each is installed. Return a dict with \'installed\' and \'missing\' lists. Write another function install_missing(missing) that prints the pip install command needed (don\'t actually run it — just print it).",
@@ -3902,6 +4105,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A REST API framework uses introspection to auto-generate documentation from function signatures and docstrings.",
     "code": "import inspect\n\nclass APIRouter:\n    def __init__(self):\n        self.routes = {}\n\n    def route(self, path, method=\"GET\"):\n        def decorator(func):\n            sig    = inspect.signature(func)\n            doc    = inspect.getdoc(func) or \"No description\"\n            params = {\n                name: {\"annotation\": str(p.annotation.__name__ if p.annotation is not inspect.Parameter.empty else \"any\"),\n                       \"default\": str(p.default) if p.default is not inspect.Parameter.empty else \"required\"}\n                for name, p in list(sig.parameters.items())[1:]  # skip \'self\'\n            }\n            self.routes[f\"{method} {path}\"] = {\n                \"handler\": func.__name__,\n                \"doc\":     doc,\n                \"params\":  params,\n            }\n            return func\n        return decorator\n\n    def docs(self):\n        for endpoint, info in self.routes.items():\n            print(f\"\\n{endpoint} -> {info[\'handler\']}\")\n            print(f\"  {info[\'doc\']}\")\n            for p, meta in info[\"params\"].items():\n                print(f\"  - {p}: {meta[\'annotation\']} (default={meta[\'default\']})\")\n\nrouter = APIRouter()\n\n@router.route(\"/users\", \"GET\")\ndef list_users(limit: int = 20, offset: int = 0):\n    # Return paginated list of users.\n    pass\n\n@router.route(\"/users/{id}\", \"GET\")\ndef get_user(user_id: int, include_meta: bool = False):\n    # Fetch a single user by ID.\n    pass\n\nrouter.docs()"
 },
+"todos": [
+    "Use dir() on an object and filter to only show non-dunder public attributes and methods",
+    "Use inspect.signature() to print parameter names and defaults for a function you wrote",
+    "Use getattr/hasattr to dynamically call a method by name from a string",
+    "Inspect a class's __mro__ to see the inheritance chain for a multi-level class hierarchy",
+    "Use __init_subclass__ to auto-register subclasses into a class-level registry dict",
+],
 "practice": {
     "title": "Class Inspector",
     "desc": "Write a function inspect_class(cls) that returns a dict with: \'name\' (class name), \'bases\' (list of base class names), \'mro\' (list of names), \'class_attrs\' (non-dunder class-level attributes), \'methods\' (public methods with their signatures as strings). Test it on a class you define with inheritance.",
@@ -3922,6 +4132,13 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "scenario": "A production data pipeline uses TypedDict, Generic, and Union to enforce type contracts across stages, catching mismatches early.",
     "code": "from typing import TypedDict, Generic, TypeVar, Optional, Callable\nfrom dataclasses import dataclass, field\n\nT = TypeVar(\"T\")\nR = TypeVar(\"R\")\n\nclass RawRecord(TypedDict):\n    id:    int\n    name:  str\n    value: float\n    valid: bool\n\nclass CleanRecord(TypedDict):\n    id:    int\n    name:  str\n    value: float\n\n@dataclass\nclass Pipeline(Generic[T, R]):\n    steps: list[Callable[[T], R]] = field(default_factory=list)\n\n    def add_step(self, fn: Callable) -> \"Pipeline\":\n        self.steps.append(fn)\n        return self\n\n    def run(self, data: list[T]) -> list:\n        result = data\n        for step in self.steps:\n            result = [step(r) for r in result if r is not None]\n        return result\n\ndef filter_valid(r: RawRecord) -> Optional[RawRecord]:\n    return r if r[\"valid\"] and r[\"value\"] > 0 else None\n\ndef normalize(r: RawRecord) -> CleanRecord:\n    return {\"id\": r[\"id\"], \"name\": r[\"name\"].strip().title(), \"value\": round(r[\"value\"], 2)}\n\nrecords: list[RawRecord] = [\n    {\"id\": 1, \"name\": \"alice smith\",  \"value\": 129.5,  \"valid\": True},\n    {\"id\": 2, \"name\": \"BOB JONES\",    \"value\": -5.0,   \"valid\": False},\n    {\"id\": 3, \"name\": \"  carol lee \", \"value\": 89.99,  \"valid\": True},\n]\n\npipeline: Pipeline[RawRecord, CleanRecord] = Pipeline()\npipeline.add_step(filter_valid).add_step(normalize)\nresult = pipeline.run(records)\nfor r in result:\n    print(f\"  {r}\")"
 },
+"todos": [
+    "Write a generic Stack[T] class using Generic[T] and annotate push, pop, and peek correctly",
+    "Use Literal['read', 'write', 'append'] to restrict the mode argument of an open_file function",
+    "Use @overload to define two signatures for a parse() function: str -> int, bytes -> float",
+    "Define a TypedDict for a user record with required and NotRequired fields",
+    "Use TypeVar T to write a generic first(items: list[T]) -> Optional[T] function",
+],
 "practice": {
     "title": "Generic Result Type",
     "desc": "Implement a generic Result[T, E] class (inspired by Rust) with two states: Ok(value: T) and Err(error: E). Add methods: is_ok(), is_err(), unwrap() (returns value or raises), unwrap_or(default), map(fn) (applies fn to value if Ok, returns new Result). Write tests using Result[int, str].",

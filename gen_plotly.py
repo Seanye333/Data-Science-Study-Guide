@@ -46,40 +46,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -338,6 +335,13 @@ fig.update_layout(
 fig.show()"""},
 ]
 },
+"todos": [
+    "Create a scatter plot with color mapped to a categorical column using the color= parameter",
+    "Add hover_data to show additional columns when hovering over points",
+    "Use size= to map a numeric column to marker size and adjust size_max",
+    "Add a trendline using trendline='ols' and inspect the R-squared value",
+    "Export the chart to HTML using fig.write_html('chart.html') and open it in a browser",
+],
 "rw": {
 "title": "Sales KPI Interactive Dashboard",
 "scenario": "A product manager builds a quick interactive scatter to explore the relationship between marketing spend and revenue by market.",
@@ -515,6 +519,13 @@ df = pd.DataFrame(rows, columns=['continent','country','city','population','gdp_
 # TODO: fig.update_layout(height=520)
 # TODO: fig.show()"""
 },
+"todos": [
+    "Build a px.bar chart with barmode='group' and color= by a category column",
+    "Convert a grouped bar chart to a stacked bar chart by changing barmode to 'stack'",
+    "Create a px.pie chart with hole=0.4 to make a donut chart",
+    "Build a px.sunburst with a 3-level hierarchy using path= parameter",
+    "Add text_auto=True to a bar chart and observe the automatic value labels",
+],
 "rw": {
 "title": "Revenue Breakdown by Product & Region",
 "scenario": "A CFO uses an interactive sunburst chart to drill down from region → product category → SKU in the quarterly review.",
@@ -750,6 +761,13 @@ fig.update_layout(
 fig.show()"""},
 ]
 },
+"todos": [
+    "Create a px.histogram with marginal='box' to add a mini box plot above the histogram",
+    "Use px.violin with box=True and points='all' to show the full data distribution",
+    "Set nbins= on a histogram and compare how bin count affects the shape perception",
+    "Use facet_col= to compare distributions across multiple groups side by side",
+    "Add opacity=0.7 and barmode='overlay' to compare two distributions on one chart",
+],
 "rw": {
 "title": "A/B Test Distribution Explorer",
 "scenario": "A data scientist uses interactive histograms to explore the full distribution of test results across experiment variants.",
@@ -1089,6 +1107,13 @@ fig.update_layout(height=550, title_font_size=15)
 fig.show()"""},
 ]
 },
+"todos": [
+    "Create a px.imshow correlation heatmap with text_auto='.2f' to show values in each cell",
+    "Build a px.scatter_matrix on the iris dataset and hide the upper triangle with showupperhalf=False",
+    "Try different color scales (RdBu_r, Viridis, Plasma) on a heatmap and note the visual difference",
+    "Add custom annotations to a go.Heatmap to label each cell with its exact value",
+    "Use aspect='auto' in px.imshow to prevent square cell distortion on non-square matrices",
+],
 "rw": {
 "title": "Operations Metrics Heatmap",
 "scenario": "An operations manager visualizes a week × hour activity heatmap to identify peak load periods for staffing.",
@@ -1306,6 +1331,13 @@ def make_cluster(cx, cy, cz, label, n):
 # TODO: fig.update_layout(height=520)
 # TODO: fig.show()"""
 },
+"todos": [
+    "Create a px.scatter_3d with color mapped to a continuous variable and size= for a fourth dimension",
+    "Build a go.Surface plot of z = sin(x) * cos(y) and rotate it interactively in the browser",
+    "Add contours to a surface plot using contours=dict(z=dict(show=True)) to see level curves",
+    "Change the camera angle with fig.update_layout(scene=dict(camera=dict(eye=dict(x=1.5,y=-1.5,z=1))))",
+    "Combine a 3D scatter and a 3D line trace in the same figure using go.Figure() and add_trace()",
+],
 "rw": {
 "title": "3D Risk Surface for Options Pricing",
 "scenario": "A quant visualizes how an option's price changes with underlying price and time-to-expiry using a 3D surface.",
@@ -1539,6 +1571,13 @@ ts = 100 + np.cumsum(np.random.randn(24) * 3)
 # TODO: fig.update_layout(title='My 2x2 Dashboard', height=550, showlegend=False)
 # TODO: fig.show()"""
 },
+"todos": [
+    "Build a 2x2 subplot grid using make_subplots and add a different chart type in each panel",
+    "Use shared_xaxes=True on a 2-row subplot to link the x-axis zoom between panels",
+    "Mix chart types (bar + line) in the same subplot using add_trace() with row= and col=",
+    "Add subplot_titles= to label each panel and adjust vertical_spacing between rows",
+    "Add a go.Funnel trace in one panel of a subplot using specs=[{'type':'funnel'}]",
+],
 "rw": {
 "title": "Marketing Analytics Dashboard",
 "scenario": "A growth team builds a 4-panel Plotly dashboard showing funnel, revenue trend, channel mix, and conversion by cohort.",
@@ -1784,6 +1823,13 @@ fig = go.Figure()
 # )
 # TODO: fig.show()"""
 },
+"todos": [
+    "Apply template='plotly_dark' to an existing chart and compare it to 'plotly_white'",
+    "Use update_traces() to change line color, width, and dash style across all line traces",
+    "Add an add_hline() reference line and an add_annotation() to highlight a key data point",
+    "Use update_layout() to set plot_bgcolor and paper_bgcolor for a custom dark theme",
+    "Create a dropdown menu with updatemenus= to toggle between two different datasets on one chart",
+],
 "rw": {
 "title": "Branded Executive KPI Chart",
 "scenario": "A BI developer creates a dark-themed, branded interactive chart for the C-suite weekly review email.",
@@ -2013,6 +2059,13 @@ df = px.data.gapminder()
 #     coloraxis_colorbar=dict(title='Life Exp (years)'))
 # TODO: fig.show()"""
 },
+"todos": [
+    "Animate the gapminder scatter using animation_frame='year' and observe the play button",
+    "Slow down animation speed by setting frame duration: fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000",
+    "Create an animated bar chart using px.bar with animation_frame= and orientation='h'",
+    "Set range_x= and range_y= on an animated chart to fix axis bounds across all frames",
+    "Print the number of unique animation frames using df['year'].nunique()",
+],
 "rw": {
 "title": "Global CO2 Emissions Animation",
 "scenario": "An environmental analyst animates per-capita CO2 emissions vs GDP across countries and decades for a policy presentation.",
@@ -2208,6 +2261,13 @@ cities = pd.DataFrame({
 # TODO: fig.update_layout(height=460)
 # TODO: fig.show()"""
 },
+"todos": [
+    "Create a world choropleth using px.choropleth with locations='iso_alpha' and color by a metric",
+    "Build a px.scatter_geo bubble map with size= and color= mapped to two different numeric columns",
+    "Use scope='usa' to zoom a scatter_geo or choropleth to just the United States",
+    "Try px.scatter_mapbox with mapbox_style='open-street-map' for a tile-based city-level map",
+    "Add hover_name= and hover_data= to a map and verify the popup shows correct information",
+],
 "rw": {
 "title": "Global Sales Heatmap by Country",
 "scenario": "A VP of Sales uses a choropleth to present YTD revenue performance by country and flag underperforming markets.",
@@ -2419,6 +2479,13 @@ df_gap = px.data.gapminder().query("year == 2007")
 # TODO: print(f"Report saved: {out} ({os.path.getsize(out)/1024:.1f} KB)")
 # TODO: os.remove(out)"""
 },
+"todos": [
+    "Export a chart to HTML using fig.write_html('chart.html', include_plotlyjs='cdn') and open it",
+    "Convert a figure to JSON with fig.to_json() and print the character length of the result",
+    "Embed two separate charts into one HTML file using fig.to_html(full_html=False) for each",
+    "Try fig.write_image('chart.png') after installing kaleido and check the output file size",
+    "Use fig.to_dict() and inspect the keys to understand the underlying figure structure",
+],
 "rw": {
 "title": "Automated Interactive Report Generator",
 "scenario": "A data engineer generates a self-contained HTML report with multiple charts embedded as a single shareable file.",
@@ -2489,6 +2556,13 @@ os.remove(out)"""}
             "code": "import plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\nimport numpy as np\n\nnp.random.seed(42)\nfig = make_subplots(rows=1, cols=2,\n                    specs=[[{'type':'scatter3d'},{'type':'surface'}]],\n                    subplot_titles=['Scatter3D', 'Surface'])\n\nx, y, z = np.random.randn(3, 100)\nfig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode='markers',\n              marker=dict(size=4, color=z, colorscale='Viridis')), row=1, col=1)\n\nt = np.linspace(-2, 2, 30)\nX, Y = np.meshgrid(t, t)\nZ = np.sin(X) * np.cos(Y)\nfig.add_trace(go.Surface(x=X, y=Y, z=Z, colorscale='Plasma', showscale=False), row=1, col=2)\nfig.update_layout(title='3D Subplots', height=500)\nfig.write_html('3d_subplots.html')\nprint('Saved 3d_subplots.html')"
         }
     ],
+    "todos": [
+        "Create a go.Scatter3d plot with mode='markers' and color markers by a numeric column",
+        "Build a go.Surface plot of a mathematical function and rotate it in the browser",
+        "Add a second Scatter3d trace to a 3D figure using fig.add_trace()",
+        "Use make_subplots with specs=[[ {'type':'scatter3d'}, {'type':'surface'} ]] to place 3D charts side by side",
+        "Export your 3D chart to HTML and verify the interactive rotation works in a browser",
+    ],
     "rw_scenario": "A bioinformatics team visualizes protein coordinates in 3D, colored by amino acid type, with interactive rotation to inspect binding sites.",
     "rw_code": "import plotly.graph_objects as go\nimport numpy as np\n\nnp.random.seed(42)\nn = 150\namino_types = ['Polar', 'Nonpolar', 'Charged']\ntype_labels = np.random.choice(amino_types, n)\ncoords = np.random.randn(3, n)\n\ncolor_map = {'Polar':'#2196F3','Nonpolar':'#FF9800','Charged':'#F44336'}\nfig = go.Figure()\nfor aa_type in amino_types:\n    mask = type_labels == aa_type\n    fig.add_trace(go.Scatter3d(\n        x=coords[0,mask], y=coords[1,mask], z=coords[2,mask],\n        mode='markers', name=aa_type,\n        marker=dict(size=6, color=color_map[aa_type], opacity=0.8)\n    ))\nfig.update_layout(\n    title='Protein Structure — Amino Acid Types',\n    scene=dict(xaxis_title='X (Ang)', yaxis_title='Y (Ang)', zaxis_title='Z (Ang)')\n)\nfig.write_html('protein_3d.html')\nprint('Saved protein_3d.html')",
     "practice": {
@@ -2517,6 +2591,13 @@ os.remove(out)"""}
             "label": "Mapbox scatter map with open tiles",
             "code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\nnp.random.seed(42)\ndf = pd.DataFrame({\n    'lat':   np.random.uniform(25, 49, 50),\n    'lon':   np.random.uniform(-125, -67, 50),\n    'value': np.random.uniform(10, 100, 50),\n    'label': [f'Site {i}' for i in range(50)],\n})\nfig = px.scatter_mapbox(df, lat='lat', lon='lon', size='value',\n                        color='value', color_continuous_scale='Reds',\n                        hover_name='label', zoom=3,\n                        mapbox_style='open-street-map',\n                        title='Random Sites across the US')\nfig.write_html('mapbox_scatter.html')\nprint('Saved mapbox_scatter.html')"
         }
+    ],
+    "todos": [
+        "Create a US choropleth using locationmode='USA-states' and color a metric by state",
+        "Build a world choropleth with px.choropleth and change the color_continuous_scale",
+        "Add hover_name= and hover_data= to a scatter_geo map and verify the tooltips",
+        "Use px.scatter_mapbox with mapbox_style='open-street-map' for a tile-based map",
+        "Filter the gapminder dataset to one year and display life expectancy as a choropleth",
     ],
     "rw_scenario": "A logistics company maps delivery volumes by state — high-volume states appear dark red, enabling instant identification of overloaded regions.",
     "rw_code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\nnp.random.seed(42)\nstates = ['CA','TX','NY','FL','IL','PA','OH','GA','NC','MI',\n          'WA','AZ','MA','TN','IN','MO','MD','CO','WI','MN',\n          'AL','SC','KY','OR','OK','CT','UT','IA','NV','AR']\ndf = pd.DataFrame({\n    'state': states,\n    'deliveries': np.random.randint(5000, 120000, len(states)),\n    'on_time_pct': np.random.uniform(0.82, 0.99, len(states)),\n})\n\nfig = px.choropleth(df, locations='state', color='deliveries',\n                    locationmode='USA-states', scope='usa',\n                    color_continuous_scale='Reds',\n                    hover_data=['on_time_pct'],\n                    title='Delivery Volume by State')\nfig.write_html('delivery_map.html')\nprint('Saved delivery_map.html')\nprint(f'State with most deliveries: {df.loc[df.deliveries.idxmax(), \"state\"]}')",
@@ -2547,6 +2628,13 @@ os.remove(out)"""}
             "code": "import plotly.graph_objects as go\nimport numpy as np\n\nx = np.linspace(0, 2*np.pi, 200)\nsteps = []\nfigs_data = []\nfor freq in np.linspace(1, 5, 20):\n    figs_data.append(go.Scatter(x=x, y=np.sin(freq*x), mode='lines',\n                                name=f'f={freq:.1f}'))\n\nsteps = [dict(method='update', args=[{'y': [np.sin(f*x)], 'name': [f'f={f:.1f}']}],\n              label=f'{f:.1f}') for f in np.linspace(1, 5, 20)]\n\nfig = go.Figure(data=[figs_data[0]])\nfig.update_layout(\n    title='Interactive Slider: sin(f*x)',\n    sliders=[dict(active=0, steps=steps, currentvalue=dict(prefix='Frequency: '))],\n    xaxis_title='x', yaxis_title='sin(f*x)', yaxis_range=[-1.2, 1.2]\n)\nfig.write_html('slider_sine.html')\nprint('Saved slider_sine.html')"
         }
     ],
+    "todos": [
+        "Animate the gapminder scatter using px.scatter with animation_frame='year'",
+        "Build an animated bar chart race using px.bar with animation_frame= and orientation='h'",
+        "Create an animated choropleth with px.choropleth and animation_frame='year'",
+        "Use a slider to control a sine wave frequency using go.Figure with frames and sliders",
+        "Slow down the animation by setting frame duration to 800ms via updatemenus buttons",
+    ],
     "rw_scenario": "A development economist animates 50 years of GDP per capita vs life expectancy across countries, revealing how global health and wealth co-evolved.",
     "rw_code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\ntry:\n    gapminder = px.data.gapminder()\n    fig = px.scatter(gapminder[gapminder.continent.isin(['Asia','Europe','Americas'])],\n                     x='gdpPercap', y='lifeExp',\n                     animation_frame='year', animation_group='country',\n                     size='pop', color='continent', hover_name='country',\n                     log_x=True, size_max=45,\n                     range_x=[200,80000], range_y=[30,90],\n                     title='Development over 50 Years')\n    fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 600\n    fig.write_html('dev_animation.html')\n    print('Saved dev_animation.html')\nexcept Exception as e:\n    print(f'Note: {e}')",
     "practice": {
@@ -2576,6 +2664,13 @@ os.remove(out)"""}
                 "code": "# Multi-page Dash 2.x pattern\nprint(\'Multi-page Dash pattern:\')\nprint(\'\'\'\n# pages/home.py\nimport dash\ndash.register_page(__name__, path=\"/\")\nlayout = html.Div([html.H2(\"Home\")])\n\n# pages/analytics.py\ndash.register_page(__name__, path=\"/analytics\")\nlayout = html.Div([dcc.Graph(figure=create_fig())])\n\n# app.py\napp = Dash(__name__, use_pages=True)\napp.layout = html.Div([\n    html.Nav([\n        dcc.Link(\"Home\", href=\"/\"),\n        dcc.Link(\"Analytics\", href=\"/analytics\"),\n    ]),\n    dash.page_container\n])\n\'\'\')\nprint(\'Each page: dash.register_page(__name__, path=\"/route\")\')"
             }
         ],
+        "todos": [
+            "Study the Dash app structure pattern: layout, callback decorator, Input, and Output",
+            "Write a make_fig(category) function returning a filtered px.area chart and call it for 3 categories",
+            "Trace through the DataTable pattern code and identify props that enable sorting and filtering",
+            "Review the multi-page Dash routing pattern and note how dash.register_page works",
+            "Save the dashboard preview figure to HTML using fig.write_html() and open it locally",
+        ],
         "rw_scenario": "You\'re building an internal analytics dashboard where users filter by date/category, charts update automatically, and data can be exported as CSV.",
         "rw_code": "import plotly.graph_objects as go\nimport plotly.express as px\nimport numpy as np\nimport pandas as pd\n\nnp.random.seed(42)\ndates = pd.date_range(\'2024-01-01\', periods=180, freq=\'D\')\ncats = [\'Electronics\',\'Apparel\',\'Food\']\nfig = go.Figure()\nfor cat in cats:\n    rev = np.random.exponential(1000, 180).cumsum()\n    fig.add_trace(go.Scatter(x=dates, y=rev, name=cat, mode=\'lines\'))\nfig.update_layout(title=\'Revenue Dashboard Preview\', xaxis_title=\'Date\', yaxis_title=\'Revenue ($)\',\n                  template=\'plotly_white\', hovermode=\'x unified\',\n                  legend=dict(orientation=\'h\', y=-0.2))\nfig.write_html(\'dashboard_preview.html\')\nprint(f\'Dashboard saved - {len(fig.data)} traces, {len(dates)} days\')",
         "practice": {
@@ -2603,6 +2698,13 @@ os.remove(out)"""}
                 "label": "Density mapbox heatmap",
                 "code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\nnp.random.seed(42)\ndf = pd.DataFrame({\'lat\':np.random.normal(40.7128,0.05,400),\n                   \'lon\':np.random.normal(-74.006,0.05,400),\n                   \'intensity\':np.random.exponential(1,400)})\nfig = px.density_mapbox(df, lat=\'lat\', lon=\'lon\', z=\'intensity\', radius=15,\n                         center=dict(lat=40.7128,lon=-74.006), zoom=10,\n                         mapbox_style=\'open-street-map\',\n                         title=\'Event Density (NYC Area)\', color_continuous_scale=\'Inferno\')\nfig.write_html(\'density_map.html\')\nprint(f\'Density map saved - {len(df)} events\')"
             }
+        ],
+        "todos": [
+            "Create a world choropleth using px.choropleth with locations='iso_alpha' and color by gdpPercap",
+            "Build a US scatter_geo map using scope='usa' and size= mapped to a revenue column",
+            "Add animation_frame= to a choropleth to animate it over multiple time periods",
+            "Create a density mapbox heatmap using px.density_mapbox centered on a city of your choice",
+            "Compare px.scatter_geo vs px.scatter_mapbox and note the differences in tile rendering",
         ],
         "rw_scenario": "You need to visualize global customer distribution with bubble sizes for revenue and colors for satisfaction score, animated across 4 quarters.",
         "rw_code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\nnp.random.seed(42)\ncoords = {\'USA\':(37.09,-95.71),\'DEU\':(51.16,10.45),\'GBR\':(55.37,-3.44),\n          \'JPN\':(36.20,138.25),\'BRA\':(-14.23,-51.92),\'IND\':(20.59,78.96)}\nrows = []\nfor q in [\'Q1\',\'Q2\',\'Q3\',\'Q4\']:\n    for country,(lat,lon) in coords.items():\n        rows.append({\'quarter\':q,\'country\':country,\'lat\':lat+np.random.randn()*0.5,\n                     \'lon\':lon+np.random.randn()*0.5,\'revenue\':np.random.exponential(500000),\n                     \'satisfaction\':np.random.uniform(3,5)})\ndf = pd.DataFrame(rows)\nfig = px.scatter_geo(df, lat=\'lat\', lon=\'lon\', size=\'revenue\', color=\'satisfaction\',\n                     hover_name=\'country\', animation_frame=\'quarter\',\n                     color_continuous_scale=\'RdYlGn\', range_color=[3,5], size_max=40,\n                     title=\'Global Customer Revenue & Satisfaction\')\nfig.write_html(\'global_map.html\')\nprint(f\'Global map saved - {len(df)} records, {df.quarter.nunique()} frames\')",
@@ -2632,6 +2734,13 @@ os.remove(out)"""}
                 "code": "import plotly.graph_objects as go\nimport numpy as np\n\nx = y = np.linspace(-3, 3, 60)\nX, Y = np.meshgrid(x, y)\nZ = (np.sin(X*2)*np.cos(Y*2)*0.5 + (X**2+Y**2)*0.1 + np.exp(-((X-1)**2+(Y-1)**2))*(-1.5))\nZ = (Z - Z.min()) / (Z.max() - Z.min()) * 3\n\npx_path, py_path, pz_path = [2.5], [-2.5], [float(Z[0,-1])]\nlr = 0.08\nfor _ in range(60):\n    ix = int(np.argmin(np.abs(x - px_path[-1])))\n    iy = int(np.argmin(np.abs(y - py_path[-1])))\n    gx = (Z[iy, min(ix+1,59)] - Z[iy, max(ix-1,0)]) / 2\n    gy = (Z[min(iy+1,59), ix] - Z[max(iy-1,0), ix]) / 2\n    nx, ny = float(np.clip(px_path[-1]-lr*gx,-3,3)), float(np.clip(py_path[-1]-lr*gy,-3,3))\n    px_path.append(nx); py_path.append(ny)\n    pz_path.append(float(Z[int(np.argmin(np.abs(y-ny))), int(np.argmin(np.abs(x-nx)))]))\n\nfig = go.Figure([go.Surface(x=X, y=Y, z=Z, colorscale=\'RdYlGn_r\', opacity=0.85),\n                  go.Scatter3d(x=px_path, y=py_path, z=pz_path, mode=\'lines+markers\',\n                               line=dict(color=\'blue\', width=5), marker=dict(size=3),\n                               name=\'GD Path\')])\nfig.update_layout(title=\'Loss Landscape + Gradient Descent\', width=750, height=550)\nfig.write_html(\'loss_landscape.html\')\nprint(f\'Loss landscape saved - final loss: {pz_path[-1]:.3f}\')"
             }
         ],
+        "todos": [
+            "Create a 3D surface of z = sin(sqrt(x^2+y^2)) with contour projections enabled",
+            "Build a 3D scatter colored by cluster labels using px.scatter_3d with color= parameter",
+            "Plot a 3D spiral trajectory and mark the start (green) and end (red) points",
+            "Add contours to a go.Surface using contours={'z': {'show': True}} and observe the level lines",
+            "Change the camera perspective using scene=dict(camera=dict(eye=dict(x=1.5,y=-1.5,z=1)))",
+        ],
         "rw_scenario": "You need to visualize a model\'s loss surface in 3D to understand convergence and identify local minima during hyperparameter search.",
         "rw_code": "import plotly.graph_objects as go\nimport numpy as np\n\nx = y = np.linspace(-3, 3, 60)\nX, Y = np.meshgrid(x, y)\nnp.random.seed(42)\nZ = (np.sin(X*1.5)*np.cos(Y*1.5)*0.8 + (X**2+Y**2)*0.15 +\n     np.exp(-((X+1)**2+(Y+1)**2))*(-2) + np.random.randn(*X.shape)*0.05)\nZ = (Z - Z.min()) / (Z.max() - Z.min()) * 4\n\nbest_iy, best_ix = np.unravel_index(Z.argmin(), Z.shape)\nfig = go.Figure([\n    go.Surface(x=X, y=Y, z=Z, colorscale=\'RdYlGn_r\', opacity=0.85,\n               colorbar=dict(title=\'Loss\')),\n    go.Scatter3d(x=[x[best_ix]], y=[y[best_iy]], z=[Z.min()],\n                 mode=\'markers\', marker=dict(size=12, color=\'gold\', symbol=\'diamond\'),\n                 name=\'Global Min\')\n])\nfig.update_layout(title=\'Hyperparameter Loss Surface\',\n                  scene=dict(xaxis_title=\'param_1\', yaxis_title=\'param_2\', zaxis_title=\'Loss\'),\n                  width=750, height=550)\nfig.write_html(\'hyperparam_surface.html\')\nprint(f\'Surface saved - min loss: {Z.min():.4f} at ({x[best_ix]:.2f}, {y[best_iy]:.2f})\')",
         "practice": {
@@ -2648,6 +2757,13 @@ os.remove(out)"""}
         {"label": "Moving averages on candlestick", "code": "import plotly.graph_objects as go\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\ndates = pd.date_range(\'2023-01-01\', periods=120, freq=\'B\')\nclose = 150 + np.cumsum(np.random.randn(120) * 2)\nopen_ = close + np.random.randn(120)\nhigh  = np.maximum(open_, close) + np.abs(np.random.randn(120))\nlow   = np.minimum(open_, close) - np.abs(np.random.randn(120))\n\ns = pd.Series(close, index=dates)\nma20 = s.rolling(20).mean()\nma50 = s.rolling(50).mean()\n\nfig = go.Figure()\nfig.add_trace(go.Candlestick(x=dates, open=open_, high=high,\n                              low=low, close=close, name=\'OHLC\',\n                              increasing_fillcolor=\'#26a69a\',\n                              decreasing_fillcolor=\'#ef5350\'))\nfig.add_trace(go.Scatter(x=dates, y=ma20, name=\'MA 20\',\n                          line=dict(color=\'orange\', width=1.5)))\nfig.add_trace(go.Scatter(x=dates, y=ma50, name=\'MA 50\',\n                          line=dict(color=\'cyan\', width=1.5)))\n\nfig.update_layout(title=\'Candlestick with Moving Averages\',\n                  template=\'plotly_dark\', xaxis_rangeslider_visible=False,\n                  hovermode=\'x unified\', height=450)\nfig.write_html(\'candlestick_ma.html\')\nprint(\'Saved with MA20/MA50\')"},
         {"label": "Range selector buttons and OHLC bar chart", "code": "import plotly.graph_objects as go\nimport numpy as np, pandas as pd\n\nnp.random.seed(0)\ndates = pd.date_range(\'2022-01-01\', periods=250, freq=\'B\')\nclose = 200 + np.cumsum(np.random.randn(250) * 2.5)\nopen_ = close + np.random.randn(250) * 1.2\nhigh  = np.maximum(open_, close) + np.abs(np.random.randn(250))\nlow   = np.minimum(open_, close) - np.abs(np.random.randn(250))\n\nfig = go.Figure(go.Ohlc(x=dates, open=open_, high=high,\n                         low=low, close=close, name=\'OHLC Bars\',\n                         increasing_line_color=\'lime\',\n                         decreasing_line_color=\'red\'))\n\nfig.update_layout(\n    title=\'OHLC with Range Selectors\',\n    template=\'plotly_dark\',\n    xaxis=dict(\n        rangeselector=dict(\n            buttons=[\n                dict(count=1, label=\'1M\', step=\'month\', stepmode=\'backward\'),\n                dict(count=3, label=\'3M\', step=\'month\', stepmode=\'backward\'),\n                dict(count=6, label=\'6M\', step=\'month\', stepmode=\'backward\'),\n                dict(step=\'all\', label=\'All\'),\n            ]\n        ),\n        rangeslider=dict(visible=True),\n        type=\'date\',\n    ),\n    height=450,\n)\nfig.write_html(\'ohlc_range.html\')\nprint(\'OHLC chart with range selector saved\')"}
     ],
+"todos": [
+    "Create a go.Candlestick chart and add a volume bar subplot with shared x-axis",
+    "Overlay a 20-day and 50-day moving average line on a candlestick chart",
+    "Add range selector buttons (1M, 3M, 6M, All) and a range slider to an OHLC chart",
+    "Color each volume bar green when close >= open and red when close < open",
+    "Compute and plot Bollinger Bands (20-day MA ± 2 std) on top of the candlestick",
+],
 "rw": {
     "title": "Stock Screener Dashboard",
     "scenario": "A portfolio tracker shows daily OHLC for top 5 holdings, highlighting days where close > open in green and flagging high-volume days.",
@@ -2668,6 +2784,13 @@ os.remove(out)"""}
         {"label": "Sunburst for org/portfolio drilldown", "code": "import plotly.express as px\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \'continent\': [\'Americas\',\'Americas\',\'Americas\',\'Europe\',\'Europe\',\'Asia\',\'Asia\',\'Asia\'],\n    \'country\':   [\'USA\',\'Brazil\',\'Canada\',\'Germany\',\'France\',\'China\',\'Japan\',\'India\'],\n    \'sector\':    [\'Tech\',\'Finance\',\'Mining\',\'Auto\',\'Pharma\',\'Tech\',\'Auto\',\'IT\'],\n    \'market_cap\':[2800, 400, 350, 680, 520, 1900, 750, 420],\n})\n\nfig = px.sunburst(df,\n    path=[\'continent\', \'country\', \'sector\'],\n    values=\'market_cap\',\n    color=\'market_cap\',\n    color_continuous_scale=\'Blues\',\n    title=\'Market Cap: Continent → Country → Sector ($ Bn)\',\n)\nfig.update_traces(\n    textinfo=\'label+percent parent\',\n    insidetextorientation=\'radial\',\n)\nfig.update_layout(height=550)\nfig.write_html(\'sunburst_portfolio.html\')\nprint(\'Sunburst saved\')"},
         {"label": "Treemap with custom text and color", "code": "import plotly.graph_objects as go\n\nlabels  = [\'Total\',\'A Div\',\'B Div\',\'C Div\',\'A1\',\'A2\',\'B1\',\'B2\',\'C1\',\'C2\',\'C3\']\nparents = [\'\',    \'Total\',\'Total\',\'Total\',\'A Div\',\'A Div\',\'B Div\',\'B Div\',\'C Div\',\'C Div\',\'C Div\']\nvalues  = [0,     0,      0,      0,      120,    80,     200,    150,    60,     90,     50]\n\nfig = go.Figure(go.Treemap(\n    labels=labels,\n    parents=parents,\n    values=values,\n    branchvalues=\'total\',\n    marker=dict(\n        colorscale=\'Viridis\',\n        showscale=True,\n        colorbar=dict(title=\'Revenue\'),\n    ),\n    texttemplate=\'<b>%{label}</b><br>$%{value}k\',\n    hovertemplate=\'<b>%{label}</b><br>Revenue: $%{value}k<br>Share: %{percentRoot:.1%}<extra></extra>\',\n))\nfig.update_layout(title=\'Division Revenue Treemap\', height=450)\nfig.write_html(\'treemap_custom.html\')\nprint(\'Custom treemap saved\')"}
     ],
+"todos": [
+    "Build a px.treemap from a flat DataFrame with a 2-level path= hierarchy",
+    "Add color= to a treemap to encode a second metric as a color scale",
+    "Create a 3-level px.sunburst (continent > country > sector) and click to drill down",
+    "Use go.Treemap directly and set texttemplate to show label and value in each cell",
+    "Compare how px.treemap and px.sunburst represent the same hierarchical data differently",
+],
 "rw": {
     "title": "IT Infrastructure Cost Treemap",
     "scenario": "An IT manager visualizes cloud spending broken down by department > service > resource type to identify cost hotspots at a glance.",
@@ -2688,6 +2811,13 @@ os.remove(out)"""}
         {"label": "Side-by-side violin for before/after", "code": "import plotly.graph_objects as go\nimport numpy as np\n\nnp.random.seed(10)\nbefore = np.random.normal(65, 15, 100)\nafter  = np.random.normal(72, 12, 100)\n\nfig = go.Figure()\nfig.add_trace(go.Violin(y=before, name=\'Before\',\n                         side=\'negative\', line_color=\'#636EFA\',\n                         fillcolor=\'rgba(99,110,250,0.3)\',\n                         box_visible=True, meanline_visible=True))\nfig.add_trace(go.Violin(y=after,  name=\'After\',\n                         side=\'positive\', line_color=\'#EF553B\',\n                         fillcolor=\'rgba(239,85,59,0.3)\',\n                         box_visible=True, meanline_visible=True))\n\nfig.update_layout(\n    title=\'Before vs After Intervention (Split Violin)\',\n    violingap=0, violinmode=\'overlay\',\n    yaxis_title=\'Score\',\n    template=\'plotly_white\',\n    height=420,\n)\nfig.write_html(\'violin_split.html\')\nprint(f\'Before mean: {before.mean():.1f}  After mean: {after.mean():.1f}\')"},
         {"label": "Strip plot (jitter) with mean markers", "code": "import plotly.express as px\nimport numpy as np, pandas as pd\n\nnp.random.seed(5)\ncategories = [\'Category A\', \'Category B\', \'Category C\', \'Category D\']\ndf = pd.concat([\n    pd.DataFrame({\'category\': cat, \'value\': np.random.exponential(scale, 50)})\n    for cat, scale in zip(categories, [10, 20, 15, 25])\n])\n\nfig = px.strip(df, x=\'category\', y=\'value\', color=\'category\',\n               title=\'Strip Plot with Individual Data Points\',\n               stripmode=\'overlay\',\n               color_discrete_sequence=px.colors.qualitative.Set2)\n\n# Add mean markers\nfor cat in categories:\n    mean_val = df[df.category == cat][\'value\'].mean()\n    fig.add_scatter(x=[cat], y=[mean_val], mode=\'markers\',\n                    marker=dict(symbol=\'line-ew\', size=20, color=\'black\', line_width=2),\n                    showlegend=False, hovertemplate=f\'Mean: {mean_val:.1f}\')\n\nfig.update_traces(jitter=0.4, marker_size=5, marker_opacity=0.6,\n                  selector=dict(type=\'strip\'))\nfig.update_layout(showlegend=False, height=420)\nfig.write_html(\'strip_plot.html\')\nprint(\'Strip plot saved\')"}
     ],
+"todos": [
+    "Create a px.violin with box=True and points='all' to show raw data on a violin plot",
+    "Build a split violin using go.Violin with side='negative' and side='positive' for comparison",
+    "Use px.strip to show individual data points with jitter and add a horizontal mean marker",
+    "Set meanline_visible=True on a violin to show the mean line inside the distribution",
+    "Create a violin with points='outliers' to highlight only the extreme values",
+],
 "rw": {
     "title": "A/B Test Distribution Comparison",
     "scenario": "A data scientist uses split violins to compare conversion rates and session durations between two website variants, showing both distribution shape and individual data points.",
@@ -2708,6 +2838,13 @@ os.remove(out)"""}
         {"label": "Parallel coordinates with custom dimension ranges", "code": "import plotly.graph_objects as go\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\nn = 200\ndf = pd.DataFrame({\n    \'age\':     np.random.randint(22, 65, n),\n    \'income\':  np.random.exponential(50000, n).clip(20000, 200000),\n    \'savings\': np.random.exponential(30000, n).clip(0, 150000),\n    \'credit\':  np.random.randint(300, 850, n),\n    \'loan\':    np.random.choice([0, 1], n, p=[0.7, 0.3]),\n})\n\nfig = go.Figure(go.Parcoords(\n    line=dict(color=df[\'loan\'], colorscale=\'RdYlGn_r\',\n              showscale=True, colorbar=dict(title=\'Default\')),\n    dimensions=[\n        dict(label=\'Age\', values=df[\'age\'], range=[22, 65]),\n        dict(label=\'Income ($)\', values=df[\'income\'], range=[20000, 200000]),\n        dict(label=\'Savings ($)\', values=df[\'savings\'], range=[0, 150000]),\n        dict(label=\'Credit Score\', values=df[\'credit\'], range=[300, 850]),\n    ],\n))\nfig.update_layout(title=\'Loan Default — Parallel Coordinates\',\n                  height=430, template=\'plotly_dark\')\nfig.write_html(\'parallel_loan.html\')\nprint(\'Loan parallel coords saved\')"},
         {"label": "Parallel categories (categorical Sankey flow)", "code": "import plotly.express as px\nimport pandas as pd\nimport numpy as np\n\nnp.random.seed(3)\nn = 500\ndf = pd.DataFrame({\n    \'region\':    np.random.choice([\'North\',\'South\',\'East\',\'West\'], n),\n    \'segment\':   np.random.choice([\'SMB\',\'Enterprise\',\'Consumer\'], n),\n    \'channel\':   np.random.choice([\'Online\',\'Retail\',\'Partner\'], n),\n    \'outcome\':   np.random.choice([\'Won\',\'Lost\',\'Pending\'], n, p=[0.4,0.4,0.2]),\n})\n\nfig = px.parallel_categories(\n    df,\n    dimensions=[\'region\',\'segment\',\'channel\',\'outcome\'],\n    color=df[\'outcome\'].map({\'Won\': 0, \'Pending\': 0.5, \'Lost\': 1}),\n    color_continuous_scale=\'RdYlGn_r\',\n    title=\'Sales Pipeline Flow: Region → Segment → Channel → Outcome\',\n)\nfig.update_layout(height=450)\nfig.write_html(\'parallel_categories.html\')\nprint(\'Parallel categories chart saved\')"}
     ],
+"todos": [
+    "Create a px.parallel_coordinates chart on the iris dataset colored by species",
+    "Drag an axis range in the parallel coordinates chart to filter observations interactively",
+    "Build a px.parallel_categories chart to show flow from region to segment to outcome",
+    "Use go.Parcoords with custom dimension ranges to constrain each axis independently",
+    "Color the parallel coordinates lines by a continuous variable and add a colorbar",
+],
 "rw": {
     "title": "Model Feature Explorer",
     "scenario": "An ML team uses parallel coordinates on their validation set to interactively filter observations — dragging axes to isolate the feature ranges where the model underperforms.",
@@ -2728,6 +2865,13 @@ os.remove(out)"""}
         {"label": "Waterfall chart for P&L statement", "code": "import plotly.graph_objects as go\n\nitems   = [\'Revenue\',\'COGS\',\'Gross Profit\',\'R&D\',\n           \'S&M\',\'G&A\',\'EBITDA\',\'D&A\',\'EBIT\']\nvalues  = [1000, -380, None, -150, -120, -80, None, -45, None]\nmeasure = [\'absolute\',\'relative\',\'total\',\'relative\',\n           \'relative\',\'relative\',\'total\',\'relative\',\'total\']\ntext    = [f\'${abs(v):,}\' if v else \'\' for v in values]\n\nfig = go.Figure(go.Waterfall(\n    orientation=\'v\',\n    measure=measure,\n    x=items,\n    y=values,\n    text=text,\n    textposition=\'outside\',\n    increasing=dict(marker_color=\'#26a69a\'),\n    decreasing=dict(marker_color=\'#ef5350\'),\n    totals=dict(marker_color=\'#636EFA\'),\n    connector=dict(line=dict(color=\'#999\', width=1, dash=\'dot\')),\n))\nfig.update_layout(\n    title=\'P&L Waterfall — Q4 2024\',\n    yaxis_title=\'$ Thousands\',\n    template=\'plotly_white\',\n    height=450,\n    showlegend=False,\n)\nfig.write_html(\'pnl_waterfall.html\')\nprint(\'P&L waterfall saved\')"},
         {"label": "Funnel area and horizontal funnel", "code": "import plotly.express as px\nimport plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\n\nstages = [\'Awareness\',\'Interest\',\'Consideration\',\'Intent\',\'Purchase\']\nvalues = [50000, 22000, 8500, 3200, 980]\n\nfig = make_subplots(rows=1, cols=2,\n                    subplot_titles=[\'Standard Funnel\', \'Funnel Area\'],\n                    specs=[[{\'type\':\'funnel\'}, {\'type\':\'funnelarea\'}]])\n\nfig.add_trace(\n    go.Funnel(y=stages, x=values, textinfo=\'value+percent initial\',\n              marker_color=px.colors.sequential.Blues_r[1:]),\n    row=1, col=1)\n\nfig.add_trace(\n    go.Funnelarea(labels=stages, values=values,\n                  textinfo=\'label+percent\',\n                  marker_colors=px.colors.sequential.Greens_r[1:]),\n    row=1, col=2)\n\nfig.update_layout(title=\'Marketing Funnel Comparison\', height=420)\nfig.write_html(\'funnel_comparison.html\')\nprint(f\'Top-of-funnel to purchase: {values[-1]/values[0]:.1%}\')"}
     ],
+"todos": [
+    "Create a go.Funnel chart for a 5-stage sales pipeline and add textinfo='value+percent previous'",
+    "Build a go.Waterfall P&L chart using measure=['absolute','relative','relative','total'] pattern",
+    "Color waterfall bars green for increases and red for decreases using increasing/decreasing dicts",
+    "Compare go.Funnel and go.Funnelarea for the same data using a side-by-side subplot",
+    "Compute the overall conversion rate from the funnel data and print it alongside the chart",
+],
 "rw": {
     "title": "SaaS Revenue Waterfall",
     "scenario": "A CFO presents monthly recurring revenue changes: starting ARR, new business, expansions, contractions, and churn — visualized as a waterfall to show net revenue change.",
@@ -2748,6 +2892,13 @@ os.remove(out)"""}
         {"label": "Gauge / speedometer chart", "code": "import plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\n\nfig = make_subplots(rows=1, cols=3,\n                    specs=[[{\'type\':\'indicator\'}]*3])\n\ngauges = [\n    (\'CPU Usage\', 73, \'%\', \'red\', [(0,40,\'green\'),(40,70,\'yellow\'),(70,100,\'red\')]),\n    (\'Memory\',    58, \'%\', \'orange\', [(0,60,\'green\'),(60,80,\'orange\'),(80,100,\'red\')]),\n    (\'SLA Score\', 96.5, \'%\', \'green\', [(0,90,\'red\'),(90,95,\'yellow\'),(95,100,\'green\')]),\n]\n\nfor col, (name, val, suffix, color, steps) in enumerate(gauges, 1):\n    fig.add_trace(go.Indicator(\n        mode=\'gauge+number+delta\',\n        value=val,\n        title=dict(text=name, font=dict(size=14)),\n        delta=dict(reference=80 if \'SLA\' not in name else 95),\n        number=dict(suffix=suffix),\n        gauge=dict(\n            axis=dict(range=[0, 100]),\n            bar=dict(color=color, thickness=0.25),\n            steps=[dict(range=[lo, hi], color=c) for lo, hi, c in steps],\n            threshold=dict(line=dict(color=\'white\', width=3),\n                           thickness=0.75, value=val),\n        ),\n    ), row=1, col=col)\n\nfig.update_layout(title=\'Infrastructure Gauges\', height=280,\n                  template=\'plotly_dark\', margin=dict(t=60, b=10))\nfig.write_html(\'gauges.html\')\nprint(\'Gauge dashboard saved\')"},
         {"label": "Bullet chart style indicator", "code": "import plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\n\nmetrics = [\n    (\'Q1 Revenue\',   1.15, 1.25, \'M$\'),\n    (\'Q1 Leads\',     430,  500,  \'\'),\n    (\'Avg Deal ($)\', 22500, 20000, \'$\'),\n    (\'Win Rate\',     42,   40,   \'%\'),\n]\n\nfig = make_subplots(rows=len(metrics), cols=1,\n                    specs=[[{\'type\':\'indicator\'}]] * len(metrics),\n                    vertical_spacing=0.0)\n\nfor row, (name, actual, target, unit) in enumerate(metrics, 1):\n    color = \'green\' if actual >= target else \'red\'\n    fig.add_trace(go.Indicator(\n        mode=\'number+gauge+delta\',\n        value=actual,\n        title=dict(text=name, font=dict(size=12)),\n        delta=dict(reference=target,\n                   relative=True,\n                   increasing=dict(color=\'green\'),\n                   decreasing=dict(color=\'red\')),\n        number=dict(prefix=unit if unit==\'$\' else \'\',\n                    suffix=unit if unit!=\'$\' else \'\'),\n        gauge=dict(\n            shape=\'bullet\',\n            axis=dict(range=[0, target*1.5]),\n            threshold=dict(value=target,\n                           line=dict(color=\'black\', width=2),\n                           thickness=0.75),\n            bar=dict(color=color),\n        ),\n    ), row=row, col=1)\n\nfig.update_layout(title=\'Q1 Performance vs Target\',\n                  height=360, template=\'plotly_white\',\n                  margin=dict(l=160, t=60, b=20))\nfig.write_html(\'bullet_chart.html\')\nprint(\'Bullet chart saved\')"}
     ],
+"todos": [
+    "Create a go.Indicator with mode='number+delta' and set reference= to compare to last period",
+    "Build a gauge chart using mode='gauge+number' with colored steps for green/yellow/red zones",
+    "Place 4 KPI indicators in a 2x2 subplot using specs=[[ {'type':'indicator'} ]*2]*2",
+    "Color the delta red when increasing is bad (e.g. churn) by setting increasing color to 'red'",
+    "Create a bullet chart using gauge shape='bullet' and a threshold line at the target value",
+],
 "rw": {
     "title": "Executive SaaS Dashboard",
     "scenario": "A SaaS company\'s weekly executive report shows ARR, MRR growth, churn rate, and NPS as KPI indicators with week-over-week deltas and color coding.",
@@ -2768,6 +2919,13 @@ os.remove(out)"""}
         {"label": "Animated scatter over time", "code": "import plotly.express as px\n\ndf = px.data.gapminder()\n\nfig = px.scatter(\n    df, x=\'gdpPercap\', y=\'lifeExp\',\n    animation_frame=\'year\',\n    animation_group=\'country\',\n    size=\'pop\', color=\'continent\',\n    hover_name=\'country\',\n    log_x=True,\n    size_max=55,\n    range_x=[100, 100_000],\n    range_y=[25, 90],\n    title=\'Gapminder: GDP vs Life Expectancy (1952-2007)\',\n    labels={\'gdpPercap\': \'GDP per Capita\', \'lifeExp\': \'Life Expectancy\'},\n    template=\'plotly_white\',\n)\nfig.update_layout(height=500)\nfig.write_html(\'gapminder_animation.html\')\nprint(f\'Animated scatter: {df.year.nunique()} frames, {df.country.nunique()} countries\')"},
         {"label": "Animated choropleth map", "code": "import plotly.express as px\n\ndf = px.data.gapminder()\n\nfig = px.choropleth(\n    df,\n    locations=\'iso_alpha\',\n    color=\'lifeExp\',\n    hover_name=\'country\',\n    animation_frame=\'year\',\n    color_continuous_scale=\'RdYlGn\',\n    range_color=[25, 90],\n    title=\'World Life Expectancy Over Time (1952-2007)\',\n    labels={\'lifeExp\': \'Life Expectancy\'},\n    projection=\'natural earth\',\n)\nfig.update_layout(\n    coloraxis_colorbar=dict(title=\'Life Exp.\', x=1.0),\n    height=480,\n    geo=dict(showframe=False, showcoastlines=False),\n)\nfig.write_html(\'choropleth_animated.html\')\nprint(\'Animated choropleth saved\')"}
     ],
+"todos": [
+    "Build a bar chart race using go.Figure with frames= and an animated play button",
+    "Sort bars within each frame so the highest value always appears at the top",
+    "Add a sliders= list so users can manually step through each animation frame",
+    "Create an animated scatter using px.scatter with animation_frame= and animation_group=",
+    "Build an animated choropleth map with px.choropleth and animation_frame='year'",
+],
 "rw": {
     "title": "Market Share Race",
     "scenario": "A market analyst builds a bar chart race showing quarterly market share shifts between 5 smartphone brands over 3 years, helping executives spot disruption trends.",
@@ -2788,6 +2946,13 @@ os.remove(out)"""}
         {"label": "Dark theme with custom accent colors", "code": "import plotly.graph_objects as go\nimport plotly.io as pio\nimport numpy as np, pandas as pd\n\ndark_template = go.layout.Template(\n    layout=dict(\n        paper_bgcolor=\'#0d1117\',\n        plot_bgcolor=\'#0d1117\',\n        font=dict(color=\'#c9d1d9\', family=\'JetBrains Mono, monospace\'),\n        colorway=[\'#79c0ff\',\'#ff7b72\',\'#56d364\',\'#d2a8ff\',\'#ffa657\',\'#39c5cf\'],\n        xaxis=dict(gridcolor=\'#30363d\', linecolor=\'#30363d\',\n                   tickcolor=\'#8b949e\', title_font_color=\'#8b949e\'),\n        yaxis=dict(gridcolor=\'#30363d\', linecolor=\'#30363d\',\n                   tickcolor=\'#8b949e\', title_font_color=\'#8b949e\'),\n        title=dict(font=dict(color=\'#79c0ff\', size=17)),\n        legend=dict(bgcolor=\'#161b22\', bordercolor=\'#30363d\', borderwidth=1),\n        hoverlabel=dict(bgcolor=\'#161b22\', bordercolor=\'#30363d\',\n                        font=dict(color=\'#c9d1d9\')),\n    )\n)\npio.templates[\'github_dark\'] = dark_template\n\nnp.random.seed(42)\ncategories = [\'Q1\',\'Q2\',\'Q3\',\'Q4\']\nproducts   = [\'Widget\',\'Gadget\',\'Gizmo\']\nfig = go.Figure()\nfor p in products:\n    fig.add_trace(go.Bar(name=p, x=categories,\n                          y=np.random.randint(50, 200, 4),\n                          text=np.random.randint(50, 200, 4),\n                          texttemplate=\'%{text}\',\n                          textposition=\'outside\'))\nfig.update_layout(title=\'Quarterly Sales — GitHub Dark Theme\',\n                  template=\'github_dark\', barmode=\'group\', height=430)\nfig.write_html(\'dark_theme.html\')\nprint(\'Dark theme chart saved\')"},
         {"label": "Per-trace styling and annotations", "code": "import plotly.graph_objects as go\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\nx = pd.date_range(\'2024-01\', periods=52, freq=\'W\')\nactual   = 100 + np.cumsum(np.random.randn(52) * 3)\nforecast = actual[-1] + np.cumsum(np.random.randn(12) * 2.5)\nupper_ci = forecast + 1.96 * np.arange(1, 13) * 0.8\nlower_ci = forecast - 1.96 * np.arange(1, 13) * 0.8\nfuture_x = pd.date_range(x[-1], periods=13, freq=\'W\')[1:]\n\nfig = go.Figure()\n\n# Actual data\nfig.add_trace(go.Scatter(x=x, y=actual, name=\'Actual\',\n                          line=dict(color=\'#636EFA\', width=2.5)))\n\n# Forecast with confidence interval fill\nfig.add_trace(go.Scatter(x=future_x, y=upper_ci, name=\'Upper CI 95%\',\n                          line=dict(color=\'rgba(255,127,14,0)\', width=0),\n                          showlegend=False))\nfig.add_trace(go.Scatter(x=future_x, y=lower_ci, name=\'Lower CI 95%\',\n                          line=dict(color=\'rgba(255,127,14,0)\', width=0),\n                          fill=\'tonexty\', fillcolor=\'rgba(255,127,14,0.2)\',\n                          showlegend=False))\nfig.add_trace(go.Scatter(x=future_x, y=forecast, name=\'Forecast\',\n                          line=dict(color=\'#FF7F0E\', width=2, dash=\'dash\')))\n\n# Annotation for forecast start\nfig.add_vline(x=x[-1], line_dash=\'dot\', line_color=\'gray\', opacity=0.7)\nfig.add_annotation(x=x[-1], y=actual[-1], text=\'Forecast begins\',\n                    showarrow=True, arrowhead=2, bgcolor=\'rgba(0,0,0,0.6)\',\n                    font=dict(color=\'white\'))\n\nfig.update_layout(title=\'Revenue Actual + 12-Week Forecast with CI\',\n                  xaxis_title=\'Date\', yaxis_title=\'Revenue ($K)\',\n                  template=\'plotly_dark\', height=430, hovermode=\'x unified\')\nfig.write_html(\'forecast_styled.html\')\nprint(\'Styled forecast chart saved\')"}
     ],
+"todos": [
+    "Define a custom go.layout.Template with brand colors and register it with pio.templates",
+    "Set pio.templates.default = 'your_template' to apply it globally to all new figures",
+    "Create a dark GitHub-style theme by setting paper_bgcolor='#0d1117' and grid colors",
+    "Add a confidence interval band using fill='tonexty' between an upper and lower Scatter trace",
+    "Add forecast annotations with add_vline() and add_annotation() to mark key transitions",
+],
 "rw": {
     "title": "Branded Marketing Report",
     "scenario": "A marketing team builds a reusable company-branded Plotly template with corporate fonts and colors, then applies it to all quarterly charts for consistent reporting.",

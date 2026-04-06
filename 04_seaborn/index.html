@@ -3,24 +3,8 @@
 <title>Seaborn Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#c084fc}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#c084fc}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 32 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup &amp; Themes</a></li>
@@ -218,7 +202,11 @@ my_colors = [&#x27;#e74c3c&#x27;, &#x27;#3498db&#x27;, &#x27;#2ecc71&#x27;, &#x2
 # TODO: })
 # TODO: fig, ax = plt.subplots()
 # TODO: sns.barplot(x=labels, y=values, palette=&#x27;deep&#x27;, ax=ax)
-# TODO: plt.tight_layout(); plt.savefig(&#x27;rc_override.png&#x27;, dpi=80); plt.close()</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Distribution Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">histplot and kdeplot show how data is distributed. displot combines both into a faceted figure-level function.</p><div class="code-block"><div class="ch"><span>histplot and kdeplot</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import matplotlib
+# TODO: plt.tight_layout(); plt.savefig(&#x27;rc_override.png&#x27;, dpi=80); plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Call sns.set_theme() with style=&#x27;darkgrid&#x27; and palette=&#x27;colorblind&#x27; at the top of a notebook</label></li>
+<li><label><input type="checkbox"> Try all 5 style options (&#x27;darkgrid&#x27;,&#x27;whitegrid&#x27;,&#x27;dark&#x27;,&#x27;white&#x27;,&#x27;ticks&#x27;) on the same bar chart</label></li>
+<li><label><input type="checkbox"> Create a custom 5-color palette using hex codes and pass it to sns.barplot</label></li>
+<li><label><input type="checkbox"> Use sns.despine() to remove the top and right spines from a box plot</label></li>
+<li><label><input type="checkbox"> Override figure size via rc={&#x27;figure.figsize&#x27;: (8,3)} inside sns.set_theme()</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Distribution Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">histplot and kdeplot show how data is distributed. displot combines both into a faceted figure-level function.</p><div class="code-block"><div class="ch"><span>histplot and kdeplot</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -395,7 +383,11 @@ for smoker_val, color in [(&#x27;Yes&#x27;, &#x27;#e74c3c&#x27;), (&#x27;No&#x27
 plt.tight_layout()
 plt.savefig(&#x27;practice_dist.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_dist.png&quot;)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Categorical Plots — Bar &amp; Count</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">barplot shows mean ± CI of a numeric variable by category. countplot shows frequency. Both accept hue for a third dimension.</p><div class="code-block"><div class="ch"><span>barplot and countplot</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import matplotlib
+print(&quot;Saved practice_dist.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram of a normally distributed sample and overlay a KDE curve</label></li>
+<li><label><input type="checkbox"> Compare distributions of smokers vs non-smokers using sns.histplot with hue=&#x27;smoker&#x27;</label></li>
+<li><label><input type="checkbox"> Create a violin plot and interpret what the thick bar in the middle represents</label></li>
+<li><label><input type="checkbox"> Use sns.ecdfplot to compare cumulative distributions of total_bill by day</label></li>
+<li><label><input type="checkbox"> Add a rug plot under a KDE curve using sns.rugplot() to show individual data points</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Categorical Plots — Bar &amp; Count</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">barplot shows mean ± CI of a numeric variable by category. countplot shows frequency. Both accept hue for a third dimension.</p><div class="code-block"><div class="ch"><span>barplot and countplot</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -583,7 +575,11 @@ overall_mean = tips[&#x27;total_bill&#x27;].mean()
 plt.tight_layout()
 plt.savefig(&#x27;practice_bar.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_bar.png&quot;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Box Plot &amp; Violin Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Box plots show the 5-number summary (min, Q1, median, Q3, max). Violin plots also show the distribution shape via KDE.</p><div class="code-block"><div class="ch"><span>boxplot and violinplot</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
+print(&quot;Saved practice_bar.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a grouped barplot of mean tip by day, colored by sex, with capsize=0.1</label></li>
+<li><label><input type="checkbox"> Sort bars by value using the order= parameter to show highest to lowest</label></li>
+<li><label><input type="checkbox"> Add value labels on top of each bar by iterating over ax.patches</label></li>
+<li><label><input type="checkbox"> Use sns.countplot to show the frequency of meals per day, colored by time of day</label></li>
+<li><label><input type="checkbox"> Switch the estimator to np.median in catplot and compare the result to the mean</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Box Plot &amp; Violin Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Box plots show the 5-number summary (min, Q1, median, Q3, max). Violin plots also show the distribution shape via KDE.</p><div class="code-block"><div class="ch"><span>boxplot and violinplot</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -764,7 +760,11 @@ fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 plt.tight_layout()
 plt.savefig(&#x27;practice_violin.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_violin.png&quot;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Scatter &amp; Regression Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">scatterplot visualizes two numeric variables. regplot / lmplot adds a regression line with confidence interval automatically.</p><div class="code-block"><div class="ch"><span>scatterplot with hue and size</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import matplotlib
+print(&quot;Saved practice_violin.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create side-by-side box plots of total_bill by day using the tips dataset</label></li>
+<li><label><input type="checkbox"> Set inner=&#x27;quartile&#x27; on a violin plot to show quartile lines inside the violin</label></li>
+<li><label><input type="checkbox"> Overlay a narrow boxplot (width=0.12) on top of a violin plot for dual insight</label></li>
+<li><label><input type="checkbox"> Add a stripplot layer on top of a boxenplot to show all individual data points</label></li>
+<li><label><input type="checkbox"> Use split=True in violinplot to show male/female halves in the same shape</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Scatter &amp; Regression Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">scatterplot visualizes two numeric variables. regplot / lmplot adds a regression line with confidence interval automatically.</p><div class="code-block"><div class="ch"><span>scatterplot with hue and size</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5021,7 +5021,7 @@ plt.close()
 print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

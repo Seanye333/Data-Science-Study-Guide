@@ -45,40 +45,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -181,6 +178,13 @@ z_scores  = np.abs(stats.zscore(data))
 print(f"IQR fences: [{lower_fence:.2f}, {upper_fence:.2f}]")
 print(f"Outliers (IQR): {sorted(outliers)}")
 print(f"Outliers (|z|>3): {data[z_scores > 3].tolist()}")"""},
+],
+"todos": [
+    "Compute mean, median, mode, std, and IQR on a list of 20 numbers",
+    "Use np.percentile to find the 10th, 25th, 75th, and 90th percentiles of a dataset",
+    "Identify outliers with the IQR fence method (below Q1-1.5*IQR or above Q3+1.5*IQR)",
+    "Compute skewness and kurtosis with scipy.stats and interpret the result",
+    "Use pd.Series.describe() and compare its output to manually computed statistics",
 ],
 "rw_scenario": "A data scientist at a hospital needs to summarize patient blood pressure readings to report to clinicians. They must identify the typical range, spot extreme values, and present skewness of the distribution before modeling.",
 "rw_code":
@@ -302,6 +306,13 @@ p_gt10       = dist.sf(10)
 p_gt20_gt10  = dist.sf(20) / dist.sf(10)
 print(f"\nP(T>20|T>10) = {p_gt20_gt10:.4f}  (should equal P(T>10) = {p_gt10:.4f})")"""},
 ],
+"todos": [
+    "Compute the PDF, CDF, and PPF of a standard normal distribution for x = [-2,-1,0,1,2]",
+    "Use stats.binom to compute the probability of exactly 5 heads in 10 fair coin flips",
+    "Use stats.poisson to compute P(X >= 8) for a Poisson distribution with lambda=5",
+    "Compute P(-1.96 < Z < 1.96) for the standard normal and verify it is approximately 0.95",
+    "Use stats.expon to find the 95th percentile and verify the memoryless property",
+],
 "rw_scenario": "An e-commerce platform wants to model the number of customer purchases per hour (Poisson) and the time between purchases (Exponential). They also need the normal approximation for total daily revenue and the probability of a marketing campaign achieving at least 50 conversions out of 200 email sends.",
 "rw_code":
 """import numpy as np
@@ -422,6 +433,13 @@ print("Stratified sample composition:")
 print(stratified["age_group"].value_counts())
 print(f"\nPop mean:    {df['score'].mean():.3f}")
 print(f"Sample mean: {stratified['score'].mean():.3f}")"""},
+],
+"todos": [
+    "Generate 10000 sample means from samples of size n=5 from an exponential distribution and plot/print the histogram shape",
+    "Verify the CLT: as n increases from 5 to 100, confirm the sample mean distribution becomes more normal",
+    "Compute the standard error of the mean for sample sizes 10, 50, and 200 from the same population",
+    "Compare the theoretical SE (sigma/sqrt(n)) to the empirical SE from bootstrap resampling",
+    "Demonstrate stratified sampling by drawing proportional samples from 3 groups with different sizes",
 ],
 "rw_scenario": "A polling firm surveys likely voters ahead of an election. They use stratified random sampling by region (North, South, East, West) to ensure representation, then apply bootstrap resampling to estimate the margin of error for their candidate preference estimate without assuming normality.",
 "rw_code":
@@ -552,6 +570,13 @@ print(f"Group B mean: {group_b.mean():.3f}")
 print(f"Difference:   {diff:.3f}")
 print(f"95% CI for diff: ({lo:.3f}, {hi:.3f})")
 print(f"t={t_stat:.3f}, p={p_val:.4f}")"""},
+],
+"todos": [
+    "Compute a 95% confidence interval for the mean using stats.t.interval for a sample of size 30",
+    "Compute a 95% bootstrap CI for the mean by resampling 5000 times and taking percentiles",
+    "Build a CI for a proportion using the normal approximation: p +/- 1.96*sqrt(p*(1-p)/n)",
+    "Compare the CI width for n=30 vs n=300 at the same confidence level",
+    "Verify that increasing confidence from 90% to 99% widens the CI as expected",
 ],
 "rw_scenario": "A pharmaceutical company runs a clinical trial measuring the reduction in blood pressure after a new drug. They need 95% confidence intervals for the mean reduction, a bootstrap CI that avoids normality assumptions for their small subgroup analysis, and a CI for the proportion of patients achieving >10 mmHg reduction.",
 "rw_code":
@@ -686,6 +711,13 @@ for _ in range(n_simulations):
         true_positives += 1
 print(f"Simulated Power:             {true_positives/n_simulations:.4f}")"""},
 ],
+"todos": [
+    "Perform a one-sample t-test on simulated data and interpret the resulting p-value",
+    "Generate two groups with different means and run a two-sample t-test with stats.ttest_ind",
+    "Check normality assumption using the Shapiro-Wilk test before running a t-test",
+    "Try changing the sample size from 10 to 1000 and observe how p-value changes",
+    "Run Welch's t-test (equal_var=False) and compare to Student's t-test on unequal variance data",
+],
 "rw_scenario": "An online retailer A/B tests a redesigned checkout page. Conversion rates (number of sales per session) are measured for control (old page) and treatment (new page) groups. The team runs an independent t-test on session revenue values, checks assumptions with Levene's test, and interprets the p-value against their pre-specified alpha of 0.05.",
 "rw_code":
 """import numpy as np
@@ -819,6 +851,13 @@ for n1, n2 in pairs:
     sig  = "*" if p < alpha_corr else ""
     print(f"  {n1} vs {n2}: p={p:.4f} {sig}")"""},
 ],
+"todos": [
+    "Run one-way ANOVA on 3 groups using stats.f_oneway and interpret the F-statistic and p-value",
+    "Apply Tukey HSD post-hoc test to identify which specific group pairs differ significantly",
+    "Run Levene's test to check the equal variance assumption before ANOVA",
+    "Try two-way ANOVA using statsmodels.formula.api.ols with an interaction term",
+    "Use Kruskal-Wallis H test as the non-parametric alternative when normality is violated",
+],
 "rw_scenario": "A nutrition researcher compares weight loss across four diets (Mediterranean, Keto, Vegan, Low-Fat) over 12 weeks. One-way ANOVA tests whether any diet differs. Levene's test checks variance equality. Post-hoc pairwise tests with Bonferroni correction identify which specific diets differ significantly.",
 "rw_code":
 """import numpy as np
@@ -947,6 +986,13 @@ print(expected.round(2))
 print(f"\nChi2 p-value:   {p_chi:.4f}  (valid if all expected >= 5)")
 print(f"Fisher p-value: {p_fisher:.4f}  (preferred for small samples)")
 print(f"Odds ratio:     {oddsratio:.4f}")"""},
+],
+"todos": [
+    "Build a 2x2 contingency table and run stats.chi2_contingency, print chi2, p, dof, expected",
+    "Compute Cramer's V from the chi2 statistic to measure the strength of association",
+    "Run a goodness-of-fit chi-square test to check if a die is fair using stats.chisquare",
+    "Use stats.proportions_ztest to compare two proportions and interpret the z-statistic",
+    "Check that expected frequencies are all >= 5 before applying the chi-square test",
 ],
 "rw_scenario": "A market research firm surveys 800 shoppers about their preferred payment method (Cash, Card, Mobile) segmented by age group (18-34, 35-54, 55+). They run a chi-square test of independence to determine if payment preference is associated with age, then compute Cramer's V to quantify the strength of association.",
 "rw_code":
@@ -1091,6 +1137,13 @@ diffs = np.diff(residuals)
 dw = np.sum(diffs**2) / np.sum(residuals**2)
 print(f"Durbin-Watson: {dw:.4f}  (2=no autocorr, <2=positive, >2=negative)")"""},
 ],
+"todos": [
+    "Compute Pearson and Spearman correlation between two variables and compare when they differ",
+    "Fit a simple linear regression with stats.linregress and print slope, intercept, and R-squared",
+    "Plot residuals vs fitted values to check for heteroscedasticity (or print residual statistics)",
+    "Compute partial correlation between X and Y while controlling for a confounding variable Z",
+    "Identify the 3 data points with the largest residuals from your regression",
+],
 "rw_scenario": "A real estate company models house prices using square footage. They compute Pearson correlation, fit a simple linear regression with scipy.stats.linregress, assess R-squared, and analyze residuals to check for linearity and homoscedasticity. They also identify outlier properties that deviate from the trend.",
 "rw_code":
 """import numpy as np
@@ -1221,6 +1274,13 @@ for sl, cv in zip(ad_result.significance_level, ad_result.critical_values):
 data2 = np.random.normal(5.5, 2, 100)
 ks2_stat, ks2_p = stats.ks_2samp(data, data2)
 print(f"\nTwo-sample KS test: D={ks2_stat:.4f}, p={ks2_p:.4f}")"""},
+],
+"todos": [
+    "Run the Shapiro-Wilk test on normal, exponential, and uniform data samples",
+    "Use stats.mannwhitneyu to compare two exponentially distributed groups",
+    "Run stats.wilcoxon on paired before/after measurements and compare to stats.ttest_rel",
+    "Apply stats.ks_2samp to check if two samples come from the same distribution",
+    "Compute the effect size r = Z/sqrt(N) for a Mann-Whitney U result",
 ],
 "rw_scenario": "A clinical researcher compares pain scores (highly skewed, 0-10 scale) before and after a new pain management protocol using the Wilcoxon signed-rank test. They also compare pain scores between two patient cohorts using Mann-Whitney U. Shapiro-Wilk normality tests confirm non-parametric methods are appropriate.",
 "rw_code":
@@ -1363,6 +1423,13 @@ print(f"Empirical power:   {emp_power:.4f}")
 print(f"Analytical power:  {analytical:.4f}")
 print(f"Type II error (β): {1-emp_power:.4f}")"""},
 ],
+"todos": [
+    "Compute Cohen's d for two groups with different means using the pooled standard deviation",
+    "Use TTestIndPower.solve_power to find required n for effect_size=0.5 at 80% power",
+    "Calculate achieved power for d=0.3, n=100 per group at alpha=0.05",
+    "Find the minimum detectable effect (MDE) for n=200 per group at 80% power",
+    "Print a table of required n for effect sizes [0.2, 0.5, 0.8] and powers [0.70, 0.80, 0.90]",
+],
 "rw_scenario": "A product team plans an A/B test for a new onboarding flow. They estimate the current conversion rate maps to a Cohen's d of 0.35 for time-to-first-purchase. Using statsmodels TTestIndPower, they calculate the minimum sample size needed to achieve 80% power at alpha=0.05, and validate with a simulation study.",
 "rw_code":
 """import numpy as np
@@ -1436,6 +1503,13 @@ pooled_std    = 5.0
             "code": "import numpy as np\n\nnp.random.seed(42)\n\ndef log_posterior(theta, data, prior_std=2.0):\n    \"\"\"Log posterior for normal likelihood, normal prior.\"\"\"\n    log_prior = -0.5 * (theta / prior_std)**2\n    log_likelihood = -0.5 * np.sum((data - theta)**2)\n    return log_prior + log_likelihood\n\n# Simple Metropolis-Hastings\ndef metropolis(data, n_samples=5000, proposal_std=0.5):\n    samples = []\n    current = 0.0\n    for _ in range(n_samples):\n        proposed = current + np.random.normal(0, proposal_std)\n        log_alpha = log_posterior(proposed, data) - log_posterior(current, data)\n        if np.log(np.random.uniform()) < log_alpha:\n            current = proposed\n        samples.append(current)\n    return np.array(samples[500:])  # burn-in\n\n# True parameter = 3.0\ndata = np.random.normal(3.0, 1.0, 20)\nsamples = metropolis(data)\n\nprint(f'Data mean:        {data.mean():.3f}')\nprint(f'MCMC posterior mean: {samples.mean():.3f}')\nprint(f'MCMC 95% CI: ({np.percentile(samples,2.5):.3f}, {np.percentile(samples,97.5):.3f})')\nprint(f'Acceptance rate: {len(np.unique(samples.round(6)))/len(samples):.1%}')"
         }
     ],
+    "todos": [
+        "Update a Beta(1,1) prior with 7 heads in 10 flips and print the posterior mean and 95% CI",
+        "Compute P(B > A) via Monte Carlo sampling from two Beta posteriors for an A/B test",
+        "Start with a Beta(2,10) informative prior and compare the posterior to Beta(1,1) prior",
+        "Use the Normal-Normal conjugate to estimate the mean of 30 observations with a prior",
+        "Compute the posterior predictive: expected conversions in the next 100 visits from the posterior",
+    ],
     "rw_scenario": "A marketing team runs an A/B test for 2 weeks. Using a Bayesian Beta-Binomial model, they continuously estimate P(B>A) and stop early once confidence exceeds 95%.",
     "rw_code": "import numpy as np\nfrom scipy.stats import beta\n\nnp.random.seed(42)\n# Simulate daily data: A has 8% true rate, B has 10% true rate\ntrue_a, true_b = 0.08, 0.10\nn_days = 14\ndaily_visitors = 100\n\nalpha_a, beta_a = 1, 1  # uniform prior\nalpha_b, beta_b = 1, 1\n\nprint('Day | Visitors A/B | Conv A/B | P(B>A)')\nprint('-'*50)\nfor day in range(1, n_days+1):\n    conv_a = np.random.binomial(daily_visitors, true_a)\n    conv_b = np.random.binomial(daily_visitors, true_b)\n    alpha_a += conv_a; beta_a += (daily_visitors - conv_a)\n    alpha_b += conv_b; beta_b += (daily_visitors - conv_b)\n    samples = np.random.beta([alpha_a, alpha_b], [beta_a, beta_b], size=(100000, 2))\n    prob_b_better = (samples[:,1] > samples[:,0]).mean()\n    print(f' {day:2d} | {daily_visitors}/{daily_visitors}        | {conv_a:3d}/{conv_b:3d}    | {prob_b_better:.1%}')\n    if prob_b_better > 0.95:\n        print(f'>>> Declare B winner on day {day}! (P(B>A)={prob_b_better:.1%})')\n        break",
     "practice": {
@@ -1464,6 +1538,13 @@ pooled_std    = 5.0
             "label": "Hazard rate and hazard ratio",
             "code": "import numpy as np\n\nnp.random.seed(42)\n\n# Exponential distribution: constant hazard rate\nlambda_rate = 0.1  # hazard rate\ntime_points = np.arange(1, 21)\nsurvival    = np.exp(-lambda_rate * time_points)\nhazard      = np.full_like(time_points, lambda_rate, dtype=float)\n\nprint('Exponential survival (lambda=0.1):')\nprint(f'  Survival at t=5:  {np.exp(-0.1*5):.3f}')\nprint(f'  Survival at t=10: {np.exp(-0.1*10):.3f}')\nprint(f'  Median survival:  {np.log(2)/0.1:.1f} time units')\n\n# Hazard ratio: how much riskier is group A vs group B?\nlambda_a = 0.15  # higher hazard\nlambda_b = 0.08\nhr = lambda_a / lambda_b\nprint(f'\\nHazard Ratio (A vs B): {hr:.2f}')\nprint(f'Group A is {hr:.1f}x more likely to fail at any time point')\nprint(f'Group A median: {np.log(2)/lambda_a:.1f} | Group B median: {np.log(2)/lambda_b:.1f}')"
         }
+    ],
+    "todos": [
+        "Simulate survival data with right censoring and compute the Kaplan-Meier estimate",
+        "Compare survival curves for two groups using the log-rank test",
+        "Print median survival time and 95% CI from the Kaplan-Meier estimator",
+        "Fit a Cox Proportional Hazards model and print hazard ratios for each covariate",
+        "Identify the time point where survival probability drops below 0.50 from the KM curve",
     ],
     "rw_scenario": "A SaaS company tracks how long customers stay before canceling. Kaplan-Meier curves compare retention for free-trial vs. direct-purchase cohorts.",
     "rw_code": "import numpy as np\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n# Cohort 1: free trial then convert (longer retention)\n# Cohort 2: direct paid (shorter retention but committed)\ncohorts = {\n    'Free Trial': np.random.exponential(18, 150).clip(0, 36),\n    'Direct Paid': np.random.exponential(12, 100).clip(0, 36),\n}\nevents = {k: (v < 36).astype(int) for k, v in cohorts.items()}\n\ndef km_curve(durations, ev):\n    n = len(durations)\n    times = sorted(set(durations[ev==1]))\n    S, ar = 1.0, n\n    pts = [(0, 1.0)]\n    for t in times:\n        d = ((durations==t) & (ev==1)).sum()\n        c = ((durations==t) & (ev==0)).sum()\n        S *= 1 - d/ar; pts.append((t, S)); ar -= d + c\n    return zip(*pts)\n\nfig, ax = plt.subplots(figsize=(9, 5))\ncolors = ['#2196F3', '#F44336']\nfor (cohort, times_arr), color in zip(cohorts.items(), colors):\n    t_pts, s_pts = km_curve(times_arr, events[cohort])\n    ax.step(list(t_pts), list(s_pts), where='post', label=cohort, color=color, linewidth=2)\n    churned = events[cohort].sum()\n    print(f'{cohort}: n={len(times_arr)}, churned={churned} ({churned/len(times_arr):.0%}), avg tenure={times_arr.mean():.1f} months')\nax.axhline(0.5, color='gray', linestyle='--', linewidth=1)\nax.set_xlabel('Months Since Signup'); ax.set_ylabel('Retention Rate')\nax.set_title('Customer Retention by Acquisition Channel')\nax.legend(); ax.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.savefig('retention_cohorts.png', dpi=80); plt.close()\nprint('Saved retention_cohorts.png')",
@@ -1494,6 +1575,13 @@ pooled_std    = 5.0
             "code": "import numpy as np\n\nnp.random.seed(42)\nwages = np.array([35, 42, 28, 55, 38, 47, 31, 60, 44, 39,\n                  52, 36, 29, 48, 41, 65, 33, 57, 43, 37]) * 1000\n\ndef bootstrap_ci(data, stat_fn, n_boot=10000, ci=95):\n    boot_stats = [stat_fn(np.random.choice(data, len(data), replace=True))\n                  for _ in range(n_boot)]\n    lower = (100 - ci) / 2\n    return np.percentile(boot_stats, [lower, 100-lower])\n\nstats = {\n    'mean':   np.mean,\n    'median': np.median,\n    'std':    np.std,\n    'q75':    lambda x: np.percentile(x, 75),\n}\n\nfor name, fn in stats.items():\n    ci = bootstrap_ci(wages, fn)\n    print(f'{name:6s}: {fn(wages):>8,.0f}  95% CI: (${ci[0]:,.0f}, ${ci[1]:,.0f})')"
         }
     ],
+    "todos": [
+        "Compute a 95% percentile bootstrap CI for the mean using 5000 resamples",
+        "Run a permutation test to compare two group means and compute the p-value",
+        "Bootstrap the median of a skewed distribution and compare to the analytical t-interval",
+        "Simulate the bootstrap distribution of the correlation coefficient between two variables",
+        "Compare bootstrap CI width at n=30 vs n=200 for the same population",
+    ],
     "rw_scenario": "An analyst needs confidence intervals for the median revenue per user, which is skewed. Bootstrap gives reliable CIs without assuming normality.",
     "rw_code": "import numpy as np\n\nnp.random.seed(42)\n# Simulated revenue per user (heavy-tailed)\nrevenue = np.random.lognormal(mean=3.5, sigma=1.2, size=500)\n\nprint(f'n={len(revenue)}')\nprint(f'Mean:   ${revenue.mean():,.2f}')\nprint(f'Median: ${np.median(revenue):,.2f}')\n\ndef bootstrap_stat(data, stat_fn, n_boot=10000):\n    boots = [stat_fn(np.random.choice(data, len(data), replace=True)) for _ in range(n_boot)]\n    return np.array(boots)\n\nmean_boots   = bootstrap_stat(revenue, np.mean)\nmedian_boots = bootstrap_stat(revenue, np.median)\n\nfor name, boots, obs in [('mean', mean_boots, revenue.mean()), ('median', median_boots, np.median(revenue))]:\n    ci = np.percentile(boots, [2.5, 97.5])\n    print(f'\\n{name.capitalize()} bootstrap:')\n    print(f'  Observed: ${obs:,.2f}')\n    print(f'  95% CI:   (${ci[0]:,.2f}, ${ci[1]:,.2f})')\n    print(f'  SE:       ${boots.std():,.2f}')",
     "practice": {
@@ -1519,6 +1607,13 @@ pooled_std    = 5.0
                 "code": "import numpy as np\nnp.random.seed(0)\ngroup_a = np.random.normal(5.0, 1.5, 40)\ngroup_b = np.random.normal(5.6, 1.5, 40)\nobs_diff = np.mean(group_b) - np.mean(group_a)\ncombined = np.concatenate([group_a, group_b])\nB = 10000\nperm_diffs = []\nfor _ in range(B):\n    perm = np.random.permutation(combined)\n    perm_diffs.append(np.mean(perm[40:]) - np.mean(perm[:40]))\np_value = np.mean(np.abs(perm_diffs) >= np.abs(obs_diff))\nprint(f\"Observed difference: {obs_diff:.4f}\")\nprint(f\"Permutation p-value: {p_value:.4f}\")"
             }
         ],
+        "todos": [
+            "Compute a 95% percentile bootstrap CI for the mean of an exponential sample (n=50)",
+            "Implement a BCa bootstrap CI and compare to the simpler percentile method",
+            "Run a permutation test comparing two group means and print the two-sided p-value",
+            "Bootstrap the regression slope and compare to the analytical confidence interval",
+            "Vary the number of bootstrap resamples from 100 to 10000 and observe CI stability",
+        ],
         "rw_scenario": "E-commerce A/B test: compare conversion rates between checkout designs using bootstrap CIs instead of assuming normality for small samples.",
         "rw_code": "import numpy as np\nnp.random.seed(42)\n# Simulated checkout conversion: design A=0.05, design B=0.065\nn = 300\nconv_a = np.random.binomial(1, 0.05, n).astype(float)\nconv_b = np.random.binomial(1, 0.065, n).astype(float)\nobs_diff = conv_b.mean() - conv_a.mean()\nB = 20000\nboot_diffs = [\n    np.random.choice(conv_b, n, replace=True).mean() -\n    np.random.choice(conv_a, n, replace=True).mean()\n    for _ in range(B)\n]\nci = np.percentile(boot_diffs, [2.5, 97.5])\np_val = np.mean(np.array(boot_diffs) <= 0)\nprint(f\"Observed lift: {obs_diff:.4f} ({obs_diff/conv_a.mean():.1%} relative)\")\nprint(f\"95% Bootstrap CI: [{ci[0]:.4f}, {ci[1]:.4f}]\")\nprint(f\"One-sided p-value: {p_val:.4f}\")\nprint(\"Significant at alpha=0.05:\", ci[0] > 0)",
         "practice": {
@@ -1542,6 +1637,13 @@ pooled_std    = 5.0
                 "label": "Q-value (Storey's Method)",
                 "code": "import numpy as np\nnp.random.seed(2)\nk = 100\np_vals = np.concatenate([np.random.uniform(0,1,75), np.random.beta(0.5,5,25)])\n# Estimate pi0 (proportion of true nulls)\nlambdas = np.arange(0.05, 0.95, 0.05)\npi0_hat = [(p_vals >= l).sum() / (k * (1-l)) for l in lambdas]\npi0 = min(1.0, np.polyfit(lambdas, pi0_hat, 2)[2])  # smoother estimate\n# Compute q-values\norder = np.argsort(p_vals)\nsorted_p = p_vals[order]\nq = pi0 * k * sorted_p / (np.arange(1, k+1))\n# Enforce monotonicity\nfor i in range(k-2, -1, -1):\n    q[i] = min(q[i], q[i+1])\nq_vals = np.empty(k); q_vals[order] = np.minimum(q, 1)\nprint(f\"pi0 estimate: {pi0:.3f}\")\nprint(f\"Discoveries at FDR=0.05: {(q_vals <= 0.05).sum()}\")"
             }
+        ],
+        "todos": [
+            "Apply Bonferroni correction to 20 p-values and count how many are still significant",
+            "Apply Benjamini-Hochberg (BH) correction and compare the number of rejections to Bonferroni",
+            "Manually implement the BH procedure step-by-step on a sorted list of p-values",
+            "Use multipletests from statsmodels with method='fdr_bh' and print adjusted p-values",
+            "Discuss when to prefer BH over Bonferroni and write your reasoning as a comment",
         ],
         "rw_scenario": "Genomics pipeline: after running 10,000 gene expression tests, apply BH correction to control FDR at 5% and identify truly differentially expressed genes.",
         "rw_code": "import numpy as np\nnp.random.seed(99)\nn_genes = 10000\nn_de = 200  # truly differentially expressed\n# Simulate p-values: most null (uniform), some true effects (beta)\np_null = np.random.uniform(0, 1, n_genes - n_de)\np_de   = np.random.beta(0.3, 10, n_de)\np_values = np.concatenate([p_null, p_de])\nalpha = 0.05\n# BH procedure\norder = np.argsort(p_values)\nsorted_p = p_values[order]\nranks = np.arange(1, n_genes+1)\nbh_thresh = (ranks / n_genes) * alpha\nlast = np.where(sorted_p <= bh_thresh)[0]\nif len(last):\n    cutoff = last[-1]\n    reject = np.zeros(n_genes, dtype=bool)\n    reject[order[:cutoff+1]] = True\nelse:\n    reject = np.zeros(n_genes, dtype=bool)\n# True positive rate among real DE genes\ntp = reject[-n_de:].sum()\nfp = reject[:-n_de].sum()\nprint(f\"Significant genes: {reject.sum()}\")\nprint(f\"True positives: {tp}/{n_de} ({tp/n_de:.1%} sensitivity)\")\nprint(f\"False positives: {fp} (FDR={fp/max(reject.sum(),1):.3f})\")",
@@ -1567,6 +1669,13 @@ pooled_std    = 5.0
                 "code": "import numpy as np\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nfrom scipy import stats\nnp.random.seed(1)\n# Two groups with different multivariate structure\ng1 = np.random.multivariate_normal([0]*5, np.eye(5), 100)\ng2 = np.random.multivariate_normal([0.5]*5, np.eye(5)*1.5, 100)\nX = np.vstack([g1, g2])\nlabels = np.array([0]*100 + [1]*100)\npca = PCA(n_components=3)\nXp = pca.fit_transform(StandardScaler().fit_transform(X))\nfor i in range(3):\n    t, p = stats.ttest_ind(Xp[labels==0, i], Xp[labels==1, i])\n    print(f\"PC{i+1}: t={t:.3f}, p={p:.4f} ({\'significant\' if p<0.05 else \'not sig\'})\")\nprint(f\"Total variance explained: {pca.explained_variance_ratio_.sum():.2%}\")"
             }
         ],
+        "todos": [
+            "Fit PCA and print how many components explain at least 90% of the variance",
+            "Run t-SNE with perplexity=30 and print the centroid coordinates of each cluster",
+            "Run t-tests on each PCA component to check if two groups differ significantly",
+            "Use PCA reconstruction error to identify outliers in a multivariate dataset",
+            "Compare logistic regression accuracy using raw features vs top PCA components",
+        ],
         "rw_scenario": "Credit risk modelling: apply PCA to 20 correlated financial features, use the top components as inputs for logistic regression, and test if the components differ significantly between default and non-default customers.",
         "rw_code": "import numpy as np\nfrom sklearn.decomposition import PCA\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import cross_val_score\nfrom scipy import stats\nnp.random.seed(42)\nn = 500\n# 20 correlated features simulating financial metrics\ncov = 0.4 * np.ones((20, 20)) + 0.6 * np.eye(20)\nX_raw = np.random.multivariate_normal(np.zeros(20), cov, n)\n# Default probability depends on first latent factor\nlatent = X_raw[:, :5].mean(axis=1)\nprob = 1 / (1 + np.exp(-(latent - 0.3)))\ny = np.random.binomial(1, prob, n)\nscaler = StandardScaler()\nX = scaler.fit_transform(X_raw)\npca = PCA(n_components=5)\nX_pca = pca.fit_transform(X)\nprint(f\"Variance explained: {pca.explained_variance_ratio_.cumsum()[-1]:.2%}\")\nfor i in range(5):\n    t, p = stats.ttest_ind(X_pca[y==0, i], X_pca[y==1, i])\n    print(f\"PC{i+1}: defaulters vs non-defaulters t={t:.2f}, p={p:.4f}\")\nclf = LogisticRegression()\nscores = cross_val_score(clf, X_pca, y, cv=5, scoring=\'roc_auc\')\nprint(f\"Logistic Regression AUC (PCA features): {scores.mean():.3f} ± {scores.std():.3f}\")",
         "practice": {
@@ -1583,6 +1692,13 @@ pooled_std    = 5.0
         {"label": "Paired t-test and confidence intervals", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(0)\n# Paired t-test: before/after measurements on same subjects\nbefore = np.random.normal(130, 15, 25)   # blood pressure before treatment\nafter  = before - np.random.normal(8, 5, 25)  # treatment lowers BP\n\nt, p = stats.ttest_rel(before, after)\ndiff = before - after\nci = stats.t.interval(0.95, df=len(diff)-1,\n                       loc=diff.mean(), scale=stats.sem(diff))\n\nprint(f\"Paired t-test: t={t:.3f}, p={p:.4f}\")\nprint(f\"Mean reduction: {diff.mean():.2f} mmHg\")\nprint(f\"95% CI: ({ci[0]:.2f}, {ci[1]:.2f})\")\nprint(f\"Significant reduction? {p < 0.05}\")\n\n# Manual CI for a mean\nn, mean, se = len(before), before.mean(), stats.sem(before)\nci_manual = stats.t.interval(0.95, df=n-1, loc=mean, scale=se)\nprint(f\"\\nCI for baseline BP mean {mean:.1f}: ({ci_manual[0]:.1f}, {ci_manual[1]:.1f})\")"},
         {"label": "Chi-square test and proportions z-test", "code": "from scipy import stats\nimport numpy as np\n\n# Chi-square test for independence\n# Question: Is treatment type independent of recovery?\nobserved = np.array([[45, 15],   # Drug A: recovered, not recovered\n                      [30, 30],   # Drug B\n                      [38, 22]])  # Placebo\n\nchi2, p, dof, expected = stats.chi2_contingency(observed)\nprint(f\"Chi-square: chi2={chi2:.3f}, p={p:.4f}, dof={dof}\")\nprint(f\"Association between treatment and recovery? {p < 0.05}\")\n\n# Two-proportion z-test\n# Are conversion rates different between landing pages?\nn_a, conv_a = 1000, 120   # page A\nn_b, conv_b = 1000, 145   # page B\n\ncount = np.array([conv_a, conv_b])\nnobs  = np.array([n_a, n_b])\nz, p_prop = stats.proportions_ztest(count, nobs)\nprint(f\"\\nProportions z-test: z={z:.3f}, p={p_prop:.4f}\")\nprint(f\"Rate A={conv_a/n_a:.1%}, Rate B={conv_b/n_b:.1%}\")\nprint(f\"Significantly different? {p_prop < 0.05}\")"}
     ],
+"todos": [
+    "Run a one-sample t-test on data simulated from normal(70,8) testing if the mean equals 72",
+    "Run a two-sample t-test on two groups and check if the difference is statistically significant",
+    "Run a paired t-test on before/after measurements and compute a 95% CI for the mean difference",
+    "Use stats.proportions_ztest to test if two conversion rates are significantly different",
+    "Calculate the effect size (Cohen's d) alongside the t-test result",
+],
 "rw_scenario": "A pharma company tests whether a new drug reduces cholesterol more than a placebo. Paired t-test on 50 patients (pre/post treatment) with a significance level of 0.05.",
 "rw_code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(7)\nn = 50\ndrug_group    = np.random.normal(200, 30, n)  # baseline cholesterol\nplacebo_group = np.random.normal(200, 30, n)\n\ndrug_post    = drug_group    - np.random.normal(25, 10, n)  # drug reduces ~25\nplacebo_post = placebo_group - np.random.normal(5,  10, n)  # placebo reduces ~5\n\ndrug_diff    = drug_group    - drug_post\nplacebo_diff = placebo_group - placebo_post\n\nt_drug,    p_drug    = stats.ttest_rel(drug_group,    drug_post)\nt_placebo, p_placebo = stats.ttest_rel(placebo_group, placebo_post)\nt_compare, p_compare = stats.ttest_ind(drug_diff,     placebo_diff)\n\nprint(f\"Drug group:    mean reduction={drug_diff.mean():.1f}, p={p_drug:.4f}\")\nprint(f\"Placebo group: mean reduction={placebo_diff.mean():.1f}, p={p_placebo:.4f}\")\nprint(f\"Drug vs Placebo: t={t_compare:.3f}, p={p_compare:.4f}\")\nprint(f\"Drug significantly better? {p_compare < 0.05}\")",
 "practice": {
@@ -1600,6 +1716,13 @@ pooled_std    = 5.0
         {"label": "Two-way ANOVA with interaction", "code": "import statsmodels.api as sm\nfrom statsmodels.formula.api import ols\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\nn = 120\ndf = pd.DataFrame({\n    \'fertilizer\': np.repeat([\'A\',\'B\',\'C\'], n//3),\n    \'irrigation\': np.tile([\'Low\',\'High\'], n//2),\n    \'yield\': (np.random.normal(55, 8, n) +\n              np.where(np.repeat([\'A\',\'B\',\'C\'], n//3)==\'C\', 8, 0) +\n              np.where(np.tile([\'Low\',\'High\'], n//2)==\'High\', 5, 0)),\n})\n\nmodel = ols(\'yield ~ C(fertilizer) + C(irrigation) + C(fertilizer):C(irrigation)\',\n            data=df).fit()\nanova_table = sm.stats.anova_lm(model, typ=2)\nprint(anova_table.round(4))\nprint(f\"\\nFertilizer effect: p={anova_table.loc[\'C(fertilizer)\',\'PR(>F)\']:.4f}\")\nprint(f\"Irrigation effect: p={anova_table.loc[\'C(irrigation)\',\'PR(>F)\']:.4f}\")"},
         {"label": "Kruskal-Wallis (non-parametric ANOVA) + Bonferroni", "code": "from scipy import stats\nfrom statsmodels.stats.multitest import multipletests\nimport numpy as np\nfrom itertools import combinations\n\nnp.random.seed(5)\n# Non-normal data: response times across 3 UI designs\ngroups = {\n    \'Design A\': np.random.exponential(2.0, 30),\n    \'Design B\': np.random.exponential(1.5, 30),\n    \'Design C\': np.random.exponential(2.5, 30),\n}\nnames = list(groups.keys())\ndata  = list(groups.values())\n\n# Kruskal-Wallis\nH, p = stats.kruskal(*data)\nprint(f\"Kruskal-Wallis: H={H:.3f}, p={p:.4f}\")\n\n# Pairwise Mann-Whitney U with Bonferroni correction\npairs = list(combinations(range(len(names)), 2))\nraw_p = []\nfor i, j in pairs:\n    _, pv = stats.mannwhitneyu(data[i], data[j], alternative=\'two-sided\')\n    raw_p.append(pv)\n\nreject, p_adj, _, _ = multipletests(raw_p, method=\'bonferroni\')\nfor (i,j), pv, pa, rej in zip(pairs, raw_p, p_adj, reject):\n    print(f\"  {names[i]} vs {names[j]}: raw_p={pv:.4f}, adj_p={pa:.4f}, reject={rej}\")"}
     ],
+"todos": [
+    "Run one-way ANOVA on 3 groups and interpret whether F-statistic and p-value are significant",
+    "Run pairwise_tukeyhsd and print which group pairs differ at alpha=0.05",
+    "Run Kruskal-Wallis as the non-parametric alternative and compare the p-value to ANOVA",
+    "Compute eta-squared (SS_between / SS_total) as the ANOVA effect size",
+    "Run two-way ANOVA with statsmodels and check the interaction term significance",
+],
 "rw_scenario": "A UX researcher tests 3 onboarding flows on task completion time across 60 users. ANOVA reveals a significant difference; Tukey HSD pinpoints which flow pairs differ significantly.",
 "rw_code": "from scipy import stats\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\nimport numpy as np, pandas as pd\n\nnp.random.seed(99)\nflows = {\'Flow 1\': np.random.normal(45, 12, 20),\n         \'Flow 2\': np.random.normal(38, 10, 20),\n         \'Flow 3\': np.random.normal(52, 14, 20)}\n\nf, p = stats.f_oneway(*flows.values())\nprint(f\"ANOVA: F={f:.3f}, p={p:.4f}\")\n\nall_times  = np.concatenate(list(flows.values()))\nall_labels = np.repeat(list(flows.keys()), 20)\ntukey = pairwise_tukeyhsd(all_times, all_labels, alpha=0.05)\nprint(tukey.summary())\n\nfor name, times in flows.items():\n    print(f\"{name}: mean={times.mean():.1f}s, sd={times.std():.1f}s\")",
 "practice": {
@@ -1617,6 +1740,13 @@ pooled_std    = 5.0
         {"label": "Correlation matrix and partial correlation", "code": "from scipy import stats\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\nn = 200\n# Confounding variable Z drives both X and Y\nz = np.random.randn(n)\nx = 0.7 * z + np.random.randn(n) * 0.5\ny = 0.8 * z + np.random.randn(n) * 0.5\nw = np.random.randn(n)  # unrelated\n\ndf = pd.DataFrame({\'X\': x, \'Y\': y, \'Z\': z, \'W\': w})\n\nprint(\"Correlation matrix:\")\nprint(df.corr(method=\'pearson\').round(3))\n\n# Partial correlation: X-Y controlling for Z\ndef partial_corr(x, y, z):\n    # Regress out z from both x and y\n    r_xz = np.corrcoef(x, z)[0,1]\n    r_yz = np.corrcoef(y, z)[0,1]\n    r_xy = np.corrcoef(x, y)[0,1]\n    return (r_xy - r_xz*r_yz) / (np.sqrt(1-r_xz**2) * np.sqrt(1-r_yz**2))\n\npc = partial_corr(x, y, z)\nprint(f\"\\nX-Y raw correlation:     {np.corrcoef(x,y)[0,1]:.4f}\")\nprint(f\"X-Y partial (given Z):   {pc:.4f}  (much lower — Z was confounding)\")"},
         {"label": "Point-biserial, phi coefficient, and significance testing", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(3)\nn = 150\n\n# Point-biserial: continuous vs binary\nscores = np.random.normal(70, 10, n)\npassed = (scores + np.random.randn(n)*5 > 68).astype(int)\nr_pb, p_pb = stats.pointbiserialr(passed, scores)\nprint(f\"Point-biserial r={r_pb:.4f}, p={p_pb:.4f}\")\n\n# Phi coefficient: binary vs binary\nvaccinated = np.random.choice([0,1], n, p=[0.4,0.6])\ninfected   = np.where(vaccinated==1,\n                       np.random.choice([0,1], n, p=[0.9,0.1]),\n                       np.random.choice([0,1], n, p=[0.4,0.6]))\nchi2, p_chi, _, _ = stats.chi2_contingency(\n    np.array([[((vaccinated==0)&(infected==0)).sum(),\n               ((vaccinated==0)&(infected==1)).sum()],\n              [((vaccinated==1)&(infected==0)).sum(),\n               ((vaccinated==1)&(infected==1)).sum()]]))\nphi = np.sqrt(chi2 / n)\nprint(f\"Phi coefficient={phi:.4f}, chi2_p={p_chi:.4f}\")\n\n# Testing significance of Pearson r\nr = 0.35\nn_test = 50\nt = r * np.sqrt(n_test-2) / np.sqrt(1-r**2)\np = 2 * stats.t.sf(abs(t), df=n_test-2)\nprint(f\"\\nr=0.35, n=50: t={t:.3f}, p={p:.4f}, significant={p<0.05}\")"}
     ],
+"todos": [
+    "Compute Pearson r between two linearly related variables and check the p-value",
+    "Compare Pearson and Spearman correlation on a dataset with a few outliers",
+    "Build a full correlation matrix for a DataFrame and flag pairs with absolute r > 0.7",
+    "Compute partial correlation between X and Y controlling for a confound Z",
+    "Use stats.pointbiserialr to correlate a binary (pass/fail) variable with a continuous score",
+],
 "rw_scenario": "A sports analyst computes Spearman correlations between athlete metrics (speed, strength, endurance, recovery) and competitive performance, then uses partial correlation to remove the confounding effect of age.",
 "rw_code": "from scipy import stats\nimport numpy as np, pandas as pd\n\nnp.random.seed(10)\nn = 80\nage = np.random.uniform(18, 35, n)\nspeed      = -0.4*age + np.random.randn(n)*2 + 30\nstrength   =  0.1*age + np.random.randn(n)*3 + 20\nendurance  = -0.3*age + np.random.randn(n)*2 + 25\nperformance= 0.5*speed + 0.3*strength + 0.4*endurance + np.random.randn(n)*2\n\ndf = pd.DataFrame({\'age\':age,\'speed\':speed,\'strength\':strength,\n                   \'endurance\':endurance,\'performance\':performance})\n\nprint(\"Spearman correlations with performance:\")\nfor col in [\'age\',\'speed\',\'strength\',\'endurance\']:\n    r, p = stats.spearmanr(df[col], df[\'performance\'])\n    print(f\"  {col:12s}: r={r:.3f}, p={p:.4f}\")\n\n# Partial: speed-performance controlling for age\nr_sp = np.corrcoef(speed, performance)[0,1]\nr_sa = np.corrcoef(speed, age)[0,1]\nr_pa = np.corrcoef(performance, age)[0,1]\npc = (r_sp - r_sa*r_pa) / (np.sqrt(1-r_sa**2)*np.sqrt(1-r_pa**2))\nprint(f\"\\nSpeed-Perf raw r={r_sp:.3f}, partial (ctrl age)={pc:.3f}\")",
 "practice": {
@@ -1634,6 +1764,13 @@ pooled_std    = 5.0
         {"label": "Wilcoxon signed-rank and Mann-Whitney U", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(7)\n# Wilcoxon signed-rank: paired non-parametric alternative to paired t-test\nbefore = np.random.exponential(2.0, 30)\nafter  = before * 0.7 + np.random.exponential(0.3, 30)\n\nstat_w, p_w = stats.wilcoxon(before, after)\nstat_t, p_t = stats.ttest_rel(before, after)\nprint(\"Paired comparison (before vs after):\")\nprint(f\"  Wilcoxon: stat={stat_w:.1f}, p={p_w:.4f}\")\nprint(f\"  t-test:   stat={stat_t:.3f}, p={p_t:.4f}\")\n\n# Mann-Whitney U: non-parametric two-sample test\ngroup1 = np.random.exponential(3.0, 40)\ngroup2 = np.random.exponential(4.5, 40)\n\nu_stat, p_u = stats.mannwhitneyu(group1, group2, alternative=\'two-sided\')\nt_stat, p_t2 = stats.ttest_ind(group1, group2)\nprint(f\"\\nTwo-group comparison:\")\nprint(f\"  Mann-Whitney: U={u_stat:.1f}, p={p_u:.4f}\")\nprint(f\"  t-test:       t={t_stat:.3f}, p={p_t2:.4f}\")\n\n# Effect size r = Z / sqrt(N) for Mann-Whitney\nn1, n2 = len(group1), len(group2)\nz = stats.norm.ppf(p_u/2)  # approximate z\nr_effect = abs(z) / np.sqrt(n1+n2)\nprint(f\"  Effect size r: {r_effect:.3f}\")"},
         {"label": "Kolmogorov-Smirnov and Anderson-Darling tests", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(0)\n\n# One-sample KS: does data come from a specified distribution?\ndata_normal = np.random.normal(0, 1, 100)\ndata_exp    = np.random.exponential(1, 100)\n\nfor name, data in [(\'Normal\', data_normal), (\'Exponential\', data_exp)]:\n    ks_n, p_n = stats.kstest(data, \'norm\', args=(data.mean(), data.std()))\n    ks_e, p_e = stats.kstest(data, \'expon\', args=(0, 1/data.mean()))\n    print(f\"{name}: KS vs Normal p={p_n:.4f}, KS vs Expon p={p_e:.4f}\")\n\n# Two-sample KS: do two samples come from the same distribution?\nsample_a = np.random.normal(0, 1, 100)\nsample_b = np.random.normal(0.5, 1, 100)  # slightly shifted\nks2, p2 = stats.ks_2samp(sample_a, sample_b)\nprint(f\"\\n2-sample KS: stat={ks2:.4f}, p={p2:.4f}\")\n\n# Anderson-Darling (more powerful than KS for normal testing)\nresult = stats.anderson(data_normal, dist=\'norm\')\nprint(f\"\\nAnderson-Darling statistic: {result.statistic:.4f}\")\nfor sl, cv in zip(result.significance_level, result.critical_values):\n    print(f\"  {sl}% significance level: crit={cv:.4f}, reject={result.statistic > cv}\")"}
     ],
+"todos": [
+    "Test normality on normal, exponential, and uniform samples with Shapiro-Wilk",
+    "Use Mann-Whitney U to compare two exponentially distributed groups",
+    "Run Wilcoxon signed-rank test on paired before/after data and compare to paired t-test",
+    "Apply the two-sample KS test to check if two samples share the same distribution",
+    "Write a compare_groups(a, b) function that automatically picks parametric vs non-parametric test",
+],
 "rw_scenario": "A clinical researcher compares pain scores (skewed, ordinal 1-10) between a drug and control group. Shapiro-Wilk confirms non-normality, so Mann-Whitney U is used instead of a t-test.",
 "rw_code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(42)\n# Pain scores: skewed, bounded 1-10\ndrug_scores    = np.clip(np.random.exponential(2.5, 40) + 1, 1, 10).round()\ncontrol_scores = np.clip(np.random.exponential(4.0, 40) + 1, 1, 10).round()\n\n# Test normality first\n_, p_drug = stats.shapiro(drug_scores)\n_, p_ctrl = stats.shapiro(control_scores)\nprint(f\"Shapiro p-values: drug={p_drug:.4f}, control={p_ctrl:.4f}\")\nprint(f\"Use non-parametric: {p_drug < 0.05 or p_ctrl < 0.05}\")\n\n# Mann-Whitney U\nu, p = stats.mannwhitneyu(drug_scores, control_scores, alternative=\'less\')\nprint(f\"Mann-Whitney: U={u:.1f}, p={p:.4f}\")\nprint(f\"Drug reduces pain? {p < 0.05}\")\nprint(f\"Median drug={np.median(drug_scores):.1f}, control={np.median(control_scores):.1f}\")",
 "practice": {

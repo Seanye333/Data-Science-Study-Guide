@@ -3,24 +3,8 @@
 <title>MLOps & Model Deployment Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#f78166}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#f78166}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Saving &amp; Loading Models</a></li>
@@ -183,7 +167,10 @@ X, y = load_iris(return_X_y=True)
 reg = ModelRegistry()
 m = LogisticRegression(max_iter=200).fit(X, y)
 reg.save(m, &#x27;v1&#x27;, m.score(X, y))
-print(reg.list_versions())</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. FastAPI Model Serving</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Wrap ML models in REST APIs using FastAPI. Serve predictions, handle requests, add input validation with Pydantic, and test endpoints.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI prediction endpoint</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python"># Save this as app.py and run: uvicorn app:app --reload
+print(reg.list_versions())</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a trained model with joblib and reload it to verify predictions match.</label></li>
+<li><label><input type="checkbox"> Create a versioned model registry that stores model files and metadata JSON side-by-side.</label></li>
+<li><label><input type="checkbox"> Compare joblib, pickle, and PyTorch state_dict formats for size and load speed.</label></li>
+<li><label><input type="checkbox"> Add a checksum field to your metadata so you can detect corrupted model files.</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. FastAPI Model Serving</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Wrap ML models in REST APIs using FastAPI. Serve predictions, handle requests, add input validation with Pydantic, and test endpoints.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI prediction endpoint</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python"># Save this as app.py and run: uvicorn app:app --reload
 # pip install fastapi uvicorn scikit-learn joblib
 
 APP_CODE = &#x27;&#x27;&#x27;
@@ -335,7 +322,10 @@ class TextRequest(BaseModel):
 # TODO: POST /analyze -&gt; return label + compound score
 # TODO: GET /health -&gt; return {&#x27;status&#x27;: &#x27;ok&#x27;}
 &#x27;&#x27;&#x27;
-print(SENTIMENT_API)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Experiment Tracking with MLflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Track experiments, log parameters and metrics, compare runs, and register models for deployment using MLflow.</p><div class="code-block"><div class="ch"><span>Log a training run with MLflow</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">try:
+print(SENTIMENT_API)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a POST /predict endpoint that accepts JSON and returns a prediction.</label></li>
+<li><label><input type="checkbox"> Add Pydantic field validators to reject out-of-range input values.</label></li>
+<li><label><input type="checkbox"> Test your endpoint using the requests library or curl with sample payloads.</label></li>
+<li><label><input type="checkbox"> Add a try/except block that returns a 422 error with a descriptive message on bad input.</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Experiment Tracking with MLflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Track experiments, log parameters and metrics, compare runs, and register models for deployment using MLflow.</p><div class="code-block"><div class="ch"><span>Log a training run with MLflow</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">try:
     import mlflow
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.datasets import load_iris
@@ -483,7 +473,10 @@ except ImportError:
     # TODO: print winner
 
 except ImportError:
-    print(&#x27;pip install mlflow&#x27;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Docker for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Package ML models and APIs in Docker containers for reproducible, portable deployment. Learn Dockerfiles, image building, and running containers.</p><div class="code-block"><div class="ch"><span>Minimal Dockerfile for a FastAPI ML app</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">DOCKERFILE = &#x27;&#x27;&#x27;
+    print(&#x27;pip install mlflow&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Log parameters, metrics, and a model artifact in a single MLflow run.</label></li>
+<li><label><input type="checkbox"> Compare three different classifiers on the same dataset using MLflow runs.</label></li>
+<li><label><input type="checkbox"> Register the best run&#x27;s model in the MLflow Model Registry.</label></li>
+<li><label><input type="checkbox"> Load a registered model by name and stage, then run predictions.</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Docker for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Package ML models and APIs in Docker containers for reproducible, portable deployment. Learn Dockerfiles, image building, and running containers.</p><div class="code-block"><div class="ch"><span>Minimal Dockerfile for a FastAPI ML app</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">DOCKERFILE = &#x27;&#x27;&#x27;
 # Dockerfile
 FROM python:3.11-slim
 
@@ -639,7 +632,10 @@ dockerfile = generate_dockerfile(
     python_version=&#x27;3.11&#x27;,
     entrypoint=&#x27;uvicorn app:app --host 0.0.0.0 --port 8000&#x27;
 )
-print(dockerfile)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Model Monitoring &amp; Data Drift</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Monitor deployed models for performance degradation and data drift. Detect distribution shifts between training and production data.</p><div class="code-block"><div class="ch"><span>Monitoring prediction distribution over time</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
+print(dockerfile)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a Dockerfile for a FastAPI ML app with a requirements.txt and model file.</label></li>
+<li><label><input type="checkbox"> Build the Docker image locally and run it as a container.</label></li>
+<li><label><input type="checkbox"> Test the containerised API endpoint with curl or the requests library.</label></li>
+<li><label><input type="checkbox"> Add a HEALTHCHECK instruction to your Dockerfile and verify it passes.</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Model Monitoring &amp; Data Drift</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Monitor deployed models for performance degradation and data drift. Detect distribution shifts between training and production data.</p><div class="code-block"><div class="ch"><span>Monitoring prediction distribution over time</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -783,7 +779,10 @@ prod  = {&#x27;age&#x27;: np.random.normal(45, 12, 500),   # drifted
          &#x27;score&#x27;: np.random.beta(5, 2, 500)}      # drifted
 
 # TODO: compute PSI for each feature
-# TODO: print table: feature | PSI | stability label</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model training, testing, and deployment with CI/CD. Learn to write GitHub Actions workflows and automated model validation.</p><div class="code-block"><div class="ch"><span>Automated model validation script</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.ensemble import RandomForestClassifier
+# TODO: print table: feature | PSI | stability label</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Calculate PSI and KS-test drift scores for at least three simulated features.</label></li>
+<li><label><input type="checkbox"> Set up threshold-based alerting that prints a warning when PSI exceeds 0.25.</label></li>
+<li><label><input type="checkbox"> Track weekly prediction score distributions and plot the drift over time.</label></li>
+<li><label><input type="checkbox"> Build a simple drift dashboard that shows a pass/fail table for each feature.</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model training, testing, and deployment with CI/CD. Learn to write GitHub Actions workflows and automated model validation.</p><div class="code-block"><div class="ch"><span>Automated model validation script</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import cross_val_score
 import numpy as np, sys
@@ -947,7 +946,10 @@ def validate(model_path: str):
     # TODO: sys.exit(1) if below thresholds
     pass
 
-validate(&#x27;iris_rf.joblib&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Feature Stores &amp; Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build reproducible feature engineering pipelines. Use sklearn Pipeline, ColumnTransformer, and custom transformers for production-ready preprocessing.</p><div class="code-block"><div class="ch"><span>ColumnTransformer for mixed data</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
+validate(&#x27;iris_rf.joblib&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a validate.py script that loads a saved model and exits with code 1 if accuracy is below threshold.</label></li>
+<li><label><input type="checkbox"> Automate model testing by calling your validate script from a Makefile target.</label></li>
+<li><label><input type="checkbox"> Add a performance threshold check that fails if the new model is worse than the previous one.</label></li>
+<li><label><input type="checkbox"> Simulate a CI run by chaining train → validate → save in a single shell command.</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Feature Stores &amp; Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build reproducible feature engineering pipelines. Use sklearn Pipeline, ColumnTransformer, and custom transformers for production-ready preprocessing.</p><div class="code-block"><div class="ch"><span>ColumnTransformer for mixed data</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
@@ -1108,7 +1110,10 @@ data = pd.DataFrame({
 # TODO: combine with ColumnTransformer
 # TODO: fit_transform data
 # TODO: save and reload with joblib
-# TODO: print transformed shape</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. A/B Testing for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Safely roll out new models by running controlled experiments. Compare champion vs challenger using statistical tests to decide which to promote.</p><div class="code-block"><div class="ch"><span>Traffic splitting for A/B model serving</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
+# TODO: print transformed shape</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a ColumnTransformer pipeline that handles both numeric and categorical columns.</label></li>
+<li><label><input type="checkbox"> Add a custom feature-engineering step as a sklearn-compatible transformer.</label></li>
+<li><label><input type="checkbox"> Save the fitted pipeline with joblib and reload it to confirm predictions are identical.</label></li>
+<li><label><input type="checkbox"> Test the pipeline on a DataFrame with missing values to ensure imputation works correctly.</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. A/B Testing for ML Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Safely roll out new models by running controlled experiments. Compare champion vs challenger using statistical tests to decide which to promote.</p><div class="code-block"><div class="ch"><span>Traffic splitting for A/B model serving</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import numpy as np
 from dataclasses import dataclass
 from typing import Any
 
@@ -1251,7 +1256,10 @@ def analyze_ab_test(a_outcomes, b_outcomes, alpha=0.05):
     # TODO: print results and promote/keep decision
     pass
 
-analyze_ab_test(model_a, model_b)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Model Explainability</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make black-box models interpretable. Use SHAP values, permutation importance, and LIME to explain individual predictions and global feature importance.</p><div class="code-block"><div class="ch"><span>Permutation feature importance</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
+analyze_ab_test(model_a, model_b)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a traffic split that routes 10% of requests to a challenger model.</label></li>
+<li><label><input type="checkbox"> Track conversion rates for both model variants and store them per time window.</label></li>
+<li><label><input type="checkbox"> Run a chi-squared or t-test to determine if the difference is statistically significant.</label></li>
+<li><label><input type="checkbox"> Implement a rollback mechanism that switches all traffic back to the champion model.</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Model Explainability</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make black-box models interpretable. Use SHAP values, permutation importance, and LIME to explain individual predictions and global feature importance.</p><div class="code-block"><div class="ch"><span>Permutation feature importance</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
@@ -1391,7 +1399,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 # TODO: train GradientBoostingClassifier
 # TODO: compute permutation_importance on X_test
 # TODO: create DataFrame with feature, importance, std
-# TODO: sort by importance descending and print</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. End-to-End ML Project Structure</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Organize a full ML project with proper structure, configuration management, reproducible training scripts, and a deployment-ready layout.</p><div class="code-block"><div class="ch"><span>Standard ML project layout</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">PROJECT_STRUCTURE = &#x27;&#x27;&#x27;
+# TODO: sort by importance descending and print</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute SHAP values for a tree-based model and print the top 5 contributing features.</label></li>
+<li><label><input type="checkbox"> Generate a permutation importance table with mean importance and standard deviation.</label></li>
+<li><label><input type="checkbox"> Create a force plot or waterfall explanation for a single prediction.</label></li>
+<li><label><input type="checkbox"> Write an explanation report function that summarises feature impacts in plain text.</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. End-to-End ML Project Structure</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Organize a full ML project with proper structure, configuration management, reproducible training scripts, and a deployment-ready layout.</p><div class="code-block"><div class="ch"><span>Standard ML project layout</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">PROJECT_STRUCTURE = &#x27;&#x27;&#x27;
 ml_project/
 ├── data/
 │   ├── raw/          # Original, immutable data
@@ -1553,7 +1564,10 @@ def scaffold_ml_project(name: str):
     # TODO: write all files and print the directory tree
     pass
 
-scaffold_ml_project(&#x27;demo_project&#x27;)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Model Compression &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce model size and latency through quantization, pruning, knowledge distillation, and ONNX export for production deployment.</p><div class="code-block"><div class="ch"><span>Post-training quantization concept</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
+scaffold_ml_project(&#x27;demo_project&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Scaffold a full ML project directory with src/, tests/, data/, models/, and api/ folders.</label></li>
+<li><label><input type="checkbox"> Set up a config.yaml or .env file and load it consistently in train.py and serve.py.</label></li>
+<li><label><input type="checkbox"> Add structured logging with timestamps and log levels to your training script.</label></li>
+<li><label><input type="checkbox"> Create a reproducible pipeline by seeding all random state and logging the seed to metadata.</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Model Compression &amp; Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce model size and latency through quantization, pruning, knowledge distillation, and ONNX export for production deployment.</p><div class="code-block"><div class="ch"><span>Post-training quantization concept</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import numpy as np
 
 # Simulate 32-bit float weights -&gt; 8-bit integer quantization
 np.random.seed(42)
@@ -1711,7 +1725,10 @@ for bits in [4, 8, 16]:
     recovered, compression = quantize(W, bits)
     # TODO: print bits, compression ratio, MAE, max error
     pass
-</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Feature Stores &amp; Data Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Design and implement feature stores, data versioning, and reproducible pipelines for consistent feature serving between training and inference.</p><div class="code-block"><div class="ch"><span>In-memory feature store implementation</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Quantize a float32 weight matrix to int8 and measure the mean absolute reconstruction error.</label></li>
+<li><label><input type="checkbox"> Benchmark inference speed before and after quantization on a 256x256 matrix.</label></li>
+<li><label><input type="checkbox"> Compare model accuracy vs compressed size at 4-bit, 8-bit, and 16-bit quantization.</label></li>
+<li><label><input type="checkbox"> Implement knowledge distillation: train a small student model on the teacher&#x27;s soft labels.</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Feature Stores &amp; Data Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Design and implement feature stores, data versioning, and reproducible pipelines for consistent feature serving between training and inference.</p><div class="code-block"><div class="ch"><span>In-memory feature store implementation</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
 import numpy as np
 from datetime import datetime
 from typing import List
@@ -1910,7 +1927,10 @@ serve = pd.DataFrame({&#x27;age&#x27;: np.random.normal(30,8,200),  &#x27;salary
 store = MonitoredFeatureStore()
 store.fit(train)
 print(store.validate(serve))
-</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. AutoML &amp; Hyperparameter Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model selection and hyperparameter tuning using grid search, random search, Bayesian optimization (Optuna), and automated feature engineering.</p><div class="code-block"><div class="ch"><span>Grid search vs random search comparison</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build an ETL pipeline that ingests raw data, drops duplicates, and stores the result with a version hash.</label></li>
+<li><label><input type="checkbox"> Add schema validation that checks column dtypes and raises an error on unexpected types.</label></li>
+<li><label><input type="checkbox"> Schedule a feature computation job that regenerates aggregated features on a fixed interval.</label></li>
+<li><label><input type="checkbox"> Detect train/serve skew by comparing stored training statistics against live serving data.</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. AutoML &amp; Hyperparameter Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model selection and hyperparameter tuning using grid search, random search, Bayesian optimization (Optuna), and automated feature engineering.</p><div class="code-block"><div class="ch"><span>Grid search vs random search comparison</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
@@ -2087,7 +2107,10 @@ study = optuna.create_study(direction=&#x27;maximize&#x27;)
 study.optimize(objective, n_trials=20)
 print(&#x27;Best AUC:&#x27;, study.best_value)
 print(&#x27;Best params:&#x27;, study.best_params)
-</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Model Monitoring &amp; Data Drift Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Data Drift Detection with Population Stability Index</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run an Optuna study with 20 trials over n_estimators and max_depth for a RandomForest.</label></li>
+<li><label><input type="checkbox"> Visualise parameter importance from your Optuna study using a bar chart.</label></li>
+<li><label><input type="checkbox"> Compare the best trial&#x27;s score against a grid search baseline on the same dataset.</label></li>
+<li><label><input type="checkbox"> Add early pruning to your Optuna objective so bad trials are stopped early.</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Model Monitoring &amp; Data Drift Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Data Drift Detection with Population Stability Index</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
 def psi(expected, actual, n_bins=10):
     # Population Stability Index between two distributions.
     bins = np.percentile(expected, np.linspace(0, 100, n_bins+1))
@@ -2189,7 +2212,10 @@ features = {
 # TODO: Compute PSI and KS-test p-value for each feature each week
 # TODO: Flag weeks where total PSI &gt; 0.5
 # TODO: Print formatted weekly report table
-</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Feature Stores &amp; Data Engineering Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Feature Store Simulation with Feast-like API</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a KS test that compares each feature&#x27;s training vs production distribution and flags drift.</label></li>
+<li><label><input type="checkbox"> Detect covariate shift by checking if a classifier can separate training data from production data.</label></li>
+<li><label><input type="checkbox"> Build a weekly drift report that shows PSI and KS p-value for every monitored feature.</label></li>
+<li><label><input type="checkbox"> Set up an alert that sends a warning message when any feature&#x27;s PSI exceeds 0.25.</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Feature Stores &amp; Data Engineering Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Feature Store Simulation with Feast-like API</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 np.random.seed(42)
@@ -2325,7 +2351,10 @@ raw = pd.DataFrame({
 # TODO: Cleaning steps (impute/drop nulls, fix dtypes, filter invalid segments)
 # TODO: Log each step with before/after row counts
 # TODO: Output data quality report DataFrame
-</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. A/B Testing &amp; Canary Deployments for ML</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>A/B Test Significance Calculator</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Validate incoming DataFrame schema by checking column names, dtypes, and value ranges.</label></li>
+<li><label><input type="checkbox"> Compute aggregated features (rolling mean, counts per entity) and store them in a feature table.</label></li>
+<li><label><input type="checkbox"> Write a scheduled feature computation function that recomputes features and logs a version hash.</label></li>
+<li><label><input type="checkbox"> Serve features for online inference by looking up the latest values from the feature store by entity ID.</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. A/B Testing &amp; Canary Deployments for ML</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>A/B Test Significance Calculator</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
 from scipy import stats
 def ab_test(control_conv, control_n, treat_conv, treat_n, alpha=0.05):
     # Two-proportion z-test for A/B testing.
@@ -2448,7 +2477,10 @@ def assign(user_id):
 # TODO: Daily significance check with two-proportion z-test
 # TODO: Auto-declare winner when p&lt;0.05 and n&gt;=500/arm
 # TODO: Log results to DataFrame with columns: day, n_control, n_treat, p_value, winner
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. MLflow Experiment Tracking</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">MLflow provides a unified platform to log parameters, metrics, and artifacts across ML experiments for reproducibility and comparison.</p><div class="code-block"><div class="ch"><span>Basic MLflow Logging</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import mlflow
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement hash-based deterministic traffic routing so each user always gets the same variant.</label></li>
+<li><label><input type="checkbox"> Track conversion rate and revenue per variant across multiple simulated time windows.</label></li>
+<li><label><input type="checkbox"> Run a two-proportion z-test after each day and store the p-value in a results DataFrame.</label></li>
+<li><label><input type="checkbox"> Implement automatic rollback logic that reverts to the control if the canary error rate spikes.</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. MLflow Experiment Tracking</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">MLflow provides a unified platform to log parameters, metrics, and artifacts across ML experiments for reproducibility and comparison.</p><div class="code-block"><div class="ch"><span>Basic MLflow Logging</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
@@ -2532,7 +2564,10 @@ with mlflow.start_run():
     mlflow.log_param(&quot;learning_rate&quot;, 0.01)
     mlflow.log_metric(&quot;loss&quot;, 0.25)
     print(&quot;Logged!&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Data Versioning with DVC</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">DVC (Data Version Control) tracks datasets and model files alongside Git, enabling reproducible ML pipelines and dataset sharing.</p><div class="code-block"><div class="ch"><span>DVC Pipeline Setup</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python"># DVC workflow (run in terminal, shown as subprocess here)
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Log an experiment run that records params, metrics, and a model artifact in one mlflow.start_run() block.</label></li>
+<li><label><input type="checkbox"> Use mlflow.search_runs() to compare accuracy across multiple runs and print the best run ID.</label></li>
+<li><label><input type="checkbox"> Register the best run&#x27;s model in the MLflow Model Registry using registered_model_name.</label></li>
+<li><label><input type="checkbox"> Load the registered model by name and version, then run predictions to confirm it works.</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Data Versioning with DVC</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">DVC (Data Version Control) tracks datasets and model files alongside Git, enabling reproducible ML pipelines and dataset sharing.</p><div class="code-block"><div class="ch"><span>DVC Pipeline Setup</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python"># DVC workflow (run in terminal, shown as subprocess here)
 import subprocess, os
 
 # Initialize DVC in a git repo
@@ -2657,7 +2692,10 @@ print(json.dumps(pipeline_state, indent=2))
 df = pd.DataFrame({&quot;x&quot;: np.random.randn(100), &quot;y&quot;: np.random.randint(0,2,100)})
 h = hashlib.md5(pd.util.hash_pandas_object(df).values).hexdigest()
 print(f&quot;Dataset hash: {h}, rows: {len(df)}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Model Registry &amp; Lifecycle Management</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A model registry tracks model versions, manages stage transitions (Staging → Production), and provides a central hub for model governance.</p><div class="code-block"><div class="ch"><span>MLflow Model Registry</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import mlflow
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Initialize DVC in a git repo and track a CSV dataset file to create a .dvc pointer file.</label></li>
+<li><label><input type="checkbox"> Record a dataset version by computing and storing its MD5 hash alongside metadata.</label></li>
+<li><label><input type="checkbox"> Create a two-stage DVC pipeline (prepare → train) where changing input data reruns downstream stages.</label></li>
+<li><label><input type="checkbox"> Push tracked data to a remote storage location and pull it back to verify the round trip.</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Model Registry &amp; Lifecycle Management</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A model registry tracks model versions, manages stage transitions (Staging → Production), and provides a central hub for model governance.</p><div class="code-block"><div class="ch"><span>MLflow Model Registry</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
@@ -2760,7 +2798,10 @@ with mlflow.start_run():
     m = DummyClassifier().fit(X, y)
     mlflow.sklearn.log_model(m, &quot;model&quot;, registered_model_name=&quot;DummyModel&quot;)
 print(&quot;Registered!&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Containerizing ML Models with Docker</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Docker packages ML models with all dependencies into portable containers, ensuring consistent environments from development to production.</p><div class="code-block"><div class="ch"><span>Dockerfile for ML Model</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python"># Example Dockerfile for a scikit-learn model API
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Register a trained model with MLflow using registered_model_name and confirm it appears in the UI.</label></li>
+<li><label><input type="checkbox"> Transition the model version from None to Staging using MlflowClient.transition_model_version_stage.</label></li>
+<li><label><input type="checkbox"> Load the Staging model by name and stage, run predictions, then promote it to Production.</label></li>
+<li><label><input type="checkbox"> Archive an old Production version and verify it is no longer returned as the latest active version.</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Containerizing ML Models with Docker</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Docker packages ML models with all dependencies into portable containers, ensuring consistent environments from development to production.</p><div class="code-block"><div class="ch"><span>Dockerfile for ML Model</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python"># Example Dockerfile for a scikit-learn model API
 dockerfile_lines = [
     &quot;FROM python:3.10-slim&quot;,
     &quot;WORKDIR /app&quot;,
@@ -2874,7 +2915,10 @@ X, y = load_iris(return_X_y=True)
 m = DummyClassifier().fit(X, y)
 with open(&quot;/tmp/model.pkl&quot;, &quot;wb&quot;) as f: pickle.dump(m, f)
 print(json.dumps({&quot;model&quot;: &quot;DummyClassifier&quot;, &quot;port&quot;: 8000}, indent=2))
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. REST API Serving with FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">FastAPI provides a high-performance, async-ready framework for building ML model serving APIs with automatic validation and documentation.</p><div class="code-block"><div class="ch"><span>Basic FastAPI Model Server</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python"># FastAPI ML serving (run with: uvicorn app:app --reload)
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a Dockerfile that copies a trained model file and a FastAPI app into a slim Python image.</label></li>
+<li><label><input type="checkbox"> Add a HEALTHCHECK instruction and verify it passes after docker run.</label></li>
+<li><label><input type="checkbox"> Build the image, run the container, and call the /predict endpoint with curl.</label></li>
+<li><label><input type="checkbox"> Push the built image to Docker Hub or a local registry and pull it on a different machine.</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. REST API Serving with FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">FastAPI provides a high-performance, async-ready framework for building ML model serving APIs with automatic validation and documentation.</p><div class="code-block"><div class="ch"><span>Basic FastAPI Model Server</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python"># FastAPI ML serving (run with: uvicorn app:app --reload)
 # app.py structure:
 fastapi_lines = [
     &quot;from fastapi import FastAPI&quot;,
@@ -3007,7 +3051,10 @@ def predict(features):
     pred = model.predict([features])
     return {&quot;prediction&quot;: int(pred[0])}
 print(predict([5.1, 3.5, 1.4, 0.2]))
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Model Monitoring &amp; Drift Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Production ML models degrade over time due to data drift and concept drift. Monitoring detects these shifts before they cause silent failures.</p><div class="code-block"><div class="ch"><span>Statistical Drift Detection</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define Pydantic request and response schemas with field-level validators for your prediction endpoint.</label></li>
+<li><label><input type="checkbox"> Add input validation that rejects payloads with the wrong number of features and returns a 422 error.</label></li>
+<li><label><input type="checkbox"> Implement a global exception handler that returns a structured JSON error for unexpected failures.</label></li>
+<li><label><input type="checkbox"> Write an integration test using the requests library that calls /predict and /health and asserts correct responses.</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Model Monitoring &amp; Drift Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Production ML models degrade over time due to data drift and concept drift. Monitoring detects these shifts before they cause silent failures.</p><div class="code-block"><div class="ch"><span>Statistical Drift Detection</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np
 import pandas as pd
 from scipy import stats
 from sklearn.datasets import load_iris
@@ -3127,7 +3174,10 @@ ref = np.random.normal(0, 1, 1000)
 prod = np.random.normal(0.5, 1, 1000)  # drifted
 stat, p = stats.ks_2samp(ref, prod)
 print(f&quot;KS stat={stat:.4f}, p={p:.4f}, drift={&#x27;YES&#x27; if p&lt;0.05 else &#x27;NO&#x27;}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CI/CD for ML automates testing, validation, and deployment of models, ensuring quality gates before any model reaches production.</p><div class="code-block"><div class="ch"><span>GitHub Actions ML Pipeline</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python"># .github/workflows/ml_pipeline.yml structure
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement PSI drift detection and flag features with PSI &gt; 0.25 as critical.</label></li>
+<li><label><input type="checkbox"> Monitor rolling prediction score distributions and alert when the weekly mean shifts by more than 10%.</label></li>
+<li><label><input type="checkbox"> Set accuracy degradation thresholds so a 5% drop triggers a retraining alert.</label></li>
+<li><label><input type="checkbox"> Build a monitoring loop that checks for drift on every new production batch and logs results.</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CI/CD for ML automates testing, validation, and deployment of models, ensuring quality gates before any model reaches production.</p><div class="code-block"><div class="ch"><span>GitHub Actions ML Pipeline</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python"># .github/workflows/ml_pipeline.yml structure
 yaml_lines = [
     &quot;name: ML Pipeline CI/CD&quot;,
     &quot;on:&quot;,
@@ -3237,7 +3287,10 @@ m = DummyClassifier().fit(X_train, y_train)
 acc = m.score(X_test, y_test)
 passed = acc &gt;= 0.30
 print(f&quot;Accuracy={acc:.4f}, gate={&#x27;PASSED&#x27; if passed else &#x27;FAILED&#x27;}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Feature Stores &amp; ML Platforms</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Feature stores centralize, version, and serve ML features consistently across training and serving, eliminating training-serving skew.</p><div class="code-block"><div class="ch"><span>Feature Store with Feast</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python"># Feature store concepts using pandas (Feast-like workflow)
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a pytest quality gate that trains a model and fails if accuracy drops below 0.90.</label></li>
+<li><label><input type="checkbox"> Add the quality gate script to a GitHub Actions workflow triggered on every push to main.</label></li>
+<li><label><input type="checkbox"> Implement a regression check that compares the new model score against the previously saved best score.</label></li>
+<li><label><input type="checkbox"> Create a CI step that saves model metrics to a JSON file and archives it as a workflow artifact.</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Feature Stores &amp; ML Platforms</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Feature stores centralize, version, and serve ML features consistently across training and serving, eliminating training-serving skew.</p><div class="code-block"><div class="ch"><span>Feature Store with Feast</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python"># Feature store concepts using pandas (Feast-like workflow)
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
@@ -3422,7 +3475,10 @@ pipe = Pipeline([(&quot;eng&quot;, FunctionTransformer(add_feat)), (&quot;sc&quo
 X = np.random.randn(100, 3); y = np.random.randint(0, 2, 100)
 pipe.fit(X, y)
 print(&quot;Pipeline works:&quot;, pipe.predict(X[:3]))
-</code></pre></div></div></div></div></main>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a feature pipeline that computes aggregated features and writes them to a versioned store.</label></li>
+<li><label><input type="checkbox"> Schedule hourly feature computation and verify that the latest features are always up to date.</label></li>
+<li><label><input type="checkbox"> Serve features for online inference by looking up the most recent values per entity in under 10ms.</label></li>
+<li><label><input type="checkbox"> Detect and log train/serve skew by comparing stored training stats against live serving feature values.</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

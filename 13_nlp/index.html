@@ -3,24 +3,8 @@
 <title>NLP & Text Processing Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#a371f7}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#a371f7}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
@@ -144,7 +128,11 @@ def clean_email(text: str) -&gt; str:
     # TODO: Collapse blank lines
     pass
 
-print(clean_email(email))</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Tokenization &amp; Stopword Removal</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tokenization splits text into meaningful units. Stopword removal filters common words that carry little semantic weight.</p><div class="code-block"><div class="ch"><span>Word and sentence tokenization with NLTK</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import nltk
+print(clean_email(email))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Lowercase a string and strip HTML tags using re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27;&#x27;, text)</label></li>
+<li><label><input type="checkbox"> Remove URLs, @mentions, and hashtags from a tweet using three separate regex patterns</label></li>
+<li><label><input type="checkbox"> Apply unicode normalization to strip accent characters from foreign text</label></li>
+<li><label><input type="checkbox"> Build a text cleaning pipeline as a list of lambda functions applied sequentially</label></li>
+<li><label><input type="checkbox"> Compare cleaned vs uncleaned text token counts and report reduction percentage</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Tokenization &amp; Stopword Removal</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tokenization splits text into meaningful units. Stopword removal filters common words that carry little semantic weight.</p><div class="code-block"><div class="ch"><span>Word and sentence tokenization with NLTK</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import nltk
 nltk.download(&#x27;punkt&#x27;, quiet=True)
 nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
 from nltk.tokenize import word_tokenize, sent_tokenize
@@ -226,7 +214,11 @@ reviews = [
     &#x27;Order arrived late but item was in perfect condition&#x27;,
 ]
 for r in reviews:
-    print(filter_tokens(r))</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Stemming &amp; Lemmatization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce words to their base forms. Stemming is fast but crude (running→run). Lemmatization is linguistically accurate (better→good).</p><div class="code-block"><div class="ch"><span>Porter stemmer with NLTK</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import nltk
+    print(filter_tokens(r))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize a paragraph using both word_tokenize and sent_tokenize — compare output</label></li>
+<li><label><input type="checkbox"> Remove stopwords from a sentence and count how many words remain</label></li>
+<li><label><input type="checkbox"> Apply stemming vs lemmatization to the same words and compare the results</label></li>
+<li><label><input type="checkbox"> Tokenize a tweet with hashtags/emojis — note how standard tokenizers handle it</label></li>
+<li><label><input type="checkbox"> Build a simple word frequency counter using Counter on tokenized text</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Stemming &amp; Lemmatization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Reduce words to their base forms. Stemming is fast but crude (running→run). Lemmatization is linguistically accurate (better→good).</p><div class="code-block"><div class="ch"><span>Porter stemmer with NLTK</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import nltk
 from nltk.stem import PorterStemmer, SnowballStemmer
 
 porter = PorterStemmer()
@@ -318,7 +310,11 @@ def normalize_query(query: str) -&gt; list:
 
 queries = [&#x27;running shoes&#x27;, &#x27;buying products&#x27;, &#x27;managed accounts&#x27;]
 for q in queries:
-    print(q, &#x27;-&gt;&#x27;, normalize_query(q))</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text — essential for information extraction.</p><div class="code-block"><div class="ch"><span>NER with spaCy</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">try:
+    print(q, &#x27;-&gt;&#x27;, normalize_query(q))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply PorterStemmer to a list of words and print stem vs original side-by-side</label></li>
+<li><label><input type="checkbox"> Use WordNetLemmatizer with POS=&#x27;v&#x27; on verbs and POS=&#x27;n&#x27; on nouns — compare outputs</label></li>
+<li><label><input type="checkbox"> Try lemmatizing &#x27;better&#x27; as adjective (&#x27;a&#x27;) vs verb (&#x27;v&#x27;) and see the difference</label></li>
+<li><label><input type="checkbox"> Use spaCy to lemmatize a full sentence and print token/lemma/POS for each token</label></li>
+<li><label><input type="checkbox"> Compare stemmer vs lemmatizer on the words: &#x27;wolves&#x27;, &#x27;studies&#x27;, &#x27;corpora&#x27;, &#x27;better&#x27;</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text — essential for information extraction.</p><div class="code-block"><div class="ch"><span>NER with spaCy</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">try:
     import spacy
     nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
 
@@ -414,7 +410,11 @@ def top_entities(texts, n=5):
     # TODO: count frequencies, return top n
     pass
 
-print(top_entities(headlines))</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Sentiment Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Determine whether text expresses positive, negative, or neutral sentiment. Learn rule-based (VADER), ML-based, and transformer approaches.</p><div class="code-block"><div class="ch"><span>VADER sentiment (rule-based)</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import nltk
+print(top_entities(headlines))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run spaCy NER on a news sentence and print each entity&#x27;s text, label, and explanation</label></li>
+<li><label><input type="checkbox"> Use NLTK ne_chunk on a tokenized sentence and extract entity trees</label></li>
+<li><label><input type="checkbox"> Add a custom entity_ruler to spaCy to recognize your own product names</label></li>
+<li><label><input type="checkbox"> Process 5 headlines and count which entity types (ORG, PERSON, GPE) appear most</label></li>
+<li><label><input type="checkbox"> Use displacy.render() to visualize entities in a sentence and save the HTML output</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Sentiment Analysis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Determine whether text expresses positive, negative, or neutral sentiment. Learn rule-based (VADER), ML-based, and transformer approaches.</p><div class="code-block"><div class="ch"><span>VADER sentiment (rule-based)</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import nltk
 nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
@@ -530,7 +530,11 @@ def daily_sentiment(tweets):
     # TODO: label each day as POSITIVE / NEGATIVE / NEUTRAL
     pass
 
-daily_sentiment(tweets)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Text Similarity &amp; Vectorization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Convert text to numerical representations and measure similarity. Covers Bag-of-Words, TF-IDF, cosine similarity, and word embeddings.</p><div class="code-block"><div class="ch"><span>TF-IDF vectorization with sklearn</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+daily_sentiment(tweets)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run VADER on 5 different sentences and compare compound scores</label></li>
+<li><label><input type="checkbox"> Apply TextBlob to compute polarity and subjectivity on a review</label></li>
+<li><label><input type="checkbox"> Use a HuggingFace sentiment pipeline and compare its labels to VADER&#x27;s</label></li>
+<li><label><input type="checkbox"> Build an aspect-based sentiment function for battery/camera/screen in phone reviews</label></li>
+<li><label><input type="checkbox"> Group tweets by date, average their compound scores, and label each day as +/-/neutral</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Text Similarity &amp; Vectorization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Convert text to numerical representations and measure similarity. Covers Bag-of-Words, TF-IDF, cosine similarity, and word embeddings.</p><div class="code-block"><div class="ch"><span>TF-IDF vectorization with sklearn</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
 corpus = [
@@ -642,7 +646,11 @@ def find_answer(question: str) -&gt; str:
     pass
 
 print(find_answer(&#x27;How can I change my password?&#x27;))
-print(find_answer(&#x27;Do you accept credit cards?&#x27;))</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Topic Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Discover hidden thematic structure in document collections. Learn Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF).</p><div class="code-block"><div class="ch"><span>LDA topic modeling with sklearn</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+print(find_answer(&#x27;Do you accept credit cards?&#x27;))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit TF-IDF on a 3-doc corpus and inspect the feature matrix with get_feature_names_out()</label></li>
+<li><label><input type="checkbox"> Compute cosine similarity between two TF-IDF vectors and interpret the score</label></li>
+<li><label><input type="checkbox"> Train Word2Vec with gensim on tokenized sentences and find similar words</label></li>
+<li><label><input type="checkbox"> Use sentence-transformers to encode 3 sentences and compare cosine similarity</label></li>
+<li><label><input type="checkbox"> Build a FAQ matcher that returns the top-3 most similar questions above a threshold</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Topic Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Discover hidden thematic structure in document collections. Learn Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF).</p><div class="code-block"><div class="ch"><span>LDA topic modeling with sklearn</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 import numpy as np
 
@@ -778,7 +786,11 @@ def model_topics(docs, n_topics=3):
     # TODO: CountVectorizer -&gt; LDA -&gt; print top words per topic
     pass
 
-model_topics(feedback)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Text Classification</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Train models to classify text into categories. Covers Naive Bayes, Logistic Regression, and transformer-based fine-tuning pipelines.</p><div class="code-block"><div class="ch"><span>Spam detection with Naive Bayes</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+model_topics(feedback)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit LDA with n_components=3 on a small corpus and print the top 6 words per topic</label></li>
+<li><label><input type="checkbox"> Try NMF instead of LDA on the same corpus and compare topic coherence</label></li>
+<li><label><input type="checkbox"> Iterate k from 2 to 6 and compare LDA perplexity to find the optimal topic count</label></li>
+<li><label><input type="checkbox"> Assign each document to its dominant topic and group documents by topic</label></li>
+<li><label><input type="checkbox"> Manually label each discovered topic with a descriptive name based on top words</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Text Classification</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Train models to classify text into categories. Covers Naive Bayes, Logistic Regression, and transformer-based fine-tuning pipelines.</p><div class="code-block"><div class="ch"><span>Spam detection with Naive Bayes</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -908,7 +920,11 @@ texts, labels = zip(*reviews)
 X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.3, random_state=42)
 
 # TODO: build Pipeline with TfidfVectorizer + LogisticRegression
-# TODO: fit, predict, print classification_report</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Language Models &amp; Transformers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand transformer architecture, use pre-trained BERT/GPT models for embeddings, question answering, and text generation.</p><div class="code-block"><div class="ch"><span>BERT embeddings for semantic search</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">try:
+# TODO: fit, predict, print classification_report</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a Pipeline with TfidfVectorizer + MultinomialNB and print the classification report</label></li>
+<li><label><input type="checkbox"> Try ngram_range=(1,2) in TF-IDF and compare accuracy to unigrams only</label></li>
+<li><label><input type="checkbox"> Use zero-shot classification with transformers for category labels you define at runtime</label></li>
+<li><label><input type="checkbox"> Inspect LogisticRegression coefficients to find the most predictive words per class</label></li>
+<li><label><input type="checkbox"> Run cross_val_score with cv=5 on a TF-IDF + LogReg pipeline and report mean accuracy</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Language Models &amp; Transformers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand transformer architecture, use pre-trained BERT/GPT models for embeddings, question answering, and text generation.</p><div class="code-block"><div class="ch"><span>BERT embeddings for semantic search</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">try:
     from transformers import AutoTokenizer, AutoModel
     import torch
     import torch.nn.functional as F
@@ -1037,7 +1053,11 @@ except ImportError:
     # TODO: print original word count vs summary word count
 
 except ImportError:
-    print(&#x27;pip install transformers torch&#x27;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. NLP Pipeline &amp; Production</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Combine NLP components into production-ready pipelines. Learn batching, caching, serving NLP models via API, and evaluation metrics.</p><div class="code-block"><div class="ch"><span>End-to-end spaCy text analysis pipeline</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">try:
+    print(&#x27;pip install transformers torch&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Get BERT [CLS] token embeddings for two sentences and compute cosine similarity</label></li>
+<li><label><input type="checkbox"> Use the transformers QA pipeline with a context and 3 different questions</label></li>
+<li><label><input type="checkbox"> Run GPT-2 text generation with temperature=0.5 and temperature=1.2 — compare outputs</label></li>
+<li><label><input type="checkbox"> Encode a sentence with AutoTokenizer and inspect the token IDs and attention mask</label></li>
+<li><label><input type="checkbox"> Use the BART summarization pipeline and compare output length vs original word count</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. NLP Pipeline &amp; Production</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Combine NLP components into production-ready pipelines. Learn batching, caching, serving NLP models via API, and evaluation metrics.</p><div class="code-block"><div class="ch"><span>End-to-end spaCy text analysis pipeline</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">try:
     import spacy
     from collections import Counter
     nlp = spacy.load(&#x27;en_core_web_sm&#x27;)
@@ -1184,7 +1204,11 @@ def analytics_report(docs: list) -&gt; dict:
     # TODO: return as dict
     pass
 
-print(json.dumps(analytics_report(documents), indent=2))</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Extract structured facts from unstructured text: named entities, relations, events, and key-value pairs using rule-based and model-based approaches.</p><div class="code-block"><div class="ch"><span>Regex-based relation extraction</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import re
+print(json.dumps(analytics_report(documents), indent=2))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build an end-to-end pipeline: clean -&gt; tokenize -&gt; remove stopwords -&gt; TF-IDF vectorize</label></li>
+<li><label><input type="checkbox"> Wrap a TF-IDF + classifier Pipeline in a class with fit() and predict() methods</label></li>
+<li><label><input type="checkbox"> Add input validation: reject empty strings and strings over 10,000 characters</label></li>
+<li><label><input type="checkbox"> Log predictions with timestamp, input length, and confidence score to a list</label></li>
+<li><label><input type="checkbox"> Write a health_report() method returning prediction distribution and error rate</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Extract structured facts from unstructured text: named entities, relations, events, and key-value pairs using rule-based and model-based approaches.</p><div class="code-block"><div class="ch"><span>Regex-based relation extraction</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import re
 
 text = &#x27;&#x27;&#x27;
 Elon Musk founded SpaceX in 2002. Jeff Bezos founded Amazon in 1994.
@@ -1335,7 +1359,11 @@ jane.doe@email.com | +1-555-123-4567
 5 years of experience in data engineering.
 Skills: Python, SQL, Scala, Apache Spark.
 &#x27;&#x27;&#x27;
-print(extract_resume(resume))</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Machine Translation &amp; Seq2Seq</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand encoder-decoder architectures, attention mechanisms, and BLEU scoring. Implement simple character-level and word-level translation concepts.</p><div class="code-block"><div class="ch"><span>BLEU score calculation from scratch</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">from collections import Counter
+print(extract_resume(resume))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses and phone numbers from a text block</label></li>
+<li><label><input type="checkbox"> Write a function that extracts (subject, verb, object) triples using dependency parsing</label></li>
+<li><label><input type="checkbox"> Extract all monetary amounts using a regex pattern like \$[\d,]+</label></li>
+<li><label><input type="checkbox"> Parse structured data from text using event trigger words (e.g., &#x27;acquired&#x27;, &#x27;raised&#x27;)</label></li>
+<li><label><input type="checkbox"> Build a contract metadata extractor for party names, dates, and payment amounts</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Machine Translation &amp; Seq2Seq</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Understand encoder-decoder architectures, attention mechanisms, and BLEU scoring. Implement simple character-level and word-level translation concepts.</p><div class="code-block"><div class="ch"><span>BLEU score calculation from scratch</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">from collections import Counter
 import math
 
 def ngram_counts(tokens, n):
@@ -1496,7 +1524,11 @@ test_pairs = [
     (&#x27;Hello world how are you&#x27;, &#x27;Hi earth what is up&#x27;),
     (&#x27;Data science is exciting&#x27;, &#x27;Data science is fascinating and rewarding&#x27;),
 ]
-evaluate_translations(test_pairs)</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Document Search &amp; RAG</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build retrieval systems using TF-IDF, BM25, and dense vector search. Implement a basic Retrieval-Augmented Generation pipeline combining a retriever with a language model.</p><div class="code-block"><div class="ch"><span>TF-IDF retrieval system</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+evaluate_translations(test_pairs)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use the HuggingFace translation pipeline to translate 3 sentences from English to French</label></li>
+<li><label><input type="checkbox"> Compute BLEU-1 score manually between a reference and hypothesis sentence</label></li>
+<li><label><input type="checkbox"> Compare two translations of the same sentence with BLEU-2 — which is closer?</label></li>
+<li><label><input type="checkbox"> Build a seq2seq tokenization demo: encode source, decode target, show token IDs</label></li>
+<li><label><input type="checkbox"> Flag translations with BLEU score below 0.4 and print them for human review</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Document Search &amp; RAG</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build retrieval systems using TF-IDF, BM25, and dense vector search. Implement a basic Retrieval-Augmented Generation pipeline combining a retriever with a language model.</p><div class="code-block"><div class="ch"><span>TF-IDF retrieval system</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
@@ -1676,7 +1708,11 @@ faqs = [
 
 user_queries = [&#x27;office hours&#x27;, &#x27;forgot my login&#x27;, &#x27;how to send back item&#x27;]
 # TODO: process each query
-</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Transformer Models &amp; Pre-trained Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Tokenization &amp; Subword Encoding with HuggingFace</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">from transformers import AutoTokenizer
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a TF-IDF retrieval system and return the top-3 results for a query with scores</label></li>
+<li><label><input type="checkbox"> Implement BM25 from scratch and compare results to TF-IDF on the same queries</label></li>
+<li><label><input type="checkbox"> Build a simple RAG: retrieve top-2 passages then fill an answer template with them</label></li>
+<li><label><input type="checkbox"> Add a similarity threshold — return &#x27;No answer found&#x27; when max score is below 0.1</label></li>
+<li><label><input type="checkbox"> Index 10 FAQ Q&amp;A pairs and test 5 user queries — measure how often correct answer is top-1</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Transformer Models &amp; Pre-trained Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Tokenization &amp; Subword Encoding with HuggingFace</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">from transformers import AutoTokenizer
 tokenizer = AutoTokenizer.from_pretrained(&quot;distilbert-base-uncased&quot;)
 texts = [
     &quot;The stock market crashed on Monday.&quot;,
@@ -1742,7 +1778,11 @@ categories = [&quot;politics&quot;, &quot;sports&quot;, &quot;technology&quot;, 
 # TODO: Zero-shot classify each headline into categories
 # TODO: Run sentiment analysis on each headline
 # TODO: Print formatted table: headline | category | sentiment | scores
-</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Named Entity Recognition &amp; Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>spaCy NER Pipeline</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import spacy
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize a sentence with AutoTokenizer and print the subword tokens and IDs</label></li>
+<li><label><input type="checkbox"> Run the distilbert sentiment pipeline on 5 reviews and print label + confidence</label></li>
+<li><label><input type="checkbox"> Use zero-shot classification with 5 custom labels on a news article</label></li>
+<li><label><input type="checkbox"> Load a pre-trained NER pipeline and extract entities from a paragraph</label></li>
+<li><label><input type="checkbox"> Chain sentiment + zero-shot pipelines to classify and label the same text</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Named Entity Recognition &amp; Information Extraction</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>spaCy NER Pipeline</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import spacy
 nlp = spacy.load(&quot;en_core_web_sm&quot;)
 texts = [
     &quot;Apple Inc. CEO Tim Cook announced new products at WWDC in San Francisco.&quot;,
@@ -1827,7 +1867,11 @@ matcher = Matcher(nlp.vocab)
 # TODO: Pattern for tech skills (capitalized 1-3 word terms)
 # TODO: Extract PERSON, ORG, DATE, CARDINAL entities
 # TODO: Output structured dict: name, companies, titles, skills, experience_years
-</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Text Generation, Summarization &amp; Prompt Engineering</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Text Generation with GPT-2</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">from transformers import pipeline
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use spaCy NER to extract PERSON and ORG entities from a resume paragraph</label></li>
+<li><label><input type="checkbox"> Add a Matcher pattern for job titles like &#x27;Senior Engineer&#x27; or &#x27;Data Scientist&#x27;</label></li>
+<li><label><input type="checkbox"> Extract &#x27;\d+ years&#x27; patterns from text using re.findall and parse the numbers</label></li>
+<li><label><input type="checkbox"> Build a custom EntityRuler to recognize programming language names in text</label></li>
+<li><label><input type="checkbox"> Output a structured dict with name, companies, titles, skills, and years extracted</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Text Generation, Summarization &amp; Prompt Engineering</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Text Generation with GPT-2</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">from transformers import pipeline
 generator = pipeline(&quot;text-generation&quot;, model=&quot;gpt2&quot;, max_new_tokens=60)
 prompts = [
     &quot;The future of artificial intelligence is&quot;,
@@ -1912,7 +1956,11 @@ articles = [article1, article2, article3]
 # TODO: Concatenate summaries and create meta-summary
 # TODO: Compute compression ratios at each stage
 # TODO: Extract noun chunks from meta-summary with spaCy
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text using spaCy or Transformers.</p><div class="code-block"><div class="ch"><span>spaCy NER</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import spacy
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use GPT-2 to generate 2 completions from the same prompt with different temperatures</label></li>
+<li><label><input type="checkbox"> Build a prompt template function that formats fields into a structured extraction prompt</label></li>
+<li><label><input type="checkbox"> Summarize an article with BART and compute the word-count compression ratio</label></li>
+<li><label><input type="checkbox"> Chain classify -&gt; summarize -&gt; route in a single function on 4 moderation inputs</label></li>
+<li><label><input type="checkbox"> Extract noun chunks from a summary using spaCy and rank them by frequency</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Named Entity Recognition (NER)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NER identifies and classifies named entities (persons, organizations, locations, dates) in text using spaCy or Transformers.</p><div class="code-block"><div class="ch"><span>spaCy NER</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import spacy
 from collections import Counter
 
 # Load spaCy model (run: python -m spacy download en_core_web_sm)

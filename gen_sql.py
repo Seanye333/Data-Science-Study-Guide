@@ -39,40 +39,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -235,6 +232,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Create an in-memory SQLite database and insert 10 rows using executemany",
+    "Set conn.row_factory = sqlite3.Row and access columns by name instead of index",
+    "Use executescript to run multiple DDL statements in one call",
+    "Use PRAGMA table_info() to inspect the column names and types of a table you created",
+    "Write a context manager (with sqlite3.connect) and verify rollback on an intentional error",
+],
 "title": "Sales Transaction Database Setup",
 "scenario": "A startup data analyst creates an in-memory SQLite database to prototype reporting queries before moving to PostgreSQL.",
 "code":
@@ -398,6 +402,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write a SELECT query using WHERE with LIKE 'A%' and verify with a known dataset",
+    "Use BETWEEN to filter a numeric column and compare with equivalent >= AND <= syntax",
+    "Combine IN and NOT IN in the same query to find rows in one set but not another",
+    "Apply ORDER BY on two columns (primary and secondary sort) and explain the result order",
+    "Use DISTINCT to find unique values in a column and count them with COUNT(DISTINCT col)",
+],
 "title": "Priority Order Fulfillment Filter",
 "scenario": "An e-commerce backend filters pending high-value orders for the fulfillment team's priority queue.",
 "code":
@@ -568,6 +579,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write COUNT(*) and COUNT(DISTINCT col) on the same table and explain the difference",
+    "Use HAVING to keep only groups where COUNT(*) > 2 and verify manually",
+    "Compute a column-level percentage using SUM(col) / SUM(SUM(col)) OVER () trick",
+    "Write SUM(CASE WHEN status='won' THEN 1 ELSE 0 END) to count a subset in one pass",
+    "Group by two columns and explain why the result differs from grouping by each alone",
+],
 "title": "Monthly Spend Dashboard",
 "scenario": "A finance analyst builds a monthly category spending dashboard from raw transaction records.",
 "code":
@@ -758,6 +776,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write an INNER JOIN between two tables and verify the row count matches expectations",
+    "Convert the INNER JOIN to a LEFT JOIN and count how many NULLs appear in the right side",
+    "Practice a self-join on an employees table to find each employee's manager name",
+    "Write a three-table JOIN and describe the order in which SQLite processes the joins",
+    "Use COALESCE in a LEFT JOIN to replace NULL values from the right table with a default",
+],
 "title": "Inventory & Sales Cross-Reference",
 "scenario": "A warehouse manager joins product, inventory, and sales tables to identify stock risk for top-selling items.",
 "code":
@@ -956,6 +981,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write a scalar subquery in WHERE to find rows where a value exceeds the overall average",
+    "Replace a subquery in WHERE with a CTE and verify both produce identical results",
+    "Use EXISTS to find departments that have at least one employee above a salary threshold",
+    "Write a multi-CTE chain where the second CTE references the first one",
+    "Use a derived table in FROM to compute per-group totals then filter with WHERE",
+],
 "title": "Customer Conversion Funnel Analysis",
 "scenario": "A product analyst uses CTEs to compute step-by-step conversion rates through the signup funnel.",
 "code":
@@ -1144,6 +1176,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Use RANK() OVER (PARTITION BY dept ORDER BY salary DESC) to rank employees per department",
+    "Compute a running SUM using ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW",
+    "Use LAG(revenue) to calculate month-over-month change and find the largest single drop",
+    "Compare ROW_NUMBER() vs RANK() on a dataset with ties and describe the difference",
+    "Use NTILE(4) to assign salary quartiles and count how many employees fall in each bucket",
+],
 "title": "Moving Average Trading Signals",
 "scenario": "A quant uses window functions to flag days when price crosses above the 3-period moving average — a simple trend signal.",
 "code":
@@ -1339,6 +1378,13 @@ def transfer(conn, from_id, to_id, amount):
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write an UPDATE that sets a new value only for rows matching a WHERE condition",
+    "Perform a DELETE and verify the remaining row count matches what you expect",
+    "Use INSERT OR IGNORE to avoid duplicate-key errors when re-inserting existing records",
+    "Write a correlated UPDATE using a subquery in the SET clause to sync values across tables",
+    "Implement a UPSERT with ON CONFLICT DO UPDATE and confirm the updated values",
+],
 "title": "Subscription Lifecycle Automation",
 "scenario": "A SaaS platform batch-expires overdue subscriptions and applies loyalty discounts to long-term customers.",
 "code":
@@ -1538,6 +1584,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Insert 100,000 rows and time a WHERE query before and after adding a single-column index",
+    "Run EXPLAIN QUERY PLAN on a query and identify whether it performs a full table scan",
+    "Create a compound index on (col_a, col_b) and verify it is used by a query filtering both",
+    "Create a partial index (WHERE active=1) and confirm it speeds up queries on that subset",
+    "Drop and recreate an index, then run ANALYZE to update the query planner's statistics",
+],
 "title": "E-Commerce Report with Compound Indexes",
 "scenario": "A backend engineer adds compound indexes to cut a cross-table analytics report from seconds to milliseconds.",
 "code":
@@ -1732,6 +1785,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Use pd.read_sql() to read a SQL query result directly into a DataFrame",
+    "Write a DataFrame to SQLite with .to_sql(if_exists='replace') and read it back",
+    "Use .to_sql(if_exists='append') to add rows incrementally and confirm the count",
+    "Pass a parameterized query to pd.read_sql() using the params argument",
+    "Create a SQL VIEW and query it using pd.read_sql() as if it were a regular table",
+],
 "title": "Multi-Source Analytics Report",
 "scenario": "A data analyst joins two normalized SQL tables via pandas to produce a segmented revenue report for stakeholders.",
 "code":
@@ -1941,6 +2001,13 @@ conn.commit()
 conn.close()"""
 },
 "rw": {
+"todos": [
+    "Write a recursive CTE that traverses a self-referencing employee table by depth level",
+    "Use a recursive CTE to generate a sequence of integers from 1 to 20 without a base table",
+    "Build a breadcrumb path string (e.g., 'Root > Parent > Child') using string concatenation in a recursive CTE",
+    "Use CASE WHEN in a final SELECT to label employees as 'above_avg', 'average', or 'below_avg'",
+    "Write a CTE that generates a date series for the last 30 days using recursive date arithmetic",
+],
 "title": "Product Category Breadcrumb Builder",
 "scenario": "An e-commerce search indexer uses a recursive CTE to build full breadcrumb paths for every product category.",
 "code":
@@ -1971,6 +2038,13 @@ conn.close()"""}
 
 ,
 {
+    "todos": [
+        "Rewrite a nested subquery as a CTE and verify both produce the same result",
+        "Chain two CTEs where the second CTE references the first by name",
+        "Write a recursive CTE that builds a depth-first org-chart hierarchy",
+        "Use a CTE to compute a group average, then reference it in the main SELECT for comparison",
+        "Benchmark a complex CTE query vs its equivalent subquery version and compare readability",
+    ],
     "title": "11. Common Table Expressions (CTEs)",
     "desc": "Write readable, modular SQL with WITH clauses. Break complex queries into named steps and use recursive CTEs for hierarchical data.",
     "examples": [
@@ -2000,6 +2074,13 @@ conn.close()"""}
     }
 },
 {
+    "todos": [
+        "Use DENSE_RANK() OVER (PARTITION BY region ORDER BY revenue DESC) and explain ties",
+        "Compute a 3-day moving average using AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)",
+        "Use LAG(revenue) to calculate month-over-month growth as a percentage",
+        "Use LEAD(revenue) to show what next month's revenue will be relative to the current row",
+        "Assign customers to quartiles with NTILE(4) and compare quartile revenue averages",
+    ],
     "title": "12. Window Functions",
     "desc": "Perform calculations across related rows without collapsing them — rankings, running totals, lag/lead comparisons, and moving averages.",
     "examples": [
@@ -2029,6 +2110,13 @@ conn.close()"""}
     }
 },
 {
+    "todos": [
+        "Run EXPLAIN QUERY PLAN on a query without an index and identify the 'SCAN TABLE' step",
+        "Add an index and re-run EXPLAIN QUERY PLAN to confirm it switches to 'SEARCH TABLE'",
+        "Rewrite an N+1 pattern as a single JOIN and measure the time difference",
+        "Compare EXISTS vs IN for a subquery and check which the planner prefers",
+        "Create a covering index that includes all columns used by a query and verify no table scan",
+    ],
     "title": "13. Query Optimization",
     "desc": "Write faster SQL — understand EXPLAIN QUERY PLAN, use indexes effectively, and rewrite slow patterns as efficient alternatives.",
     "examples": [
@@ -2059,7 +2147,14 @@ conn.close()"""}
 },
 
     {
-        "title": "14. Query Optimization & Indexing",
+        "todos": [
+        "Use EXPLAIN QUERY PLAN before and after adding an index to compare execution strategy",
+        "Time a 100K-row query with and without an index and print the speedup factor",
+        "Create a composite index on two filter columns and verify it covers both",
+        "Find and rewrite an N+1 query pattern in your own code using a single JOIN",
+        "Run ANALYZE after inserting data to update the query planner's row count estimates",
+    ],
+    "title": "14. Query Optimization & Indexing",
         "examples": [
             {
                 "label": "EXPLAIN QUERY PLAN",
@@ -2087,7 +2182,14 @@ conn.close()"""}
         }
     },
     {
-        "title": "15. Pivoting & Unpivoting",
+        "todos": [
+        "Write a pivot using SUM(CASE WHEN quarter='Q1' THEN revenue ELSE 0 END) for each quarter",
+        "Unpivot a wide table to long format using UNION ALL with a literal label column",
+        "Dynamically build a pivot query in Python by querying distinct column values first",
+        "Add a 'Total' column to the pivot by summing all CASE WHEN columns",
+        "Cross-tabulate a survey with percentage columns using SUM and COUNT in one query",
+    ],
+    "title": "15. Pivoting & Unpivoting",
         "examples": [
             {
                 "label": "Pivot with CASE WHEN",
@@ -2115,7 +2217,14 @@ conn.close()"""}
         }
     },
     {
-        "title": "16. Triggers & Database Automation",
+        "todos": [
+        "Create an AFTER UPDATE trigger that writes changed values to an audit log table",
+        "Create an AFTER INSERT trigger that deducts from an inventory table automatically",
+        "Write a trigger that raises an error when a CHECK-like condition is violated",
+        "Create an INSTEAD OF trigger on a view to intercept and redirect updates",
+        "Inspect all triggers in a database using SELECT * FROM sqlite_master WHERE type='trigger'",
+    ],
+    "title": "16. Triggers & Database Automation",
         "examples": [
             {
                 "label": "Audit log trigger on price UPDATE",
@@ -2143,6 +2252,13 @@ conn.close()"""}
         }
     },
     {
+    "todos": [
+        "Write a correlated subquery in WHERE to find employees earning above their department average",
+        "Use EXISTS to find rows in one table that have at least one matching row in another",
+        "Rewrite a correlated subquery as a JOIN and verify both produce the same rows",
+        "Use a subquery in FROM (derived table) to filter aggregated results with WHERE",
+        "Place a scalar subquery in the SELECT list to add a company-wide comparison column",
+    ],
     "title": "17. Subqueries in Depth",
     "desc": "Subqueries (nested SELECT) can appear in WHERE, FROM, SELECT, and HAVING clauses. Master scalar, column, table, and correlated subqueries for complex filtering and derived metrics.",
     "examples": [
@@ -2163,6 +2279,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Use LOWER(TRIM(email)) to normalize a messy email column in a single query",
+        "Use SUBSTR and INSTR to extract the domain part from an email address column",
+        "Chain REPLACE calls to strip parentheses, dashes, and dots from a phone number field",
+        "Write a LIKE pattern with % and _ wildcards and compare results with an equivalent GLOB pattern",
+        "Use LENGTH to find rows where a text column exceeds 100 characters",
+    ],
     "title": "18. String Functions & Pattern Matching",
     "desc": "SQL provides rich string functions: UPPER/LOWER, SUBSTR, TRIM, REPLACE, LENGTH, INSTR, and LIKE/GLOB for pattern matching. Essential for cleaning and searching text data.",
     "examples": [
@@ -2183,6 +2306,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Use STRFTIME('%Y-%m', date_col) to bucket rows by month and group them",
+        "Calculate the number of days between two date columns using JULIANDAY(end) - JULIANDAY(start)",
+        "Use DATE('now', '-30 days') to filter for rows in the last 30 days",
+        "Extract year, month, and day from a date column using STRFTIME and verify with sample data",
+        "Flag rows where a date falls within a given range using BETWEEN with ISO date strings",
+    ],
     "title": "19. Date & Time Functions",
     "desc": "SQL date functions compute differences, extract components, and format timestamps. In SQLite, dates are stored as TEXT (ISO), INTEGER (Unix epoch), or REAL (Julian day).",
     "examples": [
@@ -2203,6 +2333,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Write a CASE WHEN to assign letter grades (A/B/C/D/F) from a numeric score column",
+        "Use SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) to count a filtered subset",
+        "Replace CASE WHEN with IIF() (SQLite 3.32+) and confirm the same output",
+        "Use COALESCE(col, 0) to replace NULLs with zero before aggregating",
+        "Use NULLIF(col, 0) to turn zeros into NULLs and observe how AVG ignores them",
+    ],
     "title": "20. CASE WHEN & Conditional Logic",
     "desc": "CASE WHEN is SQL\'s conditional expression. Use it for bucketing, pivoting, null handling, and complex conditional aggregations. Combined with COALESCE and NULLIF for robust null handling.",
     "examples": [
@@ -2223,6 +2360,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Write UNION and UNION ALL on two tables and compare the row counts to understand deduplication",
+        "Use INTERSECT to find customers who placed orders in both January and February",
+        "Use EXCEPT to find rows in one table that have no match in another table",
+        "Chain INTERSECT and EXCEPT to solve 'active in 2 of 3 months' without a GROUP BY",
+        "Combine UNION ALL with a GROUP BY to aggregate results from two separate tables at once",
+    ],
     "title": "21. Set Operations (UNION, INTERSECT, EXCEPT)",
     "desc": "SQL set operations combine results of multiple SELECT statements: UNION (all unique), UNION ALL (keep duplicates), INTERSECT (common rows), and EXCEPT/MINUS (rows in first but not second).",
     "examples": [
@@ -2243,6 +2387,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Write 3 chained CTEs where each one builds on the previous step",
+        "Use ROW_NUMBER() inside a CTE to filter for only the top row per group",
+        "Build a multi-step data cleaning pipeline entirely within CTEs (no temp tables)",
+        "Write a recursive CTE to count the total number of direct and indirect reports per manager",
+        "Use a CTE twice in the same query (reference it by name in two different places)",
+    ],
     "title": "22. Advanced CTEs & Chaining",
     "desc": "CTEs (WITH clauses) can be chained, referenced multiple times, and nested to build complex queries step by step. They replace temp tables in most cases and dramatically improve readability.",
     "examples": [
@@ -2263,6 +2414,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Create a VIEW that joins two tables and query it as if it were a regular table",
+        "Query sqlite_master to list all views in a database",
+        "Simulate a materialized view by creating a physical table with CREATE TABLE AS SELECT",
+        "Drop a VIEW and verify the underlying base tables are unaffected",
+        "Create a view that filters rows (e.g., active_users) and use it in a JOIN",
+    ],
     "title": "23. Views & Virtual Tables",
     "desc": "Views are saved SELECT statements that behave like tables. They simplify complex queries, enforce access control, and create stable interfaces over evolving schema.",
     "examples": [
@@ -2283,6 +2441,13 @@ conn.close()"""}
     },
 
     {
+    "todos": [
+        "Add a CHECK constraint to ensure a price column stays positive and test the violation",
+        "Create a UNIQUE index and try inserting a duplicate to observe the error message",
+        "Enable PRAGMA foreign_keys = ON and test that a DELETE on a parent row is blocked",
+        "Use ON DELETE CASCADE on a foreign key and verify child rows are removed automatically",
+        "Test ON CONFLICT IGNORE vs ON CONFLICT REPLACE and observe how existing rows are handled",
+    ],
     "title": "24. Data Integrity & Constraints",
     "desc": "Constraints (PRIMARY KEY, UNIQUE, NOT NULL, CHECK, FOREIGN KEY) enforce data quality at the database level — the last line of defense against bad data.",
     "examples": [
@@ -2303,6 +2468,13 @@ conn.close()"""}
     },
 
 {
+"todos": [
+    "Use the FILTER(WHERE ...) clause with SUM to compute conditional totals in one query",
+    "Emulate ROLLUP with UNION ALL to add subtotals and a grand total row",
+    "Use PERCENT_RANK() or approximate it using RANK() / COUNT(*) OVER() for a relative rank",
+    "Write multi-dimensional conditional aggregation combining SUM(CASE WHEN) for a pivot",
+    "Compute a weighted average using SUM(value * weight) / SUM(weight) in a single SELECT",
+],
 "title": "25. Advanced Aggregations",
 "desc": "Use FILTER clauses for conditional aggregation, emulate ROLLUP with UNION ALL, and combine window functions for multi-dimensional analysis.",
 "examples": [
@@ -2324,6 +2496,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Write a self-join on an employees table to show each employee and their manager's name",
+    "Use a non-equi join (a.salary > b.salary AND a.dept = b.dept) to find higher earners in each dept",
+    "Write a range join to match orders to the correct price row based on valid_from / valid_to dates",
+    "Find overlapping date intervals using a self-join with start < other.end AND end > other.start",
+    "Explain the difference between a CROSS JOIN and a self-join with a WHERE condition",
+],
 "title": "26. Self-Joins & Non-Equi Joins",
 "desc": "Use self-joins to query hierarchical data, non-equi joins for range matching, and interval joins to detect overlaps.",
 "examples": [
@@ -2345,6 +2524,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Use LAG(close, 1) to compute the daily price change for a stock price series",
+    "Compute a 3-period rolling average with ROWS BETWEEN 2 PRECEDING AND CURRENT ROW",
+    "Use LEAD to show what next month's target is compared to the current month's revenue",
+    "Use FIRST_VALUE and LAST_VALUE with UNBOUNDED PRECEDING/FOLLOWING to anchor comparisons",
+    "Bucket revenue rows into tertiles with NTILE(3) and compute average per bucket",
+],
 "title": "27. Analytical Functions Advanced",
 "desc": "Go beyond basic ranking: use LAG/LEAD for period comparisons, NTILE for bucketing, FIRST_VALUE/LAST_VALUE for partition anchors, and rolling window frames.",
 "examples": [
@@ -2366,6 +2552,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Identify a 1NF violation in a table with a comma-separated column and split it correctly",
+    "Find a 2NF violation (partial dependency) and move the dependent column to its own table",
+    "Spot a 3NF violation (transitive dependency) and extract the transitively dependent column",
+    "Use PRAGMA foreign_key_list('table_name') to inspect FK relationships programmatically",
+    "Redesign a flat orders_flat table into a 3NF schema with customers, products, and orders",
+],
 "title": "28. Database Design & Normalization",
 "desc": "Apply 1NF, 2NF, and 3NF to eliminate redundancy, design proper primary and foreign keys, and inspect schemas with SQLite system tables.",
 "examples": [
@@ -2387,6 +2580,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Use json_extract(payload, '$.user') to read a top-level field from a JSON column",
+    "Access a nested field with json_extract(payload, '$.meta.ip') and verify the output",
+    "Access the first element of a JSON array with json_extract(payload, '$.tags[0]')",
+    "Use json_set to modify an existing field and json.loads in Python to confirm the change",
+    "Filter rows by a JSON field value in WHERE using json_extract and a comparison operator",
+],
 "title": "29. JSON in SQL",
 "desc": "Store, extract, modify, and filter JSON data in SQLite using json_extract, json_set, json_insert, and json_remove.",
 "examples": [
@@ -2408,6 +2608,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Create an FTS5 virtual table and insert 5 rows, then run a basic MATCH search",
+    "Use column-specific FTS5 search with 'title:keyword' and verify only title matches return",
+    "Use prefix search ('key*') in FTS5 to match all words beginning with a string",
+    "Combine AND and OR in a MATCH expression and verify the correct rows are returned",
+    "Use snippet() to extract a highlighted excerpt from matched rows and print it",
+],
 "title": "30. Full-Text Search",
 "desc": "Use SQLite\'s FTS5 virtual tables to perform keyword search, phrase matching, boolean operators, column-specific search, and ranked results with snippets.",
 "examples": [
@@ -2429,6 +2636,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Benchmark a query on 5,000 rows before and after adding a single-column index",
+    "Run EXPLAIN QUERY PLAN and identify whether the plan says 'SCAN' or 'SEARCH'",
+    "Create a composite index and check if EXPLAIN QUERY PLAN uses it for both filter columns",
+    "Add a covering index that includes all selected columns to avoid any table access",
+    "Run ANALYZE and verify that EXPLAIN QUERY PLAN changes its strategy on skewed data",
+],
 "title": "31. Performance Tuning & EXPLAIN",
 "desc": "Use EXPLAIN QUERY PLAN to understand query execution, create regular, composite, covering, and partial indexes, and run ANALYZE to update planner statistics.",
 "examples": [
@@ -2450,6 +2664,13 @@ conn.close()"""}
 },
 
 {
+"todos": [
+    "Ingest a CSV with dirty numeric strings into SQL and clean them using REPLACE and CAST",
+    "Compute monthly totals and a cumulative running total using a CTE and SUM() OVER()",
+    "Compare each rep's total to their regional average using AVG() OVER (PARTITION BY region)",
+    "Pivot survey data from long to wide format using MAX(CASE WHEN question='Q1' THEN score END)",
+    "Build a full 4-step pipeline: ingest raw data, clean, aggregate, and export to a DataFrame",
+],
 "title": "32. SQL for Data Analysis Workflow",
 "desc": "Apply SQL as a full data analysis tool: ingest and clean dirty data, compute monthly trends with running totals, compare performance vs. group averages, and pivot long-format survey data.",
 "examples": [

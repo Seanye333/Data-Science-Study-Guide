@@ -45,33 +45,30 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
@@ -212,7 +209,14 @@ SECTIONS = [
                 "    pass\n\n"
                 "print(clean_email(email))"
             )
-        }
+        },
+        "todos": [
+            "Lowercase a string and strip HTML tags using re.sub(r'<[^>]+>', '', text)",
+            "Remove URLs, @mentions, and hashtags from a tweet using three separate regex patterns",
+            "Apply unicode normalization to strip accent characters from foreign text",
+            "Build a text cleaning pipeline as a list of lambda functions applied sequentially",
+            "Compare cleaned vs uncleaned text token counts and report reduction percentage",
+        ],
     },
     {
         "title": "2. Tokenization & Stopword Removal",
@@ -321,7 +325,14 @@ SECTIONS = [
                 "for r in reviews:\n"
                 "    print(filter_tokens(r))"
             )
-        }
+        },
+        "todos": [
+            "Tokenize a paragraph using both word_tokenize and sent_tokenize — compare output",
+            "Remove stopwords from a sentence and count how many words remain",
+            "Apply stemming vs lemmatization to the same words and compare the results",
+            "Tokenize a tweet with hashtags/emojis — note how standard tokenizers handle it",
+            "Build a simple word frequency counter using Counter on tokenized text",
+        ],
     },
     {
         "title": "3. Stemming & Lemmatization",
@@ -437,7 +448,14 @@ SECTIONS = [
                 "for q in queries:\n"
                 "    print(q, '->', normalize_query(q))"
             )
-        }
+        },
+        "todos": [
+            "Apply PorterStemmer to a list of words and print stem vs original side-by-side",
+            "Use WordNetLemmatizer with POS='v' on verbs and POS='n' on nouns — compare outputs",
+            "Try lemmatizing 'better' as adjective ('a') vs verb ('v') and see the difference",
+            "Use spaCy to lemmatize a full sentence and print token/lemma/POS for each token",
+            "Compare stemmer vs lemmatizer on the words: 'wolves', 'studies', 'corpora', 'better'",
+        ],
     },
     {
         "title": "4. Named Entity Recognition (NER)",
@@ -560,7 +578,14 @@ SECTIONS = [
                 "    pass\n\n"
                 "print(top_entities(headlines))"
             )
-        }
+        },
+        "todos": [
+            "Run spaCy NER on a news sentence and print each entity's text, label, and explanation",
+            "Use NLTK ne_chunk on a tokenized sentence and extract entity trees",
+            "Add a custom entity_ruler to spaCy to recognize your own product names",
+            "Process 5 headlines and count which entity types (ORG, PERSON, GPE) appear most",
+            "Use displacy.render() to visualize entities in a sentence and save the HTML output",
+        ],
     },
     {
         "title": "5. Sentiment Analysis",
@@ -699,7 +724,14 @@ SECTIONS = [
                 "    pass\n\n"
                 "daily_sentiment(tweets)"
             )
-        }
+        },
+        "todos": [
+            "Run VADER on 5 different sentences and compare compound scores",
+            "Apply TextBlob to compute polarity and subjectivity on a review",
+            "Use a HuggingFace sentiment pipeline and compare its labels to VADER's",
+            "Build an aspect-based sentiment function for battery/camera/screen in phone reviews",
+            "Group tweets by date, average their compound scores, and label each day as +/-/neutral",
+        ],
     },
     {
         "title": "6. Text Similarity & Vectorization",
@@ -834,7 +866,14 @@ SECTIONS = [
                 "print(find_answer('How can I change my password?'))\n"
                 "print(find_answer('Do you accept credit cards?'))"
             )
-        }
+        },
+        "todos": [
+            "Fit TF-IDF on a 3-doc corpus and inspect the feature matrix with get_feature_names_out()",
+            "Compute cosine similarity between two TF-IDF vectors and interpret the score",
+            "Train Word2Vec with gensim on tokenized sentences and find similar words",
+            "Use sentence-transformers to encode 3 sentences and compare cosine similarity",
+            "Build a FAQ matcher that returns the top-3 most similar questions above a threshold",
+        ],
     },
     {
         "title": "7. Topic Modeling",
@@ -986,7 +1025,14 @@ SECTIONS = [
                 "    pass\n\n"
                 "model_topics(feedback)"
             )
-        }
+        },
+        "todos": [
+            "Fit LDA with n_components=3 on a small corpus and print the top 6 words per topic",
+            "Try NMF instead of LDA on the same corpus and compare topic coherence",
+            "Iterate k from 2 to 6 and compare LDA perplexity to find the optimal topic count",
+            "Assign each document to its dominant topic and group documents by topic",
+            "Manually label each discovered topic with a descriptive name based on top words",
+        ],
     },
     {
         "title": "8. Text Classification",
@@ -1137,7 +1183,14 @@ SECTIONS = [
                 "# TODO: build Pipeline with TfidfVectorizer + LogisticRegression\n"
                 "# TODO: fit, predict, print classification_report"
             )
-        }
+        },
+        "todos": [
+            "Build a Pipeline with TfidfVectorizer + MultinomialNB and print the classification report",
+            "Try ngram_range=(1,2) in TF-IDF and compare accuracy to unigrams only",
+            "Use zero-shot classification with transformers for category labels you define at runtime",
+            "Inspect LogisticRegression coefficients to find the most predictive words per class",
+            "Run cross_val_score with cv=5 on a TF-IDF + LogReg pipeline and report mean accuracy",
+        ],
     },
     {
         "title": "9. Language Models & Transformers",
@@ -1285,7 +1338,14 @@ SECTIONS = [
                 "except ImportError:\n"
                 "    print('pip install transformers torch')"
             )
-        }
+        },
+        "todos": [
+            "Get BERT [CLS] token embeddings for two sentences and compute cosine similarity",
+            "Use the transformers QA pipeline with a context and 3 different questions",
+            "Run GPT-2 text generation with temperature=0.5 and temperature=1.2 — compare outputs",
+            "Encode a sentence with AutoTokenizer and inspect the token IDs and attention mask",
+            "Use the BART summarization pipeline and compare output length vs original word count",
+        ],
     },
     {
         "title": "10. NLP Pipeline & Production",
@@ -1451,7 +1511,14 @@ SECTIONS = [
                 "    pass\n\n"
                 "print(json.dumps(analytics_report(documents), indent=2))"
             )
-        }
+        },
+        "todos": [
+            "Build an end-to-end pipeline: clean -> tokenize -> remove stopwords -> TF-IDF vectorize",
+            "Wrap a TF-IDF + classifier Pipeline in a class with fit() and predict() methods",
+            "Add input validation: reject empty strings and strings over 10,000 characters",
+            "Log predictions with timestamp, input length, and confidence score to a list",
+            "Write a health_report() method returning prediction distribution and error rate",
+        ],
     },
     {
         "title": "11. Information Extraction",
@@ -1497,7 +1564,14 @@ SECTIONS = [
                 "'''\n"
                 "print(extract_resume(resume))"
             )
-        }
+        },
+        "todos": [
+            "Use re.findall to extract all email addresses and phone numbers from a text block",
+            "Write a function that extracts (subject, verb, object) triples using dependency parsing",
+            "Extract all monetary amounts using a regex pattern like \\$[\\d,]+",
+            "Parse structured data from text using event trigger words (e.g., 'acquired', 'raised')",
+            "Build a contract metadata extractor for party names, dates, and payment amounts",
+        ],
     },
     {
         "title": "12. Machine Translation & Seq2Seq",
@@ -1543,7 +1617,14 @@ SECTIONS = [
                 "]\n"
                 "evaluate_translations(test_pairs)"
             )
-        }
+        },
+        "todos": [
+            "Use the HuggingFace translation pipeline to translate 3 sentences from English to French",
+            "Compute BLEU-1 score manually between a reference and hypothesis sentence",
+            "Compare two translations of the same sentence with BLEU-2 — which is closer?",
+            "Build a seq2seq tokenization demo: encode source, decode target, show token IDs",
+            "Flag translations with BLEU score below 0.4 and print them for human review",
+        ],
     },
     {
         "title": "13. Document Search & RAG",
@@ -1587,7 +1668,14 @@ SECTIONS = [
                 "user_queries = ['office hours', 'forgot my login', 'how to send back item']\n"
                 "# TODO: process each query\n"
             )
-        }
+        },
+        "todos": [
+            "Build a TF-IDF retrieval system and return the top-3 results for a query with scores",
+            "Implement BM25 from scratch and compare results to TF-IDF on the same queries",
+            "Build a simple RAG: retrieve top-2 passages then fill an answer template with them",
+            "Add a similarity threshold — return 'No answer found' when max score is below 0.1",
+            "Index 10 FAQ Q&A pairs and test 5 user queries — measure how often correct answer is top-1",
+        ],
     },
     {
         "title": "14. Transformer Models & Pre-trained Pipelines",
@@ -1611,7 +1699,14 @@ SECTIONS = [
             "title": "News Article Classifier",
             "desc": "Use zero-shot classification with 6 news categories (politics, sports, technology, science, entertainment, business). Classify 5 different news headlines. Then use a pre-trained sentiment pipeline on the same headlines and combine both outputs into a structured report showing category + sentiment for each article.",
             "starter": "from transformers import pipeline\n# News headlines to classify\nheadlines = [\n    \"SpaceX successfully lands reusable rocket for 20th time.\",\n    \"Champions League final set as Real Madrid beats Bayern Munich.\",\n    \"Senate votes to pass new climate legislation bill.\",\n    \"Apple unveils new M4 chip with enhanced neural processing.\",\n    \"GDP growth slows to 1.2% amid rising inflation concerns.\",\n]\ncategories = [\"politics\", \"sports\", \"technology\", \"science\", \"entertainment\", \"business\"]\n# TODO: Zero-shot classify each headline into categories\n# TODO: Run sentiment analysis on each headline\n# TODO: Print formatted table: headline | category | sentiment | scores\n"
-        }
+        },
+        "todos": [
+            "Tokenize a sentence with AutoTokenizer and print the subword tokens and IDs",
+            "Run the distilbert sentiment pipeline on 5 reviews and print label + confidence",
+            "Use zero-shot classification with 5 custom labels on a news article",
+            "Load a pre-trained NER pipeline and extract entities from a paragraph",
+            "Chain sentiment + zero-shot pipelines to classify and label the same text",
+        ],
     },
     {
         "title": "15. Named Entity Recognition & Information Extraction",
@@ -1635,7 +1730,14 @@ SECTIONS = [
             "title": "Resume Information Extractor",
             "desc": "Given a sample resume text (3-4 sentences), use spaCy to extract: person name (PERSON), organizations (ORG), job titles (using custom Matcher patterns for \'Senior Engineer\', \'Data Scientist\', etc.), years of experience (CARDINAL + \'years\'), and skills (custom pattern for capitalized tech terms). Output a structured JSON-like summary.",
             "starter": "import spacy\nfrom spacy.matcher import Matcher\nnlp = spacy.load(\"en_core_web_sm\")\nresume = \"\"\"\nJohn Smith is a Senior Data Scientist with 8 years of experience at Google and Microsoft.\nHe specializes in Python, TensorFlow, and SQL. Previously, he was a Machine Learning Engineer\nat Amazon, where he led a team of 5 researchers. He holds a PhD from MIT in Computer Science.\n\"\"\"\nmatcher = Matcher(nlp.vocab)\n# TODO: Pattern for job titles (e.g., \"Senior Data Scientist\", \"Machine Learning Engineer\")\n# TODO: Pattern for tech skills (capitalized 1-3 word terms)\n# TODO: Extract PERSON, ORG, DATE, CARDINAL entities\n# TODO: Output structured dict: name, companies, titles, skills, experience_years\n"
-        }
+        },
+        "todos": [
+            "Use spaCy NER to extract PERSON and ORG entities from a resume paragraph",
+            "Add a Matcher pattern for job titles like 'Senior Engineer' or 'Data Scientist'",
+            "Extract '\\d+ years' patterns from text using re.findall and parse the numbers",
+            "Build a custom EntityRuler to recognize programming language names in text",
+            "Output a structured dict with name, companies, titles, skills, and years extracted",
+        ],
     },
     {
         "title": "16. Text Generation, Summarization & Prompt Engineering",
@@ -1659,7 +1761,14 @@ SECTIONS = [
             "title": "Multi-Document Summarization",
             "desc": "Summarize 3 different news articles (each 100+ words, on the same topic) using BART. Then concatenate the summaries and summarize again to create a \'meta-summary\'. Compare word counts at each stage and compute the compression ratio. Also extract key noun phrases from the meta-summary using spaCy.",
             "starter": "from transformers import pipeline\nimport spacy\nnlp_sp = spacy.load(\"en_core_web_sm\")\nsummarizer = pipeline(\"summarization\", model=\"facebook/bart-large-cnn\",\n                      max_length=80, min_length=30, do_sample=False)\narticle1 = \"\"\"[Article 1: 100+ words on climate change - fill in]\"\"\"\"\narticle2 = \"\"\"[Article 2: 100+ words on climate policy - fill in]\"\"\"\"\narticle3 = \"\"\"[Article 3: 100+ words on renewable energy - fill in]\"\"\"\"\narticles = [article1, article2, article3]\n# TODO: Summarize each article individually\n# TODO: Concatenate summaries and create meta-summary\n# TODO: Compute compression ratios at each stage\n# TODO: Extract noun chunks from meta-summary with spaCy\n"
-        }
+        },
+        "todos": [
+            "Use GPT-2 to generate 2 completions from the same prompt with different temperatures",
+            "Build a prompt template function that formats fields into a structured extraction prompt",
+            "Summarize an article with BART and compute the word-count compression ratio",
+            "Chain classify -> summarize -> route in a single function on 4 moderation inputs",
+            "Extract noun chunks from a summary using spaCy and rank them by frequency",
+        ],
     },{
         "title": "17. Named Entity Recognition (NER)",
         "desc": "NER identifies and classifies named entities (persons, organizations, locations, dates) in text using spaCy or Transformers.",

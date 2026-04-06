@@ -41,6 +41,13 @@ SECTIONS = [
             ")\n"
             "print('Regression X:', X_r.shape, '| y range:', y_r.min().round(1), '-', y_r.max().round(1))"
         ),
+        "todos": [
+            "Load the iris dataset and print its feature names, target names, and shape",
+            "Perform an 80/20 stratified train/test split and verify class proportions match in both sets",
+            "Run StratifiedKFold(n_splits=5) on the iris dataset and print class counts per fold",
+            "Use make_classification to generate 1000 samples and check class balance with np.bincount",
+            "Compare CV accuracy (cross_val_score) vs a single train/test split for the same model",
+        ],
         "rw_scenario": "Healthcare: Load patient vitals dataset, split into train/test while preserving class balance (stratify) for disease prediction.",
         "rw_code": (
             "import pandas as pd\n"
@@ -166,6 +173,13 @@ SECTIONS = [
             "print('Accuracy:', accuracy_score(y_test, y_pred))\n"
             "print(classification_report(y_test, y_pred, target_names=iris.target_names))"
         ),
+        "todos": [
+            "Train a LinearRegression on make_regression data and print R2 score and RMSE",
+            "Train a LogisticRegression on the iris dataset and print the classification_report",
+            "Compare Ridge, Lasso, and LinearRegression on the same data by R2 score",
+            "Count how many coefficients Lasso sets to exactly zero vs LinearRegression",
+            "Sweep alpha in [0.01, 0.1, 1, 10, 100] for Ridge and plot or print R2 vs alpha",
+        ],
         "rw_scenario": "Finance: Predict house prices (Linear Regression) and loan default probability (Logistic Regression).",
         "rw_code": (
             "from sklearn.linear_model import LogisticRegression\n"
@@ -305,6 +319,13 @@ SECTIONS = [
             "for i in idx:\n"
             "    print(f'  Feature {i}: {rf.feature_importances_[i]:.4f}')"
         ),
+        "todos": [
+            "Train a DecisionTreeClassifier with max_depth=3 and print feature importances",
+            "Compare Decision Tree vs Random Forest accuracy on the iris dataset",
+            "Use export_text() to print the decision rules of a shallow tree",
+            "Plot feature importances from RandomForestClassifier sorted by value",
+            "Try increasing n_estimators from 10 to 200 and observe accuracy improvement",
+        ],
         "rw_scenario": "Retail: Predict customer churn using Random Forest — who is likely to stop buying?",
         "rw_code": (
             "from sklearn.ensemble import RandomForestClassifier\n"
@@ -443,6 +464,13 @@ SECTIONS = [
             "    r2 = r2_score(y_test, svr.predict(X_test_s))\n"
             "    print(f'SVR ({kernel}) R2: {r2:.4f}')"
         ),
+        "todos": [
+            "Train an SVC with kernel='rbf' on the iris dataset and print accuracy",
+            "Compare kernel='linear', 'rbf', and 'poly' on the same dataset",
+            "Scale features with StandardScaler before SVM and observe the impact on accuracy",
+            "Use SVC(probability=True) and predict_proba to get confidence scores",
+            "Train an SVR on regression data and compare RMSE to LinearRegression",
+        ],
         "rw_scenario": "NLP: SVM for text sentiment classification — positive vs negative product reviews.",
         "rw_code": (
             "from sklearn.svm import SVC\n"
@@ -597,6 +625,13 @@ SECTIONS = [
             "preds = nb.predict(test)\n"
             "print('Predictions:', ['SPAM' if p else 'HAM' for p in preds])"
         ),
+        "todos": [
+            "Train a KNeighborsClassifier on the iris dataset and vary n_neighbors from 1 to 20",
+            "Compare KNN with euclidean vs manhattan distance metrics",
+            "Train a GaussianNB and compare its accuracy to KNN on the same dataset",
+            "Use BernoulliNB for binary classification and print the classification report",
+            "Plot KNN accuracy vs k (1-20) to find the optimal number of neighbors",
+        ],
         "rw_scenario": "E-commerce: Recommend similar products using KNN — find the 5 most similar items based on features.",
         "rw_code": (
             "from sklearn.neighbors import NearestNeighbors\n"
@@ -777,6 +812,13 @@ SECTIONS = [
             "    score  = silhouette_score(X, labels)\n"
             "    print(f'  {linkage:8s}: {score:.4f}')"
         ),
+        "todos": [
+            "Run KMeans with k=3 on iris features and compare cluster labels to true labels",
+            "Use the elbow method (inertia vs k) to find the optimal number of clusters",
+            "Run DBSCAN and count how many points are labeled as noise (label=-1)",
+            "Compare KMeans and DBSCAN cluster assignments on the same dataset",
+            "Scale features with StandardScaler before clustering and observe the difference",
+        ],
         "rw_scenario": "Marketing: Segment customers into groups (KMeans) based on RFM (Recency, Frequency, Monetary) for targeted campaigns.",
         "rw_code": (
             "from sklearn.cluster import KMeans\n"
@@ -917,6 +959,13 @@ SECTIONS = [
             "for n, vs in zip(param_range, val_s.mean(axis=1)):\n"
             "    print(f'  n={n:3d}: {vs:.4f}')"
         ),
+        "todos": [
+            "Train a LogisticRegression and print accuracy_score plus the classification_report",
+            "Plot a confusion matrix using ConfusionMatrixDisplay and inspect FP vs FN counts",
+            "Compute ROC-AUC using roc_auc_score and compare to a dummy baseline",
+            "Use cross_val_score with scoring='f1' and compare to a simple train/test split",
+            "Try different classification_report averaging (macro, weighted) and explain the difference",
+        ],
         "rw_scenario": "Medical: Evaluate a cancer detection model — minimize false negatives (missed cancers) using recall + AUC.",
         "rw_code": (
             "from sklearn.metrics import classification_report, roc_auc_score, recall_score\n"
@@ -1084,6 +1133,13 @@ SECTIONS = [
             "scores_all = cross_val_score(pipe_all, X, y, cv=5)\n"
             "print(f'  All 20 features: {scores_all.mean():.4f} ± {scores_all.std():.4f}')"
         ),
+        "todos": [
+            "Build a Pipeline with StandardScaler and LogisticRegression and call fit/predict",
+            "Add a ColumnTransformer to handle numeric and categorical columns differently",
+            "Use Pipeline.set_params() to change the model's hyperparameters without rebuilding",
+            "Pass a pipeline to cross_val_score to ensure preprocessing happens inside each fold",
+            "Add OneHotEncoder in the pipeline and verify the feature count increases correctly",
+        ],
         "rw_scenario": "HR Analytics: Build a complete pipeline to predict employee attrition from mixed numeric/categorical HR data.",
         "rw_code": (
             "from sklearn.pipeline import Pipeline\n"
@@ -1249,6 +1305,13 @@ SECTIONS = [
             "    print(f'  {metric:12s}: {test_mean:.4f} ± {test_std:.4f}  (train={train_mean:.4f}, gap={gap:.4f})')\n"
             "print(f'\\nFit time: {results[\"fit_time\"].mean():.3f}s avg')"
         ),
+        "todos": [
+            "Run GridSearchCV on a RandomForestClassifier with param_grid for n_estimators and max_depth",
+            "Use RandomizedSearchCV instead of GridSearchCV and compare search time vs accuracy",
+            "Print best_params_ and best_score_ after a grid search",
+            "Use HalvingGridSearchCV for faster search on a larger param grid",
+            "Pass scoring='roc_auc' to GridSearchCV and compare to using scoring='accuracy'",
+        ],
         "rw_scenario": "Ad Tech: Tune a click-through-rate (CTR) prediction model to maximize ROC-AUC for an ad targeting system.",
         "rw_code": (
             "from sklearn.model_selection import RandomizedSearchCV\n"
@@ -1408,6 +1471,13 @@ SECTIONS = [
             "    spread = X_iso[y == cls].std()\n"
             "    print(f'  Digit {cls}: {spread:.3f}')"
         ),
+        "todos": [
+            "Fit PCA on the iris dataset and print the explained_variance_ratio_ per component",
+            "Find how many PCA components are needed to explain 95% of the variance",
+            "Run t-SNE on a dataset and visualize clusters in 2D (print centroid coords)",
+            "Combine PCA dimensionality reduction with KNN classification in a single Pipeline",
+            "Compare model accuracy before and after PCA reduction to 2 components",
+        ],
         "rw_scenario": "NLP: Reduce TF-IDF document vectors from 5000 dims to 50 with PCA before training a classifier — 10x speedup.",
         "rw_code": (
             "from sklearn.decomposition import PCA, TruncatedSVD\n"
@@ -1602,6 +1672,13 @@ SECTIONS = [
             "plt.tight_layout(); plt.savefig('pr_curve.png', dpi=80); plt.close()\n"
             "print('Saved pr_curve.png')"
         ),
+        "todos": [
+            "Create an imbalanced dataset with class_weight={0:1,1:10} and compare to no class weight",
+            "Use SMOTE from imbalanced-learn to oversample the minority class and check new counts",
+            "Train on an imbalanced dataset and compare F1 scores with and without oversampling",
+            "Use RandomUnderSampler to reduce the majority class and measure recall improvement",
+            "Set class_weight='balanced' in LogisticRegression and compare recall to default",
+        ],
         "rw_scenario": "Fraud detection: only 0.5% of transactions are fraudulent. Train a model that maximizes recall (catch most frauds) while keeping precision above 40% to avoid alert fatigue.",
         "rw_code": (
             "import numpy as np\n"
@@ -1780,6 +1857,13 @@ SECTIONS = [
             "df = pd.DataFrame(X[:5], columns=['a','b','c','d'])\n"
             "print(rs2.fit_transform(df))"
         ),
+        "todos": [
+            "Write a custom transformer that inherits BaseEstimator and TransformerMixin",
+            "Implement fit() that computes statistics and transform() that applies them",
+            "Add your custom transformer to a sklearn Pipeline and call fit_transform()",
+            "Test that your transformer works with cross_val_score without data leakage",
+            "Verify that inverse_transform() correctly reverses your custom transformation",
+        ],
         "rw_scenario": "Build a production feature engineering pipeline with custom outlier winsorization, correlation-based feature selection, and a custom log transformer that handles zero and negative values gracefully.",
         "rw_code": (
             "import numpy as np\n"
@@ -1959,6 +2043,13 @@ SECTIONS = [
             "print(f'Original  log-loss: {log_loss(y_te, proba_te):.4f}')\n"
             "print(f'Calibrated log-loss: {log_loss(y_te, cal_proba):.4f}')"
         ),
+        "todos": [
+            "Train a RandomForestClassifier and use CalibratedClassifierCV to calibrate its probabilities",
+            "Compare predict_proba histograms before and after calibration",
+            "Plot a reliability diagram (calibration curve) using calibration_curve from sklearn",
+            "Compare 'isotonic' vs 'sigmoid' calibration methods on the same model",
+            "Use CalibrationDisplay to visualize calibration quality side by side",
+        ],
         "rw_scenario": "Risk scoring for loan defaults: the model outputs probabilities, and the business uses score >= 0.3 as the approval threshold. Calibrate so that predicted 0.3 truly means 30% default rate, enabling better risk-adjusted pricing.",
         "rw_code": (
             "import numpy as np\n"
@@ -2115,6 +2206,13 @@ SECTIONS = [
             "    scores = cross_val_score(model, X, y, cv=5, scoring='roc_auc')\n"
             "    print(f\"{name:<20} {scores.mean():.4f}  {scores.std():.4f}\")\n"
         ),
+        "todos": [
+            "Build a StackingClassifier with 3 base estimators and LogisticRegression as the meta-learner",
+            "Compare stacked model AUC vs each individual base model on a holdout set",
+            "Use VotingClassifier with voting='soft' to blend predictions by probability averaging",
+            "Try BaggingClassifier with a Decision Tree base and compare to RandomForest",
+            "Print and compare the AUC of each base model vs the final stacked ensemble",
+        ],
         "rw_scenario": "Insurance claim prediction: blend Random Forest, GBM, and Logistic Regression using OOF stacking to achieve better AUC than any single model for claims approval.",
         "rw_code": (
             "import numpy as np\n"
@@ -2264,6 +2362,13 @@ SECTIONS = [
             "    print(f\"Fold {fold+1} (gap=10): RMSE={rmse:.4f}\")\n"
             "print(f\"Mean RMSE: {np.mean(results):.4f}\")\n"
         ),
+        "todos": [
+            "Use TimeSeriesSplit(n_splits=5) and print the size of each train/test fold",
+            "Run cross_val_score with TimeSeriesSplit instead of StratifiedKFold on time-ordered data",
+            "Implement a walk-forward validation loop manually and compute RMSE per step",
+            "Add a gap parameter to TimeSeriesSplit to prevent data leakage in sequential data",
+            "Compare TimeSeriesSplit vs shuffle-based KFold performance on the same time series",
+        ],
         "rw_scenario": "Stock return prediction: use TimeSeriesSplit(n_splits=5, gap=5) to evaluate a GBM model on 3 years of daily data. Prevent look-ahead bias by ensuring a 5-day gap between train and test sets.",
         "rw_code": (
             "import numpy as np\n"
@@ -2381,6 +2486,13 @@ SECTIONS = [
             "    feat = X.columns[i]\n"
             "    print(f\"  {feat:<35} mean|SHAP|={mean_abs[i]:.4f}\")\n"
         ),
+        "todos": [
+            "Install shap and compute shap.TreeExplainer on a RandomForestClassifier",
+            "Print the SHAP values for the first 5 test samples and identify the top feature",
+            "Compute mean absolute SHAP values per feature to rank global feature importance",
+            "Compare SHAP feature importance ranking to RandomForest's feature_importances_",
+            "Use shap.summary_plot or print SHAP values for at least 3 different test instances",
+        ],
         "rw_scenario": "Credit scoring: use SHAP to explain individual loan approval/rejection decisions to regulators and customers, identifying the top 3 features driving each decision.",
         "rw_code": (
             "import numpy as np\n"
@@ -2588,6 +2700,13 @@ SECTIONS = [
             "print(f\"Mixed-type pipeline accuracy: {scores.mean():.4f} ± {scores.std():.4f}\")\n"
             "print(f\"Input features: {X.shape[1]} | Encoded features: {preprocessor.fit_transform(X).shape[1]}\")\n"
         ),
+        "todos": [
+            "Apply np.log1p to a skewed feature and compare the distribution before and after",
+            "Use PolynomialFeatures(degree=2) and check how many new features are created",
+            "Bin a continuous variable using pd.cut and one-hot encode the bins",
+            "Create an interaction feature by multiplying two existing numeric columns",
+            "Use SelectKBest(f_classif, k=5) to select the top 5 features and print their names",
+        ],
         "rw_scenario": "E-Commerce: A churn prediction pipeline applies log-transform to purchase frequency, clips outliers in spending, one-hot encodes customer segment and region, then trains a classifier.",
         "rw_code": (
             "from sklearn.base import BaseEstimator, TransformerMixin\n"
@@ -2792,6 +2911,13 @@ SECTIONS = [
             "micro_auc = roc_auc_score(y_bin, proba, average='micro')\n"
             "print(f\"Macro AUC: {macro_auc:.4f}  |  Micro AUC: {micro_auc:.4f}\")\n"
         ),
+        "todos": [
+            "Plot the ROC curve and compute AUC using roc_curve and auc from sklearn",
+            "Plot the Precision-Recall curve using precision_recall_curve and compute average precision",
+            "Vary the decision threshold from 0.3 to 0.7 and print precision and recall at each",
+            "Compare ROC-AUC of LogisticRegression vs RandomForest on the same dataset",
+            "Find the threshold that maximizes F1 score by sweeping precision_recall_curve",
+        ],
         "rw_scenario": "Credit Risk: A bank compares ROC-AUC and PR-AUC for fraud detection models. They select the threshold maximizing recall at 90% while monitoring precision to minimize false positive customer blocks.",
         "rw_code": (
             "from sklearn.datasets import make_classification\n"
@@ -2987,6 +3113,13 @@ SECTIONS = [
             "    elapsed = time.time() - t0\n"
             "    print(f\"{name:25s}  {scores.mean():.4f}    {elapsed:.2f}s\")\n"
         ),
+        "todos": [
+            "Train a GradientBoostingClassifier and print feature_importances_ sorted by value",
+            "Compare GradientBoostingClassifier vs RandomForestClassifier accuracy on the same data",
+            "Sweep n_estimators from 50 to 500 and plot training vs validation loss (staged_predict)",
+            "Use early stopping by monitoring validation loss across boosting rounds",
+            "Try HistGradientBoostingClassifier and compare training speed vs GradientBoosting",
+        ],
         "rw_scenario": "Customer Lifetime Value: An e-commerce team trains a GBM to predict whether a customer will become high-LTV. They use staged_predict_proba for early stopping and inspect feature importances to guide feature engineering.",
         "rw_code": (
             "from sklearn.ensemble import HistGradientBoostingClassifier\n"
@@ -3183,6 +3316,13 @@ SECTIONS = [
             "print(f\"Best l1_ratio: {pipe['enet'].l1_ratio_:.2f}\")\n"
             "print(f\"Non-zero coefs: {(pipe['enet'].coef_ != 0).sum()} / {p}\")\n"
         ),
+        "todos": [
+            "Train Ridge, Lasso, and ElasticNet on make_regression and compare R2 scores",
+            "Count how many coefficients Lasso sets to zero at alpha=1.0",
+            "Sweep alpha from 0.001 to 100 for Lasso and print the number of non-zero features at each",
+            "Use LassoCV to automatically select the best alpha via cross-validation",
+            "Compare Lasso's selected features to the ground truth from make_regression(coef=True)",
+        ],
         "rw_scenario": "Genomics: A biostatistician uses Lasso to select predictive SNPs (genetic markers) from thousands of features for a disease outcome, leveraging sparsity to identify the most relevant markers.",
         "rw_code": (
             "from sklearn.linear_model import LassoCV\n"
@@ -3383,6 +3523,13 @@ SECTIONS = [
             "acc = accuracy_score(y_te, data['model'].predict(X_te))\n"
             "print(f\"Accuracy after reload: {acc:.4f}\")\n"
         ),
+        "todos": [
+            "Save a trained model to disk using joblib.dump and reload it with joblib.load",
+            "Verify the reloaded model produces identical predictions to the original",
+            "Save a full sklearn Pipeline (including preprocessing) using joblib.dump",
+            "Add the sklearn version to the saved model metadata and check it on load",
+            "Compare joblib vs pickle file size for the same trained RandomForestClassifier",
+        ],
         "rw_scenario": "MLOps: A prediction service loads a versioned joblib bundle at startup, validates the sklearn version matches, logs the model metadata, and serves predictions with confidence scores.",
         "rw_code": (
             "import joblib, os, tempfile\n"
@@ -3602,6 +3749,13 @@ SECTIONS = [
             "for k, v in gs.best_params_.items():\n"
             "    print(f\"  {k}: {v}\")\n"
         ),
+        "todos": [
+            "Use TfidfVectorizer to convert a list of text strings into a numeric feature matrix",
+            "Train a LogisticRegression on TF-IDF features and print the classification report",
+            "Inspect the top 10 most important words by examining classifier.coef_ with vocabulary",
+            "Compare TfidfVectorizer vs CountVectorizer accuracy on the same text dataset",
+            "Build a Pipeline with TfidfVectorizer and MultinomialNB for text classification",
+        ],
         "rw_scenario": "Spam Filtering: An email system trains a TF-IDF + Logistic Regression classifier on 10K labeled emails. It uses feature inspection to identify top spam keywords and achieves >99% accuracy on a held-out test set.",
         "rw_code": (
             "from sklearn.feature_extraction.text import TfidfVectorizer\n"
@@ -3803,6 +3957,13 @@ SECTIONS = [
             "    flagged = (scores >= best_thr).sum()\n"
             "    print(f\"Flagged {flagged} anomalies ({flagged/len(X):.1%} of data)\")\n"
         ),
+        "todos": [
+            "Train IsolationForest and use predict() to label outliers as -1 and inliers as 1",
+            "Compare IsolationForest vs LocalOutlierFactor anomaly detection on the same data",
+            "Use decision_function() from IsolationForest to get a continuous anomaly score",
+            "Adjust the contamination parameter from 0.05 to 0.2 and count detected anomalies",
+            "Train on clean data only and evaluate how many injected outliers are correctly detected",
+        ],
         "rw_scenario": "Manufacturing QC: A sensor monitoring system uses IsolationForest trained on normal operating conditions. Any reading with anomaly score above a threshold triggers an alert — reducing false positives by 60% vs. threshold-based rules.",
         "rw_code": (
             "from sklearn.ensemble import IsolationForest\n"
@@ -4007,6 +4168,13 @@ SECTIONS = [
             "print(f\"\n"
             "Blobs: {(labels==-1).sum()} noise points identified as outliers\")\n"
         ),
+        "todos": [
+            "Run AgglomerativeClustering with linkage='ward' and compare to KMeans on the same data",
+            "Train a GaussianMixture(n_components=3) and print predict_proba for 5 samples",
+            "Compare BIC scores for GaussianMixture with n_components from 2 to 8",
+            "Use dendrogram from scipy to visualize hierarchical clustering structure",
+            "Run HDBSCAN (from hdbscan library) and compare cluster counts to DBSCAN",
+        ],
         "rw_scenario": "Customer Segmentation: A retail analytics team uses GaussianMixture to segment customers into soft groups — allowing borderline customers to have membership probabilities across multiple segments for targeted marketing.",
         "rw_code": (
             "from sklearn.mixture import GaussianMixture\n"
@@ -4113,6 +4281,20 @@ def make_html(sections):
       <pre><code id="{pid}" class="language-python">{practice["starter"]}</code></pre></div>
     </div>"""
 
+        todos = s.get("todos", [])
+        todos_block = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {t}</label></li>'
+                for t in todos
+            )
+            todos_block = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
+
         cards += f"""
 <div class="card" id="{sid}">
   <div class="card-header" onclick="toggle('{sid}')">
@@ -4136,6 +4318,7 @@ def make_html(sections):
       <pre><code class="language-python">{s["rw_code"]}</code></pre></div>
     </div>
     {practice_block}
+    {todos_block}
   </div>
 </div>"""
 
@@ -4147,43 +4330,10 @@ def make_html(sections):
 <title>Scikit-learn Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--accent:{ACCENT};--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}}
-*{{box-sizing:border-box;margin:0;padding:0;}}
-body{{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}}
-nav{{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}}
-nav h2{{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}}
-nav input{{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}}
-nav a{{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}}
-nav a:hover{{color:var(--accent);border-left-color:var(--accent);background:rgba(52,211,153,.05);}}
-main{{flex:1;padding:32px;max-width:900px;}}
-header{{margin-bottom:32px;}}
-header h1{{font-size:2rem;font-weight:700;}}
-header h1 span{{color:var(--accent);}}
-header p{{color:var(--muted);margin-top:6px;}}
-.badge{{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(52,211,153,.15);color:var(--accent);border:1px solid rgba(52,211,153,.3);margin-top:8px;}}
-.card{{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}}
-.card-header{{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}}
-.card-header:hover{{background:#1c2128;color:var(--accent);}}
-.arrow{{transition:transform .25s;color:var(--accent);}}
-.card-body{{padding:18px;background:#0d1117;border-top:1px solid var(--border);}}
-.desc{{color:var(--muted);margin-bottom:14px;line-height:1.6;}}
-h4{{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}}
-.code-wrap{{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}}
-pre{{margin:0;overflow-x:auto;}}
-pre code{{font-size:.82rem;padding:14px!important;}}
-.copy-btn{{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}}
-.copy-btn:hover{{background:var(--accent);color:#000;}}
-.rw{{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:8px;padding:14px;margin-top:16px;}}
-.rh{{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}}
-.rd{{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:8px;padding:14px;margin-top:16px;}}
-.ph{{font-weight:700;color:#58a6ff;margin-bottom:6px;font-size:.85rem;}}
-.pd{{color:#79c0ff;font-size:.85rem;margin-bottom:10px;line-height:1.5;}}
-@media(max-width:700px){{nav{{display:none;}}main{{padding:16px;}}}}
-</style>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT};--accent:{ACCENT}}}</style>
 </head>
-<body>
+<body class="page-module">
 <nav>
   <h2>Scikit-learn</h2>
   <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">

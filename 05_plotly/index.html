@@ -3,24 +3,8 @@
 <title>Plotly Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#a78bfa}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#a78bfa}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Plotly Express Basics</a></li>
@@ -270,7 +254,11 @@ countries = [&#x27;United States&#x27;, &#x27;China&#x27;, &#x27;India&#x27;, &#
 # )
 # TODO: fig.update_traces(marker=dict(size=8))
 # TODO: fig.update_layout(hovermode=&#x27;x unified&#x27;, height=450)
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar &amp; Pie Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.bar for categorical comparisons; px.pie and px.sunburst for part-to-whole. All support hover, faceting, and animation.</p><div class="code-block"><div class="ch"><span>px.bar with facets</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot with color mapped to a categorical column using the color= parameter</label></li>
+<li><label><input type="checkbox"> Add hover_data to show additional columns when hovering over points</label></li>
+<li><label><input type="checkbox"> Use size= to map a numeric column to marker size and adjust size_max</label></li>
+<li><label><input type="checkbox"> Add a trendline using trendline=&#x27;ols&#x27; and inspect the R-squared value</label></li>
+<li><label><input type="checkbox"> Export the chart to HTML using fig.write_html(&#x27;chart.html&#x27;) and open it in a browser</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar &amp; Pie Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.bar for categorical comparisons; px.pie and px.sunburst for part-to-whole. All support hover, faceting, and animation.</p><div class="code-block"><div class="ch"><span>px.bar with facets</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import plotly.express as px
 
 df = px.data.tips()
 
@@ -423,7 +411,11 @@ df = pd.DataFrame(rows, columns=[&#x27;continent&#x27;,&#x27;country&#x27;,&#x27
 #     title=&#x27;Population Drill-Down: Continent -&gt; Country -&gt; City&#x27;,
 # )
 # TODO: fig.update_layout(height=520)
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Histogram &amp; Box Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.histogram and px.box create interactive distribution charts. Hover shows exact statistics; click legend to toggle groups.</p><div class="code-block"><div class="ch"><span>px.histogram with marginal</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.bar chart with barmode=&#x27;group&#x27; and color= by a category column</label></li>
+<li><label><input type="checkbox"> Convert a grouped bar chart to a stacked bar chart by changing barmode to &#x27;stack&#x27;</label></li>
+<li><label><input type="checkbox"> Create a px.pie chart with hole=0.4 to make a donut chart</label></li>
+<li><label><input type="checkbox"> Build a px.sunburst with a 3-level hierarchy using path= parameter</label></li>
+<li><label><input type="checkbox"> Add text_auto=True to a bar chart and observe the automatic value labels</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Histogram &amp; Box Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.histogram and px.box create interactive distribution charts. Hover shows exact statistics; click legend to toggle groups.</p><div class="code-block"><div class="ch"><span>px.histogram with marginal</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import plotly.express as px
 
 df = px.data.tips()
 
@@ -627,7 +619,11 @@ df = px.data.tips()
 #     title=&#x27;Tip Distribution: Lunch vs Dinner&#x27;,
 # )
 # TODO: fig2.update_layout(height=400)
-# TODO: fig2.show()</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Heatmap &amp; Scatter Matrix</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.imshow renders 2D matrices as interactive heatmaps. px.scatter_matrix creates an interactive pairplot grid.</p><div class="code-block"><div class="ch"><span>px.imshow — correlation heatmap</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import plotly.express as px
+# TODO: fig2.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.histogram with marginal=&#x27;box&#x27; to add a mini box plot above the histogram</label></li>
+<li><label><input type="checkbox"> Use px.violin with box=True and points=&#x27;all&#x27; to show the full data distribution</label></li>
+<li><label><input type="checkbox"> Set nbins= on a histogram and compare how bin count affects the shape perception</label></li>
+<li><label><input type="checkbox"> Use facet_col= to compare distributions across multiple groups side by side</label></li>
+<li><label><input type="checkbox"> Add opacity=0.7 and barmode=&#x27;overlay&#x27; to compare two distributions on one chart</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Heatmap &amp; Scatter Matrix</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.imshow renders 2D matrices as interactive heatmaps. px.scatter_matrix creates an interactive pairplot grid.</p><div class="code-block"><div class="ch"><span>px.imshow — correlation heatmap</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -930,7 +926,11 @@ labels = corr.columns.tolist()
 # ))
 # TODO: fig2.update_layout(title=&#x27;Iris Correlation (go.Heatmap + annotations)&#x27;,
 #                          annotations=annotations, height=420)
-# TODO: fig2.show()</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly renders true 3D scatter and surface plots in the browser. Drag to rotate, scroll to zoom.</p><div class="code-block"><div class="ch"><span>3D scatter plot</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import plotly.express as px
+# TODO: fig2.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.imshow correlation heatmap with text_auto=&#x27;.2f&#x27; to show values in each cell</label></li>
+<li><label><input type="checkbox"> Build a px.scatter_matrix on the iris dataset and hide the upper triangle with showupperhalf=False</label></li>
+<li><label><input type="checkbox"> Try different color scales (RdBu_r, Viridis, Plasma) on a heatmap and note the visual difference</label></li>
+<li><label><input type="checkbox"> Add custom annotations to a go.Heatmap to label each cell with its exact value</label></li>
+<li><label><input type="checkbox"> Use aspect=&#x27;auto&#x27; in px.imshow to prevent square cell distortion on non-square matrices</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly renders true 3D scatter and surface plots in the browser. Drag to rotate, scroll to zoom.</p><div class="code-block"><div class="ch"><span>3D scatter plot</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -1127,7 +1127,11 @@ def make_cluster(cx, cy, cz, label, n):
 #     title=&#x27;3D Cluster Scatter — Size by Confidence&#x27;,
 # )
 # TODO: fig.update_layout(height=520)
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Subplots with make_subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">make_subplots creates multi-panel figures. Mix chart types, share axes, and control spacing — all in one interactive figure.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import plotly.graph_objects as go
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.scatter_3d with color mapped to a continuous variable and size= for a fourth dimension</label></li>
+<li><label><input type="checkbox"> Build a go.Surface plot of z = sin(x) * cos(y) and rotate it interactively in the browser</label></li>
+<li><label><input type="checkbox"> Add contours to a surface plot using contours=dict(z=dict(show=True)) to see level curves</label></li>
+<li><label><input type="checkbox"> Change the camera angle with fig.update_layout(scene=dict(camera=dict(eye=dict(x=1.5,y=-1.5,z=1))))</label></li>
+<li><label><input type="checkbox"> Combine a 3D scatter and a 3D line trace in the same figure using go.Figure() and add_trace()</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Subplots with make_subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">make_subplots creates multi-panel figures. Mix chart types, share axes, and control spacing — all in one interactive figure.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
@@ -1344,7 +1348,11 @@ ts = 100 + np.cumsum(np.random.randn(24) * 3)
 #     marker_color=&#x27;#EF553B&#x27;, name=&#x27;hist&#x27;), row=2, col=2)
 
 # TODO: fig.update_layout(title=&#x27;My 2x2 Dashboard&#x27;, height=550, showlegend=False)
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Customizing Layout &amp; Traces</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">update_layout() controls the figure-level design. update_traces() modifies all traces at once. Both accept selector filtering.</p><div class="code-block"><div class="ch"><span>update_layout — theme and fonts</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 subplot grid using make_subplots and add a different chart type in each panel</label></li>
+<li><label><input type="checkbox"> Use shared_xaxes=True on a 2-row subplot to link the x-axis zoom between panels</label></li>
+<li><label><input type="checkbox"> Mix chart types (bar + line) in the same subplot using add_trace() with row= and col=</label></li>
+<li><label><input type="checkbox"> Add subplot_titles= to label each panel and adjust vertical_spacing between rows</label></li>
+<li><label><input type="checkbox"> Add a go.Funnel trace in one panel of a subplot using specs=[{&#x27;type&#x27;:&#x27;funnel&#x27;}]</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Customizing Layout &amp; Traces</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">update_layout() controls the figure-level design. update_traces() modifies all traces at once. Both accept selector filtering.</p><div class="code-block"><div class="ch"><span>update_layout — theme and fonts</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import plotly.express as px
 import plotly.graph_objects as go
 
 df = px.data.gapminder().query(&quot;year == 2007 and continent == &#x27;Europe&#x27;&quot;)
@@ -1562,7 +1570,11 @@ fig = go.Figure()
 #     yaxis=dict(gridcolor=&#x27;#1e293b&#x27;, title=&#x27;Revenue ($K)&#x27;),
 #     barmode=&#x27;overlay&#x27;, height=430,
 # )
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Animated Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">animation_frame adds a play button to animate over a variable (e.g. year, month). Great for showing trends over time.</p><div class="code-block"><div class="ch"><span>Animated bubble chart</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply template=&#x27;plotly_dark&#x27; to an existing chart and compare it to &#x27;plotly_white&#x27;</label></li>
+<li><label><input type="checkbox"> Use update_traces() to change line color, width, and dash style across all line traces</label></li>
+<li><label><input type="checkbox"> Add an add_hline() reference line and an add_annotation() to highlight a key data point</label></li>
+<li><label><input type="checkbox"> Use update_layout() to set plot_bgcolor and paper_bgcolor for a custom dark theme</label></li>
+<li><label><input type="checkbox"> Create a dropdown menu with updatemenus= to toggle between two different datasets on one chart</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Animated Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">animation_frame adds a play button to animate over a variable (e.g. year, month). Great for showing trends over time.</p><div class="code-block"><div class="ch"><span>Animated bubble chart</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import plotly.express as px
 
 # Classic animated gapminder chart
 df = px.data.gapminder()
@@ -1755,7 +1767,11 @@ df = px.data.gapminder()
 # )
 # TODO: fig.update_layout(height=500,
 #     coloraxis_colorbar=dict(title=&#x27;Life Exp (years)&#x27;))
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Maps &amp; Geographic Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.choropleth and px.scatter_geo create world or country-level maps. px.scatter_mapbox uses tile maps for city-level data.</p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using animation_frame=&#x27;year&#x27; and observe the play button</label></li>
+<li><label><input type="checkbox"> Slow down animation speed by setting frame duration: fig.layout.updatemenus[0].buttons[0].args[1][&#x27;frame&#x27;][&#x27;duration&#x27;] = 1000</label></li>
+<li><label><input type="checkbox"> Create an animated bar chart using px.bar with animation_frame= and orientation=&#x27;h&#x27;</label></li>
+<li><label><input type="checkbox"> Set range_x= and range_y= on an animated chart to fix axis bounds across all frames</label></li>
+<li><label><input type="checkbox"> Print the number of unique animation frames using df[&#x27;year&#x27;].nunique()</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Maps &amp; Geographic Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">px.choropleth and px.scatter_geo create world or country-level maps. px.scatter_mapbox uses tile maps for city-level data.</p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import plotly.express as px
 
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
 
@@ -1924,7 +1940,11 @@ cities = pd.DataFrame({
 #     size_max=40,
 # )
 # TODO: fig.update_layout(height=460)
-# TODO: fig.show()</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Exporting &amp; Sharing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save charts as interactive HTML, static PNG/PDF/SVG (requires kaleido), or embed in web apps via fig.to_json().</p><div class="code-block"><div class="ch"><span>Export to HTML and JSON</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import plotly.express as px
+# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by a metric</label></li>
+<li><label><input type="checkbox"> Build a px.scatter_geo bubble map with size= and color= mapped to two different numeric columns</label></li>
+<li><label><input type="checkbox"> Use scope=&#x27;usa&#x27; to zoom a scatter_geo or choropleth to just the United States</label></li>
+<li><label><input type="checkbox"> Try px.scatter_mapbox with mapbox_style=&#x27;open-street-map&#x27; for a tile-based city-level map</label></li>
+<li><label><input type="checkbox"> Add hover_name= and hover_data= to a map and verify the popup shows correct information</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Exporting &amp; Sharing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save charts as interactive HTML, static PNG/PDF/SVG (requires kaleido), or embed in web apps via fig.to_json().</p><div class="code-block"><div class="ch"><span>Export to HTML and JSON</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import plotly.express as px
 import os
 
 df  = px.data.iris()
@@ -2117,7 +2137,11 @@ df_gap = px.data.gapminder().query(&quot;year == 2007&quot;)
 # TODO: with open(out, &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:
 #     f.write(html_body)
 # TODO: print(f&quot;Report saved: {out} ({os.path.getsize(out)/1024:.1f} KB)&quot;)
-# TODO: os.remove(out)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create interactive 3D visualizations — scatter plots, surface plots, and line trajectories — that users can rotate and zoom in the browser.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import plotly.graph_objects as go
+# TODO: os.remove(out)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Export a chart to HTML using fig.write_html(&#x27;chart.html&#x27;, include_plotlyjs=&#x27;cdn&#x27;) and open it</label></li>
+<li><label><input type="checkbox"> Convert a figure to JSON with fig.to_json() and print the character length of the result</label></li>
+<li><label><input type="checkbox"> Embed two separate charts into one HTML file using fig.to_html(full_html=False) for each</label></li>
+<li><label><input type="checkbox"> Try fig.write_image(&#x27;chart.png&#x27;) after installing kaleido and check the output file size</label></li>
+<li><label><input type="checkbox"> Use fig.to_dict() and inspect the keys to understand the underlying figure structure</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create interactive 3D visualizations — scatter plots, surface plots, and line trajectories — that users can rotate and zoom in the browser.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 np.random.seed(42)
@@ -2192,7 +2216,11 @@ df = pd.DataFrame({
     &#x27;category&#x27;: np.random.choice([&#x27;Electronics&#x27;,&#x27;Clothing&#x27;,&#x27;Food&#x27;], n),
 })
 # TODO: 3D scatter with color by category, size by margin
-# TODO: save to &#x27;globe_sales.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Geographic Maps</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize spatial data with choropleth maps, scatter geo, and mapbox — pinpoint patterns across countries, US states, and cities.</p><div class="code-block"><div class="ch"><span>US choropleth map by state</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import plotly.express as px
+# TODO: save to &#x27;globe_sales.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Scatter3d plot with mode=&#x27;markers&#x27; and color markers by a numeric column</label></li>
+<li><label><input type="checkbox"> Build a go.Surface plot of a mathematical function and rotate it in the browser</label></li>
+<li><label><input type="checkbox"> Add a second Scatter3d trace to a 3D figure using fig.add_trace()</label></li>
+<li><label><input type="checkbox"> Use make_subplots with specs=[[ {&#x27;type&#x27;:&#x27;scatter3d&#x27;}, {&#x27;type&#x27;:&#x27;surface&#x27;} ]] to place 3D charts side by side</label></li>
+<li><label><input type="checkbox"> Export your 3D chart to HTML and verify the interactive rotation works in a browser</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Geographic Maps</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize spatial data with choropleth maps, scatter geo, and mapbox — pinpoint patterns across countries, US states, and cities.</p><div class="code-block"><div class="ch"><span>US choropleth map by state</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -2259,7 +2287,11 @@ np.random.seed(42)
 df = pd.DataFrame({&#x27;country&#x27;: countries, &#x27;avg_temp&#x27;: np.random.uniform(5, 30, len(countries))})
 # TODO: choropleth with locations=&#x27;country&#x27;, color=&#x27;avg_temp&#x27;
 # TODO: colorscale=&#x27;RdBu_r&#x27;, color midpoint=15
-# TODO: save to &#x27;world_temp.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Animations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bring data to life with Plotly animations — animated scatter plots, bar chart races, and frame-by-frame time-lapse visualizations.</p><div class="code-block"><div class="ch"><span>Animated scatter with animation_frame</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import plotly.express as px
+# TODO: save to &#x27;world_temp.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a US choropleth using locationmode=&#x27;USA-states&#x27; and color a metric by state</label></li>
+<li><label><input type="checkbox"> Build a world choropleth with px.choropleth and change the color_continuous_scale</label></li>
+<li><label><input type="checkbox"> Add hover_name= and hover_data= to a scatter_geo map and verify the tooltips</label></li>
+<li><label><input type="checkbox"> Use px.scatter_mapbox with mapbox_style=&#x27;open-street-map&#x27; for a tile-based map</label></li>
+<li><label><input type="checkbox"> Filter the gapminder dataset to one year and display life expectancy as a choropleth</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Animations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bring data to life with Plotly animations — animated scatter plots, bar chart races, and frame-by-frame time-lapse visualizations.</p><div class="code-block"><div class="ch"><span>Animated scatter with animation_frame</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import plotly.express as px
 
 try:
     gapminder = px.data.gapminder()
@@ -2351,7 +2383,11 @@ growth = [0.03, 0.01, 0.002, 0.01, 0.015]
 # TODO: build frames list (one per year)
 # TODO: each frame: go.Frame with go.Bar showing populations
 # TODO: fig with play button in updatemenus
-# TODO: save to &#x27;population_animation.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Plotly Dash Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Dash app structure (code pattern)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python"># Dash apps run as web servers - this shows the code pattern
+# TODO: save to &#x27;population_animation.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using px.scatter with animation_frame=&#x27;year&#x27;</label></li>
+<li><label><input type="checkbox"> Build an animated bar chart race using px.bar with animation_frame= and orientation=&#x27;h&#x27;</label></li>
+<li><label><input type="checkbox"> Create an animated choropleth with px.choropleth and animation_frame=&#x27;year&#x27;</label></li>
+<li><label><input type="checkbox"> Use a slider to control a sine wave frequency using go.Figure with frames and sliders</label></li>
+<li><label><input type="checkbox"> Slow down the animation by setting frame duration to 800ms via updatemenus buttons</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Plotly Dash Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Dash app structure (code pattern)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python"># Dash apps run as web servers - this shows the code pattern
 print(&#x27;Dash app structure:&#x27;)
 print(&#x27;&#x27;&#x27;
 from dash import Dash, dcc, html
@@ -2450,7 +2486,11 @@ def make_fig(year, continent):
 for year, cont in [(1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;)]:
     fig = make_fig(year, cont)
     if fig:
-        fig.write_html(f&#x27;gap_{year}_{cont}.html&#x27;)</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Map Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import plotly.express as px
+        fig.write_html(f&#x27;gap_{year}_{cont}.html&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Study the Dash app structure pattern: layout, callback decorator, Input, and Output</label></li>
+<li><label><input type="checkbox"> Write a make_fig(category) function returning a filtered px.area chart and call it for 3 categories</label></li>
+<li><label><input type="checkbox"> Trace through the DataTable pattern code and identify props that enable sorting and filtering</label></li>
+<li><label><input type="checkbox"> Review the multi-page Dash routing pattern and note how dash.register_page works</label></li>
+<li><label><input type="checkbox"> Save the dashboard preview figure to HTML using fig.write_html() and open it locally</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Map Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Choropleth world map</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import plotly.express as px
 
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
 fig = px.choropleth(df, locations=&#x27;iso_alpha&#x27;, color=&#x27;gdpPercap&#x27;,
@@ -2505,7 +2545,11 @@ np.random.seed(42)
 df = pd.DataFrame({&#x27;state&#x27;:states,&#x27;score&#x27;:np.random.uniform(40,100,len(states))})
 # TODO: px.choropleth locationmode=&#x27;USA-states&#x27;, color=&#x27;score&#x27;, scope=&#x27;usa&#x27;
 # TODO: color_continuous_scale=&#x27;RdYlGn&#x27;
-# TODO: save &#x27;us_choropleth.html&#x27;</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. 3D Plots &amp; Surface Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>3D surface with contour projections</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import plotly.graph_objects as go
+# TODO: save &#x27;us_choropleth.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by gdpPercap</label></li>
+<li><label><input type="checkbox"> Build a US scatter_geo map using scope=&#x27;usa&#x27; and size= mapped to a revenue column</label></li>
+<li><label><input type="checkbox"> Add animation_frame= to a choropleth to animate it over multiple time periods</label></li>
+<li><label><input type="checkbox"> Create a density mapbox heatmap using px.density_mapbox centered on a city of your choice</label></li>
+<li><label><input type="checkbox"> Compare px.scatter_geo vs px.scatter_mapbox and note the differences in tile rendering</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. 3D Plots &amp; Surface Visualizations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>3D surface with contour projections</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 x = y = np.linspace(-3, 3, 60)
@@ -2584,7 +2628,11 @@ for i,(cx,cy,cz) in enumerate(centers):
     # TODO: add Scatter3d trace
     pass
 # TODO: update_layout with title, axis labels
-# TODO: fig.write_html(&#x27;clusters_3d.html&#x27;)</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Candlestick &amp; Financial Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly&#x27;s go.Candlestick and go.Ohlc render OHLC price data with interactive zoom, range slectors, and volume overlays — essential for financial dashboards.</p><div class="code-block"><div class="ch"><span>Basic candlestick with volume overlay</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import plotly.graph_objects as go
+# TODO: fig.write_html(&#x27;clusters_3d.html&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3D surface of z = sin(sqrt(x^2+y^2)) with contour projections enabled</label></li>
+<li><label><input type="checkbox"> Build a 3D scatter colored by cluster labels using px.scatter_3d with color= parameter</label></li>
+<li><label><input type="checkbox"> Plot a 3D spiral trajectory and mark the start (green) and end (red) points</label></li>
+<li><label><input type="checkbox"> Add contours to a go.Surface using contours={&#x27;z&#x27;: {&#x27;show&#x27;: True}} and observe the level lines</label></li>
+<li><label><input type="checkbox"> Change the camera perspective using scene=dict(camera=dict(eye=dict(x=1.5,y=-1.5,z=1)))</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Candlestick &amp; Financial Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly&#x27;s go.Candlestick and go.Ohlc render OHLC price data with interactive zoom, range slectors, and volume overlays — essential for financial dashboards.</p><div class="code-block"><div class="ch"><span>Basic candlestick with volume overlay</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np, pandas as pd
 
@@ -2717,7 +2765,11 @@ fig = go.Figure()
 fig.update_layout(title=&#x27;Bollinger Bands&#x27;, template=&#x27;plotly_dark&#x27;,
                   xaxis_rangeslider_visible=False)
 fig.write_html(&#x27;bollinger.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Treemap &amp; Sunburst Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Treemaps and sunbursts visualize hierarchical data where area/angle encodes value. Use them for budget breakdowns, file system sizes, market cap, and org charts.</p><div class="code-block"><div class="ch"><span>Treemap from flat DataFrame</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import plotly.express as px
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Candlestick chart and add a volume bar subplot with shared x-axis</label></li>
+<li><label><input type="checkbox"> Overlay a 20-day and 50-day moving average line on a candlestick chart</label></li>
+<li><label><input type="checkbox"> Add range selector buttons (1M, 3M, 6M, All) and a range slider to an OHLC chart</label></li>
+<li><label><input type="checkbox"> Color each volume bar green when close &gt;= open and red when close &lt; open</label></li>
+<li><label><input type="checkbox"> Compute and plot Bollinger Bands (20-day MA ± 2 std) on top of the candlestick</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Treemap &amp; Sunburst Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Treemaps and sunbursts visualize hierarchical data where area/angle encodes value. Use them for budget breakdowns, file system sizes, market cap, and org charts.</p><div class="code-block"><div class="ch"><span>Treemap from flat DataFrame</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import plotly.express as px
 import pandas as pd
 
 df = pd.DataFrame({
@@ -2832,7 +2884,11 @@ values  = [0, 0, 0, 0,
 fig = go.Figure()
 fig.update_layout(title=&#x27;File System Sunburst&#x27;)
 fig.write_html(&#x27;filesystem.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Violin &amp; Strip Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Violin plots combine a KDE curve with a box plot to show distribution shape. Strip/jitter plots show individual data points — great for small-to-medium datasets.</p><div class="code-block"><div class="ch"><span>Violin with box and points overlay</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import plotly.express as px
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.treemap from a flat DataFrame with a 2-level path= hierarchy</label></li>
+<li><label><input type="checkbox"> Add color= to a treemap to encode a second metric as a color scale</label></li>
+<li><label><input type="checkbox"> Create a 3-level px.sunburst (continent &gt; country &gt; sector) and click to drill down</label></li>
+<li><label><input type="checkbox"> Use go.Treemap directly and set texttemplate to show label and value in each cell</label></li>
+<li><label><input type="checkbox"> Compare how px.treemap and px.sunburst represent the same hierarchical data differently</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Violin &amp; Strip Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Violin plots combine a KDE curve with a box plot to show distribution shape. Strip/jitter plots show individual data points — great for small-to-medium datasets.</p><div class="code-block"><div class="ch"><span>Violin with box and points overlay</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import plotly.express as px
 import numpy as np, pandas as pd
 
 np.random.seed(42)
@@ -2955,7 +3011,11 @@ data[&#x27;score&#x27;] = data[&#x27;score&#x27;].clip(0, 100)
 fig = go.Figure()
 fig.update_layout(title=&#x27;Exam Score Distributions&#x27;, height=430)
 fig.write_html(&#x27;exam_scores.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Parallel Coordinates &amp; Categories</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Parallel coordinates show multi-dimensional continuous data on parallel axes — each line is one observation. Parallel categories (Sankey-style) show flows between categorical variables.</p><div class="code-block"><div class="ch"><span>Parallel coordinates for ML feature analysis</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import plotly.express as px
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.violin with box=True and points=&#x27;all&#x27; to show raw data on a violin plot</label></li>
+<li><label><input type="checkbox"> Build a split violin using go.Violin with side=&#x27;negative&#x27; and side=&#x27;positive&#x27; for comparison</label></li>
+<li><label><input type="checkbox"> Use px.strip to show individual data points with jitter and add a horizontal mean marker</label></li>
+<li><label><input type="checkbox"> Set meanline_visible=True on a violin to show the mean line inside the distribution</label></li>
+<li><label><input type="checkbox"> Create a violin with points=&#x27;outliers&#x27; to highlight only the extreme values</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Parallel Coordinates &amp; Categories</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Parallel coordinates show multi-dimensional continuous data on parallel axes — each line is one observation. Parallel categories (Sankey-style) show flows between categorical variables.</p><div class="code-block"><div class="ch"><span>Parallel coordinates for ML feature analysis</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import plotly.express as px
 from sklearn.datasets import load_iris
 import pandas as pd
 
@@ -3066,7 +3126,11 @@ except Exception:
 
 # TODO: parallel_coordinates colored by cylinders
 # TODO: parallel_categories with cylinders and origin
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Funnel &amp; Waterfall Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Funnel charts show sequential stage drop-off (sales pipelines, conversion funnels). Waterfall charts show cumulative effects of positive and negative values — perfect for P&amp;L statements.</p><div class="code-block"><div class="ch"><span>Sales funnel with conversion rates</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import plotly.graph_objects as go
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.parallel_coordinates chart on the iris dataset colored by species</label></li>
+<li><label><input type="checkbox"> Drag an axis range in the parallel coordinates chart to filter observations interactively</label></li>
+<li><label><input type="checkbox"> Build a px.parallel_categories chart to show flow from region to segment to outcome</label></li>
+<li><label><input type="checkbox"> Use go.Parcoords with custom dimension ranges to constrain each axis independently</label></li>
+<li><label><input type="checkbox"> Color the parallel coordinates lines by a continuous variable and add a colorbar</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Funnel &amp; Waterfall Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Funnel charts show sequential stage drop-off (sales pipelines, conversion funnels). Waterfall charts show cumulative effects of positive and negative values — perfect for P&amp;L statements.</p><div class="code-block"><div class="ch"><span>Sales funnel with conversion rates</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import plotly.graph_objects as go
 
 stages = [&#x27;Website Visits&#x27;, &#x27;Product Views&#x27;, &#x27;Add to Cart&#x27;,
           &#x27;Checkout Started&#x27;, &#x27;Purchase Completed&#x27;]
@@ -3197,7 +3261,11 @@ items   = [&#x27;Budget Total&#x27;] + departments + [&#x27;Overhead&#x27;, &#x2
 fig = go.Figure()
 fig.update_layout(title=&#x27;Budget Variance Waterfall&#x27;, height=430)
 fig.write_html(&#x27;budget_variance.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Indicator &amp; Gauge Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">go.Indicator renders KPI numbers, delta comparisons, and gauge/speedometer charts. Combine them in subplots to build executive dashboards without any extra libraries.</p><div class="code-block"><div class="ch"><span>KPI indicators with delta</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import plotly.graph_objects as go
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Funnel chart for a 5-stage sales pipeline and add textinfo=&#x27;value+percent previous&#x27;</label></li>
+<li><label><input type="checkbox"> Build a go.Waterfall P&amp;L chart using measure=[&#x27;absolute&#x27;,&#x27;relative&#x27;,&#x27;relative&#x27;,&#x27;total&#x27;] pattern</label></li>
+<li><label><input type="checkbox"> Color waterfall bars green for increases and red for decreases using increasing/decreasing dicts</label></li>
+<li><label><input type="checkbox"> Compare go.Funnel and go.Funnelarea for the same data using a side-by-side subplot</label></li>
+<li><label><input type="checkbox"> Compute the overall conversion rate from the funnel data and print it alongside the chart</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Indicator &amp; Gauge Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">go.Indicator renders KPI numbers, delta comparisons, and gauge/speedometer charts. Combine them in subplots to build executive dashboards without any extra libraries.</p><div class="code-block"><div class="ch"><span>KPI indicators with delta</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 fig = make_subplots(rows=1, cols=4,
@@ -3359,7 +3427,11 @@ for idx, (name, val, max_val, suffix, steps) in enumerate(okrs):
 
 fig.update_layout(title=&#x27;OKR Progress Gauges&#x27;, height=480, template=&#x27;plotly_dark&#x27;)
 fig.write_html(&#x27;okr_gauges.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Animated Bar Chart Race &amp; Timelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly animations use frames and sliders to animate data over time. Bar chart races, animated scatter plots, and timeline maps reveal how data evolves.</p><div class="code-block"><div class="ch"><span>Bar chart race with animation frames</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import plotly.graph_objects as go
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Indicator with mode=&#x27;number+delta&#x27; and set reference= to compare to last period</label></li>
+<li><label><input type="checkbox"> Build a gauge chart using mode=&#x27;gauge+number&#x27; with colored steps for green/yellow/red zones</label></li>
+<li><label><input type="checkbox"> Place 4 KPI indicators in a 2x2 subplot using specs=[[ {&#x27;type&#x27;:&#x27;indicator&#x27;} ]*2]*2</label></li>
+<li><label><input type="checkbox"> Color the delta red when increasing is bad (e.g. churn) by setting increasing color to &#x27;red&#x27;</label></li>
+<li><label><input type="checkbox"> Create a bullet chart using gauge shape=&#x27;bullet&#x27; and a threshold line at the target value</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Animated Bar Chart Race &amp; Timelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly animations use frames and sliders to animate data over time. Bar chart races, animated scatter plots, and timeline maps reveal how data evolves.</p><div class="code-block"><div class="ch"><span>Bar chart race with animation frames</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import plotly.graph_objects as go
 import numpy as np, pandas as pd
 
 np.random.seed(42)
@@ -3519,7 +3591,11 @@ fig = go.Figure()
 fig.update_layout(title=&#x27;Population Pyramid&#x27;, barmode=&#x27;overlay&#x27;,
                   xaxis_title=&#x27;Population (M)&#x27;, height=450)
 fig.write_html(&#x27;population_pyramid.html&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Custom Templates &amp; Styling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly templates define default colors, fonts, backgrounds, and axis styles. Create reusable brand templates with pio.templates and apply them globally or per-chart.</p><div class="code-block"><div class="ch"><span>Creating and applying a custom template</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import plotly.graph_objects as go
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a bar chart race using go.Figure with frames= and an animated play button</label></li>
+<li><label><input type="checkbox"> Sort bars within each frame so the highest value always appears at the top</label></li>
+<li><label><input type="checkbox"> Add a sliders= list so users can manually step through each animation frame</label></li>
+<li><label><input type="checkbox"> Create an animated scatter using px.scatter with animation_frame= and animation_group=</label></li>
+<li><label><input type="checkbox"> Build an animated choropleth map with px.choropleth and animation_frame=&#x27;year&#x27;</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Custom Templates &amp; Styling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly templates define default colors, fonts, backgrounds, and axis styles. Create reusable brand templates with pio.templates and apply them globally or per-chart.</p><div class="code-block"><div class="ch"><span>Creating and applying a custom template</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import plotly.graph_objects as go
 import plotly.io as pio
 import plotly.express as px
 
@@ -3690,10 +3766,14 @@ fig = make_subplots(rows=2, cols=2,
 fig.update_layout(title=&#x27;Sales Dashboard&#x27;, template=&#x27;plotly_dark&#x27;,
                   height=600, showlegend=False)
 fig.write_html(&#x27;dashboard.html&#x27;)
-</code></pre></div></div></div></div></main>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a custom go.layout.Template with brand colors and register it with pio.templates</label></li>
+<li><label><input type="checkbox"> Set pio.templates.default = &#x27;your_template&#x27; to apply it globally to all new figures</label></li>
+<li><label><input type="checkbox"> Create a dark GitHub-style theme by setting paper_bgcolor=&#x27;#0d1117&#x27; and grid colors</label></li>
+<li><label><input type="checkbox"> Add a confidence interval band using fill=&#x27;tonexty&#x27; between an upper and lower Scatter trace</label></li>
+<li><label><input type="checkbox"> Add forecast annotations with add_vline() and add_annotation() to mark key transitions</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

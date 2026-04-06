@@ -59,7 +59,7 @@ SECTIONS = [
             ")\n\n"
             "# Override theme at runtime via CSS injection\n"
             "st.markdown(\n"
-            "    '<style>h1{color:#ff4b4b;} .stMetric{background:#1e1e2e;border-radius:8px;padding:12px;}</style>',\n"
+            "    '<style>h1{{color:#ff4b4b;}} .stMetric{{background:#1e1e2e;border-radius:8px;padding:12px;}}</style>',\n"
             "    unsafe_allow_html=True\n"
             ")\n\n"
             "st.title('Custom Theme Demo')\n"
@@ -158,6 +158,12 @@ SECTIONS = [
                 "# st.table(df)"
             ),
         },
+        "todos": [
+            "Install streamlit with pip install streamlit and verify with streamlit --version",
+            "Run the Hello World app and observe live reloading when you edit the file",
+            "Add st.title, st.header, and st.text to display your name and a short bio",
+            "Deploy your first app to Streamlit Community Cloud from a public GitHub repo",
+        ]
     },
     {
         "title": "Text & Markdown Elements",
@@ -315,6 +321,13 @@ SECTIONS = [
                 "# st.success('???')"
             ),
         },
+        "todos": [
+            "Use st.write() to display a string, a number, a dict, and a DataFrame",
+            "Render a markdown table of 4 pandas functions using st.markdown()",
+            "Display a Python code snippet with syntax highlighting using st.code()",
+            "Add st.info, st.warning, st.error, and st.success boxes with tips",
+            "Use st.columns(2) to show a LaTeX formula alongside a code block side-by-side",
+        ]
     },
     {
         "title": "Input Widgets",
@@ -488,6 +501,12 @@ SECTIONS = [
                 "#         st.error('Category: Obese')"
             ),
         },
+        "todos": [
+            "Add a st.text_input and display its value live below the widget",
+            "Create a st.number_input and a st.slider, then show their sum as st.metric",
+            "Build a st.selectbox and st.multiselect pair and display the selections",
+            "Connect a slider widget to a dynamic output (e.g. update a chart or text)",
+        ]
     },
     {
         "title": "Data Display",
@@ -676,6 +695,12 @@ SECTIONS = [
                 "# )"
             ),
         },
+        "todos": [
+            "Display a pandas DataFrame with st.dataframe and enable column sorting",
+            "Show three st.metric cards with delta values for revenue, users, and churn",
+            "Add a static st.table alongside the interactive st.dataframe to compare both",
+            "Apply a ProgressColumn and a NumberColumn via column_config to style a DataFrame",
+        ]
     },
     {
         "title": "Charts & Visualization",
@@ -859,6 +884,12 @@ SECTIONS = [
                 "#     c3.metric('Final Price', f'${prices[-1]:.2f}')"
             ),
         },
+        "todos": [
+            "Create a st.line_chart from a pandas DataFrame with a date index",
+            "Render a st.bar_chart grouped by category",
+            "Embed a matplotlib figure using st.pyplot(fig)",
+            "Add an interactive Plotly scatter chart with hover data using st.plotly_chart()",
+        ]
     },
     {
         "title": "Layout: Columns, Tabs & Expanders",
@@ -1041,6 +1072,12 @@ SECTIONS = [
                 "# TODO: Repeat for tab2 with the clothing list"
             ),
         },
+        "todos": [
+            "Create a two-column layout with st.columns([2, 1]) and place a chart in the wide column",
+            "Add three st.tabs and put different content (chart, table, form) in each tab",
+            "Wrap a code snippet in st.expander so it is collapsed by default",
+            "Use st.container(border=True) to visually group a set of metric cards",
+        ]
     },
     {
         "title": "Sidebar & Session State",
@@ -1239,6 +1276,12 @@ SECTIONS = [
                 "#         st.rerun()"
             ),
         },
+        "todos": [
+            "Add a sidebar with st.radio for page navigation between 'Home' and 'Settings'",
+            "Initialize a counter in st.session_state and add increment/decrement buttons",
+            "Build a theme switcher using session_state that changes page background color",
+            "Create a shopping cart using session_state to persist items across widget interactions",
+        ]
     },
     {
         "title": "File Upload & Download",
@@ -1451,6 +1494,12 @@ SECTIONS = [
                 "#     st.download_button('Download Stats as CSV', desc.to_csv(), 'stats.csv', 'text/csv')"
             ),
         },
+        "todos": [
+            "Build a CSV uploader that shows row count, column names, and missing value counts",
+            "Add a download button that exports a filtered version of an uploaded dataframe",
+            "Create an image uploader that displays the image and its dimensions",
+            "Build a multi-file uploader that processes each file and combines results into one table",
+        ]
     },
     {
         "title": "Forms & Caching",
@@ -1655,6 +1704,12 @@ SECTIONS = [
                 "#     st.download_button('Download filtered CSV', filtered.to_csv(index=False), 'filtered.csv', 'text/csv')"
             ),
         },
+        "todos": [
+            "Create a form with at least 4 input types and validate all required fields on submit",
+            "Add @st.cache_data to a function that loads a CSV and verify it only loads once",
+            "Benchmark a function with and without @st.cache_data using time.perf_counter()",
+            "Use @st.cache_resource to load a heavy model once and reuse it across reruns",
+        ]
     },
     {
         "title": "Multi-Page Apps & Deployment",
@@ -1876,6 +1931,12 @@ SECTIONS = [
                 "#         st.success(f'Saved: {username}, {theme}, notifications={notifs}')"
             ),
         },
+        "todos": [
+            "Create a 3-page app with Home, Analytics, and Settings pages using the pages/ folder",
+            "Add custom sidebar navigation with st.page_link() and icons on each page",
+            "Configure app secrets in .streamlit/secrets.toml and access them with st.secrets",
+            "Deploy your multi-page app to Streamlit Community Cloud from a GitHub repository",
+        ]
     },
     {
         "title": "Authentication & Session State",
@@ -2068,6 +2129,12 @@ SECTIONS = [
                 "# TODO: Add a Logout button that clears session_state and reruns\n"
             ),
         },
+        "todos": [
+            "Build a login form that checks username/password and stores user in session_state",
+            "Add role-based access control: show an admin panel only when role == 'admin'",
+            "Implement a logout button that clears all session_state keys and reruns the app",
+            "Protect a page by redirecting unauthenticated users to the login screen",
+        ]
     },
     {
         "title": "Database Connections",
@@ -2235,6 +2302,12 @@ SECTIONS = [
                 "# TODO: 'Clear cache' button that calls st.cache_data.clear()\n"
             ),
         },
+        "todos": [
+            "Connect to an in-memory SQLite database and display query results as a dataframe",
+            "Add @st.cache_data(ttl=300) to a database query function and verify caching works",
+            "Add filter widgets (selectbox, date inputs) that pass parameters to the cached query",
+            "Implement a 'Clear cache' button that calls st.cache_data.clear() and refreshes the view",
+        ]
     },
     {
         "title": "Custom Components & Styling",
@@ -2413,6 +2486,12 @@ SECTIONS = [
                 "# TODO: render cards\n"
             ),
         },
+        "todos": [
+            "Inject custom CSS with st.markdown() to change card colors and font styles",
+            "Create a reusable kpi_card() function that generates styled HTML and renders with st.markdown()",
+            "Build a dark/light theme toggle in the sidebar that applies different CSS classes",
+            "Add a custom progress bar using HTML/CSS via st.markdown(unsafe_allow_html=True)",
+        ]
     },
     {
         "title": "14. Dashboards & Interactive Widgets",
@@ -2589,6 +2668,12 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Build a dashboard with sidebar filters (date range, category) that update all charts simultaneously",
+            "Add 4 KPI metric cards that recalculate based on sidebar filter selections",
+            "Implement a sortable, filterable data table with a search box using st.dataframe",
+            "Add a session state query counter that increments each time filters are applied",
+        ]
     },
     {
         "title": "15. ML Model Deployment with Streamlit",
@@ -5078,6 +5163,12 @@ SECTIONS = [
             "#    {\"status\": \"healthy\", \"data_rows\": len(df), \"model\": type(model).__name__}\n"
         ),
         },
+        "todos": [
+            "Load a scikit-learn model with @st.cache_resource and display a prediction form",
+            "Add batch prediction via CSV upload: show results table and download button",
+            "Display model performance metrics (accuracy, confusion matrix) with st.metric and st.json",
+            "Add a sidebar health check panel showing model status, last prediction time, and cache info",
+        ]
     },
 
 ]
@@ -5114,6 +5205,19 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
 
         cards += f"""
 <div class="card" id="{sid}">
@@ -5140,6 +5244,7 @@ def make_html(sections):
       <pre><code class="language-python">{esc(s["rw_code"])}</code></pre></div>
     </div>
     {practice_html}
+    {todos_html}
   </div>
 </div>"""
 
@@ -5151,43 +5256,10 @@ def make_html(sections):
 <title>Streamlit Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--accent:{ACCENT};--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}}
-*{{box-sizing:border-box;margin:0;padding:0;}}
-body{{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}}
-nav{{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}}
-nav h2{{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}}
-nav input{{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}}
-nav a{{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}}
-nav a:hover{{color:var(--accent);border-left-color:var(--accent);background:rgba(255,75,75,.05);}}
-main{{flex:1;padding:32px;max-width:900px;}}
-header{{margin-bottom:32px;}}
-header h1{{font-size:2rem;font-weight:700;}}
-header h1 span{{color:var(--accent);}}
-header p{{color:var(--muted);margin-top:6px;}}
-.badge{{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(255,75,75,.15);color:var(--accent);border:1px solid rgba(255,75,75,.3);margin-top:8px;}}
-.card{{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}}
-.card-header{{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}}
-.card-header:hover{{background:#1c2128;color:var(--accent);}}
-.arrow{{transition:transform .25s;color:var(--accent);}}
-.card-body{{padding:18px;background:#0d1117;border-top:1px solid var(--border);}}
-.desc{{color:var(--muted);margin-bottom:14px;line-height:1.6;}}
-h4{{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}}
-.code-wrap{{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}}
-pre{{margin:0;overflow-x:auto;}}
-pre code{{font-size:.82rem;padding:14px!important;}}
-.copy-btn{{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}}
-.copy-btn:hover{{background:var(--accent);color:#000;}}
-.rw{{background:rgba(255,75,75,.05);border:1px solid rgba(255,75,75,.2);border-radius:8px;padding:14px;margin-top:16px;}}
-.rh{{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}}
-.rd{{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-@media(max-width:700px){{nav{{display:none;}}main{{padding:16px;}}}}
-</style>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT};--accent:{ACCENT}}}</style>
 </head>
-<body>
+<body class="page-module">
 <nav>
   <h2>Streamlit</h2>
   <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">

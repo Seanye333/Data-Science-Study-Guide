@@ -6,43 +6,10 @@
 <title>Streamlit Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{--accent:#ff4b4b;--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}
-nav{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}
-nav h2{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}
-nav input{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}
-nav a{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}
-nav a:hover{color:var(--accent);border-left-color:var(--accent);background:rgba(255,75,75,.05);}
-main{flex:1;padding:32px;max-width:900px;}
-header{margin-bottom:32px;}
-header h1{font-size:2rem;font-weight:700;}
-header h1 span{color:var(--accent);}
-header p{color:var(--muted);margin-top:6px;}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(255,75,75,.15);color:var(--accent);border:1px solid rgba(255,75,75,.3);margin-top:8px;}
-.card{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
-.card-header{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}
-.card-header:hover{background:#1c2128;color:var(--accent);}
-.arrow{transition:transform .25s;color:var(--accent);}
-.card-body{padding:18px;background:#0d1117;border-top:1px solid var(--border);}
-.desc{color:var(--muted);margin-bottom:14px;line-height:1.6;}
-h4{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
-.code-wrap{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}
-pre{margin:0;overflow-x:auto;}
-pre code{font-size:.82rem;padding:14px!important;}
-.copy-btn{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}
-.copy-btn:hover{background:var(--accent);color:#000;}
-.rw{background:rgba(255,75,75,.05);border:1px solid rgba(255,75,75,.2);border-radius:8px;padding:14px;margin-top:16px;}
-.rh{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}
-.rd{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-@media(max-width:700px){nav{display:none;}main{padding:16px;}}
-</style>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#ff4b4b;--accent:#ff4b4b}</style>
 </head>
-<body>
+<body class="page-module">
 <nav>
   <h2>Streamlit</h2>
   <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">
@@ -146,7 +113,7 @@ st.set_page_config(
 
 # Override theme at runtime via CSS injection
 st.markdown(
-    &#x27;&lt;style&gt;h1{color:#ff4b4b;} .stMetric{background:#1e1e2e;border-radius:8px;padding:12px;}&lt;/style&gt;&#x27;,
+    &#x27;&lt;style&gt;h1{{color:#ff4b4b;}} .stMetric{{background:#1e1e2e;border-radius:8px;padding:12px;}}&lt;/style&gt;&#x27;,
     unsafe_allow_html=True
 )
 
@@ -255,6 +222,10 @@ from datetime import date
 # TODO: Display a table of 5 random numbers
 # df = pd.DataFrame({&#x27;Random Numbers&#x27;: np.random.randint(1, 100, 5)})
 # st.table(df)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install streamlit with pip install streamlit and verify with streamlit --version</label></li>
+<li><label><input type="checkbox"> Run the Hello World app and observe live reloading when you edit the file</label></li>
+<li><label><input type="checkbox"> Add st.title, st.header, and st.text to display your name and a short bio</label></li>
+<li><label><input type="checkbox"> Deploy your first app to Streamlit Community Cloud from a public GitHub repo</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s1">
@@ -442,6 +413,11 @@ st.set_page_config(page_title=&#x27;DS Cheat Sheet&#x27;, layout=&#x27;wide&#x27
 # st.warning(&#x27;???&#x27;)
 # st.error(&#x27;???&#x27;)
 # st.success(&#x27;???&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use st.write() to display a string, a number, a dict, and a DataFrame</label></li>
+<li><label><input type="checkbox"> Render a markdown table of 4 pandas functions using st.markdown()</label></li>
+<li><label><input type="checkbox"> Display a Python code snippet with syntax highlighting using st.code()</label></li>
+<li><label><input type="checkbox"> Add st.info, st.warning, st.error, and st.success boxes with tips</label></li>
+<li><label><input type="checkbox"> Use st.columns(2) to show a LaTeX formula alongside a code block side-by-side</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s2">
@@ -640,6 +616,10 @@ st.title(&#x27;BMI Calculator&#x27;)
 #         st.warning(&#x27;Category: Overweight&#x27;)
 #     else:
 #         st.error(&#x27;Category: Obese&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a st.text_input and display its value live below the widget</label></li>
+<li><label><input type="checkbox"> Create a st.number_input and a st.slider, then show their sum as st.metric</label></li>
+<li><label><input type="checkbox"> Build a st.selectbox and st.multiselect pair and display the selections</label></li>
+<li><label><input type="checkbox"> Connect a slider widget to a dynamic output (e.g. update a chart or text)</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s3">
@@ -842,6 +822,10 @@ st.title(&#x27;Sales Dashboard Table&#x27;)
 #         &#x27;Growth&#x27;: st.column_config.ProgressColumn(&#x27;Growth (%)&#x27;, min_value=0, max_value=100, format=&#x27;%.1f%%&#x27;),
 #     }
 # )</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Display a pandas DataFrame with st.dataframe and enable column sorting</label></li>
+<li><label><input type="checkbox"> Show three st.metric cards with delta values for revenue, users, and churn</label></li>
+<li><label><input type="checkbox"> Add a static st.table alongside the interactive st.dataframe to compare both</label></li>
+<li><label><input type="checkbox"> Apply a ProgressColumn and a NumberColumn via column_config to style a DataFrame</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s4">
@@ -1037,6 +1021,10 @@ st.title(&#x27;Stock Price Simulator&#x27;)
 #     c1.metric(&#x27;Min Price&#x27;, f&#x27;${prices.min():.2f}&#x27;)
 #     c2.metric(&#x27;Max Price&#x27;, f&#x27;${prices.max():.2f}&#x27;)
 #     c3.metric(&#x27;Final Price&#x27;, f&#x27;${prices[-1]:.2f}&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a st.line_chart from a pandas DataFrame with a date index</label></li>
+<li><label><input type="checkbox"> Render a st.bar_chart grouped by category</label></li>
+<li><label><input type="checkbox"> Embed a matplotlib figure using st.pyplot(fig)</label></li>
+<li><label><input type="checkbox"> Add an interactive Plotly scatter chart with hover data using st.plotly_chart()</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s5">
@@ -1236,6 +1224,10 @@ clothing = [
 #                 st.toast(f&quot;{product[&#x27;name&#x27;]} added to cart!&quot;)
 
 # TODO: Repeat for tab2 with the clothing list</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a two-column layout with st.columns([2, 1]) and place a chart in the wide column</label></li>
+<li><label><input type="checkbox"> Add three st.tabs and put different content (chart, table, form) in each tab</label></li>
+<li><label><input type="checkbox"> Wrap a code snippet in st.expander so it is collapsed by default</label></li>
+<li><label><input type="checkbox"> Use st.container(border=True) to visually group a set of metric cards</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s6">
@@ -1450,6 +1442,10 @@ st.title(&#x27;Streamlit Quiz&#x27;)
 #         st.session_state.score = 0
 #         st.session_state.finished = False
 #         st.rerun()</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a sidebar with st.radio for page navigation between &#x27;Home&#x27; and &#x27;Settings&#x27;</label></li>
+<li><label><input type="checkbox"> Initialize a counter in st.session_state and add increment/decrement buttons</label></li>
+<li><label><input type="checkbox"> Build a theme switcher using session_state that changes page background color</label></li>
+<li><label><input type="checkbox"> Create a shopping cart using session_state to persist items across widget interactions</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s7">
@@ -1683,6 +1679,10 @@ st.title(&#x27;CSV Analyzer&#x27;)
 
 #     # TODO: Add a download button for the describe() output as CSV
 #     st.download_button(&#x27;Download Stats as CSV&#x27;, desc.to_csv(), &#x27;stats.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a CSV uploader that shows row count, column names, and missing value counts</label></li>
+<li><label><input type="checkbox"> Add a download button that exports a filtered version of an uploaded dataframe</label></li>
+<li><label><input type="checkbox"> Create an image uploader that displays the image and its dimensions</label></li>
+<li><label><input type="checkbox"> Build a multi-file uploader that processes each file and combines results into one table</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s8">
@@ -1900,6 +1900,10 @@ st.title(&#x27;Data Fetcher with Cache &amp; Form&#x27;)
 #     st.write(f&#x27;{len(filtered)} rows match&#x27;)
 #     st.dataframe(filtered.head(20))
 #     st.download_button(&#x27;Download filtered CSV&#x27;, filtered.to_csv(index=False), &#x27;filtered.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a form with at least 4 input types and validate all required fields on submit</label></li>
+<li><label><input type="checkbox"> Add @st.cache_data to a function that loads a CSV and verify it only loads once</label></li>
+<li><label><input type="checkbox"> Benchmark a function with and without @st.cache_data using time.perf_counter()</label></li>
+<li><label><input type="checkbox"> Use @st.cache_resource to load a heavy model once and reuse it across reruns</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s9">
@@ -2143,6 +2147,10 @@ st.set_page_config(page_title=&#x27;My Multi-Page App&#x27;, layout=&#x27;wide&#
 #     notifs = st.toggle(&#x27;Enable notifications&#x27;, value=True)
 #     if st.form_submit_button(&#x27;Save&#x27;):
 #         st.success(f&#x27;Saved: {username}, {theme}, notifications={notifs}&#x27;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3-page app with Home, Analytics, and Settings pages using the pages/ folder</label></li>
+<li><label><input type="checkbox"> Add custom sidebar navigation with st.page_link() and icons on each page</label></li>
+<li><label><input type="checkbox"> Configure app secrets in .streamlit/secrets.toml and access them with st.secrets</label></li>
+<li><label><input type="checkbox"> Deploy your multi-page app to Streamlit Community Cloud from a GitHub repository</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s10">
@@ -2361,6 +2369,10 @@ USERS = {
 # TODO: Show admin panel (a settings form) only for role=&#x27;admin&#x27;
 # TODO: Add a Logout button that clears session_state and reruns
 </code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a login form that checks username/password and stores user in session_state</label></li>
+<li><label><input type="checkbox"> Add role-based access control: show an admin panel only when role == &#x27;admin&#x27;</label></li>
+<li><label><input type="checkbox"> Implement a logout button that clears all session_state keys and reruns the app</label></li>
+<li><label><input type="checkbox"> Protect a page by redirecting unauthenticated users to the login screen</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s11">
@@ -2566,6 +2578,10 @@ import numpy as np
 # TODO: st.bar_chart for revenue by product
 # TODO: &#x27;Clear cache&#x27; button that calls st.cache_data.clear()
 </code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Connect to an in-memory SQLite database and display query results as a dataframe</label></li>
+<li><label><input type="checkbox"> Add @st.cache_data(ttl=300) to a database query function and verify caching works</label></li>
+<li><label><input type="checkbox"> Add filter widgets (selectbox, date inputs) that pass parameters to the cached query</label></li>
+<li><label><input type="checkbox"> Implement a &#x27;Clear cache&#x27; button that calls st.cache_data.clear() and refreshes the view</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s12">
@@ -2774,6 +2790,10 @@ kpis = [
 ]
 # TODO: render cards
 </code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inject custom CSS with st.markdown() to change card colors and font styles</label></li>
+<li><label><input type="checkbox"> Create a reusable kpi_card() function that generates styled HTML and renders with st.markdown()</label></li>
+<li><label><input type="checkbox"> Build a dark/light theme toggle in the sidebar that applies different CSS classes</label></li>
+<li><label><input type="checkbox"> Add a custom progress bar using HTML/CSS via st.markdown(unsafe_allow_html=True)</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s13">
@@ -2954,6 +2974,10 @@ st.title(&quot;Customer Analytics Dashboard&quot;)
 # TODO: Add a session state counter for &quot;number of queries run&quot;
 
 </code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a dashboard with sidebar filters (date range, category) that update all charts simultaneously</label></li>
+<li><label><input type="checkbox"> Add 4 KPI metric cards that recalculate based on sidebar filter selections</label></li>
+<li><label><input type="checkbox"> Implement a sortable, filterable data table with a search box using st.dataframe</label></li>
+<li><label><input type="checkbox"> Add a session state query counter that increments each time filters are applied</label></li></ul></div>
   </div>
 </div>
 <div class="card" id="s14">
@@ -3133,6 +3157,7 @@ import io
 # TODO: Bar chart of feature importances
 
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s15">
@@ -3317,6 +3342,7 @@ st.set_page_config(layout=&quot;wide&quot;)
 # TODO: Experiment logger form using st.form + session state (track 5 experiments max)
 
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s16">
@@ -3566,6 +3592,7 @@ st.title(&quot;My Chart App&quot;)
 # 4. Create plotly figure based on chart type
 # 5. st.plotly_chart(fig, use_container_width=True)
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s17">
@@ -3829,6 +3856,7 @@ st.title(&quot;Session State Counter&quot;)
 # 4. Show st.metric for current count
 # 5. Show st.line_chart of history if it exists
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s18">
@@ -4076,6 +4104,7 @@ import time
 # 3. Show st.metric(&quot;Load time&quot;, f&quot;{elapsed:.0f}ms&quot;)
 # 4. Note: first call is slow, subsequent calls are ~0ms
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s19">
@@ -4325,6 +4354,7 @@ if submitted:
     # 3. Validate age is 18-120
     # 4. Show errors or st.success(&quot;Welcome!&quot;)
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s20">
@@ -4593,6 +4623,7 @@ if uploaded:
     # 5. st.dataframe for filtered result
     # 6. st.download_button for filtered CSV
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s21">
@@ -4843,6 +4874,7 @@ else:
     # 6. Show chart using st.session_state.shared_value
     pass
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s22">
@@ -5131,6 +5163,7 @@ st.title(&quot;Custom Styled Components&quot;)
 metrics = [(&quot;Accuracy&quot;, 92), (&quot;F1 Score&quot;, 87), (&quot;AUC&quot;, 95)]
 statuses = [(&quot;Active&quot;, &quot;green&quot;), (&quot;Inactive&quot;, &quot;red&quot;), (&quot;Pending&quot;, &quot;yellow&quot;)]
 </code></pre></div></div>
+    
   </div>
 </div>
 <div class="card" id="s23">
@@ -5482,6 +5515,10 @@ st.title(&quot;Production App&quot;)
 # 4. Sidebar with &quot;Health Check&quot; button that shows:
 #    {&quot;status&quot;: &quot;healthy&quot;, &quot;data_rows&quot;: len(df), &quot;model&quot;: type(model).__name__}
 </code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a scikit-learn model with @st.cache_resource and display a prediction form</label></li>
+<li><label><input type="checkbox"> Add batch prediction via CSV upload: show results table and download button</label></li>
+<li><label><input type="checkbox"> Display model performance metrics (accuracy, confusion matrix) with st.metric and st.json</label></li>
+<li><label><input type="checkbox"> Add a sidebar health check panel showing model status, last prediction time, and cache info</label></li></ul></div>
   </div>
 </div>
 </main>

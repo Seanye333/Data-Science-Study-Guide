@@ -45,40 +45,37 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
 <main class="main"><h1 class="pt">{EMOJI} {TITLE}</h1><p class="ps">{n} topics &bull; Click any card to expand</p>{cards}</main>
 <script>hljs.highlightAll();
 function tog(h){{var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}}
-function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function act(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filt(q){{document.querySelectorAll('#nl li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function cp(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});
@@ -229,6 +226,13 @@ rng = np.random.default_rng(0)
 
 # TODO: resample to quarterly and print
 """},
+"todos": [
+    "Parse a CSV with mixed date formats using pd.to_datetime(infer_datetime_format=True)",
+    "Slice a time series to just one year using string indexing ts['2024']",
+    "Extract day-of-week from a DatetimeIndex and compute the mean value per weekday",
+    "Localize a naive DatetimeIndex to UTC then convert it to US/Eastern",
+    "Create a DatetimeIndex with business-day frequency and count the number of working days in Q1",
+],
 },
 
 {
@@ -360,6 +364,13 @@ idx = pd.date_range('2024-01-01', '2024-01-31 23:00', freq='h')
 
 # TODO: print coldest and warmest day
 """},
+"todos": [
+    "Load a daily dataset and resample to weekly using .resample('W').mean()",
+    "Compare sum vs mean aggregation when resampling — note when each makes sense",
+    "Apply OHLC resampling to a daily price series to get weekly open/high/low/close",
+    "Use .resample('M').agg({'col': ['mean', 'min', 'max']}) for multiple stats",
+    "Resample hourly data to daily and handle missing dates with .asfreq()",
+],
 },
 
 {
@@ -484,6 +495,13 @@ idx = pd.date_range('2024-01-01', periods=60, freq='B')
 
 # TODO: flag days outside bands and print last 10 rows
 """},
+"todos": [
+    "Apply a 7-day rolling mean to a noisy series and compare it to a 14-day rolling mean",
+    "Use .rolling(window, min_periods=3) and observe where NaN values appear vs disappear",
+    "Compute a 20-day rolling standard deviation and identify the most volatile periods",
+    "Use .ewm(span=10).mean() and compare it to a simple 10-day rolling mean on the same data",
+    "Compute rolling correlation between two time series using ts1.rolling(30).corr(ts2)",
+],
 },
 
 {
@@ -666,6 +684,13 @@ idx = pd.date_range('2024-01-01', periods=52, freq='W')
 plt.savefig('practice_ts.png', dpi=100)
 plt.close()
 print('Saved practice_ts.png')"""},
+"todos": [
+    "Plot a time series with a 30-day moving average overlay on the same axes",
+    "Create a seasonal subseries plot showing average value for each month across years",
+    "Plot ACF and PACF side-by-side for an AR(1) series and interpret the cutoffs",
+    "Create a lag scatter plot (ts[t] vs ts[t-1]) and describe what the pattern reveals",
+    "Annotate a time series chart with vertical lines marking key events or anomalies",
+],
 },
 
 {
@@ -830,6 +855,13 @@ idx = pd.date_range('2022-01-01', periods=36, freq='ME')
 
 # TODO: print seasonal indices by month
 """},
+"todos": [
+    "Run seasonal_decompose on monthly data with period=12 and inspect the trend component",
+    "Compare additive vs multiplicative decomposition on the same series with growing amplitude",
+    "Use STL with robust=True and observe how it handles injected outliers vs classical decompose",
+    "Extract the deseasonalized series by subtracting the seasonal component from the original",
+    "Plot the residual component and check if it looks like white noise (mean ~0, no pattern)",
+],
 },
 
 {
@@ -999,6 +1031,13 @@ try:
     # TODO: print ADF result at each step
 except ImportError:
     print('pip install statsmodels')"""},
+"todos": [
+    "Run adfuller() on a random walk and a stationary AR(1) series — compare ADF statistics",
+    "Apply first differencing with .diff() and re-run the ADF test to confirm stationarity",
+    "Use np.log() on an exponentially growing series then check ADF — does log alone help?",
+    "Apply seasonal differencing with .diff(12) to monthly data and test with adfuller()",
+    "Run both ADF and KPSS tests on the same series and interpret when they disagree",
+],
 },
 
 {
@@ -1166,6 +1205,13 @@ try:
     # TODO: forecast and compute MAE
 except ImportError:
     print('pip install statsmodels')"""},
+"todos": [
+    "Fit ARIMA(1,1,1) on a random-walk series and print the AIC and BIC values",
+    "Loop over p in range(3) and q in range(3) to find the ARIMA order with the lowest AIC",
+    "Use model.get_forecast(steps=12) and extract the 95% confidence intervals",
+    "Fit SARIMA(1,1,1)(1,1,0,12) on monthly data and compare RMSE to plain ARIMA(1,1,1)",
+    "Check ARIMA residuals with acorr_ljungbox — verify no autocorrelation remains",
+],
 },
 
 {
@@ -1335,6 +1381,13 @@ try:
     # TODO: compare RMSE
 except ImportError:
     print('pip install statsmodels')"""},
+"todos": [
+    "Fit SimpleExpSmoothing with alpha=0.1 and alpha=0.9 — compare how quickly each adapts",
+    "Use Holt's double exponential smoothing on a trending series and check the slope parameter",
+    "Fit Holt-Winters with seasonal_periods=12 and print the 12 seasonal indices",
+    "Compare SES, Holt, and Holt-Winters RMSE on a test set to see which captures most signal",
+    "Use damped_trend=True in Holt-Winters and compare long-range forecasts to undamped version",
+],
 },
 
 {
@@ -1508,6 +1561,13 @@ idx = pd.date_range('2024-01-01', periods=168, freq='h')
 
 # TODO: train LinearRegression and print RMSE
 """},
+"todos": [
+    "Create lag_1 through lag_7 features for a daily series and check their correlation with target",
+    "Add a rolling 14-day mean feature shifted by 1 day (to avoid data leakage)",
+    "Encode month as cyclical features using sin/cos and compare to one-hot encoding on RMSE",
+    "Add is_weekend and is_month_end binary features and check their feature importance",
+    "Build a full feature pipeline and train GradientBoostingRegressor — print top 5 features",
+],
 },
 
 {
@@ -1692,6 +1752,13 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 # TODO: cross-validate all three models
 """},
+"todos": [
+    "Compute MAE, RMSE, and MAPE on a 20-point test set and note which metric penalizes big errors more",
+    "Implement walk-forward validation manually with an expanding training window",
+    "Use sklearn TimeSeriesSplit with n_splits=5 and print the train/test sizes for each fold",
+    "Compare walk-forward RMSE to a naive seasonal benchmark (last year's same period)",
+    "Visualize forecast errors over time — check if errors are growing (model degrading) or stable",
+],
 },
 {
     "title": "11. Prophet Forecasting",
@@ -1720,7 +1787,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
         "title": "Forecast Weekly Revenue with Confidence Intervals",
         "desc": "Given 2 years of weekly revenue data with trend and seasonality, build a feature-based Ridge model (lag features + time index + month dummies). Perform walk-forward validation with 4-week horizons. Report average RMSE and generate 80% prediction intervals using residual std.",
         "starter": "import pandas as pd\nimport numpy as np\nfrom sklearn.linear_model import Ridge\n\nnp.random.seed(7)\nweeks = pd.date_range('2022-01-03', periods=104, freq='W')\ntrend = np.linspace(10000, 15000, 104)\nseasonality = 1500 * np.sin(2 * np.pi * np.arange(104) / 52)\nnoise = np.random.normal(0, 300, 104)\ny = trend + seasonality + noise\ndf = pd.DataFrame({'ds': weeks, 'revenue': y})\n\n# TODO: Create features (t index, month dummies, lag-1)\n# TODO: Walk-forward cross-validation with 4-week horizon\n# TODO: Report average RMSE and 80% PI width\n"
-    }
+    },
+    "todos": [
+        "Format a time series DataFrame in Prophet's required ds/y column format",
+        "Fit a Prophet model and call make_future_dataframe(periods=30) for a 30-day forecast",
+        "Add a custom holiday effect to Prophet and observe its impact on the forecast",
+        "Tune changepoint_prior_scale between 0.001 and 0.5 and compare forecast flexibility",
+        "Extract Prophet's trend, weekly, and yearly components from the forecast DataFrame",
+    ],
 },
 {
     "title": "12. Anomaly Detection in Time Series",
@@ -1749,7 +1823,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
         "title": "Detect Order Volume Anomalies",
         "desc": "Given hourly e-commerce order counts with weekly seasonality, detect anomalies using rolling z-score (window=24h, threshold=3). Also apply Isolation Forest on (count, hour, day_of_week) features. Compare which method catches more of the injected spikes (3 injected anomalies) with fewer false positives.",
         "starter": "import pandas as pd\nimport numpy as np\nfrom sklearn.ensemble import IsolationForest\n\nnp.random.seed(99)\nhours = pd.date_range('2024-01-01', periods=336, freq='H')  # 2 weeks\nbase = 100 + 50 * np.sin(2*np.pi*np.arange(336)/24 - np.pi)\nnoise = np.random.normal(0, 8, 336)\norders = np.clip(base + noise, 0, None)\norders[[100, 200, 280]] += [150, -80, 200]  # inject anomalies\ndf = pd.DataFrame({'time': hours, 'orders': orders})\n\n# TODO: Rolling z-score anomaly detection (window=24, thresh=3)\n# TODO: Isolation Forest on (orders, hour, dayofweek)\n# TODO: Compare detected anomaly counts and false positive rates\n"
-    }
+    },
+    "todos": [
+        "Implement a rolling z-score detector with window=14 and flag points where |z| > 3",
+        "Apply IsolationForest with contamination=0.05 on a multivariate time series",
+        "Use STL residuals with a 3*MAD threshold and compare it to rolling z-score precision",
+        "Inject 3 anomalies into a known series and check which detection method finds them all",
+        "Compute false positive rate alongside recall to understand the tradeoff for each method",
+    ],
 },
 {
     "title": "13. Neural Forecasting Fundamentals",
@@ -1778,7 +1859,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
         "title": "Seq2Seq Solar Power Forecasting",
         "desc": "Using 1 year of hourly solar generation data (sinusoidal with daily pattern, zero at night), build a seq2seq GBM model with 48-hour lookback and 12-hour horizon. Compare RMSE for the first 4 steps vs last 4 steps. Also implement a simple attention weighting by computing per-lag correlations with the target.",
         "starter": "import numpy as np\nimport pandas as pd\nfrom sklearn.multioutput import MultiOutputRegressor\nfrom sklearn.ensemble import GradientBoostingRegressor\n\nnp.random.seed(3)\nhours = pd.date_range('2023-01-01', periods=8760, freq='H')\nraw = np.maximum(0, np.sin(2*np.pi*np.arange(8760)/24 - np.pi/2))\nsolar = raw * 1000 + np.random.normal(0, 30, 8760)\ndf = pd.DataFrame({'time': hours, 'solar': solar})\n\nLB, H = 48, 12\n# TODO: Build (X, Y) windows with lookback=48, horizon=12\n# TODO: Train GBM MultiOutputRegressor\n# TODO: Report RMSE for steps 1-4 vs steps 9-12\n# TODO: Compute attention weights via per-lag correlation\n"
-    }
+    },
+    "todos": [
+        "Build a sliding-window dataset with lookback=20 and compare Ridge vs GBM on RMSE",
+        "Implement a multi-step seq2seq forecast with MultiOutputRegressor and 7-step horizon",
+        "Compute per-lag correlations with the target to identify which lags matter most",
+        "Compare the RMSE of step-1 forecast vs step-7 forecast to see how accuracy degrades",
+        "Use recursive forecasting (feed predictions back as inputs) vs direct multi-output",
+    ],
 },
 
     {
@@ -1803,7 +1891,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
             "title": "EEG Brainwave Analysis",
             "desc": "Given a simulated EEG signal (1-second, 256 Hz) with delta (1-4 Hz), alpha (8-13 Hz), and beta (13-30 Hz) components, use wavelet decomposition to extract each band. Report the relative power of each band. Inject a 50ms epileptic spike at t=0.5s and detect it using wavelet residuals.",
             "starter": "import numpy as np\nimport pywt\nfs = 256  # Hz\nt = np.arange(0, 1, 1/fs)\n# Multi-band EEG signal\ndelta = 0.5 * np.sin(2*np.pi*2*t)\nalpha = 0.3 * np.sin(2*np.pi*10*t)\nbeta  = 0.2 * np.sin(2*np.pi*20*t)\nnoise = np.random.normal(0, 0.05, len(t))\neeg = delta + alpha + beta + noise\n# Inject spike\nspike_start = int(0.5 * fs)\neeg[spike_start:spike_start+13] += 3.0\n# TODO: DWT decomposition with \'db4\', level=5\n# TODO: Identify which detail levels correspond to each EEG band\n# TODO: Compute relative band powers\n# TODO: Detect spike using reconstruction error\n"
-        }
+        },
+        "todos": [
+            "Run pywt.wavedec on a sine wave with 'db4' wavelet and inspect each coefficient array",
+            "Denoise a noisy signal by zeroing out small wavelet coefficients and reconstruct it",
+            "Compute the energy at each wavelet level and identify which level dominates the signal",
+            "Apply CWT and find the dominant frequency at the start vs end of a chirp signal",
+            "Use wavelet reconstruction error to detect where an injected anomaly is located",
+        ],
     },
     {
         "title": "15. Multivariate Time Series & VAR Models",
@@ -1827,7 +1922,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
             "title": "Pairs Trading Signal",
             "desc": "Using two simulated stock price series that are cointegrated (sharing a common random walk), implement a pairs trading strategy: (1) verify cointegration with Engle-Granger test, (2) estimate the spread, (3) generate long/short signals when z-score > 2 or < -2, (4) backtest and report Sharpe ratio and max drawdown.",
             "starter": "import numpy as np\nimport pandas as pd\nfrom statsmodels.tsa.stattools import coint\nfrom statsmodels.regression.linear_model import OLS\nnp.random.seed(3)\nn = 500\ncommon = np.cumsum(np.random.normal(0, 1, n))\nprice_a = common + np.random.normal(0, 0.5, n) + 50\nprice_b = 0.9*common + np.random.normal(0, 0.5, n) + 45\n# TODO: Cointegration test\n# TODO: Compute hedge ratio and spread\n# TODO: Z-score of spread\n# TODO: Generate trading signals (long A-short B when z<-2, vice versa)\n# TODO: Compute daily P&L, Sharpe ratio, max drawdown\n"
-        }
+        },
+        "todos": [
+            "Fit a VAR(2) model on two correlated series and print the coefficient matrices",
+            "Run a Granger causality test and interpret whether the p-value supports causation",
+            "Test two random-walk series for cointegration with statsmodels.tsa.stattools.coint",
+            "Forecast 6 steps ahead with VAR and compare to individual ARIMA forecasts",
+            "Compute impulse response functions (IRF) and explain what they mean economically",
+        ],
     },
     {
         "title": "16. Real-Time Streaming & Online Learning",
@@ -1851,7 +1953,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
             "title": "Real-Time Fraud Score Streaming",
             "desc": "Simulate a stream of 2000 credit card transactions (amount, time_since_last, is_weekend). Use online logistic regression (River) trained incrementally. At t=1000, inject a concept drift (fraudsters change behavior). Detect drift using ADWIN on prediction errors. Report AUC before and after drift, and adaptation speed.",
             "starter": "# pip install river\nfrom river import linear_model, preprocessing, metrics, drift, stream as rv_stream\nimport numpy as np\nnp.random.seed(99)\nn = 2000\n# Generate transactions\namounts = np.random.exponential(50, n)\ngaps = np.random.exponential(10, n)\nis_weekend = np.random.randint(0, 2, n)\n# Fraud rule: changes at t=1000\nfraud_prob_before = 1 / (1 + np.exp(-(amounts/100 - 0.5)))\nfraud_prob_after  = 1 / (1 + np.exp(-(gaps/5 - 1.0)))  # different pattern\ny = np.array([\n    np.random.binomial(1, fraud_prob_before[i]) if i < 1000\n    else np.random.binomial(1, fraud_prob_after[i])\n    for i in range(n)\n])\n# TODO: Online logistic regression with River\n# TODO: ADWIN drift detection on binary prediction errors\n# TODO: Report AUC in windows before drift, at drift, after adaptation\n"
-        }
+        },
+        "todos": [
+            "Build a StreamStats class with a sliding window of size 50 tracking mean and std",
+            "Simulate a stream where the mean shifts at step 500 and detect it with ADWIN",
+            "Implement online learning with River's LinearRegression and print RMSE every 100 steps",
+            "Compare the accuracy of an online model at t=100 vs t=900 to see how it improves",
+            "Inject concept drift mid-stream and observe how long ADWIN takes to flag it",
+        ],
     },
 {
 "title": "17. Seasonal Decomposition & STL",
@@ -1867,7 +1976,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Custom STL Pipeline",
     "desc": "Generate 5 years of weekly sales data (trend + two seasonalities: annual 52-week and quarterly 13-week + noise). Apply STL with period=52. Extract and print: (1) Overall trend slope (slope of linear fit to trend component), (2) Peak week of the year seasonally, (3) Percentage of variance explained by trend, seasonal, and residual components.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.seasonal import STL\nfrom scipy import stats as sp_stats\n\nnp.random.seed(42)\nn = 260  # 5 years weekly\nt = np.arange(n)\ntrend    = 500 + t * 0.8\nseasonal = 80 * np.sin(2*np.pi*t/52) + 30 * np.sin(2*np.pi*t/13)\nnoise    = np.random.normal(0, 20, n)\nts = pd.Series(trend + seasonal + noise,\n               index=pd.date_range(\'2019-01-07\', periods=n, freq=\'W\'))\n\nstl = STL(ts, period=52, robust=True)\nres = stl.fit()\n\n# (1) trend slope via linear regression on trend component\n# (2) peak week (argmax of first 52 seasonal values)\n# (3) variance decomposition\ntotal_var = ts.var()\n# TODO: compute each component\'s share\n"
-}
+},
+"todos": [
+    "Run STL with robust=True on a series with outliers — compare to classical decomposition",
+    "Extract seasonal indices and identify the month or week with the strongest seasonal effect",
+    "Compute the variance explained by trend, seasonal, and residual from an STL decomposition",
+    "Deseasonalize your series by subtracting the seasonal component and plot the result",
+    "Use trend strength and seasonal strength formulas to quantify how predictable the series is",
+],
 },
 
 {
@@ -1884,7 +2000,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Automated Stationarity Pipeline",
     "desc": "Write a function make_stationary(ts, max_diffs=2) that: (1) Tests ADF on the original series, (2) If non-stationary, applies log transform (if all positive) and re-tests, (3) If still non-stationary, applies first differencing, (4) Repeats up to max_diffs times, (5) Returns the stationary series, number of differences applied, and whether log was used.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.stattools import adfuller\n\ndef make_stationary(ts, max_diffs=2, alpha=0.05):\n    result = ts.copy()\n    log_used = False\n    n_diffs  = 0\n    # (1) check original\n    # (2) try log if all positive\n    # (3) difference up to max_diffs\n    return result, n_diffs, log_used\n\nnp.random.seed(42)\nts_rw     = pd.Series(np.cumsum(np.random.randn(100)))\nts_exp    = pd.Series(np.exp(0.03*np.arange(100) + np.random.randn(100)*0.2)*100)\nts_stat   = pd.Series(np.random.randn(100))\n\nfor name, ts in [(\'Random Walk\', ts_rw), (\'Exponential Trend\', ts_exp), (\'Stationary\', ts_stat)]:\n    out, d, log = make_stationary(ts)\n    print(f\"{name}: diffs={d}, log={log}\")\n"
-}
+},
+"todos": [
+    "Run adfuller() on a random walk and confirm non-stationarity (p > 0.05)",
+    "Plot ACF for 20 lags on a non-differenced vs once-differenced series — describe the difference",
+    "Apply log transform then first difference to financial prices and verify stationarity with ADF",
+    "Use pacf() to identify the AR order and acf() to identify the MA order for your series",
+    "Run KPSS alongside ADF and interpret any conflicting results between the two tests",
+],
 },
 
 {
@@ -1901,7 +2024,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Auto-ARIMA Order Selection",
     "desc": "Generate monthly sales data for 4 years with AR(2) dynamics and monthly seasonality. Write a function select_arima_order(ts, max_p=3, max_q=3, d=1) that tries all ARIMA(p,d,q) combinations and returns the order with the lowest AIC. Compare its forecast (12 months) RMSE to naive persistence forecast.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.arima.model import ARIMA\nimport warnings; warnings.filterwarnings(\'ignore\')\n\nnp.random.seed(42)\nn = 60\nts = pd.Series(\n    100 + np.cumsum(np.random.normal(0, 2, n)) + 20*np.sin(2*np.pi*np.arange(n)/12),\n    index=pd.date_range(\'2019-01\', periods=n, freq=\'MS\'))\n\ndef select_arima_order(ts, max_p=3, max_q=3, d=1):\n    best_aic, best_order = np.inf, None\n    for p in range(max_p+1):\n        for q in range(max_q+1):\n            if p == 0 and q == 0:\n                continue\n            try:\n                m = ARIMA(ts, order=(p, d, q))\n                f = m.fit()\n                if f.aic < best_aic:\n                    best_aic, best_order = f.aic, (p, d, q)\n            except Exception:\n                pass\n    return best_order, best_aic\n\n# TODO: call select_arima_order on train set (first 48 months)\n# TODO: forecast last 12 months with best order\n# TODO: compare RMSE to naive persistence (repeat last observed value)\n"
-}
+},
+"todos": [
+    "Fit ARIMA(1,1,1) on monthly data and print the coefficient summary table",
+    "Grid-search ARIMA orders (p 0-2, q 0-2) and rank them by AIC — note the winner",
+    "Fit SARIMA(1,1,1)(1,1,1,12) and compare its RMSE to plain ARIMA on seasonal data",
+    "Run Ljung-Box test on ARIMA residuals and confirm white noise (p > 0.05 is good)",
+    "Extract 95% forecast confidence intervals and verify actual values fall within them",
+],
 },
 
 {
@@ -1918,7 +2048,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "ETS Grid Search",
     "desc": "Generate 5 years of monthly data with trend + seasonality. Write a grid_search_ets(train, test, h) function that tries all combinations of trend in [None, \'add\'], seasonal in [None, \'add\', \'mul\'], damped in [True, False] (only when trend is not None). Return a DataFrame with columns: model_name, AIC, test_RMSE, test_MAPE. Sort by test_RMSE.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.holtwinters import ExponentialSmoothing\nimport warnings; warnings.filterwarnings(\'ignore\')\n\nnp.random.seed(42)\nn = 72\nts = pd.Series(100 + np.linspace(0,60,n) + 25*np.sin(2*np.pi*np.arange(n)/12) + np.random.randn(n)*5,\n               index=pd.date_range(\'2018-01\', periods=n, freq=\'MS\'))\ntrain, test = ts[:-12], ts[-12:]\n\ndef grid_search_ets(train, test, h=12):\n    results = []\n    # TODO: iterate over trend, seasonal, damped combinations\n    # TODO: fit ExponentialSmoothing, forecast h steps\n    # TODO: compute AIC, RMSE, MAPE\n    # TODO: append to results, return sorted DataFrame\n    return pd.DataFrame(results)\n\nprint(grid_search_ets(train, test).head(5))\n"
-}
+},
+"todos": [
+    "Fit SimpleExpSmoothing and manually vary alpha from 0.1 to 0.9 — observe smoothing effect",
+    "Use Holt's double ES on a trending series and extract the final level and slope",
+    "Fit Holt-Winters with trend='add', seasonal='add', seasonal_periods=12 and compare to 'mul'",
+    "Run grid_search_ets with all model combos and sort by test RMSE to find the best config",
+    "Extract the hw.season attribute and plot the 12 monthly seasonal indices as a bar chart",
+],
 },
 
 {
@@ -1935,7 +2072,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Feature Engineering for Weekly Data",
     "desc": "Generate 3 years of weekly store sales (trend + annual seasonality + weekly dip on off-season weeks). Create features: lags 1-8, rolling mean/std at 4 and 8 weeks, week-of-year sine/cosine, year indicator. Train RandomForest on first 2.5 years, test on last 6 months. Report RMSE and MAPE. Plot (print) actual vs predicted for the test period.",
     "starter": "import numpy as np, pandas as pd\nfrom sklearn.ensemble import RandomForestRegressor\nfrom sklearn.metrics import mean_absolute_percentage_error\n\nnp.random.seed(42)\nn = 156  # 3 years weekly\nt = np.arange(n)\nts = pd.Series(\n    5000 + 10*t + 800*np.sin(2*np.pi*t/52) + np.random.normal(0,150,n),\n    index=pd.date_range(\'2021-01-04\', periods=n, freq=\'W\'))\n\n# TODO: create lag + rolling + calendar features\n# TODO: train/test split (last 26 weeks = test)\n# TODO: train RandomForest\n# TODO: report RMSE and MAPE\n# TODO: print actual vs predicted for test\n"
-}
+},
+"todos": [
+    "Create lag_1 through lag_8 for a weekly series and check correlations with the target",
+    "Add rolling mean and std at 4 and 8 weeks — always shift by 1 to prevent data leakage",
+    "Encode week-of-year as sin/cos cyclical features and verify the encoding wraps correctly",
+    "Train a RandomForestRegressor and print the top 5 most important features",
+    "Use recursive forecasting: feed model predictions back as lag features for multi-step ahead",
+],
 },
 
 {
@@ -1952,7 +2096,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Multi-Method Anomaly Ensemble",
     "desc": "Generate 2 years of daily temperature data (seasonal + trend + noise). Inject 6 anomalies (3 spikes, 3 drops). Implement 3 detectors: (1) rolling 30-day z-score threshold 3, (2) IQR fence on 30-day window, (3) STL residuals with 3-sigma MAD threshold. Print a table showing which detectors caught each injected anomaly (TP matrix).",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.seasonal import STL\nfrom sklearn.ensemble import IsolationForest\nfrom scipy.stats import median_abs_deviation\n\nnp.random.seed(42)\nn = 730\nt = np.arange(n)\nts = pd.Series(\n    15 + 0.01*t + 10*np.sin(2*np.pi*t/365) + np.random.normal(0,1.5,n),\n    index=pd.date_range(\'2022-01-01\', periods=n, freq=\'D\'),\n    name=\'temperature\')\n\nanom_days = [60, 150, 250, 380, 500, 650]\ndeltas    = [12, -15, 10, -13, 11, -10]\nfor day, delta in zip(anom_days, deltas):\n    ts.iloc[day] += delta\n\n# TODO: implement 3 anomaly detectors\n# TODO: print TP matrix for each injected anomaly\n"
-}
+},
+"todos": [
+    "Build a rolling z-score detector and tune the threshold to balance precision and recall",
+    "Apply IsolationForest with windowed features (value, rolling_mean, rolling_std, z_score)",
+    "Use STL residuals + 3*MAD threshold — compare its detection rate to the z-score method",
+    "Create a TP matrix showing which detector caught which injected anomaly",
+    "Combine all 3 detectors with majority voting and measure if ensemble improves F1 score",
+],
 },
 
 {
@@ -1969,7 +2120,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Comprehensive Forecast Tournament",
     "desc": "Generate 5 years of monthly data. Implement a forecast_tournament(ts, h=12) function that: (1) Runs walk-forward CV (4 folds) on SARIMA, Holt-Winters, and a naive seasonal benchmark, (2) Returns a summary DataFrame with model, mean_RMSE, std_RMSE, mean_MAPE, (3) Declares a winner. Test it on your generated data.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.holtwinters import ExponentialSmoothing\nfrom statsmodels.tsa.statespace.sarimax import SARIMAX\nimport warnings; warnings.filterwarnings(\'ignore\')\n\ndef forecast_tournament(ts, h=12, n_folds=4):\n    # TODO: implement walk-forward CV for each model\n    # TODO: return DataFrame: model, mean_RMSE, std_RMSE, mean_MAPE\n    pass\n\nnp.random.seed(42)\nn = 72\nts = pd.Series(\n    300 + np.linspace(0,100,n) + 60*np.sin(2*np.pi*np.arange(n)/12) + np.random.randn(n)*10,\n    index=pd.date_range(\'2018-01\', periods=n, freq=\'MS\'))\n\nresults = forecast_tournament(ts, h=6, n_folds=4)\nprint(results)\n"
-}
+},
+"todos": [
+    "Compute MAE, RMSE, MAPE, and SMAPE on a test set and explain when each metric is preferred",
+    "Implement a naive seasonal benchmark (last year same period) and compute its RMSE",
+    "Run walk-forward CV with 4 folds and print RMSE per fold to see how variance behaves",
+    "Compare MASE < 1 vs >= 1 to determine whether your model beats the naive baseline",
+    "Run forecast_tournament for SARIMA, Holt-Winters, and naive — print the winner by RMSE",
+],
 },
 
 {
@@ -1986,7 +2144,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     "title": "Multivariate Forecasting Pipeline",
     "desc": "Generate 3 correlated time series (temp, humidity, energy_demand) where energy = 0.7*temp_lag1 + 0.4*humidity + noise. (1) Test stationarity, difference if needed. (2) Fit VAR, select lag order by AIC. (3) Test Granger causality of temp -> energy and humidity -> energy. (4) Forecast 6 steps and compare to actual using RMSE.",
     "starter": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.vector_ar.var_model import VAR\nfrom statsmodels.tsa.stattools import adfuller, grangercausalitytests\nimport warnings; warnings.filterwarnings(\'ignore\')\n\nnp.random.seed(42)\nn = 120\ntemp     = pd.Series(20 + 10*np.sin(2*np.pi*np.arange(n)/12) + np.random.randn(n)*2)\nhumidity = pd.Series(60 + 15*np.sin(2*np.pi*(np.arange(n)-3)/12) + np.random.randn(n)*4)\nenergy   = pd.Series(0.7*temp.shift(1).fillna(temp.mean()) + 0.4*humidity + np.random.randn(n)*5 + 20)\n\ndf = pd.DataFrame({\'temp\':temp, \'humidity\':humidity, \'energy\':energy})\n\n# (1) Test stationarity and difference\n# (2) Fit VAR with lag selection\n# (3) Granger causality\n# (4) Forecast and RMSE\n"
-}
+},
+"todos": [
+    "Format two related series as a DataFrame and fit VAR with maxlags=4, ic='aic'",
+    "Run VAR.test_causality() and interpret whether one series Granger-causes another",
+    "Use Prophet by creating a ds/y DataFrame and calling m.fit() + m.predict(future)",
+    "Add Prophet changepoints and compare forecast quality with vs without them",
+    "Test Granger causality at multiple lags and report which lag gives the smallest p-value",
+],
 },
 
 

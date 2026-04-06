@@ -97,7 +97,7 @@ pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}
 <script>
 hljs.highlightAll();
 function toggle(h){{var b=h.nextElementSibling,a=h.querySelector('.arrow');b.classList.toggle('open');a.classList.toggle('open');}}
-function activate(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}}
+function activate(el,e){{if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({{behavior:'smooth'}});}}
 function filterNav(q){{document.querySelectorAll('#navlist li').forEach(li=>{{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';}});}}
 function copyCode(id){{navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{{}});}}
 document.addEventListener('DOMContentLoaded',()=>{{var fh=document.querySelector('.topic-header');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');}});

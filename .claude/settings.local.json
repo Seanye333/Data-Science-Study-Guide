@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(ls:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(du -sh \"c:\\\\Users\\\\seany\\\\Documents\\\\All Codes\\\\Data Science Study Path\"/{0{0..9},1{0..4}}*)"
     ]
   }
 }

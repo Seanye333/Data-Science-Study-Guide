@@ -3,24 +3,8 @@
 <title>Matplotlib Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#58a6ff}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#58a6ff}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 32 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Line Plot</a></li>
@@ -201,7 +185,11 @@ ax.set_ylabel(&#x27;y&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_lines.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bar charts compare discrete categories. Use plt.bar() for vertical and plt.barh() for horizontal. Add value labels for clarity.</p><div class="code-block"><div class="ch"><span>Vertical bar chart</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot sin(x) and cos(x) on the same axes with different colors and linestyles</label></li>
+<li><label><input type="checkbox"> Add a fill_between() confidence band around a noisy signal</label></li>
+<li><label><input type="checkbox"> Use errorbar() to show mean ± std for 6 data points</label></li>
+<li><label><input type="checkbox"> Apply a 7-point moving average to a random walk and overlay both lines</label></li>
+<li><label><input type="checkbox"> Save the figure as both PNG (dpi=150) and SVG, then compare file sizes</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Bar Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bar charts compare discrete categories. Use plt.bar() for vertical and plt.barh() for horizontal. Add value labels for clarity.</p><div class="code-block"><div class="ch"><span>Vertical bar chart</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -375,7 +363,11 @@ ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_grouped_bar.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Scatter Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Scatter plots reveal relationships between two numeric variables. Control color, size, and alpha to encode extra dimensions.</p><div class="code-block"><div class="ch"><span>Basic scatter and color mapping</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a vertical bar chart with value labels above each bar</label></li>
+<li><label><input type="checkbox"> Build a grouped bar chart for 3 products across 4 quarters</label></li>
+<li><label><input type="checkbox"> Make a horizontal bar chart sorted by value (largest at top)</label></li>
+<li><label><input type="checkbox"> Add error bars to each bar using yerr= with random standard deviations</label></li>
+<li><label><input type="checkbox"> Color bars conditionally: green if value &gt;= 70, orange if &gt;= 50, red otherwise</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Scatter Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Scatter plots reveal relationships between two numeric variables. Control color, size, and alpha to encode extra dimensions.</p><div class="code-block"><div class="ch"><span>Basic scatter and color mapping</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -537,7 +529,11 @@ ax.set_ylabel(&#x27;Y&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_scatter.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Histogram</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Histograms show the distribution of a single variable. Control bins and density to compare distributions or estimate PDFs.</p><div class="code-block"><div class="ch"><span>Basic histogram with density</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot of 200 points with color mapped to a third numeric variable</label></li>
+<li><label><input type="checkbox"> Add a least-squares regression line using np.polyfit() and np.polyval()</label></li>
+<li><label><input type="checkbox"> Build a bubble chart where marker size encodes a fourth variable</label></li>
+<li><label><input type="checkbox"> Use hexbin() to handle overplotting for 5,000 points and add a colorbar</label></li>
+<li><label><input type="checkbox"> Annotate the point with the highest y-value using ax.annotate() with an arrow</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Histogram</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Histograms show the distribution of a single variable. Control bins and density to compare distributions or estimate PDFs.</p><div class="code-block"><div class="ch"><span>Basic histogram with density</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -716,7 +712,11 @@ ax.set_ylabel(&#x27;Density&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_hist.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plt.subplots() creates a grid of axes in a single figure. Essential for dashboards and side-by-side comparisons.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram with density=True and overlay the manually computed normal PDF</label></li>
+<li><label><input type="checkbox"> Compare two overlapping histograms using alpha=0.6 and different colors</label></li>
+<li><label><input type="checkbox"> Switch histtype between &#x27;bar&#x27;, &#x27;step&#x27;, and &#x27;stepfilled&#x27; — observe the differences</label></li>
+<li><label><input type="checkbox"> Plot a cumulative histogram and overlay the theoretical CDF for exponential data</label></li>
+<li><label><input type="checkbox"> Add vertical dashed lines for the mean and plus/minus 1 standard deviation</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plt.subplots() creates a grid of axes in a single figure. Essential for dashboards and side-by-side comparisons.</p><div class="code-block"><div class="ch"><span>2×2 subplot grid</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -914,7 +914,11 @@ data = np.random.randn(500)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_subplots.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Figure Customization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Control colors, line styles, markers, fonts, spines, and tick formatting. Good styling makes charts publication-ready.</p><div class="code-block"><div class="ch"><span>Markers, styles, colors, spines</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 2x2 subplot grid with four different chart types and a global suptitle</label></li>
+<li><label><input type="checkbox"> Share x-axis across two vertically stacked subplots using sharex=True</label></li>
+<li><label><input type="checkbox"> Use GridSpec to make one wide panel spanning the top row and three below</label></li>
+<li><label><input type="checkbox"> Adjust spacing between subplots using plt.tight_layout() and subplots_adjust(hspace=)</label></li>
+<li><label><input type="checkbox"> Save the multi-panel figure as both PNG and PDF using savefig()</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Figure Customization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Control colors, line styles, markers, fonts, spines, and tick formatting. Good styling makes charts publication-ready.</p><div class="code-block"><div class="ch"><span>Markers, styles, colors, spines</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1076,7 +1080,11 @@ ax.set_xticklabels(months, rotation=30, ha=&#x27;right&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_custom.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pie &amp; Donut Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pie charts show part-to-whole relationships. Donut charts are a modern alternative. Avoid too many slices — use 5 or fewer.</p><div class="code-block"><div class="ch"><span>Pie chart with explode</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Remove the top and right spines from a line plot for a cleaner look</label></li>
+<li><label><input type="checkbox"> Format the y-axis as currency (e.g., &#x27;$42K&#x27;) using matplotlib.ticker.FuncFormatter</label></li>
+<li><label><input type="checkbox"> Annotate the peak value of a time series with an arrow using ax.annotate()</label></li>
+<li><label><input type="checkbox"> Rotate x-axis tick labels 45 degrees using set_xticklabels with rotation=45</label></li>
+<li><label><input type="checkbox"> Add color-shaded background regions for each quarter using axvspan()</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pie &amp; Donut Chart</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pie charts show part-to-whole relationships. Donut charts are a modern alternative. Avoid too many slices — use 5 or fewer.</p><div class="code-block"><div class="ch"><span>Pie chart with explode</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 
@@ -1235,7 +1243,11 @@ fig, ax = plt.subplots(figsize=(7, 6))
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_donut.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Heatmap with imshow/pcolor</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Heatmaps encode a 2D matrix as color intensities. Great for correlation matrices, confusion matrices, and time×metric data.</p><div class="code-block"><div class="ch"><span>Correlation heatmap</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a pie chart with 5 slices, explode the largest slice by 0.08</label></li>
+<li><label><input type="checkbox"> Convert the pie to a donut by setting wedgeprops=dict(width=0.5)</label></li>
+<li><label><input type="checkbox"> Add a center text label inside the donut showing the total value</label></li>
+<li><label><input type="checkbox"> Build a nested (two-ring) donut chart for category and subcategory breakdowns</label></li>
+<li><label><input type="checkbox"> Limit to 5 slices — group all others into an &#x27;Other&#x27; slice to avoid clutter</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Heatmap with imshow/pcolor</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Heatmaps encode a 2D matrix as color intensities. Great for correlation matrices, confusion matrices, and time×metric data.</p><div class="code-block"><div class="ch"><span>Correlation heatmap</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1425,7 +1437,11 @@ fig, ax = plt.subplots(figsize=(7, 6))
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_heatmap.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Twin Axes &amp; Secondary Y-Axis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">twinx() creates a second y-axis sharing the same x-axis — essential when two variables have different scales.</p><div class="code-block"><div class="ch"><span>Dual y-axis line + bar</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a correlation heatmap using imshow with the &#x27;coolwarm&#x27; colormap</label></li>
+<li><label><input type="checkbox"> Annotate each cell with its value using ax.text() in a nested loop</label></li>
+<li><label><input type="checkbox"> Use pcolormesh to show a 10x12 monthly returns matrix with a diverging colormap</label></li>
+<li><label><input type="checkbox"> Build a GitHub-style activity calendar heatmap using a custom LinearSegmentedColormap</label></li>
+<li><label><input type="checkbox"> Rotate x-axis tick labels 45 degrees and adjust alignment with ha=&#x27;right&#x27;</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Twin Axes &amp; Secondary Y-Axis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">twinx() creates a second y-axis sharing the same x-axis — essential when two variables have different scales.</p><div class="code-block"><div class="ch"><span>Dual y-axis line + bar</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1615,7 +1631,11 @@ ax1.set_title(&#x27;Monthly Revenue &amp; Growth Rate&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_twin.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Saving Figures &amp; Style Sheets</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save plots as PNG, PDF, SVG, or EPS with savefig(). Use plt.style.use() or rcParams to apply consistent styling across all charts.</p><div class="code-block"><div class="ch"><span>Saving figures with savefig</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a dual-axis plot: bar chart for revenue on the left, line for margin% on the right</label></li>
+<li><label><input type="checkbox"> Color each y-axis label to match its corresponding data series</label></li>
+<li><label><input type="checkbox"> Combine legends from both axes into a single legend using get_legend_handles_labels()</label></li>
+<li><label><input type="checkbox"> Add a shaded axvspan() event region that spans both y-axes simultaneously</label></li>
+<li><label><input type="checkbox"> Use twinx() to overlay temperature (line) and humidity (dashed line) on a 24-hour plot</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Saving Figures &amp; Style Sheets</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Save plots as PNG, PDF, SVG, or EPS with savefig(). Use plt.style.use() or rcParams to apply consistent styling across all charts.</p><div class="code-block"><div class="ch"><span>Saving figures with savefig</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1825,7 +1845,11 @@ values = [23, 45, 17, 38, 29]
 # TODO: clean up both files
 # for f in [&#x27;practice_output.png&#x27;, &#x27;practice_output.svg&#x27;]:
 #     if os.path.exists(f): os.remove(f)
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Plotting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create 3D visualizations with Axes3D — surface plots, wireframes, 3D scatter plots, and line trajectories that reveal multi-dimensional structure.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a figure as PNG at 72, 150, and 300 DPI and compare file sizes</label></li>
+<li><label><input type="checkbox"> Use plt.style.context(&#x27;seaborn-v0_8-whitegrid&#x27;) to apply a style to one figure only</label></li>
+<li><label><input type="checkbox"> Export a figure as SVG with matplotlib.rcParams[&#x27;svg.fonttype&#x27;] = &#x27;none&#x27;</label></li>
+<li><label><input type="checkbox"> Use PdfPages to save three plots as a 3-page PDF report</label></li>
+<li><label><input type="checkbox"> Apply custom rcParams (font.size, axes.spines, grid.alpha) and reset with plt.rcParams.update(plt.rcParamsDefault)</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. 3D Plotting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create 3D visualizations with Axes3D — surface plots, wireframes, 3D scatter plots, and line trajectories that reveal multi-dimensional structure.</p><div class="code-block"><div class="ch"><span>3D scatter plot with color mapping</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -1913,7 +1937,11 @@ Z = np.clip((1-X)**2 + 100*(Y-X**2)**2, 0, 2500)
 
 # TODO: create 3D surface plot
 # TODO: mark minimum at (1, 1, 0)
-# TODO: save to &#x27;rosenbrock.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Custom Styles &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make publication-quality figures with style sheets, rcParams, custom color cycles, and reusable theming functions.</p><div class="code-block"><div class="ch"><span>Built-in style sheets</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import matplotlib
+# TODO: save to &#x27;rosenbrock.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3D scatter plot of 100 random points with color mapped to the z-axis</label></li>
+<li><label><input type="checkbox"> Plot the surface Z = sin(sqrt(X^2 + Y^2)) using plot_surface with a &#x27;viridis&#x27; colormap</label></li>
+<li><label><input type="checkbox"> Overlay a contour projection on the floor of a surface plot using contour(zdir=&#x27;z&#x27;)</label></li>
+<li><label><input type="checkbox"> Draw a 3D helix using ax.plot() with x=sin(t), y=cos(t), z=t/(4pi)</label></li>
+<li><label><input type="checkbox"> Add axis labels and a colorbar, then save to PNG using savefig()</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Custom Styles &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make publication-quality figures with style sheets, rcParams, custom color cycles, and reusable theming functions.</p><div class="code-block"><div class="ch"><span>Built-in style sheets</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2014,7 +2042,11 @@ np.random.seed(42)
 # TODO: top-right: 3 sine waves
 # TODO: bottom-left: 12-bar monthly sales
 # TODO: bottom-right: histogram 500 samples, 30 bins
-# TODO: suptitle and save to &#x27;dark_dashboard.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Annotations &amp; Text Elements</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Add rich annotations — arrows, text boxes, spans, and LaTeX math expressions — to communicate insights directly on the plot.</p><div class="code-block"><div class="ch"><span>Arrow and text annotations</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import matplotlib
+# TODO: suptitle and save to &#x27;dark_dashboard.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply three different built-in style sheets to the same chart and compare visually</label></li>
+<li><label><input type="checkbox"> Define a custom dark theme by updating plt.rcParams with a dark background color</label></li>
+<li><label><input type="checkbox"> Set a custom color cycle using matplotlib.cycler and confirm it applies to a 5-line chart</label></li>
+<li><label><input type="checkbox"> Write a context manager that yields a configured (fig, ax) pair for reusable pub styling</label></li>
+<li><label><input type="checkbox"> Reset all rcParams to defaults using plt.rcParams.update(plt.rcParamsDefault)</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Annotations &amp; Text Elements</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Add rich annotations — arrows, text boxes, spans, and LaTeX math expressions — to communicate insights directly on the plot.</p><div class="code-block"><div class="ch"><span>Arrow and text annotations</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2128,7 +2160,11 @@ ax.plot(x_fit, y_fit, &#x27;r-&#x27;, label=&#x27;Fit&#x27;)
 # TODO: add shaded CI band (y_fit +/- 2 units)
 # TODO: shade extrapolation x&gt;8 with axvspan
 # TODO: annotate slope with arrow and r&#x27;$\hat{\beta}_1 = 2$&#x27;
-# TODO: save to &#x27;ci_plot.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Animations &amp; GIF Export</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>FuncAnimation — rolling sine wave</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import matplotlib
+# TODO: save to &#x27;ci_plot.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Annotate the maximum point on a curve with an arrow using ax.annotate()</label></li>
+<li><label><input type="checkbox"> Add a text box with a &#x27;round&#x27; boxstyle and custom facecolor using ax.text(bbox=...)</label></li>
+<li><label><input type="checkbox"> Shade a &#x27;crash period&#x27; on a time series chart using axvspan with alpha=0.15</label></li>
+<li><label><input type="checkbox"> Write a LaTeX-formatted y-axis label using r&#x27;$f(x) = ...$&#x27; syntax</label></li>
+<li><label><input type="checkbox"> Annotate three events on a price chart with colored vertical dashed lines and labels</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Animations &amp; GIF Export</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>FuncAnimation — rolling sine wave</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -2236,7 +2272,11 @@ y, vy = 5.0, 0.0
 
 # TODO: define update(frame) that applies gravity, reverses on bounce
 # TODO: FuncAnimation for 100 frames
-# TODO: save to &#x27;bounce.gif&#x27; with pillow</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Publication-Quality Figures</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Style sheets comparison</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import matplotlib
+# TODO: save to &#x27;bounce.gif&#x27; with pillow</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a FuncAnimation that updates a sine wave by shifting the phase each frame</label></li>
+<li><label><input type="checkbox"> Animate 20 random-walk particles and save to a GIF using writer=&#x27;pillow&#x27;</label></li>
+<li><label><input type="checkbox"> Use ArtistAnimation to pre-render 10 histogram frames and play them back</label></li>
+<li><label><input type="checkbox"> Add a frame counter text element that updates each frame using ax.text()</label></li>
+<li><label><input type="checkbox"> Set blit=True and confirm the animation is faster than without it</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Publication-Quality Figures</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Style sheets comparison</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2318,7 +2358,11 @@ y = np.exp(-0.1*t) * np.sin(2*t)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
 # TODO: ax1 linear plot + inset zoom t in [0,2]
 # TODO: ax2 semilogy plot
-# TODO: seaborn-v0_8-paper style, 300 DPI export</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Custom Colormaps &amp; Color Science</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>LinearSegmentedColormap from color list</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import matplotlib
+# TODO: seaborn-v0_8-paper style, 300 DPI export</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply &#x27;seaborn-v0_8-paper&#x27; style and export the figure at 300 DPI</label></li>
+<li><label><input type="checkbox"> Use LaTeX math notation in axis labels and titles with r&#x27;$...$&#x27; strings</label></li>
+<li><label><input type="checkbox"> Create a 2x3 shared-axis grid and add a common x-label using fig.text()</label></li>
+<li><label><input type="checkbox"> Add an inset zoom panel using ax.inset_axes() and ax.indicate_inset_zoom()</label></li>
+<li><label><input type="checkbox"> Switch font to &#x27;serif&#x27; via rcParams and compare with the default sans-serif look</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Custom Colormaps &amp; Color Science</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>LinearSegmentedColormap from color list</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -2406,7 +2450,11 @@ X, Y = np.meshgrid(x, y)
 Z = np.sin(X) + np.cos(Y)
 # TODO: imshow with custom cmap
 # TODO: colorbar with 5 labeled ticks
-# TODO: save &#x27;terrain.png&#x27; at 150 DPI</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Error Bars &amp; Confidence Intervals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize measurement uncertainty with errorbar(), fill_between() for confidence bands, and asymmetric errors.</p><div class="code-block"><div class="ch"><span>Basic symmetric error bars</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import matplotlib
+# TODO: save &#x27;terrain.png&#x27; at 150 DPI</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a custom 4-color LinearSegmentedColormap and apply it to a heatmap</label></li>
+<li><label><input type="checkbox"> Use TwoSlopeNorm to center a diverging colormap on zero with asymmetric bounds</label></li>
+<li><label><input type="checkbox"> Build a discrete 5-level BoundaryNorm colormap and annotate each cell with its level label</label></li>
+<li><label><input type="checkbox"> Compare viridis, plasma, inferno, and cividis on the same 2D data side-by-side</label></li>
+<li><label><input type="checkbox"> Apply a corporate color palette as a ListedColormap with a custom colorbar legend</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Error Bars &amp; Confidence Intervals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize measurement uncertainty with errorbar(), fill_between() for confidence bands, and asymmetric errors.</p><div class="code-block"><div class="ch"><span>Basic symmetric error bars</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2541,7 +2589,11 @@ errors = np.random.uniform(0.3, 1.2, 6)
 # TODO: horizontal errorbar plot
 # TODO: color by quartile
 # TODO: vertical reference line at x=5
-# TODO: save &#x27;hbar_errors.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Box Plots &amp; Violin Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Compare distributions across groups with boxplot() for quartile summaries and violinplot() for full density shapes. Combine both for richer insights.</p><div class="code-block"><div class="ch"><span>Side-by-side box plots</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import matplotlib
+# TODO: save &#x27;hbar_errors.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot symmetric error bars using ax.errorbar() with capsize=5 and elinewidth=2</label></li>
+<li><label><input type="checkbox"> Add asymmetric error bars using yerr=[lower_array, upper_array]</label></li>
+<li><label><input type="checkbox"> Draw a 95% confidence band with fill_between() around a regression line</label></li>
+<li><label><input type="checkbox"> Overlay multiple confidence bands for three model variants on the same axes</label></li>
+<li><label><input type="checkbox"> Annotate the error bar with significance stars (&#x27;*&#x27;, &#x27;**&#x27;, &#x27;***&#x27;) using ax.text()</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Box Plots &amp; Violin Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Compare distributions across groups with boxplot() for quartile summaries and violinplot() for full density shapes. Combine both for richer insights.</p><div class="code-block"><div class="ch"><span>Side-by-side box plots</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2707,7 +2759,11 @@ fig.suptitle(&#x27;Distribution Shapes Comparison&#x27;, fontweight=&#x27;bold&#
 fig.tight_layout()
 fig.savefig(&#x27;dist_shapes.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved dist_shapes.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Contour Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use contour() for lines and contourf() for filled regions to display 2D scalar fields, decision boundaries, and topographic data.</p><div class="code-block"><div class="ch"><span>Basic contour and contourf</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import matplotlib
+print(&#x27;Saved dist_shapes.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create notched box plots for 5 groups using patch_artist=True and custom colors</label></li>
+<li><label><input type="checkbox"> Overlay a violin plot and a narrow box plot on the same axes for comparison</label></li>
+<li><label><input type="checkbox"> Build grouped box plots for two treatments across 4 months</label></li>
+<li><label><input type="checkbox"> Create a raincloud plot: half-violin + jitter scatter + median line</label></li>
+<li><label><input type="checkbox"> Color outlier markers differently using flierprops=dict(marker=&#x27;x&#x27;, color=&#x27;red&#x27;)</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Contour Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use contour() for lines and contourf() for filled regions to display 2D scalar fields, decision boundaries, and topographic data.</p><div class="code-block"><div class="ch"><span>Basic contour and contourf</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2855,7 +2911,11 @@ fig, ax = plt.subplots(figsize=(7, 6))
 # TODO: colorbar labeled &#x27;Amplitude&#x27;
 # TODO: red star marker at (0, 0)
 # TODO: save &#x27;ripple.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Polar Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use polar projections for directional data, radar charts, and rose diagrams. Access the polar axes with subplot_kw={&#x27;projection&#x27;:&#x27;polar&#x27;}.</p><div class="code-block"><div class="ch"><span>Basic polar line and fill</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a filled contour of Z = sin(X)*cos(Y) using contourf with 20 levels and a colorbar</label></li>
+<li><label><input type="checkbox"> Add labeled contour lines on top of a filled contour using clabel(inline=True)</label></li>
+<li><label><input type="checkbox"> Visualize a classifier&#x27;s decision boundary over a 2D feature grid using contourf</label></li>
+<li><label><input type="checkbox"> Overlay a KDE contour on a scatter plot of bimodal data using gaussian_kde</label></li>
+<li><label><input type="checkbox"> Add hillshading to a topographic contour map using matplotlib.colors.LightSource</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Polar Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use polar projections for directional data, radar charts, and rose diagrams. Access the polar axes with subplot_kw={&#x27;projection&#x27;:&#x27;polar&#x27;}.</p><div class="code-block"><div class="ch"><span>Basic polar line and fill</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2990,7 +3050,11 @@ angles = np.linspace(0, 2*np.pi, N, endpoint=False).tolist()
 # TODO: polar subplot
 # TODO: plot and fill both engineers
 # TODO: set tick labels to categories
-# TODO: save &#x27;skills_radar.png&#x27;</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Stacked Bar &amp; Area Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Show part-to-whole relationships over categories or time with stacked bar charts and area plots using stackplot().</p><div class="code-block"><div class="ch"><span>Stacked bar chart</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import matplotlib
+# TODO: save &#x27;skills_radar.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a rose curve r = 1 + 0.5*cos(3theta) on a polar axis and fill with alpha=0.2</label></li>
+<li><label><input type="checkbox"> Create a wind rose bar chart with 16 directions and color bars by magnitude</label></li>
+<li><label><input type="checkbox"> Build a radar (spider) chart for 6 skills comparing two candidates</label></li>
+<li><label><input type="checkbox"> Set theta_zero_location=&#x27;N&#x27; and theta_direction=-1 for compass-style orientation</label></li>
+<li><label><input type="checkbox"> Add a polar scatter plot with exponential radii and an HSV colormap</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Stacked Bar &amp; Area Charts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Show part-to-whole relationships over categories or time with stacked bar charts and area plots using stackplot().</p><div class="code-block"><div class="ch"><span>Stacked bar chart</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3148,7 +3212,11 @@ x = np.arange(len(weeks))
 fig.tight_layout()
 fig.savefig(&#x27;budget_stacked.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved budget_stacked.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Step Plots &amp; Eventplot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use step() and drawstyle=&#x27;steps-*&#x27; for discrete/piecewise data, stairs() for histograms, and eventplot() for spike-train and event sequence data.</p><div class="code-block"><div class="ch"><span>step() and stairs() basics</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import matplotlib
+print(&#x27;Saved budget_stacked.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a stacked bar chart for 4 quarters with 3 products using ax.bar() with bottom=</label></li>
+<li><label><input type="checkbox"> Build a stacked area chart using ax.stackplot() with a custom color list</label></li>
+<li><label><input type="checkbox"> Normalize a stacked bar to 100% to show share-of-total proportions</label></li>
+<li><label><input type="checkbox"> Add value labels inside each stacked segment at its vertical midpoint</label></li>
+<li><label><input type="checkbox"> Compare a stacked bar and 100%-stacked bar side-by-side in a 1x2 subplot</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Step Plots &amp; Eventplot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use step() and drawstyle=&#x27;steps-*&#x27; for discrete/piecewise data, stairs() for histograms, and eventplot() for spike-train and event sequence data.</p><div class="code-block"><div class="ch"><span>step() and stairs() basics</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3276,7 +3344,11 @@ fig, ax = plt.subplots(figsize=(11, 3))
 # TODO: fill_between for state=0 (blue), 1 (green), 2 (red)
 # TODO: add legend, labels, title
 # TODO: save &#x27;state_machine.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Log Scale &amp; Symlog</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use set_xscale/set_yscale with &#x27;log&#x27;, &#x27;symlog&#x27;, or &#x27;logit&#x27; to handle data spanning many orders of magnitude.</p><div class="code-block"><div class="ch"><span>Log-log plot: power-law relationship</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a step function with where=&#x27;mid&#x27;, &#x27;pre&#x27;, and &#x27;post&#x27; side-by-side</label></li>
+<li><label><input type="checkbox"> Use ax.eventplot() to visualize spike trains for 3 neuron channels</label></li>
+<li><label><input type="checkbox"> Overlay a step plot on a regular bar chart to compare histogram styles</label></li>
+<li><label><input type="checkbox"> Add fill_between() shading below a step function using step=&#x27;mid&#x27;</label></li>
+<li><label><input type="checkbox"> Plot a cumulative step function (ECDF) manually using np.sort() and np.arange()</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Log Scale &amp; Symlog</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use set_xscale/set_yscale with &#x27;log&#x27;, &#x27;symlog&#x27;, or &#x27;logit&#x27; to handle data spanning many orders of magnitude.</p><div class="code-block"><div class="ch"><span>Log-log plot: power-law relationship</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3426,7 +3498,11 @@ fig.suptitle(&#x27;Power Law on Three Scales&#x27;, fontweight=&#x27;bold&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;powerlaw_scales.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved powerlaw_scales.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. GridSpec &amp; Complex Layouts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond plt.subplots() using GridSpec for unequal column/row spans, subplot_mosaic() for named panels, and add_axes() for insets.</p><div class="code-block"><div class="ch"><span>GridSpec: unequal column widths</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import matplotlib
+print(&#x27;Saved powerlaw_scales.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Switch a plot to log scale using ax.set_yscale(&#x27;log&#x27;) and observe axis behavior</label></li>
+<li><label><input type="checkbox"> Use log-log scale on a scatter plot to reveal a power-law relationship</label></li>
+<li><label><input type="checkbox"> Apply symlog scale to handle data spanning positive and negative values</label></li>
+<li><label><input type="checkbox"> Plot an exponential decay on linear and log scale side-by-side to compare</label></li>
+<li><label><input type="checkbox"> Use np.logspace() to set meaningful tick positions on a log-scale axis</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. GridSpec &amp; Complex Layouts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond plt.subplots() using GridSpec for unequal column/row spans, subplot_mosaic() for named panels, and add_axes() for insets.</p><div class="code-block"><div class="ch"><span>GridSpec: unequal column widths</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3590,7 +3666,11 @@ ax_title.axis(&#x27;off&#x27;)
 # TODO: Row 1: three plots (sin, cos, tan clipped to [-5,5])
 # TODO: Row 2: wide bar chart spanning all 3 cols
 # TODO: save &#x27;gridspec_practice.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Hexbin &amp; 2D Density Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use hexbin() for large scatter datasets, hist2d() for rectangular binning, and KDE-based density coloring to visualize joint distributions.</p><div class="code-block"><div class="ch"><span>hexbin with colorbar</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use GridSpec(2, 3) to create a wide top panel spanning all 3 columns</label></li>
+<li><label><input type="checkbox"> Specify height_ratios=[3, 1] for a main chart and a smaller indicator below</label></li>
+<li><label><input type="checkbox"> Use subplot2grid() to place 5 panels of varying sizes in one figure</label></li>
+<li><label><input type="checkbox"> Add a colorbar axis manually using fig.add_axes([left, bottom, width, height])</label></li>
+<li><label><input type="checkbox"> Adjust hspace and wspace to control spacing between panels</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Hexbin &amp; 2D Density Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use hexbin() for large scatter datasets, hist2d() for rectangular binning, and KDE-based density coloring to visualize joint distributions.</p><div class="code-block"><div class="ch"><span>hexbin with colorbar</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3741,7 +3821,11 @@ fig, ax = plt.subplots(figsize=(7, 6))
 # TODO: KDE contour overlay
 # TODO: colorbar, axis labels
 # TODO: save &#x27;mixture_density.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Patch Artists &amp; Custom Shapes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Draw custom geometric shapes with matplotlib.patches: Rectangle, Circle, Ellipse, Polygon, FancyArrow, and Arc for annotations and diagrams.</p><div class="code-block"><div class="ch"><span>Basic patches: Rectangle, Circle, Ellipse</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a hexbin plot of 5,000 points with gridsize=40 and a &#x27;YlOrRd&#x27; colormap</label></li>
+<li><label><input type="checkbox"> Set mincnt=1 to hide empty hexagons in sparse regions</label></li>
+<li><label><input type="checkbox"> Overlay a hexbin with a scatter at low alpha to show the density gradient</label></li>
+<li><label><input type="checkbox"> Use hist2d() as an alternative to hexbin and compare the visual output</label></li>
+<li><label><input type="checkbox"> Add a colorbar labeled &#x27;Count per bin&#x27; to the hexbin plot</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Patch Artists &amp; Custom Shapes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Draw custom geometric shapes with matplotlib.patches: Rectangle, Circle, Ellipse, Polygon, FancyArrow, and Arc for annotations and diagrams.</p><div class="code-block"><div class="ch"><span>Basic patches: Rectangle, Circle, Ellipse</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3941,7 +4025,11 @@ for c in circles: ax.add_patch(c)
 # TODO: add text labels A, B, C in non-overlapping regions
 # TODO: add intersection labels A∩B, B∩C, A∩C, A∩B∩C
 # TODO: add title and save &#x27;venn3.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Quiver &amp; Streamplot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize 2D vector fields with quiver() for arrow grids and streamplot() for continuous flow lines. Used for fluid dynamics, electric fields, and gradient maps.</p><div class="code-block"><div class="ch"><span>Basic quiver plot</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Draw a Rectangle patch at (2, 3) with width=4, height=2, and a custom facecolor</label></li>
+<li><label><input type="checkbox"> Add a Circle patch centered at (0, 0) with radius=1.5 to mark a region of interest</label></li>
+<li><label><input type="checkbox"> Use FancyArrowPatch to draw a curved arrow between two plot elements</label></li>
+<li><label><input type="checkbox"> Create a FancyBboxPatch with boxstyle=&#x27;round,pad=0.1&#x27; as a callout annotation</label></li>
+<li><label><input type="checkbox"> Loop over a list of (x, y, r) tuples and draw multiple Circle patches at once</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Quiver &amp; Streamplot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualize 2D vector fields with quiver() for arrow grids and streamplot() for continuous flow lines. Used for fluid dynamics, electric fields, and gradient maps.</p><div class="code-block"><div class="ch"><span>Basic quiver plot</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4101,7 +4189,11 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 fig.tight_layout()
 fig.savefig(&#x27;saddle_field.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved saddle_field.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Broken Axis &amp; Dual Axis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Handle datasets with extreme outliers using a broken y-axis (two subplots with different ylim), and compare two unrelated scales with twinx()/twiny().</p><div class="code-block"><div class="ch"><span>Broken y-axis with diagonal break markers</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import matplotlib
+print(&#x27;Saved saddle_field.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a 2D vector field using ax.quiver() over a meshgrid of X, Y</label></li>
+<li><label><input type="checkbox"> Color quiver arrows by vector magnitude using c=np.sqrt(U**2+V**2)</label></li>
+<li><label><input type="checkbox"> Use ax.streamplot() to visualize flow lines of a vector field</label></li>
+<li><label><input type="checkbox"> Set linewidth proportional to speed in streamplot using linewidth=speed/speed.max()*2</label></li>
+<li><label><input type="checkbox"> Normalize vectors before quivering to show direction only, not magnitude</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Broken Axis &amp; Dual Axis</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Handle datasets with extreme outliers using a broken y-axis (two subplots with different ylim), and compare two unrelated scales with twinx()/twiny().</p><div class="code-block"><div class="ch"><span>Broken y-axis with diagonal break markers</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4282,7 +4374,11 @@ ax2 = ax1.twinx()
 # TODO: step line for costs on ax2
 # TODO: contrasting colors, labels, legend, title
 # TODO: save &#x27;users_costs.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Image Processing with imshow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use imshow() for displaying arrays as images, applying colormaps, performing simple transformations, and visualizing feature maps from neural networks.</p><div class="code-block"><div class="ch"><span>Display and compare colormaps</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate a broken y-axis using two stacked subplots and hiding the shared spines</label></li>
+<li><label><input type="checkbox"> Add diagonal break marks (/ /) to signal the broken axis region</label></li>
+<li><label><input type="checkbox"> Use twinx() to add a secondary y-axis on the right side of a chart</label></li>
+<li><label><input type="checkbox"> Color both y-axis labels and ticks to match their respective data series</label></li>
+<li><label><input type="checkbox"> Add a combined legend from both axes using ax1.get_legend_handles_labels()</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Image Processing with imshow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use imshow() for displaying arrays as images, applying colormaps, performing simple transformations, and visualizing feature maps from neural networks.</p><div class="code-block"><div class="ch"><span>Display and compare colormaps</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4440,7 +4536,11 @@ fig, axes = plt.subplots(1, 3, figsize=(11, 4))
 # TODO: blurred version (use gaussian_filter from scipy.ndimage)
 # TODO: add titles and axis(&#x27;off&#x27;)
 # TODO: save &#x27;checkerboard.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Statistical Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create publication-quality statistical visualizations: regression plots, residual diagnostics, Q-Q plots, correlation matrices, and bootstrapped confidence intervals.</p><div class="code-block"><div class="ch"><span>Scatter with linear regression and confidence band</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Display a grayscale image using ax.imshow(data, cmap=&#x27;gray&#x27;)</label></li>
+<li><label><input type="checkbox"> Show an RGB image and annotate it with text at a specific pixel coordinate</label></li>
+<li><label><input type="checkbox"> Apply a zoom inset to a specific region of an image using ax.inset_axes()</label></li>
+<li><label><input type="checkbox"> Overlay a semi-transparent colormap heatmap on top of an image</label></li>
+<li><label><input type="checkbox"> Compare the effect of different interpolation modes: &#x27;nearest&#x27;, &#x27;bilinear&#x27;, &#x27;bicubic&#x27;</label></li></ul></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Statistical Plots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Create publication-quality statistical visualizations: regression plots, residual diagnostics, Q-Q plots, correlation matrices, and bootstrapped confidence intervals.</p><div class="code-block"><div class="ch"><span>Scatter with linear regression and confidence band</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4622,7 +4722,11 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 # TODO: violinplot on ax2 with jitter scatter overlay
 # TODO: matching colors, labels, titles
 # TODO: save &#x27;group_stats.png&#x27;
-plt.close()</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Multi-Figure Export &amp; Backends</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Export single figures at various DPIs, save multiple pages to PDF with PdfPages, create figure collections, and control backends for headless rendering.</p><div class="code-block"><div class="ch"><span>PdfPages: multi-page PDF report</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import matplotlib
+plt.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Draw a vertical violin plot for 4 groups and add strip points on top</label></li>
+<li><label><input type="checkbox"> Create a Q-Q plot using scipy.stats.probplot to assess normality</label></li>
+<li><label><input type="checkbox"> Plot boxplots for 5 groups and annotate the median value above each box</label></li>
+<li><label><input type="checkbox"> Use ax.violinplot() and customize the colors of the violin bodies manually</label></li>
+<li><label><input type="checkbox"> Combine a histogram (density=True), a KDE line, and a rug plot on one axes</label></li></ul></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Multi-Figure Export &amp; Backends</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Export single figures at various DPIs, save multiple pages to PDF with PdfPages, create figure collections, and control backends for headless rendering.</p><div class="code-block"><div class="ch"><span>PdfPages: multi-page PDF report</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4818,7 +4922,11 @@ fig.tight_layout()
 # TODO: save SVG
 # TODO: save 2-page PDF with PdfPages
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Dashboard Composition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Compose production-quality dashboards by combining GridSpec layouts, dual axes, custom patches, annotation, and multi-figure export. Design for clarity, color accessibility, and print quality.</p><div class="code-block"><div class="ch"><span>KPI summary dashboard with mixed chart types</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import matplotlib
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save three different charts to a single multi-page PDF using PdfPages</label></li>
+<li><label><input type="checkbox"> Export a figure at 72, 150, and 300 DPI and print each file size</label></li>
+<li><label><input type="checkbox"> Save a figure as SVG with svg.fonttype=&#x27;none&#x27; for editable text in Inkscape</label></li>
+<li><label><input type="checkbox"> Use plt.close(&#x27;all&#x27;) after batch export to free memory</label></li>
+<li><label><input type="checkbox"> Write a loop that generates one chart per dataset and saves each as a named PNG</label></li></ul></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. Dashboard Composition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Compose production-quality dashboards by combining GridSpec layouts, dual axes, custom patches, annotation, and multi-figure export. Design for clarity, color accessibility, and print quality.</p><div class="code-block"><div class="ch"><span>KPI summary dashboard with mixed chart types</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5137,10 +5245,14 @@ gs = GridSpec(3, 3, figure=fig, hspace=0.4, wspace=0.35)
 # TODO: Title and tight_layout
 # TODO: save &#x27;my_dashboard.png&#x27; at 150 DPI
 plt.close()
-print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div></div></div></main>
+print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use GridSpec to compose a dashboard with at least one spanning panel</label></li>
+<li><label><input type="checkbox"> Add KPI &#x27;tiles&#x27; as small colored axes with large text using ax.axis(&#x27;off&#x27;)</label></li>
+<li><label><input type="checkbox"> Combine a trend line chart with a dual-axis overlay on one dashboard panel</label></li>
+<li><label><input type="checkbox"> Apply a dark background theme to the entire figure using fig.set_facecolor()</label></li>
+<li><label><input type="checkbox"> Export the dashboard at 200 DPI and verify readability at both screen and print sizes</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

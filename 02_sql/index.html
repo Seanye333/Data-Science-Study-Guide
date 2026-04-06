@@ -3,24 +3,8 @@
 <title>SQL with Python Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#f0883e}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#f0883e}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 32 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup with sqlite3</a></li>
@@ -1792,7 +1776,11 @@ query = &quot;&quot;&quot;
 &quot;&quot;&quot;
 # df = pd.read_sql(query, conn)
 # print(df.to_string(index=False))
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Perform calculations across related rows without collapsing them — rankings, running totals, lag/lead comparisons, and moving averages.</p><div class="code-block"><div class="ch"><span>ROW_NUMBER, RANK, and DENSE_RANK</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import sqlite3, pandas as pd
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Rewrite a nested subquery as a CTE and verify both produce the same result</label></li>
+<li><label><input type="checkbox"> Chain two CTEs where the second CTE references the first by name</label></li>
+<li><label><input type="checkbox"> Write a recursive CTE that builds a depth-first org-chart hierarchy</label></li>
+<li><label><input type="checkbox"> Use a CTE to compute a group average, then reference it in the main SELECT for comparison</label></li>
+<li><label><input type="checkbox"> Benchmark a complex CTE query vs its equivalent subquery version and compare readability</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Perform calculations across related rows without collapsing them — rankings, running totals, lag/lead comparisons, and moving averages.</p><div class="code-block"><div class="ch"><span>ROW_NUMBER, RANK, and DENSE_RANK</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import sqlite3, pandas as pd
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&quot;&quot;&quot;
@@ -1897,7 +1885,11 @@ query = &quot;&quot;&quot;
 &quot;&quot;&quot;
 # df = pd.read_sql(query, conn)
 # print(df.to_string(index=False))
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Query Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write faster SQL — understand EXPLAIN QUERY PLAN, use indexes effectively, and rewrite slow patterns as efficient alternatives.</p><div class="code-block"><div class="ch"><span>Creating and using indexes</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import sqlite3, time
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use DENSE_RANK() OVER (PARTITION BY region ORDER BY revenue DESC) and explain ties</label></li>
+<li><label><input type="checkbox"> Compute a 3-day moving average using AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)</label></li>
+<li><label><input type="checkbox"> Use LAG(revenue) to calculate month-over-month growth as a percentage</label></li>
+<li><label><input type="checkbox"> Use LEAD(revenue) to show what next month&#x27;s revenue will be relative to the current row</label></li>
+<li><label><input type="checkbox"> Assign customers to quartiles with NTILE(4) and compare quartile revenue averages</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Query Optimization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write faster SQL — understand EXPLAIN QUERY PLAN, use indexes effectively, and rewrite slow patterns as efficient alternatives.</p><div class="code-block"><div class="ch"><span>Creating and using indexes</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import sqlite3, time
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 import random; random.seed(42)
@@ -2007,7 +1999,11 @@ q = &#x27;SELECT * FROM orders WHERE customer_id = 42&#x27;
 # TODO: time query with index
 # TODO: EXPLAIN QUERY PLAN after index
 # TODO: print speedup factor
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Query Optimization &amp; Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run EXPLAIN QUERY PLAN on a query without an index and identify the &#x27;SCAN TABLE&#x27; step</label></li>
+<li><label><input type="checkbox"> Add an index and re-run EXPLAIN QUERY PLAN to confirm it switches to &#x27;SEARCH TABLE&#x27;</label></li>
+<li><label><input type="checkbox"> Rewrite an N+1 pattern as a single JOIN and measure the time difference</label></li>
+<li><label><input type="checkbox"> Compare EXISTS vs IN for a subquery and check which the planner prefers</label></li>
+<li><label><input type="checkbox"> Create a covering index that includes all columns used by a query and verify no table scan</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Query Optimization &amp; Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>EXPLAIN QUERY PLAN</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&#x27;&#x27;&#x27;
@@ -2092,7 +2088,11 @@ conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: EXPLAIN QUERY PLAN before index
 # TODO: CREATE INDEX idx_cust ON orders(customer_id)
 # TODO: time query with index, print speedup
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Pivoting &amp; Unpivoting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Pivot with CASE WHEN</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import sqlite3, pandas as pd
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use EXPLAIN QUERY PLAN before and after adding an index to compare execution strategy</label></li>
+<li><label><input type="checkbox"> Time a 100K-row query with and without an index and print the speedup factor</label></li>
+<li><label><input type="checkbox"> Create a composite index on two filter columns and verify it covers both</label></li>
+<li><label><input type="checkbox"> Find and rewrite an N+1 query pattern in your own code using a single JOIN</label></li>
+<li><label><input type="checkbox"> Run ANALYZE after inserting data to update the query planner&#x27;s row count estimates</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Pivoting &amp; Unpivoting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Pivot with CASE WHEN</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import sqlite3, pandas as pd
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&#x27;&#x27;&#x27;
@@ -2171,7 +2171,11 @@ conn.executemany(&#x27;INSERT INTO rep_sales VALUES (?,?,?)&#x27;, rows)
 # TODO: get distinct quarters dynamically
 # TODO: build CASE WHEN pivot query
 # TODO: read to DataFrame and print
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Triggers &amp; Database Automation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Audit log trigger on price UPDATE</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a pivot using SUM(CASE WHEN quarter=&#x27;Q1&#x27; THEN revenue ELSE 0 END) for each quarter</label></li>
+<li><label><input type="checkbox"> Unpivot a wide table to long format using UNION ALL with a literal label column</label></li>
+<li><label><input type="checkbox"> Dynamically build a pivot query in Python by querying distinct column values first</label></li>
+<li><label><input type="checkbox"> Add a &#x27;Total&#x27; column to the pivot by summing all CASE WHEN columns</label></li>
+<li><label><input type="checkbox"> Cross-tabulate a survey with percentage columns using SUM and COUNT in one query</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Triggers &amp; Database Automation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Audit log trigger on price UPDATE</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&#x27;&#x27;&#x27;
@@ -2253,7 +2257,11 @@ conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: CREATE TRIGGER log_large after INSERT on transactions WHEN amount &gt; 1000
 # TODO: enforce non-negative balance via CHECK or trigger
 # TODO: insert test transactions, show results
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Subqueries in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries (nested SELECT) can appear in WHERE, FROM, SELECT, and HAVING clauses. Master scalar, column, table, and correlated subqueries for complex filtering and derived metrics.</p><div class="code-block"><div class="ch"><span>Scalar and column subqueries in WHERE</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import sqlite3, contextlib
+conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an AFTER UPDATE trigger that writes changed values to an audit log table</label></li>
+<li><label><input type="checkbox"> Create an AFTER INSERT trigger that deducts from an inventory table automatically</label></li>
+<li><label><input type="checkbox"> Write a trigger that raises an error when a CHECK-like condition is violated</label></li>
+<li><label><input type="checkbox"> Create an INSTEAD OF trigger on a view to intercept and redirect updates</label></li>
+<li><label><input type="checkbox"> Inspect all triggers in a database using SELECT * FROM sqlite_master WHERE type=&#x27;trigger&#x27;</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Subqueries in Depth</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries (nested SELECT) can appear in WHERE, FROM, SELECT, and HAVING clauses. Master scalar, column, table, and correlated subqueries for complex filtering and derived metrics.</p><div class="code-block"><div class="ch"><span>Scalar and column subqueries in WHERE</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -2444,7 +2452,11 @@ print(&quot;=== Cheapest per Category ===&quot;)
 # 3. Categories with avg margin &gt; 30%
 print(&quot;=== High-Margin Categories ===&quot;)
 # TODO: derived table with margin calc, then filter
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. String Functions &amp; Pattern Matching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL provides rich string functions: UPPER/LOWER, SUBSTR, TRIM, REPLACE, LENGTH, INSTR, and LIKE/GLOB for pattern matching. Essential for cleaning and searching text data.</p><div class="code-block"><div class="ch"><span>Core string functions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a correlated subquery in WHERE to find employees earning above their department average</label></li>
+<li><label><input type="checkbox"> Use EXISTS to find rows in one table that have at least one matching row in another</label></li>
+<li><label><input type="checkbox"> Rewrite a correlated subquery as a JOIN and verify both produce the same rows</label></li>
+<li><label><input type="checkbox"> Use a subquery in FROM (derived table) to filter aggregated results with WHERE</label></li>
+<li><label><input type="checkbox"> Place a scalar subquery in the SELECT list to add a company-wide comparison column</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. String Functions &amp; Pattern Matching</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL provides rich string functions: UPPER/LOWER, SUBSTR, TRIM, REPLACE, LENGTH, INSTR, and LIKE/GLOB for pattern matching. Essential for cleaning and searching text data.</p><div class="code-block"><div class="ch"><span>Core string functions</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -2646,7 +2658,11 @@ rows = run(&#x27;&#x27;&#x27;
     FROM people
 &#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Date &amp; Time Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL date functions compute differences, extract components, and format timestamps. In SQLite, dates are stored as TEXT (ISO), INTEGER (Unix epoch), or REAL (Julian day).</p><div class="code-block"><div class="ch"><span>Date arithmetic and formatting (SQLite)</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LOWER(TRIM(email)) to normalize a messy email column in a single query</label></li>
+<li><label><input type="checkbox"> Use SUBSTR and INSTR to extract the domain part from an email address column</label></li>
+<li><label><input type="checkbox"> Chain REPLACE calls to strip parentheses, dashes, and dots from a phone number field</label></li>
+<li><label><input type="checkbox"> Write a LIKE pattern with % and _ wildcards and compare results with an equivalent GLOB pattern</label></li>
+<li><label><input type="checkbox"> Use LENGTH to find rows where a text column exceeds 100 characters</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. Date &amp; Time Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL date functions compute differences, extract components, and format timestamps. In SQLite, dates are stored as TEXT (ISO), INTEGER (Unix epoch), or REAL (Julian day).</p><div class="code-block"><div class="ch"><span>Date arithmetic and formatting (SQLite)</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -2852,7 +2868,11 @@ for r in rows: print(f&quot;  {r}&quot;)
 
 # 3. TODO: rooms booked &gt; 80% of Q2 days
 # 4. TODO: return visits within 6 months
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. CASE WHEN &amp; Conditional Logic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CASE WHEN is SQL&#x27;s conditional expression. Use it for bucketing, pivoting, null handling, and complex conditional aggregations. Combined with COALESCE and NULLIF for robust null handling.</p><div class="code-block"><div class="ch"><span>Simple and searched CASE</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use STRFTIME(&#x27;%Y-%m&#x27;, date_col) to bucket rows by month and group them</label></li>
+<li><label><input type="checkbox"> Calculate the number of days between two date columns using JULIANDAY(end) - JULIANDAY(start)</label></li>
+<li><label><input type="checkbox"> Use DATE(&#x27;now&#x27;, &#x27;-30 days&#x27;) to filter for rows in the last 30 days</label></li>
+<li><label><input type="checkbox"> Extract year, month, and day from a date column using STRFTIME and verify with sample data</label></li>
+<li><label><input type="checkbox"> Flag rows where a date falls within a given range using BETWEEN with ISO date strings</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. CASE WHEN &amp; Conditional Logic</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CASE WHEN is SQL&#x27;s conditional expression. Use it for bucketing, pivoting, null handling, and complex conditional aggregations. Combined with COALESCE and NULLIF for robust null handling.</p><div class="code-block"><div class="ch"><span>Simple and searched CASE</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3057,7 +3077,11 @@ for r in rows: print(f&quot;  {r}&quot;)
 # 2. TODO: letter grade + needs_review flag
 # 3. TODO: weakest subject per student
 # 4. TODO: students passing all subjects
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Set Operations (UNION, INTERSECT, EXCEPT)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL set operations combine results of multiple SELECT statements: UNION (all unique), UNION ALL (keep duplicates), INTERSECT (common rows), and EXCEPT/MINUS (rows in first but not second).</p><div class="code-block"><div class="ch"><span>UNION and UNION ALL</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a CASE WHEN to assign letter grades (A/B/C/D/F) from a numeric score column</label></li>
+<li><label><input type="checkbox"> Use SUM(CASE WHEN status=&#x27;completed&#x27; THEN 1 ELSE 0 END) to count a filtered subset</label></li>
+<li><label><input type="checkbox"> Replace CASE WHEN with IIF() (SQLite 3.32+) and confirm the same output</label></li>
+<li><label><input type="checkbox"> Use COALESCE(col, 0) to replace NULLs with zero before aggregating</label></li>
+<li><label><input type="checkbox"> Use NULLIF(col, 0) to turn zeros into NULLs and observe how AVG ignores them</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. Set Operations (UNION, INTERSECT, EXCEPT)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SQL set operations combine results of multiple SELECT statements: UNION (all unique), UNION ALL (keep duplicates), INTERSECT (common rows), and EXCEPT/MINUS (rows in first but not second).</p><div class="code-block"><div class="ch"><span>UNION and UNION ALL</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3290,7 +3314,11 @@ rows = run(&#x27;&#x27;&#x27;
 print(&quot;All unique users:&quot;, [r[0] for r in rows])
 
 # 4. TODO: Exactly 2 of 3 months
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Advanced CTEs &amp; Chaining</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CTEs (WITH clauses) can be chained, referenced multiple times, and nested to build complex queries step by step. They replace temp tables in most cases and dramatically improve readability.</p><div class="code-block"><div class="ch"><span>Multiple CTEs and chaining</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write UNION and UNION ALL on two tables and compare the row counts to understand deduplication</label></li>
+<li><label><input type="checkbox"> Use INTERSECT to find customers who placed orders in both January and February</label></li>
+<li><label><input type="checkbox"> Use EXCEPT to find rows in one table that have no match in another table</label></li>
+<li><label><input type="checkbox"> Chain INTERSECT and EXCEPT to solve &#x27;active in 2 of 3 months&#x27; without a GROUP BY</label></li>
+<li><label><input type="checkbox"> Combine UNION ALL with a GROUP BY to aggregate results from two separate tables at once</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Advanced CTEs &amp; Chaining</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">CTEs (WITH clauses) can be chained, referenced multiple times, and nested to build complex queries step by step. They replace temp tables in most cases and dramatically improve readability.</p><div class="code-block"><div class="ch"><span>Multiple CTEs and chaining</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3550,7 +3578,11 @@ rows = run(&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Revenue alerts (&gt;20% below 3-month MA):&quot;)
 for r in rows: print(f&quot;  {r[0]} {r[1]}: ${r[2]} vs MA ${r[3]} ({r[4]}%)&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Views &amp; Virtual Tables</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Views are saved SELECT statements that behave like tables. They simplify complex queries, enforce access control, and create stable interfaces over evolving schema.</p><div class="code-block"><div class="ch"><span>Creating and using views</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 chained CTEs where each one builds on the previous step</label></li>
+<li><label><input type="checkbox"> Use ROW_NUMBER() inside a CTE to filter for only the top row per group</label></li>
+<li><label><input type="checkbox"> Build a multi-step data cleaning pipeline entirely within CTEs (no temp tables)</label></li>
+<li><label><input type="checkbox"> Write a recursive CTE to count the total number of direct and indirect reports per manager</label></li>
+<li><label><input type="checkbox"> Use a CTE twice in the same query (reference it by name in two different places)</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Views &amp; Virtual Tables</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Views are saved SELECT statements that behave like tables. They simplify complex queries, enforce access control, and create stable interfaces over evolving schema.</p><div class="code-block"><div class="ch"><span>Creating and using views</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3767,7 +3799,11 @@ print(&quot;=== Regional Summary ===&quot;)
 for r in run(&#x27;SELECT * FROM regional_summary ORDER BY total DESC&#x27;): print(f&quot;  {r}&quot;)
 
 # 3. TODO: top products view
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Data Integrity &amp; Constraints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Constraints (PRIMARY KEY, UNIQUE, NOT NULL, CHECK, FOREIGN KEY) enforce data quality at the database level — the last line of defense against bad data.</p><div class="code-block"><div class="ch"><span>PRIMARY KEY, UNIQUE, NOT NULL, CHECK</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import sqlite3, contextlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a VIEW that joins two tables and query it as if it were a regular table</label></li>
+<li><label><input type="checkbox"> Query sqlite_master to list all views in a database</label></li>
+<li><label><input type="checkbox"> Simulate a materialized view by creating a physical table with CREATE TABLE AS SELECT</label></li>
+<li><label><input type="checkbox"> Drop a VIEW and verify the underlying base tables are unaffected</label></li>
+<li><label><input type="checkbox"> Create a view that filters rows (e.g., active_users) and use it in a JOIN</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Data Integrity &amp; Constraints</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Constraints (PRIMARY KEY, UNIQUE, NOT NULL, CHECK, FOREIGN KEY) enforce data quality at the database level — the last line of defense against bad data.</p><div class="code-block"><div class="ch"><span>PRIMARY KEY, UNIQUE, NOT NULL, CHECK</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3999,7 +4035,11 @@ except Exception as e:
 
 # 3. TODO: UPSERT to create or update an account balance
 print(&quot;Current balance:&quot;, run(&quot;SELECT balance FROM accounts WHERE id=1&quot;)[0][0])
-</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Advanced Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use FILTER clauses for conditional aggregation, emulate ROLLUP with UNION ALL, and combine window functions for multi-dimensional analysis.</p><div class="code-block"><div class="ch"><span>FILTER clause – conditional sums per quarter</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales (
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a CHECK constraint to ensure a price column stays positive and test the violation</label></li>
+<li><label><input type="checkbox"> Create a UNIQUE index and try inserting a duplicate to observe the error message</label></li>
+<li><label><input type="checkbox"> Enable PRAGMA foreign_keys = ON and test that a DELETE on a parent row is blocked</label></li>
+<li><label><input type="checkbox"> Use ON DELETE CASCADE on a foreign key and verify child rows are removed automatically</label></li>
+<li><label><input type="checkbox"> Test ON CONFLICT IGNORE vs ON CONFLICT REPLACE and observe how existing rows are handled</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Advanced Aggregations</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use FILTER clauses for conditional aggregation, emulate ROLLUP with UNION ALL, and combine window functions for multi-dimensional analysis.</p><div class="code-block"><div class="ch"><span>FILTER clause – conditional sums per quarter</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS sales (
     id INTEGER PRIMARY KEY,
     region TEXT, product TEXT,
     amount REAL, q INTEGER)&#x27;&#x27;&#x27;)
@@ -4075,7 +4115,11 @@ for r in rows: print(r)
 runmany(&#x27;INSERT INTO transactions VALUES (?,?,?)&#x27;, [
     (1,&#x27;credit&#x27;,500),(2,&#x27;debit&#x27;,200),(3,&#x27;credit&#x27;,300),(4,&#x27;debit&#x27;,150)])
 # Write your FILTER aggregation query here
-</code></pre></div></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Self-Joins &amp; Non-Equi Joins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use self-joins to query hierarchical data, non-equi joins for range matching, and interval joins to detect overlaps.</p><div class="code-block"><div class="ch"><span>Self-join: employee-manager hierarchy</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS employees (
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use the FILTER(WHERE ...) clause with SUM to compute conditional totals in one query</label></li>
+<li><label><input type="checkbox"> Emulate ROLLUP with UNION ALL to add subtotals and a grand total row</label></li>
+<li><label><input type="checkbox"> Use PERCENT_RANK() or approximate it using RANK() / COUNT(*) OVER() for a relative rank</label></li>
+<li><label><input type="checkbox"> Write multi-dimensional conditional aggregation combining SUM(CASE WHEN) for a pivot</label></li>
+<li><label><input type="checkbox"> Compute a weighted average using SUM(value * weight) / SUM(weight) in a single SELECT</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Self-Joins &amp; Non-Equi Joins</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use self-joins to query hierarchical data, non-equi joins for range matching, and interval joins to detect overlaps.</p><div class="code-block"><div class="ch"><span>Self-join: employee-manager hierarchy</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS employees (
     id INTEGER PRIMARY KEY, name TEXT,
     manager_id INTEGER, salary REAL)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO employees VALUES (?,?,?,?)&#x27;, [
@@ -4159,7 +4203,11 @@ runmany(&#x27;INSERT INTO staff VALUES (?,?,?,?)&#x27;, [
     (1,&#x27;Alice&#x27;,&#x27;Eng&#x27;,9000),(2,&#x27;Bob&#x27;,&#x27;Eng&#x27;,7000),
     (3,&#x27;Carol&#x27;,&#x27;HR&#x27;,8000),(4,&#x27;Dave&#x27;,&#x27;HR&#x27;,6000)])
 # Write a non-equi self-join here
-</code></pre></div></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Analytical Functions Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond basic ranking: use LAG/LEAD for period comparisons, NTILE for bucketing, FIRST_VALUE/LAST_VALUE for partition anchors, and rolling window frames.</p><div class="code-block"><div class="ch"><span>LAG: daily price change</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS stock (
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a self-join on an employees table to show each employee and their manager&#x27;s name</label></li>
+<li><label><input type="checkbox"> Use a non-equi join (a.salary &gt; b.salary AND a.dept = b.dept) to find higher earners in each dept</label></li>
+<li><label><input type="checkbox"> Write a range join to match orders to the correct price row based on valid_from / valid_to dates</label></li>
+<li><label><input type="checkbox"> Find overlapping date intervals using a self-join with start &lt; other.end AND end &gt; other.start</label></li>
+<li><label><input type="checkbox"> Explain the difference between a CROSS JOIN and a self-join with a WHERE condition</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Analytical Functions Advanced</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Go beyond basic ranking: use LAG/LEAD for period comparisons, NTILE for bucketing, FIRST_VALUE/LAST_VALUE for partition anchors, and rolling window frames.</p><div class="code-block"><div class="ch"><span>LAG: daily price change</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS stock (
     dt TEXT, ticker TEXT, close REAL)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO stock VALUES (?,?,?)&#x27;, [
     (&#x27;2024-01-01&#x27;,&#x27;AAPL&#x27;,185.0),(&#x27;2024-01-02&#x27;,&#x27;AAPL&#x27;,186.5),
@@ -4224,7 +4272,11 @@ runmany(&#x27;INSERT INTO visits VALUES (?,?,?)&#x27;, [
     (1,&#x27;2024-01-01&#x27;,5),(1,&#x27;2024-01-05&#x27;,8),(1,&#x27;2024-01-12&#x27;,3),
     (2,&#x27;2024-01-02&#x27;,10),(2,&#x27;2024-01-10&#x27;,7)])
 # Write LAG and MAX window functions here
-</code></pre></div></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Database Design &amp; Normalization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply 1NF, 2NF, and 3NF to eliminate redundancy, design proper primary and foreign keys, and inspect schemas with SQLite system tables.</p><div class="code-block"><div class="ch"><span>1NF: atomic values and separate phone table</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# 1NF: atomic values, no repeating groups
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LAG(close, 1) to compute the daily price change for a stock price series</label></li>
+<li><label><input type="checkbox"> Compute a 3-period rolling average with ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</label></li>
+<li><label><input type="checkbox"> Use LEAD to show what next month&#x27;s target is compared to the current month&#x27;s revenue</label></li>
+<li><label><input type="checkbox"> Use FIRST_VALUE and LAST_VALUE with UNBOUNDED PRECEDING/FOLLOWING to anchor comparisons</label></li>
+<li><label><input type="checkbox"> Bucket revenue rows into tertiles with NTILE(3) and compute average per bucket</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Database Design &amp; Normalization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply 1NF, 2NF, and 3NF to eliminate redundancy, design proper primary and foreign keys, and inspect schemas with SQLite system tables.</p><div class="code-block"><div class="ch"><span>1NF: atomic values and separate phone table</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# 1NF: atomic values, no repeating groups
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS contacts (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
@@ -4316,7 +4368,11 @@ for r in rows: print(r)
 # run(&#x27;&#x27;&#x27;CREATE TABLE products ...&#x27;&#x27;&#x27;)
 # run(&#x27;&#x27;&#x27;CREATE TABLE orders ...&#x27;&#x27;&#x27;)
 # run(&#x27;&#x27;&#x27;CREATE TABLE order_items ...&#x27;&#x27;&#x27;)
-</code></pre></div></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. JSON in SQL</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Store, extract, modify, and filter JSON data in SQLite using json_extract, json_set, json_insert, and json_remove.</p><div class="code-block"><div class="ch"><span>json_extract: read top-level fields</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Identify a 1NF violation in a table with a comma-separated column and split it correctly</label></li>
+<li><label><input type="checkbox"> Find a 2NF violation (partial dependency) and move the dependent column to its own table</label></li>
+<li><label><input type="checkbox"> Spot a 3NF violation (transitive dependency) and extract the transitively dependent column</label></li>
+<li><label><input type="checkbox"> Use PRAGMA foreign_key_list(&#x27;table_name&#x27;) to inspect FK relationships programmatically</label></li>
+<li><label><input type="checkbox"> Redesign a flat orders_flat table into a 3NF schema with customers, products, and orders</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. JSON in SQL</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Store, extract, modify, and filter JSON data in SQLite using json_extract, json_set, json_insert, and json_remove.</p><div class="code-block"><div class="ch"><span>json_extract: read top-level fields</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY,
     payload TEXT)&#x27;&#x27;&#x27;)  -- stored as JSON text
@@ -4395,7 +4451,11 @@ runmany(&#x27;INSERT INTO logs VALUES (?,?)&#x27;, [
     (3,json.dumps({&#x27;level&#x27;:&#x27;ERROR&#x27;,&#x27;message&#x27;:&#x27;Timeout&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:10:00&#x27;})),
 ])
 # Write your json_extract filter query here
-</code></pre></div></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Full-Text Search</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use SQLite&#x27;s FTS5 virtual tables to perform keyword search, phrase matching, boolean operators, column-specific search, and ranked results with snippets.</p><div class="code-block"><div class="ch"><span>Create FTS5 table and basic MATCH search</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# FTS5 virtual table for full-text search
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use json_extract(payload, &#x27;$.user&#x27;) to read a top-level field from a JSON column</label></li>
+<li><label><input type="checkbox"> Access a nested field with json_extract(payload, &#x27;$.meta.ip&#x27;) and verify the output</label></li>
+<li><label><input type="checkbox"> Access the first element of a JSON array with json_extract(payload, &#x27;$.tags[0]&#x27;)</label></li>
+<li><label><input type="checkbox"> Use json_set to modify an existing field and json.loads in Python to confirm the change</label></li>
+<li><label><input type="checkbox"> Filter rows by a JSON field value in WHERE using json_extract and a comparison operator</label></li></ul></div></div></div><div class="topic" id="s29"><div class="th" onclick="tog(this)"><span>30. Full-Text Search</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use SQLite&#x27;s FTS5 virtual tables to perform keyword search, phrase matching, boolean operators, column-specific search, and ranked results with snippets.</p><div class="code-block"><div class="ch"><span>Create FTS5 table and basic MATCH search</span><button onclick="cp('c29_0')">Copy</button></div><pre><code id="c29_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# FTS5 virtual table for full-text search
 run(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS articles
     USING fts5(title, body, tokenize=&#x27;porter ascii&#x27;)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO articles VALUES (?,?)&#x27;, [
@@ -4474,7 +4534,11 @@ runmany(&#x27;INSERT INTO recipes VALUES (?,?,?)&#x27;, [
     (&#x27;Stir Fry&#x27;,&#x27;garlic ginger soy sauce vegetables&#x27;,&#x27;stir fry on high heat&#x27;),
 ])
 # Write your FTS5 AND query here
-</code></pre></div></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Tuning &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use EXPLAIN QUERY PLAN to understand query execution, create regular, composite, covering, and partial indexes, and run ANALYZE to update planner statistics.</p><div class="code-block"><div class="ch"><span>Index impact benchmark: with vs without</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport time
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an FTS5 virtual table and insert 5 rows, then run a basic MATCH search</label></li>
+<li><label><input type="checkbox"> Use column-specific FTS5 search with &#x27;title:keyword&#x27; and verify only title matches return</label></li>
+<li><label><input type="checkbox"> Use prefix search (&#x27;key*&#x27;) in FTS5 to match all words beginning with a string</label></li>
+<li><label><input type="checkbox"> Combine AND and OR in a MATCH expression and verify the correct rows are returned</label></li>
+<li><label><input type="checkbox"> Use snippet() to extract a highlighted excerpt from matched rows and print it</label></li></ul></div></div></div><div class="topic" id="s30"><div class="th" onclick="tog(this)"><span>31. Performance Tuning &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use EXPLAIN QUERY PLAN to understand query execution, create regular, composite, covering, and partial indexes, and run ANALYZE to update planner statistics.</p><div class="code-block"><div class="ch"><span>Index impact benchmark: with vs without</span><button onclick="cp('c30_0')">Copy</button></div><pre><code id="c30_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport time
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS big (
     id INTEGER PRIMARY KEY, val INTEGER, cat TEXT)&#x27;&#x27;&#x27;)
 # Insert sample data
@@ -4580,7 +4644,11 @@ plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
     WHERE account_id=5 AND type=&#x27;debit&#x27; ORDER BY created_at&#x27;&#x27;&#x27;)
 for p in plan: print(p)
 # Add your index here
-</code></pre></div></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. SQL for Data Analysis Workflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply SQL as a full data analysis tool: ingest and clean dirty data, compute monthly trends with running totals, compare performance vs. group averages, and pivot long-format survey data.</p><div class="code-block"><div class="ch"><span>Ingest and clean dirty text amounts</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# End-to-end: ingest, clean, transform, analyze
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Benchmark a query on 5,000 rows before and after adding a single-column index</label></li>
+<li><label><input type="checkbox"> Run EXPLAIN QUERY PLAN and identify whether the plan says &#x27;SCAN&#x27; or &#x27;SEARCH&#x27;</label></li>
+<li><label><input type="checkbox"> Create a composite index and check if EXPLAIN QUERY PLAN uses it for both filter columns</label></li>
+<li><label><input type="checkbox"> Add a covering index that includes all selected columns to avoid any table access</label></li>
+<li><label><input type="checkbox"> Run ANALYZE and verify that EXPLAIN QUERY PLAN changes its strategy on skewed data</label></li></ul></div></div></div><div class="topic" id="s31"><div class="th" onclick="tog(this)"><span>32. SQL for Data Analysis Workflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply SQL as a full data analysis tool: ingest and clean dirty data, compute monthly trends with running totals, compare performance vs. group averages, and pivot long-format survey data.</p><div class="code-block"><div class="ch"><span>Ingest and clean dirty text amounts</span><button onclick="cp('c31_0')">Copy</button></div><pre><code id="c31_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# End-to-end: ingest, clean, transform, analyze
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS raw_sales (
     id INTEGER PRIMARY KEY,
     rep TEXT, region TEXT,
@@ -4687,10 +4755,14 @@ runmany(&#x27;INSERT INTO web_logs VALUES (?,?,?,?,?)&#x27;, [
     (9,2,&#x27;home&#x27;,80,&#x27;2024-01-02&#x27;),(10,3,&#x27;shop&#x27;,50,&#x27;2024-01-02&#x27;),
 ])
 # Write your query: filter &gt;30s, count per user/day, window max
-</code></pre></div></div></div></div></main>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Ingest a CSV with dirty numeric strings into SQL and clean them using REPLACE and CAST</label></li>
+<li><label><input type="checkbox"> Compute monthly totals and a cumulative running total using a CTE and SUM() OVER()</label></li>
+<li><label><input type="checkbox"> Compare each rep&#x27;s total to their regional average using AVG() OVER (PARTITION BY region)</label></li>
+<li><label><input type="checkbox"> Pivot survey data from long to wide format using MAX(CASE WHEN question=&#x27;Q1&#x27; THEN score END)</label></li>
+<li><label><input type="checkbox"> Build a full 4-step pipeline: ingest raw data, clean, aggregate, and export to a DataFrame</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

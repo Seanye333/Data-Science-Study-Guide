@@ -45,33 +45,30 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
                 f'</div>'
             )
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += (f'<div class="topic" id="s{i}"><div class="th" onclick="tog(this)"><span>{esc(s["title"])}</span>'
                   f'<span class="arr">&#9660;</span></div><div class="tb"><p class="desc">{esc(s.get("desc",""))}</p>'
-                  f'{blks}{rw_html}{practice_html}</div></div>')
+                  f'{blks}{rw_html}{practice_html}{todos_html}</div></div>')
     n = len(sections)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE} Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:{ACCENT}}}
-*{{box-sizing:border-box;margin:0;padding:0}}body{{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}}
-.sidebar{{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}}
-.sbh{{padding:20px;border-bottom:1px solid var(--brd)}}.sbh h2{{font-size:1.05rem;color:var(--acc)}}.sbh p{{font-size:.8rem;color:var(--mut);margin-top:3px}}
-#q{{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}}#q:focus{{outline:none;border-color:var(--acc)}}
-.nav-list{{list-style:none;padding:6px 0}}.nav-list li a{{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}}
-.nav-list li a:hover,.nav-list li a.active{{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}}
-.main{{flex:1;padding:32px 40px;max-width:880px}}.pt{{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}}.ps{{color:var(--mut);margin-bottom:28px}}
-.topic{{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}}
-.th{{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}}.th:hover{{background:rgba(255,255,255,.04)}}
-.th>span:first-child{{font-weight:600}}.arr{{color:var(--mut);transition:transform .2s}}.tb{{display:none;padding:18px;border-top:1px solid var(--brd)}}.tb.open{{display:block}}.arr.open{{transform:rotate(180deg)}}
-.desc{{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}}.code-block{{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}}
-.ch{{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}}.ch button{{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}}.ch button:hover{{color:var(--txt);border-color:var(--acc)}}
-pre{{margin:0}}pre code{{font-size:.83rem;padding:13px!important}}.rw{{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}}
-.rh{{font-weight:600;color:#3fb950;margin-bottom:7px}}.rd{{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}}
-.ph{{font-weight:600;color:#58a6ff;margin-bottom:7px}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT}}}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>{EMOJI} {TITLE}</h2><p>Study Guide &bull; {n} topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl">{nav}</ul></aside>
@@ -252,7 +249,13 @@ SECTIONS = [
                 "reg.save(m, 'v1', m.score(X, y))\n"
                 "print(reg.list_versions())"
             )
-        }
+        },
+        "todos": [
+            "Save a trained model with joblib and reload it to verify predictions match.",
+            "Create a versioned model registry that stores model files and metadata JSON side-by-side.",
+            "Compare joblib, pickle, and PyTorch state_dict formats for size and load speed.",
+            "Add a checksum field to your metadata so you can detect corrupted model files.",
+        ]
     },
     {
         "title": "2. FastAPI Model Serving",
@@ -421,7 +424,13 @@ SECTIONS = [
                 "'''\n"
                 "print(SENTIMENT_API)"
             )
-        }
+        },
+        "todos": [
+            "Build a POST /predict endpoint that accepts JSON and returns a prediction.",
+            "Add Pydantic field validators to reject out-of-range input values.",
+            "Test your endpoint using the requests library or curl with sample payloads.",
+            "Add a try/except block that returns a 422 error with a descriptive message on bad input.",
+        ]
     },
     {
         "title": "3. Experiment Tracking with MLflow",
@@ -585,7 +594,13 @@ SECTIONS = [
                 "except ImportError:\n"
                 "    print('pip install mlflow')"
             )
-        }
+        },
+        "todos": [
+            "Log parameters, metrics, and a model artifact in a single MLflow run.",
+            "Compare three different classifiers on the same dataset using MLflow runs.",
+            "Register the best run's model in the MLflow Model Registry.",
+            "Load a registered model by name and stage, then run predictions.",
+        ]
     },
     {
         "title": "4. Docker for ML Models",
@@ -756,7 +771,13 @@ SECTIONS = [
                 ")\n"
                 "print(dockerfile)"
             )
-        }
+        },
+        "todos": [
+            "Write a Dockerfile for a FastAPI ML app with a requirements.txt and model file.",
+            "Build the Docker image locally and run it as a container.",
+            "Test the containerised API endpoint with curl or the requests library.",
+            "Add a HEALTHCHECK instruction to your Dockerfile and verify it passes.",
+        ]
     },
     {
         "title": "5. Model Monitoring & Data Drift",
@@ -920,7 +941,13 @@ SECTIONS = [
                 "# TODO: compute PSI for each feature\n"
                 "# TODO: print table: feature | PSI | stability label"
             )
-        }
+        },
+        "todos": [
+            "Calculate PSI and KS-test drift scores for at least three simulated features.",
+            "Set up threshold-based alerting that prints a warning when PSI exceeds 0.25.",
+            "Track weekly prediction score distributions and plot the drift over time.",
+            "Build a simple drift dashboard that shows a pass/fail table for each feature.",
+        ]
     },
     {
         "title": "6. CI/CD for ML Pipelines",
@@ -1093,7 +1120,13 @@ SECTIONS = [
                 "    pass\n\n"
                 "validate('iris_rf.joblib')"
             )
-        }
+        },
+        "todos": [
+            "Write a validate.py script that loads a saved model and exits with code 1 if accuracy is below threshold.",
+            "Automate model testing by calling your validate script from a Makefile target.",
+            "Add a performance threshold check that fails if the new model is worse than the previous one.",
+            "Simulate a CI run by chaining train → validate → save in a single shell command.",
+        ]
     },
     {
         "title": "7. Feature Stores & Pipelines",
@@ -1269,7 +1302,13 @@ SECTIONS = [
                 "# TODO: save and reload with joblib\n"
                 "# TODO: print transformed shape"
             )
-        }
+        },
+        "todos": [
+            "Build a ColumnTransformer pipeline that handles both numeric and categorical columns.",
+            "Add a custom feature-engineering step as a sklearn-compatible transformer.",
+            "Save the fitted pipeline with joblib and reload it to confirm predictions are identical.",
+            "Test the pipeline on a DataFrame with missing values to ensure imputation works correctly.",
+        ]
     },
     {
         "title": "8. A/B Testing for ML Models",
@@ -1428,7 +1467,13 @@ SECTIONS = [
                 "    pass\n\n"
                 "analyze_ab_test(model_a, model_b)"
             )
-        }
+        },
+        "todos": [
+            "Set up a traffic split that routes 10% of requests to a challenger model.",
+            "Track conversion rates for both model variants and store them per time window.",
+            "Run a chi-squared or t-test to determine if the difference is statistically significant.",
+            "Implement a rollback mechanism that switches all traffic back to the champion model.",
+        ]
     },
     {
         "title": "9. Model Explainability",
@@ -1586,7 +1631,13 @@ SECTIONS = [
                 "# TODO: create DataFrame with feature, importance, std\n"
                 "# TODO: sort by importance descending and print"
             )
-        }
+        },
+        "todos": [
+            "Compute SHAP values for a tree-based model and print the top 5 contributing features.",
+            "Generate a permutation importance table with mean importance and standard deviation.",
+            "Create a force plot or waterfall explanation for a single prediction.",
+            "Write an explanation report function that summarises feature impacts in plain text.",
+        ]
     },
     {
         "title": "10. End-to-End ML Project Structure",
@@ -1766,7 +1817,13 @@ SECTIONS = [
                 "    pass\n\n"
                 "scaffold_ml_project('demo_project')"
             )
-        }
+        },
+        "todos": [
+            "Scaffold a full ML project directory with src/, tests/, data/, models/, and api/ folders.",
+            "Set up a config.yaml or .env file and load it consistently in train.py and serve.py.",
+            "Add structured logging with timestamps and log levels to your training script.",
+            "Create a reproducible pipeline by seeding all random state and logging the seed to metadata.",
+        ]
     },
     {
         "title": "11. Model Compression & Optimization",
@@ -1808,7 +1865,13 @@ SECTIONS = [
                 "    # TODO: print bits, compression ratio, MAE, max error\n"
                 "    pass\n"
             )
-        }
+        },
+        "todos": [
+            "Quantize a float32 weight matrix to int8 and measure the mean absolute reconstruction error.",
+            "Benchmark inference speed before and after quantization on a 256x256 matrix.",
+            "Compare model accuracy vs compressed size at 4-bit, 8-bit, and 16-bit quantization.",
+            "Implement knowledge distillation: train a small student model on the teacher's soft labels.",
+        ]
     },
     {
         "title": "12. Feature Stores & Data Pipelines",
@@ -1855,7 +1918,13 @@ SECTIONS = [
                 "store.fit(train)\n"
                 "print(store.validate(serve))\n"
             )
-        }
+        },
+        "todos": [
+            "Build an ETL pipeline that ingests raw data, drops duplicates, and stores the result with a version hash.",
+            "Add schema validation that checks column dtypes and raises an error on unexpected types.",
+            "Schedule a feature computation job that regenerates aggregated features on a fixed interval.",
+            "Detect train/serve skew by comparing stored training statistics against live serving data.",
+        ]
     },
     {
         "title": "13. AutoML & Hyperparameter Optimization",
@@ -1904,7 +1973,13 @@ SECTIONS = [
                 "print('Best AUC:', study.best_value)\n"
                 "print('Best params:', study.best_params)\n"
             )
-        }
+        },
+        "todos": [
+            "Run an Optuna study with 20 trials over n_estimators and max_depth for a RandomForest.",
+            "Visualise parameter importance from your Optuna study using a bar chart.",
+            "Compare the best trial's score against a grid search baseline on the same dataset.",
+            "Add early pruning to your Optuna objective so bad trials are stopped early.",
+        ]
     },
     {
         "title": "14. Model Monitoring & Data Drift Detection",
@@ -1928,7 +2003,13 @@ SECTIONS = [
             "title": "Multi-Feature Drift Dashboard",
             "desc": "For a churn prediction model with 6 features (age, tenure, monthly_spend, num_products, is_active, region_encoded), simulate 8 weekly production batches where drift gradually increases in tenure and monthly_spend starting at week 4. Compute PSI and KS-test for each feature each week. Build a summary table and flag weeks where total PSI > 0.5.",
             "starter": "import numpy as np\nfrom scipy import stats\ndef psi(ref, curr, n_bins=10):\n    bins = np.percentile(ref, np.linspace(0, 100, n_bins+1))\n    bins[0] -= 1e-6; bins[-1] += 1e-6\n    e = np.histogram(ref,  bins=bins)[0] / len(ref)\n    a = np.histogram(curr, bins=bins)[0] / len(curr)\n    e = np.where(e == 0, 1e-6, e)\n    a = np.where(a == 0, 1e-6, a)\n    return float(np.sum((a - e) * np.log(a / e)))\nnp.random.seed(7)\nn_train = 3000\nfeatures = {\n    \"age\":           np.random.normal(35, 10, n_train),\n    \"tenure\":        np.random.exponential(24, n_train),\n    \"monthly_spend\": np.random.lognormal(4.5, 0.5, n_train),\n    \"num_products\":  np.random.poisson(2.5, n_train).astype(float),\n    \"is_active\":     np.random.binomial(1, 0.7, n_train).astype(float),\n    \"region\":        np.random.randint(0, 5, n_train).astype(float),\n}\n# TODO: Generate 8 weekly batches of 300 samples (drift in tenure+spend from week 4)\n# TODO: Compute PSI and KS-test p-value for each feature each week\n# TODO: Flag weeks where total PSI > 0.5\n# TODO: Print formatted weekly report table\n"
-        }
+        },
+        "todos": [
+            "Implement a KS test that compares each feature's training vs production distribution and flags drift.",
+            "Detect covariate shift by checking if a classifier can separate training data from production data.",
+            "Build a weekly drift report that shows PSI and KS p-value for every monitored feature.",
+            "Set up an alert that sends a warning message when any feature's PSI exceeds 0.25.",
+        ]
     },
     {
         "title": "15. Feature Stores & Data Engineering Pipelines",
@@ -1952,7 +2033,13 @@ SECTIONS = [
             "title": "ETL Pipeline with Schema Validation",
             "desc": "Build a data pipeline that: (1) generates synthetic raw customer data with intentional quality issues (nulls, wrong types, out-of-range values), (2) validates schema using pandas dtype checks and range assertions, (3) cleans and transforms, (4) logs each step with row counts, (5) outputs a data quality report with pass/fail for each check.",
             "starter": "import pandas as pd\nimport numpy as np\nnp.random.seed(33)\n# Generate raw data with issues\nn = 500\nraw = pd.DataFrame({\n    \"customer_id\": range(n),\n    \"age\": np.random.choice([*np.random.randint(18,80,460), *[-5]*20, *[np.nan]*20], n),\n    \"revenue\": np.random.choice([*np.random.lognormal(6,1,450), *[np.nan]*50], n),\n    \"segment\": np.random.choice([\"A\",\"B\",\"C\",\"INVALID\",None], n),\n    \"signup_date\": pd.date_range(\"2020-01-01\", periods=n, freq=\"D\")\n})\n# TODO: Schema validation (dtypes, ranges, allowed values)\n# TODO: Cleaning steps (impute/drop nulls, fix dtypes, filter invalid segments)\n# TODO: Log each step with before/after row counts\n# TODO: Output data quality report DataFrame\n"
-        }
+        },
+        "todos": [
+            "Validate incoming DataFrame schema by checking column names, dtypes, and value ranges.",
+            "Compute aggregated features (rolling mean, counts per entity) and store them in a feature table.",
+            "Write a scheduled feature computation function that recomputes features and logs a version hash.",
+            "Serve features for online inference by looking up the latest values from the feature store by entity ID.",
+        ]
     },
     {
         "title": "16. A/B Testing & Canary Deployments for ML",
@@ -1976,7 +2063,13 @@ SECTIONS = [
             "title": "Online Experiment Platform",
             "desc": "Build a complete A/B testing framework that: (1) assigns users to control/treatment with hash-based deterministic routing, (2) collects metrics (conversion, revenue) per variant, (3) computes p-values and confidence intervals daily, (4) auto-declares a winner when p<0.05 and min_sample=500/arm, (5) logs results to a DataFrame. Simulate 10,000 user sessions over 14 days.",
             "starter": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\nnp.random.seed(55)\n# Experiment settings\nTRUE_CONV_CONTROL = 0.04\nTRUE_CONV_TREAT   = 0.048\nTRUE_REV_CONTROL  = 30.0\nTRUE_REV_TREAT    = 31.5\nMIN_SAMPLE = 500\ndef assign(user_id):\n    # Deterministic hash-based assignment\n    return \"treatment\" if hash(f\"exp1_{user_id}\") % 2 == 0 else \"control\"\n# TODO: Simulate 10,000 users over 14 days (approx 714/day)\n# TODO: Track conversion and revenue per variant per day\n# TODO: Daily significance check with two-proportion z-test\n# TODO: Auto-declare winner when p<0.05 and n>=500/arm\n# TODO: Log results to DataFrame with columns: day, n_control, n_treat, p_value, winner\n"
-        }
+        },
+        "todos": [
+            "Implement hash-based deterministic traffic routing so each user always gets the same variant.",
+            "Track conversion rate and revenue per variant across multiple simulated time windows.",
+            "Run a two-proportion z-test after each day and store the p-value in a results DataFrame.",
+            "Implement automatic rollback logic that reverts to the control if the canary error rate spikes.",
+        ]
     },{
         "title": "17. MLflow Experiment Tracking",
         "desc": "MLflow provides a unified platform to log parameters, metrics, and artifacts across ML experiments for reproducibility and comparison.",
@@ -1996,7 +2089,13 @@ SECTIONS = [
             "title": "Log experiment parameters and metrics",
             "desc": "Use mlflow.start_run() to log params, metrics, and models for multiple hyperparameter combinations.",
             "starter": "import mlflow\nmlflow.set_experiment(\"practice\")\nwith mlflow.start_run():\n    mlflow.log_param(\"learning_rate\", 0.01)\n    mlflow.log_metric(\"loss\", 0.25)\n    print(\"Logged!\")\n"
-        }
+        },
+        "todos": [
+            "Log an experiment run that records params, metrics, and a model artifact in one mlflow.start_run() block.",
+            "Use mlflow.search_runs() to compare accuracy across multiple runs and print the best run ID.",
+            "Register the best run's model in the MLflow Model Registry using registered_model_name.",
+            "Load the registered model by name and version, then run predictions to confirm it works.",
+        ]
     },
 
     {
@@ -2018,7 +2117,13 @@ SECTIONS = [
             "title": "Create reproducible data pipeline",
             "desc": "Track dataset hash, preprocessing steps, and metrics together to ensure pipeline reproducibility.",
             "starter": "import hashlib, pandas as pd, numpy as np\ndf = pd.DataFrame({\"x\": np.random.randn(100), \"y\": np.random.randint(0,2,100)})\nh = hashlib.md5(pd.util.hash_pandas_object(df).values).hexdigest()\nprint(f\"Dataset hash: {h}, rows: {len(df)}\")\n"
-        }
+        },
+        "todos": [
+            "Initialize DVC in a git repo and track a CSV dataset file to create a .dvc pointer file.",
+            "Record a dataset version by computing and storing its MD5 hash alongside metadata.",
+            "Create a two-stage DVC pipeline (prepare → train) where changing input data reruns downstream stages.",
+            "Push tracked data to a remote storage location and pull it back to verify the round trip.",
+        ]
     },
 
     {
@@ -2040,7 +2145,13 @@ SECTIONS = [
             "title": "Register and stage a model version",
             "desc": "Log a model with mlflow.sklearn.log_model using registered_model_name, then use MlflowClient to transition its stage.",
             "starter": "import mlflow, mlflow.sklearn\nfrom sklearn.dummy import DummyClassifier\nfrom sklearn.datasets import load_iris\nX, y = load_iris(return_X_y=True)\nwith mlflow.start_run():\n    m = DummyClassifier().fit(X, y)\n    mlflow.sklearn.log_model(m, \"model\", registered_model_name=\"DummyModel\")\nprint(\"Registered!\")\n"
-        }
+        },
+        "todos": [
+            "Register a trained model with MLflow using registered_model_name and confirm it appears in the UI.",
+            "Transition the model version from None to Staging using MlflowClient.transition_model_version_stage.",
+            "Load the Staging model by name and stage, run predictions, then promote it to Production.",
+            "Archive an old Production version and verify it is no longer returned as the latest active version.",
+        ]
     },
 
     {
@@ -2062,7 +2173,13 @@ SECTIONS = [
             "title": "Create a deployment manifest for a model",
             "desc": "Save a trained model and generate a JSON manifest with model metadata and deployment configuration.",
             "starter": "import pickle, json\nfrom sklearn.dummy import DummyClassifier\nfrom sklearn.datasets import load_iris\nX, y = load_iris(return_X_y=True)\nm = DummyClassifier().fit(X, y)\nwith open(\"/tmp/model.pkl\", \"wb\") as f: pickle.dump(m, f)\nprint(json.dumps({\"model\": \"DummyClassifier\", \"port\": 8000}, indent=2))\n"
-        }
+        },
+        "todos": [
+            "Write a Dockerfile that copies a trained model file and a FastAPI app into a slim Python image.",
+            "Add a HEALTHCHECK instruction and verify it passes after docker run.",
+            "Build the image, run the container, and call the /predict endpoint with curl.",
+            "Push the built image to Docker Hub or a local registry and pull it on a different machine.",
+        ]
     },
 
     {
@@ -2084,7 +2201,13 @@ SECTIONS = [
             "title": "Build a prediction function that validates input",
             "desc": "Create a function that checks input length, runs prediction, and returns prediction + probabilities.",
             "starter": "import numpy as np\nfrom sklearn.dummy import DummyClassifier\nfrom sklearn.datasets import load_iris\nX, y = load_iris(return_X_y=True)\nmodel = DummyClassifier().fit(X, y)\ndef predict(features):\n    if len(features) != 4: return {\"error\": \"need 4 features\"}\n    pred = model.predict([features])\n    return {\"prediction\": int(pred[0])}\nprint(predict([5.1, 3.5, 1.4, 0.2]))\n"
-        }
+        },
+        "todos": [
+            "Define Pydantic request and response schemas with field-level validators for your prediction endpoint.",
+            "Add input validation that rejects payloads with the wrong number of features and returns a 422 error.",
+            "Implement a global exception handler that returns a structured JSON error for unexpected failures.",
+            "Write an integration test using the requests library that calls /predict and /health and asserts correct responses.",
+        ]
     },
 
     {
@@ -2106,7 +2229,13 @@ SECTIONS = [
             "title": "Implement KS drift detection",
             "desc": "Compare training and production data distributions using KS test and flag features with p-value < 0.05.",
             "starter": "import numpy as np\nfrom scipy import stats\nref = np.random.normal(0, 1, 1000)\nprod = np.random.normal(0.5, 1, 1000)  # drifted\nstat, p = stats.ks_2samp(ref, prod)\nprint(f\"KS stat={stat:.4f}, p={p:.4f}, drift={\'YES\' if p<0.05 else \'NO\'}\")\n"
-        }
+        },
+        "todos": [
+            "Implement PSI drift detection and flag features with PSI > 0.25 as critical.",
+            "Monitor rolling prediction score distributions and alert when the weekly mean shifts by more than 10%.",
+            "Set accuracy degradation thresholds so a 5% drop triggers a retraining alert.",
+            "Build a monitoring loop that checks for drift on every new production batch and logs results.",
+        ]
     },
 
     {
@@ -2128,7 +2257,13 @@ SECTIONS = [
             "title": "Implement a model quality gate",
             "desc": "Write a function that evaluates a model against metric thresholds and returns pass/fail.",
             "starter": "from sklearn.dummy import DummyClassifier\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nX, y = load_iris(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(X, y)\nm = DummyClassifier().fit(X_train, y_train)\nacc = m.score(X_test, y_test)\npassed = acc >= 0.30\nprint(f\"Accuracy={acc:.4f}, gate={\'PASSED\' if passed else \'FAILED\'}\")\n"
-        }
+        },
+        "todos": [
+            "Write a pytest quality gate that trains a model and fails if accuracy drops below 0.90.",
+            "Add the quality gate script to a GitHub Actions workflow triggered on every push to main.",
+            "Implement a regression check that compares the new model score against the previously saved best score.",
+            "Create a CI step that saves model metrics to a JSON file and archives it as a workflow artifact.",
+        ]
     },
 
     {
@@ -2150,10 +2285,16 @@ SECTIONS = [
             "title": "Build a feature engineering pipeline",
             "desc": "Use sklearn Pipeline with FunctionTransformer for feature engineering to prevent training-serving skew.",
             "starter": "import numpy as np\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import FunctionTransformer, StandardScaler\nfrom sklearn.dummy import DummyClassifier\n\ndef add_feat(X): return np.column_stack([X, X[:, 0] / (X[:, 1] + 1)])\npipe = Pipeline([(\"eng\", FunctionTransformer(add_feat)), (\"sc\", StandardScaler()), (\"m\", DummyClassifier())])\nX = np.random.randn(100, 3); y = np.random.randint(0, 2, 100)\npipe.fit(X, y)\nprint(\"Pipeline works:\", pipe.predict(X[:3]))\n"
-        }
+        },
+        "todos": [
+            "Build a feature pipeline that computes aggregated features and writes them to a versioned store.",
+            "Schedule hourly feature computation and verify that the latest features are always up to date.",
+            "Serve features for online inference by looking up the most recent values per entity in under 10ms.",
+            "Detect and log train/serve skew by comparing stored training stats against live serving feature values.",
+        ]
     },
 
-    
+
 ]
 
 if __name__ == "__main__":

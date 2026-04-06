@@ -3,24 +3,8 @@
 <title>Time Series Analysis Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>:root{--bg:#0f1117;--sb:#161b22;--card:#1c2128;--brd:#30363d;--txt:#c9d1d9;--mut:#8b949e;--acc:#fb923c}
-*{box-sizing:border-box;margin:0;padding:0}body{display:flex;min-height:100vh;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
-.sidebar{width:260px;min-height:100vh;background:var(--sb);border-right:1px solid var(--brd);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
-.sbh{padding:20px;border-bottom:1px solid var(--brd)}.sbh h2{font-size:1.05rem;color:var(--acc)}.sbh p{font-size:.8rem;color:var(--mut);margin-top:3px}
-#q{width:100%;padding:7px 10px;background:#0d1117;border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:.84rem;margin-top:10px}#q:focus{outline:none;border-color:var(--acc)}
-.nav-list{list-style:none;padding:6px 0}.nav-list li a{display:block;padding:7px 18px;color:var(--mut);text-decoration:none;font-size:.84rem;border-left:3px solid transparent;transition:.15s}
-.nav-list li a:hover,.nav-list li a.active{color:var(--txt);border-left-color:var(--acc);background:rgba(255,255,255,.03)}
-.main{flex:1;padding:32px 40px;max-width:880px}.pt{font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}.ps{color:var(--mut);margin-bottom:28px}
-.topic{background:var(--card);border:1px solid var(--brd);border-radius:8px;margin-bottom:14px;overflow:hidden}
-.th{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;user-select:none}.th:hover{background:rgba(255,255,255,.04)}
-.th>span:first-child{font-weight:600}.arr{color:var(--mut);transition:transform .2s}.tb{display:none;padding:18px;border-top:1px solid var(--brd)}.tb.open{display:block}.arr.open{transform:rotate(180deg)}
-.desc{color:var(--mut);margin-bottom:14px;line-height:1.6;font-size:.92rem}.code-block{margin-bottom:14px;border:1px solid var(--brd);border-radius:6px;overflow:hidden}
-.ch{display:flex;justify-content:space-between;padding:7px 12px;background:#161b22;font-size:.78rem;color:var(--mut)}.ch button{background:0;border:1px solid var(--brd);color:var(--mut);padding:2px 9px;border-radius:4px;cursor:pointer;font-size:.73rem}.ch button:hover{color:var(--txt);border-color:var(--acc)}
-pre{margin:0}pre code{font-size:.83rem;padding:13px!important}.rw{background:#0d2818;border:1px solid #238636;border-radius:6px;padding:15px;margin-top:6px}
-.rh{font-weight:600;color:#3fb950;margin-bottom:7px}.rd{color:#7ee787;font-size:.84rem;margin-bottom:11px;line-height:1.5}
-.practice{background:#0d1b2a;border:1px solid #388bfd;border-radius:6px;padding:15px;margin-top:8px}
-.ph{font-weight:600;color:#58a6ff;margin-bottom:7px}
-.pd{color:#79c0ff;font-size:.84rem;margin-bottom:11px;line-height:1.5}</style></head><body>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{--acc:#fb923c}</style></head><body class="page-module">
 <aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 24 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. DateTime Indexing</a></li>
@@ -139,7 +123,11 @@ rng = np.random.default_rng(0)
 # TODO: create Series with random sales
 
 # TODO: resample to quarterly and print
-</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Resampling &amp; Frequency Conversion</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Resampling changes the time frequency of a series — downsampling aggregates to lower frequency, upsampling interpolates to higher frequency.</p><div class="code-block"><div class="ch"><span>Downsampling with resample()</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Parse a CSV with mixed date formats using pd.to_datetime(infer_datetime_format=True)</label></li>
+<li><label><input type="checkbox"> Slice a time series to just one year using string indexing ts[&#x27;2024&#x27;]</label></li>
+<li><label><input type="checkbox"> Extract day-of-week from a DatetimeIndex and compute the mean value per weekday</label></li>
+<li><label><input type="checkbox"> Localize a naive DatetimeIndex to UTC then convert it to US/Eastern</label></li>
+<li><label><input type="checkbox"> Create a DatetimeIndex with business-day frequency and count the number of working days in Q1</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Resampling &amp; Frequency Conversion</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Resampling changes the time frequency of a series — downsampling aggregates to lower frequency, upsampling interpolates to higher frequency.</p><div class="code-block"><div class="ch"><span>Downsampling with resample()</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -247,7 +235,11 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, &#x27;2024-01-31 23:00&#x27;, freq=&
 # TODO: resample to daily min/mean/max
 
 # TODO: print coldest and warmest day
-</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Rolling &amp; Expanding Windows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Rolling windows compute statistics over a sliding fixed-length window. Expanding windows grow from the start of the series. Both are essential for smoothing and feature engineering.</p><div class="code-block"><div class="ch"><span>Rolling mean and standard deviation</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a daily dataset and resample to weekly using .resample(&#x27;W&#x27;).mean()</label></li>
+<li><label><input type="checkbox"> Compare sum vs mean aggregation when resampling — note when each makes sense</label></li>
+<li><label><input type="checkbox"> Apply OHLC resampling to a daily price series to get weekly open/high/low/close</label></li>
+<li><label><input type="checkbox"> Use .resample(&#x27;M&#x27;).agg({&#x27;col&#x27;: [&#x27;mean&#x27;, &#x27;min&#x27;, &#x27;max&#x27;]}) for multiple stats</label></li>
+<li><label><input type="checkbox"> Resample hourly data to daily and handle missing dates with .asfreq()</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Rolling &amp; Expanding Windows</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Rolling windows compute statistics over a sliding fixed-length window. Expanding windows grow from the start of the series. Both are essential for smoothing and feature engineering.</p><div class="code-block"><div class="ch"><span>Rolling mean and standard deviation</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -348,7 +340,11 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=60, freq=&#x27;B&#x27;)
 # TODO: compute 20-day SMA and Bollinger Bands
 
 # TODO: flag days outside bands and print last 10 rows
-</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Time Series Visualization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualizing time series reveals trends, seasonality, and anomalies. Key plots include line charts, seasonal decomposition, ACF/PACF correlograms, and lag plots.</p><div class="code-block"><div class="ch"><span>Basic time series plot with annotations</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply a 7-day rolling mean to a noisy series and compare it to a 14-day rolling mean</label></li>
+<li><label><input type="checkbox"> Use .rolling(window, min_periods=3) and observe where NaN values appear vs disappear</label></li>
+<li><label><input type="checkbox"> Compute a 20-day rolling standard deviation and identify the most volatile periods</label></li>
+<li><label><input type="checkbox"> Use .ewm(span=10).mean() and compare it to a simple 10-day rolling mean on the same data</label></li>
+<li><label><input type="checkbox"> Compute rolling correlation between two time series using ts1.rolling(30).corr(ts2)</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Time Series Visualization</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Visualizing time series reveals trends, seasonality, and anomalies. Key plots include line charts, seasonal decomposition, ACF/PACF correlograms, and lag plots.</p><div class="code-block"><div class="ch"><span>Basic time series plot with annotations</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -507,7 +503,11 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=52, freq=&#x27;W&#x27;)
 
 plt.savefig(&#x27;practice_ts.png&#x27;, dpi=100)
 plt.close()
-print(&#x27;Saved practice_ts.png&#x27;)</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Trend &amp; Seasonality Decomposition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decomposition separates a time series into trend, seasonal, and residual components. Additive decomposition (Y = T + S + R) works for constant amplitude seasonality; multiplicative (Y = T × S × R) for growing amplitude.</p><div class="code-block"><div class="ch"><span>Classical decomposition with statsmodels</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import pandas as pd
+print(&#x27;Saved practice_ts.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a time series with a 30-day moving average overlay on the same axes</label></li>
+<li><label><input type="checkbox"> Create a seasonal subseries plot showing average value for each month across years</label></li>
+<li><label><input type="checkbox"> Plot ACF and PACF side-by-side for an AR(1) series and interpret the cutoffs</label></li>
+<li><label><input type="checkbox"> Create a lag scatter plot (ts[t] vs ts[t-1]) and describe what the pattern reveals</label></li>
+<li><label><input type="checkbox"> Annotate a time series chart with vertical lines marking key events or anomalies</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Trend &amp; Seasonality Decomposition</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Decomposition separates a time series into trend, seasonal, and residual components. Additive decomposition (Y = T + S + R) works for constant amplitude seasonality; multiplicative (Y = T × S × R) for growing amplitude.</p><div class="code-block"><div class="ch"><span>Classical decomposition with statsmodels</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -648,7 +648,11 @@ idx = pd.date_range(&#x27;2022-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
 # TODO: decompose
 
 # TODO: print seasonal indices by month
-</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Stationarity &amp; Differencing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stationarity means constant mean, variance, and autocorrelation over time. Most statistical forecasting models require stationary input. Use the ADF test to check, and differencing to achieve stationarity.</p><div class="code-block"><div class="ch"><span>ADF test for stationarity</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run seasonal_decompose on monthly data with period=12 and inspect the trend component</label></li>
+<li><label><input type="checkbox"> Compare additive vs multiplicative decomposition on the same series with growing amplitude</label></li>
+<li><label><input type="checkbox"> Use STL with robust=True and observe how it handles injected outliers vs classical decompose</label></li>
+<li><label><input type="checkbox"> Extract the deseasonalized series by subtracting the seasonal component from the original</label></li>
+<li><label><input type="checkbox"> Plot the residual component and check if it looks like white noise (mean ~0, no pattern)</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Stationarity &amp; Differencing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stationarity means constant mean, variance, and autocorrelation over time. Most statistical forecasting models require stationary input. Use the ADF test to check, and differencing to achieve stationarity.</p><div class="code-block"><div class="ch"><span>ADF test for stationarity</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -794,7 +798,11 @@ try:
 
     # TODO: print ADF result at each step
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. ARIMA Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA(p,d,q) combines AutoRegression (p lags), Integration (d differences for stationarity), and Moving Average (q lagged forecast errors). SARIMA extends this with seasonal components.</p><div class="code-block"><div class="ch"><span>Fitting ARIMA with statsmodels</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and a stationary AR(1) series — compare ADF statistics</label></li>
+<li><label><input type="checkbox"> Apply first differencing with .diff() and re-run the ADF test to confirm stationarity</label></li>
+<li><label><input type="checkbox"> Use np.log() on an exponentially growing series then check ADF — does log alone help?</label></li>
+<li><label><input type="checkbox"> Apply seasonal differencing with .diff(12) to monthly data and test with adfuller()</label></li>
+<li><label><input type="checkbox"> Run both ADF and KPSS tests on the same series and interpret when they disagree</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. ARIMA Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA(p,d,q) combines AutoRegression (p lags), Integration (d differences for stationarity), and Moving Average (q lagged forecast errors). SARIMA extends this with seasonal components.</p><div class="code-block"><div class="ch"><span>Fitting ARIMA with statsmodels</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -938,7 +946,11 @@ try:
 
     # TODO: forecast and compute MAE
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Exponential Smoothing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt&#x27;s adds trend; Holt-Winters adds seasonality. These are fast, interpretable, and competitive with ARIMA.</p><div class="code-block"><div class="ch"><span>Simple Exponential Smoothing</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on a random-walk series and print the AIC and BIC values</label></li>
+<li><label><input type="checkbox"> Loop over p in range(3) and q in range(3) to find the ARIMA order with the lowest AIC</label></li>
+<li><label><input type="checkbox"> Use model.get_forecast(steps=12) and extract the 95% confidence intervals</label></li>
+<li><label><input type="checkbox"> Fit SARIMA(1,1,1)(1,1,0,12) on monthly data and compare RMSE to plain ARIMA(1,1,1)</label></li>
+<li><label><input type="checkbox"> Check ARIMA residuals with acorr_ljungbox — verify no autocorrelation remains</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Exponential Smoothing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt&#x27;s adds trend; Holt-Winters adds seasonality. These are fast, interpretable, and competitive with ARIMA.</p><div class="code-block"><div class="ch"><span>Simple Exponential Smoothing</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -1084,7 +1096,11 @@ try:
 
     # TODO: compare RMSE
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Feature Engineering for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Transforming raw time series into supervised learning features enables ML models (XGBoost, LightGBM) to forecast. Key features: lag values, rolling stats, calendar attributes, and cyclical encoding.</p><div class="code-block"><div class="ch"><span>Lag features</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing with alpha=0.1 and alpha=0.9 — compare how quickly each adapts</label></li>
+<li><label><input type="checkbox"> Use Holt&#x27;s double exponential smoothing on a trending series and check the slope parameter</label></li>
+<li><label><input type="checkbox"> Fit Holt-Winters with seasonal_periods=12 and print the 12 seasonal indices</label></li>
+<li><label><input type="checkbox"> Compare SES, Holt, and Holt-Winters RMSE on a test set to see which captures most signal</label></li>
+<li><label><input type="checkbox"> Use damped_trend=True in Holt-Winters and compare long-range forecasts to undamped version</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Feature Engineering for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Transforming raw time series into supervised learning features enables ML models (XGBoost, LightGBM) to forecast. Key features: lag values, rolling stats, calendar attributes, and cyclical encoding.</p><div class="code-block"><div class="ch"><span>Lag features</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -1234,7 +1250,11 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=168, freq=&#x27;h&#x27;)
 # TODO: build feature matrix
 
 # TODO: train LinearRegression and print RMSE
-</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Forecasting Evaluation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Proper evaluation of time series forecasts requires time-ordered splits (no leakage), multiple metrics (MAE, RMSE, MAPE), and ideally walk-forward validation to simulate real deployment.</p><div class="code-block"><div class="ch"><span>MAE, RMSE, MAPE, and SMAPE</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_7 features for a daily series and check their correlation with target</label></li>
+<li><label><input type="checkbox"> Add a rolling 14-day mean feature shifted by 1 day (to avoid data leakage)</label></li>
+<li><label><input type="checkbox"> Encode month as cyclical features using sin/cos and compare to one-hot encoding on RMSE</label></li>
+<li><label><input type="checkbox"> Add is_weekend and is_month_end binary features and check their feature importance</label></li>
+<li><label><input type="checkbox"> Build a full feature pipeline and train GradientBoostingRegressor — print top 5 features</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Forecasting Evaluation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Proper evaluation of time series forecasts requires time-ordered splits (no leakage), multiple metrics (MAE, RMSE, MAPE), and ideally walk-forward validation to simulate real deployment.</p><div class="code-block"><div class="ch"><span>MAE, RMSE, MAPE, and SMAPE</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import numpy as np
 
 actual   = np.array([100, 120, 130, 115, 140, 125, 160, 155, 170, 180])
 forecast = np.array([105, 115, 135, 110, 145, 130, 150, 160, 165, 185])
@@ -1395,7 +1415,11 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=180, freq=&#x27;D&#x27;)
 # TODO: create feature matrix
 
 # TODO: cross-validate all three models
-</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Prophet Forecasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use Facebook Prophet for additive time series forecasting with automatic trend, seasonality, and holiday effects. Handle changepoints and produce uncertainty intervals.</p><div class="code-block"><div class="ch"><span>Basic Prophet fit and forecast</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, and MAPE on a 20-point test set and note which metric penalizes big errors more</label></li>
+<li><label><input type="checkbox"> Implement walk-forward validation manually with an expanding training window</label></li>
+<li><label><input type="checkbox"> Use sklearn TimeSeriesSplit with n_splits=5 and print the train/test sizes for each fold</label></li>
+<li><label><input type="checkbox"> Compare walk-forward RMSE to a naive seasonal benchmark (last year&#x27;s same period)</label></li>
+<li><label><input type="checkbox"> Visualize forecast errors over time — check if errors are growing (model degrading) or stable</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Prophet Forecasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Use Facebook Prophet for additive time series forecasting with automatic trend, seasonality, and holiday effects. Handle changepoints and produce uncertainty intervals.</p><div class="code-block"><div class="ch"><span>Basic Prophet fit and forecast</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import pandas as pd
 import numpy as np
 
 # Simulate daily data with trend + weekly seasonality (Prophet-ready format)
@@ -1569,7 +1593,11 @@ df = pd.DataFrame({&#x27;ds&#x27;: weeks, &#x27;revenue&#x27;: y})
 # TODO: Create features (t index, month dummies, lag-1)
 # TODO: Walk-forward cross-validation with 4-week horizon
 # TODO: Report average RMSE and 80% PI width
-</code></pre></div></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Anomaly Detection in Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Detect outliers and anomalies in sequential data using statistical thresholds, isolation forests, and autoencoder-style reconstruction errors.</p><div class="code-block"><div class="ch"><span>Z-score and IQR rolling anomaly detection</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format a time series DataFrame in Prophet&#x27;s required ds/y column format</label></li>
+<li><label><input type="checkbox"> Fit a Prophet model and call make_future_dataframe(periods=30) for a 30-day forecast</label></li>
+<li><label><input type="checkbox"> Add a custom holiday effect to Prophet and observe its impact on the forecast</label></li>
+<li><label><input type="checkbox"> Tune changepoint_prior_scale between 0.001 and 0.5 and compare forecast flexibility</label></li>
+<li><label><input type="checkbox"> Extract Prophet&#x27;s trend, weekly, and yearly components from the forecast DataFrame</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Anomaly Detection in Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Detect outliers and anomalies in sequential data using statistical thresholds, isolation forests, and autoencoder-style reconstruction errors.</p><div class="code-block"><div class="ch"><span>Z-score and IQR rolling anomaly detection</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
 import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
@@ -1734,7 +1762,11 @@ df = pd.DataFrame({&#x27;time&#x27;: hours, &#x27;orders&#x27;: orders})
 # TODO: Rolling z-score anomaly detection (window=24, thresh=3)
 # TODO: Isolation Forest on (orders, hour, dayofweek)
 # TODO: Compare detected anomaly counts and false positive rates
-</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Neural Forecasting Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply LSTM, Temporal Convolutional Networks (TCN), and N-BEATS-style architectures using PyTorch or Keras for sequence forecasting tasks.</p><div class="code-block"><div class="ch"><span>Univariate LSTM forecasting (NumPy / PyTorch-free)</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a rolling z-score detector with window=14 and flag points where |z| &gt; 3</label></li>
+<li><label><input type="checkbox"> Apply IsolationForest with contamination=0.05 on a multivariate time series</label></li>
+<li><label><input type="checkbox"> Use STL residuals with a 3*MAD threshold and compare it to rolling z-score precision</label></li>
+<li><label><input type="checkbox"> Inject 3 anomalies into a known series and check which detection method finds them all</label></li>
+<li><label><input type="checkbox"> Compute false positive rate alongside recall to understand the tradeoff for each method</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Neural Forecasting Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Apply LSTM, Temporal Convolutional Networks (TCN), and N-BEATS-style architectures using PyTorch or Keras for sequence forecasting tasks.</p><div class="code-block"><div class="ch"><span>Univariate LSTM forecasting (NumPy / PyTorch-free)</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 
@@ -1912,7 +1944,11 @@ LB, H = 48, 12
 # TODO: Train GBM MultiOutputRegressor
 # TODO: Report RMSE for steps 1-4 vs steps 9-12
 # TODO: Compute attention weights via per-lag correlation
-</code></pre></div></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Wavelet Analysis for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Discrete Wavelet Transform (DWT)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a sliding-window dataset with lookback=20 and compare Ridge vs GBM on RMSE</label></li>
+<li><label><input type="checkbox"> Implement a multi-step seq2seq forecast with MultiOutputRegressor and 7-step horizon</label></li>
+<li><label><input type="checkbox"> Compute per-lag correlations with the target to identify which lags matter most</label></li>
+<li><label><input type="checkbox"> Compare the RMSE of step-1 forecast vs step-7 forecast to see how accuracy degrades</label></li>
+<li><label><input type="checkbox"> Use recursive forecasting (feed predictions back as inputs) vs direct multi-output</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Wavelet Analysis for Time Series</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Discrete Wavelet Transform (DWT)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">import numpy as np
 import pywt
 np.random.seed(0)
 t = np.linspace(0, 8*np.pi, 512)
@@ -1995,7 +2031,11 @@ eeg[spike_start:spike_start+13] += 3.0
 # TODO: Identify which detail levels correspond to each EEG band
 # TODO: Compute relative band powers
 # TODO: Detect spike using reconstruction error
-</code></pre></div></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Multivariate Time Series &amp; VAR Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Vector Autoregression (VAR)</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run pywt.wavedec on a sine wave with &#x27;db4&#x27; wavelet and inspect each coefficient array</label></li>
+<li><label><input type="checkbox"> Denoise a noisy signal by zeroing out small wavelet coefficients and reconstruct it</label></li>
+<li><label><input type="checkbox"> Compute the energy at each wavelet level and identify which level dominates the signal</label></li>
+<li><label><input type="checkbox"> Apply CWT and find the dominant frequency at the start vs end of a chirp signal</label></li>
+<li><label><input type="checkbox"> Use wavelet reconstruction error to detect where an injected anomaly is located</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Multivariate Time Series &amp; VAR Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Vector Autoregression (VAR)</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
 import pandas as pd
 from statsmodels.tsa.vector_ar.var_model import VAR
 np.random.seed(42)
@@ -2076,7 +2116,11 @@ price_b = 0.9*common + np.random.normal(0, 0.5, n) + 45
 # TODO: Z-score of spread
 # TODO: Generate trading signals (long A-short B when z&lt;-2, vice versa)
 # TODO: Compute daily P&amp;L, Sharpe ratio, max drawdown
-</code></pre></div></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Real-Time Streaming &amp; Online Learning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Online Learning with River</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python"># pip install river
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit a VAR(2) model on two correlated series and print the coefficient matrices</label></li>
+<li><label><input type="checkbox"> Run a Granger causality test and interpret whether the p-value supports causation</label></li>
+<li><label><input type="checkbox"> Test two random-walk series for cointegration with statsmodels.tsa.stattools.coint</label></li>
+<li><label><input type="checkbox"> Forecast 6 steps ahead with VAR and compare to individual ARIMA forecasts</label></li>
+<li><label><input type="checkbox"> Compute impulse response functions (IRF) and explain what they mean economically</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Real-Time Streaming &amp; Online Learning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc"></p><div class="code-block"><div class="ch"><span>Online Learning with River</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python"># pip install river
 from river import linear_model, preprocessing, metrics, stream
 import numpy as np
 np.random.seed(0)
@@ -2170,7 +2214,11 @@ y = np.array([
 # TODO: Online logistic regression with River
 # TODO: ADWIN drift detection on binary prediction errors
 # TODO: Report AUC in windows before drift, at drift, after adaptation
-</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Seasonal Decomposition &amp; STL</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Time series decompose into Trend, Seasonality, and Residual components. STL (Seasonal-Trend decomposition using LOESS) is robust to outliers and handles arbitrary seasonality. Use it before forecasting to understand your signal.</p><div class="code-block"><div class="ch"><span>Classical decomposition with statsmodels</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a StreamStats class with a sliding window of size 50 tracking mean and std</label></li>
+<li><label><input type="checkbox"> Simulate a stream where the mean shifts at step 500 and detect it with ADWIN</label></li>
+<li><label><input type="checkbox"> Implement online learning with River&#x27;s LinearRegression and print RMSE every 100 steps</label></li>
+<li><label><input type="checkbox"> Compare the accuracy of an online model at t=100 vs t=900 to see how it improves</label></li>
+<li><label><input type="checkbox"> Inject concept drift mid-stream and observe how long ADWIN takes to flag it</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>17. Seasonal Decomposition &amp; STL</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Time series decompose into Trend, Seasonality, and Residual components. STL (Seasonal-Trend decomposition using LOESS) is robust to outliers and handles arbitrary seasonality. Use it before forecasting to understand your signal.</p><div class="code-block"><div class="ch"><span>Classical decomposition with statsmodels</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 np.random.seed(42)
@@ -2286,7 +2334,11 @@ res = stl.fit()
 # (3) variance decomposition
 total_var = ts.var()
 # TODO: compute each component&#x27;s share
-</code></pre></div></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Stationarity Testing &amp; ARIMA Preparation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA requires a stationary series (constant mean/variance). ADF and KPSS tests check stationarity. Differencing and log transforms achieve it. ACF/PACF plots reveal AR and MA orders.</p><div class="code-block"><div class="ch"><span>ADF and KPSS stationarity tests</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run STL with robust=True on a series with outliers — compare to classical decomposition</label></li>
+<li><label><input type="checkbox"> Extract seasonal indices and identify the month or week with the strongest seasonal effect</label></li>
+<li><label><input type="checkbox"> Compute the variance explained by trend, seasonal, and residual from an STL decomposition</label></li>
+<li><label><input type="checkbox"> Deseasonalize your series by subtracting the seasonal component and plot the result</label></li>
+<li><label><input type="checkbox"> Use trend strength and seasonal strength formulas to quantify how predictable the series is</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>18. Stationarity Testing &amp; ARIMA Preparation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA requires a stationary series (constant mean/variance). ADF and KPSS tests check stationarity. Differencing and log transforms achieve it. ACF/PACF plots reveal AR and MA orders.</p><div class="code-block"><div class="ch"><span>ADF and KPSS stationarity tests</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.stattools import adfuller, kpss
 
 np.random.seed(42)
@@ -2416,7 +2468,11 @@ ts_stat   = pd.Series(np.random.randn(100))
 for name, ts in [(&#x27;Random Walk&#x27;, ts_rw), (&#x27;Exponential Trend&#x27;, ts_exp), (&#x27;Stationary&#x27;, ts_stat)]:
     out, d, log = make_stationary(ts)
     print(f&quot;{name}: diffs={d}, log={log}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. ARIMA &amp; SARIMA Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA(p,d,q) models a stationary process as AutoRegressive + Integrated + Moving Average. SARIMA adds seasonal components (P,D,Q,m). Use AIC/BIC for order selection and residual diagnostics to validate.</p><div class="code-block"><div class="ch"><span>Fitting ARIMA and forecasting</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and confirm non-stationarity (p &gt; 0.05)</label></li>
+<li><label><input type="checkbox"> Plot ACF for 20 lags on a non-differenced vs once-differenced series — describe the difference</label></li>
+<li><label><input type="checkbox"> Apply log transform then first difference to financial prices and verify stationarity with ADF</label></li>
+<li><label><input type="checkbox"> Use pacf() to identify the AR order and acf() to identify the MA order for your series</label></li>
+<li><label><input type="checkbox"> Run KPSS alongside ADF and interpret any conflicting results between the two tests</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>19. ARIMA &amp; SARIMA Modeling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">ARIMA(p,d,q) models a stationary process as AutoRegressive + Integrated + Moving Average. SARIMA adds seasonal components (P,D,Q,m). Use AIC/BIC for order selection and residual diagnostics to validate.</p><div class="code-block"><div class="ch"><span>Fitting ARIMA and forecasting</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 
 np.random.seed(42)
@@ -2562,7 +2618,11 @@ def select_arima_order(ts, max_p=3, max_q=3, d=1):
 # TODO: call select_arima_order on train set (first 48 months)
 # TODO: forecast last 12 months with best order
 # TODO: compare RMSE to naive persistence (repeat last observed value)
-</code></pre></div></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Exponential Smoothing (ETS / Holt-Winters)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt&#x27;s double ES adds trend; Holt-Winters triple ES adds seasonality. The ETS framework unifies them with Error-Trend-Seasonality states.</p><div class="code-block"><div class="ch"><span>Simple, Holt&#x27;s double, and Holt-Winters</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on monthly data and print the coefficient summary table</label></li>
+<li><label><input type="checkbox"> Grid-search ARIMA orders (p 0-2, q 0-2) and rank them by AIC — note the winner</label></li>
+<li><label><input type="checkbox"> Fit SARIMA(1,1,1)(1,1,1,12) and compare its RMSE to plain ARIMA on seasonal data</label></li>
+<li><label><input type="checkbox"> Run Ljung-Box test on ARIMA residuals and confirm white noise (p &gt; 0.05 is good)</label></li>
+<li><label><input type="checkbox"> Extract 95% forecast confidence intervals and verify actual values fall within them</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>20. Exponential Smoothing (ETS / Holt-Winters)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt&#x27;s double ES adds trend; Holt-Winters triple ES adds seasonality. The ETS framework unifies them with Error-Trend-Seasonality states.</p><div class="code-block"><div class="ch"><span>Simple, Holt&#x27;s double, and Holt-Winters</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing, Holt, ExponentialSmoothing
 import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
 
@@ -2702,7 +2762,11 @@ def grid_search_ets(train, test, h=12):
     return pd.DataFrame(results)
 
 print(grid_search_ets(train, test).head(5))
-</code></pre></div></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. ML Approach: Lag Features &amp; Sklearn</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Transform any time series into a supervised ML problem by creating lag features, rolling statistics, and calendar features. This lets you use any sklearn regressor for forecasting.</p><div class="code-block"><div class="ch"><span>Creating lag and rolling features</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing and manually vary alpha from 0.1 to 0.9 — observe smoothing effect</label></li>
+<li><label><input type="checkbox"> Use Holt&#x27;s double ES on a trending series and extract the final level and slope</label></li>
+<li><label><input type="checkbox"> Fit Holt-Winters with trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=12 and compare to &#x27;mul&#x27;</label></li>
+<li><label><input type="checkbox"> Run grid_search_ets with all model combos and sort by test RMSE to find the best config</label></li>
+<li><label><input type="checkbox"> Extract the hw.season attribute and plot the 12 monthly seasonal indices as a bar chart</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>21. ML Approach: Lag Features &amp; Sklearn</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Transform any time series into a supervised ML problem by creating lag features, rolling statistics, and calendar features. This lets you use any sklearn regressor for forecasting.</p><div class="code-block"><div class="ch"><span>Creating lag and rolling features</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import numpy as np, pandas as pd
 
 np.random.seed(42)
 n = 200
@@ -2867,7 +2931,11 @@ ts = pd.Series(
 # TODO: train RandomForest
 # TODO: report RMSE and MAPE
 # TODO: print actual vs predicted for test
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Time Series Anomaly Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Detect anomalous time points using statistical control limits, rolling z-scores, STL residuals, and IsolationForest. Different methods suit different anomaly types: spikes, level shifts, or trend changes.</p><div class="code-block"><div class="ch"><span>Rolling z-score and IQR fences</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_8 for a weekly series and check correlations with the target</label></li>
+<li><label><input type="checkbox"> Add rolling mean and std at 4 and 8 weeks — always shift by 1 to prevent data leakage</label></li>
+<li><label><input type="checkbox"> Encode week-of-year as sin/cos cyclical features and verify the encoding wraps correctly</label></li>
+<li><label><input type="checkbox"> Train a RandomForestRegressor and print the top 5 most important features</label></li>
+<li><label><input type="checkbox"> Use recursive forecasting: feed model predictions back as lag features for multi-step ahead</label></li></ul></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Time Series Anomaly Detection</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Detect anomalous time points using statistical control limits, rolling z-scores, STL residuals, and IsolationForest. Different methods suit different anomaly types: spikes, level shifts, or trend changes.</p><div class="code-block"><div class="ch"><span>Rolling z-score and IQR fences</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">import numpy as np, pandas as pd
 
 np.random.seed(42)
 n = 200
@@ -3015,7 +3083,11 @@ for day, delta in zip(anom_days, deltas):
 
 # TODO: implement 3 anomaly detectors
 # TODO: print TP matrix for each injected anomaly
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Forecast Evaluation &amp; Backtesting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">RMSE and MAPE are standard forecast metrics but have blind spots. SMAPE handles zeros; MASE benchmarks against naive. Walk-forward backtesting gives realistic performance estimates and detects overfitting to a single test window.</p><div class="code-block"><div class="ch"><span>RMSE, MAPE, MASE, SMAPE</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a rolling z-score detector and tune the threshold to balance precision and recall</label></li>
+<li><label><input type="checkbox"> Apply IsolationForest with windowed features (value, rolling_mean, rolling_std, z_score)</label></li>
+<li><label><input type="checkbox"> Use STL residuals + 3*MAD threshold — compare its detection rate to the z-score method</label></li>
+<li><label><input type="checkbox"> Create a TP matrix showing which detector caught which injected anomaly</label></li>
+<li><label><input type="checkbox"> Combine all 3 detectors with majority voting and measure if ensemble improves F1 score</label></li></ul></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Forecast Evaluation &amp; Backtesting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">RMSE and MAPE are standard forecast metrics but have blind spots. SMAPE handles zeros; MASE benchmarks against naive. Walk-forward backtesting gives realistic performance estimates and detects overfitting to a single test window.</p><div class="code-block"><div class="ch"><span>RMSE, MAPE, MASE, SMAPE</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">import numpy as np
 
 def rmse(y_true, y_pred):
     return np.sqrt(np.mean((y_true - y_pred)**2))
@@ -3171,7 +3243,11 @@ ts = pd.Series(
 
 results = forecast_tournament(ts, h=6, n_folds=4)
 print(results)
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Multivariate Time Series &amp; Prophet</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">VAR models multiple related time series jointly. Granger causality tests whether one series predicts another. Facebook Prophet is a user-friendly forecaster for business time series with holidays and change points.</p><div class="code-block"><div class="ch"><span>Vector Autoregression (VAR)</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np, pandas as pd
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, MAPE, and SMAPE on a test set and explain when each metric is preferred</label></li>
+<li><label><input type="checkbox"> Implement a naive seasonal benchmark (last year same period) and compute its RMSE</label></li>
+<li><label><input type="checkbox"> Run walk-forward CV with 4 folds and print RMSE per fold to see how variance behaves</label></li>
+<li><label><input type="checkbox"> Compare MASE &lt; 1 vs &gt;= 1 to determine whether your model beats the naive baseline</label></li>
+<li><label><input type="checkbox"> Run forecast_tournament for SARIMA, Holt-Winters, and naive — print the winner by RMSE</label></li></ul></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Multivariate Time Series &amp; Prophet</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">VAR models multiple related time series jointly. Granger causality tests whether one series predicts another. Facebook Prophet is a user-friendly forecaster for business time series with holidays and change points.</p><div class="code-block"><div class="ch"><span>Vector Autoregression (VAR)</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.vector_ar.var_model import VAR
 from statsmodels.tsa.stattools import adfuller
 
@@ -3291,10 +3367,14 @@ df = pd.DataFrame({&#x27;temp&#x27;:temp, &#x27;humidity&#x27;:humidity, &#x27;e
 # (2) Fit VAR with lag selection
 # (3) Granger causality
 # (4) Forecast and RMSE
-</code></pre></div></div></div></div></main>
+</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format two related series as a DataFrame and fit VAR with maxlags=4, ic=&#x27;aic&#x27;</label></li>
+<li><label><input type="checkbox"> Run VAR.test_causality() and interpret whether one series Granger-causes another</label></li>
+<li><label><input type="checkbox"> Use Prophet by creating a ds/y DataFrame and calling m.fit() + m.predict(future)</label></li>
+<li><label><input type="checkbox"> Add Prophet changepoints and compare forecast quality with vs without them</label></li>
+<li><label><input type="checkbox"> Test Granger causality at multiple lags and report which lag gives the smallest p-value</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
-function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});

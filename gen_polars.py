@@ -1,4 +1,7 @@
-import os, json
+import os, json, html as _html
+
+def esc(s):
+    return _html.escape(str(s))
 
 OUT = r"c:\Users\seany\Documents\All Codes\Data Science Study Path\08_polars"
 ACCENT = "#cd8b00"
@@ -142,6 +145,13 @@ SECTIONS = [
                 "# TODO: print(df4)"
             ),
         },
+        "todos": [
+            "Create a Polars DataFrame from a Python dict and print its schema with df.schema",
+            "Create a Series with an explicit dtype (pl.Int32) and call .mean() and .std()",
+            "Use pl.from_records() with a schema dict to build a typed DataFrame from tuples",
+            "Load a CSV string via io.StringIO and verify column types match expectations",
+            "Call df.describe() on a 100-row DataFrame and compare output with pandas describe()",
+        ],
     },
     {
         "title": "Select, With Columns & Expressions",
@@ -300,6 +310,13 @@ SECTIONS = [
                 "# TODO: print(seniors)"
             ),
         },
+        "todos": [
+            "Select two columns using pl.col() and add a new computed column with .with_columns()",
+            "Filter rows where a numeric column is above its mean using pl.col().mean()",
+            "Chain .filter().select().with_columns() in a single expression",
+            "Use pl.lit() to add a constant column and pl.col().alias() to rename",
+            "Compare the syntax of the same operation in Pandas vs Polars side by side",
+        ],
     },
     {
         "title": "Filtering & Sorting",
@@ -451,6 +468,13 @@ SECTIONS = [
                 "# print('Top remote:', top_remote)"
             ),
         },
+        "todos": [
+            "Filter a DataFrame using two AND conditions and verify row count is correct",
+            "Use .is_in() to filter by a list of allowed values and check against the full set",
+            "Sort by two columns (one ascending, one descending) and print the first 5 rows",
+            "Use .top_k(5, by='col') and compare result with full sort — note performance difference",
+            "Apply str.contains() filter and negate it with ~ to find non-matching rows",
+        ],
     },
     {
         "title": "GroupBy & Aggregations",
@@ -612,6 +636,13 @@ SECTIONS = [
                 "# print('Qualifying groups:', filtered)"
             ),
         },
+        "todos": [
+            "Group a DataFrame by one column and compute count, mean, and max with .agg()",
+            "Group by two columns and add a weighted sum aggregation using pl.col() expressions",
+            "Filter groups after aggregation: keep only groups where count > 5",
+            "Use group_by_dynamic with a 1-week interval to aggregate a time-series DataFrame",
+            "Sort the aggregated result by total revenue descending and print the top 5 groups",
+        ],
     },
     {
         "title": "Joins",
@@ -779,6 +810,13 @@ SECTIONS = [
                 "# TODO: print(f'All assignments ({len(assignments)} rows):', assignments)"
             ),
         },
+        "todos": [
+            "Perform an inner join on two DataFrames and verify the resulting row count is correct",
+            "Do a left join and count how many rows have null in the joined column (unmatched)",
+            "Use an anti-join to find rows in the left table that have no match in the right table",
+            "Join two tables with overlapping column names using the suffix parameter",
+            "Use join_asof() to match records by nearest timestamp in two time-series tables",
+        ],
     },
     {
         "title": "String & Date Operations",
@@ -959,6 +997,13 @@ SECTIONS = [
                 "# TODO: print(df)"
             ),
         },
+        "todos": [
+            "Extract domain from an email column using .str.split('@').list.get(1)",
+            "Parse a date string column with str.to_date('%Y-%m-%d') and extract year and month",
+            "Use .str.contains() with a regex pattern to flag rows matching a condition",
+            "Compute days between two date columns using date arithmetic and .dt.total_days()",
+            "Format a datetime column with .dt.strftime('%b %Y') and use it as a display label",
+        ],
     },
     {
         "title": "Lazy API & Query Optimization",
@@ -1157,6 +1202,13 @@ SECTIONS = [
                 "# TODO: print(result)"
             ),
         },
+        "todos": [
+            "Convert an eager DataFrame to a LazyFrame with .lazy() and call .explain() to view the plan",
+            "Build a lazy pipeline with .filter(), .select(), .group_by() and collect() at the end",
+            "Use scan_csv() on a file and apply predicate pushdown — check the query plan",
+            "Compare execution time of eager vs lazy for a 1M-row groupby aggregation",
+            "Add .with_columns() inside a LazyFrame pipeline and verify no data is computed yet",
+        ],
     },
     {
         "title": "Reading & Writing Files",
@@ -1335,6 +1387,13 @@ SECTIONS = [
                 "# print('North revenue: ${:.2f}'.format(result['amount'].sum()))"
             ),
         },
+        "todos": [
+            "Write a DataFrame to Parquet with 'zstd' compression and read it back — compare sizes",
+            "Use scan_parquet() with .filter() and .select() before .collect() to test predicate pushdown",
+            "Write to CSV with write_csv(), read it with read_csv(), and verify shape and dtypes match",
+            "Read only specific columns from a Parquet file using the columns= parameter",
+            "Partition a DataFrame by a category column and write separate Parquet files for each partition",
+        ],
     },
     {
         "title": "Window Functions",
@@ -1479,6 +1538,13 @@ SECTIONS = [
                 "# print(top3)"
             ),
         },
+        "todos": [
+            "Add a 7-day rolling mean to a sorted daily time series using rolling_mean(window_size=7)",
+            "Compute cumulative sum of a revenue column and plot the running total",
+            "Rank rows within each product group by revenue descending using .rank().over('group')",
+            "Compute pct_of_max = col / col.max() * 100 and verify values are between 0 and 100",
+            "Use .shift(1).over('group') to create a lag-1 feature per group",
+        ],
     },
     {
         "title": "Polars vs Pandas Migration",
@@ -1675,6 +1741,13 @@ SECTIONS = [
                 "# print(pl_result)"
             ),
         },
+        "todos": [
+            "Convert a Pandas filter (df[df['col']>x]) to Polars .filter(pl.col('col')>x) and compare",
+            "Rewrite a Pandas groupby().agg() pipeline in Polars with .group_by().agg()",
+            "Replace pd.merge() with Polars .join() and verify the outputs match row-for-row",
+            "Time the same pipeline in both libraries on 1M rows and print the speedup factor",
+            "Identify three Pandas idioms (inplace, chained indexing, apply) and rewrite each in Polars",
+        ],
     },
     {
         "title": "Lazy Evaluation & Streaming",
@@ -1852,6 +1925,13 @@ SECTIONS = [
                 "# TODO: print the query plan with .explain()\n"
             ),
         },
+        "todos": [
+            "Build a LazyFrame pipeline and call .explain() to see predicate pushdown in the plan",
+            "Run the same query eagerly and lazily — measure and compare execution times",
+            "Use collect(streaming=True) on a LazyFrame and verify the result matches non-streaming",
+            "Chain .filter(), .group_by(), and .sort() in a LazyFrame before calling .collect()",
+            "Use scan_csv() with a lazy pipeline to process a file without loading it fully into RAM",
+        ],
     },
     {
         "title": "Window Functions",
@@ -1989,6 +2069,13 @@ SECTIONS = [
                 "# TODO: Print peak day and best rank for each product\n"
             ),
         },
+        "todos": [
+            "Compute 7-day and 30-day rolling means per product group using .over('product')",
+            "Add week-over-week growth rate with (col - col.shift(7)) / col.shift(7) per group",
+            "Compute cumulative sales per product using .cum_sum().over('product')",
+            "Rank products within each week by daily sales using .rank().over('week')",
+            "Find the peak sales day per product using .arg_max().over('product')",
+        ],
     },
     {
         "title": "Performance Tuning",
@@ -2168,6 +2255,13 @@ SECTIONS = [
                 "# TODO: Print speedup ratio\n"
             ),
         },
+        "todos": [
+            "Cast string columns to Categorical dtype and re-run a groupby to measure the speedup",
+            "Cast float64 columns to float32 where precision allows and compare memory usage",
+            "Benchmark eager vs lazy on a 1M-row groupby and record the speedup ratio",
+            "Use .profile() on a lazy query to see which operations take the most time",
+            "Apply predicate pushdown by placing .filter() before .group_by() and verify plan improvement",
+        ],
     },
     {
         "title": "14. Polars LazyFrame & Streaming Optimization",
@@ -2323,6 +2417,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Build a LazyFrame pipeline that filters, groups, and aggregates — call .explain() before collecting",
+            "Use collect(streaming=True) and verify result matches a non-streaming collect",
+            "Save the collected result to Parquet and reload it with scan_parquet to verify row count",
+            "Compare timing of eager vs lazy collect on 2M rows and report the ratio",
+            "Add projection pushdown by selecting only needed columns early in the lazy pipeline",
+        ],
     },
     {
         "title": "15. Time Series Operations in Polars",
@@ -2470,6 +2571,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Add 20-day and 50-day rolling moving averages to a stock price Series",
+            "Compute daily returns as (price - price.shift(1)) / price.shift(1) per ticker",
+            "Use group_by_dynamic with every='1w' to resample daily data to weekly OHLC",
+            "Detect anomalies where value deviates from 30-day mean by more than 2 std deviations",
+            "Compute monthly volatility (std of daily returns) using group_by on dt.month()",
+        ],
     },
     {
         "title": "16. Polars with Apache Arrow & Parquet",
@@ -2626,6 +2734,13 @@ SECTIONS = [
             "\n"
         ),
         },
+        "todos": [
+            "Convert a Polars DataFrame to PyArrow with .to_arrow() and back with pl.from_arrow()",
+            "Write a DataFrame to Parquet partitioned by a date column using pyarrow.parquet.write_to_dataset",
+            "Use pl.scan_parquet() to read only one partition and verify row count vs full file",
+            "Benchmark whole-file read vs single-partition scan on a 1M-row dataset",
+            "Convert result to Arrow table and compute a column metric using pyarrow.compute",
+        ],
     },
 
     {
@@ -2820,6 +2935,13 @@ SECTIONS = [
             "# 5. print .explain() before .collect()\n"
         ),
         },
+        "todos": [
+            "Call .lazy() on a DataFrame and chain filter + select + with_columns before .collect()",
+            "Print .explain() on a lazy pipeline and identify which steps show predicate pushdown",
+            "Compare the query plan before and after adding an early .filter() in the pipeline",
+            "Benchmark .collect() vs .collect(streaming=True) on a 100k-row pipeline",
+            "Wrap a lazy pipeline in a function and call it with different filter parameters",
+        ],
     },
     {
         "title": "18. Advanced GroupBy & Aggregations",
@@ -2991,6 +3113,13 @@ SECTIONS = [
             "# 3. Pivot to show product as columns\n"
         ),
         },
+        "todos": [
+            "Group by two columns and compute sum, mean, std, and a conditional count in one .agg()",
+            "Use .filter() after .agg() to keep only high-value groups (e.g., total > threshold)",
+            "Apply group_by_dynamic with a 7-day window to aggregate a daily sales time series",
+            "Compute a weighted average inside .agg() using (pl.col('val') * pl.col('wt')).sum()",
+            "Pivot the aggregated result so products appear as columns using .pivot()",
+        ],
     },
     {
         "title": "19. Joins & Set Operations",
@@ -3191,6 +3320,13 @@ SECTIONS = [
             "# 3. Anti-join: find users with no orders\n"
         ),
         },
+        "todos": [
+            "Inner-join two DataFrames on a shared key and count resulting rows vs original",
+            "Left-join and count nulls in the right-side column to find unmatched left rows",
+            "Anti-join to find all users with no matching orders in the orders table",
+            "Semi-join to filter a product table to only products that appear in an orders table",
+            "Join with overlapping column names using the suffix= parameter and rename afterward",
+        ],
     },
     {
         "title": "20. String & Regex Operations",
@@ -3378,6 +3514,13 @@ SECTIONS = [
             "# 4. Print result without original column\n"
         ),
         },
+        "todos": [
+            "Extract domain from an email column with .str.split('@').list.get(1)",
+            "Use .str.extract(r'(ERROR|WARN|INFO)') to pull log severity from a text column",
+            "Normalize an email column: strip whitespace, lowercase, and validate with str.contains",
+            "Replace phone number separators using .str.replace_all(r'[\\s.()-]', '') to get digits only",
+            "Split a 'first last' name column into two separate columns using .str.split(' ')",
+        ],
     },
     {
         "title": "21. Date/Time Processing",
@@ -3573,6 +3716,13 @@ SECTIONS = [
             "# 3. Add year, month, weekday columns\n"
         ),
         },
+        "todos": [
+            "Parse a string date column with .str.to_date('%Y-%m-%d') and verify the dtype is Date",
+            "Extract year, month, and weekday from a Date column using .dt.year(), .dt.month(), .dt.weekday()",
+            "Compute the number of days between two date columns using date subtraction and .dt.total_days()",
+            "Resample minute-level timestamps to daily averages using .dt.date() and group_by",
+            "Use .dt.strftime('%b %Y') to create a human-readable month label column",
+        ],
     },
     {
         "title": "22. Window Functions & Expressions",
@@ -3770,6 +3920,13 @@ SECTIONS = [
             "# 5. Assert len(result) == len(df)\n"
         ),
         },
+        "todos": [
+            "Add a dense rank within each group using .rank('dense', descending=True).over('group')",
+            "Compute cumulative sum within each group with .cum_sum().over('group')",
+            "Add a lag-1 feature using .shift(1).over('group') and verify nulls appear at group starts",
+            "Apply a window expression and assert the result has the same number of rows as the input",
+            "Combine rank, cumsum, and lag in a single .with_columns() call for efficiency",
+        ],
     },
     {
         "title": "23. Performance: Polars vs Pandas",
@@ -3991,6 +4148,13 @@ SECTIONS = [
             "# Time both and print speedup\n"
         ),
         },
+        "todos": [
+            "Benchmark a Pandas groupby vs Polars group_by on 500k rows and print the speedup factor",
+            "Cast string columns to Categorical in both libraries and compare memory footprint",
+            "Rewrite a Pandas chained-indexing operation in Polars and verify identical output",
+            "Measure Polars filter + groupby pipeline time vs Pandas equivalent on 1M rows",
+            "Identify one operation where Pandas is faster and explain why",
+        ],
     },
     {
         "title": "24. Polars Production Patterns",
@@ -4249,6 +4413,13 @@ SECTIONS = [
             "print(etl(raw, lookup))\n"
         ),
         },
+        "todos": [
+            "Write an ETL function that drops nulls, normalizes a string column, and joins with a lookup table",
+            "Add data validation: assert no nulls remain after cleaning and that all keys matched",
+            "Write the ETL output to Parquet and re-read it to verify schema and row count",
+            "Add logging/metrics dict to the ETL function tracking input rows, dropped rows, output rows",
+            "Profile the ETL pipeline on 100k rows and identify the most expensive step",
+        ],
     },
 
 ]
@@ -4289,6 +4460,19 @@ def make_html(sections):
             )
         else:
             practice_html = ""
+        todos = s.get("todos", [])
+        todos_html = ""
+        if todos:
+            items = "\n".join(
+                f'<li><label><input type="checkbox"> {esc(t)}</label></li>'
+                for t in todos
+            )
+            todos_html = (
+                f'<div class="todo-list">'
+                f'<div class="todo-head">&#x2705; Practice Checklist</div>'
+                f'<ul>{items}</ul>'
+                f'</div>'
+            )
         cards += f"""
 <div class="card" id="{sid}">
   <div class="card-header" onclick="toggle('{sid}')">
@@ -4312,6 +4496,7 @@ def make_html(sections):
       <pre><code class="language-python">{s["rw_code"]}</code></pre></div>
     </div>
     {practice_html}
+    {todos_html}
   </div>
 </div>"""
 
@@ -4323,43 +4508,10 @@ def make_html(sections):
 <title>Polars Study Guide</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-:root{{--accent:{ACCENT};--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;}}
-*{{box-sizing:border-box;margin:0;padding:0;}}
-body{{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;min-height:100vh;}}
-nav{{width:240px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;overflow-y:auto;flex-shrink:0;}}
-nav h2{{padding:0 16px 12px;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;}}
-nav input{{width:calc(100% - 32px);margin:0 16px 12px;padding:6px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.8rem;}}
-nav a{{display:block;padding:6px 16px;color:var(--muted);text-decoration:none;font-size:.82rem;border-left:2px solid transparent;transition:.2s;}}
-nav a:hover{{color:var(--accent);border-left-color:var(--accent);background:rgba(205,139,0,.07);}}
-main{{flex:1;padding:32px;max-width:900px;}}
-header{{margin-bottom:32px;}}
-header h1{{font-size:2rem;font-weight:700;}}
-header h1 span{{color:var(--accent);}}
-header p{{color:var(--muted);margin-top:6px;}}
-.badge{{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(205,139,0,.15);color:var(--accent);border:1px solid rgba(205,139,0,.3);margin-top:8px;}}
-.card{{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}}
-.card-header{{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);font-weight:600;transition:.2s;}}
-.card-header:hover{{background:#1c2128;color:var(--accent);}}
-.arrow{{transition:transform .25s;color:var(--accent);}}
-.card-body{{padding:18px;background:#0d1117;border-top:1px solid var(--border);}}
-.desc{{color:var(--muted);margin-bottom:14px;line-height:1.6;}}
-h4{{font-size:.85rem;color:var(--accent);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}}
-.code-wrap{{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px;}}
-pre{{margin:0;overflow-x:auto;}}
-pre code{{font-size:.82rem;padding:14px!important;}}
-.copy-btn{{position:absolute;top:6px;right:6px;padding:3px 10px;background:#30363d;color:#e6edf3;border:none;border-radius:5px;font-size:.72rem;cursor:pointer;z-index:10;}}
-.copy-btn:hover{{background:var(--accent);color:#000;}}
-.rw{{background:rgba(205,139,0,.06);border:1px solid rgba(205,139,0,.25);border-radius:8px;padding:14px;margin-top:16px;}}
-.rh{{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:.85rem;}}
-.rd{{color:var(--muted);margin-bottom:10px;font-size:.85rem;line-height:1.5;}}
-.practice{{background:#0d1b2a;border:1px solid #388bfd;border-radius:8px;padding:14px;margin-top:16px;}}
-.ph{{font-weight:700;color:#58a6ff;margin-bottom:6px;font-size:.85rem;}}
-.pd{{color:#79c0ff;font-size:.84rem;margin-bottom:10px;line-height:1.5;}}
-@media(max-width:700px){{nav{{display:none;}}main{{padding:16px;}}}}
-</style>
+<link rel="stylesheet" href="../styles/glass.css">
+<style>:root{{--acc:{ACCENT};--accent:{ACCENT}}}</style>
 </head>
-<body>
+<body class="page-module">
 <nav>
   <h2>Polars</h2>
   <input type="text" id="search" placeholder="Search topics..." oninput="filterNav(this.value)">
