@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# One-off helper scripts (not needed for the site)
+scripts/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Claude
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

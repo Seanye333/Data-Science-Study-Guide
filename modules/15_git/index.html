@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Git &amp; Version Control Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<link rel="stylesheet" href="../../styles/glass.css">
+<style>:root{--acc:#f78166}</style>
+</head><body class="page-module">
+<aside class="sidebar">
+  <div class="sbh"><h2>🔀 Git &amp; Version Control</h2><p>Study Guide &bull; 16 topics</p>
+    <input id="q" placeholder="Search..." oninput="filt(this.value)">
+  </div>
+  <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. What is Git &amp; Why It Matters</a></li>
+    <li><a href="#s1" onclick="act(this,event)">2. Basic Commands — add, commit, log, diff</a></li>
+    <li><a href="#s2" onclick="act(this,event)">3. Branching &amp; Merging</a></li>
+    <li><a href="#s3" onclick="act(this,event)">4. Remote Repositories — GitHub, GitLab, Bitbucket</a></li>
+    <li><a href="#s4" onclick="act(this,event)">5. Pull Requests &amp; Code Review</a></li>
+    <li><a href="#s5" onclick="act(this,event)">6. .gitignore for Data Science</a></li>
+    <li><a href="#s6" onclick="act(this,event)">7. Git Stash — Saving Work Temporarily</a></li>
+    <li><a href="#s7" onclick="act(this,event)">8. Tags &amp; Releases</a></li>
+    <li><a href="#s8" onclick="act(this,event)">9. Rebase &amp; Interactive Rebase</a></li>
+    <li><a href="#s9" onclick="act(this,event)">10. Git for Jupyter Notebooks</a></li>
+    <li><a href="#s10" onclick="act(this,event)">11. Git Hooks &amp; Automation</a></li>
+    <li><a href="#s11" onclick="act(this,event)">12. Git LFS — Large File Storage</a></li>
+    <li><a href="#s12" onclick="act(this,event)">13. Advanced Git — cherry-pick, bisect, reflog</a></li>
+    <li><a href="#s13" onclick="act(this,event)">14. Git Workflows for Teams</a></li>
+    <li><a href="#s14" onclick="act(this,event)">15. GitHub Actions for Data Science</a></li>
+    <li><a href="#s15" onclick="act(this,event)">16. Git Best Practices Cheat Sheet</a></li></ul>
+</aside>
+<main class="main">
+  <h1 class="pt">🔀 Git &amp; Version Control</h1>
+  <p class="ps">16 topics &bull; Click any card to expand</p>
+  <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. What is Git &amp; Why It Matters</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Git is a distributed version control system that tracks changes to files. Every data scientist needs Git to version code, collaborate with teams, reproduce experiments, and never lose work.</p><div class="code-block"><div class="ch"><span>Installing and configuring Git</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-bash"># Check if Git is installed
+git --version
+
+# Configure your identity (required before first commit)
+git config --global user.name &quot;Your Name&quot;
+git config --global user.email &quot;you@example.com&quot;
+
+# Useful defaults
+git config --global init.defaultBranch main
+git config --global core.autocrlf true    # Windows
+git config --global pull.rebase false     # merge on pull
+
+# View all config
+git config --list</code></pre></div><div class="code-block"><div class="ch"><span>Initializing a repository</span><button onclick="cp('c0_1')">Copy</button></div><pre><code id="c0_1" class="language-bash"># Create a new project and initialize Git
+mkdir my-ds-project
+cd my-ds-project
+git init
+
+# What happened? A hidden .git folder was created
+ls -la .git/
+# HEAD        — points to current branch
+# config      — repo-level settings
+# objects/    — stores all file content and history
+# refs/       — branch and tag pointers</code></pre></div><div class="code-block"><div class="ch"><span>The three areas of Git</span><button onclick="cp('c0_2')">Copy</button></div><pre><code id="c0_2" class="language-bash"># Git has 3 areas:
+# 1. Working Directory — your actual files
+# 2. Staging Area (Index) — files ready to be committed
+# 3. Repository (.git) — committed history
+
+# See the current state
+git status
+
+# The workflow:
+# edit files → git add (stage) → git commit (save snapshot)
+
+echo &quot;# My Project&quot; &gt; README.md
+git status              # README.md is &quot;untracked&quot;
+git add README.md       # Move to staging area
+git status              # README.md is &quot;staged&quot;
+git commit -m &quot;Initial commit: add README&quot;
+git status              # &quot;nothing to commit, working tree clean&quot; </code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Setting Up a Data Science Project</div><div class="rd">You&#x27;re starting a new ML project. Proper Git setup from day one saves hours of headaches later — especially when collaborating or reproducing results.</div><pre><code class="language-bash"># Create project structure
+mkdir ml-churn-prediction
+cd ml-churn-prediction
+git init
+
+# Create standard DS project structure
+mkdir -p data/raw data/processed notebooks src models reports
+
+# Create .gitignore (critical for DS projects!)
+cat &gt; .gitignore &lt;&lt; &#x27;EOF&#x27;
+# Data files (too large for Git)
+data/raw/*
+data/processed/*
+*.csv
+*.parquet
+*.h5
+!data/.gitkeep
+
+# Model files
+models/*.pkl
+models/*.joblib
+models/*.pt
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
+__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+EOF
+
+# Keep empty directories with .gitkeep
+touch data/raw/.gitkeep data/processed/.gitkeep models/.gitkeep
+
+# Initial commit
+git add .
+git commit -m &quot;Initial project structure with .gitignore&quot;
+git log --oneline</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Your Own DS Project Repo</div><div class="pd">Initialize a Git repo for a data science project with proper structure, a .gitignore tailored for Python/DS, and an initial commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-bash"># TODO: Create a directory called &quot;practice-project&quot;
+# TODO: Initialize git
+# TODO: Create folders: data/, notebooks/, src/, tests/
+# TODO: Create a .gitignore that excludes:
+#   - .csv, .parquet files
+#   - __pycache__/
+#   - .ipynb_checkpoints/
+#   - .env
+# TODO: Create a README.md with a project title
+# TODO: Stage and commit everything
+# TODO: Run git log to verify</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git config --list and verify your name and email are set correctly</label></li>
+<li><label><input type="checkbox"> Create a brand new directory, run git init, and confirm the .git folder was created</label></li>
+<li><label><input type="checkbox"> Create a README.md, stage it, and commit it — then inspect git log --oneline</label></li>
+<li><label><input type="checkbox"> Add a second file, check git status, then use git restore to discard it</label></li>
+<li><label><input type="checkbox"> Create a .gitignore excluding __pycache__/ and *.pyc, then verify git status ignores them</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Basic Commands — add, commit, log, diff</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The core Git workflow: make changes, stage them, commit with a message, and review history. These 4 commands are 80% of daily Git usage.</p><div class="code-block"><div class="ch"><span>Staging and committing</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-bash"># Stage specific files
+git add file1.py file2.py
+
+# Stage all changes in current directory
+git add .
+
+# Stage all tracked files (skip untracked)
+git add -u
+
+# Commit with a message
+git commit -m &quot;Add data loading and cleaning functions&quot;
+
+# Stage + commit tracked files in one step
+git commit -am &quot;Fix bug in feature extraction&quot;
+
+# Amend the last commit (fix message or add forgotten files)
+git add forgotten_file.py
+git commit --amend -m &quot;Add data loading, cleaning, and forgotten_file&quot; </code></pre></div><div class="code-block"><div class="ch"><span>Viewing history with git log</span><button onclick="cp('c1_1')">Copy</button></div><pre><code id="c1_1" class="language-bash"># Basic log
+git log
+
+# Compact one-line format
+git log --oneline
+
+# Show last 5 commits
+git log --oneline -5
+
+# Show with graph (branch visualization)
+git log --oneline --graph --all
+
+# Show what changed in each commit
+git log --oneline --stat
+
+# Search commit messages
+git log --grep=&quot;fix&quot; --oneline
+
+# Commits by a specific author
+git log --author=&quot;Alice&quot; --oneline
+
+# Commits in a date range
+git log --since=&quot;2024-01-01&quot; --until=&quot;2024-02-01&quot; --oneline</code></pre></div><div class="code-block"><div class="ch"><span>Comparing changes with git diff</span><button onclick="cp('c1_2')">Copy</button></div><pre><code id="c1_2" class="language-bash"># See unstaged changes (working dir vs staging)
+git diff
+
+# See staged changes (staging vs last commit)
+git diff --staged
+
+# Compare two commits
+git diff abc123 def456
+
+# Compare current branch with main
+git diff main
+
+# Show changes for a specific file
+git diff -- src/model.py
+
+# Show only file names that changed
+git diff --name-only main
+
+# Show word-level diff (great for text/notebooks)
+git diff --word-diff</code></pre></div><div class="code-block"><div class="ch"><span>Undoing changes safely</span><button onclick="cp('c1_3')">Copy</button></div><pre><code id="c1_3" class="language-bash"># Unstage a file (keep changes in working dir)
+git restore --staged file.py
+
+# Discard changes in working directory (CAREFUL — irreversible!)
+git restore file.py
+
+# Undo last commit but keep changes staged
+git reset --soft HEAD~1
+
+# Undo last commit, unstage changes (keep in working dir)
+git reset HEAD~1
+
+# Create a new commit that reverses a previous one (safe!)
+git revert abc123
+
+# View what a file looked like in a past commit
+git show HEAD~3:src/model.py</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Clean Commit History for Code Review</div><div class="rd">Your team requires clean, descriptive commits for code review. Here&#x27;s a real workflow showing how to write good commits while developing a feature.</div><pre><code class="language-bash"># Good commit messages follow this pattern:
+# &lt;type&gt;: &lt;short description&gt;
+#
+# Types: feat, fix, refactor, docs, test, chore
+
+# Working on a feature — multiple small commits
+git add src/preprocessing.py
+git commit -m &quot;feat: add missing value imputation for numerical columns&quot;
+
+git add src/preprocessing.py
+git commit -m &quot;feat: add categorical encoding with target encoder&quot;
+
+git add tests/test_preprocessing.py
+git commit -m &quot;test: add unit tests for preprocessing pipeline&quot;
+
+git add src/config.py
+git commit -m &quot;refactor: extract preprocessing params to config&quot;
+
+# View the clean history
+git log --oneline -5
+# abc1234 refactor: extract preprocessing params to config
+# def5678 test: add unit tests for preprocessing pipeline
+# ghi9012 feat: add categorical encoding with target encoder
+# jkl3456 feat: add missing value imputation for numerical columns</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Commit History</div><div class="pd">Create a series of meaningful commits: create 3 Python files, commit each separately with descriptive messages, then use git log and git diff to explore the history.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-bash"># TODO: Create src/load_data.py with a dummy function
+# TODO: git add and commit with message &quot;feat: add data loading module&quot;
+# TODO: Create src/clean_data.py with a dummy function
+# TODO: git add and commit with message &quot;feat: add data cleaning module&quot;
+# TODO: Modify src/load_data.py (add a new function)
+# TODO: git diff to see the changes
+# TODO: git add and commit with message &quot;feat: add CSV validation to data loader&quot;
+# TODO: git log --oneline to see your 3 commits
+# TODO: git log --stat to see files changed per commit</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create 3 files in sequence, committing each with a descriptive message following &#x27;type: description&#x27; format</label></li>
+<li><label><input type="checkbox"> Modify a committed file, then use git diff and git diff --staged to see the difference</label></li>
+<li><label><input type="checkbox"> Practice git reset --soft HEAD~1 — undo a commit and recommit with a better message</label></li>
+<li><label><input type="checkbox"> Use git log --grep=&#x27;feat&#x27; to filter only feature commits in your history</label></li>
+<li><label><input type="checkbox"> Try git revert on a specific commit and confirm the undo commit appears in git log</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Branching &amp; Merging</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Branches let you work on features, experiments, or fixes in isolation without affecting the main codebase. Merging combines branches back together.</p><div class="code-block"><div class="ch"><span>Creating and switching branches</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-bash"># List all branches (* = current)
+git branch
+
+# Create a new branch
+git branch feature/add-model
+
+# Switch to it
+git switch feature/add-model
+# or older syntax: git checkout feature/add-model
+
+# Create AND switch in one command
+git switch -c feature/add-model
+# or: git checkout -b feature/add-model
+
+# List all branches including remote
+git branch -a
+
+# Rename a branch
+git branch -m old-name new-name
+
+# Delete a merged branch
+git branch -d feature/add-model
+
+# Force delete an unmerged branch (CAREFUL!)
+git branch -D experiment/failed-approach</code></pre></div><div class="code-block"><div class="ch"><span>Merging branches</span><button onclick="cp('c2_1')">Copy</button></div><pre><code id="c2_1" class="language-bash"># Merge feature branch into main
+git switch main
+git merge feature/add-model
+
+# Three types of merge:
+# 1. Fast-forward — main hasn&#x27;t diverged, just moves pointer
+#    (clean, linear history)
+git merge feature/add-model  # fast-forward if possible
+
+# 2. No fast-forward — always creates a merge commit
+#    (preserves branch history)
+git merge --no-ff feature/add-model
+
+# 3. Squash — combines all branch commits into one
+#    (clean main history)
+git merge --squash feature/add-model
+git commit -m &quot;feat: add ML model training pipeline&quot; </code></pre></div><div class="code-block"><div class="ch"><span>Resolving merge conflicts</span><button onclick="cp('c2_2')">Copy</button></div><pre><code id="c2_2" class="language-bash"># When two branches modify the same lines, Git can&#x27;t auto-merge
+git merge feature/update-model
+# CONFLICT (content): Merge conflict in src/model.py
+
+# Open the file — Git marks conflicts like this:
+# &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+# model = RandomForestClassifier(n_estimators=100)
+# =======
+# model = XGBClassifier(n_estimators=200, learning_rate=0.1)
+# &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/update-model
+
+# To resolve:
+# 1. Edit the file — keep what you want, remove markers
+# 2. Stage the resolved file
+git add src/model.py
+# 3. Complete the merge
+git commit -m &quot;merge: resolve model selection conflict, keep XGBoost&quot;
+
+# Abort a merge if things go wrong
+git merge --abort</code></pre></div><div class="code-block"><div class="ch"><span>Common branching strategies</span><button onclick="cp('c2_3')">Copy</button></div><pre><code id="c2_3" class="language-bash"># Branch naming conventions:
+# feature/   — new functionality
+# fix/       — bug fixes
+# experiment/— DS experiments (may be thrown away)
+# hotfix/    — urgent production fixes
+# docs/      — documentation updates
+
+# Example: Data Science experiment workflow
+git switch -c experiment/lstm-vs-transformer
+
+# ... do your work, commit results ...
+git add notebooks/lstm_experiment.ipynb
+git commit -m &quot;experiment: LSTM achieves 0.87 F1&quot;
+
+git add notebooks/transformer_experiment.ipynb
+git commit -m &quot;experiment: Transformer achieves 0.92 F1&quot;
+
+# Winner! Merge back
+git switch main
+git merge experiment/lstm-vs-transformer
+git branch -d experiment/lstm-vs-transformer</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Feature Branch Workflow for a DS Team</div><div class="rd">A 3-person data science team uses feature branches to work on different parts of a project simultaneously without stepping on each other&#x27;s toes.</div><pre><code class="language-bash"># Alice works on data preprocessing
+git switch -c feature/preprocessing
+# ... makes commits ...
+git commit -m &quot;feat: add outlier detection with IQR method&quot;
+git commit -m &quot;feat: add feature scaling pipeline&quot;
+
+# Bob works on model training
+git switch -c feature/model-training
+# ... makes commits ...
+git commit -m &quot;feat: add XGBoost training with cross-validation&quot;
+git commit -m &quot;feat: add hyperparameter search with Optuna&quot;
+
+# Carol works on evaluation
+git switch -c feature/evaluation
+# ... makes commits ...
+git commit -m &quot;feat: add classification report and confusion matrix&quot;
+
+# When ready, each person merges to main:
+git switch main
+git merge --no-ff feature/preprocessing
+git merge --no-ff feature/model-training
+git merge --no-ff feature/evaluation
+
+# Clean up
+git branch -d feature/preprocessing feature/model-training feature/evaluation
+
+# View the branch history
+git log --oneline --graph -10</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a branch called &#x27;experiment/test&#x27;, make a commit, then delete it</label></li>
+<li><label><input type="checkbox"> Practice a fast-forward merge and a no-ff merge — view git log --graph after each</label></li>
+<li><label><input type="checkbox"> Deliberately create a merge conflict in a file, then resolve it manually</label></li>
+<li><label><input type="checkbox"> Use git branch -a to list all local and remote branches</label></li>
+<li><label><input type="checkbox"> Rename your current branch using git branch -m old-name new-name</label></li></ul></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. Remote Repositories — GitHub, GitLab, Bitbucket</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Remote repos host your code in the cloud for backup, collaboration, and deployment. GitHub is the most popular platform for data science projects.</p><div class="code-block"><div class="ch"><span>Connecting to a remote</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-bash"># Add a remote (usually called &#x27;origin&#x27;)
+git remote add origin https://github.com/username/my-project.git
+
+# View remotes
+git remote -v
+
+# Push your code to the remote
+git push -u origin main    # -u sets up tracking (first time only)
+
+# Subsequent pushes
+git push
+
+# Clone an existing repo
+git clone https://github.com/username/project.git
+git clone https://github.com/username/project.git my-local-name
+
+# Clone only the latest snapshot (faster for large repos)
+git clone --depth 1 https://github.com/username/project.git</code></pre></div><div class="code-block"><div class="ch"><span>Pulling and fetching changes</span><button onclick="cp('c3_1')">Copy</button></div><pre><code id="c3_1" class="language-bash"># Fetch — download remote changes (doesn&#x27;t modify your files)
+git fetch origin
+
+# See what changed on remote
+git log origin/main --oneline -5
+
+# Pull — fetch + merge (updates your files)
+git pull origin main
+
+# Pull with rebase (cleaner history)
+git pull --rebase origin main
+
+# If pull causes conflicts, resolve them then:
+git add .
+git rebase --continue   # if rebasing
+# or
+git commit              # if merging</code></pre></div><div class="code-block"><div class="ch"><span>Working with forks (open source contribution)</span><button onclick="cp('c3_2')">Copy</button></div><pre><code id="c3_2" class="language-bash"># 1. Fork a repo on GitHub (click Fork button)
+
+# 2. Clone YOUR fork
+git clone https://github.com/YOUR-USERNAME/project.git
+cd project
+
+# 3. Add the original repo as &#x27;upstream&#x27;
+git remote add upstream https://github.com/ORIGINAL-OWNER/project.git
+
+# 4. Keep your fork updated
+git fetch upstream
+git switch main
+git merge upstream/main
+git push origin main
+
+# 5. Create a branch for your contribution
+git switch -c fix/typo-in-readme
+
+# 6. Make changes, commit, push to YOUR fork
+git commit -am &quot;fix: correct typo in installation instructions&quot;
+git push origin fix/typo-in-readme
+
+# 7. Open a Pull Request on GitHub (from your fork to original)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Setting Up a Team Repository</div><div class="rd">A data science team sets up a shared GitHub repo with branch protection, a good README, and collaboration rules.</div><pre><code class="language-bash"># Team lead creates the repo
+mkdir team-ml-project &amp;&amp; cd team-ml-project
+git init
+git switch -c main
+
+# Create essential files
+cat &gt; README.md &lt;&lt; &#x27;EOF&#x27;
+# Churn Prediction Model
+
+## Setup
+pip install -r requirements.txt
+
+## Project Structure
+src/          — source code
+notebooks/    — exploration notebooks
+tests/        — unit tests
+models/       — trained model artifacts (gitignored)
+data/         — datasets (gitignored)
+
+## Workflow
+1. Create a branch: git switch -c feature/your-feature
+2. Make changes and commit
+3. Push and open a Pull Request
+4. Get review, then merge
+EOF
+
+echo &quot;pandas&gt;=2.0
+scikit-learn&gt;=1.3
+xgboost&gt;=2.0&quot; &gt; requirements.txt
+
+git add .
+git commit -m &quot;chore: initial project setup with README and requirements&quot;
+
+# Push to GitHub
+git remote add origin https://github.com/team/churn-prediction.git
+git push -u origin main
+
+# On GitHub: Settings → Branches → Add rule for &#x27;main&#x27;:
+#   ✓ Require pull request reviews
+#   ✓ Require status checks to pass
+#   ✓ No direct pushes to main</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Simulate a Collaboration Workflow</div><div class="pd">Create a repo, simulate 2 developers by creating branches, making conflicting changes, and resolving the merge conflict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-bash"># TODO: Create a repo with a file src/config.py containing:
+#   MODEL_TYPE = &quot;random_forest&quot;
+#   N_ESTIMATORS = 100
+
+# TODO: Create branch &#x27;dev-alice&#x27;, change MODEL_TYPE to &quot;xgboost&quot;
+# TODO: Commit on dev-alice
+
+# TODO: Switch back to main
+# TODO: Create branch &#x27;dev-bob&#x27;, change MODEL_TYPE to &quot;lightgbm&quot;
+# TODO: Commit on dev-bob
+
+# TODO: Merge dev-alice into main (should work cleanly)
+# TODO: Try to merge dev-bob into main (conflict!)
+# TODO: Resolve the conflict, commit the merge
+# TODO: git log --oneline --graph to see the result</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Clone a public GitHub repo locally and inspect git remote -v</label></li>
+<li><label><input type="checkbox"> Add a second remote called &#x27;backup&#x27; pointing to a different URL, then remove it</label></li>
+<li><label><input type="checkbox"> Use git fetch followed by git log origin/main --oneline -5 to preview remote changes</label></li>
+<li><label><input type="checkbox"> Practice git pull --rebase and confirm your local commits sit on top of remote ones</label></li>
+<li><label><input type="checkbox"> Fork a repo on GitHub, add the original as upstream, and sync your fork with upstream/main</label></li></ul></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Pull Requests &amp; Code Review</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pull requests (PRs) are how teams review and discuss code changes before merging. They&#x27;re essential for quality, knowledge sharing, and catching bugs early.</p><div class="code-block"><div class="ch"><span>Creating a pull request with GitHub CLI</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-bash"># Install GitHub CLI: https://cli.github.com
+# Authenticate
+gh auth login
+
+# Create a PR from current branch
+gh pr create --title &quot;feat: add feature engineering pipeline&quot; \
+             --body &quot;## Changes
+- Added outlier detection
+- Added feature scaling
+- Added polynomial features
+
+## Testing
+- Unit tests pass
+- Tested on sample dataset&quot;
+
+# Create a draft PR (not ready for review yet)
+gh pr create --draft --title &quot;WIP: experiment with LSTM model&quot;
+
+# List open PRs
+gh pr list
+
+# View PR details
+gh pr view 42
+
+# Check out someone&#x27;s PR locally for testing
+gh pr checkout 42</code></pre></div><div class="code-block"><div class="ch"><span>Reviewing a pull request</span><button onclick="cp('c4_1')">Copy</button></div><pre><code id="c4_1" class="language-bash"># View PR diff
+gh pr diff 42
+
+# Add a review comment
+gh pr review 42 --comment --body &quot;Looks good, but please add docstrings to the new functions&quot;
+
+# Approve a PR
+gh pr review 42 --approve --body &quot;LGTM! Great work on the preprocessing pipeline&quot;
+
+# Request changes
+gh pr review 42 --request-changes --body &quot;Please add error handling for missing columns&quot;
+
+# Merge a PR
+gh pr merge 42 --merge    # regular merge commit
+gh pr merge 42 --squash   # squash all commits into one
+gh pr merge 42 --rebase   # rebase onto main</code></pre></div><div class="code-block"><div class="ch"><span>PR best practices for data science</span><button onclick="cp('c4_2')">Copy</button></div><pre><code id="c4_2" class="language-bash"># Good PR structure for DS projects:
+
+# 1. Small, focused PRs (not 2000-line monsters)
+# ✗ &quot;Add entire ML pipeline&quot; (1500 lines)
+# ✓ &quot;Add data preprocessing&quot; → &quot;Add model training&quot; → &quot;Add evaluation&quot;
+
+# 2. Clear description with context
+# - What does this PR do?
+# - Why is this change needed?
+# - How was it tested?
+# - Any metrics/results?
+
+# 3. Include results for model changes
+# &quot;Model accuracy: 0.85 → 0.92 (+7pp)
+#  F1 score: 0.82 → 0.89
+#  Tested on holdout set (n=5,000)&quot;
+
+# 4. Don&#x27;t include notebooks with outputs in PR
+#   (outputs make diffs unreadable)
+#   Clear outputs before committing:
+jupyter nbconvert --clear-output --inplace notebook.ipynb</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Complete PR Workflow</div><div class="rd">Walk through a complete pull request lifecycle — from creating a feature branch to merging after code review.</div><pre><code class="language-bash"># 1. Start from updated main
+git switch main
+git pull origin main
+
+# 2. Create feature branch
+git switch -c feature/add-cross-validation
+
+# 3. Make changes (multiple small commits)
+git add src/evaluation.py
+git commit -m &quot;feat: add k-fold cross-validation function&quot;
+
+git add tests/test_evaluation.py
+git commit -m &quot;test: add CV tests with synthetic data&quot;
+
+git add src/config.py
+git commit -m &quot;chore: add CV_FOLDS parameter to config&quot;
+
+# 4. Push branch to remote
+git push -u origin feature/add-cross-validation
+
+# 5. Create PR
+gh pr create --title &quot;feat: add k-fold cross-validation&quot; \
+  --body &quot;## Summary
+- Added stratified k-fold CV with configurable folds
+- Default: 5 folds (set in config.py)
+- Returns mean ± std for each metric
+
+## Test Plan
+- [x] Unit tests pass
+- [x] Tested on iris dataset (accuracy: 0.96 ± 0.02)
+
+## Metrics
+| Metric | Before (holdout) | After (5-fold CV) |
+|--------|------------------|--------------------|
+| Accuracy | 0.94 | 0.96 ± 0.02 |&quot;
+
+# 6. After review and approval
+gh pr merge --squash</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install GitHub CLI (gh) and authenticate with gh auth login</label></li>
+<li><label><input type="checkbox"> Create a feature branch, push it, and open a PR using gh pr create</label></li>
+<li><label><input type="checkbox"> Use gh pr checkout to check out a teammate&#x27;s PR locally and run the tests</label></li>
+<li><label><input type="checkbox"> Write a PR description that includes: what changed, why, and model metrics</label></li>
+<li><label><input type="checkbox"> Practice merging a PR with --squash and verify git log shows a single clean commit</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. .gitignore for Data Science</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A well-crafted .gitignore prevents large data files, model artifacts, credentials, and OS junk from entering your repository. This is critical for DS projects.</p><div class="code-block"><div class="ch"><span>Comprehensive DS .gitignore</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-text"># .gitignore for Data Science projects
+
+# ─── Data files ─────────────────────────────
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.sqlite
+*.db
+data/raw/
+data/processed/
+data/external/
+
+# ─── Model artifacts ────────────────────────
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.h5
+*.onnx
+*.pmml
+models/
+
+# ─── Notebooks ──────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ─── Python ─────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+
+# ─── Environments ───────────────────────────
+.env
+.venv/
+venv/
+env/
+*.env.local
+
+# ─── IDE ────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── OS ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Logs &amp; temp ────────────────────────────
+*.log
+logs/
+tmp/
+.cache/
+wandb/
+mlruns/</code></pre></div><div class="code-block"><div class="ch"><span>Useful .gitignore patterns</span><button onclick="cp('c5_1')">Copy</button></div><pre><code id="c5_1" class="language-bash"># Ignore everything in a directory, but keep the directory
+data/raw/*
+!data/raw/.gitkeep
+
+# Ignore all CSVs except a specific one
+*.csv
+!reference_data.csv
+
+# Ignore files only in root (not subdirectories)
+/config.local.py
+
+# Ignore by directory depth
+**/logs/       # ignore &#x27;logs&#x27; at any depth
+debug/         # ignore &#x27;debug&#x27; only at root
+
+# Negate a pattern (un-ignore)
+*.h5
+!models/production_model.h5
+
+# Check what&#x27;s ignored
+git status --ignored
+
+# Check if a specific file is ignored
+git check-ignore -v data/train.csv</code></pre></div><div class="code-block"><div class="ch"><span>Fixing accidentally committed files</span><button onclick="cp('c5_2')">Copy</button></div><pre><code id="c5_2" class="language-bash"># Oops! You committed a large CSV file
+# Remove from Git tracking (keep the file locally)
+git rm --cached data/large_dataset.csv
+echo &quot;data/large_dataset.csv&quot; &gt;&gt; .gitignore
+git add .gitignore
+git commit -m &quot;chore: remove large CSV from tracking, add to gitignore&quot;
+
+# Remove an entire directory from tracking
+git rm -r --cached __pycache__/
+git commit -m &quot;chore: remove pycache from tracking&quot;
+
+# Nuclear option: remove file from ALL history (if it contained secrets)
+# WARNING: rewrites history, coordinate with team!
+git filter-branch --force --index-filter \
+  &#x27;git rm --cached --ignore-unmatch secrets.env&#x27; \
+  --prune-empty -- --all
+
+# Better tool for history rewriting:
+# pip install git-filter-repo
+# git filter-repo --invert-paths --path secrets.env</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Auditing a Repo for Sensitive Files</div><div class="rd">Before making a private repo public, you need to check for accidentally committed secrets, large files, and sensitive data.</div><pre><code class="language-bash"># Check for large files in history
+git rev-list --objects --all | \
+  git cat-file --batch-check=&#x27;%(objecttype) %(objectname) %(objectsize) %(rest)&#x27; | \
+  awk &#x27;/^blob/ {print $3, $4}&#x27; | \
+  sort -rn | head -20
+
+# Search for potential secrets in commit history
+git log --all -p | grep -i &quot;password\|secret\|api_key\|token&quot; | head -20
+
+# List all file types ever committed
+git log --all --diff-filter=A --name-only --pretty=format: | \
+  grep -o &#x27;\.[^.]*$&#x27; | sort | uniq -c | sort -rn
+
+# Check current gitignore coverage
+git status --ignored --short
+
+# Verify no .env files in history
+git log --all --full-history -- &quot;*.env&quot; --oneline
+
+# Verify no large files currently tracked
+git ls-files | xargs -I{} git cat-file -s HEAD:{} 2&gt;/dev/null | \
+  sort -rn | head -10</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .gitignore from scratch for a Python DS project covering data, models, envs, and OS files</label></li>
+<li><label><input type="checkbox"> Accidentally commit a .csv file, then use git rm --cached to untrack it without deleting locally</label></li>
+<li><label><input type="checkbox"> Use git check-ignore -v on several file paths to confirm they are properly ignored</label></li>
+<li><label><input type="checkbox"> Use the !negation pattern to ignore all *.h5 files but keep one specific model file</label></li>
+<li><label><input type="checkbox"> Run git status --ignored to audit what is currently being ignored in your repo</label></li></ul></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Git Stash — Saving Work Temporarily</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stash lets you save uncommitted changes temporarily so you can switch branches, pull updates, or do other work, then come back to your changes later.</p><div class="code-block"><div class="ch"><span>Basic stash operations</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-bash"># Save current changes to stash
+git stash
+
+# Save with a description
+git stash push -m &quot;WIP: feature engineering experiments&quot;
+
+# List all stashes
+git stash list
+# stash@{0}: On feature/model: WIP: feature engineering experiments
+# stash@{1}: On main: quick debug session
+
+# Apply most recent stash (keep it in stash list)
+git stash apply
+
+# Apply and remove from stash list
+git stash pop
+
+# Apply a specific stash
+git stash apply stash@{1}
+
+# Remove a specific stash
+git stash drop stash@{0}
+
+# Clear all stashes
+git stash clear</code></pre></div><div class="code-block"><div class="ch"><span>Advanced stash usage</span><button onclick="cp('c6_1')">Copy</button></div><pre><code id="c6_1" class="language-bash"># Stash including untracked files
+git stash push -u -m &quot;WIP: including new files&quot;
+
+# Stash only specific files
+git stash push -m &quot;stash only model.py&quot; -- src/model.py
+
+# View what&#x27;s in a stash
+git stash show stash@{0}         # summary
+git stash show -p stash@{0}      # full diff
+
+# Create a branch from a stash
+git stash branch new-feature stash@{0}
+
+# Common workflow: quick context switch
+# You&#x27;re working on feature A, need to fix urgent bug
+git stash push -m &quot;WIP: feature A halfway done&quot;
+git switch main
+git switch -c hotfix/urgent-bug
+# ... fix the bug, commit, merge ...
+git switch feature-a
+git stash pop  # back to where you were!</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Stash Workflow for Interruptions</div><div class="rd">You&#x27;re deep in model training code when a colleague needs an urgent bug fix on main. Stash saves your context so you can switch and return seamlessly.</div><pre><code class="language-bash"># You&#x27;re on feature/train-pipeline with uncommitted changes
+git status
+# Modified: src/train.py, src/metrics.py (not ready to commit)
+
+# Urgent bug report! Stash everything
+git stash push -u -m &quot;WIP: training pipeline refactor&quot;
+
+# Fix the bug
+git switch main
+git pull
+git switch -c hotfix/data-loader-crash
+# ... fix the bug ...
+git commit -am &quot;fix: handle empty DataFrame in data loader&quot;
+git push -u origin hotfix/data-loader-crash
+# ... create PR, get it merged ...
+
+# Return to your work
+git switch feature/train-pipeline
+git stash pop
+# Your changes are back exactly as you left them!
+git status</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make some uncommitted edits, run git stash push -m &#x27;my wip&#x27;, then verify git status is clean</label></li>
+<li><label><input type="checkbox"> Create two stashes, list them with git stash list, and apply each one selectively</label></li>
+<li><label><input type="checkbox"> Use git stash show -p stash@{0} to inspect the full diff stored in a stash</label></li>
+<li><label><input type="checkbox"> Stash only a single file using git stash push -- path/to/file.py</label></li>
+<li><label><input type="checkbox"> Create a branch directly from a stash using git stash branch and confirm changes are there</label></li></ul></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Tags &amp; Releases</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Tags mark specific points in history — typically used for version releases, model checkpoints, and experiment milestones. They create permanent bookmarks in your Git history.</p><div class="code-block"><div class="ch"><span>Creating and managing tags</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-bash"># Lightweight tag (just a pointer)
+git tag v1.0.0
+
+# Annotated tag (recommended — includes message, author, date)
+git tag -a v1.0.0 -m &quot;First production release&quot;
+
+# Tag a past commit
+git tag -a v0.9.0 -m &quot;Beta release&quot; abc1234
+
+# List tags
+git tag
+git tag -l &quot;v1.*&quot;    # filter by pattern
+
+# View tag details
+git show v1.0.0
+
+# Push tags to remote
+git push origin v1.0.0      # push one tag
+git push origin --tags       # push all tags
+
+# Delete a tag
+git tag -d v0.1.0            # local
+git push origin --delete v0.1.0  # remote</code></pre></div><div class="code-block"><div class="ch"><span>Semantic versioning for ML projects</span><button onclick="cp('c7_1')">Copy</button></div><pre><code id="c7_1" class="language-bash"># Semantic Versioning: MAJOR.MINOR.PATCH
+# MAJOR — breaking changes (new model architecture, API change)
+# MINOR — new features (added endpoint, new feature engineering)
+# PATCH — bug fixes (fixed preprocessing bug, typo)
+
+# ML-specific versioning strategy:
+# v1.0.0 — first production model
+# v1.1.0 — added new features to model
+# v1.1.1 — fixed data preprocessing bug
+# v2.0.0 — switched from RF to XGBoost (different model)
+
+# Tag with model metrics
+git tag -a v2.1.0 -m &quot;XGBoost v2.1
+Accuracy: 0.94
+F1: 0.91
+AUC: 0.97
+Training data: 2024-01-01 to 2024-06-30
+Features: 47 (added 5 new interaction features)&quot;
+
+# Create a GitHub release (includes downloadable assets)
+gh release create v2.1.0 --title &quot;Model v2.1.0&quot; \
+  --notes &quot;Improved model with 5 new interaction features.
+  Accuracy: 0.94 (+2pp vs v2.0.0)&quot;
+</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Release Workflow for ML Models</div><div class="rd">A team uses tags to version their ML model releases, making it easy to roll back to any previous model version in production.</div><pre><code class="language-bash"># After model training and validation passes
+git add src/ tests/ configs/
+git commit -m &quot;feat: XGBoost v2 with optimized hyperparameters&quot;
+
+# Tag the release with metrics
+git tag -a model-v2.1.0 -m &quot;Production model release
+Model: XGBoost
+Accuracy: 0.943 | F1: 0.912 | AUC: 0.971
+Training samples: 150,000
+Feature count: 47
+Hyperparams: max_depth=6, lr=0.05, n_est=500&quot;
+
+# Push code and tag
+git push origin main --tags
+
+# Create GitHub release with model card
+gh release create model-v2.1.0 \
+  --title &quot;Model v2.1.0 — XGBoost Production&quot; \
+  --notes-file RELEASE_NOTES.md
+
+# Later: need to roll back to v2.0.0
+git checkout model-v2.0.0 -- src/model.py configs/model_config.yaml
+# This restores just the model files from the v2.0.0 tag</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an annotated tag on your current commit with version, model metrics, and a short description</label></li>
+<li><label><input type="checkbox"> Push your tag to a remote and verify it appears under Releases on GitHub</label></li>
+<li><label><input type="checkbox"> Use git tag -l &#x27;v*&#x27; to list all version tags and git show to inspect one</label></li>
+<li><label><input type="checkbox"> Delete a local tag with git tag -d, recreate it on a different commit, then push --tags</label></li>
+<li><label><input type="checkbox"> Use git checkout &lt;tag&gt; -- file.py to restore a single file from a specific tagged version</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Rebase &amp; Interactive Rebase</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Rebase replays your commits on top of another branch, creating a linear history. Interactive rebase lets you edit, squash, reorder, and clean up commits before sharing.</p><div class="code-block"><div class="ch"><span>Basic rebase</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-bash"># Instead of merging main into your branch (creates merge commit):
+git switch feature/model
+git merge main  # creates a merge commit
+
+# Rebase puts your commits on TOP of main (linear history):
+git switch feature/model
+git rebase main
+
+# After rebase, your branch looks like:
+# main: A—B—C
+# feature:     D—E—F  (your commits replayed on top of C)
+
+# If conflicts occur during rebase:
+git add resolved_file.py
+git rebase --continue
+
+# Abort if things go wrong
+git rebase --abort</code></pre></div><div class="code-block"><div class="ch"><span>Interactive rebase — cleaning up commits</span><button onclick="cp('c8_1')">Copy</button></div><pre><code id="c8_1" class="language-bash"># Clean up last 4 commits before creating a PR
+git rebase -i HEAD~4
+
+# Opens editor with:
+# pick abc1234 WIP: start model training
+# pick def5678 fix typo
+# pick ghi9012 more work on training
+# pick jkl3456 finish model training
+
+# Change to:
+# pick abc1234 WIP: start model training
+# squash def5678 fix typo              ← merge into previous
+# squash ghi9012 more work on training ← merge into previous
+# reword jkl3456 finish model training ← change message
+
+# Commands:
+# pick   — keep the commit as is
+# squash — merge into previous commit
+# fixup  — like squash but discard this commit&#x27;s message
+# reword — keep commit, edit message
+# edit   — pause to amend the commit
+# drop   — delete the commit</code></pre></div><div class="code-block"><div class="ch"><span>The golden rule of rebase</span><button onclick="cp('c8_2')">Copy</button></div><pre><code id="c8_2" class="language-bash"># NEVER rebase commits that have been pushed and shared with others!
+# Rebase rewrites history — this will cause problems for collaborators
+
+# Safe: rebase your LOCAL commits before pushing
+git switch feature/my-work
+git rebase main        # OK — only your local commits
+git push               # push clean history
+
+# DANGEROUS: rebase after pushing
+git push origin feature/my-work
+git rebase main        # Rewrites already-pushed commits!
+git push --force       # Forces overwrite — breaks collaborators!
+
+# If you must update after push, use merge instead:
+git switch feature/my-work
+git merge main         # Safe even after pushing</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Cleaning Messy History Before PR</div><div class="rd">You made 8 messy commits during development (including &#x27;WIP&#x27;, &#x27;fix typo&#x27;, &#x27;oops&#x27;). Clean them into 3 logical commits before requesting code review.</div><pre><code class="language-bash"># Your messy history:
+# abc1234 oops, forgot to save
+# def5678 fix import
+# ghi9012 WIP: add feature scaling
+# jkl3456 fix bug in scaling
+# mno7890 add model training
+# pqr1234 fix typo in training
+# stu5678 add evaluation metrics
+# vwx9012 fix metric calculation
+
+# Interactive rebase to clean up
+git rebase -i HEAD~8
+
+# Result after squashing related commits:
+# pick ghi9012 feat: add feature scaling pipeline
+# pick mno7890 feat: add model training with XGBoost
+# pick stu5678 feat: add evaluation metrics (accuracy, F1, AUC)
+
+# Now push the clean branch
+git push origin feature/ml-pipeline
+
+# Your PR will show 3 clean, logical commits instead of 8 messy ones</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make 4 small commits (including &#x27;WIP&#x27; and &#x27;fix typo&#x27;), then squash them into 1 with git rebase -i</label></li>
+<li><label><input type="checkbox"> Use git rebase main on a feature branch and compare the log to a merge-based approach</label></li>
+<li><label><input type="checkbox"> Practice the &#x27;reword&#x27; command in interactive rebase to rename a commit message</label></li>
+<li><label><input type="checkbox"> Use &#x27;drop&#x27; in interactive rebase to delete a commit entirely and verify it&#x27;s gone in git log</label></li>
+<li><label><input type="checkbox"> Rebase a branch with a conflict — resolve it, then complete with git rebase --continue</label></li></ul></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Git for Jupyter Notebooks</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Notebooks are JSON files with embedded outputs, making them hard to diff and version. These techniques keep notebooks manageable in Git.</p><div class="code-block"><div class="ch"><span>The notebook problem and solutions</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-bash"># Jupyter notebooks (.ipynb) are JSON — diffs are messy:
+# - Cell outputs (images, tables) bloat the repo
+# - Execution counts change on every run
+# - Cell metadata changes randomly
+# - Merge conflicts are nearly impossible to resolve
+
+# Solution 1: Clear outputs before committing
+jupyter nbconvert --clear-output --inplace notebook.ipynb
+git add notebook.ipynb
+git commit -m &quot;feat: add EDA notebook (outputs cleared)&quot;
+
+# Solution 2: Automate with pre-commit hook
+# .pre-commit-config.yaml
+# repos:
+#   - repo: https://github.com/kynan/nbstripout
+#     hooks:
+#       - id: nbstripout
+
+# Solution 3: Install nbstripout globally for a repo
+pip install nbstripout
+nbstripout --install         # adds Git filter
+# Now outputs are automatically stripped on commit!</code></pre></div><div class="code-block"><div class="ch"><span>nbdime — better notebook diffs</span><button onclick="cp('c9_1')">Copy</button></div><pre><code id="c9_1" class="language-bash"># Install nbdime for human-readable notebook diffs
+pip install nbdime
+
+# Configure Git to use nbdime
+nbdime config-git --enable --global
+
+# Now &#x27;git diff&#x27; shows notebook changes in a readable format
+git diff notebook.ipynb
+# Instead of raw JSON, you see:
+# Cell 3 (code):
+# -  model = RandomForestClassifier()
+# +  model = XGBClassifier(n_estimators=200)
+
+# Visual diff tool (opens in browser)
+nbdime diff notebook_v1.ipynb notebook_v2.ipynb
+
+# Merge tool for notebooks
+nbdime merge base.ipynb local.ipynb remote.ipynb</code></pre></div><div class="code-block"><div class="ch"><span>Pairing notebooks with .py scripts</span><button onclick="cp('c9_2')">Copy</button></div><pre><code id="c9_2" class="language-bash"># Use jupytext to sync .ipynb with .py files
+pip install jupytext
+
+# Convert notebook to Python script
+jupytext --to py:percent notebook.ipynb
+# Creates notebook.py with # %% cell markers
+
+# Sync both formats (edit either one)
+jupytext --set-formats ipynb,py:percent notebook.ipynb
+
+# In .gitignore, you can then ignore .ipynb and only track .py:
+# *.ipynb    ← ignore notebooks
+# !*.py      ← track Python scripts
+
+# Or track both but strip outputs from .ipynb:
+# Use nbstripout for .ipynb
+# Track .py as the &quot;source of truth&quot; </code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Notebook Workflow for a DS Team</div><div class="rd">A team establishes a clean workflow for sharing Jupyter notebooks through Git without the usual pain of merge conflicts and bloated diffs.</div><pre><code class="language-bash"># Team setup (run once)
+pip install nbstripout nbdime jupytext
+
+# In the project repo
+nbstripout --install
+nbdime config-git --enable
+
+# Team convention:
+# 1. Notebooks in notebooks/ directory
+# 2. Outputs always stripped on commit (nbstripout)
+# 3. Each notebook has a paired .py script (jupytext)
+# 4. PRs review the .py diff (much cleaner)
+# 5. Final notebooks with outputs go to reports/
+
+# Example workflow
+cd notebooks/
+jupytext --set-formats ipynb,py:percent eda.ipynb
+
+# Edit the notebook, run cells, then:
+git add notebooks/eda.py          # clean Python diff
+git add notebooks/eda.ipynb       # outputs auto-stripped
+git commit -m &quot;feat: add EDA notebook with correlation analysis&quot;
+
+# Reviewer sees clean diff in eda.py, not messy JSON</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Up Notebook-Friendly Git</div><div class="pd">Configure a repo for clean notebook versioning: install nbstripout, create a .gitattributes for notebooks, and test that outputs are stripped on commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-bash"># TODO: Create a test repo
+# TODO: pip install nbstripout
+# TODO: nbstripout --install (in the repo)
+# TODO: Create a simple notebook with some output cells
+# TODO: git add and commit the notebook
+# TODO: Check that the committed version has no outputs:
+#   git show HEAD:notebook.ipynb | python -c &quot;
+#   import json, sys
+#   nb = json.load(sys.stdin)
+#   outputs = sum(len(c.get(&#x27;outputs&#x27;,[])) for c in nb[&#x27;cells&#x27;])
+#   print(f&#x27;Outputs in committed notebook: {outputs}&#x27;)
+#   &quot; </code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install nbstripout, run nbstripout --install in a repo, then commit a notebook and verify outputs are gone</label></li>
+<li><label><input type="checkbox"> Install jupytext and convert a notebook to a .py:percent script — commit both and compare diffs</label></li>
+<li><label><input type="checkbox"> Run nbdime config-git --enable then use git diff on a changed notebook to see the readable output</label></li>
+<li><label><input type="checkbox"> Deliberately commit a notebook with outputs, then use git rm --cached to untrack and strip it</label></li>
+<li><label><input type="checkbox"> Add .ipynb_checkpoints/ to .gitignore and confirm checkpoint folders no longer appear in git status</label></li></ul></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Git Hooks &amp; Automation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Git hooks are scripts that run automatically at specific points in the Git workflow — before commits, before pushes, etc. They automate code quality checks.</p><div class="code-block"><div class="ch"><span>Common hooks for data science</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-bash"># Hooks live in .git/hooks/ (local, not shared by default)
+# Use pre-commit framework to share hooks with team
+
+# Install pre-commit
+pip install pre-commit
+
+# Create .pre-commit-config.yaml in repo root
+cat &gt; .pre-commit-config.yaml &lt;&lt; &#x27;EOF&#x27;
+repos:
+  # Code formatting
+  - repo: https://github.com/psf/black
+    rev: 24.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  # Linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=120]
+
+  # Strip notebook outputs
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+
+  # Check for secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+EOF
+
+# Install the hooks
+pre-commit install
+
+# Now these checks run automatically before every commit!
+# To run manually on all files:
+pre-commit run --all-files</code></pre></div><div class="code-block"><div class="ch"><span>Custom pre-commit hook</span><button onclick="cp('c10_1')">Copy</button></div><pre><code id="c10_1" class="language-bash"># Create a custom hook that checks for large files
+cat &gt; .git/hooks/pre-commit &lt;&lt; &#x27;HOOK&#x27;
+#!/bin/bash
+# Prevent commits with files larger than 5MB
+
+MAX_SIZE=5242880  # 5MB in bytes
+EXIT_CODE=0
+
+for file in $(git diff --cached --name-only); do
+    if [ -f &quot;$file&quot; ]; then
+        size=$(wc -c &lt; &quot;$file&quot;)
+        if [ &quot;$size&quot; -gt &quot;$MAX_SIZE&quot; ]; then
+            echo &quot;ERROR: $file is $(($size/1048576))MB (max 5MB)&quot;
+            echo &quot;  Use Git LFS for large files: git lfs track &#x27;$file&#x27;&quot;
+            EXIT_CODE=1
+        fi
+    fi
+done
+
+exit $EXIT_CODE
+HOOK
+
+chmod +x .git/hooks/pre-commit</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Automated Quality Gates for ML Projects</div><div class="rd">A team sets up pre-commit hooks that enforce code formatting, prevent secrets from being committed, and validate that model configs are valid JSON.</div><pre><code class="language-bash"># .pre-commit-config.yaml with DS-specific hooks
+cat &gt; .pre-commit-config.yaml &lt;&lt; &#x27;EOF&#x27;
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: no-commit-to-branch
+        args: [--branch, main]   # prevent direct commits to main
+
+  - repo: https://github.com/psf/black
+    rev: 24.1.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+EOF
+
+pre-commit install
+pre-commit run --all-files
+
+# Now every commit is automatically checked!
+# Team members just need to run: pre-commit install</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install pre-commit, create a .pre-commit-config.yaml with black, and run pre-commit install</label></li>
+<li><label><input type="checkbox"> Run pre-commit run --all-files on a project and fix any formatting issues it reports</label></li>
+<li><label><input type="checkbox"> Write a custom .git/hooks/pre-commit shell script that rejects commits with &#x27;TODO&#x27; in staged files</label></li>
+<li><label><input type="checkbox"> Add the check-added-large-files hook and verify it blocks a file larger than your threshold</label></li>
+<li><label><input type="checkbox"> Add detect-secrets to your hooks and confirm it catches a fake API key you add to a test file</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Git LFS — Large File Storage</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Git LFS stores large files (datasets, model weights, images) outside the Git repo while keeping references in your history. Essential for ML projects with large artifacts.</p><div class="code-block"><div class="ch"><span>Setting up Git LFS</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-bash"># Install Git LFS
+git lfs install
+
+# Track specific file types
+git lfs track &quot;*.csv&quot;
+git lfs track &quot;*.parquet&quot;
+git lfs track &quot;*.pkl&quot;
+git lfs track &quot;*.pt&quot;
+git lfs track &quot;*.h5&quot;
+git lfs track &quot;data/**&quot;
+
+# This creates/updates .gitattributes
+cat .gitattributes
+# *.csv filter=lfs diff=lfs merge=lfs -text
+# *.parquet filter=lfs diff=lfs merge=lfs -text
+
+# IMPORTANT: commit .gitattributes first!
+git add .gitattributes
+git commit -m &quot;chore: configure Git LFS for data and model files&quot;
+
+# Now add large files normally — LFS handles them
+git add data/training_set.csv
+git commit -m &quot;data: add training dataset&quot;
+git push</code></pre></div><div class="code-block"><div class="ch"><span>Managing LFS files</span><button onclick="cp('c11_1')">Copy</button></div><pre><code id="c11_1" class="language-bash"># List tracked LFS patterns
+git lfs track
+
+# List actual LFS files in repo
+git lfs ls-files
+
+# Check LFS storage usage
+git lfs env
+
+# Pull LFS files (after clone)
+git lfs pull
+
+# Clone without downloading LFS files (faster)
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/user/project.git
+
+# Download LFS files for specific patterns only
+git lfs pull --include=&quot;data/train*&quot;
+git lfs pull --exclude=&quot;models/&quot;
+
+# Migrate existing files to LFS
+git lfs migrate import --include=&quot;*.csv&quot; --everything</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: LFS for ML Model Versioning</div><div class="rd">A team uses Git LFS to version model weights alongside code, so every tagged release includes the exact model binary that was deployed.</div><pre><code class="language-bash"># Initial setup
+git lfs install
+git lfs track &quot;models/*.pkl&quot;
+git lfs track &quot;models/*.pt&quot;
+git lfs track &quot;models/*.onnx&quot;
+git add .gitattributes
+git commit -m &quot;chore: track model files with Git LFS&quot;
+
+# After training a new model
+cp trained_model.pkl models/churn_model.pkl
+git add models/churn_model.pkl
+git commit -m &quot;model: XGBoost churn model v2.1 (F1=0.91)&quot;
+git tag -a model-v2.1.0 -m &quot;Churn model v2.1.0, F1=0.91&quot;
+git push origin main --tags
+
+# To reproduce: checkout the tag, model files are pulled automatically
+git checkout model-v2.1.0
+ls -la models/  # model file is there via LFS
+
+# Check LFS storage
+git lfs ls-files --size
+# models/churn_model.pkl (245 MB)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git lfs install, track *.pkl files, commit .gitattributes, and add a dummy pkl file</label></li>
+<li><label><input type="checkbox"> Use git lfs ls-files to confirm which files are stored via LFS in your repo</label></li>
+<li><label><input type="checkbox"> Clone a repo using GIT_LFS_SKIP_SMUDGE=1 and verify LFS files are only pointers</label></li>
+<li><label><input type="checkbox"> Use git lfs pull --include=&#x27;data/train*&#x27; to selectively download only the files you need</label></li>
+<li><label><input type="checkbox"> Check git lfs env to inspect your LFS storage quota and endpoint configuration</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Advanced Git — cherry-pick, bisect, reflog</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Power-user Git commands for specific situations: applying individual commits across branches, finding which commit introduced a bug, and recovering lost work.</p><div class="code-block"><div class="ch"><span>Cherry-pick — apply specific commits</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-bash"># Copy a specific commit from another branch
+git cherry-pick abc1234
+
+# Cherry-pick without committing (stage changes only)
+git cherry-pick --no-commit abc1234
+
+# Cherry-pick a range of commits
+git cherry-pick abc1234..def5678
+
+# Use case: backport a bug fix from development to production
+git switch production
+git cherry-pick abc1234  # the fix commit from dev branch
+git push
+
+# If conflicts occur
+git cherry-pick --continue  # after resolving
+git cherry-pick --abort     # to cancel</code></pre></div><div class="code-block"><div class="ch"><span>Git bisect — find the bug-introducing commit</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-bash"># Binary search through history to find which commit broke something
+git bisect start
+
+# Mark current commit as bad (bug is present)
+git bisect bad
+
+# Mark a known good commit (bug was NOT present)
+git bisect good v1.0.0
+
+# Git checks out a middle commit — test it!
+# If the bug is present:
+git bisect bad
+# If the bug is NOT present:
+git bisect good
+
+# Repeat until Git finds the exact commit
+# &quot;abc1234 is the first bad commit&quot;
+
+# Done — go back to normal
+git bisect reset
+
+# Automated bisect with a test script:
+git bisect start HEAD v1.0.0
+git bisect run python -m pytest tests/test_model.py -x
+# Git automatically finds the first failing commit!</code></pre></div><div class="code-block"><div class="ch"><span>Reflog — recover lost work</span><button onclick="cp('c12_2')">Copy</button></div><pre><code id="c12_2" class="language-bash"># Reflog tracks every HEAD movement — your safety net!
+git reflog
+# abc1234 HEAD@{0}: commit: add feature
+# def5678 HEAD@{1}: checkout: moving from main to feature
+# ghi9012 HEAD@{2}: commit: initial commit
+
+# Accidentally deleted a branch? Recover it!
+git branch -D important-branch  # oops!
+git reflog  # find the last commit on that branch
+git branch important-branch HEAD@{3}  # recovered!
+
+# Accidentally ran git reset --hard? Recover!
+git reset --hard HEAD~5  # oops, lost 5 commits!
+git reflog  # find where HEAD was before
+git reset --hard HEAD@{1}  # back to before the reset!
+
+# Reflog entries expire after 90 days (default)
+# Check expiry:
+git config gc.reflogExpire</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Debugging a Model Regression with Bisect</div><div class="rd">Your model&#x27;s accuracy dropped from 0.94 to 0.87 somewhere in the last 20 commits. Use git bisect with an automated test to find exactly which commit caused the regression.</div><pre><code class="language-bash"># Create a test script that checks model accuracy
+cat &gt; test_accuracy.sh &lt;&lt; &#x27;SCRIPT&#x27;
+#!/bin/bash
+# Returns 0 (good) if accuracy &gt; 0.90, 1 (bad) otherwise
+python -c &quot;
+from src.model import train_and_evaluate
+accuracy = train_and_evaluate(&#x27;data/test.csv&#x27;)
+print(f&#x27;Accuracy: {accuracy:.4f}&#x27;)
+exit(0 if accuracy &gt; 0.90 else 1)
+&quot;
+SCRIPT
+chmod +x test_accuracy.sh
+
+# Automated bisect
+git bisect start
+git bisect bad HEAD                    # current commit is bad
+git bisect good HEAD~20                # 20 commits ago was good
+git bisect run ./test_accuracy.sh      # automated testing!
+
+# Output: &quot;abc1234 is the first bad commit&quot;
+# commit abc1234
+# Author: Bob &lt;bob@company.com&gt;
+# Date: Mon Jan 15 14:30:00 2024
+# &quot;refactor: change feature scaling to min-max&quot;
+
+# Found it! The scaling change caused the regression
+git bisect reset
+rm test_accuracy.sh</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use git cherry-pick to copy a single bug-fix commit from one branch to another</label></li>
+<li><label><input type="checkbox"> Run git bisect manually on a small repo — mark bad and good commits until Git finds the culprit</label></li>
+<li><label><input type="checkbox"> Automate git bisect with a test script using git bisect run python -m pytest</label></li>
+<li><label><input type="checkbox"> Accidentally delete a branch, then recover it using git reflog and git branch</label></li>
+<li><label><input type="checkbox"> Run git reset --hard HEAD~2, then use git reflog to recover the two lost commits</label></li></ul></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Git Workflows for Teams</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Different teams use different branching strategies. Understanding these workflows helps you adapt to any team&#x27;s Git practices.</p><div class="code-block"><div class="ch"><span>GitHub Flow (simple, recommended for most teams)</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-bash"># GitHub Flow — simple and effective
+# Rules:
+# 1. main is always deployable
+# 2. Create feature branches from main
+# 3. Open PRs for review
+# 4. Merge to main after approval
+# 5. Deploy from main
+
+# Workflow:
+git switch main
+git pull
+git switch -c feature/add-prediction-endpoint
+
+# Work, commit, push
+git commit -am &quot;feat: add /predict endpoint&quot;
+git push -u origin feature/add-prediction-endpoint
+
+# Create PR → Review → Merge → Delete branch
+gh pr create
+# After merge:
+git switch main
+git pull
+git branch -d feature/add-prediction-endpoint</code></pre></div><div class="code-block"><div class="ch"><span>Git Flow (for versioned releases)</span><button onclick="cp('c13_1')">Copy</button></div><pre><code id="c13_1" class="language-bash"># Git Flow — more structured, good for versioned software
+# Branches:
+# main     — production releases only
+# develop  — integration branch
+# feature/ — new features (branch from develop)
+# release/ — preparing a release (branch from develop)
+# hotfix/  — urgent fixes (branch from main)
+
+# Start a feature
+git switch develop
+git switch -c feature/new-model
+
+# Finish feature — merge back to develop
+git switch develop
+git merge --no-ff feature/new-model
+git branch -d feature/new-model
+
+# Prepare release
+git switch -c release/v2.0.0
+# ... final testing, version bumps ...
+git switch main
+git merge --no-ff release/v2.0.0
+git tag -a v2.0.0 -m &quot;Release v2.0.0&quot;
+git switch develop
+git merge --no-ff release/v2.0.0
+git branch -d release/v2.0.0</code></pre></div><div class="code-block"><div class="ch"><span>Trunk-based development (for fast-moving teams)</span><button onclick="cp('c13_2')">Copy</button></div><pre><code id="c13_2" class="language-bash"># Trunk-based — everyone commits to main (or very short-lived branches)
+# Rules:
+# 1. Small, frequent commits to main
+# 2. Feature flags instead of long-lived branches
+# 3. Branches live &lt; 1 day
+# 4. CI/CD runs on every commit
+
+# Short-lived branch (&lt; 1 day)
+git switch -c fix/null-check
+git commit -am &quot;fix: handle null values in preprocessing&quot;
+git push -u origin fix/null-check
+gh pr create
+# Get quick review, merge same day
+
+# Feature flags for larger features
+# In code:
+# if feature_flags.is_enabled(&quot;new_model_v2&quot;):
+#     prediction = new_model.predict(features)
+# else:
+#     prediction = old_model.predict(features)</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Choosing the Right Workflow</div><div class="rd">A data science team of 5 people needs to pick a Git workflow. Here&#x27;s a decision framework based on team size, release cadence, and project type.</div><pre><code class="language-bash"># Decision framework:
+
+# Small team (2-5), continuous deployment → GitHub Flow
+# - Simple, low overhead
+# - Perfect for: web apps, APIs, dashboards
+# - DS teams building Streamlit apps or APIs
+
+# Medium team (5-15), versioned releases → Git Flow
+# - Structured, parallel development
+# - Perfect for: ML platforms, data products
+# - DS teams shipping model versions
+
+# Large team (15+), fast iteration → Trunk-based
+# - Requires strong CI/CD
+# - Perfect for: mature ML platforms
+# - Feature flags replace branches
+
+# For MOST data science teams, GitHub Flow is the best choice:
+echo &quot;Recommended: GitHub Flow&quot;
+echo &quot;  ✓ Simple to learn&quot;
+echo &quot;  ✓ Works well with PRs&quot;
+echo &quot;  ✓ main is always deployable&quot;
+echo &quot;  ✓ Low overhead for small teams&quot;
+echo &quot;  ✓ GitHub/GitLab built around this workflow&quot; </code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a full GitHub Flow cycle: branch → commit → PR → merge → delete branch</label></li>
+<li><label><input type="checkbox"> Set up a develop branch and practice the Git Flow feature branch → develop merge</label></li>
+<li><label><input type="checkbox"> Create a hotfix branch from main, fix a bug, merge it to both main and develop</label></li>
+<li><label><input type="checkbox"> Write down your team&#x27;s current workflow and identify one improvement it could make</label></li>
+<li><label><input type="checkbox"> Add a branch protection rule on main requiring PR review before any merge</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. GitHub Actions for Data Science</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate testing, linting, model validation, and deployment with GitHub Actions. CI/CD ensures your code always works and your models are validated before deployment.</p><div class="code-block"><div class="ch"><span>Basic CI pipeline for a DS project</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-yaml"># .github/workflows/ci.yml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: &#x27;3.11&#x27;
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest flake8
+
+      - name: Lint
+        run: flake8 src/ --max-line-length=120
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short</code></pre></div><div class="code-block"><div class="ch"><span>Model validation workflow</span><button onclick="cp('c14_1')">Copy</button></div><pre><code id="c14_1" class="language-yaml"># .github/workflows/model-validation.yml
+name: Model Validation
+
+on:
+  pull_request:
+    paths:
+      - &#x27;src/model/**&#x27;
+      - &#x27;configs/**&#x27;
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: &#x27;3.11&#x27;
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Train on test data
+        run: python src/model/train.py --config configs/test.yaml
+
+      - name: Validate metrics
+        run: |
+          python -c &quot;
+          import json
+          with open(&#x27;results/metrics.json&#x27;) as f:
+              m = json.load(f)
+          assert m[&#x27;accuracy&#x27;] &gt; 0.85, f&#x27;Accuracy {m[&quot;accuracy&quot;]} below threshold&#x27;
+          assert m[&#x27;f1&#x27;] &gt; 0.80, f&#x27;F1 {m[&quot;f1&quot;]} below threshold&#x27;
+          print(&#x27;Model validation passed!&#x27;)
+          print(f&#x27;Accuracy: {m[&quot;accuracy&quot;]:.4f}&#x27;)
+          print(f&#x27;F1: {m[&quot;f1&quot;]:.4f}&#x27;)
+          &quot; </code></pre></div><div class="code-block"><div class="ch"><span>Scheduled data pipeline</span><button onclick="cp('c14_2')">Copy</button></div><pre><code id="c14_2" class="language-yaml"># .github/workflows/daily-data.yml
+name: Daily Data Collection
+
+on:
+  schedule:
+    - cron: &#x27;0 6 * * *&#x27;  # Run at 6 AM UTC daily
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: &#x27;3.11&#x27;
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect data
+        env:
+          API_KEY: ${{ secrets.DATA_API_KEY }}
+        run: python scripts/collect_daily_data.py
+
+      - name: Commit new data
+        run: |
+          git config user.name &quot;GitHub Actions&quot;
+          git config user.email &quot;actions@github.com&quot;
+          git add data/daily/
+          git diff --staged --quiet || git commit -m &quot;data: daily collection $(date +%Y-%m-%d)&quot;
+          git push</code></pre></div><div class="rw"><div class="rh">&#x1F4BC; Real-World: Full CI/CD for an ML Project</div><div class="rd">A team sets up GitHub Actions to automatically test code, validate model performance, build Docker images, and deploy to production on every merge to main.</div><pre><code class="language-yaml"># .github/workflows/ml-pipeline.yml
+name: ML Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: &#x27;3.11&#x27; }
+      - run: pip install -r requirements.txt
+      - run: black --check src/
+      - run: pytest tests/ -v
+
+  model-check:
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: &#x27;3.11&#x27; }
+      - run: pip install -r requirements.txt
+      - run: python scripts/validate_model.py
+      - name: Comment metrics on PR
+        if: github.event_name == &#x27;pull_request&#x27;
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require(&#x27;fs&#x27;);
+            const metrics = fs.readFileSync(&#x27;results/metrics.txt&#x27;, &#x27;utf8&#x27;);
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: &#x27;## Model Metrics\n```\n&#x27; + metrics + &#x27;\n```&#x27;
+            })</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .github/workflows/ci.yml that installs dependencies and runs pytest on every push</label></li>
+<li><label><input type="checkbox"> Add a flake8 linting step to your CI workflow and make it fail on style violations</label></li>
+<li><label><input type="checkbox"> Set up a workflow that only triggers on changes to src/model/ using the paths filter</label></li>
+<li><label><input type="checkbox"> Store a fake API key as a GitHub Actions secret and reference it in a workflow as ${{ secrets.MY_KEY }}</label></li>
+<li><label><input type="checkbox"> Use workflow_dispatch to add a manual trigger to an existing workflow and run it from the GitHub UI</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Git Best Practices Cheat Sheet</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A collection of Git best practices, common pitfalls, and quick reference commands for daily use.</p><div class="code-block"><div class="ch"><span>Daily workflow cheat sheet</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-bash"># Morning: start fresh
+git switch main
+git pull origin main
+git switch -c feature/todays-work
+
+# During the day: small, frequent commits
+git add src/module.py
+git commit -m &quot;feat: add data validation step&quot;
+
+# End of day: push your work
+git push -u origin feature/todays-work
+
+# Ready for review: create PR
+gh pr create --title &quot;feat: add data validation&quot;
+
+# After PR is merged: clean up
+git switch main
+git pull
+git branch -d feature/todays-work</code></pre></div><div class="code-block"><div class="ch"><span>Common mistakes and fixes</span><button onclick="cp('c15_1')">Copy</button></div><pre><code id="c15_1" class="language-bash"># Mistake: committed to wrong branch
+git switch correct-branch
+git cherry-pick abc1234    # bring commit to correct branch
+git switch wrong-branch
+git reset HEAD~1           # remove from wrong branch
+
+# Mistake: typo in last commit message
+git commit --amend -m &quot;correct message here&quot;
+
+# Mistake: forgot to add a file to last commit
+git add forgotten_file.py
+git commit --amend --no-edit
+
+# Mistake: committed sensitive data
+git reset --soft HEAD~1    # undo commit, keep changes staged
+# remove the sensitive data, then recommit
+
+# Mistake: git pull created ugly merge commits
+git reset --hard HEAD~1    # undo the merge
+git pull --rebase          # replay your commits on top
+
+# Mistake: need to undo a pushed commit (safely)
+git revert abc123         # creates a new &quot;undo&quot; commit
+git push</code></pre></div><div class="code-block"><div class="ch"><span>Useful aliases for productivity</span><button onclick="cp('c15_2')">Copy</button></div><pre><code id="c15_2" class="language-bash"># Add these to your ~/.gitconfig [alias] section:
+git config --global alias.st &quot;status --short&quot;
+git config --global alias.co &quot;checkout&quot;
+git config --global alias.sw &quot;switch&quot;
+git config --global alias.br &quot;branch&quot;
+git config --global alias.ci &quot;commit&quot;
+git config --global alias.lg &quot;log --oneline --graph --all -20&quot;
+git config --global alias.last &quot;log -1 HEAD --stat&quot;
+git config --global alias.unstage &quot;restore --staged&quot;
+git config --global alias.undo &quot;reset HEAD~1&quot;
+git config --global alias.amend &quot;commit --amend --no-edit&quot;
+git config --global alias.wip &quot;commit -am &#x27;WIP: work in progress&#x27;&quot;
+
+# Usage:
+# git st          → short status
+# git lg          → pretty graph log
+# git last        → last commit details
+# git unstage f   → unstage a file
+# git undo        → undo last commit (keep changes)
+# git amend       → add to last commit
+# git wip         → quick WIP commit</code></pre></div><div class="code-block"><div class="ch"><span>Git command reference table</span><button onclick="cp('c15_3')">Copy</button></div><pre><code id="c15_3" class="language-bash"># ┌─────────────────────┬────────────────────────────────────┐
+# │ Action               │ Command                            │
+# ├─────────────────────┼────────────────────────────────────┤
+# │ Init repo            │ git init                           │
+# │ Clone repo           │ git clone &lt;url&gt;                    │
+# │ Stage files          │ git add &lt;files&gt;                    │
+# │ Commit               │ git commit -m &quot;msg&quot;                │
+# │ Push                 │ git push origin &lt;branch&gt;           │
+# │ Pull                 │ git pull origin &lt;branch&gt;           │
+# │ Status               │ git status                         │
+# │ Log                  │ git log --oneline                  │
+# │ Diff                 │ git diff                           │
+# │ Create branch        │ git switch -c &lt;name&gt;               │
+# │ Switch branch        │ git switch &lt;name&gt;                  │
+# │ Merge                │ git merge &lt;branch&gt;                 │
+# │ Rebase               │ git rebase &lt;branch&gt;                │
+# │ Stash                │ git stash push -m &quot;msg&quot;            │
+# │ Tag                  │ git tag -a v1.0 -m &quot;msg&quot;           │
+# │ Cherry-pick          │ git cherry-pick &lt;hash&gt;             │
+# │ Bisect               │ git bisect start                   │
+# │ Undo last commit     │ git reset HEAD~1                   │
+# │ Revert commit        │ git revert &lt;hash&gt;                  │
+# │ Recover lost work    │ git reflog                         │
+# └─────────────────────┴────────────────────────────────────┘
+echo &quot;Bookmark this cheat sheet!&quot; </code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up at least 5 git aliases (e.g., lg, st, undo, wip, amend) and use them for a day</label></li>
+<li><label><input type="checkbox"> Deliberately commit to the wrong branch, then cherry-pick it to the correct branch and reset the wrong one</label></li>
+<li><label><input type="checkbox"> Practice git commit --amend to add a forgotten file to your last commit without making a new commit</label></li>
+<li><label><input type="checkbox"> Use git revert to safely undo a pushed commit and verify the history still contains the original commit</label></li>
+<li><label><input type="checkbox"> Review the command reference table and write down 3 commands you haven&#x27;t used yet — then try each one</label></li></ul></div></div></div>
+</main>
+<script>
+hljs.highlightAll();
+function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
+function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
+function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
+document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
+</script></body></html>
