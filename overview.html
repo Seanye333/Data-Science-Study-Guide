@@ -9,11 +9,13 @@
 <body class="page-overview">
 <div class="container">
 
-  <!-- NAV -->
-  <div class="nav">
-    <a href="index.html" class="nav-back">← Back to Home</a>
-    <span class="nav-title">Learning Path Overview</span>
-  </div>
+  <nav class="site-nav">
+    <a href="index.html" class="site-nav-logo">📊 DS Study Path</a>
+    <div class="site-nav-links">
+      <a href="index.html" class="site-nav-link">Modules</a>
+      <a href="overview.html" class="site-nav-link active">Learning Roadmap</a>
+    </div>
+  </nav>
 
   <!-- HERO -->
   <div class="hero">
@@ -50,11 +52,11 @@
       <div>
         <div class="flow-col-label">Phase 1</div>
         <div class="flow-col">
-          <div class="flow-node" style="background:rgba(255,166,87,.15);color:#ffa657;border:1px solid rgba(255,166,87,.3);" onclick="location.href='00_python_basics/index.html'">🐍 Python Basics</div>
-          <div class="flow-node" style="background:rgba(121,192,255,.12);color:#79c0ff;border:1px solid rgba(121,192,255,.25);" onclick="location.href='01_numpy/index.html'">🔢 NumPy</div>
-          <div class="flow-node" style="background:rgba(54,188,247,.12);color:#36bcf7;border:1px solid rgba(54,188,247,.25);" onclick="location.href='02_api/index.html'">🌐 APIs</div>
-          <div class="flow-node" style="background:rgba(247,129,102,.12);color:#f78166;border:1px solid rgba(247,129,102,.25);" onclick="location.href='15_git/index.html'">🔀 Git</div>
-          <div class="flow-node" style="background:rgba(240,136,62,.12);color:#f0883e;border:1px solid rgba(240,136,62,.25);" onclick="location.href='02_sql/index.html'">🗄️ SQL</div>
+          <div class="flow-node" style="background:rgba(255,166,87,.15);color:#ffa657;border:1px solid rgba(255,166,87,.3);" onclick="location.href='modules/00_python_basics/index.html'">🐍 Python Basics</div>
+          <div class="flow-node" style="background:rgba(121,192,255,.12);color:#79c0ff;border:1px solid rgba(121,192,255,.25);" onclick="location.href='modules/01_numpy/index.html'">🔢 NumPy</div>
+          <div class="flow-node" style="background:rgba(54,188,247,.12);color:#36bcf7;border:1px solid rgba(54,188,247,.25);" onclick="location.href='modules/03_api/index.html'">🌐 APIs</div>
+          <div class="flow-node" style="background:rgba(247,129,102,.12);color:#f78166;border:1px solid rgba(247,129,102,.25);" onclick="location.href='modules/15_git/index.html'">🔀 Git</div>
+          <div class="flow-node" style="background:rgba(240,136,62,.12);color:#f0883e;border:1px solid rgba(240,136,62,.25);" onclick="location.href='modules/02_sql/index.html'">🗄️ SQL</div>
         </div>
       </div>
       <div class="flow-arrow">→</div>
@@ -62,11 +64,11 @@
       <div>
         <div class="flow-col-label">Phase 2</div>
         <div class="flow-col">
-          <div class="flow-node" style="background:rgba(78,201,160,.12);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);" onclick="location.href='03_pandas/index.html'">🐼 Pandas</div>
-          <div class="flow-node" style="background:rgba(205,139,0,.12);color:#cd8b00;border:1px solid rgba(205,139,0,.25);" onclick="location.href='08_polars/index.html'">⚡ Polars</div>
-          <div class="flow-node" style="background:rgba(244,114,182,.12);color:#f472b6;border:1px solid rgba(244,114,182,.25);" onclick="location.href='16_feature_engineering/index.html'">🧹 Feature Eng.</div>
-          <div class="flow-node" style="background:rgba(96,165,250,.12);color:#60a5fa;border:1px solid rgba(96,165,250,.25);" onclick="location.href='11_statistics/index.html'">📐 Statistics</div>
-          <div class="flow-node" style="background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25);" onclick="location.href='17_bayesian/index.html'">🎲 Bayesian</div>
+          <div class="flow-node" style="background:rgba(78,201,160,.12);color:#4ec9a0;border:1px solid rgba(78,201,160,.25);" onclick="location.href='modules/03_pandas/index.html'">🐼 Pandas</div>
+          <div class="flow-node" style="background:rgba(205,139,0,.12);color:#cd8b00;border:1px solid rgba(205,139,0,.25);" onclick="location.href='modules/09_polars/index.html'">⚡ Polars</div>
+          <div class="flow-node" style="background:rgba(244,114,182,.12);color:#f472b6;border:1px solid rgba(244,114,182,.25);" onclick="location.href='modules/16_feature_engineering/index.html'">🧹 Feature Eng.</div>
+          <div class="flow-node" style="background:rgba(96,165,250,.12);color:#60a5fa;border:1px solid rgba(96,165,250,.25);" onclick="location.href='modules/11_statistics/index.html'">📐 Statistics</div>
+          <div class="flow-node" style="background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25);" onclick="location.href='modules/17_bayesian/index.html'">🎲 Bayesian</div>
         </div>
       </div>
       <div class="flow-arrow">→</div>
@@ -74,9 +76,9 @@
       <div>
         <div class="flow-col-label">Phase 3</div>
         <div class="flow-col">
-          <div class="flow-node" style="background:rgba(88,166,255,.12);color:#58a6ff;border:1px solid rgba(88,166,255,.25);" onclick="location.href='03_matplotlib/index.html'">📊 Matplotlib</div>
-          <div class="flow-node" style="background:rgba(192,132,252,.12);color:#c084fc;border:1px solid rgba(192,132,252,.25);" onclick="location.href='04_seaborn/index.html'">🎨 Seaborn</div>
-          <div class="flow-node" style="background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25);" onclick="location.href='05_plotly/index.html'">✨ Plotly</div>
+          <div class="flow-node" style="background:rgba(88,166,255,.12);color:#58a6ff;border:1px solid rgba(88,166,255,.25);" onclick="location.href='modules/04_matplotlib/index.html'">📊 Matplotlib</div>
+          <div class="flow-node" style="background:rgba(192,132,252,.12);color:#c084fc;border:1px solid rgba(192,132,252,.25);" onclick="location.href='modules/05_seaborn/index.html'">🎨 Seaborn</div>
+          <div class="flow-node" style="background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25);" onclick="location.href='modules/06_plotly/index.html'">✨ Plotly</div>
         </div>
       </div>
       <div class="flow-arrow">→</div>
@@ -84,9 +86,9 @@
       <div>
         <div class="flow-col-label">Phase 4</div>
         <div class="flow-col">
-          <div class="flow-node" style="background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.25);" onclick="location.href='06_sklearn/index.html'">🤖 Scikit-learn</div>
-          <div class="flow-node" style="background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.25);" onclick="location.href='12_time_series/index.html'">📈 Time Series</div>
-          <div class="flow-node" style="background:rgba(232,121,249,.12);color:#e879f9;border:1px solid rgba(232,121,249,.25);" onclick="location.href='13_nlp/index.html'">💬 NLP</div>
+          <div class="flow-node" style="background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.25);" onclick="location.href='modules/07_sklearn/index.html'">🤖 Scikit-learn</div>
+          <div class="flow-node" style="background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.25);" onclick="location.href='modules/12_time_series/index.html'">📈 Time Series</div>
+          <div class="flow-node" style="background:rgba(232,121,249,.12);color:#e879f9;border:1px solid rgba(232,121,249,.25);" onclick="location.href='modules/13_nlp/index.html'">💬 NLP</div>
         </div>
       </div>
       <div class="flow-arrow">→</div>
@@ -94,9 +96,9 @@
       <div>
         <div class="flow-col-label">Phase 5</div>
         <div class="flow-col">
-          <div class="flow-node" style="background:rgba(249,115,22,.12);color:#f97316;border:1px solid rgba(249,115,22,.25);" onclick="location.href='10_deep_learning/index.html'">🧠 Deep Learning</div>
-          <div class="flow-node" style="background:rgba(255,75,75,.12);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);" onclick="location.href='07_streamlit/index.html'">🚀 Streamlit</div>
-          <div class="flow-node" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25);" onclick="location.href='14_mlops/index.html'">⚙️ MLOps</div>
+          <div class="flow-node" style="background:rgba(249,115,22,.12);color:#f97316;border:1px solid rgba(249,115,22,.25);" onclick="location.href='modules/10_deep_learning/index.html'">🧠 Deep Learning</div>
+          <div class="flow-node" style="background:rgba(255,75,75,.12);color:#ff4b4b;border:1px solid rgba(255,75,75,.25);" onclick="location.href='modules/08_streamlit/index.html'">🚀 Streamlit</div>
+          <div class="flow-node" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25);" onclick="location.href='modules/14_mlops/index.html'">⚙️ MLOps</div>
         </div>
       </div>
     </div>
