@@ -4,8 +4,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <link rel="stylesheet" href="../../styles/glass.css">
+<script>(function(){if(localStorage.getItem('ds_theme')==='light'){document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('light-mode');var b=document.getElementById('theme-toggle');if(b)b.textContent='☀️';});}})();</script>
 <style>:root{--acc:#ffa657}</style>
 </head><body class="page-module">
+<div id="page-loader">
+  <div class="loader-logo">📖</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Loading Module…</div>
+</div>
 <aside class="sidebar">
   <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 34 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
@@ -5475,4 +5481,44 @@ function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list 
 function filt(q){document.querySelectorAll('#nl li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});}
 document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector('.th');if(fh)fh.click();var fa=document.querySelector('.nav-list a');if(fa)fa.classList.add('active');});
-</script></body></html>
+</script>
+<div class="mob-overlay" id="mob-overlay"></div>
+<button class="mob-menu-btn" id="mob-menu-btn" aria-label="Open menu">&#9776;</button>
+<script>
+(function(){
+  var btn     = document.getElementById('mob-menu-btn');
+  var overlay = document.getElementById('mob-overlay');
+  var sidebar = document.querySelector('.page-module .sidebar') ||
+                document.querySelector('.page-module > nav') ||
+                document.querySelector('.page-module #sidebar');
+  if (!btn || !sidebar) return;
+
+  function open() {
+    sidebar.classList.add('mob-open');
+    overlay.classList.add('active');
+    document.body.classList.add('mob-sidebar-open');
+    btn.innerHTML = '&#10005;';
+  }
+  function close() {
+    sidebar.classList.remove('mob-open');
+    overlay.classList.remove('active');
+    document.body.classList.remove('mob-sidebar-open');
+    btn.innerHTML = '&#9776;';
+  }
+
+  btn.addEventListener('click', function() {
+    sidebar.classList.contains('mob-open') ? close() : open();
+  });
+  overlay.addEventListener('click', close);
+
+  // Close when a nav link is clicked
+  sidebar.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.innerWidth <= 700) close(); });
+  });
+})();
+</script>
+<script src="../../styles/effects.js"></script>
+<script src="../../styles/nav-ux.js"></script>
+<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
+  style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
+</body></html>

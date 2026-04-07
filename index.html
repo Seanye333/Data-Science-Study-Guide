@@ -5,8 +5,29 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Data Science Study Path</title>
 <link rel="stylesheet" href="styles/glass.css">
+<script>if(localStorage.getItem('ds_theme')==='light')document.documentElement.style.setProperty('--_','');else void 0;(function(){var t=localStorage.getItem('ds_theme');if(t==='light'){document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('light-mode');var b=document.getElementById('theme-toggle');if(b)b.textContent='☀️';});}})();</script>
 </head>
 <body class="page-home">
+
+<!-- Loading screen -->
+<div id="page-loader">
+  <div class="loader-logo">📊</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Loading Study Path…</div>
+</div>
+
+<!-- Confetti canvas -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- Completion modal -->
+<div id="complete-modal">
+  <div class="complete-card">
+    <div class="complete-emoji">🎉</div>
+    <h2>You finished it!</h2>
+    <p>You've completed all 18 modules of the Data Science Study Path. That's seriously impressive — you're a data scientist now.</p>
+    <button class="complete-close">Awesome! 🚀</button>
+  </div>
+</div>
 <div class="container">
 
   <nav class="site-nav">
@@ -14,6 +35,7 @@
     <div class="site-nav-links">
       <a href="index.html" class="site-nav-link active">Modules</a>
       <a href="overview.html" class="site-nav-link">Learning Roadmap</a>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode">🌙</button>
     </div>
   </nav>
 
@@ -434,6 +456,9 @@ function markDone(i) {
   var el = document.getElementById('card-' + i);
   if (el) el.classList.add('done');
   updateProgress();
+  if (done.length >= TOTAL && typeof triggerConfetti === 'function') {
+    setTimeout(triggerConfetti, 400);
+  }
 }
 
 function updateProgress() {
@@ -444,6 +469,109 @@ function updateProgress() {
 }
 
 updateProgress();
+</script>
+
+<!-- ── Shared effects (theme, transitions, confetti) ─── -->
+<script src="styles/effects.js"></script>
+
+<!-- ── Scroll progress bar ─────────────────────────────── -->
+<div id="scroll-progress"></div>
+
+<!-- ── Star canvas ─────────────────────────────────────── -->
+<canvas id="star-canvas"></canvas>
+
+<script>
+/* ── Scroll progress ── */
+(function() {
+  var bar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', function() {
+    var scrolled = document.documentElement.scrollTop;
+    var total    = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+  }, { passive: true });
+})();
+
+/* ── Star field ── */
+(function() {
+  var canvas = document.getElementById('star-canvas');
+  var ctx    = canvas.getContext('2d');
+  var stars  = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    for (var i = 0; i < 120; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        a: Math.random(),
+        speed: Math.random() * 0.004 + 0.002,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  var tick = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    tick += 0.01;
+    stars.forEach(function(s) {
+      var alpha = s.a * (0.5 + 0.5 * Math.sin(tick * s.speed * 60 + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(180,210,255,' + alpha + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initStars();
+  draw();
+  window.addEventListener('resize', function() { resize(); initStars(); });
+})();
+
+/* ── Card tilt on mouse move ── */
+(function() {
+  document.querySelectorAll('.page-home .card').forEach(function(card, i) {
+    card.style.animationDelay = (i * 60) + 'ms';
+
+    card.addEventListener('mousemove', function(e) {
+      var rect   = card.getBoundingClientRect();
+      var cx     = rect.left + rect.width / 2;
+      var cy     = rect.top  + rect.height / 2;
+      var dx     = (e.clientX - cx) / (rect.width  / 2);
+      var dy     = (e.clientY - cy) / (rect.height / 2);
+      card.style.transform = 'translateY(-4px) rotateX(' + (-dy * 5) + 'deg) rotateY(' + (dx * 5) + 'deg)';
+    });
+
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+    });
+  });
+})();
+
+/* ── Ripple on card click ── */
+(function() {
+  document.querySelectorAll('.page-home .card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      var rect   = card.getBoundingClientRect();
+      var size   = Math.max(rect.width, rect.height);
+      var ripple = document.createElement('span');
+      ripple.classList.add('ripple-wave');
+      ripple.style.width  = ripple.style.height = size + 'px';
+      ripple.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+      card.appendChild(ripple);
+      ripple.addEventListener('animationend', function() { ripple.remove(); });
+    });
+  });
+})();
 </script>
 </body>
 </html>
