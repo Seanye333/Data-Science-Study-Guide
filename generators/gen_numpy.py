@@ -4,7 +4,7 @@
 import json, pathlib
 from html import escape as esc
 
-BASE = pathlib.Path(r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules_numpy")
+BASE = pathlib.Path(__file__).resolve().parent.parent / "modules" / "01_numpy"
 BASE.mkdir(parents=True, exist_ok=True)
 
 ACCENT = "#79c0ff"
