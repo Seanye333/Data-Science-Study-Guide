@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 """Generate Seaborn study guide — notebook + HTML."""
 
-import matplotlib
-matplotlib.use('Agg')
-
 import json, pathlib
 from html import escape as esc
 
-BASE   = pathlib.Path(r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules_seaborn")
+BASE = pathlib.Path(__file__).resolve().parent.parent / "modules" / "05_seaborn"
 BASE.mkdir(parents=True, exist_ok=True)
 ACCENT = "#c084fc"
 EMOJI  = "🎨"

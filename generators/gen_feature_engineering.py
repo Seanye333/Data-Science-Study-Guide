@@ -4,7 +4,7 @@
 import json, pathlib
 from html import escape as esc
 
-BASE = pathlib.Path(r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules_feature_engineering")
+BASE = pathlib.Path(__file__).resolve().parent.parent / "modules" / "16_feature_engineering"
 BASE.mkdir(parents=True, exist_ok=True)
 
 # ─── HTML builder ─────────────────────────────────────────────────────────────

@@ -1,6 +1,7 @@
 import os, json, html as _html
 
-OUT = r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules_deep_learning"
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "modules", "10_deep_learning")
+os.makedirs(OUT, exist_ok=True)
 ACCENT = "#f97316"
 
 

@@ -1,6 +1,7 @@
 import os, json, textwrap
 
-OUT = r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules_sklearn"
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "modules", "07_sklearn")
+os.makedirs(OUT, exist_ok=True)
 ACCENT = "#34d399"
 
 SECTIONS = [

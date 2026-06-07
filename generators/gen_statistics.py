@@ -4,7 +4,7 @@
 import json, pathlib
 from html import escape as esc
 
-BASE   = pathlib.Path(r"c:\Users\seany\Documents\All Codes\Data Science Study Path\modules	_statistics")
+BASE = pathlib.Path(__file__).resolve().parent.parent / "modules" / "11_statistics"
 BASE.mkdir(parents=True, exist_ok=True)
 ACCENT = "#58a6ff"
 EMOJI  = "📊"

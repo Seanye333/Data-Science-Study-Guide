@@ -1,0 +1,29 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  reproducible-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Generators are standard-library only, so no install step is needed.
+      # If a generator grew a third-party import, this step would fail here.
+      - name: Regenerate all modules
+        run: python generate_all.py
+
+      - name: Verify the committed site matches the generators
+        run: |
+          if ! git diff --exit-code; then
+            echo "::error::Generated output differs from the committed files."
+            echo "Run 'python generate_all.py' locally and commit the result."
+            exit 1
+          fi
