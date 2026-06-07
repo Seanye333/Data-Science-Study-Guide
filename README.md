@@ -16,7 +16,7 @@ An interactive, self-paced study guide covering the full data science stack — 
 | 01 | NumPy | Arrays, broadcasting, linear algebra, FFT |
 | 02 | SQL | Joins, window functions, CTEs, optimization |
 | 03 | REST APIs | Requests, FastAPI, auth, async clients |
-| 03 | Pandas | DataFrames, groupby, merge, time series |
+| 03 | Pandas&nbsp;† | DataFrames, groupby, merge, time series |
 | 04 | Matplotlib | Subplots, styling, animations, custom charts |
 | 05 | Seaborn | Statistical plots, themes, FacetGrid |
 | 06 | Plotly | Interactive charts, Dash, animations |
@@ -31,6 +31,10 @@ An interactive, self-paced study guide covering the full data science stack — 
 | 15 | Git | Branching, rebase, GitHub Actions, workflows |
 | 16 | Feature Engineering | Encoding, scaling, selection, pipelines |
 | 17 | Bayesian Thinking | Bayes' theorem, priors, MCMC, PyMC |
+
+> † **Pandas** is hand-maintained (it also ships extra `pandas_practice*.ipynb`
+> notebooks) and has no generator, so it is the one module not rebuilt by
+> `generate_all.py`. Edit its `index.html` directly.
 
 ---
 
@@ -123,6 +127,11 @@ python generate_all.py numpy sql
 > `generators/gen_*.py` writes the base HTML **without** the chrome.
 
 > Requires Python 3.10+. No external dependencies — uses only the standard library.
+
+The CI workflow (`.github/workflows/build.yml`) runs this on every push and PR
+and fails if the committed site no longer matches the generators. The one
+exception is the hand-maintained **Pandas** module, which has no generator and
+is therefore excluded from the reproducibility check.
 
 ---
 
