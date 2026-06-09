@@ -45,6 +45,7 @@ An interactive, self-paced study guide covering the full data science stack — 
 - **Practice Checklists** — 4–5 actionable todos on every topic
 - **Real-world scenarios** — industry-style code examples per section
 - **Practice exercises** — starter code with guided TODOs
+- **Runnable practice** — edit and run each exercise right in the browser via [Pyodide](https://pyodide.org/) (CPython → WASM); the runtime lazy-loads on first Run, no setup or backend
 - **Progress tracking** — completion state saved in localStorage
 - **Searchable sidebar** — filter topics instantly
 - **Responsive** — works on desktop and mobile
@@ -70,7 +71,8 @@ Data-Science-Study-Guide/
 │   ├── glass.css           ← Shared glassmorphism stylesheet
 │   ├── effects.js          ← Page loader & visual effects
 │   ├── nav-ux.js           ← Sidebar / navigation behavior
-│   └── module_chrome.json  ← Shared chrome (theme toggle, loader, mobile nav)
+│   ├── hands-on.js         ← In-browser Python runner for Practice blocks (Pyodide)
+│   └── module_chrome.json  ← Shared chrome (theme toggle, loader, mobile nav, hands-on)
 │
 ├── generators/             ← Python scripts that generate each module's content
 │   ├── gen_python_basics.py
