@@ -2159,6 +2159,55 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 ],
 },
 
+{
+"title": "Practice Lab: Rolling & Forecasting",
+"desc": "Hands-on time-series challenges (pandas + NumPy, Pyodide-runnable). Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Rolling mean & resampling", "code": '''import pandas as pd
+
+idx = pd.date_range("2024-01-01", periods=12, freq="D")
+s = pd.Series([10,12,13,12,15,18,17,20,22,21,25,28], index=idx)
+
+print("3-day rolling mean:")
+print(s.rolling(3).mean().round(2).dropna().to_string())
+print("\\nweekly totals:")
+print(s.resample("W").sum().to_string())'''},
+    {"label": "Lag features & percent change", "code": '''import pandas as pd
+
+s = pd.Series([1,2,3,4,5,6,7,8,9,10], dtype=float)
+df = pd.DataFrame({"y": s, "lag1": s.shift(1), "pct": s.pct_change().round(3)})
+print(df.head(6).to_string())'''},
+],
+"todos": [
+    "Compute a rolling mean with Series.rolling(window).mean()",
+    "Resample a daily series to weekly totals with .resample('W').sum()",
+    "Build a lag feature with Series.shift(1) and a return with pct_change()",
+    "Forecast the next value as the moving average of the last `window` points",
+],
+"practice": {
+    "title": "Moving-Average Forecast",
+    "desc": "Implement moving_average_forecast(series, window) returning the mean of the last `window` values, and mae(actual, predicted) returning the mean absolute error. Fill in the functions, press Run, then press Check.",
+    "starter": '''import numpy as np, pandas as pd
+
+def moving_average_forecast(series, window):
+    s = pd.Series(series, dtype=float)
+    # TODO: return the mean of the last `window` observations
+    return 0.0
+
+def mae(actual, predicted):
+    # TODO: return the mean absolute error between actual and predicted
+    return 0.0
+
+hist = [10, 12, 14, 16, 18]
+fc = moving_average_forecast(hist, 3)
+err = mae([20, 22], [fc, fc])
+print("forecast:", fc, "mae:", round(err, 3))''',
+    "check": '''assert np.isclose(fc, 16.0), "MA(3) of the last three (14, 16, 18) is 16"
+assert np.isclose(err, 5.0), "mae of [20, 22] vs [16, 16] is (4 + 6) / 2 = 5"
+print("All checks passed \\u2713")'''
+}
+},
+
 
 ]
 
