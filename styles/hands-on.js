@@ -1,8 +1,12 @@
-/* hands-on.js — turn each Practice block into an editable, runnable Python
- * window. Code runs entirely in the browser via Pyodide (CPython → WASM); the
- * runtime is lazy-loaded on the first Run so normal page loads stay light.
- * Progressive enhancement: if this script or Pyodide fails to load, the starter
- * code is still shown in the editor and can be copied. */
+/* hands-on.js — make code on every module page runnable in the browser.
+ *
+ *  • Practice blocks      → a full editable editor (Run / Reset / Copy + output)
+ *  • Example / real-world → a compact "Run" + "Edit" toolbar under the snippet
+ *
+ * Code runs entirely client-side via Pyodide (CPython → WASM). The runtime is
+ * lazy-loaded on the first Run anywhere on the page, so normal page loads stay
+ * light and there is no backend. Progressive enhancement: if this script or
+ * Pyodide fails to load, the original code is still shown and copyable. */
 (function () {
   "use strict";
 
@@ -22,15 +26,17 @@
       "overflow-x:auto;outline:none}" +
       ".ho-editor:focus{border-color:var(--acc,#58a6ff);box-shadow:0 0 0 2px rgba(88,166,255,.25)}" +
       ".ho-bar{display:flex;align-items:center;gap:8px;margin:8px 0}" +
+      ".ho-bar.ho-inline{margin:6px 0 2px}" +
       ".ho-btn{cursor:pointer;border:1px solid rgba(255,255,255,.15);border-radius:8px;" +
       "padding:6px 14px;font-size:.82rem;font-weight:600;color:#e6edf3;" +
       "background:rgba(255,255,255,.06);transition:background .15s,border-color .15s}" +
       ".ho-btn:hover{background:rgba(255,255,255,.12)}" +
+      ".ho-btn.ho-sm{padding:3px 11px;font-size:.76rem}" +
       ".ho-run{color:#0d1117;background:var(--acc,#58a6ff);border-color:transparent}" +
       ".ho-run:hover{filter:brightness(1.08);background:var(--acc,#58a6ff)}" +
       ".ho-btn[disabled]{opacity:.55;cursor:default}" +
       ".ho-status{font-size:.78rem;color:#8b949e;margin-left:auto}" +
-      ".ho-out{margin:0;white-space:pre-wrap;word-break:break-word;" +
+      ".ho-out{margin:6px 0 0;white-space:pre-wrap;word-break:break-word;" +
       "font:0.82rem/1.5 'SFMono-Regular',Consolas,Menlo,monospace;color:#c9d1d9;" +
       "background:rgba(13,17,23,.6);border:1px solid rgba(255,255,255,.08);border-radius:10px;" +
       "padding:11px 13px;max-height:340px;overflow:auto;display:none}" +
@@ -72,8 +78,9 @@
     return window.__hoPyodideLoading;
   }
 
-  // ── run one editor's code, stream output into its console ───────────────────
-  function runCode(code, out, status, runBtn) {
+  // ── run code, stream stdout/stderr into an output console ───────────────────
+  function runCode(getCode, out, status, runBtn) {
+    var code = getCode();
     out.classList.add("show");
     out.textContent = "";
     status.textContent = window.__hoPyodide
@@ -89,18 +96,8 @@
     return ensurePyodide()
       .then(function (py) {
         status.textContent = "Running…";
-        py.setStdout({
-          batched: function (s) {
-            chunks.push(s + "\n");
-            flush();
-          },
-        });
-        py.setStderr({
-          batched: function (s) {
-            chunks.push(s + "\n");
-            flush();
-          },
-        });
+        py.setStdout({ batched: function (s) { chunks.push(s + "\n"); flush(); } });
+        py.setStderr({ batched: function (s) { chunks.push(s + "\n"); flush(); } });
         return py
           .loadPackagesFromImports(code, {
             messageCallback: function () {},
@@ -119,10 +116,10 @@
       })
       .catch(function (err) {
         var msg = (err && err.message ? err.message : String(err)).trim();
-        var pre = document.createElement("span");
-        pre.className = "ho-err";
-        pre.textContent = (chunks.length ? "\n" : "") + msg;
-        out.appendChild(pre);
+        var span = document.createElement("span");
+        span.className = "ho-err";
+        span.textContent = (chunks.length ? "\n" : "") + msg;
+        out.appendChild(span);
         status.textContent = "Error";
       })
       .then(function () {
@@ -130,89 +127,28 @@
       });
   }
 
-  // ── enhance a single .practice block ───────────────────────────────────────
-  function enhance(practice) {
-    if (practice.dataset.hoReady) return;
-    var pre = practice.querySelector("pre");
-    if (!pre) return;
-    var codeEl = pre.querySelector("code") || pre;
-    var starter = codeEl.textContent.replace(/\s+$/, "");
-    practice.dataset.hoReady = "1";
-
-    // The starter <pre> sits in a wrapper that also holds a (now dead) Copy
-    // button: .code-block/.ch in one generator template, .code-wrap/.copy-btn
-    // in the other. Replace the whole wrapper so nothing is left orphaned.
-    var container = pre.closest(".code-block, .code-wrap") || pre;
-
-    var wrap = document.createElement("div");
-    wrap.className = "ho";
-
-    var editor = document.createElement("textarea");
-    editor.className = "ho-editor";
-    editor.spellcheck = false;
-    editor.setAttribute("autocomplete", "off");
-    editor.setAttribute("autocapitalize", "off");
-    editor.value = starter;
-    autoSize(editor);
-    editor.addEventListener("input", function () {
-      autoSize(editor);
-    });
-    editor.addEventListener("keydown", function (e) {
-      if (e.key === "Tab") {
-        e.preventDefault();
-        var s = editor.selectionStart,
-          en = editor.selectionEnd;
-        editor.value =
-          editor.value.slice(0, s) + "    " + editor.value.slice(en);
-        editor.selectionStart = editor.selectionEnd = s + 4;
-      }
-    });
-
-    var bar = document.createElement("div");
-    bar.className = "ho-bar";
-
-    var runBtn = mkBtn("▶ Run", "ho-btn ho-run");
-    var resetBtn = mkBtn("Reset", "ho-btn");
-    var copyBtn = mkBtn("Copy", "ho-btn");
-    var status = document.createElement("span");
-    status.className = "ho-status";
-
-    var out = document.createElement("pre");
-    out.className = "ho-out";
-
-    runBtn.addEventListener("click", function () {
-      runCode(editor.value, out, status, runBtn);
-    });
-    resetBtn.addEventListener("click", function () {
-      editor.value = starter;
-      autoSize(editor);
-      out.classList.remove("show");
-      status.textContent = "";
-    });
-    copyBtn.addEventListener("click", function () {
-      navigator.clipboard &&
-        navigator.clipboard.writeText(editor.value).then(function () {
-          copyBtn.textContent = "Copied";
-          setTimeout(function () {
-            copyBtn.textContent = "Copy";
-          }, 1200);
-        });
-    });
-
-    bar.appendChild(runBtn);
-    bar.appendChild(resetBtn);
-    bar.appendChild(copyBtn);
-    bar.appendChild(status);
-    wrap.appendChild(editor);
-    wrap.appendChild(bar);
-    wrap.appendChild(out);
-
-    container.replaceWith(wrap);
-  }
-
   function autoSize(ta) {
     ta.style.height = "auto";
     ta.style.height = Math.min(Math.max(ta.scrollHeight, 120), 520) + "px";
+  }
+
+  function makeEditor(value) {
+    var ed = document.createElement("textarea");
+    ed.className = "ho-editor";
+    ed.spellcheck = false;
+    ed.setAttribute("autocomplete", "off");
+    ed.setAttribute("autocapitalize", "off");
+    ed.value = value;
+    ed.addEventListener("input", function () { autoSize(ed); });
+    ed.addEventListener("keydown", function (e) {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        var s = ed.selectionStart, en = ed.selectionEnd;
+        ed.value = ed.value.slice(0, s) + "    " + ed.value.slice(en);
+        ed.selectionStart = ed.selectionEnd = s + 4;
+      }
+    });
+    return ed;
   }
 
   function mkBtn(label, cls) {
@@ -223,11 +159,121 @@
     return b;
   }
 
+  // ── Practice block → permanent editable editor ──────────────────────────────
+  function enhancePractice(practice) {
+    if (practice.dataset.hoReady) return;
+    var pre = practice.querySelector("pre");
+    if (!pre) return;
+    var codeEl = pre.querySelector("code") || pre;
+    var starter = codeEl.textContent.replace(/\s+$/, "");
+    practice.dataset.hoReady = "1";
+
+    // Replace the whole starter wrapper (.code-block/.ch or .code-wrap/.copy-btn)
+    // so the now-dead Copy button isn't left orphaned.
+    var container = pre.closest(".code-block, .code-wrap") || pre;
+
+    var wrap = document.createElement("div");
+    wrap.className = "ho";
+    var editor = makeEditor(starter);
+    var bar = document.createElement("div");
+    bar.className = "ho-bar";
+    var runBtn = mkBtn("▶ Run", "ho-btn ho-run");
+    var resetBtn = mkBtn("Reset", "ho-btn");
+    var copyBtn = mkBtn("Copy", "ho-btn");
+    var status = document.createElement("span");
+    status.className = "ho-status";
+    var out = document.createElement("pre");
+    out.className = "ho-out";
+
+    runBtn.addEventListener("click", function () {
+      runCode(function () { return editor.value; }, out, status, runBtn);
+    });
+    resetBtn.addEventListener("click", function () {
+      editor.value = starter;
+      autoSize(editor);
+      out.classList.remove("show");
+      status.textContent = "";
+    });
+    copyBtn.addEventListener("click", function () {
+      copyToClipboard(editor.value, copyBtn);
+    });
+
+    bar.appendChild(runBtn);
+    bar.appendChild(resetBtn);
+    bar.appendChild(copyBtn);
+    bar.appendChild(status);
+    wrap.appendChild(editor);
+    wrap.appendChild(bar);
+    wrap.appendChild(out);
+    autoSize(editor);
+    container.replaceWith(wrap);
+  }
+
+  // ── Example / real-world snippet → Run + Edit toolbar under the code ─────────
+  function enhanceSnippet(pre) {
+    if (pre.dataset.hoReady) return;
+    if (pre.closest(".practice")) return; // handled by enhancePractice
+    var codeEl = pre.querySelector("code.language-python");
+    if (!codeEl) return;
+    pre.dataset.hoReady = "1";
+
+    var bar = document.createElement("div");
+    bar.className = "ho-bar ho-inline";
+    var runBtn = mkBtn("▶ Run", "ho-btn ho-run ho-sm");
+    var editBtn = mkBtn("Edit", "ho-btn ho-sm");
+    var status = document.createElement("span");
+    status.className = "ho-status";
+    var out = document.createElement("pre");
+    out.className = "ho-out";
+
+    var editor = null; // created on first Edit
+    function getCode() {
+      return editor ? editor.value : codeEl.textContent;
+    }
+
+    runBtn.addEventListener("click", function () {
+      runCode(getCode, out, status, runBtn);
+    });
+    editBtn.addEventListener("click", function () {
+      if (!editor) {
+        editor = makeEditor(codeEl.textContent.replace(/\s+$/, ""));
+        pre.style.display = "none";
+        pre.parentNode.insertBefore(editor, pre.nextSibling);
+        autoSize(editor);
+        editBtn.textContent = "Hide editor";
+        editor.focus();
+      } else {
+        var shown = editor.style.display !== "none";
+        editor.style.display = shown ? "none" : "";
+        pre.style.display = shown ? "" : "none";
+        editBtn.textContent = shown ? "Edit" : "Hide editor";
+      }
+    });
+
+    bar.appendChild(runBtn);
+    bar.appendChild(editBtn);
+    bar.appendChild(status);
+    // insert toolbar + output right after the <pre>
+    pre.parentNode.insertBefore(out, pre.nextSibling);
+    pre.parentNode.insertBefore(bar, pre.nextSibling);
+  }
+
+  function copyToClipboard(text, btn) {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(function () {
+      var old = btn.textContent;
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    });
+  }
+
   function init() {
-    var blocks = document.querySelectorAll(".practice");
-    if (!blocks.length) return;
+    var practice = document.querySelectorAll(".practice");
+    var snippets = document.querySelectorAll("pre");
+    if (!practice.length && !snippets.length) return;
     injectStyles();
-    blocks.forEach(enhance);
+    practice.forEach(enhancePractice);
+    snippets.forEach(enhanceSnippet);
   }
 
   if (document.readyState === "loading") {

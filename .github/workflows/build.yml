@@ -27,3 +27,21 @@ jobs:
             echo "Run 'python generate_all.py' locally and commit the result."
             exit 1
           fi
+
+      - name: Check local links and asset references
+        run: python tools/check_site.py
+
+  hands-on-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dev dependencies
+        run: npm ci
+
+      - name: Verify hands-on.js DOM contract
+        run: npm test

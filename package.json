@@ -1,0 +1,11 @@
+{
+  "name": "data-science-study-guide",
+  "private": true,
+  "description": "Dev-only tooling for testing the static site's client-side scripts.",
+  "scripts": {
+    "test": "node tests/test_hands_on.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
