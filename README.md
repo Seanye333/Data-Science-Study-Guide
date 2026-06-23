@@ -51,6 +51,7 @@ An interactive, self-paced study guide covering the full data science stack — 
 - **Searchable sidebar** — filter topics instantly
 - **Responsive** — works on desktop and mobile
 - **Jupyter notebooks** — every module ships a `.ipynb` you can run locally
+- **Installable / offline** — a service worker caches the app shell, so the site works offline and can be installed as a PWA
 
 ---
 
@@ -77,6 +78,8 @@ Data-Science-Study-Guide/
 │   └── module_chrome.json  ← Shared chrome (theme toggle, loader, mobile nav, hands-on)
 │
 ├── search_index.json       ← Generated topic index for homepage search
+├── sw.js                   ← Service worker (offline app shell)
+├── manifest.webmanifest    ← PWA manifest
 │
 ├── tools/
 │   └── check_site.py       ← Verifies every local href/src resolves
