@@ -1,4 +1,5 @@
 import os, json, textwrap
+from html import escape as esc
 
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "modules", "07_sklearn")
 os.makedirs(OUT, exist_ok=True)
@@ -4275,11 +4276,13 @@ def make_html(sections):
         practice_block = ""
         if practice:
             pid = f"prac-{sid}"
+            check_html = (f'<template class="ho-check">{esc(practice["check"])}</template>'
+                          if practice.get("check") else "")
             practice_block = f"""<div class="practice">
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: {practice["title"]}</div>
       <div class="pd">{practice["desc"]}</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="{pid}" class="language-python">{practice["starter"]}</code></pre></div>
+      <pre><code id="{pid}" class="language-python">{practice["starter"]}</code></pre></div>{check_html}
     </div>"""
 
         todos = s.get("todos", [])
