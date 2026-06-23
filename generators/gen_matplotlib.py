@@ -3479,6 +3479,57 @@ if os.path.exists('revenue_report.png'):
 }
 },
 
+{
+"title": "Practice Lab: Plot & Verify",
+"desc": "Hands-on plotting challenges. Press Run to render a chart in the output (matplotlib draws inline via Pyodide), then solve the exercise and press Check — the checks grade the data behind the plot.",
+"examples": [
+    {"label": "Line chart with legend", "code": '''import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 100)
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.plot(x, np.sin(x), label="sin")
+ax.plot(x, np.cos(x), label="cos")
+ax.legend(); ax.set_title("Trig functions"); ax.grid(alpha=.3)
+plt.show()'''},
+    {"label": "Bar chart from counts", "code": '''import matplotlib.pyplot as plt
+
+labels = ["A", "B", "C", "D"]
+values = [23, 17, 35, 29]
+fig, ax = plt.subplots(figsize=(5, 3))
+bars = ax.bar(labels, values, color="#58a6ff")
+ax.bar_label(bars); ax.set_title("Category counts")
+plt.show()'''},
+],
+"todos": [
+    "Plot two curves on one Axes and add a legend",
+    "Draw a bar chart and annotate it with Axes.bar_label",
+    "Compute histogram counts with np.histogram and bar-plot them",
+    "Confirm the bin counts sum to the number of data points",
+],
+"practice": {
+    "title": "Histogram Bin Counts",
+    "desc": "Implement bin_counts(data, bins) returning the histogram counts for the given bin edges, then bar-plot them. Fill in the function, press Run to see the chart, then press Check.",
+    "starter": '''import matplotlib.pyplot as plt
+import numpy as np
+
+def bin_counts(data, bins):
+    # TODO: return the histogram counts (np.histogram returns counts, edges)
+    return np.zeros(len(bins) - 1, dtype=int)
+
+data = np.array([1,1,2,2,2,3,3,4,5,5,5,5])
+counts = bin_counts(data, bins=[0,2,4,6])
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar(["0-2","2-4","4-6"], counts, color="#a78bfa")
+ax.set_title("Histogram"); plt.show()
+print("counts:", list(counts))''',
+    "check": '''assert list(counts) == [2, 5, 5], "counts in [0,2), [2,4), [4,6] should be 2, 5, 5"
+assert int(np.sum(counts)) == 12, "the counts must sum to the 12 data points"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
