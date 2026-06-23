@@ -12,7 +12,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 32 topics</p>
+  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 33 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Array Creation</a></li>
@@ -46,11 +46,12 @@
     <li><a href="#s28" onclick="act(this,event)">29. Memory Layout, Strides &amp; Contiguity</a></li>
     <li><a href="#s29" onclick="act(this,event)">30. Advanced Linear Algebra Operations</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Numerical Differentiation &amp; Optimization</a></li>
-    <li><a href="#s31" onclick="act(this,event)">32. NumPy in Data Science Workflows</a></li></ul>
+    <li><a href="#s31" onclick="act(this,event)">32. NumPy in Data Science Workflows</a></li>
+    <li><a href="#s32" onclick="act(this,event)">33. Practice Lab: Array Challenges</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🔢 NumPy</h1>
-  <p class="ps">32 topics &bull; Click any card to expand</p>
+  <p class="ps">33 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Array Creation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays are the foundation of scientific computing. Create them from lists, ranges, or built-in factory functions.</p><div class="code-block"><div class="ch"><span>From lists and factory functions</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 
 a = np.array([1, 2, 3, 4, 5])
@@ -4298,7 +4299,64 @@ print(f&quot;Per-fold: {[round(s,3) for s in result[&#x27;folds&#x27;]]}&quot;)
 <li><label><input type="checkbox"> Implement Z-score normalization using only NumPy: (X - X.mean(0)) / (X.std(0) + 1e-8)</label></li>
 <li><label><input type="checkbox"> Build one-hot encoded labels from a class index array using broadcasting == arange trick</label></li>
 <li><label><input type="checkbox"> Implement a 2-layer neural network forward pass (relu + softmax) using only NumPy operations</label></li>
-<li><label><input type="checkbox"> Write a logistic regression training loop using NumPy gradient descent and measure accuracy</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Write a logistic regression training loop using NumPy gradient descent and measure accuracy</label></li></ul></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>33. Practice Lab: Array Challenges</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on challenges to cement core NumPy skills. Every snippet below runs in your browser — tweak it and press Run, then solve the exercise and press Check to grade your solution.</p><div class="code-block"><div class="ch"><span>Vectorized pairwise distance matrix</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import numpy as np
+
+# Euclidean distance between every pair of points, with no Python loops.
+# Trick: ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+rng = np.random.default_rng(0)
+P = rng.standard_normal((5, 3))          # 5 points in 3D
+
+sq = (P**2).sum(axis=1)
+D2 = sq[:, None] + sq[None, :] - 2 * (P @ P.T)
+D  = np.sqrt(np.maximum(D2, 0))          # clip tiny negatives from round-off
+
+print(&quot;distance matrix shape:&quot;, D.shape)
+print(&quot;symmetric:&quot;, np.allclose(D, D.T))
+print(&quot;zero diagonal:&quot;, np.allclose(np.diag(D), 0))
+print(&quot;nearest neighbor of point 0:&quot;, D[0, 1:].argmin() + 1)</code></pre></div><div class="code-block"><div class="ch"><span>Moving average &amp; running statistics</span><button onclick="cp('c32_1')">Copy</button></div><pre><code id="c32_1" class="language-python">import numpy as np
+
+x = np.array([3., 1, 4, 1, 5, 9, 2, 6, 5, 3])
+
+# Moving average via convolution with a uniform kernel
+def moving_average(a, w):
+    kernel = np.ones(w) / w
+    return np.convolve(a, kernel, mode=&quot;valid&quot;)
+
+ma3 = moving_average(x, 3)
+run_mean = np.cumsum(x) / np.arange(1, len(x) + 1)
+
+print(&quot;3-point moving average:&quot;, ma3.round(2))
+print(&quot;running mean:&quot;, run_mean.round(2))
+print(&quot;global mean == last running mean:&quot;, np.isclose(run_mean[-1], x.mean()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize &amp; One-Hot</div><div class="pd">Implement normalize(X) so each column is min-max scaled to [0, 1], and one_hot(labels, n_classes) so each row is a one-hot vector for the corresponding label. Fill in the two functions, press Run to see the output, then press Check to grade your solution.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import numpy as np
+
+# TODO 1: min-max normalize each column of X to the range [0, 1]
+def normalize(X):
+    X = np.asarray(X, float)
+    # your code here
+    return X
+
+# TODO 2: one-hot encode integer labels into shape (len(labels), n_classes)
+def one_hot(labels, n_classes):
+    labels = np.asarray(labels)
+    # your code here
+    return np.zeros((len(labels), n_classes))
+
+rng = np.random.default_rng(7)
+X = rng.standard_normal((6, 3)) * 10 + 5
+labels = np.array([0, 2, 1, 2, 0, 1])
+
+Xn = normalize(X)
+oh = one_hot(labels, 3)
+print(&quot;normalized min/max per col:&quot;, Xn.min(0).round(3), Xn.max(0).round(3))
+print(&quot;one-hot:\n&quot;, oh)</code></pre></div><template class="ho-check">assert Xn.shape == X.shape, &quot;normalize must keep the same shape&quot;
+assert np.allclose(Xn.min(axis=0), 0) and np.allclose(Xn.max(axis=0), 1), \
+    &quot;each column of the normalized array must span exactly [0, 1]&quot;
+assert oh.shape == (len(labels), 3), &quot;one-hot shape should be (n_samples, n_classes)&quot;
+assert np.array_equal(oh.sum(axis=1), np.ones(len(labels))), &quot;each one-hot row must sum to 1&quot;
+assert np.array_equal(oh.argmax(axis=1), labels), &quot;argmax of each one-hot row must equal the label&quot;</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a pairwise distance matrix with the ||a-b||^2 expansion and confirm it is symmetric with a zero diagonal</label></li>
+<li><label><input type="checkbox"> Compute a 5-point moving average with np.convolve and a uniform kernel</label></li>
+<li><label><input type="checkbox"> Min-max normalize a matrix so every column spans exactly [0, 1]</label></li>
+<li><label><input type="checkbox"> One-hot encode an integer label vector using the broadcasting == arange trick</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

@@ -43,6 +43,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -50,6 +54,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -2176,6 +2181,81 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
         "title": "Cross-Validation",
         "desc": "Implement k_fold_cv(X, y, model_fn, k=5, seed=42) where model_fn(X_train, y_train, X_val) returns predictions. Split data into k folds, train on k-1 folds, predict on the held-out fold, compute accuracy for each fold, and return mean and std. Test with a simple threshold classifier.",
         "starter": "import numpy as np\n\ndef k_fold_cv(X, y, model_fn, k=5, seed=42):\n    rng  = np.random.default_rng(seed)\n    idx  = rng.permutation(len(y))\n    fold_size = len(y) // k\n    scores = []\n    for fold in range(k):\n        val_idx   = idx[fold*fold_size:(fold+1)*fold_size]\n        train_idx = np.concatenate([idx[:fold*fold_size], idx[(fold+1)*fold_size:]])\n        X_tr, y_tr = X[train_idx], y[train_idx]\n        X_va, y_va = X[val_idx],   y[val_idx]\n        preds = model_fn(X_tr, y_tr, X_va)\n        scores.append((preds == y_va).mean())\n    return {\"mean\": np.mean(scores), \"std\": np.std(scores), \"folds\": scores}\n\n# Threshold classifier: predict 1 if feature 0 > median\ndef threshold_model(X_tr, y_tr, X_va):\n    threshold = np.median(X_tr[:, 0])\n    return (X_va[:, 0] > threshold).astype(int)\n\nrng = np.random.default_rng(42)\nN, D = 500, 5\nX = rng.standard_normal((N, D))\ny = (X[:, 0] + 0.5 * X[:, 1] > 0).astype(int)\n\nresult = k_fold_cv(X, y, threshold_model, k=5)\nprint(f\"5-fold CV: {result[\'mean\']:.3f} ± {result[\'std\']:.3f}\")\nprint(f\"Per-fold: {[round(s,3) for s in result[\'folds\']]}\")\n"
+    }
+    },
+
+    {
+    "title": "33. Practice Lab: Array Challenges",
+    "desc": "Hands-on challenges to cement core NumPy skills. Every snippet below runs in your browser — tweak it and press Run, then solve the exercise and press Check to grade your solution.",
+    "examples": [
+        {"label": "Vectorized pairwise distance matrix", "code": """import numpy as np
+
+# Euclidean distance between every pair of points, with no Python loops.
+# Trick: ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+rng = np.random.default_rng(0)
+P = rng.standard_normal((5, 3))          # 5 points in 3D
+
+sq = (P**2).sum(axis=1)
+D2 = sq[:, None] + sq[None, :] - 2 * (P @ P.T)
+D  = np.sqrt(np.maximum(D2, 0))          # clip tiny negatives from round-off
+
+print("distance matrix shape:", D.shape)
+print("symmetric:", np.allclose(D, D.T))
+print("zero diagonal:", np.allclose(np.diag(D), 0))
+print("nearest neighbor of point 0:", D[0, 1:].argmin() + 1)"""},
+        {"label": "Moving average & running statistics", "code": """import numpy as np
+
+x = np.array([3., 1, 4, 1, 5, 9, 2, 6, 5, 3])
+
+# Moving average via convolution with a uniform kernel
+def moving_average(a, w):
+    kernel = np.ones(w) / w
+    return np.convolve(a, kernel, mode="valid")
+
+ma3 = moving_average(x, 3)
+run_mean = np.cumsum(x) / np.arange(1, len(x) + 1)
+
+print("3-point moving average:", ma3.round(2))
+print("running mean:", run_mean.round(2))
+print("global mean == last running mean:", np.isclose(run_mean[-1], x.mean()))"""},
+    ],
+    "todos": [
+        "Build a pairwise distance matrix with the ||a-b||^2 expansion and confirm it is symmetric with a zero diagonal",
+        "Compute a 5-point moving average with np.convolve and a uniform kernel",
+        "Min-max normalize a matrix so every column spans exactly [0, 1]",
+        "One-hot encode an integer label vector using the broadcasting == arange trick",
+    ],
+    "practice": {
+        "title": "Normalize & One-Hot",
+        "desc": "Implement normalize(X) so each column is min-max scaled to [0, 1], and one_hot(labels, n_classes) so each row is a one-hot vector for the corresponding label. Fill in the two functions, press Run to see the output, then press Check to grade your solution.",
+        "starter": """import numpy as np
+
+# TODO 1: min-max normalize each column of X to the range [0, 1]
+def normalize(X):
+    X = np.asarray(X, float)
+    # your code here
+    return X
+
+# TODO 2: one-hot encode integer labels into shape (len(labels), n_classes)
+def one_hot(labels, n_classes):
+    labels = np.asarray(labels)
+    # your code here
+    return np.zeros((len(labels), n_classes))
+
+rng = np.random.default_rng(7)
+X = rng.standard_normal((6, 3)) * 10 + 5
+labels = np.array([0, 2, 1, 2, 0, 1])
+
+Xn = normalize(X)
+oh = one_hot(labels, 3)
+print("normalized min/max per col:", Xn.min(0).round(3), Xn.max(0).round(3))
+print("one-hot:\\n", oh)""",
+        "check": """assert Xn.shape == X.shape, "normalize must keep the same shape"
+assert np.allclose(Xn.min(axis=0), 0) and np.allclose(Xn.max(axis=0), 1), \\
+    "each column of the normalized array must span exactly [0, 1]"
+assert oh.shape == (len(labels), 3), "one-hot shape should be (n_samples, n_classes)"
+assert np.array_equal(oh.sum(axis=1), np.ones(len(labels))), "each one-hot row must sum to 1"
+assert np.array_equal(oh.argmax(axis=1), labels), "argmax of each one-hot row must equal the label\""""
     }
     },
 
