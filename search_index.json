@@ -1884,6 +1884,10 @@
    {
     "t": "10. Bayesian Optimization for Hyperparameter Tuning",
     "a": "s9"
+   },
+   {
+    "t": "Practice Lab: Bayesian Updating",
+    "a": "s10"
    }
   ]
  }

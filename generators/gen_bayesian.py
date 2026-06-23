@@ -1653,6 +1653,55 @@ print("\\nWith Optuna, this search is automated and more efficient!")"""
 ],
 },
 
+{
+"title": "Practice Lab: Bayesian Updating",
+"desc": "Hands-on Bayesian challenges (NumPy + SciPy, Pyodide-runnable). Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Bayes' theorem: medical test", "code": '''# A test is 99% sensitive and 95% specific; the disease affects 1% of people.
+p_disease = 0.01
+p_pos_given_disease = 0.99           # sensitivity
+p_pos_given_healthy = 0.05           # 1 - specificity
+
+p_pos = p_pos_given_disease * p_disease + p_pos_given_healthy * (1 - p_disease)
+posterior = p_pos_given_disease * p_disease / p_pos
+print("P(disease | positive) =", round(posterior, 4))
+print("Even after a positive test, the probability is only ~17%.")'''},
+    {"label": "Beta-Binomial posterior", "code": '''from scipy import stats
+
+# Prior Beta(2, 2); observe 8 heads in 10 flips
+a0, b0, heads, n = 2, 2, 8, 10
+post = stats.beta(a0 + heads, b0 + (n - heads))
+
+print("posterior mean:", round(post.mean(), 4))
+ci = post.interval(0.95)
+print("95% credible interval:", [round(float(x), 3) for x in ci])'''},
+],
+"todos": [
+    "Apply Bayes' theorem to the medical-test problem and explain the low posterior",
+    "Update a Beta prior with observed heads/tails to get the posterior Beta",
+    "Compute the posterior mean a / (a + b) of a Beta distribution",
+    "Read a 95% credible interval from scipy.stats.beta(...).interval(0.95)",
+],
+"practice": {
+    "title": "Beta Posterior Update",
+    "desc": "Implement update_beta(prior_a, prior_b, heads, tails) returning the updated (a, b), and posterior_mean(a, b) returning a / (a + b). Fill in the functions, press Run, then press Check.",
+    "starter": '''def update_beta(prior_a, prior_b, heads, tails):
+    # TODO: a conjugate Beta prior updates by adding heads to a and tails to b
+    return (prior_a, prior_b)
+
+def posterior_mean(a, b):
+    # TODO: return the mean of Beta(a, b)
+    return 0.0
+
+a, b = update_beta(1, 1, 7, 3)
+pm = posterior_mean(a, b)
+print("posterior:", (a, b), "mean:", round(pm, 4))''',
+    "check": '''assert (a, b) == (8, 4), "Beta(1,1) updated with 7 heads, 3 tails is Beta(8,4)"
+assert abs(pm - 8/12) < 1e-9, "posterior mean is a/(a+b) = 8/12"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 
