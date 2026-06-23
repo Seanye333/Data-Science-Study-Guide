@@ -46,6 +46,7 @@ An interactive, self-paced study guide covering the full data science stack — 
 - **Real-world scenarios** — industry-style code examples per section
 - **Practice exercises** — starter code with guided TODOs
 - **Runnable code** — run (and edit) every example and exercise right in the browser via [Pyodide](https://pyodide.org/) (CPython → WASM); matplotlib/seaborn plots render inline; the runtime lazy-loads on first Run, no setup or backend
+- **Auto-graded practice** — exercises can ship hidden assertions; a **Check** button runs your solution against them and reports pass/fail (give a practice entry a `check` field in its generator; see Python Basics → "Variable Juggling" for a live example)
 - **Global search** — filter modules and jump to any topic from the homepage
 - **Progress tracking** — completion state saved in localStorage, shown on the homepage
 - **Searchable sidebar** — filter topics instantly

@@ -39,6 +39,12 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            # Optional auto-grading: hidden assertions run after the learner's
+            # code (see styles/hands-on.js, which adds a "Check" button).
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -46,6 +52,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -255,7 +262,12 @@ height = 1.75        # set height in meters
 is_working_age = ???
 
 # Expected: "Alice | Age: 1.75 | Height: 25m | Working age: True"
-print(f"{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}")"""
+print(f"{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}")""",
+"check":
+"""assert age == 1.75, "After the swap, age should hold the height value (1.75)"
+assert height == 25, "After the swap, height should hold the original age value (25)"
+assert is_working_age is True, "The original age 25 is within 18-65, so this should be True"
+print("All checks passed ✓")"""
 },
 "rw": {
 "title": "User Input Validation",

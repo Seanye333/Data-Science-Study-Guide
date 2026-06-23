@@ -75,8 +75,30 @@ for (const [rel, label] of CASES) {
   if (!failures) console.log("   ✓ all assertions passed");
 }
 
+// Auto-grading: the Python-basics page has one exercise with a <template
+// class="ho-check">, which must surface exactly one Check button.
+{
+  const rel = "modules/00_python_basics/index.html";
+  const dom = new JSDOM(fs.readFileSync(path.join(ROOT, rel), "utf8"), {
+    runScripts: "outside-only",
+    pretendToBeVisual: true,
+  });
+  const { window } = dom;
+  const doc = window.document;
+  const tpls = doc.querySelectorAll("template.ho-check").length;
+  window.eval(SCRIPT);
+  doc.dispatchEvent(new window.Event("DOMContentLoaded"));
+  const checkBtns = [...doc.querySelectorAll(".practice .ho-btn")].filter((b) =>
+    b.textContent.includes("Check")
+  ).length;
+  console.log(`\n[auto-grade] ${rel}`);
+  check(tpls === 1, "exactly one ho-check template present");
+  check(checkBtns === tpls, `Check button rendered for the checked exercise (${tpls})`);
+  if (!failures) console.log("   ✓ all assertions passed");
+}
+
 if (failures) {
   console.error(`\n❌ ${failures} assertion(s) failed`);
   process.exit(1);
 }
-console.log("\n✅ hands-on.js contract holds on both templates");
+console.log("\n✅ hands-on.js contract holds (Practice, examples, auto-grade)");

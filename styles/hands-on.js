@@ -43,6 +43,7 @@
       ".ho-out.show{display:block}" +
       ".ho-out img{max-width:100%;display:block;margin:8px 0;border-radius:8px}" +
       ".ho-err{color:#ff7b72}" +
+      ".ho-ok{color:#3fb950;font-weight:600;margin-top:6px}" +
       ".ho-muted{color:#8b949e}" +
       "body.light-mode .ho-editor{color:#1f2328;background:rgba(255,255,255,.75)}" +
       "body.light-mode .ho-out{color:#1f2328;background:rgba(255,255,255,.6)}";
@@ -172,6 +173,24 @@
       });
   }
 
+  // Run the learner's code followed by the hidden assertions; a clean run means
+  // all checks passed, an exception (e.g. AssertionError) is shown in red.
+  function runCheck(userCode, checkSrc, out, status, btn) {
+    var combined = userCode + "\n\n# --- checks ---\n" + checkSrc;
+    return runCode(function () { return combined; }, out, status, btn).then(
+      function () {
+        if (status.textContent === "Done") {
+          var ok = document.createElement("div");
+          ok.className = "ho-ok";
+          ok.textContent = "✓ All checks passed";
+          out.appendChild(ok);
+          out.classList.add("show");
+          status.textContent = "Passed";
+        }
+      }
+    );
+  }
+
   function autoSize(ta) {
     ta.style.height = "auto";
     ta.style.height = Math.min(Math.max(ta.scrollHeight, 120), 520) + "px";
@@ -213,6 +232,11 @@
     var starter = codeEl.textContent.replace(/\s+$/, "");
     practice.dataset.hoReady = "1";
 
+    // Optional auto-grading: a hidden <template class="ho-check"> holds
+    // assertions that run after the learner's code (adds a "Check" button).
+    var checkTpl = practice.querySelector("template.ho-check");
+    var checkSrc = checkTpl ? checkTpl.content.textContent : null;
+
     // Replace the whole starter wrapper (.code-block/.ch or .code-wrap/.copy-btn)
     // so the now-dead Copy button isn't left orphaned.
     var container = pre.closest(".code-block, .code-wrap") || pre;
@@ -244,6 +268,13 @@
     });
 
     bar.appendChild(runBtn);
+    if (checkSrc) {
+      var checkBtn = mkBtn("✓ Check", "ho-btn");
+      checkBtn.addEventListener("click", function () {
+        runCheck(editor.value, checkSrc, out, status, checkBtn);
+      });
+      bar.appendChild(checkBtn);
+    }
     bar.appendChild(resetBtn);
     bar.appendChild(copyBtn);
     bar.appendChild(status);
