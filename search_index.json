@@ -1612,6 +1612,10 @@
    {
     "t": "24. NLP Pipeline & Production Deployment",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Tokenization & N-grams",
+    "a": "s24"
    }
   ]
  },
