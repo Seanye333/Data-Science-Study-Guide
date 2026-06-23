@@ -2731,6 +2731,63 @@ result = pipeline.run()"""
 }
 },
 
+{
+"title": "Practice Lab: Requests & FastAPI",
+"desc": "Hands-on REST patterns. These depend on the network and web frameworks, so run them in a local Python environment (the in-page runner has no network). Read, copy, and adapt them.",
+"examples": [
+    {"label": "GET with params, timeout & error handling", "code": '''import requests
+
+def fetch_repo(owner, repo):
+    url = f"https://api.github.com/repos/{owner}/{repo}"
+    try:
+        r = requests.get(url, params={"per_page": 1}, timeout=5)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        return {"error": str(e)}
+    data = r.json()
+    return {"name": data["full_name"], "stars": data["stargazers_count"]}
+
+print(fetch_repo("python", "cpython"))'''},
+    {"label": "Minimal FastAPI endpoint", "code": '''from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+ITEMS = {1: "apple", 2: "banana"}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, upper: bool = False):
+    if item_id not in ITEMS:
+        raise HTTPException(status_code=404, detail="item not found")
+    name = ITEMS[item_id]
+    return {"id": item_id, "name": name.upper() if upper else name}
+
+# Run with:  uvicorn app:app --reload'''},
+],
+"todos": [
+    "Send a GET request with query params, a timeout, and raise_for_status()",
+    "Handle requests.RequestException and return a clean error dict",
+    "Define a FastAPI path parameter (item_id: int) and a query parameter (upper: bool)",
+    "Return a 404 with HTTPException when a resource is missing",
+],
+"practice": {
+    "title": "Resilient API Client",
+    "desc": "Write get_json(url, params=None, retries=3) that performs a GET with a 5s timeout, retries on failure with a short backoff, raises for HTTP errors, and returns parsed JSON (or None after exhausting retries). Run it locally against a real endpoint.",
+    "starter": '''import requests, time
+
+def get_json(url, params=None, retries=3):
+    for attempt in range(retries):
+        try:
+            r = requests.get(url, params=params, timeout=5)
+            r.raise_for_status()
+            return r.json()
+        except requests.RequestException:
+            # TODO: back off (e.g. time.sleep(2 ** attempt)) and retry; return None if out of attempts
+            pass
+    return None
+
+print(get_json("https://api.github.com/repos/python/cpython"))'''
+}
+},
+
 ]
 
 

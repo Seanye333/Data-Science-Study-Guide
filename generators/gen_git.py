@@ -2072,6 +2072,59 @@ echo "Bookmark this cheat sheet!" """},
 ],
 },
 
+{
+"title": "Practice Lab: Branching & Recovery",
+"desc": "Hands-on Git workflows. Run these commands in a real repository in your terminal — they show the everyday branch/merge loop and how to recover from mistakes.",
+"examples": [
+    {"label": "Feature-branch workflow", "lang": "bash", "code": '''# Start a feature off the latest main
+git switch main
+git pull --ff-only
+git switch -c feature/login
+
+# ... make changes ...
+git add -A
+git commit -m "Add login form"
+
+# Keep up to date and merge back
+git fetch origin
+git rebase origin/main          # replay your work on top of main
+git switch main && git merge --ff-only feature/login
+git branch -d feature/login'''},
+    {"label": "Undo & recover", "lang": "bash", "code": '''# Unstage / discard
+git restore --staged file.py     # unstage, keep changes
+git restore file.py              # discard working-tree changes
+
+# Amend the last commit (before pushing)
+git commit --amend -m "Better message"
+
+# Undo a pushed commit safely (keeps history)
+git revert <sha>
+
+# Recover a "lost" commit after a bad reset
+git reflog                       # find the old HEAD sha
+git reset --hard <sha>'''},
+],
+"todos": [
+    "Create a feature branch with git switch -c and merge it back with --ff-only",
+    "Rebase your branch onto origin/main and resolve any conflicts",
+    "Undo a pushed commit with git revert (not reset) to preserve history",
+    "Use git reflog to find and restore a commit lost to a hard reset",
+],
+"practice": {
+    "title": "Recover a Lost Commit",
+    "lang": "bash",
+    "desc": "You ran `git reset --hard HEAD~2` and lost two commits. Using the commands below as a guide, write the sequence that finds the lost commit in the reflog and restores your branch to it. (Try it in a throwaway repo.)",
+    "starter": '''# 1. Inspect recent HEAD positions
+git reflog
+
+# 2. TODO: identify the sha from just before the bad reset, then restore to it
+#    (hint: git reset --hard <sha>, or git branch rescue <sha> to be safe)
+
+# 3. Confirm the commits are back
+git log --oneline -5'''
+}
+},
+
 ]
 
 

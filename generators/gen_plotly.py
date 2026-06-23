@@ -2970,6 +2970,48 @@ os.remove(out)"""}
 }
 },
 
+{
+"title": "Practice Lab: Express & Graph Objects",
+"desc": "Hands-on interactive charts. Plotly renders to an interactive HTML widget, so run these in a local notebook (fig.show()) rather than the in-page runner. Read, copy, and adapt them.",
+"examples": [
+    {"label": "Plotly Express scatter", "code": '''import plotly.express as px
+
+df = px.data.iris()
+fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species",
+                 size="petal_length", hover_data=["petal_width"],
+                 title="Iris sepal dimensions")
+fig.show()'''},
+    {"label": "Graph Objects: grouped bars", "code": '''import plotly.graph_objects as go
+
+months = ["Jan", "Feb", "Mar", "Apr"]
+fig = go.Figure()
+fig.add_trace(go.Bar(name="2023", x=months, y=[20, 14, 23, 25]))
+fig.add_trace(go.Bar(name="2024", x=months, y=[24, 18, 27, 29]))
+fig.update_layout(barmode="group", title="Monthly sales by year")
+fig.show()'''},
+],
+"todos": [
+    "Build a scatter with px.scatter, mapping color and size to columns",
+    "Create a grouped bar chart with two go.Bar traces and barmode='group'",
+    "Set a title and axis labels with fig.update_layout",
+    "Export a figure to HTML with fig.write_html('chart.html')",
+],
+"practice": {
+    "title": "Time-Series Line Chart",
+    "desc": "Build an interactive multi-series line chart: one trace per category, a shared x-axis of dates, a title, and a unified hovermode. Run it locally and open the result with fig.show().",
+    "starter": '''import plotly.graph_objects as go
+
+dates = ["2024-01", "2024-02", "2024-03", "2024-04"]
+series = {"North": [10, 14, 13, 18], "South": [8, 9, 12, 11]}
+
+fig = go.Figure()
+# TODO: add one go.Scatter(mode="lines+markers") trace per series
+# TODO: update_layout with a title and hovermode="x unified"
+
+fig.show()'''
+}
+},
+
 ]  # end SECTIONS
 
 

@@ -492,6 +492,10 @@
    {
     "t": "16. Data Collection Project — End-to-End Pipeline",
     "a": "s15"
+   },
+   {
+    "t": "Practice Lab: Requests & FastAPI",
+    "a": "s16"
    }
   ]
  },
@@ -879,6 +883,10 @@
    {
     "t": "24. Custom Templates & Styling",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Express & Graph Objects",
+    "a": "s24"
    }
   ]
  },
@@ -1089,6 +1097,10 @@
    {
     "t": "24. Deployment: Cloud, Docker & CI/CD",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Widgets & Caching",
+    "a": "s24"
    }
   ]
  },
@@ -1192,6 +1204,10 @@
    {
     "t": "24. Polars Production Patterns",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Expressions & Lazy Queries",
+    "a": "s24"
    }
   ]
  },
@@ -1723,6 +1739,10 @@
    {
     "t": "24. Feature Stores & ML Platforms",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Tracking & Serving",
+    "a": "s24"
    }
   ]
  },
@@ -1794,6 +1814,10 @@
    {
     "t": "16. Git Best Practices Cheat Sheet",
     "a": "s15"
+   },
+   {
+    "t": "Practice Lab: Branching & Recovery",
+    "a": "s16"
    }
   ]
  },
