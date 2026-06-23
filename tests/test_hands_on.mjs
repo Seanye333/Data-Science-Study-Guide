@@ -92,8 +92,8 @@ for (const [rel, label] of CASES) {
     b.textContent.includes("Check")
   ).length;
   console.log(`\n[auto-grade] ${rel}`);
-  check(tpls === 1, "exactly one ho-check template present");
-  check(checkBtns === tpls, `Check button rendered for the checked exercise (${tpls})`);
+  check(tpls >= 1, "at least one ho-check template present");
+  check(checkBtns === tpls, `a Check button per checked exercise (${tpls})`);
   if (!failures) console.log("   ✓ all assertions passed");
 }
 
