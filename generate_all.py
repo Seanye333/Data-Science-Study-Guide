@@ -18,6 +18,7 @@ Usage::
 Requires Python 3.10+. No external dependencies — standard library only.
 """
 
+import html
 import json
 import pathlib
 import re
@@ -27,6 +28,11 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent
 GEN_DIR = ROOT / "generators"
 CHROME_FILE = ROOT / "styles" / "module_chrome.json"
+SEARCH_INDEX = ROOT / "search_index.json"
+
+_TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
+_SECTION_RE = re.compile(r'<a href="#(s\d+)"[^>]*>([^<]+)</a>')
+_EMOJI_TITLE_RE = re.compile(r"^[^\w(]+")  # leading emoji/space before the name
 
 # Matches the standardized output-folder token in every generator, e.g.
 #   ... / "modules" / "01_numpy"     (pathlib form)
@@ -79,6 +85,40 @@ def apply_chrome(index_html: pathlib.Path, chrome: dict) -> bool:
     return True
 
 
+def build_search_index() -> int:
+    """Scan every module's index.html and write search_index.json — module
+    titles plus their section topics/anchors — for the homepage search box.
+    Modules without #sN anchors (the hand-maintained Pandas page) are listed
+    without sections; the homepage card filter still covers them."""
+    entries = []
+    for idx in sorted(ROOT.glob("modules/*/index.html")):
+        text = idx.read_text(encoding="utf-8", errors="surrogateescape")
+        tm = _TITLE_RE.search(text)
+        title = tm.group(1).strip() if tm else idx.parent.name
+        title = re.sub(r"\s*Study Guide\s*$", "", title)
+        title = _EMOJI_TITLE_RE.sub("", title).strip() or idx.parent.name
+        seen, sections = set(), []
+        for anchor, label in _SECTION_RE.findall(text):
+            if anchor in seen:
+                continue
+            seen.add(anchor)
+            sections.append({"t": html.unescape(label).strip(), "a": anchor})
+        entries.append(
+            {
+                "module": idx.parent.name,
+                "title": title,
+                "url": "modules/" + idx.parent.name + "/index.html",
+                "sections": sections,
+            }
+        )
+    SEARCH_INDEX.write_text(
+        json.dumps(entries, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+    )
+    topics = sum(len(e["sections"]) for e in entries)
+    print(f"→ search_index.json: {len(entries)} modules, {topics} topics")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     gens = sorted(GEN_DIR.glob("gen_*.py"))
     if argv:
@@ -116,6 +156,8 @@ def main(argv: list[str]) -> int:
             if folder and index_html.exists():
                 if apply_chrome(index_html, chrome):
                     print("    + chrome applied")
+
+    build_search_index()
 
     ok = len(gens) - len(failures)
     print(f"\n{ok}/{len(gens)} generators succeeded.")

@@ -39,6 +39,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -46,6 +50,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -1832,6 +1837,60 @@ df = pd.DataFrame({
     "Write a custom BaseEstimator transformer (e.g., OutlierCapper) and insert it into a Pipeline step",
     "Add a SelectKBest step after preprocessing in the Pipeline and compare accuracy with/without it",
 ],
+},
+
+{
+"title": "Practice Lab: Encode & Scale",
+"desc": "Hands-on feature-engineering challenges (pandas + scikit-learn, Pyodide-runnable). Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "One-hot encode + standardize", "code": '''import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({"city": ["NY", "SF", "NY", "LA"],
+                   "age": [25, 40, 35, 50], "income": [50, 90, 70, 60]})
+onehot = pd.get_dummies(df, columns=["city"], prefix="city")
+onehot[["age", "income"]] = StandardScaler().fit_transform(onehot[["age", "income"]])
+print(onehot.round(3).to_string(index=False))'''},
+    {"label": "Binning + target rate", "code": '''import pandas as pd, numpy as np
+
+rng = np.random.default_rng(0)
+df = pd.DataFrame({"age": rng.integers(18, 70, 12), "churn": rng.integers(0, 2, 12)})
+df["age_bin"] = pd.cut(df["age"], bins=[18, 30, 45, 70], labels=["young", "mid", "senior"])
+print(df.groupby("age_bin", observed=True)["churn"].mean().round(3).to_string())'''},
+],
+"todos": [
+    "One-hot encode a categorical column with pd.get_dummies",
+    "Standardize numeric columns with StandardScaler (mean 0, unit variance)",
+    "Min-max scale a series to [0, 1] with (s - min) / (max - min)",
+    "Frequency-encode a categorical column using value_counts(normalize=True) and map",
+],
+"practice": {
+    "title": "Min-Max & Frequency Encoding",
+    "desc": "Implement minmax_scale(s) to scale a series to [0, 1], and frequency_encode(s) to replace each category with its relative frequency. Fill in the functions, press Run, then press Check.",
+    "starter": '''import numpy as np, pandas as pd
+
+def minmax_scale(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: scale to [0, 1] with (s - min) / (max - min)
+    return s
+
+def frequency_encode(s):
+    s = pd.Series(s)
+    # TODO: map each value to its relative frequency (value_counts(normalize=True))
+    return s
+
+vals = pd.Series([10, 20, 30, 40, 50])
+cats = pd.Series(["a", "b", "a", "a", "c"])
+ms = minmax_scale(vals)
+fe = frequency_encode(cats)
+print("minmax:", ms.tolist())
+print("freq:", fe.round(2).tolist())''',
+    "check": '''assert np.isclose(ms.min(), 0) and np.isclose(ms.max(), 1), "min-max must span [0, 1]"
+assert np.isclose(ms.iloc[2], 0.5), "30 should map to 0.5"
+assert np.isclose(fe.iloc[0], 0.6), "'a' occurs 3/5 = 0.6"
+assert np.isclose(fe.iloc[1], 0.2) and np.isclose(fe.iloc[4], 0.2), "'b' and 'c' occur 1/5 = 0.2"
+print("All checks passed \\u2713")'''
+}
 },
 
 ]

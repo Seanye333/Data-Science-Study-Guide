@@ -39,6 +39,12 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            # Optional auto-grading: hidden assertions run after the learner's
+            # code (see styles/hands-on.js, which adds a "Check" button).
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -46,6 +52,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -255,7 +262,12 @@ height = 1.75        # set height in meters
 is_working_age = ???
 
 # Expected: "Alice | Age: 1.75 | Height: 25m | Working age: True"
-print(f"{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}")"""
+print(f"{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}")""",
+"check":
+"""assert age == 1.75, "After the swap, age should hold the height value (1.75)"
+assert height == 25, "After the swap, height should hold the original age value (25)"
+assert is_working_age is True, "The original age 25 is within 18-65, so this should be True"
+print("All checks passed ✓")"""
 },
 "rw": {
 "title": "User Input Validation",
@@ -4143,6 +4155,63 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
     "title": "Generic Result Type",
     "desc": "Implement a generic Result[T, E] class (inspired by Rust) with two states: Ok(value: T) and Err(error: E). Add methods: is_ok(), is_err(), unwrap() (returns value or raises), unwrap_or(default), map(fn) (applies fn to value if Ok, returns new Result). Write tests using Result[int, str].",
     "starter": "from typing import Generic, TypeVar, Callable, Optional\nfrom dataclasses import dataclass\n\nT = TypeVar(\"T\")\nE = TypeVar(\"E\")\nU = TypeVar(\"U\")\n\n@dataclass\nclass Result(Generic[T, E]):\n    _value: Optional[T] = None\n    _error: Optional[E] = None\n\n    @classmethod\n    def ok(cls, value: T) -> \"Result[T, E]\":\n        return cls(_value=value)\n\n    @classmethod\n    def err(cls, error: E) -> \"Result[T, E]\":\n        return cls(_error=error)\n\n    def is_ok(self) -> bool:\n        return self._error is None\n\n    def is_err(self) -> bool:\n        return self._error is not None\n\n    def unwrap(self) -> T:\n        if self.is_err():\n            raise ValueError(f\"Called unwrap on Err: {self._error}\")\n        return self._value\n\n    def unwrap_or(self, default: T) -> T:\n        # TODO: return value if ok, else default\n        pass\n\n    def map(self, fn: Callable[[T], U]) -> \"Result[U, E]\":\n        # TODO: if ok, return Result.ok(fn(self._value)), else return self\n        pass\n\n# Tests\nr1 = Result.ok(42)\nr2 = Result.err(\"not found\")\n\nprint(r1.is_ok(), r1.unwrap())\nprint(r2.is_err(), r2.unwrap_or(-1))\nprint(r1.map(lambda x: x * 2).unwrap())\ntry:    r2.unwrap()\nexcept ValueError as e: print(\"Caught:\", e)\n"
+}
+},
+
+{
+"title": "35. Practice Lab: Collections & Counting",
+"desc": "Hands-on challenges with Python's standard-library data tools. Everything here runs in your browser — press Run to try a snippet, then solve the exercise and press Check to grade it.",
+"examples": [
+    {"label": "Word frequency with Counter", "code": """from collections import Counter
+import re
+
+text = "the quick brown fox the lazy dog the fox"
+words = re.findall(r"[a-z]+", text.lower())
+counts = Counter(words)
+
+print("counts:", dict(counts))
+print("top 2:", counts.most_common(2))
+print("unique words:", len(counts))"""},
+    {"label": "Grouping with defaultdict", "code": """from collections import defaultdict
+
+people = [("eng", "Ada"), ("sales", "Bo"), ("eng", "Cy"), ("sales", "Di"), ("eng", "Eve")]
+groups = defaultdict(list)
+for dept, name in people:
+    groups[dept].append(name)
+
+for dept, names in sorted(groups.items()):
+    print(f"{dept}: {names}")
+print("largest team:", max(groups, key=lambda d: len(groups[d])))"""},
+],
+"todos": [
+    "Count word frequencies in a sentence with collections.Counter and read off the two most common",
+    "Group a list of (key, value) pairs into a dict of lists using collections.defaultdict",
+    "Sort items by descending count, breaking ties alphabetically, with sorted(key=lambda kv: (-kv[1], kv[0]))",
+    "Return only the top-N entries of a frequency table",
+],
+"practice": {
+    "title": "Word Counter",
+    "desc": "Implement word_count(text) returning a mapping of word -> frequency, and top_n(counts, n) returning the n most frequent (word, count) pairs sorted by descending count, breaking ties alphabetically. Fill in the two functions, press Run, then press Check.",
+    "starter": """from collections import Counter
+
+def word_count(text):
+    # TODO: return a dict/Counter of word -> frequency (split on whitespace, lowercased)
+    return {}
+
+def top_n(counts, n):
+    # TODO: return the n (word, count) pairs, highest count first, ties broken alphabetically
+    return []
+
+text = "red green red blue red green blue yellow"
+counts = word_count(text)
+top = top_n(counts, 2)
+print("counts:", dict(counts))
+print("top 2:", top)""",
+    "check": """assert counts["red"] == 3, "'red' appears 3 times"
+assert counts["blue"] == 2 and counts["green"] == 2, "'blue' and 'green' appear twice each"
+assert top[0] == ("red", 3), "the most common pair should be ('red', 3)"
+assert len(top) == 2 and top[1][1] == 2, "second place should have count 2"
+assert top[1][0] == "blue", "ties break alphabetically, so 'blue' comes before 'green'\""""
 }
 },
 

@@ -5172,6 +5172,77 @@ SECTIONS = [
         ]
     },
 
+    {
+        "title": "Practice Lab: Widgets & Caching",
+        "desc": "Hands-on Streamlit patterns. Streamlit runs as its own server, so save each snippet as app.py and launch it with `streamlit run app.py` (not the in-page runner).",
+        "code1_title": "Widgets drive the script",
+        "code1": '''import streamlit as st
+
+st.title("Widget demo")
+name = st.text_input("Your name", "world")
+n = st.slider("Repeat", 1, 5, 3)
+shout = st.checkbox("Uppercase")
+
+greeting = f"Hello, {name}! " * n
+st.write(greeting.upper() if shout else greeting)''',
+        "code2_title": "Cache expensive work",
+        "code2": '''import streamlit as st
+import pandas as pd
+
+@st.cache_data
+def load_data(n_rows: int) -> pd.DataFrame:
+    # Pretend this is a slow query; cached per unique argument
+    return pd.DataFrame({"x": range(n_rows), "y": [i * i for i in range(n_rows)]})
+
+rows = st.slider("Rows", 10, 1000, 100, step=10)
+df = load_data(rows)
+st.line_chart(df, x="x", y="y")''',
+        "code3_title": "Session state & layout",
+        "code3": '''import streamlit as st
+
+if "count" not in st.session_state:
+    st.session_state.count = 0
+
+left, right = st.columns(2)
+if left.button("Increment"):
+    st.session_state.count += 1
+if right.button("Reset"):
+    st.session_state.count = 0
+
+st.metric("Count", st.session_state.count)''',
+        "rw_scenario": "A lightweight data app: a sidebar filter narrows a dataframe and the main panel shows the filtered table plus a metric — the everyday Streamlit pattern.",
+        "rw_code": '''import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({"city": ["NY", "SF", "LA", "NY", "SF"],
+                   "sales": [100, 90, 70, 120, 80]})
+
+city = st.sidebar.multiselect("City", df["city"].unique(), default=list(df["city"].unique()))
+view = df[df["city"].isin(city)]
+
+st.metric("Total sales", int(view["sales"].sum()))
+st.dataframe(view, use_container_width=True)''',
+        "todos": [
+            "Wire a slider/text_input/checkbox and use their values in the script",
+            "Cache a slow function with @st.cache_data and confirm reruns are fast",
+            "Filter a dataframe from a sidebar widget and display the result",
+            "Show a KPI with st.metric and a chart with st.line_chart",
+        ],
+        "practice": {
+            "title": "Filtered Dashboard",
+            "desc": "Build a small dashboard: a sidebar multiselect picks cities, the main panel shows the filtered dataframe and a total-sales metric. Save as app.py and run with streamlit run app.py.",
+            "starter": '''import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({"city": ["NY", "SF", "LA", "NY", "SF"],
+                   "sales": [100, 90, 70, 120, 80]})
+
+# TODO: add a sidebar multiselect for city, filter df by the selection,
+#       then show st.metric("Total sales", ...) and st.dataframe(filtered)
+st.title("Sales dashboard")'''
+        },
+    },
+
 ]
 
 

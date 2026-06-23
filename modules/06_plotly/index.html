@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 24 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 25 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Plotly Express Basics</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Bar &amp; Pie Charts</a></li>
@@ -36,8 +36,9 @@
     <li><a href="#s20" onclick="act(this,event)">21. Funnel &amp; Waterfall Charts</a></li>
     <li><a href="#s21" onclick="act(this,event)">22. Indicator &amp; Gauge Charts</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Animated Bar Chart Race &amp; Timelines</a></li>
-    <li><a href="#s23" onclick="act(this,event)">24. Custom Templates &amp; Styling</a></li></ul></aside>
-<main class="main"><h1 class="pt">📈 Plotly</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Plotly Express Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.</p><div class="code-block"><div class="ch"><span>First chart: px.scatter</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import plotly.express as px
+    <li><a href="#s23" onclick="act(this,event)">24. Custom Templates &amp; Styling</a></li>
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Express &amp; Graph Objects</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Plotly</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Plotly Express Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.</p><div class="code-block"><div class="ch"><span>First chart: px.scatter</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import plotly.express as px
 
 # Built-in dataset
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
@@ -3776,7 +3777,32 @@ fig.write_html(&#x27;dashboard.html&#x27;)
 <li><label><input type="checkbox"> Set pio.templates.default = &#x27;your_template&#x27; to apply it globally to all new figures</label></li>
 <li><label><input type="checkbox"> Create a dark GitHub-style theme by setting paper_bgcolor=&#x27;#0d1117&#x27; and grid colors</label></li>
 <li><label><input type="checkbox"> Add a confidence interval band using fill=&#x27;tonexty&#x27; between an upper and lower Scatter trace</label></li>
-<li><label><input type="checkbox"> Add forecast annotations with add_vline() and add_annotation() to mark key transitions</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Add forecast annotations with add_vline() and add_annotation() to mark key transitions</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>Practice Lab: Express &amp; Graph Objects</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on interactive charts. Plotly renders to an interactive HTML widget, so run these in a local notebook (fig.show()) rather than the in-page runner. Read, copy, and adapt them.</p><div class="code-block"><div class="ch"><span>Plotly Express scatter</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import plotly.express as px
+
+df = px.data.iris()
+fig = px.scatter(df, x=&quot;sepal_width&quot;, y=&quot;sepal_length&quot;, color=&quot;species&quot;,
+                 size=&quot;petal_length&quot;, hover_data=[&quot;petal_width&quot;],
+                 title=&quot;Iris sepal dimensions&quot;)
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Graph Objects: grouped bars</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import plotly.graph_objects as go
+
+months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;]
+fig = go.Figure()
+fig.add_trace(go.Bar(name=&quot;2023&quot;, x=months, y=[20, 14, 23, 25]))
+fig.add_trace(go.Bar(name=&quot;2024&quot;, x=months, y=[24, 18, 27, 29]))
+fig.update_layout(barmode=&quot;group&quot;, title=&quot;Monthly sales by year&quot;)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Time-Series Line Chart</div><div class="pd">Build an interactive multi-series line chart: one trace per category, a shared x-axis of dates, a title, and a unified hovermode. Run it locally and open the result with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import plotly.graph_objects as go
+
+dates = [&quot;2024-01&quot;, &quot;2024-02&quot;, &quot;2024-03&quot;, &quot;2024-04&quot;]
+series = {&quot;North&quot;: [10, 14, 13, 18], &quot;South&quot;: [8, 9, 12, 11]}
+
+fig = go.Figure()
+# TODO: add one go.Scatter(mode=&quot;lines+markers&quot;) trace per series
+# TODO: update_layout with a title and hovermode=&quot;x unified&quot;
+
+fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a scatter with px.scatter, mapping color and size to columns</label></li>
+<li><label><input type="checkbox"> Create a grouped bar chart with two go.Bar traces and barmode=&#x27;group&#x27;</label></li>
+<li><label><input type="checkbox"> Set a title and axis labels with fig.update_layout</label></li>
+<li><label><input type="checkbox"> Export a figure to HTML with fig.write_html(&#x27;chart.html&#x27;)</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -3821,6 +3847,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

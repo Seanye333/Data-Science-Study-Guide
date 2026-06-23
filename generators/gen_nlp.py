@@ -36,6 +36,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -43,6 +47,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -1945,7 +1950,57 @@ SECTIONS = [
         }
     },
 
-    
+{
+"title": "Practice Lab: Tokenization & N-grams",
+"desc": "Hands-on NLP fundamentals using only the standard library, so they run in your browser. Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Tokenize and count terms", "code": '''import re
+from collections import Counter
+
+text = "The cat sat on the mat. The cat ran."
+tokens = re.findall(r"[a-z]+", text.lower())
+print("tokens:", tokens)
+print("term frequency:", Counter(tokens).most_common(3))'''},
+    {"label": "Build n-grams", "code": '''tokens = ["the", "cat", "sat", "on", "the", "mat"]
+bigrams = list(zip(tokens, tokens[1:]))
+trigrams = list(zip(tokens, tokens[1:], tokens[2:]))
+print("bigrams:", bigrams)
+print("trigrams:", trigrams)'''},
+],
+"todos": [
+    "Tokenize text into lowercase words with re.findall(r'[a-z]+', text.lower())",
+    "Count term frequencies with collections.Counter",
+    "Build bigrams with zip(tokens, tokens[1:])",
+    "Confirm there are len(tokens) - 1 bigrams",
+],
+"practice": {
+    "title": "Tokenize & Bigrams",
+    "desc": "Implement tokenize(text) returning lowercase word tokens, and bigrams(tokens) returning the list of consecutive (w1, w2) pairs. Fill in the functions, press Run, then press Check.",
+    "starter": '''import re
+from collections import Counter
+
+def tokenize(text):
+    # TODO: return lowercase word tokens, e.g. re.findall(r"[a-z]+", text.lower())
+    return []
+
+def bigrams(tokens):
+    # TODO: return the list of consecutive (w1, w2) pairs
+    return []
+
+text = "to be or not to be"
+toks = tokenize(text)
+bg = bigrams(toks)
+print("tokens:", toks)
+print("bigrams:", bg)''',
+    "check": '''assert toks == ["to", "be", "or", "not", "to", "be"], "tokenize should split into lowercase words"
+tf = Counter(toks)
+assert tf["to"] == 2 and tf["be"] == 2, "'to' and 'be' each appear twice"
+assert ("to", "be") in bg and bg.count(("to", "be")) == 2, "'to be' is a repeated bigram"
+assert len(bg) == len(toks) - 1, "there are len(tokens) - 1 bigrams"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 if __name__ == "__main__":

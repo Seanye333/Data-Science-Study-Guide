@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 24 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 25 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Saving &amp; Loading Models</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. FastAPI Model Serving</a></li>
@@ -36,8 +36,9 @@
     <li><a href="#s20" onclick="act(this,event)">21. REST API Serving with FastAPI</a></li>
     <li><a href="#s21" onclick="act(this,event)">22. Model Monitoring &amp; Drift Detection</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. CI/CD for ML Pipelines</a></li>
-    <li><a href="#s23" onclick="act(this,event)">24. Feature Stores &amp; ML Platforms</a></li></ul></aside>
-<main class="main"><h1 class="pt">🚀 MLOps & Model Deployment</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Saving &amp; Loading Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.</p><div class="code-block"><div class="ch"><span>Save/load sklearn model with joblib</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import joblib
+    <li><a href="#s23" onclick="act(this,event)">24. Feature Stores &amp; ML Platforms</a></li>
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tracking &amp; Serving</a></li></ul></aside>
+<main class="main"><h1 class="pt">🚀 MLOps & Model Deployment</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Saving &amp; Loading Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.</p><div class="code-block"><div class="ch"><span>Save/load sklearn model with joblib</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
 
@@ -3484,7 +3485,54 @@ print(&quot;Pipeline works:&quot;, pipe.predict(X[:3]))
 </code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a feature pipeline that computes aggregated features and writes them to a versioned store.</label></li>
 <li><label><input type="checkbox"> Schedule hourly feature computation and verify that the latest features are always up to date.</label></li>
 <li><label><input type="checkbox"> Serve features for online inference by looking up the most recent values per entity in under 10ms.</label></li>
-<li><label><input type="checkbox"> Detect and log train/serve skew by comparing stored training stats against live serving feature values.</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Detect and log train/serve skew by comparing stored training stats against live serving feature values.</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>Practice Lab: Tracking &amp; Serving</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on MLOps patterns — experiment tracking and model serving. These need MLflow / a web server, so run them in a local environment rather than the in-page runner.</p><div class="code-block"><div class="ch"><span>Track an experiment with MLflow</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import mlflow
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+
+X, y = make_classification(n_samples=500, random_state=0)
+
+with mlflow.start_run():
+    n_estimators, max_depth = 200, 6
+    mlflow.log_params({&quot;n_estimators&quot;: n_estimators, &quot;max_depth&quot;: max_depth})
+    clf = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=0)
+    acc = cross_val_score(clf, X, y, cv=5).mean()
+    mlflow.log_metric(&quot;cv_accuracy&quot;, acc)
+    mlflow.sklearn.log_model(clf.fit(X, y), &quot;model&quot;)
+    print(&quot;logged cv_accuracy:&quot;, round(acc, 3))</code></pre></div><div class="code-block"><div class="ch"><span>Serve a model with FastAPI</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import joblib
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+model = joblib.load(&quot;model.joblib&quot;)          # produced by your training job
+
+class Features(BaseModel):
+    values: list[float]
+
+@app.post(&quot;/predict&quot;)
+def predict(f: Features):
+    pred = model.predict([f.values])[0]
+    return {&quot;prediction&quot;: int(pred)}
+
+# Run with:  uvicorn serve:app --host 0.0.0.0 --port 8000</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Prediction Service</div><div class="pd">Complete a minimal prediction service: load the model once at startup, validate inputs, and return a prediction. Run it locally with uvicorn and test with curl or httpie.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import joblib
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+model = joblib.load(&quot;model.joblib&quot;)
+
+class Features(BaseModel):
+    values: list[float]
+
+@app.post(&quot;/predict&quot;)
+def predict(f: Features):
+    # TODO: guard against the wrong number of features, then return the prediction
+    #       and (if available) the class probabilities
+    pred = model.predict([f.values])[0]
+    return {&quot;prediction&quot;: int(pred)}</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Log params and metrics inside an mlflow.start_run() context</label></li>
+<li><label><input type="checkbox"> Persist a trained model with mlflow.sklearn.log_model or joblib.dump</label></li>
+<li><label><input type="checkbox"> Expose a /predict endpoint that loads the model once and scores requests</label></li>
+<li><label><input type="checkbox"> Validate request bodies with a pydantic BaseModel</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -3528,6 +3576,7 @@ function filt(v){var lv=v.toLowerCase();document.querySelectorAll('#nl li').forE
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

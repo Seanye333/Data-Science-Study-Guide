@@ -36,6 +36,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -43,6 +47,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -1845,6 +1850,64 @@ pooled_std    = 5.0
     "title": "Bootstrap vs Analytical CI Comparison",
     "desc": "Generate 3 datasets: (1) Normal n=30, (2) Exponential n=30, (3) Heavy-tailed Pareto n=30. For each: compute bootstrap 95% CI for the mean (5000 resamples), the analytical t-interval, and the bootstrap CI for the median. Print all three side-by-side. Observe how they differ for non-normal data.",
     "starter": "import numpy as np\nfrom scipy import stats\n\nnp.random.seed(42)\ndatasets = {\n    \'Normal\':    np.random.normal(10, 3, 30),\n    \'Exponential\': np.random.exponential(5, 30),\n    \'Pareto\':    np.random.pareto(1.5, 30) * 5 + 5,\n}\n\ndef bootstrap_ci(data, fn, n_boot=5000):\n    boots = [fn(np.random.choice(data, len(data), replace=True)) for _ in range(n_boot)]\n    return np.percentile(boots, [2.5, 97.5])\n\nfor name, data in datasets.items():\n    boot_mean   = bootstrap_ci(data, np.mean)\n    t_ci        = stats.t.interval(0.95, df=len(data)-1, loc=data.mean(), scale=stats.sem(data))\n    boot_median = bootstrap_ci(data, np.median)\n    print(f\"{name}:\")\n    print(f\"  Bootstrap mean CI:    ({boot_mean[0]:.3f}, {boot_mean[1]:.3f})\")\n    # TODO: print t-interval and bootstrap median CI\n"
+}
+},
+
+{
+"title": "25. Practice Lab: Tests & Z-Scores",
+"desc": "Hands-on statistics challenges that run in your browser (NumPy + SciPy ship with Pyodide). Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Two-sample t-test", "code": '''import numpy as np
+from scipy import stats
+
+rng = np.random.default_rng(0)
+a = rng.normal(50, 10, 40)     # group A
+b = rng.normal(56, 10, 40)     # group B
+
+t, p = stats.ttest_ind(a, b)
+print(f"t = {t:.3f}, p = {p:.4f}")
+print("means:", round(a.mean(), 2), round(b.mean(), 2))
+print("reject H0 (no difference) at 0.05:", p < 0.05)'''},
+    {"label": "Bootstrap confidence interval", "code": '''import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.exponential(3, 200)
+
+boot = np.array([rng.choice(data, len(data), replace=True).mean()
+                 for _ in range(2000)])
+lo, hi = np.percentile(boot, [2.5, 97.5])
+print(f"sample mean      = {data.mean():.3f}")
+print(f"95% bootstrap CI = [{lo:.3f}, {hi:.3f}]")'''},
+],
+"todos": [
+    "Run a two-sample t-test with scipy.stats.ttest_ind and interpret the p-value",
+    "Build a 95% bootstrap CI by resampling the mean 2000 times and taking the 2.5/97.5 percentiles",
+    "Standardize a vector to z-scores: (x - mean) / std, and confirm mean 0, std 1",
+    "Flag outliers as |z| > 2 and count how many there are",
+],
+"practice": {
+    "title": "Z-Scores & Outliers",
+    "desc": "Implement zscores(x) returning the standardized values (population std, ddof=0), and outliers(x, thresh) returning a boolean mask where |z| > thresh. Fill in the functions, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def zscores(x):
+    x = np.asarray(x, float)
+    # TODO: return (x - mean) / std   (use population std, ddof=0)
+    return x
+
+def outliers(x, thresh=2.0):
+    # TODO: return a boolean mask where the absolute z-score exceeds thresh
+    return np.zeros(len(x), dtype=bool)
+
+x = np.array([10, 12, 11, 13, 12, 50, 11, 9])
+z = zscores(x)
+flags = outliers(x, 2.0)
+print("z:", z.round(2))
+print("outlier mask:", flags)''',
+    "check": '''assert np.isclose(z.mean(), 0, atol=1e-9), "z-scores must have mean 0"
+assert np.isclose(z.std(ddof=0), 1, atol=1e-9), "z-scores must have std 1"
+assert flags.sum() == 1 and bool(flags[5]), "only the value 50 is an outlier at threshold 2"
+print("All checks passed \\u2713")'''
 }
 },
 

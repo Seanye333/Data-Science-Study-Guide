@@ -43,6 +43,7 @@
 <a href="#s21">22. Text Classification Pipeline</a>
 <a href="#s22">23. Anomaly Detection</a>
 <a href="#s23">24. Advanced Clustering</a>
+<a href="#s24">Practice Lab: Train, Tune & Score</a>
 
 </nav>
 <main>
@@ -4607,6 +4608,87 @@ models = {
 <li><label><input type="checkbox"> Run HDBSCAN (from hdbscan library) and compare cluster counts to DBSCAN</label></li></ul></div>
   </div>
 </div>
+<div class="card" id="s24">
+  <div class="card-header" onclick="toggle('s24')">
+    <span>25. Practice Lab: Train, Tune & Score</span>
+    <span class="arrow" id="arr-s24">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s24" style="display:none">
+    <p class="desc">Hands-on scikit-learn challenges that run in your browser (Pyodide ships scikit-learn). Press Run to try a snippet, then solve the exercise and press Check.</p>
+    <h4>Random forest: train and evaluate</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=0)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25, random_state=0)
+clf = RandomForestClassifier(n_estimators=100, random_state=0).fit(X_tr, y_tr)
+
+print("test accuracy:", round(accuracy_score(y_te, clf.predict(X_te)), 3))
+print("top importances:", clf.feature_importances_.round(3)[:3].tolist())</code></pre></div>
+    <h4>Pipeline with cross-validation</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.datasets import load_iris
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+X, y = load_iris(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500))
+scores = cross_val_score(pipe, X, y, cv=5)
+
+print("cv scores:", scores.round(3).tolist())
+print("mean accuracy:", round(scores.mean(), 3))</code></pre></div>
+    
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Tuning a model with grid search and cross-validation is the everyday loop of applied ML: wrap preprocessing and the estimator in a pipeline, search a small grid, and read off the best configuration.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">from sklearn.datasets import load_wine
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+
+X, y = load_wine(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), SVC())
+grid = {"svc__C": [0.1, 1, 10], "svc__gamma": ["scale", "auto"]}
+search = GridSearchCV(pipe, grid, cv=5).fit(X, y)
+
+print("best params:", search.best_params_)
+print("best cv accuracy:", round(search.best_score_, 3))</code></pre></div>
+    </div>
+    <div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Tree Depth and Accuracy</div>
+      <div class="pd">Complete train_and_score(max_depth): fit a DecisionTreeClassifier of the given depth on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s24" class="language-python">from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def train_and_score(max_depth):
+    X, y = make_classification(n_samples=500, n_features=10, n_informative=6, random_state=42)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42)
+    # TODO: fit DecisionTreeClassifier(max_depth=max_depth, random_state=42) on the train split
+    #       and return accuracy_score on the test split
+    return 0.0
+
+acc = train_and_score(5)
+print("accuracy at depth 5:", round(acc, 3))</code></pre></div><template class="ho-check">assert 0.0 &lt;= acc &lt;= 1.0, &quot;accuracy must be a fraction between 0 and 1&quot;
+assert acc &gt; 0.8, &quot;a depth-5 tree should beat 0.8 accuracy on this dataset&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a RandomForestClassifier and report test accuracy with accuracy_score</label></li>
+<li><label><input type="checkbox"> Wrap StandardScaler + an estimator in make_pipeline and score it with cross_val_score</label></li>
+<li><label><input type="checkbox"> Run a small GridSearchCV over an SVC pipeline and read best_params_ / best_score_</label></li>
+<li><label><input type="checkbox"> Vary a DecisionTree's max_depth and watch the effect on test accuracy</label></li></ul></div>
+  </div>
+</div>
 </main>
 <script>
 hljs.highlightAll();
@@ -4665,6 +4747,7 @@ function filterNav(q){
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body>

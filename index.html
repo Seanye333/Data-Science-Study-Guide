@@ -14,6 +14,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Data Science Study Path">
 <meta name="twitter:description" content="Interactive, self-paced study guide for the full data science stack — from Python basics to MLOps and Bayesian thinking.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="styles/icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0d1117">
 <link rel="stylesheet" href="styles/glass.css">
 <script>if(localStorage.getItem('ds_theme')==='light')document.documentElement.style.setProperty('--_','');else void 0;(function(){var t=localStorage.getItem('ds_theme');if(t==='light'){document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('light-mode');var b=document.getElementById('theme-toggle');if(b)b.textContent='☀️';});}})();</script>
 </head>
@@ -53,7 +56,7 @@
     <h1>Data Science<br><span>Study Path</span></h1>
     <p>A complete learning journey from Python basics to deep learning — interactive guides with real-world examples and hands-on practice.</p>
     <div class="hero-badges">
-      <span>18 Guides</span>
+      <span>19 Guides</span>
       <span>1 000+ Code Examples</span>
       <span>Real-World Use Cases</span>
       <span>Jupyter Notebooks</span>
@@ -66,7 +69,12 @@
     <div class="progress-track">
       <div class="progress-fill" id="prog-fill" style="width:0%"></div>
     </div>
-    <div class="progress-label" id="prog-label">0 / 11 completed</div>
+    <div class="progress-label" id="prog-label">0 / 19 completed</div>
+  </div>
+
+  <div class="ho-search-wrap">
+    <input id="ho-search" type="search" placeholder="Search modules and topics…" autocomplete="off" aria-label="Search modules and topics">
+    <div id="ho-search-results" class="ho-sr" role="listbox"></div>
   </div>
 
   <!-- ── FOUNDATIONS ─────────────────────────────────────── -->
@@ -449,14 +457,15 @@
 </div>
 
 <script>
-var TOTAL = 18; // clickable guides
+var TOTAL = document.querySelectorAll('.grid .card').length; // clickable guides
 var done  = JSON.parse(localStorage.getItem('ds_done') || '[]');
 
-// Apply done styles on load
+// Apply done styles on load, then reflect saved progress immediately
 done.forEach(function(i) {
   var el = document.getElementById('card-' + i);
   if (el) el.classList.add('done');
 });
+updateProgress();
 
 function markDone(i) {
   if (!done.includes(i)) {
@@ -483,6 +492,8 @@ updateProgress();
 
 <!-- ── Shared effects (theme, transitions, confetti) ─── -->
 <script src="styles/effects.js"></script>
+<script src="styles/search.js"></script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
 
 <!-- ── Scroll progress bar ─────────────────────────────── -->
 <div id="scroll-progress"></div>

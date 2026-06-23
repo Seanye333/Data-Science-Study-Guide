@@ -36,6 +36,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -43,6 +47,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -2294,6 +2299,69 @@ SECTIONS = [
         ]
     },
 
+{
+"title": "Practice Lab: Tracking & Serving",
+"desc": "Hands-on MLOps patterns — experiment tracking and model serving. These need MLflow / a web server, so run them in a local environment rather than the in-page runner.",
+"examples": [
+    {"label": "Track an experiment with MLflow", "code": '''import mlflow
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+
+X, y = make_classification(n_samples=500, random_state=0)
+
+with mlflow.start_run():
+    n_estimators, max_depth = 200, 6
+    mlflow.log_params({"n_estimators": n_estimators, "max_depth": max_depth})
+    clf = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=0)
+    acc = cross_val_score(clf, X, y, cv=5).mean()
+    mlflow.log_metric("cv_accuracy", acc)
+    mlflow.sklearn.log_model(clf.fit(X, y), "model")
+    print("logged cv_accuracy:", round(acc, 3))'''},
+    {"label": "Serve a model with FastAPI", "code": '''import joblib
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+model = joblib.load("model.joblib")          # produced by your training job
+
+class Features(BaseModel):
+    values: list[float]
+
+@app.post("/predict")
+def predict(f: Features):
+    pred = model.predict([f.values])[0]
+    return {"prediction": int(pred)}
+
+# Run with:  uvicorn serve:app --host 0.0.0.0 --port 8000'''},
+],
+"todos": [
+    "Log params and metrics inside an mlflow.start_run() context",
+    "Persist a trained model with mlflow.sklearn.log_model or joblib.dump",
+    "Expose a /predict endpoint that loads the model once and scores requests",
+    "Validate request bodies with a pydantic BaseModel",
+],
+"practice": {
+    "title": "Prediction Service",
+    "desc": "Complete a minimal prediction service: load the model once at startup, validate inputs, and return a prediction. Run it locally with uvicorn and test with curl or httpie.",
+    "starter": '''import joblib
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+model = joblib.load("model.joblib")
+
+class Features(BaseModel):
+    values: list[float]
+
+@app.post("/predict")
+def predict(f: Features):
+    # TODO: guard against the wrong number of features, then return the prediction
+    #       and (if available) the class probabilities
+    pred = model.predict([f.values])[0]
+    return {"prediction": int(pred)}'''
+}
+},
 
 ]
 

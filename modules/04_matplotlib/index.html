@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 32 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 33 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Line Plot</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Bar Chart</a></li>
@@ -44,8 +44,9 @@
     <li><a href="#s28" onclick="act(this,event)">29. Image Processing with imshow</a></li>
     <li><a href="#s29" onclick="act(this,event)">30. Statistical Plots</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Multi-Figure Export &amp; Backends</a></li>
-    <li><a href="#s31" onclick="act(this,event)">32. Dashboard Composition</a></li></ul></aside>
-<main class="main"><h1 class="pt">📊 Matplotlib</h1><p class="ps">32 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Line Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.</p><div class="code-block"><div class="ch"><span>Simple line plot</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s31" onclick="act(this,event)">32. Dashboard Composition</a></li>
+    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Plot &amp; Verify</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Matplotlib</h1><p class="ps">33 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Line Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.</p><div class="code-block"><div class="ch"><span>Simple line plot</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5255,7 +5256,40 @@ print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div><div class="todo-lis
 <li><label><input type="checkbox"> Add KPI &#x27;tiles&#x27; as small colored axes with large text using ax.axis(&#x27;off&#x27;)</label></li>
 <li><label><input type="checkbox"> Combine a trend line chart with a dual-axis overlay on one dashboard panel</label></li>
 <li><label><input type="checkbox"> Apply a dark background theme to the entire figure using fig.set_facecolor()</label></li>
-<li><label><input type="checkbox"> Export the dashboard at 200 DPI and verify readability at both screen and print sizes</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Export the dashboard at 200 DPI and verify readability at both screen and print sizes</label></li></ul></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>Practice Lab: Plot &amp; Verify</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on plotting challenges. Press Run to render a chart in the output (matplotlib draws inline via Pyodide), then solve the exercise and press Check — the checks grade the data behind the plot.</p><div class="code-block"><div class="ch"><span>Line chart with legend</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 100)
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.plot(x, np.sin(x), label=&quot;sin&quot;)
+ax.plot(x, np.cos(x), label=&quot;cos&quot;)
+ax.legend(); ax.set_title(&quot;Trig functions&quot;); ax.grid(alpha=.3)
+plt.show()</code></pre></div><div class="code-block"><div class="ch"><span>Bar chart from counts</span><button onclick="cp('c32_1')">Copy</button></div><pre><code id="c32_1" class="language-python">import matplotlib.pyplot as plt
+
+labels = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;]
+values = [23, 17, 35, 29]
+fig, ax = plt.subplots(figsize=(5, 3))
+bars = ax.bar(labels, values, color=&quot;#58a6ff&quot;)
+ax.bar_label(bars); ax.set_title(&quot;Category counts&quot;)
+plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram Bin Counts</div><div class="pd">Implement bin_counts(data, bins) returning the histogram counts for the given bin edges, then bar-plot them. Fill in the function, press Run to see the chart, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def bin_counts(data, bins):
+    # TODO: return the histogram counts (np.histogram returns counts, edges)
+    return np.zeros(len(bins) - 1, dtype=int)
+
+data = np.array([1,1,2,2,2,3,3,4,5,5,5,5])
+counts = bin_counts(data, bins=[0,2,4,6])
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar([&quot;0-2&quot;,&quot;2-4&quot;,&quot;4-6&quot;], counts, color=&quot;#a78bfa&quot;)
+ax.set_title(&quot;Histogram&quot;); plt.show()
+print(&quot;counts:&quot;, list(counts))</code></pre></div><template class="ho-check">assert list(counts) == [2, 5, 5], &quot;counts in [0,2), [2,4), [4,6] should be 2, 5, 5&quot;
+assert int(np.sum(counts)) == 12, &quot;the counts must sum to the 12 data points&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot two curves on one Axes and add a legend</label></li>
+<li><label><input type="checkbox"> Draw a bar chart and annotate it with Axes.bar_label</label></li>
+<li><label><input type="checkbox"> Compute histogram counts with np.histogram and bar-plot them</label></li>
+<li><label><input type="checkbox"> Confirm the bin counts sum to the number of data points</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -5300,6 +5334,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

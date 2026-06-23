@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🧹 Cleaning &amp; Feature Engineering</h2><p>Study Guide &bull; 12 topics</p>
+  <div class="sbh"><h2>🧹 Cleaning &amp; Feature Engineering</h2><p>Study Guide &bull; 13 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Exploratory Data Profiling</a></li>
@@ -27,11 +27,12 @@
     <li><a href="#s8" onclick="act(this,event)">9. Handling Imbalanced Data</a></li>
     <li><a href="#s9" onclick="act(this,event)">10. Feature Selection</a></li>
     <li><a href="#s10" onclick="act(this,event)">11. Preventing Data Leakage</a></li>
-    <li><a href="#s11" onclick="act(this,event)">12. Building Complete Preprocessing Pipelines</a></li></ul>
+    <li><a href="#s11" onclick="act(this,event)">12. Building Complete Preprocessing Pipelines</a></li>
+    <li><a href="#s12" onclick="act(this,event)">Practice Lab: Encode &amp; Scale</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🧹 Data Cleaning &amp; Feature Engineering</h1>
-  <p class="ps">12 topics &bull; Click any card to expand</p>
+  <p class="ps">13 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Exploratory Data Profiling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Before cleaning, you need to understand your data. Profiling reveals data types, missing values, distributions, and anomalies — the roadmap for your entire cleaning pipeline.</p><div class="code-block"><div class="ch"><span>Quick dataset overview</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
 import numpy as np
 
@@ -1459,7 +1460,43 @@ df = pd.DataFrame({
 <li><label><input type="checkbox"> Wrap the ColumnTransformer and a classifier into a single Pipeline and run cross_val_score</label></li>
 <li><label><input type="checkbox"> Save the trained pipeline with joblib.dump and reload it — confirm predictions are identical</label></li>
 <li><label><input type="checkbox"> Write a custom BaseEstimator transformer (e.g., OutlierCapper) and insert it into a Pipeline step</label></li>
-<li><label><input type="checkbox"> Add a SelectKBest step after preprocessing in the Pipeline and compare accuracy with/without it</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Add a SelectKBest step after preprocessing in the Pipeline and compare accuracy with/without it</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>Practice Lab: Encode &amp; Scale</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on feature-engineering challenges (pandas + scikit-learn, Pyodide-runnable). Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>One-hot encode + standardize</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;city&quot;: [&quot;NY&quot;, &quot;SF&quot;, &quot;NY&quot;, &quot;LA&quot;],
+                   &quot;age&quot;: [25, 40, 35, 50], &quot;income&quot;: [50, 90, 70, 60]})
+onehot = pd.get_dummies(df, columns=[&quot;city&quot;], prefix=&quot;city&quot;)
+onehot[[&quot;age&quot;, &quot;income&quot;]] = StandardScaler().fit_transform(onehot[[&quot;age&quot;, &quot;income&quot;]])
+print(onehot.round(3).to_string(index=False))</code></pre></div><div class="code-block"><div class="ch"><span>Binning + target rate</span><button onclick="cp('c12_1')">Copy</button></div><pre><code id="c12_1" class="language-python">import pandas as pd, numpy as np
+
+rng = np.random.default_rng(0)
+df = pd.DataFrame({&quot;age&quot;: rng.integers(18, 70, 12), &quot;churn&quot;: rng.integers(0, 2, 12)})
+df[&quot;age_bin&quot;] = pd.cut(df[&quot;age&quot;], bins=[18, 30, 45, 70], labels=[&quot;young&quot;, &quot;mid&quot;, &quot;senior&quot;])
+print(df.groupby(&quot;age_bin&quot;, observed=True)[&quot;churn&quot;].mean().round(3).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Min-Max &amp; Frequency Encoding</div><div class="pd">Implement minmax_scale(s) to scale a series to [0, 1], and frequency_encode(s) to replace each category with its relative frequency. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np, pandas as pd
+
+def minmax_scale(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: scale to [0, 1] with (s - min) / (max - min)
+    return s
+
+def frequency_encode(s):
+    s = pd.Series(s)
+    # TODO: map each value to its relative frequency (value_counts(normalize=True))
+    return s
+
+vals = pd.Series([10, 20, 30, 40, 50])
+cats = pd.Series([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;a&quot;, &quot;c&quot;])
+ms = minmax_scale(vals)
+fe = frequency_encode(cats)
+print(&quot;minmax:&quot;, ms.tolist())
+print(&quot;freq:&quot;, fe.round(2).tolist())</code></pre></div><template class="ho-check">assert np.isclose(ms.min(), 0) and np.isclose(ms.max(), 1), &quot;min-max must span [0, 1]&quot;
+assert np.isclose(ms.iloc[2], 0.5), &quot;30 should map to 0.5&quot;
+assert np.isclose(fe.iloc[0], 0.6), &quot;&#x27;a&#x27; occurs 3/5 = 0.6&quot;
+assert np.isclose(fe.iloc[1], 0.2) and np.isclose(fe.iloc[4], 0.2), &quot;&#x27;b&#x27; and &#x27;c&#x27; occur 1/5 = 0.2&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> One-hot encode a categorical column with pd.get_dummies</label></li>
+<li><label><input type="checkbox"> Standardize numeric columns with StandardScaler (mean 0, unit variance)</label></li>
+<li><label><input type="checkbox"> Min-max scale a series to [0, 1] with (s - min) / (max - min)</label></li>
+<li><label><input type="checkbox"> Frequency-encode a categorical column using value_counts(normalize=True) and map</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
@@ -1506,6 +1543,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

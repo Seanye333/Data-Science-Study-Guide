@@ -43,6 +43,7 @@
 <a href="#s21">22. Window Functions & Expressions</a>
 <a href="#s22">23. Performance: Polars vs Pandas</a>
 <a href="#s23">24. Polars Production Patterns</a>
+<a href="#s24">Practice Lab: Expressions & Lazy Queries</a>
 
 </nav>
 <main>
@@ -4616,6 +4617,58 @@ print(etl(raw, lookup))
 <li><label><input type="checkbox"> Profile the ETL pipeline on 100k rows and identify the most expensive step</label></li></ul></div>
   </div>
 </div>
+<div class="card" id="s24">
+  <div class="card-header" onclick="toggle('s24')">
+    <span>25. Practice Lab: Expressions & Lazy Queries</span>
+    <span class="arrow" id="arr-s24">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s24" style="display:none">
+    <p class="desc">Hands-on Polars patterns. Polars is not bundled with the in-page runner, so run these in a local Python environment to see the output.</p>
+    <h4>Select and derive columns</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({"name": ["a", "b", "c", "d"],
+                   "grp": ["x", "x", "y", "y"],
+                   "val": [10, 20, 30, 40]})
+
+out = (df.with_columns((pl.col("val") * 2).alias("double"))
+         .select(["name", "double"]))
+print(out)</code></pre></div>
+    <h4>Group-by aggregation</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">agg = (df.group_by("grp")
+         .agg(pl.col("val").sum().alias("total"),
+              pl.col("val").mean().alias("avg"))
+         .sort("grp"))
+print(agg)</code></pre></div>
+    
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Lazy queries let Polars optimize the whole pipeline before any data is read; build the plan with .lazy() and trigger it with .collect().</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">res = (df.lazy()
+         .filter(pl.col("val").gt(15))      # .gt avoids the literal comparison operator
+         .select(["name", "val"])
+         .collect())
+print(res)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Per-Group Totals</div><div class="pd">Using the DataFrame below, write a query that returns one row per group with the sum of val (column named 'total'), sorted by group. Run it locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p24" class="language-python">import polars as pl
+
+df = pl.DataFrame({"grp": ["x", "y", "x", "y", "x"],
+                   "val": [1, 2, 3, 4, 5]})
+
+# TODO: group by 'grp', sum 'val' into a column named 'total', sort by 'grp'
+result = df
+
+print(result)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a derived column with with_columns and an aliased expression</label></li>
+<li><label><input type="checkbox"> Aggregate per group with group_by(...).agg(...)</label></li>
+<li><label><input type="checkbox"> Build a lazy query with .lazy() and run it with .collect()</label></li>
+<li><label><input type="checkbox"> Filter rows with an expression like pl.col(&#x27;val&#x27;).gt(threshold)</label></li></ul></div>
+  </div>
+</div>
 </main>
 <script>
 hljs.highlightAll();
@@ -4674,6 +4727,7 @@ function filterNav(q){
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body>

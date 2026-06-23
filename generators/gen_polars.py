@@ -4423,6 +4423,52 @@ SECTIONS = [
         ],
     },
 
+    {
+        "title": "Practice Lab: Expressions & Lazy Queries",
+        "desc": "Hands-on Polars patterns. Polars is not bundled with the in-page runner, so run these in a local Python environment to see the output.",
+        "code1_title": "Select and derive columns",
+        "code1": '''import polars as pl
+
+df = pl.DataFrame({"name": ["a", "b", "c", "d"],
+                   "grp": ["x", "x", "y", "y"],
+                   "val": [10, 20, 30, 40]})
+
+out = (df.with_columns((pl.col("val") * 2).alias("double"))
+         .select(["name", "double"]))
+print(out)''',
+        "code2_title": "Group-by aggregation",
+        "code2": '''agg = (df.group_by("grp")
+         .agg(pl.col("val").sum().alias("total"),
+              pl.col("val").mean().alias("avg"))
+         .sort("grp"))
+print(agg)''',
+        "rw_scenario": "Lazy queries let Polars optimize the whole pipeline before any data is read; build the plan with .lazy() and trigger it with .collect().",
+        "rw_code": '''res = (df.lazy()
+         .filter(pl.col("val").gt(15))      # .gt avoids the literal comparison operator
+         .select(["name", "val"])
+         .collect())
+print(res)''',
+        "todos": [
+            "Add a derived column with with_columns and an aliased expression",
+            "Aggregate per group with group_by(...).agg(...)",
+            "Build a lazy query with .lazy() and run it with .collect()",
+            "Filter rows with an expression like pl.col('val').gt(threshold)",
+        ],
+        "practice": {
+            "title": "Per-Group Totals",
+            "desc": "Using the DataFrame below, write a query that returns one row per group with the sum of val (column named 'total'), sorted by group. Run it locally.",
+            "starter": '''import polars as pl
+
+df = pl.DataFrame({"grp": ["x", "y", "x", "y", "x"],
+                   "val": [1, 2, 3, 4, 5]})
+
+# TODO: group by 'grp', sum 'val' into a column named 'total', sort by 'grp'
+result = df
+
+print(result)'''
+        },
+    },
+
 ]
 
 

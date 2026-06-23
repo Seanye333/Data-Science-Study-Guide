@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 32 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 33 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup with sqlite3</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. SELECT &amp; WHERE</a></li>
@@ -44,8 +44,9 @@
     <li><a href="#s28" onclick="act(this,event)">29. JSON in SQL</a></li>
     <li><a href="#s29" onclick="act(this,event)">30. Full-Text Search</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Performance Tuning &amp; EXPLAIN</a></li>
-    <li><a href="#s31" onclick="act(this,event)">32. SQL for Data Analysis Workflow</a></li></ul></aside>
-<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">32 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
+    <li><a href="#s31" onclick="act(this,event)">32. SQL for Data Analysis Workflow</a></li>
+    <li><a href="#s32" onclick="act(this,event)">33. Practice Lab: Windows &amp; CTEs</a></li></ul></aside>
+<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">33 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)   # in-memory DB
 cur  = conn.cursor()
@@ -4765,7 +4766,60 @@ runmany(&#x27;INSERT INTO web_logs VALUES (?,?,?,?,?)&#x27;, [
 <li><label><input type="checkbox"> Compute monthly totals and a cumulative running total using a CTE and SUM() OVER()</label></li>
 <li><label><input type="checkbox"> Compare each rep&#x27;s total to their regional average using AVG() OVER (PARTITION BY region)</label></li>
 <li><label><input type="checkbox"> Pivot survey data from long to wide format using MAX(CASE WHEN question=&#x27;Q1&#x27; THEN score END)</label></li>
-<li><label><input type="checkbox"> Build a full 4-step pipeline: ingest raw data, clean, aggregate, and export to a DataFrame</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Build a full 4-step pipeline: ingest raw data, clean, aggregate, and export to a DataFrame</label></li></ul></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>33. Practice Lab: Windows &amp; CTEs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on SQL challenges, run in the browser through SQLite (the sqlite3 module ships with Python and Pyodide). Press Run to execute a query, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Window functions: running total &amp; rank</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE sales(region TEXT, month INT, amount INT);
+INSERT INTO sales VALUES
+ (&#x27;West&#x27;,1,100),(&#x27;West&#x27;,2,140),(&#x27;West&#x27;,3,120),
+ (&#x27;East&#x27;,1,90),(&#x27;East&#x27;,2,160),(&#x27;East&#x27;,3,200);
+&quot;&quot;&quot;)
+rows = con.execute(&quot;&quot;&quot;
+SELECT region, month, amount,
+       SUM(amount) OVER (PARTITION BY region ORDER BY month) AS running_total,
+       RANK() OVER (PARTITION BY region ORDER BY amount DESC) AS rank_in_region
+FROM sales ORDER BY region, month;
+&quot;&quot;&quot;).fetchall()
+for r in rows:
+    print(r)</code></pre></div><div class="code-block"><div class="ch"><span>Top-per-group with a CTE</span><button onclick="cp('c32_1')">Copy</button></div><pre><code id="c32_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE scores(student TEXT, subject TEXT, score INT);
+INSERT INTO scores VALUES
+ (&#x27;Ada&#x27;,&#x27;Math&#x27;,95),(&#x27;Ada&#x27;,&#x27;Sci&#x27;,88),(&#x27;Bo&#x27;,&#x27;Math&#x27;,60),(&#x27;Bo&#x27;,&#x27;Sci&#x27;,99);
+&quot;&quot;&quot;)
+rows = con.execute(&quot;&quot;&quot;
+WITH ranked AS (
+  SELECT student, subject, score,
+         RANK() OVER (PARTITION BY subject ORDER BY score DESC) AS rnk
+  FROM scores
+)
+SELECT subject, student, score FROM ranked WHERE rnk = 1 ORDER BY subject;
+&quot;&quot;&quot;).fetchall()
+print(&quot;winner per subject:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top Scorer Per Subject</div><div class="pd">Using the scores table, write a query that returns one row per subject — the highest-scoring student, as (subject, student, score). Fill in the query string, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE scores(student TEXT, subject TEXT, score INT);
+INSERT INTO scores VALUES
+ (&#x27;Ada&#x27;,&#x27;Math&#x27;,95),(&#x27;Ada&#x27;,&#x27;Sci&#x27;,88),(&#x27;Ada&#x27;,&#x27;Art&#x27;,70),
+ (&#x27;Bo&#x27;,&#x27;Math&#x27;,60),(&#x27;Bo&#x27;,&#x27;Sci&#x27;,99),(&#x27;Bo&#x27;,&#x27;Art&#x27;,85);
+&quot;&quot;&quot;)
+
+# TODO: return (subject, student, score) for the top scorer in each subject.
+# Hint: RANK() OVER (PARTITION BY subject ORDER BY score DESC) inside a CTE.
+query = &quot;&quot;&quot;
+SELECT subject, student, score FROM scores  -- replace me
+&quot;&quot;&quot;
+
+top = con.execute(query).fetchall()
+print(&quot;top per subject:&quot;, top)</code></pre></div><template class="ho-check">assert (&quot;Math&quot;, &quot;Ada&quot;, 95) in top, &quot;Ada (95) tops Math&quot;
+assert (&quot;Sci&quot;, &quot;Bo&quot;, 99) in top, &quot;Bo (99) tops Science&quot;
+assert (&quot;Art&quot;, &quot;Bo&quot;, 85) in top, &quot;Bo (85) tops Art&quot;
+assert len(top) == 3, &quot;exactly one winner per subject (3 subjects)&quot;
+print(&quot;All checks passed ✓&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a running_total with SUM(amount) OVER (PARTITION BY ... ORDER BY ...)</label></li>
+<li><label><input type="checkbox"> Rank rows within a group using RANK() OVER (PARTITION BY ... ORDER BY ... DESC)</label></li>
+<li><label><input type="checkbox"> Use a CTE (WITH ranked AS (...)) and filter rnk = 1 to keep the top row per group</label></li>
+<li><label><input type="checkbox"> Verify ties: RANK() leaves gaps, DENSE_RANK() does not</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -4810,6 +4864,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

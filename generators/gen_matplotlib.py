@@ -30,6 +30,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -37,6 +41,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -3471,6 +3476,57 @@ if os.path.exists('revenue_report.png'):
     "title": "Dashboard Practice",
     "desc": "Build your own 3-panel dashboard on a topic of your choice (e.g., fitness tracking, stock portfolio, weather). Requirements: (1) use GridSpec with at least one spanning panel, (2) include a dual-axis twinx or broken axis, (3) use at least 3 different chart types, (4) add a title banner, (5) save at 150 DPI.",
     "starter": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom matplotlib.gridspec import GridSpec\n\nnp.random.seed(42)\nfig = plt.figure(figsize=(13, 9))\ngs = GridSpec(3, 3, figure=fig, hspace=0.4, wspace=0.35)\n\n# TODO: Banner row (gs[0, :])\n# TODO: Main chart spanning 2 cols (gs[1, :2])\n# TODO: Side chart (gs[1, 2])\n# TODO: Bottom-left chart (gs[2, :2])\n# TODO: Bottom-right chart or table (gs[2, 2])\n# TODO: At least one twinx or broken axis\n# TODO: Title and tight_layout\n# TODO: save \'my_dashboard.png\' at 150 DPI\nplt.close()\nprint(\'Dashboard saved!\')"
+}
+},
+
+{
+"title": "Practice Lab: Plot & Verify",
+"desc": "Hands-on plotting challenges. Press Run to render a chart in the output (matplotlib draws inline via Pyodide), then solve the exercise and press Check — the checks grade the data behind the plot.",
+"examples": [
+    {"label": "Line chart with legend", "code": '''import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 100)
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.plot(x, np.sin(x), label="sin")
+ax.plot(x, np.cos(x), label="cos")
+ax.legend(); ax.set_title("Trig functions"); ax.grid(alpha=.3)
+plt.show()'''},
+    {"label": "Bar chart from counts", "code": '''import matplotlib.pyplot as plt
+
+labels = ["A", "B", "C", "D"]
+values = [23, 17, 35, 29]
+fig, ax = plt.subplots(figsize=(5, 3))
+bars = ax.bar(labels, values, color="#58a6ff")
+ax.bar_label(bars); ax.set_title("Category counts")
+plt.show()'''},
+],
+"todos": [
+    "Plot two curves on one Axes and add a legend",
+    "Draw a bar chart and annotate it with Axes.bar_label",
+    "Compute histogram counts with np.histogram and bar-plot them",
+    "Confirm the bin counts sum to the number of data points",
+],
+"practice": {
+    "title": "Histogram Bin Counts",
+    "desc": "Implement bin_counts(data, bins) returning the histogram counts for the given bin edges, then bar-plot them. Fill in the function, press Run to see the chart, then press Check.",
+    "starter": '''import matplotlib.pyplot as plt
+import numpy as np
+
+def bin_counts(data, bins):
+    # TODO: return the histogram counts (np.histogram returns counts, edges)
+    return np.zeros(len(bins) - 1, dtype=int)
+
+data = np.array([1,1,2,2,2,3,3,4,5,5,5,5])
+counts = bin_counts(data, bins=[0,2,4,6])
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar(["0-2","2-4","4-6"], counts, color="#a78bfa")
+ax.set_title("Histogram"); plt.show()
+print("counts:", list(counts))''',
+    "check": '''assert list(counts) == [2, 5, 5], "counts in [0,2), [2,4), [4,6] should be 2, 5, 5"
+assert int(np.sum(counts)) == 12, "the counts must sum to the 12 data points"
+print("All checks passed \\u2713")'''
 }
 },
 

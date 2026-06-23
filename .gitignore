@@ -6,6 +6,9 @@ __pycache__/
 # One-off helper scripts (not needed for the site)
 scripts/
 
+# Node (dev-only test tooling)
+node_modules/
+
 # Jupyter checkpoints
 .ipynb_checkpoints/
 

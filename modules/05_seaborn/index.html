@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 32 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 33 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup &amp; Themes</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Distribution Plots</a></li>
@@ -44,8 +44,9 @@
     <li><a href="#s28" onclick="act(this,event)">29. Seaborn with Real Datasets</a></li>
     <li><a href="#s29" onclick="act(this,event)">30. Object-Oriented Seaborn</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Color Systems &amp; Accessibility</a></li>
-    <li><a href="#s31" onclick="act(this,event)">32. Seaborn Dashboard Composition</a></li></ul></aside>
-<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">32 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s31" onclick="act(this,event)">32. Seaborn Dashboard Composition</a></li>
+    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Distributions &amp; Groups</a></li></ul></aside>
+<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">33 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5024,7 +5025,44 @@ gs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.35)
 # TODO: suptitle banner
 # TODO: save &#x27;my_sns_dashboard.png&#x27; at 150 DPI
 plt.close()
-print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div></div></div></main>
+print(&#x27;Dashboard saved!&#x27;)</code></pre></div></div></div></div><div class="topic" id="s32"><div class="th" onclick="tog(this)"><span>Practice Lab: Distributions &amp; Groups</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on seaborn challenges that render inline in the browser (seaborn ships with Pyodide). Press Run to draw a chart, then solve the exercise and press Check — the checks grade the data behind the plot.</p><div class="code-block"><div class="ch"><span>Boxplot by group</span><button onclick="cp('c32_0')">Copy</button></div><pre><code id="c32_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+rng = np.random.default_rng(0)
+df = pd.DataFrame({&quot;group&quot;: np.repeat([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;], 50),
+                   &quot;value&quot;: np.concatenate([rng.normal(m, 1, 50) for m in (0, 2, 4)])})
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.boxplot(data=df, x=&quot;group&quot;, y=&quot;value&quot;, ax=ax)
+ax.set_title(&quot;Distributions by group&quot;)
+plt.show()
+print(df.groupby(&quot;group&quot;)[&quot;value&quot;].mean().round(2).to_dict())</code></pre></div><div class="code-block"><div class="ch"><span>Histogram with KDE</span><button onclick="cp('c32_1')">Copy</button></div><pre><code id="c32_1" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.normal(50, 8, 500)
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.histplot(data, kde=True, ax=ax, color=&quot;#a78bfa&quot;)
+ax.set_title(&quot;Distribution&quot;)
+plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Means</div><div class="pd">Implement group_means(df, by, col) returning the mean of `col` for each level of `by`, then bar-plot the result. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+def group_means(df, by, col):
+    # TODO: return a Series of the mean of `col` for each group in `by`
+    return pd.Series(dtype=float)
+
+df = pd.DataFrame({&quot;cat&quot;: [&quot;x&quot;,&quot;x&quot;,&quot;y&quot;,&quot;y&quot;,&quot;z&quot;], &quot;v&quot;: [1.0, 3.0, 10.0, 20.0, 5.0]})
+gm = group_means(df, &quot;cat&quot;, &quot;v&quot;)
+
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); ax.set_title(&quot;Group means&quot;)
+plt.show()
+print(gm.to_dict())</code></pre></div><template class="ho-check">assert np.isclose(gm[&quot;x&quot;], 2.0), &quot;mean of x (1, 3) is 2&quot;
+assert np.isclose(gm[&quot;y&quot;], 15.0), &quot;mean of y (10, 20) is 15&quot;
+assert np.isclose(gm[&quot;z&quot;], 5.0), &quot;mean of z (5) is 5&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Draw a boxplot of a value column split by a categorical group</label></li>
+<li><label><input type="checkbox"> Overlay a KDE on a histogram with sns.histplot(kde=True)</label></li>
+<li><label><input type="checkbox"> Compute group means with df.groupby(by)[col].mean()</label></li>
+<li><label><input type="checkbox"> Bar-plot the group means with sns.barplot</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -5069,6 +5107,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

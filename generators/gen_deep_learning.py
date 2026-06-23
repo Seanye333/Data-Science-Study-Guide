@@ -4838,6 +4838,93 @@ SECTIONS = [
         ],
     },
 
+    {
+        "title": "Practice Lab: Neural Net Math in NumPy",
+        "desc": "The core math of neural networks — activations, softmax, and a forward pass — written in pure NumPy so it runs in your browser (no PyTorch needed). Press Run to try a snippet, then solve the exercise and press Check.",
+        "code1_title": "Activation functions",
+        "code1": '''import numpy as np
+
+def relu(x):
+    return np.maximum(0, x)
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+z = np.array([-2.0, -0.5, 0.0, 1.0, 3.0])
+print("relu:   ", relu(z).tolist())
+print("sigmoid:", sigmoid(z).round(3).tolist())''',
+        "code2_title": "Softmax and cross-entropy",
+        "code2": '''import numpy as np
+
+def softmax(x):
+    e = np.exp(x - x.max(axis=-1, keepdims=True))   # subtract max for stability
+    return e / e.sum(axis=-1, keepdims=True)
+
+logits = np.array([[2.0, 1.0, 0.1]])
+probs = softmax(logits)
+target = 0
+cross_entropy = -np.log(probs[0, target])
+print("probs:", probs.round(3).tolist(), "sum:", round(float(probs.sum()), 3))
+print("cross-entropy:", round(float(cross_entropy), 3))''',
+        "code3_title": "A two-layer forward pass",
+        "code3": '''import numpy as np
+
+rng = np.random.default_rng(0)
+X = rng.standard_normal((4, 3))                 # batch of 4, 3 features
+W1 = rng.standard_normal((3, 5)); W2 = rng.standard_normal((5, 2))
+
+def relu(x): return np.maximum(0, x)
+def softmax(x):
+    e = np.exp(x - x.max(axis=-1, keepdims=True)); return e / e.sum(axis=-1, keepdims=True)
+
+hidden = relu(X @ W1)
+out = softmax(hidden @ W2)
+print("output shape:", out.shape, "row sums:", out.sum(axis=1).round(3).tolist())''',
+        "rw_scenario": "Before reaching for a framework, implementing gradient descent by hand makes the training loop concrete: compute the gradient of the loss, step the weights, repeat.",
+        "rw_code": '''import numpy as np
+
+rng = np.random.default_rng(0)
+X = rng.standard_normal((50, 3))
+true_w = np.array([1.0, 2.0, 3.0])
+y = X @ true_w                                   # linear target
+
+w = np.zeros(3)
+for _ in range(300):
+    grad = X.T @ (X @ w - y) / len(y)            # gradient of MSE
+    w -= 0.1 * grad
+print("recovered weights:", w.round(2).tolist())''',
+        "todos": [
+            "Implement relu(x) = max(0, x) and sigmoid(x) = 1 / (1 + e^-x) with NumPy",
+            "Implement a numerically stable softmax (subtract the row max before exp)",
+            "Verify each softmax row sums to 1",
+            "Run a two-layer forward pass: relu(X @ W1) then softmax(@ W2)",
+        ],
+        "practice": {
+            "title": "ReLU & Softmax",
+            "desc": "Implement relu(x) and a numerically stable softmax(x) (each row summing to 1). Fill in the functions, press Run, then press Check.",
+            "starter": '''import numpy as np
+
+def relu(x):
+    # TODO: return max(0, x) elementwise
+    return x
+
+def softmax(x):
+    # TODO: subtract the row max, exponentiate, and normalize so each row sums to 1
+    return x
+
+print("relu:", relu(np.array([-3.0, 0.0, 2.0])).tolist())
+p = softmax(np.array([[1.0, 2.0, 3.0]]))
+print("softmax:", p.round(3).tolist(), "sum:", round(float(p.sum()), 3))''',
+            "check": '''assert np.array_equal(relu(np.array([-5.0, 0.0, 4.0])), [0.0, 0.0, 4.0]), "relu clamps negatives to 0"
+p = softmax(np.array([[1.0, 2.0, 3.0]]))
+assert np.isclose(p.sum(), 1.0), "softmax row must sum to 1"
+assert np.argmax(p) == 2, "largest logit gets the largest probability"
+big = softmax(np.array([[1000.0, 1001.0, 1002.0]]))   # must not overflow
+assert np.isclose(big.sum(), 1.0), "softmax must be numerically stable for large inputs"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 
@@ -4872,6 +4959,8 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (f'<template class="ho-check">{esc(practice["check"])}</template>'
+                          if practice.get("check") else "")
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -4880,6 +4969,7 @@ def make_html(sections):
                 f'<div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e">'
                 f'<span>Starter Code</span></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])

@@ -43,6 +43,7 @@
 <a href="#s21">22. Model Checkpointing & Early Stopping</a>
 <a href="#s22">23. Gradient Clipping & Mixed Precision</a>
 <a href="#s23">24. Model Export & Deployment</a>
+<a href="#s24">Practice Lab: Neural Net Math in NumPy</a>
 
 </nav>
 <main>
@@ -5114,6 +5115,93 @@ model = Net(); model.eval()
 <li><label><input type="checkbox"> Add type annotations to the model&#x27;s forward() method to make TorchScript export work cleanly</label></li></ul></div>
   </div>
 </div>
+<div class="card" id="s24">
+  <div class="card-header" onclick="toggle('s24')">
+    <span>25. Practice Lab: Neural Net Math in NumPy</span>
+    <span class="arrow" id="arr-s24">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s24" style="display:none">
+    <p class="desc">The core math of neural networks — activations, softmax, and a forward pass — written in pure NumPy so it runs in your browser (no PyTorch needed). Press Run to try a snippet, then solve the exercise and press Check.</p>
+    <h4>Activation functions</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+def relu(x):
+    return np.maximum(0, x)
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+z = np.array([-2.0, -0.5, 0.0, 1.0, 3.0])
+print(&quot;relu:   &quot;, relu(z).tolist())
+print(&quot;sigmoid:&quot;, sigmoid(z).round(3).tolist())</code></pre></div>
+    <h4>Softmax and cross-entropy</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+def softmax(x):
+    e = np.exp(x - x.max(axis=-1, keepdims=True))   # subtract max for stability
+    return e / e.sum(axis=-1, keepdims=True)
+
+logits = np.array([[2.0, 1.0, 0.1]])
+probs = softmax(logits)
+target = 0
+cross_entropy = -np.log(probs[0, target])
+print(&quot;probs:&quot;, probs.round(3).tolist(), &quot;sum:&quot;, round(float(probs.sum()), 3))
+print(&quot;cross-entropy:&quot;, round(float(cross_entropy), 3))</code></pre></div>
+    <h4>A two-layer forward pass</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(0)
+X = rng.standard_normal((4, 3))                 # batch of 4, 3 features
+W1 = rng.standard_normal((3, 5)); W2 = rng.standard_normal((5, 2))
+
+def relu(x): return np.maximum(0, x)
+def softmax(x):
+    e = np.exp(x - x.max(axis=-1, keepdims=True)); return e / e.sum(axis=-1, keepdims=True)
+
+hidden = relu(X @ W1)
+out = softmax(hidden @ W2)
+print(&quot;output shape:&quot;, out.shape, &quot;row sums:&quot;, out.sum(axis=1).round(3).tolist())</code></pre></div>
+    
+    <div class="rw"><div class="rh">Real-World Use Case</div><div class="rd">Before reaching for a framework, implementing gradient descent by hand makes the training loop concrete: compute the gradient of the loss, step the weights, repeat.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(0)
+X = rng.standard_normal((50, 3))
+true_w = np.array([1.0, 2.0, 3.0])
+y = X @ true_w                                   # linear target
+
+w = np.zeros(3)
+for _ in range(300):
+    grad = X.T @ (X @ w - y) / len(y)            # gradient of MSE
+    w -= 0.1 * grad
+print(&quot;recovered weights:&quot;, w.round(2).tolist())</code></pre></div></div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ReLU &amp; Softmax</div><div class="pd">Implement relu(x) and a numerically stable softmax(x) (each row summing to 1). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p24" class="language-python">import numpy as np
+
+def relu(x):
+    # TODO: return max(0, x) elementwise
+    return x
+
+def softmax(x):
+    # TODO: subtract the row max, exponentiate, and normalize so each row sums to 1
+    return x
+
+print(&quot;relu:&quot;, relu(np.array([-3.0, 0.0, 2.0])).tolist())
+p = softmax(np.array([[1.0, 2.0, 3.0]]))
+print(&quot;softmax:&quot;, p.round(3).tolist(), &quot;sum:&quot;, round(float(p.sum()), 3))</code></pre></div><template class="ho-check">assert np.array_equal(relu(np.array([-5.0, 0.0, 4.0])), [0.0, 0.0, 4.0]), &quot;relu clamps negatives to 0&quot;
+p = softmax(np.array([[1.0, 2.0, 3.0]]))
+assert np.isclose(p.sum(), 1.0), &quot;softmax row must sum to 1&quot;
+assert np.argmax(p) == 2, &quot;largest logit gets the largest probability&quot;
+big = softmax(np.array([[1000.0, 1001.0, 1002.0]]))   # must not overflow
+assert np.isclose(big.sum(), 1.0), &quot;softmax must be numerically stable for large inputs&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement relu(x) = max(0, x) and sigmoid(x) = 1 / (1 + e^-x) with NumPy</label></li>
+<li><label><input type="checkbox"> Implement a numerically stable softmax (subtract the row max before exp)</label></li>
+<li><label><input type="checkbox"> Verify each softmax row sums to 1</label></li>
+<li><label><input type="checkbox"> Run a two-layer forward pass: relu(X @ W1) then softmax(@ W2)</label></li></ul></div>
+  </div>
+</div>
 </main>
 <script>
 hljs.highlightAll();
@@ -5172,6 +5260,7 @@ function filterNav(q){
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body>

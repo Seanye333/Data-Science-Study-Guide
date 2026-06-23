@@ -43,6 +43,7 @@
 <a href="#s21">22. Multi-page Apps</a>
 <a href="#s22">23. Custom CSS & Theming</a>
 <a href="#s23">24. Deployment: Cloud, Docker & CI/CD</a>
+<a href="#s24">Practice Lab: Widgets & Caching</a>
 
 </nav>
 <main>
@@ -5527,6 +5528,83 @@ st.title(&quot;Production App&quot;)
 <li><label><input type="checkbox"> Add a sidebar health check panel showing model status, last prediction time, and cache info</label></li></ul></div>
   </div>
 </div>
+<div class="card" id="s24">
+  <div class="card-header" onclick="toggle('s24')">
+    <span>25. Practice Lab: Widgets & Caching</span>
+    <span class="arrow" id="arr-s24">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s24" style="display:none">
+    <p class="desc">Hands-on Streamlit patterns. Streamlit runs as its own server, so save each snippet as app.py and launch it with `streamlit run app.py` (not the in-page runner).</p>
+    <h4>Widgets drive the script</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+st.title(&quot;Widget demo&quot;)
+name = st.text_input(&quot;Your name&quot;, &quot;world&quot;)
+n = st.slider(&quot;Repeat&quot;, 1, 5, 3)
+shout = st.checkbox(&quot;Uppercase&quot;)
+
+greeting = f&quot;Hello, {name}! &quot; * n
+st.write(greeting.upper() if shout else greeting)</code></pre></div>
+    <h4>Cache expensive work</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+@st.cache_data
+def load_data(n_rows: int) -&gt; pd.DataFrame:
+    # Pretend this is a slow query; cached per unique argument
+    return pd.DataFrame({&quot;x&quot;: range(n_rows), &quot;y&quot;: [i * i for i in range(n_rows)]})
+
+rows = st.slider(&quot;Rows&quot;, 10, 1000, 100, step=10)
+df = load_data(rows)
+st.line_chart(df, x=&quot;x&quot;, y=&quot;y&quot;)</code></pre></div>
+    <h4>Session state & layout</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+if &quot;count&quot; not in st.session_state:
+    st.session_state.count = 0
+
+left, right = st.columns(2)
+if left.button(&quot;Increment&quot;):
+    st.session_state.count += 1
+if right.button(&quot;Reset&quot;):
+    st.session_state.count = 0
+
+st.metric(&quot;Count&quot;, st.session_state.count)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">A lightweight data app: a sidebar filter narrows a dataframe and the main panel shows the filtered table plus a metric — the everyday Streamlit pattern.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({&quot;city&quot;: [&quot;NY&quot;, &quot;SF&quot;, &quot;LA&quot;, &quot;NY&quot;, &quot;SF&quot;],
+                   &quot;sales&quot;: [100, 90, 70, 120, 80]})
+
+city = st.sidebar.multiselect(&quot;City&quot;, df[&quot;city&quot;].unique(), default=list(df[&quot;city&quot;].unique()))
+view = df[df[&quot;city&quot;].isin(city)]
+
+st.metric(&quot;Total sales&quot;, int(view[&quot;sales&quot;].sum()))
+st.dataframe(view, use_container_width=True)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filtered Dashboard</div><div class="pd">Build a small dashboard: a sidebar multiselect picks cities, the main panel shows the filtered dataframe and a total-sales metric. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p24" class="language-python">import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({&quot;city&quot;: [&quot;NY&quot;, &quot;SF&quot;, &quot;LA&quot;, &quot;NY&quot;, &quot;SF&quot;],
+                   &quot;sales&quot;: [100, 90, 70, 120, 80]})
+
+# TODO: add a sidebar multiselect for city, filter df by the selection,
+#       then show st.metric(&quot;Total sales&quot;, ...) and st.dataframe(filtered)
+st.title(&quot;Sales dashboard&quot;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Wire a slider/text_input/checkbox and use their values in the script</label></li>
+<li><label><input type="checkbox"> Cache a slow function with @st.cache_data and confirm reruns are fast</label></li>
+<li><label><input type="checkbox"> Filter a dataframe from a sidebar widget and display the result</label></li>
+<li><label><input type="checkbox"> Show a KPI with st.metric and a chart with st.line_chart</label></li></ul></div>
+  </div>
+</div>
 </main>
 <script>
 hljs.highlightAll();
@@ -5585,6 +5663,7 @@ function filterNav(q){
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body>

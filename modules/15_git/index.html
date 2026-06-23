@@ -14,7 +14,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🔀 Git &amp; Version Control</h2><p>Study Guide &bull; 16 topics</p>
+  <div class="sbh"><h2>🔀 Git &amp; Version Control</h2><p>Study Guide &bull; 17 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. What is Git &amp; Why It Matters</a></li>
@@ -32,11 +32,12 @@
     <li><a href="#s12" onclick="act(this,event)">13. Advanced Git — cherry-pick, bisect, reflog</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. Git Workflows for Teams</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. GitHub Actions for Data Science</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Git Best Practices Cheat Sheet</a></li></ul>
+    <li><a href="#s15" onclick="act(this,event)">16. Git Best Practices Cheat Sheet</a></li>
+    <li><a href="#s16" onclick="act(this,event)">Practice Lab: Branching &amp; Recovery</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🔀 Git &amp; Version Control</h1>
-  <p class="ps">16 topics &bull; Click any card to expand</p>
+  <p class="ps">17 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. What is Git &amp; Why It Matters</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Git is a distributed version control system that tracks changes to files. Every data scientist needs Git to version code, collaborate with teams, reproduce experiments, and never lose work.</p><div class="code-block"><div class="ch"><span>Installing and configuring Git</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-bash"># Check if Git is installed
 git --version
 
@@ -1597,7 +1598,42 @@ echo &quot;Bookmark this cheat sheet!&quot; </code></pre></div><div class="todo-
 <li><label><input type="checkbox"> Deliberately commit to the wrong branch, then cherry-pick it to the correct branch and reset the wrong one</label></li>
 <li><label><input type="checkbox"> Practice git commit --amend to add a forgotten file to your last commit without making a new commit</label></li>
 <li><label><input type="checkbox"> Use git revert to safely undo a pushed commit and verify the history still contains the original commit</label></li>
-<li><label><input type="checkbox"> Review the command reference table and write down 3 commands you haven&#x27;t used yet — then try each one</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Review the command reference table and write down 3 commands you haven&#x27;t used yet — then try each one</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>Practice Lab: Branching &amp; Recovery</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on Git workflows. Run these commands in a real repository in your terminal — they show the everyday branch/merge loop and how to recover from mistakes.</p><div class="code-block"><div class="ch"><span>Feature-branch workflow</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-bash"># Start a feature off the latest main
+git switch main
+git pull --ff-only
+git switch -c feature/login
+
+# ... make changes ...
+git add -A
+git commit -m &quot;Add login form&quot;
+
+# Keep up to date and merge back
+git fetch origin
+git rebase origin/main          # replay your work on top of main
+git switch main &amp;&amp; git merge --ff-only feature/login
+git branch -d feature/login</code></pre></div><div class="code-block"><div class="ch"><span>Undo &amp; recover</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-bash"># Unstage / discard
+git restore --staged file.py     # unstage, keep changes
+git restore file.py              # discard working-tree changes
+
+# Amend the last commit (before pushing)
+git commit --amend -m &quot;Better message&quot;
+
+# Undo a pushed commit safely (keeps history)
+git revert &lt;sha&gt;
+
+# Recover a &quot;lost&quot; commit after a bad reset
+git reflog                       # find the old HEAD sha
+git reset --hard &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Recover a Lost Commit</div><div class="pd">You ran `git reset --hard HEAD~2` and lost two commits. Using the commands below as a guide, write the sequence that finds the lost commit in the reflog and restores your branch to it. (Try it in a throwaway repo.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-bash"># 1. Inspect recent HEAD positions
+git reflog
+
+# 2. TODO: identify the sha from just before the bad reset, then restore to it
+#    (hint: git reset --hard &lt;sha&gt;, or git branch rescue &lt;sha&gt; to be safe)
+
+# 3. Confirm the commits are back
+git log --oneline -5</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a feature branch with git switch -c and merge it back with --ff-only</label></li>
+<li><label><input type="checkbox"> Rebase your branch onto origin/main and resolve any conflicts</label></li>
+<li><label><input type="checkbox"> Undo a pushed commit with git revert (not reset) to preserve history</label></li>
+<li><label><input type="checkbox"> Use git reflog to find and restore a commit lost to a hard reset</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
@@ -1644,6 +1680,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

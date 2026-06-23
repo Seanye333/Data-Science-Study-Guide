@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 24 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 25 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. DateTime Indexing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Resampling &amp; Frequency Conversion</a></li>
@@ -36,8 +36,9 @@
     <li><a href="#s20" onclick="act(this,event)">21. ML Approach: Lag Features &amp; Sklearn</a></li>
     <li><a href="#s21" onclick="act(this,event)">22. Time Series Anomaly Detection</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Forecast Evaluation &amp; Backtesting</a></li>
-    <li><a href="#s23" onclick="act(this,event)">24. Multivariate Time Series &amp; Prophet</a></li></ul></aside>
-<main class="main"><h1 class="pt">📈 Time Series Analysis</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. DateTime Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas DatetimeIndex enables powerful time-based selection, alignment, and operations. Use pd.to_datetime() to parse dates and set_index() to create a time series.</p><div class="code-block"><div class="ch"><span>Creating a DatetimeIndex</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
+    <li><a href="#s23" onclick="act(this,event)">24. Multivariate Time Series &amp; Prophet</a></li>
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Rolling &amp; Forecasting</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Time Series Analysis</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. DateTime Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas DatetimeIndex enables powerful time-based selection, alignment, and operations. Use pd.to_datetime() to parse dates and set_index() to create a time series.</p><div class="code-block"><div class="ch"><span>Creating a DatetimeIndex</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -3377,7 +3378,38 @@ df = pd.DataFrame({&#x27;temp&#x27;:temp, &#x27;humidity&#x27;:humidity, &#x27;e
 <li><label><input type="checkbox"> Run VAR.test_causality() and interpret whether one series Granger-causes another</label></li>
 <li><label><input type="checkbox"> Use Prophet by creating a ds/y DataFrame and calling m.fit() + m.predict(future)</label></li>
 <li><label><input type="checkbox"> Add Prophet changepoints and compare forecast quality with vs without them</label></li>
-<li><label><input type="checkbox"> Test Granger causality at multiple lags and report which lag gives the smallest p-value</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Test Granger causality at multiple lags and report which lag gives the smallest p-value</label></li></ul></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>Practice Lab: Rolling &amp; Forecasting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on time-series challenges (pandas + NumPy, Pyodide-runnable). Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Rolling mean &amp; resampling</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import pandas as pd
+
+idx = pd.date_range(&quot;2024-01-01&quot;, periods=12, freq=&quot;D&quot;)
+s = pd.Series([10,12,13,12,15,18,17,20,22,21,25,28], index=idx)
+
+print(&quot;3-day rolling mean:&quot;)
+print(s.rolling(3).mean().round(2).dropna().to_string())
+print(&quot;\nweekly totals:&quot;)
+print(s.resample(&quot;W&quot;).sum().to_string())</code></pre></div><div class="code-block"><div class="ch"><span>Lag features &amp; percent change</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import pandas as pd
+
+s = pd.Series([1,2,3,4,5,6,7,8,9,10], dtype=float)
+df = pd.DataFrame({&quot;y&quot;: s, &quot;lag1&quot;: s.shift(1), &quot;pct&quot;: s.pct_change().round(3)})
+print(df.head(6).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Moving-Average Forecast</div><div class="pd">Implement moving_average_forecast(series, window) returning the mean of the last `window` values, and mae(actual, predicted) returning the mean absolute error. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np, pandas as pd
+
+def moving_average_forecast(series, window):
+    s = pd.Series(series, dtype=float)
+    # TODO: return the mean of the last `window` observations
+    return 0.0
+
+def mae(actual, predicted):
+    # TODO: return the mean absolute error between actual and predicted
+    return 0.0
+
+hist = [10, 12, 14, 16, 18]
+fc = moving_average_forecast(hist, 3)
+err = mae([20, 22], [fc, fc])
+print(&quot;forecast:&quot;, fc, &quot;mae:&quot;, round(err, 3))</code></pre></div><template class="ho-check">assert np.isclose(fc, 16.0), &quot;MA(3) of the last three (14, 16, 18) is 16&quot;
+assert np.isclose(err, 5.0), &quot;mae of [20, 22] vs [16, 16] is (4 + 6) / 2 = 5&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a rolling mean with Series.rolling(window).mean()</label></li>
+<li><label><input type="checkbox"> Resample a daily series to weekly totals with .resample(&#x27;W&#x27;).sum()</label></li>
+<li><label><input type="checkbox"> Build a lag feature with Series.shift(1) and a return with pct_change()</label></li>
+<li><label><input type="checkbox"> Forecast the next value as the moving average of the last `window` points</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -3422,6 +3454,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

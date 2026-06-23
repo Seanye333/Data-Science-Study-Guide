@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 24 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 25 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Descriptive Statistics</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Probability Distributions</a></li>
@@ -36,8 +36,9 @@
     <li><a href="#s20" onclick="act(this,event)">21. Bayesian Inference Basics</a></li>
     <li><a href="#s21" onclick="act(this,event)">22. Effect Size &amp; Statistical Power</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Multiple Testing &amp; FDR Corrections</a></li>
-    <li><a href="#s23" onclick="act(this,event)">24. Bootstrap &amp; Permutation Tests</a></li></ul></aside>
-<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
+    <li><a href="#s23" onclick="act(this,event)">24. Bootstrap &amp; Permutation Tests</a></li>
+    <li><a href="#s24" onclick="act(this,event)">25. Practice Lab: Tests &amp; Z-Scores</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 from scipy import stats
 
 data = [23, 45, 12, 67, 34, 45, 89, 23, 45, 56, 78, 34, 23, 90, 12]
@@ -2847,7 +2848,47 @@ for name, data in datasets.items():
     print(f&quot;{name}:&quot;)
     print(f&quot;  Bootstrap mean CI:    ({boot_mean[0]:.3f}, {boot_mean[1]:.3f})&quot;)
     # TODO: print t-interval and bootstrap median CI
-</code></pre></div></div></div></div></main>
+</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Practice Lab: Tests &amp; Z-Scores</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on statistics challenges that run in your browser (NumPy + SciPy ship with Pyodide). Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Two-sample t-test</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
+from scipy import stats
+
+rng = np.random.default_rng(0)
+a = rng.normal(50, 10, 40)     # group A
+b = rng.normal(56, 10, 40)     # group B
+
+t, p = stats.ttest_ind(a, b)
+print(f&quot;t = {t:.3f}, p = {p:.4f}&quot;)
+print(&quot;means:&quot;, round(a.mean(), 2), round(b.mean(), 2))
+print(&quot;reject H0 (no difference) at 0.05:&quot;, p &lt; 0.05)</code></pre></div><div class="code-block"><div class="ch"><span>Bootstrap confidence interval</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.exponential(3, 200)
+
+boot = np.array([rng.choice(data, len(data), replace=True).mean()
+                 for _ in range(2000)])
+lo, hi = np.percentile(boot, [2.5, 97.5])
+print(f&quot;sample mean      = {data.mean():.3f}&quot;)
+print(f&quot;95% bootstrap CI = [{lo:.3f}, {hi:.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Scores &amp; Outliers</div><div class="pd">Implement zscores(x) returning the standardized values (population std, ddof=0), and outliers(x, thresh) returning a boolean mask where |z| &gt; thresh. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np
+
+def zscores(x):
+    x = np.asarray(x, float)
+    # TODO: return (x - mean) / std   (use population std, ddof=0)
+    return x
+
+def outliers(x, thresh=2.0):
+    # TODO: return a boolean mask where the absolute z-score exceeds thresh
+    return np.zeros(len(x), dtype=bool)
+
+x = np.array([10, 12, 11, 13, 12, 50, 11, 9])
+z = zscores(x)
+flags = outliers(x, 2.0)
+print(&quot;z:&quot;, z.round(2))
+print(&quot;outlier mask:&quot;, flags)</code></pre></div><template class="ho-check">assert np.isclose(z.mean(), 0, atol=1e-9), &quot;z-scores must have mean 0&quot;
+assert np.isclose(z.std(ddof=0), 1, atol=1e-9), &quot;z-scores must have std 1&quot;
+assert flags.sum() == 1 and bool(flags[5]), &quot;only the value 50 is an outlier at threshold 2&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a two-sample t-test with scipy.stats.ttest_ind and interpret the p-value</label></li>
+<li><label><input type="checkbox"> Build a 95% bootstrap CI by resampling the mean 2000 times and taking the 2.5/97.5 percentiles</label></li>
+<li><label><input type="checkbox"> Standardize a vector to z-scores: (x - mean) / std, and confirm mean 0, std 1</label></li>
+<li><label><input type="checkbox"> Flag outliers as |z| &gt; 2 and count how many there are</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -2892,6 +2933,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

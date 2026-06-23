@@ -30,6 +30,10 @@ def make_html(sections):
         practice_html = ""
         if practice:
             pid = f"p{i}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html = (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
@@ -37,6 +41,7 @@ def make_html(sections):
                 f'<div class="code-block"><div class="ch"><span>Starter Code</span>'
                 f'<button onclick="cp(\'{pid}\')">Copy</button></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])
@@ -2824,6 +2829,61 @@ print("Saved practice_custom.png")"""
     "title": "Dashboard Practice",
     "desc": "Build your own 4-panel seaborn dashboard using any dataset you prefer (tips, penguins, titanic, mpg, etc.). Requirements: (1) GridSpec layout with at least one spanning panel, (2) 4 different plot types, (3) consistent palette and theme, (4) suptitle banner, (5) save at 150 DPI.",
     "starter": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nfrom matplotlib.gridspec import GridSpec\n\nsns.set_theme(style=\'whitegrid\', palette=\'Set2\')\n# Choose your dataset\ntips = sns.load_dataset(\'tips\')\n\nfig = plt.figure(figsize=(13, 9))\ngs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.35)\n\n# TODO: Panel 1 — spanning top row (gs[0, :])\n# TODO: Panel 2 — bottom-left (gs[1, :2])\n# TODO: Panel 3 — bottom-right (gs[1, 2])\n# Pick 4 different plot types across panels\n# TODO: suptitle banner\n# TODO: save \'my_sns_dashboard.png\' at 150 DPI\nplt.close()\nprint(\'Dashboard saved!\')"
+}
+},
+
+{
+"title": "Practice Lab: Distributions & Groups",
+"desc": "Hands-on seaborn challenges that render inline in the browser (seaborn ships with Pyodide). Press Run to draw a chart, then solve the exercise and press Check — the checks grade the data behind the plot.",
+"examples": [
+    {"label": "Boxplot by group", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+rng = np.random.default_rng(0)
+df = pd.DataFrame({"group": np.repeat(["A","B","C"], 50),
+                   "value": np.concatenate([rng.normal(m, 1, 50) for m in (0, 2, 4)])})
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.boxplot(data=df, x="group", y="value", ax=ax)
+ax.set_title("Distributions by group")
+plt.show()
+print(df.groupby("group")["value"].mean().round(2).to_dict())'''},
+    {"label": "Histogram with KDE", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.normal(50, 8, 500)
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.histplot(data, kde=True, ax=ax, color="#a78bfa")
+ax.set_title("Distribution")
+plt.show()'''},
+],
+"todos": [
+    "Draw a boxplot of a value column split by a categorical group",
+    "Overlay a KDE on a histogram with sns.histplot(kde=True)",
+    "Compute group means with df.groupby(by)[col].mean()",
+    "Bar-plot the group means with sns.barplot",
+],
+"practice": {
+    "title": "Group Means",
+    "desc": "Implement group_means(df, by, col) returning the mean of `col` for each level of `by`, then bar-plot the result. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+def group_means(df, by, col):
+    # TODO: return a Series of the mean of `col` for each group in `by`
+    return pd.Series(dtype=float)
+
+df = pd.DataFrame({"cat": ["x","x","y","y","z"], "v": [1.0, 3.0, 10.0, 20.0, 5.0]})
+gm = group_means(df, "cat", "v")
+
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); ax.set_title("Group means")
+plt.show()
+print(gm.to_dict())''',
+    "check": '''assert np.isclose(gm["x"], 2.0), "mean of x (1, 3) is 2"
+assert np.isclose(gm["y"], 15.0), "mean of y (10, 20) is 15"
+assert np.isclose(gm["z"], 5.0), "mean of z (5) is 5"
+print("All checks passed \\u2713")'''
 }
 },
 

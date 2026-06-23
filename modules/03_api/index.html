@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🌐 APIs &amp; Data Collection</h2><p>Study Guide &bull; 16 topics</p>
+  <div class="sbh"><h2>🌐 APIs &amp; Data Collection</h2><p>Study Guide &bull; 17 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. How the Web Works — HTTP Fundamentals</a></li>
@@ -31,11 +31,12 @@
     <li><a href="#s12" onclick="act(this,event)">13. Building APIs with FastAPI</a></li>
     <li><a href="#s13" onclick="act(this,event)">14. Testing API Calls with unittest.mock</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. Public APIs for Data Science Projects</a></li>
-    <li><a href="#s15" onclick="act(this,event)">16. Data Collection Project — End-to-End Pipeline</a></li></ul>
+    <li><a href="#s15" onclick="act(this,event)">16. Data Collection Project — End-to-End Pipeline</a></li>
+    <li><a href="#s16" onclick="act(this,event)">Practice Lab: Requests &amp; FastAPI</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🌐 APIs &amp; Data Collection</h1>
-  <p class="ps">16 topics &bull; Click any card to expand</p>
+  <p class="ps">17 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. How the Web Works — HTTP Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Before consuming APIs you need to understand how HTTP works: requests, responses, methods, status codes, and headers. Every API call is just an HTTP request.</p><div class="code-block"><div class="ch"><span>HTTP methods overview</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># HTTP Methods (verbs) and their typical use
 # GET    — Retrieve data           (read-only, safe, idempotent)
 # POST   — Create a new resource   (not idempotent)
@@ -2143,7 +2144,47 @@ class MyPipeline:
         return df
 
 pipeline = MyPipeline()
-result = pipeline.run()</code></pre></div></div></div></div>
+result = pipeline.run()</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>Practice Lab: Requests &amp; FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on REST patterns. These depend on the network and web frameworks, so run them in a local Python environment (the in-page runner has no network). Read, copy, and adapt them.</p><div class="code-block"><div class="ch"><span>GET with params, timeout &amp; error handling</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import requests
+
+def fetch_repo(owner, repo):
+    url = f&quot;https://api.github.com/repos/{owner}/{repo}&quot;
+    try:
+        r = requests.get(url, params={&quot;per_page&quot;: 1}, timeout=5)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        return {&quot;error&quot;: str(e)}
+    data = r.json()
+    return {&quot;name&quot;: data[&quot;full_name&quot;], &quot;stars&quot;: data[&quot;stargazers_count&quot;]}
+
+print(fetch_repo(&quot;python&quot;, &quot;cpython&quot;))</code></pre></div><div class="code-block"><div class="ch"><span>Minimal FastAPI endpoint</span><button onclick="cp('c16_1')">Copy</button></div><pre><code id="c16_1" class="language-python">from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+ITEMS = {1: &quot;apple&quot;, 2: &quot;banana&quot;}
+
+@app.get(&quot;/items/{item_id}&quot;)
+def read_item(item_id: int, upper: bool = False):
+    if item_id not in ITEMS:
+        raise HTTPException(status_code=404, detail=&quot;item not found&quot;)
+    name = ITEMS[item_id]
+    return {&quot;id&quot;: item_id, &quot;name&quot;: name.upper() if upper else name}
+
+# Run with:  uvicorn app:app --reload</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resilient API Client</div><div class="pd">Write get_json(url, params=None, retries=3) that performs a GET with a 5s timeout, retries on failure with a short backoff, raises for HTTP errors, and returns parsed JSON (or None after exhausting retries). Run it locally against a real endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import requests, time
+
+def get_json(url, params=None, retries=3):
+    for attempt in range(retries):
+        try:
+            r = requests.get(url, params=params, timeout=5)
+            r.raise_for_status()
+            return r.json()
+        except requests.RequestException:
+            # TODO: back off (e.g. time.sleep(2 ** attempt)) and retry; return None if out of attempts
+            pass
+    return None
+
+print(get_json(&quot;https://api.github.com/repos/python/cpython&quot;))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Send a GET request with query params, a timeout, and raise_for_status()</label></li>
+<li><label><input type="checkbox"> Handle requests.RequestException and return a clean error dict</label></li>
+<li><label><input type="checkbox"> Define a FastAPI path parameter (item_id: int) and a query parameter (upper: bool)</label></li>
+<li><label><input type="checkbox"> Return a 404 with HTTPException when a resource is missing</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
@@ -2190,6 +2231,7 @@ document.addEventListener('DOMContentLoaded',()=>{var fh=document.querySelector(
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>

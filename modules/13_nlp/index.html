@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 24 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 25 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Tokenization &amp; Stopword Removal</a></li>
@@ -36,8 +36,9 @@
     <li><a href="#s20" onclick="act(this,event)">21. Text Summarization</a></li>
     <li><a href="#s21" onclick="act(this,event)">22. Question Answering</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Text Generation &amp; Language Models</a></li>
-    <li><a href="#s23" onclick="act(this,event)">24. NLP Pipeline &amp; Production Deployment</a></li></ul></aside>
-<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">24 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
+    <li><a href="#s23" onclick="act(this,event)">24. NLP Pipeline &amp; Production Deployment</a></li>
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tokenization &amp; N-grams</a></li></ul></aside>
+<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
 
 text = &#x27;  Hello, World! This is NLP 101... Check &lt;b&gt;this&lt;/b&gt; out!  &#x27;
 
@@ -3128,7 +3129,40 @@ texts, labels = zip(*train)
 clf = Pipeline([(&quot;tfidf&quot;, TfidfVectorizer()), (&quot;lr&quot;, LogisticRegression(max_iter=100))])
 clf.fit(texts, labels)
 print(clf.predict([&quot;I want to stop my subscription&quot;]))
-</code></pre></div></div></div></div></main>
+</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>Practice Lab: Tokenization &amp; N-grams</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on NLP fundamentals using only the standard library, so they run in your browser. Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Tokenize and count terms</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import re
+from collections import Counter
+
+text = &quot;The cat sat on the mat. The cat ran.&quot;
+tokens = re.findall(r&quot;[a-z]+&quot;, text.lower())
+print(&quot;tokens:&quot;, tokens)
+print(&quot;term frequency:&quot;, Counter(tokens).most_common(3))</code></pre></div><div class="code-block"><div class="ch"><span>Build n-grams</span><button onclick="cp('c24_1')">Copy</button></div><pre><code id="c24_1" class="language-python">tokens = [&quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;, &quot;on&quot;, &quot;the&quot;, &quot;mat&quot;]
+bigrams = list(zip(tokens, tokens[1:]))
+trigrams = list(zip(tokens, tokens[1:], tokens[2:]))
+print(&quot;bigrams:&quot;, bigrams)
+print(&quot;trigrams:&quot;, trigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tokenize &amp; Bigrams</div><div class="pd">Implement tokenize(text) returning lowercase word tokens, and bigrams(tokens) returning the list of consecutive (w1, w2) pairs. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import re
+from collections import Counter
+
+def tokenize(text):
+    # TODO: return lowercase word tokens, e.g. re.findall(r&quot;[a-z]+&quot;, text.lower())
+    return []
+
+def bigrams(tokens):
+    # TODO: return the list of consecutive (w1, w2) pairs
+    return []
+
+text = &quot;to be or not to be&quot;
+toks = tokenize(text)
+bg = bigrams(toks)
+print(&quot;tokens:&quot;, toks)
+print(&quot;bigrams:&quot;, bg)</code></pre></div><template class="ho-check">assert toks == [&quot;to&quot;, &quot;be&quot;, &quot;or&quot;, &quot;not&quot;, &quot;to&quot;, &quot;be&quot;], &quot;tokenize should split into lowercase words&quot;
+tf = Counter(toks)
+assert tf[&quot;to&quot;] == 2 and tf[&quot;be&quot;] == 2, &quot;&#x27;to&#x27; and &#x27;be&#x27; each appear twice&quot;
+assert (&quot;to&quot;, &quot;be&quot;) in bg and bg.count((&quot;to&quot;, &quot;be&quot;)) == 2, &quot;&#x27;to be&#x27; is a repeated bigram&quot;
+assert len(bg) == len(toks) - 1, &quot;there are len(tokens) - 1 bigrams&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize text into lowercase words with re.findall(r&#x27;[a-z]+&#x27;, text.lower())</label></li>
+<li><label><input type="checkbox"> Count term frequencies with collections.Counter</label></li>
+<li><label><input type="checkbox"> Build bigrams with zip(tokens, tokens[1:])</label></li>
+<li><label><input type="checkbox"> Confirm there are len(tokens) - 1 bigrams</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
@@ -3172,6 +3206,7 @@ function filt(v){var lv=v.toLowerCase();document.querySelectorAll('#nl li').forE
 </script>
 <script src="../../styles/effects.js"></script>
 <script src="../../styles/nav-ux.js"></script>
+<script src="../../styles/hands-on.js"></script>
 <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode"
   style="position:fixed;top:14px;right:14px;z-index:100;">🌙</button>
 </body></html>
