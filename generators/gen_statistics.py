@@ -1853,6 +1853,64 @@ pooled_std    = 5.0
 }
 },
 
+{
+"title": "25. Practice Lab: Tests & Z-Scores",
+"desc": "Hands-on statistics challenges that run in your browser (NumPy + SciPy ship with Pyodide). Press Run to try a snippet, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Two-sample t-test", "code": '''import numpy as np
+from scipy import stats
+
+rng = np.random.default_rng(0)
+a = rng.normal(50, 10, 40)     # group A
+b = rng.normal(56, 10, 40)     # group B
+
+t, p = stats.ttest_ind(a, b)
+print(f"t = {t:.3f}, p = {p:.4f}")
+print("means:", round(a.mean(), 2), round(b.mean(), 2))
+print("reject H0 (no difference) at 0.05:", p < 0.05)'''},
+    {"label": "Bootstrap confidence interval", "code": '''import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.exponential(3, 200)
+
+boot = np.array([rng.choice(data, len(data), replace=True).mean()
+                 for _ in range(2000)])
+lo, hi = np.percentile(boot, [2.5, 97.5])
+print(f"sample mean      = {data.mean():.3f}")
+print(f"95% bootstrap CI = [{lo:.3f}, {hi:.3f}]")'''},
+],
+"todos": [
+    "Run a two-sample t-test with scipy.stats.ttest_ind and interpret the p-value",
+    "Build a 95% bootstrap CI by resampling the mean 2000 times and taking the 2.5/97.5 percentiles",
+    "Standardize a vector to z-scores: (x - mean) / std, and confirm mean 0, std 1",
+    "Flag outliers as |z| > 2 and count how many there are",
+],
+"practice": {
+    "title": "Z-Scores & Outliers",
+    "desc": "Implement zscores(x) returning the standardized values (population std, ddof=0), and outliers(x, thresh) returning a boolean mask where |z| > thresh. Fill in the functions, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def zscores(x):
+    x = np.asarray(x, float)
+    # TODO: return (x - mean) / std   (use population std, ddof=0)
+    return x
+
+def outliers(x, thresh=2.0):
+    # TODO: return a boolean mask where the absolute z-score exceeds thresh
+    return np.zeros(len(x), dtype=bool)
+
+x = np.array([10, 12, 11, 13, 12, 50, 11, 9])
+z = zscores(x)
+flags = outliers(x, 2.0)
+print("z:", z.round(2))
+print("outlier mask:", flags)''',
+    "check": '''assert np.isclose(z.mean(), 0, atol=1e-9), "z-scores must have mean 0"
+assert np.isclose(z.std(ddof=0), 1, atol=1e-9), "z-scores must have std 1"
+assert flags.sum() == 1 and bool(flags[5]), "only the value 50 is an outlier at threshold 2"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
