@@ -4250,6 +4250,77 @@ SECTIONS = [
         },
     },
 
+    {
+        "title": "Practice Lab: Train, Tune & Score",
+        "desc": "Hands-on scikit-learn challenges that run in your browser (Pyodide ships scikit-learn). Press Run to try a snippet, then solve the exercise and press Check.",
+        "code1_title": "Random forest: train and evaluate",
+        "code1": '''from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=0)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25, random_state=0)
+clf = RandomForestClassifier(n_estimators=100, random_state=0).fit(X_tr, y_tr)
+
+print("test accuracy:", round(accuracy_score(y_te, clf.predict(X_te)), 3))
+print("top importances:", clf.feature_importances_.round(3)[:3].tolist())''',
+        "code2_title": "Pipeline with cross-validation",
+        "code2": '''from sklearn.datasets import load_iris
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+X, y = load_iris(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500))
+scores = cross_val_score(pipe, X, y, cv=5)
+
+print("cv scores:", scores.round(3).tolist())
+print("mean accuracy:", round(scores.mean(), 3))''',
+        "rw_scenario": "Tuning a model with grid search and cross-validation is the everyday loop of applied ML: wrap preprocessing and the estimator in a pipeline, search a small grid, and read off the best configuration.",
+        "rw_code": '''from sklearn.datasets import load_wine
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+
+X, y = load_wine(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), SVC())
+grid = {"svc__C": [0.1, 1, 10], "svc__gamma": ["scale", "auto"]}
+search = GridSearchCV(pipe, grid, cv=5).fit(X, y)
+
+print("best params:", search.best_params_)
+print("best cv accuracy:", round(search.best_score_, 3))''',
+        "todos": [
+            "Train a RandomForestClassifier and report test accuracy with accuracy_score",
+            "Wrap StandardScaler + an estimator in make_pipeline and score it with cross_val_score",
+            "Run a small GridSearchCV over an SVC pipeline and read best_params_ / best_score_",
+            "Vary a DecisionTree's max_depth and watch the effect on test accuracy",
+        ],
+        "practice": {
+            "title": "Tree Depth and Accuracy",
+            "desc": "Complete train_and_score(max_depth): fit a DecisionTreeClassifier of the given depth on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.",
+            "starter": '''from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def train_and_score(max_depth):
+    X, y = make_classification(n_samples=500, n_features=10, n_informative=6, random_state=42)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42)
+    # TODO: fit DecisionTreeClassifier(max_depth=max_depth, random_state=42) on the train split
+    #       and return accuracy_score on the test split
+    return 0.0
+
+acc = train_and_score(5)
+print("accuracy at depth 5:", round(acc, 3))''',
+            "check": '''assert 0.0 <= acc <= 1.0, "accuracy must be a fraction between 0 and 1"
+assert acc > 0.8, "a depth-5 tree should beat 0.8 accuracy on this dataset"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 
