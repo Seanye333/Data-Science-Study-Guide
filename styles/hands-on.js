@@ -288,6 +288,7 @@
   // ── Example / real-world snippet → Run + Edit toolbar under the code ─────────
   function enhanceSnippet(pre) {
     if (pre.dataset.hoReady) return;
+    if (!pre.isConnected) return; // a Practice starter <pre> already detached
     if (pre.closest(".practice")) return; // handled by enhancePractice
     var codeEl = pre.querySelector("code.language-python");
     if (!codeEl) return;
