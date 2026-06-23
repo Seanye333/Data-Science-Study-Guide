@@ -1,0 +1,1862 @@
+[
+ {
+  "module": "00_python_basics",
+  "title": "Python Basics",
+  "url": "modules/00_python_basics/index.html",
+  "sections": [
+   {
+    "t": "1. Variables & Data Types",
+    "a": "s0"
+   },
+   {
+    "t": "2. Strings",
+    "a": "s1"
+   },
+   {
+    "t": "3. Lists",
+    "a": "s2"
+   },
+   {
+    "t": "4. Tuples, Sets & Dictionaries",
+    "a": "s3"
+   },
+   {
+    "t": "5. Control Flow",
+    "a": "s4"
+   },
+   {
+    "t": "6. Loops",
+    "a": "s5"
+   },
+   {
+    "t": "7. Functions",
+    "a": "s6"
+   },
+   {
+    "t": "8. Classes & OOP",
+    "a": "s7"
+   },
+   {
+    "t": "9. Error Handling",
+    "a": "s8"
+   },
+   {
+    "t": "10. File I/O",
+    "a": "s9"
+   },
+   {
+    "t": "11. List Comprehensions & Generators",
+    "a": "s10"
+   },
+   {
+    "t": "12. Modules & Useful Built-ins",
+    "a": "s11"
+   },
+   {
+    "t": "13. Context Managers",
+    "a": "s12"
+   },
+   {
+    "t": "14. Regular Expressions",
+    "a": "s13"
+   },
+   {
+    "t": "15. Type Hints & Dataclasses",
+    "a": "s14"
+   },
+   {
+    "t": "16. Concurrency & Async",
+    "a": "s15"
+   },
+   {
+    "t": "17. Design Patterns",
+    "a": "s16"
+   },
+   {
+    "t": "18. Testing with pytest",
+    "a": "s17"
+   },
+   {
+    "t": "19. Functional Programming",
+    "a": "s18"
+   },
+   {
+    "t": "20. Itertools in Depth",
+    "a": "s19"
+   },
+   {
+    "t": "21. Closures & Scoping",
+    "a": "s20"
+   },
+   {
+    "t": "22. Decorators in Depth",
+    "a": "s21"
+   },
+   {
+    "t": "23. Abstract Base Classes & Protocols",
+    "a": "s22"
+   },
+   {
+    "t": "24. Descriptors & Properties",
+    "a": "s23"
+   },
+   {
+    "t": "25. Memory Management & Profiling",
+    "a": "s24"
+   },
+   {
+    "t": "26. Logging Best Practices",
+    "a": "s25"
+   },
+   {
+    "t": "27. Argparse & CLI Tools",
+    "a": "s26"
+   },
+   {
+    "t": "28. JSON & Data Serialization",
+    "a": "s27"
+   },
+   {
+    "t": "29. Pathlib & File System Ops",
+    "a": "s28"
+   },
+   {
+    "t": "30. String Formatting Mastery",
+    "a": "s29"
+   },
+   {
+    "t": "31. Performance Optimization & Caching",
+    "a": "s30"
+   },
+   {
+    "t": "32. Virtual Environments & Package Management",
+    "a": "s31"
+   },
+   {
+    "t": "33. Introspection & Metaprogramming",
+    "a": "s32"
+   },
+   {
+    "t": "34. Advanced Type Hints",
+    "a": "s33"
+   }
+  ]
+ },
+ {
+  "module": "01_numpy",
+  "title": "NumPy",
+  "url": "modules/01_numpy/index.html",
+  "sections": [
+   {
+    "t": "1. Array Creation",
+    "a": "s0"
+   },
+   {
+    "t": "2. Array Attributes & Inspection",
+    "a": "s1"
+   },
+   {
+    "t": "3. Indexing & Slicing",
+    "a": "s2"
+   },
+   {
+    "t": "4. Mathematical Operations & Ufuncs",
+    "a": "s3"
+   },
+   {
+    "t": "5. Broadcasting",
+    "a": "s4"
+   },
+   {
+    "t": "6. Boolean Indexing & np.where",
+    "a": "s5"
+   },
+   {
+    "t": "7. Statistical Functions",
+    "a": "s6"
+   },
+   {
+    "t": "8. Linear Algebra",
+    "a": "s7"
+   },
+   {
+    "t": "9. Array Manipulation",
+    "a": "s8"
+   },
+   {
+    "t": "10. Random Number Generation",
+    "a": "s9"
+   },
+   {
+    "t": "11. Memory Layout & Strides",
+    "a": "s10"
+   },
+   {
+    "t": "12. Structured Arrays",
+    "a": "s11"
+   },
+   {
+    "t": "13. Linear Algebra & Polynomial Fitting",
+    "a": "s12"
+   },
+   {
+    "t": "14. Advanced Indexing & Fancy Indexing",
+    "a": "s13"
+   },
+   {
+    "t": "15. NumPy Performance & Vectorization",
+    "a": "s14"
+   },
+   {
+    "t": "16. Signal Processing with NumPy",
+    "a": "s15"
+   },
+   {
+    "t": "17. Sorting, Searching & Partitioning",
+    "a": "s16"
+   },
+   {
+    "t": "18. Set Operations on Arrays",
+    "a": "s17"
+   },
+   {
+    "t": "19. Numerical Stability, NaN & Inf Handling",
+    "a": "s18"
+   },
+   {
+    "t": "20. Probability Distributions & Random Sampling",
+    "a": "s19"
+   },
+   {
+    "t": "21. Image Arrays & 2D Operations",
+    "a": "s20"
+   },
+   {
+    "t": "22. Statistical Aggregations",
+    "a": "s21"
+   },
+   {
+    "t": "23. Array I/O (save, load, text, memmap)",
+    "a": "s22"
+   },
+   {
+    "t": "24. Datetime64 & Time Arithmetic",
+    "a": "s23"
+   },
+   {
+    "t": "25. Meshgrid & Grid Operations",
+    "a": "s24"
+   },
+   {
+    "t": "26. Advanced Broadcasting & Pairwise Operations",
+    "a": "s25"
+   },
+   {
+    "t": "27. Universal Functions (ufuncs) in Depth",
+    "a": "s26"
+   },
+   {
+    "t": "28. Masked Arrays (np.ma)",
+    "a": "s27"
+   },
+   {
+    "t": "29. Memory Layout, Strides & Contiguity",
+    "a": "s28"
+   },
+   {
+    "t": "30. Advanced Linear Algebra Operations",
+    "a": "s29"
+   },
+   {
+    "t": "31. Numerical Differentiation & Optimization",
+    "a": "s30"
+   },
+   {
+    "t": "32. NumPy in Data Science Workflows",
+    "a": "s31"
+   }
+  ]
+ },
+ {
+  "module": "02_sql",
+  "title": "SQL with Python",
+  "url": "modules/02_sql/index.html",
+  "sections": [
+   {
+    "t": "1. Setup with sqlite3",
+    "a": "s0"
+   },
+   {
+    "t": "2. SELECT & WHERE",
+    "a": "s1"
+   },
+   {
+    "t": "3. GROUP BY, Aggregates & HAVING",
+    "a": "s2"
+   },
+   {
+    "t": "4. JOINs",
+    "a": "s3"
+   },
+   {
+    "t": "5. Subqueries & CTEs",
+    "a": "s4"
+   },
+   {
+    "t": "6. Window Functions",
+    "a": "s5"
+   },
+   {
+    "t": "7. UPDATE & DELETE",
+    "a": "s6"
+   },
+   {
+    "t": "8. Indexes & EXPLAIN",
+    "a": "s7"
+   },
+   {
+    "t": "9. SQLite with Pandas",
+    "a": "s8"
+   },
+   {
+    "t": "10. Recursive CTEs & Advanced Patterns",
+    "a": "s9"
+   },
+   {
+    "t": "11. Common Table Expressions (CTEs)",
+    "a": "s10"
+   },
+   {
+    "t": "12. Window Functions",
+    "a": "s11"
+   },
+   {
+    "t": "13. Query Optimization",
+    "a": "s12"
+   },
+   {
+    "t": "14. Query Optimization & Indexing",
+    "a": "s13"
+   },
+   {
+    "t": "15. Pivoting & Unpivoting",
+    "a": "s14"
+   },
+   {
+    "t": "16. Triggers & Database Automation",
+    "a": "s15"
+   },
+   {
+    "t": "17. Subqueries in Depth",
+    "a": "s16"
+   },
+   {
+    "t": "18. String Functions & Pattern Matching",
+    "a": "s17"
+   },
+   {
+    "t": "19. Date & Time Functions",
+    "a": "s18"
+   },
+   {
+    "t": "20. CASE WHEN & Conditional Logic",
+    "a": "s19"
+   },
+   {
+    "t": "21. Set Operations (UNION, INTERSECT, EXCEPT)",
+    "a": "s20"
+   },
+   {
+    "t": "22. Advanced CTEs & Chaining",
+    "a": "s21"
+   },
+   {
+    "t": "23. Views & Virtual Tables",
+    "a": "s22"
+   },
+   {
+    "t": "24. Data Integrity & Constraints",
+    "a": "s23"
+   },
+   {
+    "t": "25. Advanced Aggregations",
+    "a": "s24"
+   },
+   {
+    "t": "26. Self-Joins & Non-Equi Joins",
+    "a": "s25"
+   },
+   {
+    "t": "27. Analytical Functions Advanced",
+    "a": "s26"
+   },
+   {
+    "t": "28. Database Design & Normalization",
+    "a": "s27"
+   },
+   {
+    "t": "29. JSON in SQL",
+    "a": "s28"
+   },
+   {
+    "t": "30. Full-Text Search",
+    "a": "s29"
+   },
+   {
+    "t": "31. Performance Tuning & EXPLAIN",
+    "a": "s30"
+   },
+   {
+    "t": "32. SQL for Data Analysis Workflow",
+    "a": "s31"
+   }
+  ]
+ },
+ {
+  "module": "03_api",
+  "title": "APIs &amp; Data Collection",
+  "url": "modules/03_api/index.html",
+  "sections": [
+   {
+    "t": "1. How the Web Works — HTTP Fundamentals",
+    "a": "s0"
+   },
+   {
+    "t": "2. Getting Started with requests",
+    "a": "s1"
+   },
+   {
+    "t": "3. Working with JSON Responses",
+    "a": "s2"
+   },
+   {
+    "t": "4. JSON to Pandas DataFrame",
+    "a": "s3"
+   },
+   {
+    "t": "5. Authentication — API Keys & Tokens",
+    "a": "s4"
+   },
+   {
+    "t": "6. Sessions & Connection Pooling",
+    "a": "s5"
+   },
+   {
+    "t": "7. Pagination — Fetching All the Data",
+    "a": "s6"
+   },
+   {
+    "t": "8. Rate Limiting & Throttling",
+    "a": "s7"
+   },
+   {
+    "t": "9. Error Handling & Resilience",
+    "a": "s8"
+   },
+   {
+    "t": "10. Async API Calls with aiohttp",
+    "a": "s9"
+   },
+   {
+    "t": "11. Working with REST API Patterns",
+    "a": "s10"
+   },
+   {
+    "t": "12. Web Scraping with requests + BeautifulSoup",
+    "a": "s11"
+   },
+   {
+    "t": "13. Building APIs with FastAPI",
+    "a": "s12"
+   },
+   {
+    "t": "14. Testing API Calls with unittest.mock",
+    "a": "s13"
+   },
+   {
+    "t": "15. Public APIs for Data Science Projects",
+    "a": "s14"
+   },
+   {
+    "t": "16. Data Collection Project — End-to-End Pipeline",
+    "a": "s15"
+   }
+  ]
+ },
+ {
+  "module": "03_pandas",
+  "title": "Pandas",
+  "url": "modules/03_pandas/index.html",
+  "sections": []
+ },
+ {
+  "module": "04_matplotlib",
+  "title": "Matplotlib",
+  "url": "modules/04_matplotlib/index.html",
+  "sections": [
+   {
+    "t": "1. Line Plot",
+    "a": "s0"
+   },
+   {
+    "t": "2. Bar Chart",
+    "a": "s1"
+   },
+   {
+    "t": "3. Scatter Plot",
+    "a": "s2"
+   },
+   {
+    "t": "4. Histogram",
+    "a": "s3"
+   },
+   {
+    "t": "5. Subplots",
+    "a": "s4"
+   },
+   {
+    "t": "6. Figure Customization",
+    "a": "s5"
+   },
+   {
+    "t": "7. Pie & Donut Chart",
+    "a": "s6"
+   },
+   {
+    "t": "8. Heatmap with imshow/pcolor",
+    "a": "s7"
+   },
+   {
+    "t": "9. Twin Axes & Secondary Y-Axis",
+    "a": "s8"
+   },
+   {
+    "t": "10. Saving Figures & Style Sheets",
+    "a": "s9"
+   },
+   {
+    "t": "11. 3D Plotting",
+    "a": "s10"
+   },
+   {
+    "t": "12. Custom Styles & Themes",
+    "a": "s11"
+   },
+   {
+    "t": "13. Annotations & Text Elements",
+    "a": "s12"
+   },
+   {
+    "t": "14. Animations & GIF Export",
+    "a": "s13"
+   },
+   {
+    "t": "15. Publication-Quality Figures",
+    "a": "s14"
+   },
+   {
+    "t": "16. Custom Colormaps & Color Science",
+    "a": "s15"
+   },
+   {
+    "t": "17. Error Bars & Confidence Intervals",
+    "a": "s16"
+   },
+   {
+    "t": "18. Box Plots & Violin Plots",
+    "a": "s17"
+   },
+   {
+    "t": "19. Contour Plots",
+    "a": "s18"
+   },
+   {
+    "t": "20. Polar Plots",
+    "a": "s19"
+   },
+   {
+    "t": "21. Stacked Bar & Area Charts",
+    "a": "s20"
+   },
+   {
+    "t": "22. Step Plots & Eventplot",
+    "a": "s21"
+   },
+   {
+    "t": "23. Log Scale & Symlog",
+    "a": "s22"
+   },
+   {
+    "t": "24. GridSpec & Complex Layouts",
+    "a": "s23"
+   },
+   {
+    "t": "25. Hexbin & 2D Density Plots",
+    "a": "s24"
+   },
+   {
+    "t": "26. Patch Artists & Custom Shapes",
+    "a": "s25"
+   },
+   {
+    "t": "27. Quiver & Streamplot",
+    "a": "s26"
+   },
+   {
+    "t": "28. Broken Axis & Dual Axis",
+    "a": "s27"
+   },
+   {
+    "t": "29. Image Processing with imshow",
+    "a": "s28"
+   },
+   {
+    "t": "30. Statistical Plots",
+    "a": "s29"
+   },
+   {
+    "t": "31. Multi-Figure Export & Backends",
+    "a": "s30"
+   },
+   {
+    "t": "32. Dashboard Composition",
+    "a": "s31"
+   }
+  ]
+ },
+ {
+  "module": "05_seaborn",
+  "title": "Seaborn",
+  "url": "modules/05_seaborn/index.html",
+  "sections": [
+   {
+    "t": "1. Setup & Themes",
+    "a": "s0"
+   },
+   {
+    "t": "2. Distribution Plots",
+    "a": "s1"
+   },
+   {
+    "t": "3. Categorical Plots — Bar & Count",
+    "a": "s2"
+   },
+   {
+    "t": "4. Box Plot & Violin Plot",
+    "a": "s3"
+   },
+   {
+    "t": "5. Scatter & Regression Plots",
+    "a": "s4"
+   },
+   {
+    "t": "6. Heatmap",
+    "a": "s5"
+   },
+   {
+    "t": "7. Pair Plot",
+    "a": "s6"
+   },
+   {
+    "t": "8. FacetGrid",
+    "a": "s7"
+   },
+   {
+    "t": "9. Time Series & Line Plot",
+    "a": "s8"
+   },
+   {
+    "t": "10. Customization & Matplotlib Integration",
+    "a": "s9"
+   },
+   {
+    "t": "11. FacetGrid & Multi-Plot Grids",
+    "a": "s10"
+   },
+   {
+    "t": "12. Statistical Annotations",
+    "a": "s11"
+   },
+   {
+    "t": "13. Regression & Distribution Plots",
+    "a": "s12"
+   },
+   {
+    "t": "14. FacetGrid & PairGrid",
+    "a": "s13"
+   },
+   {
+    "t": "15. Statistical Visualization Deep Dive",
+    "a": "s14"
+   },
+   {
+    "t": "16. Custom Seaborn Themes & Styling",
+    "a": "s15"
+   },
+   {
+    "t": "17. Strip Plot & Swarm Plot",
+    "a": "s16"
+   },
+   {
+    "t": "18. Point Plot & Statistical Line Plots",
+    "a": "s17"
+   },
+   {
+    "t": "19. ECDF & Distribution Comparison",
+    "a": "s18"
+   },
+   {
+    "t": "20. Cluster Map",
+    "a": "s19"
+   },
+   {
+    "t": "21. Joint Plot Advanced",
+    "a": "s20"
+   },
+   {
+    "t": "22. catplot — Figure-Level Categorical",
+    "a": "s21"
+   },
+   {
+    "t": "23. displot — Figure-Level Distributions",
+    "a": "s22"
+   },
+   {
+    "t": "24. relplot — Figure-Level Relational",
+    "a": "s23"
+   },
+   {
+    "t": "25. Heatmap Advanced",
+    "a": "s24"
+   },
+   {
+    "t": "26. PairGrid Advanced",
+    "a": "s25"
+   },
+   {
+    "t": "27. Residual & Regression Diagnostics",
+    "a": "s26"
+   },
+   {
+    "t": "28. Mixed Seaborn + Matplotlib",
+    "a": "s27"
+   },
+   {
+    "t": "29. Seaborn with Real Datasets",
+    "a": "s28"
+   },
+   {
+    "t": "30. Object-Oriented Seaborn",
+    "a": "s29"
+   },
+   {
+    "t": "31. Color Systems & Accessibility",
+    "a": "s30"
+   },
+   {
+    "t": "32. Seaborn Dashboard Composition",
+    "a": "s31"
+   }
+  ]
+ },
+ {
+  "module": "06_plotly",
+  "title": "Plotly",
+  "url": "modules/06_plotly/index.html",
+  "sections": [
+   {
+    "t": "1. Plotly Express Basics",
+    "a": "s0"
+   },
+   {
+    "t": "2. Bar & Pie Charts",
+    "a": "s1"
+   },
+   {
+    "t": "3. Histogram & Box Plot",
+    "a": "s2"
+   },
+   {
+    "t": "4. Heatmap & Scatter Matrix",
+    "a": "s3"
+   },
+   {
+    "t": "5. 3D Charts",
+    "a": "s4"
+   },
+   {
+    "t": "6. Subplots with make_subplots",
+    "a": "s5"
+   },
+   {
+    "t": "7. Customizing Layout & Traces",
+    "a": "s6"
+   },
+   {
+    "t": "8. Animated Charts",
+    "a": "s7"
+   },
+   {
+    "t": "9. Maps & Geographic Charts",
+    "a": "s8"
+   },
+   {
+    "t": "10. Exporting & Sharing",
+    "a": "s9"
+   },
+   {
+    "t": "11. 3D Charts",
+    "a": "s10"
+   },
+   {
+    "t": "12. Geographic Maps",
+    "a": "s11"
+   },
+   {
+    "t": "13. Animations",
+    "a": "s12"
+   },
+   {
+    "t": "14. Plotly Dash Fundamentals",
+    "a": "s13"
+   },
+   {
+    "t": "15. Map Visualizations",
+    "a": "s14"
+   },
+   {
+    "t": "16. 3D Plots & Surface Visualizations",
+    "a": "s15"
+   },
+   {
+    "t": "17. Candlestick & Financial Charts",
+    "a": "s16"
+   },
+   {
+    "t": "18. Treemap & Sunburst Charts",
+    "a": "s17"
+   },
+   {
+    "t": "19. Violin & Strip Charts",
+    "a": "s18"
+   },
+   {
+    "t": "20. Parallel Coordinates & Categories",
+    "a": "s19"
+   },
+   {
+    "t": "21. Funnel & Waterfall Charts",
+    "a": "s20"
+   },
+   {
+    "t": "22. Indicator & Gauge Charts",
+    "a": "s21"
+   },
+   {
+    "t": "23. Animated Bar Chart Race & Timelines",
+    "a": "s22"
+   },
+   {
+    "t": "24. Custom Templates & Styling",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "07_sklearn",
+  "title": "Scikit-learn",
+  "url": "modules/07_sklearn/index.html",
+  "sections": [
+   {
+    "t": "Setup & Data Loading",
+    "a": "s0"
+   },
+   {
+    "t": "Linear & Logistic Regression",
+    "a": "s1"
+   },
+   {
+    "t": "Decision Trees & Random Forest",
+    "a": "s2"
+   },
+   {
+    "t": "Support Vector Machines",
+    "a": "s3"
+   },
+   {
+    "t": "K-Nearest Neighbors & Naive Bayes",
+    "a": "s4"
+   },
+   {
+    "t": "Clustering: KMeans & DBSCAN",
+    "a": "s5"
+   },
+   {
+    "t": "Model Evaluation & Metrics",
+    "a": "s6"
+   },
+   {
+    "t": "Pipelines & Preprocessing",
+    "a": "s7"
+   },
+   {
+    "t": "Hyperparameter Tuning",
+    "a": "s8"
+   },
+   {
+    "t": "Dimensionality Reduction: PCA & t-SNE",
+    "a": "s9"
+   },
+   {
+    "t": "Imbalanced Data Handling",
+    "a": "s10"
+   },
+   {
+    "t": "Custom Estimators",
+    "a": "s11"
+   },
+   {
+    "t": "Model Calibration",
+    "a": "s12"
+   },
+   {
+    "t": "14. Ensemble Methods: Stacking & Blending",
+    "a": "s13"
+   },
+   {
+    "t": "15. Time-Based Cross-Validation & Walk-Forward Validation",
+    "a": "s14"
+   },
+   {
+    "t": "16. Interpretable ML: SHAP Values",
+    "a": "s15"
+   },
+   {
+    "t": "17. Feature Engineering",
+    "a": "s16"
+   },
+   {
+    "t": "18. ROC Curves & Advanced Metrics",
+    "a": "s17"
+   },
+   {
+    "t": "19. Gradient Boosting",
+    "a": "s18"
+   },
+   {
+    "t": "20. Regularized Regression",
+    "a": "s19"
+   },
+   {
+    "t": "21. Model Persistence & Deployment",
+    "a": "s20"
+   },
+   {
+    "t": "22. Text Classification Pipeline",
+    "a": "s21"
+   },
+   {
+    "t": "23. Anomaly Detection",
+    "a": "s22"
+   },
+   {
+    "t": "24. Advanced Clustering",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "08_streamlit",
+  "title": "Streamlit",
+  "url": "modules/08_streamlit/index.html",
+  "sections": [
+   {
+    "t": "Setup & First App",
+    "a": "s0"
+   },
+   {
+    "t": "Text & Markdown Elements",
+    "a": "s1"
+   },
+   {
+    "t": "Input Widgets",
+    "a": "s2"
+   },
+   {
+    "t": "Data Display",
+    "a": "s3"
+   },
+   {
+    "t": "Charts & Visualization",
+    "a": "s4"
+   },
+   {
+    "t": "Layout: Columns, Tabs & Expanders",
+    "a": "s5"
+   },
+   {
+    "t": "Sidebar & Session State",
+    "a": "s6"
+   },
+   {
+    "t": "File Upload & Download",
+    "a": "s7"
+   },
+   {
+    "t": "Forms & Caching",
+    "a": "s8"
+   },
+   {
+    "t": "Multi-Page Apps & Deployment",
+    "a": "s9"
+   },
+   {
+    "t": "Authentication & Session State",
+    "a": "s10"
+   },
+   {
+    "t": "Database Connections",
+    "a": "s11"
+   },
+   {
+    "t": "Custom Components & Styling",
+    "a": "s12"
+   },
+   {
+    "t": "14. Dashboards & Interactive Widgets",
+    "a": "s13"
+   },
+   {
+    "t": "15. ML Model Deployment with Streamlit",
+    "a": "s14"
+   },
+   {
+    "t": "16. Advanced Streamlit: Plotly, Forms & Production Patterns",
+    "a": "s15"
+   },
+   {
+    "t": "17. Plotly & Altair Integration",
+    "a": "s16"
+   },
+   {
+    "t": "18. Session State Management",
+    "a": "s17"
+   },
+   {
+    "t": "19. Caching & Performance",
+    "a": "s18"
+   },
+   {
+    "t": "20. Forms & Input Validation",
+    "a": "s19"
+   },
+   {
+    "t": "21. File Upload & Download",
+    "a": "s20"
+   },
+   {
+    "t": "22. Multi-page Apps",
+    "a": "s21"
+   },
+   {
+    "t": "23. Custom CSS & Theming",
+    "a": "s22"
+   },
+   {
+    "t": "24. Deployment: Cloud, Docker & CI/CD",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "09_polars",
+  "title": "Polars",
+  "url": "modules/09_polars/index.html",
+  "sections": [
+   {
+    "t": "Setup & DataFrame Creation",
+    "a": "s0"
+   },
+   {
+    "t": "Select, With Columns & Expressions",
+    "a": "s1"
+   },
+   {
+    "t": "Filtering & Sorting",
+    "a": "s2"
+   },
+   {
+    "t": "GroupBy & Aggregations",
+    "a": "s3"
+   },
+   {
+    "t": "Joins",
+    "a": "s4"
+   },
+   {
+    "t": "String & Date Operations",
+    "a": "s5"
+   },
+   {
+    "t": "Lazy API & Query Optimization",
+    "a": "s6"
+   },
+   {
+    "t": "Reading & Writing Files",
+    "a": "s7"
+   },
+   {
+    "t": "Window Functions",
+    "a": "s8"
+   },
+   {
+    "t": "Polars vs Pandas Migration",
+    "a": "s9"
+   },
+   {
+    "t": "Lazy Evaluation & Streaming",
+    "a": "s10"
+   },
+   {
+    "t": "Window Functions",
+    "a": "s11"
+   },
+   {
+    "t": "Performance Tuning",
+    "a": "s12"
+   },
+   {
+    "t": "14. Polars LazyFrame & Streaming Optimization",
+    "a": "s13"
+   },
+   {
+    "t": "15. Time Series Operations in Polars",
+    "a": "s14"
+   },
+   {
+    "t": "16. Polars with Apache Arrow & Parquet",
+    "a": "s15"
+   },
+   {
+    "t": "17. LazyFrames & Query Optimization",
+    "a": "s16"
+   },
+   {
+    "t": "18. Advanced GroupBy & Aggregations",
+    "a": "s17"
+   },
+   {
+    "t": "19. Joins & Set Operations",
+    "a": "s18"
+   },
+   {
+    "t": "20. String & Regex Operations",
+    "a": "s19"
+   },
+   {
+    "t": "21. Date/Time Processing",
+    "a": "s20"
+   },
+   {
+    "t": "22. Window Functions & Expressions",
+    "a": "s21"
+   },
+   {
+    "t": "23. Performance: Polars vs Pandas",
+    "a": "s22"
+   },
+   {
+    "t": "24. Polars Production Patterns",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "10_deep_learning",
+  "title": "Deep Learning",
+  "url": "modules/10_deep_learning/index.html",
+  "sections": [
+   {
+    "t": "Setup & Tensors",
+    "a": "s0"
+   },
+   {
+    "t": "Autograd & Gradients",
+    "a": "s1"
+   },
+   {
+    "t": "Building Neural Networks (nn.Module)",
+    "a": "s2"
+   },
+   {
+    "t": "Training Loop",
+    "a": "s3"
+   },
+   {
+    "t": "Convolutional Neural Networks",
+    "a": "s4"
+   },
+   {
+    "t": "Transfer Learning",
+    "a": "s5"
+   },
+   {
+    "t": "Custom Datasets & DataLoaders",
+    "a": "s6"
+   },
+   {
+    "t": "Regularization Techniques",
+    "a": "s7"
+   },
+   {
+    "t": "Saving, Loading & ONNX Export",
+    "a": "s8"
+   },
+   {
+    "t": "RNNs, LSTMs & Sequence Models",
+    "a": "s9"
+   },
+   {
+    "t": "Attention Mechanisms",
+    "a": "s10"
+   },
+   {
+    "t": "Generative Models",
+    "a": "s11"
+   },
+   {
+    "t": "Model Interpretability",
+    "a": "s12"
+   },
+   {
+    "t": "14. Convolutional Neural Networks (CNNs)",
+    "a": "s13"
+   },
+   {
+    "t": "15. Transformer Architecture & Attention Mechanisms",
+    "a": "s14"
+   },
+   {
+    "t": "16. Generative Models: VAE & GAN",
+    "a": "s15"
+   },
+   {
+    "t": "17. LSTM & GRU for Sequence Modeling",
+    "a": "s16"
+   },
+   {
+    "t": "18. Transfer Learning & Fine-tuning",
+    "a": "s17"
+   },
+   {
+    "t": "19. Attention Mechanisms",
+    "a": "s18"
+   },
+   {
+    "t": "20. Batch Normalization & Regularization",
+    "a": "s19"
+   },
+   {
+    "t": "21. Learning Rate Scheduling",
+    "a": "s20"
+   },
+   {
+    "t": "22. Model Checkpointing & Early Stopping",
+    "a": "s21"
+   },
+   {
+    "t": "23. Gradient Clipping & Mixed Precision",
+    "a": "s22"
+   },
+   {
+    "t": "24. Model Export & Deployment",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "11_statistics",
+  "title": "Statistics with Python",
+  "url": "modules/11_statistics/index.html",
+  "sections": [
+   {
+    "t": "1. Descriptive Statistics",
+    "a": "s0"
+   },
+   {
+    "t": "2. Probability Distributions",
+    "a": "s1"
+   },
+   {
+    "t": "3. Sampling & Central Limit Theorem",
+    "a": "s2"
+   },
+   {
+    "t": "4. Confidence Intervals",
+    "a": "s3"
+   },
+   {
+    "t": "5. Hypothesis Testing",
+    "a": "s4"
+   },
+   {
+    "t": "6. ANOVA & Multiple Groups",
+    "a": "s5"
+   },
+   {
+    "t": "7. Chi-Square Tests",
+    "a": "s6"
+   },
+   {
+    "t": "8. Correlation & Regression",
+    "a": "s7"
+   },
+   {
+    "t": "9. Non-Parametric Tests",
+    "a": "s8"
+   },
+   {
+    "t": "10. Effect Size & Power Analysis",
+    "a": "s9"
+   },
+   {
+    "t": "11. Bayesian Inference",
+    "a": "s10"
+   },
+   {
+    "t": "12. Survival Analysis",
+    "a": "s11"
+   },
+   {
+    "t": "13. Resampling & Simulation",
+    "a": "s12"
+   },
+   {
+    "t": "14. Bootstrap Methods & Resampling",
+    "a": "s13"
+   },
+   {
+    "t": "15. Multiple Testing & FDR Control",
+    "a": "s14"
+   },
+   {
+    "t": "16. Dimensionality Reduction for Statistical Analysis",
+    "a": "s15"
+   },
+   {
+    "t": "17. Hypothesis Testing (t-tests & z-tests)",
+    "a": "s16"
+   },
+   {
+    "t": "18. ANOVA & Post-hoc Tests",
+    "a": "s17"
+   },
+   {
+    "t": "19. Correlation Analysis",
+    "a": "s18"
+   },
+   {
+    "t": "20. Non-Parametric Tests",
+    "a": "s19"
+   },
+   {
+    "t": "21. Bayesian Inference Basics",
+    "a": "s20"
+   },
+   {
+    "t": "22. Effect Size & Statistical Power",
+    "a": "s21"
+   },
+   {
+    "t": "23. Multiple Testing & FDR Corrections",
+    "a": "s22"
+   },
+   {
+    "t": "24. Bootstrap & Permutation Tests",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "12_time_series",
+  "title": "Time Series Analysis",
+  "url": "modules/12_time_series/index.html",
+  "sections": [
+   {
+    "t": "1. DateTime Indexing",
+    "a": "s0"
+   },
+   {
+    "t": "2. Resampling & Frequency Conversion",
+    "a": "s1"
+   },
+   {
+    "t": "3. Rolling & Expanding Windows",
+    "a": "s2"
+   },
+   {
+    "t": "4. Time Series Visualization",
+    "a": "s3"
+   },
+   {
+    "t": "5. Trend & Seasonality Decomposition",
+    "a": "s4"
+   },
+   {
+    "t": "6. Stationarity & Differencing",
+    "a": "s5"
+   },
+   {
+    "t": "7. ARIMA Modeling",
+    "a": "s6"
+   },
+   {
+    "t": "8. Exponential Smoothing",
+    "a": "s7"
+   },
+   {
+    "t": "9. Feature Engineering for Time Series",
+    "a": "s8"
+   },
+   {
+    "t": "10. Forecasting Evaluation",
+    "a": "s9"
+   },
+   {
+    "t": "11. Prophet Forecasting",
+    "a": "s10"
+   },
+   {
+    "t": "12. Anomaly Detection in Time Series",
+    "a": "s11"
+   },
+   {
+    "t": "13. Neural Forecasting Fundamentals",
+    "a": "s12"
+   },
+   {
+    "t": "14. Wavelet Analysis for Time Series",
+    "a": "s13"
+   },
+   {
+    "t": "15. Multivariate Time Series & VAR Models",
+    "a": "s14"
+   },
+   {
+    "t": "16. Real-Time Streaming & Online Learning",
+    "a": "s15"
+   },
+   {
+    "t": "17. Seasonal Decomposition & STL",
+    "a": "s16"
+   },
+   {
+    "t": "18. Stationarity Testing & ARIMA Preparation",
+    "a": "s17"
+   },
+   {
+    "t": "19. ARIMA & SARIMA Modeling",
+    "a": "s18"
+   },
+   {
+    "t": "20. Exponential Smoothing (ETS / Holt-Winters)",
+    "a": "s19"
+   },
+   {
+    "t": "21. ML Approach: Lag Features & Sklearn",
+    "a": "s20"
+   },
+   {
+    "t": "22. Time Series Anomaly Detection",
+    "a": "s21"
+   },
+   {
+    "t": "23. Forecast Evaluation & Backtesting",
+    "a": "s22"
+   },
+   {
+    "t": "24. Multivariate Time Series & Prophet",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "13_nlp",
+  "title": "NLP & Text Processing",
+  "url": "modules/13_nlp/index.html",
+  "sections": [
+   {
+    "t": "1. Text Cleaning & Preprocessing",
+    "a": "s0"
+   },
+   {
+    "t": "2. Tokenization & Stopword Removal",
+    "a": "s1"
+   },
+   {
+    "t": "3. Stemming & Lemmatization",
+    "a": "s2"
+   },
+   {
+    "t": "4. Named Entity Recognition (NER)",
+    "a": "s3"
+   },
+   {
+    "t": "5. Sentiment Analysis",
+    "a": "s4"
+   },
+   {
+    "t": "6. Text Similarity & Vectorization",
+    "a": "s5"
+   },
+   {
+    "t": "7. Topic Modeling",
+    "a": "s6"
+   },
+   {
+    "t": "8. Text Classification",
+    "a": "s7"
+   },
+   {
+    "t": "9. Language Models & Transformers",
+    "a": "s8"
+   },
+   {
+    "t": "10. NLP Pipeline & Production",
+    "a": "s9"
+   },
+   {
+    "t": "11. Information Extraction",
+    "a": "s10"
+   },
+   {
+    "t": "12. Machine Translation & Seq2Seq",
+    "a": "s11"
+   },
+   {
+    "t": "13. Document Search & RAG",
+    "a": "s12"
+   },
+   {
+    "t": "14. Transformer Models & Pre-trained Pipelines",
+    "a": "s13"
+   },
+   {
+    "t": "15. Named Entity Recognition & Information Extraction",
+    "a": "s14"
+   },
+   {
+    "t": "16. Text Generation, Summarization & Prompt Engineering",
+    "a": "s15"
+   },
+   {
+    "t": "17. Named Entity Recognition (NER)",
+    "a": "s16"
+   },
+   {
+    "t": "18. Sentence Embeddings & Semantic Search",
+    "a": "s17"
+   },
+   {
+    "t": "19. Hugging Face Transformers",
+    "a": "s18"
+   },
+   {
+    "t": "20. Topic Modeling with LDA",
+    "a": "s19"
+   },
+   {
+    "t": "21. Text Summarization",
+    "a": "s20"
+   },
+   {
+    "t": "22. Question Answering",
+    "a": "s21"
+   },
+   {
+    "t": "23. Text Generation & Language Models",
+    "a": "s22"
+   },
+   {
+    "t": "24. NLP Pipeline & Production Deployment",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "14_mlops",
+  "title": "MLOps & Model Deployment",
+  "url": "modules/14_mlops/index.html",
+  "sections": [
+   {
+    "t": "1. Saving & Loading Models",
+    "a": "s0"
+   },
+   {
+    "t": "2. FastAPI Model Serving",
+    "a": "s1"
+   },
+   {
+    "t": "3. Experiment Tracking with MLflow",
+    "a": "s2"
+   },
+   {
+    "t": "4. Docker for ML Models",
+    "a": "s3"
+   },
+   {
+    "t": "5. Model Monitoring & Data Drift",
+    "a": "s4"
+   },
+   {
+    "t": "6. CI/CD for ML Pipelines",
+    "a": "s5"
+   },
+   {
+    "t": "7. Feature Stores & Pipelines",
+    "a": "s6"
+   },
+   {
+    "t": "8. A/B Testing for ML Models",
+    "a": "s7"
+   },
+   {
+    "t": "9. Model Explainability",
+    "a": "s8"
+   },
+   {
+    "t": "10. End-to-End ML Project Structure",
+    "a": "s9"
+   },
+   {
+    "t": "11. Model Compression & Optimization",
+    "a": "s10"
+   },
+   {
+    "t": "12. Feature Stores & Data Pipelines",
+    "a": "s11"
+   },
+   {
+    "t": "13. AutoML & Hyperparameter Optimization",
+    "a": "s12"
+   },
+   {
+    "t": "14. Model Monitoring & Data Drift Detection",
+    "a": "s13"
+   },
+   {
+    "t": "15. Feature Stores & Data Engineering Pipelines",
+    "a": "s14"
+   },
+   {
+    "t": "16. A/B Testing & Canary Deployments for ML",
+    "a": "s15"
+   },
+   {
+    "t": "17. MLflow Experiment Tracking",
+    "a": "s16"
+   },
+   {
+    "t": "18. Data Versioning with DVC",
+    "a": "s17"
+   },
+   {
+    "t": "19. Model Registry & Lifecycle Management",
+    "a": "s18"
+   },
+   {
+    "t": "20. Containerizing ML Models with Docker",
+    "a": "s19"
+   },
+   {
+    "t": "21. REST API Serving with FastAPI",
+    "a": "s20"
+   },
+   {
+    "t": "22. Model Monitoring & Drift Detection",
+    "a": "s21"
+   },
+   {
+    "t": "23. CI/CD for ML Pipelines",
+    "a": "s22"
+   },
+   {
+    "t": "24. Feature Stores & ML Platforms",
+    "a": "s23"
+   }
+  ]
+ },
+ {
+  "module": "15_git",
+  "title": "Git &amp; Version Control",
+  "url": "modules/15_git/index.html",
+  "sections": [
+   {
+    "t": "1. What is Git & Why It Matters",
+    "a": "s0"
+   },
+   {
+    "t": "2. Basic Commands — add, commit, log, diff",
+    "a": "s1"
+   },
+   {
+    "t": "3. Branching & Merging",
+    "a": "s2"
+   },
+   {
+    "t": "4. Remote Repositories — GitHub, GitLab, Bitbucket",
+    "a": "s3"
+   },
+   {
+    "t": "5. Pull Requests & Code Review",
+    "a": "s4"
+   },
+   {
+    "t": "6. .gitignore for Data Science",
+    "a": "s5"
+   },
+   {
+    "t": "7. Git Stash — Saving Work Temporarily",
+    "a": "s6"
+   },
+   {
+    "t": "8. Tags & Releases",
+    "a": "s7"
+   },
+   {
+    "t": "9. Rebase & Interactive Rebase",
+    "a": "s8"
+   },
+   {
+    "t": "10. Git for Jupyter Notebooks",
+    "a": "s9"
+   },
+   {
+    "t": "11. Git Hooks & Automation",
+    "a": "s10"
+   },
+   {
+    "t": "12. Git LFS — Large File Storage",
+    "a": "s11"
+   },
+   {
+    "t": "13. Advanced Git — cherry-pick, bisect, reflog",
+    "a": "s12"
+   },
+   {
+    "t": "14. Git Workflows for Teams",
+    "a": "s13"
+   },
+   {
+    "t": "15. GitHub Actions for Data Science",
+    "a": "s14"
+   },
+   {
+    "t": "16. Git Best Practices Cheat Sheet",
+    "a": "s15"
+   }
+  ]
+ },
+ {
+  "module": "16_feature_engineering",
+  "title": "Data Cleaning &amp; Feature Engineering",
+  "url": "modules/16_feature_engineering/index.html",
+  "sections": [
+   {
+    "t": "1. Exploratory Data Profiling",
+    "a": "s0"
+   },
+   {
+    "t": "2. Handling Missing Data",
+    "a": "s1"
+   },
+   {
+    "t": "3. Handling Duplicates & Inconsistencies",
+    "a": "s2"
+   },
+   {
+    "t": "4. Outlier Detection & Treatment",
+    "a": "s3"
+   },
+   {
+    "t": "5. Encoding Categorical Variables",
+    "a": "s4"
+   },
+   {
+    "t": "6. Feature Scaling & Normalization",
+    "a": "s5"
+   },
+   {
+    "t": "7. Creating New Features — Feature Engineering",
+    "a": "s6"
+   },
+   {
+    "t": "8. Polynomial & Interaction Features",
+    "a": "s7"
+   },
+   {
+    "t": "9. Handling Imbalanced Data",
+    "a": "s8"
+   },
+   {
+    "t": "10. Feature Selection",
+    "a": "s9"
+   },
+   {
+    "t": "11. Preventing Data Leakage",
+    "a": "s10"
+   },
+   {
+    "t": "12. Building Complete Preprocessing Pipelines",
+    "a": "s11"
+   }
+  ]
+ },
+ {
+  "module": "17_bayesian",
+  "title": "Probability &amp; Bayesian Thinking",
+  "url": "modules/17_bayesian/index.html",
+  "sections": [
+   {
+    "t": "1. Probability Foundations Refresher",
+    "a": "s0"
+   },
+   {
+    "t": "2. Bayes' Theorem — The Foundation",
+    "a": "s1"
+   },
+   {
+    "t": "3. Prior Distributions — Encoding Beliefs",
+    "a": "s2"
+   },
+   {
+    "t": "4. Bayesian A/B Testing",
+    "a": "s3"
+   },
+   {
+    "t": "5. Monte Carlo Simulation",
+    "a": "s4"
+   },
+   {
+    "t": "6. Bayesian Linear Regression",
+    "a": "s5"
+   },
+   {
+    "t": "7. Markov Chain Monte Carlo (MCMC)",
+    "a": "s6"
+   },
+   {
+    "t": "8. Probabilistic Programming with PyMC",
+    "a": "s7"
+   },
+   {
+    "t": "9. Bayesian vs Frequentist — When to Use Which",
+    "a": "s8"
+   },
+   {
+    "t": "10. Bayesian Optimization for Hyperparameter Tuning",
+    "a": "s9"
+   }
+  ]
+ }
+]

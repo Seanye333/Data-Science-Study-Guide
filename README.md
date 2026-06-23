@@ -45,8 +45,9 @@ An interactive, self-paced study guide covering the full data science stack — 
 - **Practice Checklists** — 4–5 actionable todos on every topic
 - **Real-world scenarios** — industry-style code examples per section
 - **Practice exercises** — starter code with guided TODOs
-- **Runnable code** — run (and edit) every example and exercise right in the browser via [Pyodide](https://pyodide.org/) (CPython → WASM); the runtime lazy-loads on first Run, no setup or backend
-- **Progress tracking** — completion state saved in localStorage
+- **Runnable code** — run (and edit) every example and exercise right in the browser via [Pyodide](https://pyodide.org/) (CPython → WASM); matplotlib/seaborn plots render inline; the runtime lazy-loads on first Run, no setup or backend
+- **Global search** — filter modules and jump to any topic from the homepage
+- **Progress tracking** — completion state saved in localStorage, shown on the homepage
 - **Searchable sidebar** — filter topics instantly
 - **Responsive** — works on desktop and mobile
 - **Jupyter notebooks** — every module ships a `.ipynb` you can run locally
@@ -72,7 +73,10 @@ Data-Science-Study-Guide/
 │   ├── effects.js          ← Page loader & visual effects
 │   ├── nav-ux.js           ← Sidebar / navigation behavior
 │   ├── hands-on.js         ← In-browser Python runner for code & Practice blocks (Pyodide)
+│   ├── search.js           ← Homepage module + topic search
 │   └── module_chrome.json  ← Shared chrome (theme toggle, loader, mobile nav, hands-on)
+│
+├── search_index.json       ← Generated topic index for homepage search
 │
 ├── tools/
 │   └── check_site.py       ← Verifies every local href/src resolves

@@ -41,6 +41,7 @@
       "background:rgba(13,17,23,.6);border:1px solid rgba(255,255,255,.08);border-radius:10px;" +
       "padding:11px 13px;max-height:340px;overflow:auto;display:none}" +
       ".ho-out.show{display:block}" +
+      ".ho-out img{max-width:100%;display:block;margin:8px 0;border-radius:8px}" +
       ".ho-err{color:#ff7b72}" +
       ".ho-muted{color:#8b949e}" +
       "body.light-mode .ho-editor{color:#1f2328;background:rgba(255,255,255,.75)}" +
@@ -62,6 +63,47 @@
       };
       document.head.appendChild(s);
     });
+  }
+
+  // Python epilogue: grab any open matplotlib figures as base64 PNGs so plots
+  // from matplotlib / seaborn show up in the output (Pyodide has no screen).
+  var FIG_CAPTURE =
+    "def __ho_figs():\n" +
+    "    import sys\n" +
+    "    if 'matplotlib' not in sys.modules:\n" +
+    "        return []\n" +
+    "    try:\n" +
+    "        import matplotlib.pyplot as plt, io, base64\n" +
+    "    except Exception:\n" +
+    "        return []\n" +
+    "    out = []\n" +
+    "    for n in plt.get_fignums():\n" +
+    "        buf = io.BytesIO()\n" +
+    "        try:\n" +
+    "            plt.figure(n).savefig(buf, format='png', bbox_inches='tight', dpi=100)\n" +
+    "            out.append(base64.b64encode(buf.getvalue()).decode())\n" +
+    "        except Exception:\n" +
+    "            pass\n" +
+    "    plt.close('all')\n" +
+    "    return out\n" +
+    "__ho_figs()\n";
+
+  function appendFigures(py, out) {
+    return py
+      .runPythonAsync(FIG_CAPTURE)
+      .then(function (res) {
+        if (!res) return;
+        var figs = res.toJs ? res.toJs() : res;
+        if (res.destroy) res.destroy();
+        (figs || []).forEach(function (b64) {
+          var img = document.createElement("img");
+          img.src = "data:image/png;base64," + b64;
+          img.alt = "matplotlib figure";
+          out.appendChild(img);
+          out.classList.add("show");
+        });
+      })
+      .catch(function () {});
   }
 
   function ensurePyodide() {
@@ -106,10 +148,13 @@
           .catch(function () {})
           .then(function () {
             return py.runPythonAsync(code);
+          })
+          .then(function () {
+            return appendFigures(py, out);
           });
       })
       .then(function () {
-        if (!chunks.length) {
+        if (!chunks.length && !out.querySelector("img")) {
           out.innerHTML = '<span class="ho-muted">(ran with no output)</span>';
         }
         status.textContent = "Done";
