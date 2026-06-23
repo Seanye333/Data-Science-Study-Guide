@@ -4158,6 +4158,63 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 }
 },
 
+{
+"title": "35. Practice Lab: Collections & Counting",
+"desc": "Hands-on challenges with Python's standard-library data tools. Everything here runs in your browser — press Run to try a snippet, then solve the exercise and press Check to grade it.",
+"examples": [
+    {"label": "Word frequency with Counter", "code": """from collections import Counter
+import re
+
+text = "the quick brown fox the lazy dog the fox"
+words = re.findall(r"[a-z]+", text.lower())
+counts = Counter(words)
+
+print("counts:", dict(counts))
+print("top 2:", counts.most_common(2))
+print("unique words:", len(counts))"""},
+    {"label": "Grouping with defaultdict", "code": """from collections import defaultdict
+
+people = [("eng", "Ada"), ("sales", "Bo"), ("eng", "Cy"), ("sales", "Di"), ("eng", "Eve")]
+groups = defaultdict(list)
+for dept, name in people:
+    groups[dept].append(name)
+
+for dept, names in sorted(groups.items()):
+    print(f"{dept}: {names}")
+print("largest team:", max(groups, key=lambda d: len(groups[d])))"""},
+],
+"todos": [
+    "Count word frequencies in a sentence with collections.Counter and read off the two most common",
+    "Group a list of (key, value) pairs into a dict of lists using collections.defaultdict",
+    "Sort items by descending count, breaking ties alphabetically, with sorted(key=lambda kv: (-kv[1], kv[0]))",
+    "Return only the top-N entries of a frequency table",
+],
+"practice": {
+    "title": "Word Counter",
+    "desc": "Implement word_count(text) returning a mapping of word -> frequency, and top_n(counts, n) returning the n most frequent (word, count) pairs sorted by descending count, breaking ties alphabetically. Fill in the two functions, press Run, then press Check.",
+    "starter": """from collections import Counter
+
+def word_count(text):
+    # TODO: return a dict/Counter of word -> frequency (split on whitespace, lowercased)
+    return {}
+
+def top_n(counts, n):
+    # TODO: return the n (word, count) pairs, highest count first, ties broken alphabetically
+    return []
+
+text = "red green red blue red green blue yellow"
+counts = word_count(text)
+top = top_n(counts, 2)
+print("counts:", dict(counts))
+print("top 2:", top)""",
+    "check": """assert counts["red"] == 3, "'red' appears 3 times"
+assert counts["blue"] == 2 and counts["green"] == 2, "'blue' and 'green' appear twice each"
+assert top[0] == ("red", 3), "the most common pair should be ('red', 3)"
+assert len(top) == 2 and top[1][1] == 2, "second place should have count 2"
+assert top[1][0] == "blue", "ties break alphabetically, so 'blue' comes before 'green'\""""
+}
+},
+
 ]  # end SECTIONS
 
 

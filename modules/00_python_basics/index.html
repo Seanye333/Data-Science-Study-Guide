@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 34 topics</p>
+  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 35 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Variables &amp; Data Types</a></li>
@@ -49,11 +49,12 @@
     <li><a href="#s30" onclick="act(this,event)">31. Performance Optimization &amp; Caching</a></li>
     <li><a href="#s31" onclick="act(this,event)">32. Virtual Environments &amp; Package Management</a></li>
     <li><a href="#s32" onclick="act(this,event)">33. Introspection &amp; Metaprogramming</a></li>
-    <li><a href="#s33" onclick="act(this,event)">34. Advanced Type Hints</a></li></ul>
+    <li><a href="#s33" onclick="act(this,event)">34. Advanced Type Hints</a></li>
+    <li><a href="#s34" onclick="act(this,event)">35. Practice Lab: Collections &amp; Counting</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🐍 Python Basics</h1>
-  <p class="ps">34 topics &bull; Click any card to expand</p>
+  <p class="ps">35 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Variables &amp; Data Types</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python is dynamically typed — you don&#x27;t declare types, Python infers them. The core types are int, float, str, bool, and NoneType.</p><div class="code-block"><div class="ch"><span>Basic types and type checking</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># Integers
 age    = 25
 year   = 2024
@@ -5475,7 +5476,46 @@ except ValueError as e: print(&quot;Caught:&quot;, e)
 <li><label><input type="checkbox"> Use Literal[&#x27;read&#x27;, &#x27;write&#x27;, &#x27;append&#x27;] to restrict the mode argument of an open_file function</label></li>
 <li><label><input type="checkbox"> Use @overload to define two signatures for a parse() function: str -&gt; int, bytes -&gt; float</label></li>
 <li><label><input type="checkbox"> Define a TypedDict for a user record with required and NotRequired fields</label></li>
-<li><label><input type="checkbox"> Use TypeVar T to write a generic first(items: list[T]) -&gt; Optional[T] function</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Use TypeVar T to write a generic first(items: list[T]) -&gt; Optional[T] function</label></li></ul></div></div></div><div class="topic" id="s34"><div class="th" onclick="tog(this)"><span>35. Practice Lab: Collections &amp; Counting</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on challenges with Python&#x27;s standard-library data tools. Everything here runs in your browser — press Run to try a snippet, then solve the exercise and press Check to grade it.</p><div class="code-block"><div class="ch"><span>Word frequency with Counter</span><button onclick="cp('c34_0')">Copy</button></div><pre><code id="c34_0" class="language-python">from collections import Counter
+import re
+
+text = &quot;the quick brown fox the lazy dog the fox&quot;
+words = re.findall(r&quot;[a-z]+&quot;, text.lower())
+counts = Counter(words)
+
+print(&quot;counts:&quot;, dict(counts))
+print(&quot;top 2:&quot;, counts.most_common(2))
+print(&quot;unique words:&quot;, len(counts))</code></pre></div><div class="code-block"><div class="ch"><span>Grouping with defaultdict</span><button onclick="cp('c34_1')">Copy</button></div><pre><code id="c34_1" class="language-python">from collections import defaultdict
+
+people = [(&quot;eng&quot;, &quot;Ada&quot;), (&quot;sales&quot;, &quot;Bo&quot;), (&quot;eng&quot;, &quot;Cy&quot;), (&quot;sales&quot;, &quot;Di&quot;), (&quot;eng&quot;, &quot;Eve&quot;)]
+groups = defaultdict(list)
+for dept, name in people:
+    groups[dept].append(name)
+
+for dept, names in sorted(groups.items()):
+    print(f&quot;{dept}: {names}&quot;)
+print(&quot;largest team:&quot;, max(groups, key=lambda d: len(groups[d])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Word Counter</div><div class="pd">Implement word_count(text) returning a mapping of word -&gt; frequency, and top_n(counts, n) returning the n most frequent (word, count) pairs sorted by descending count, breaking ties alphabetically. Fill in the two functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">from collections import Counter
+
+def word_count(text):
+    # TODO: return a dict/Counter of word -&gt; frequency (split on whitespace, lowercased)
+    return {}
+
+def top_n(counts, n):
+    # TODO: return the n (word, count) pairs, highest count first, ties broken alphabetically
+    return []
+
+text = &quot;red green red blue red green blue yellow&quot;
+counts = word_count(text)
+top = top_n(counts, 2)
+print(&quot;counts:&quot;, dict(counts))
+print(&quot;top 2:&quot;, top)</code></pre></div><template class="ho-check">assert counts[&quot;red&quot;] == 3, &quot;&#x27;red&#x27; appears 3 times&quot;
+assert counts[&quot;blue&quot;] == 2 and counts[&quot;green&quot;] == 2, &quot;&#x27;blue&#x27; and &#x27;green&#x27; appear twice each&quot;
+assert top[0] == (&quot;red&quot;, 3), &quot;the most common pair should be (&#x27;red&#x27;, 3)&quot;
+assert len(top) == 2 and top[1][1] == 2, &quot;second place should have count 2&quot;
+assert top[1][0] == &quot;blue&quot;, &quot;ties break alphabetically, so &#x27;blue&#x27; comes before &#x27;green&#x27;&quot;</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count word frequencies in a sentence with collections.Counter and read off the two most common</label></li>
+<li><label><input type="checkbox"> Group a list of (key, value) pairs into a dict of lists using collections.defaultdict</label></li>
+<li><label><input type="checkbox"> Sort items by descending count, breaking ties alphabetically, with sorted(key=lambda kv: (-kv[1], kv[0]))</label></li>
+<li><label><input type="checkbox"> Return only the top-N entries of a frequency table</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();
