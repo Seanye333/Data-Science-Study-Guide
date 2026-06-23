@@ -1295,6 +1295,10 @@
    {
     "t": "24. Model Export & Deployment",
     "a": "s23"
+   },
+   {
+    "t": "Practice Lab: Neural Net Math in NumPy",
+    "a": "s24"
    }
   ]
  },
