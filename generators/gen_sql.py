@@ -2696,6 +2696,77 @@ conn.close()"""}
 }
 },
 
+{
+"title": "33. Practice Lab: Windows & CTEs",
+"desc": "Hands-on SQL challenges, run in the browser through SQLite (the sqlite3 module ships with Python and Pyodide). Press Run to execute a query, then solve the exercise and press Check.",
+"examples": [
+    {"label": "Window functions: running total & rank", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE sales(region TEXT, month INT, amount INT);
+INSERT INTO sales VALUES
+ ('West',1,100),('West',2,140),('West',3,120),
+ ('East',1,90),('East',2,160),('East',3,200);
+""")
+rows = con.execute("""
+SELECT region, month, amount,
+       SUM(amount) OVER (PARTITION BY region ORDER BY month) AS running_total,
+       RANK() OVER (PARTITION BY region ORDER BY amount DESC) AS rank_in_region
+FROM sales ORDER BY region, month;
+""").fetchall()
+for r in rows:
+    print(r)'''},
+    {"label": "Top-per-group with a CTE", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE scores(student TEXT, subject TEXT, score INT);
+INSERT INTO scores VALUES
+ ('Ada','Math',95),('Ada','Sci',88),('Bo','Math',60),('Bo','Sci',99);
+""")
+rows = con.execute("""
+WITH ranked AS (
+  SELECT student, subject, score,
+         RANK() OVER (PARTITION BY subject ORDER BY score DESC) AS rnk
+  FROM scores
+)
+SELECT subject, student, score FROM ranked WHERE rnk = 1 ORDER BY subject;
+""").fetchall()
+print("winner per subject:", rows)'''},
+],
+"todos": [
+    "Add a running_total with SUM(amount) OVER (PARTITION BY ... ORDER BY ...)",
+    "Rank rows within a group using RANK() OVER (PARTITION BY ... ORDER BY ... DESC)",
+    "Use a CTE (WITH ranked AS (...)) and filter rnk = 1 to keep the top row per group",
+    "Verify ties: RANK() leaves gaps, DENSE_RANK() does not",
+],
+"practice": {
+    "title": "Top Scorer Per Subject",
+    "desc": "Using the scores table, write a query that returns one row per subject — the highest-scoring student, as (subject, student, score). Fill in the query string, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE scores(student TEXT, subject TEXT, score INT);
+INSERT INTO scores VALUES
+ ('Ada','Math',95),('Ada','Sci',88),('Ada','Art',70),
+ ('Bo','Math',60),('Bo','Sci',99),('Bo','Art',85);
+""")
+
+# TODO: return (subject, student, score) for the top scorer in each subject.
+# Hint: RANK() OVER (PARTITION BY subject ORDER BY score DESC) inside a CTE.
+query = """
+SELECT subject, student, score FROM scores  -- replace me
+"""
+
+top = con.execute(query).fetchall()
+print("top per subject:", top)''',
+    "check": '''assert ("Math", "Ada", 95) in top, "Ada (95) tops Math"
+assert ("Sci", "Bo", 99) in top, "Bo (99) tops Science"
+assert ("Art", "Bo", 85) in top, "Bo (85) tops Art"
+assert len(top) == 3, "exactly one winner per subject (3 subjects)"
+print("All checks passed ✓")'''
+}
+},
+
 ]  # end SECTIONS
 
 
