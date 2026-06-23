@@ -2832,6 +2832,61 @@ print("Saved practice_custom.png")"""
 }
 },
 
+{
+"title": "Practice Lab: Distributions & Groups",
+"desc": "Hands-on seaborn challenges that render inline in the browser (seaborn ships with Pyodide). Press Run to draw a chart, then solve the exercise and press Check — the checks grade the data behind the plot.",
+"examples": [
+    {"label": "Boxplot by group", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+rng = np.random.default_rng(0)
+df = pd.DataFrame({"group": np.repeat(["A","B","C"], 50),
+                   "value": np.concatenate([rng.normal(m, 1, 50) for m in (0, 2, 4)])})
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.boxplot(data=df, x="group", y="value", ax=ax)
+ax.set_title("Distributions by group")
+plt.show()
+print(df.groupby("group")["value"].mean().round(2).to_dict())'''},
+    {"label": "Histogram with KDE", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np
+
+rng = np.random.default_rng(1)
+data = rng.normal(50, 8, 500)
+fig, ax = plt.subplots(figsize=(6, 3))
+sns.histplot(data, kde=True, ax=ax, color="#a78bfa")
+ax.set_title("Distribution")
+plt.show()'''},
+],
+"todos": [
+    "Draw a boxplot of a value column split by a categorical group",
+    "Overlay a KDE on a histogram with sns.histplot(kde=True)",
+    "Compute group means with df.groupby(by)[col].mean()",
+    "Bar-plot the group means with sns.barplot",
+],
+"practice": {
+    "title": "Group Means",
+    "desc": "Implement group_means(df, by, col) returning the mean of `col` for each level of `by`, then bar-plot the result. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import numpy as np, pandas as pd
+
+def group_means(df, by, col):
+    # TODO: return a Series of the mean of `col` for each group in `by`
+    return pd.Series(dtype=float)
+
+df = pd.DataFrame({"cat": ["x","x","y","y","z"], "v": [1.0, 3.0, 10.0, 20.0, 5.0]})
+gm = group_means(df, "cat", "v")
+
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); ax.set_title("Group means")
+plt.show()
+print(gm.to_dict())''',
+    "check": '''assert np.isclose(gm["x"], 2.0), "mean of x (1, 3) is 2"
+assert np.isclose(gm["y"], 15.0), "mean of y (10, 20) is 15"
+assert np.isclose(gm["z"], 5.0), "mean of z (5) is 5"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
