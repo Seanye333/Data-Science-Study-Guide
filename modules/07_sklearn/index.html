@@ -44,6 +44,8 @@
 <a href="#s22">23. Anomaly Detection</a>
 <a href="#s23">24. Advanced Clustering</a>
 <a href="#s24">Practice Lab: Train, Tune & Score</a>
+<a href="#s25">Challenge: Precision & Recall</a>
+<a href="#s26">Challenge: K-Nearest Neighbors</a>
 
 </nav>
 <main>
@@ -4687,6 +4689,145 @@ print(&quot;All checks passed \u2713&quot;)</template>
 <li><label><input type="checkbox"> Wrap StandardScaler + an estimator in make_pipeline and score it with cross_val_score</label></li>
 <li><label><input type="checkbox"> Run a small GridSearchCV over an SVC pipeline and read best_params_ / best_score_</label></li>
 <li><label><input type="checkbox"> Vary a DecisionTree's max_depth and watch the effect on test accuracy</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s25">
+  <div class="card-header" onclick="toggle('s25')">
+    <span>26. Challenge: Precision & Recall</span>
+    <span class="arrow" id="arr-s25">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s25" style="display:none">
+    <p class="desc">Accuracy hides class imbalance; precision and recall tell the real story. Press Run, then solve the exercise and press Check.</p>
+    <h4>Precision and recall</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.metrics import precision_score, recall_score, f1_score
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+print("precision:", round(precision_score(y_true, y_pred), 3))
+print("recall:   ", round(recall_score(y_true, y_pred), 3))
+print("f1:       ", round(f1_score(y_true, y_pred), 3))</code></pre></div>
+    <h4>Confusion matrix</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.metrics import confusion_matrix
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+print("tn, fp, fn, tp =", tn, fp, fn, tp)</code></pre></div>
+        <h4>Full report</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.metrics import classification_report
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+print(classification_report(y_true, y_pred, digits=3))</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">For a fraud detector, recall (catching fraud) often matters more than precision; the threshold trades one for the other.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">from sklearn.metrics import precision_score, recall_score
+
+y_true = [1, 0, 1, 1, 0, 1, 0, 0]
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0]
+print("precision:", round(precision_score(y_true, y_pred), 3))
+print("recall:   ", round(recall_score(y_true, y_pred), 3))</code></pre></div>
+    </div>
+    <div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Precision & Recall</div>
+      <div class="pd">Implement precision_recall(y_true, y_pred) returning a (precision, recall) tuple using sklearn.metrics. Fill in the function, press Run, then press Check.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s25" class="language-python">from sklearn.metrics import precision_score, recall_score
+
+def precision_recall(y_true, y_pred):
+    # TODO: return (precision, recall) using sklearn.metrics
+    return (0.0, 0.0)
+
+print(precision_recall([1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 1, 0, 1, 1]))</code></pre></div><template class="ho-check">p, r = precision_recall([1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 1, 0, 1, 1])
+assert abs(p - 0.75) &lt; 1e-9, &quot;3 true positives out of 4 predicted positives = 0.75&quot;
+assert abs(r - 0.75) &lt; 1e-9, &quot;3 true positives out of 4 actual positives = 0.75&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute precision and recall with sklearn.metrics</label></li>
+<li><label><input type="checkbox"> Read true/false positives/negatives from a confusion matrix</label></li>
+<li><label><input type="checkbox"> Remember precision is tp/(tp+fp), recall is tp/(tp+fn)</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s26">
+  <div class="card-header" onclick="toggle('s26')">
+    <span>27. Challenge: K-Nearest Neighbors</span>
+    <span class="arrow" id="arr-s26">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s26" style="display:none">
+    <p class="desc">A non-parametric classifier that just looks at the nearest training points. Press Run, then solve the exercise and press Check.</p>
+    <h4>Fit and predict</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+knn = KNeighborsClassifier(n_neighbors=5).fit(X_tr, y_tr)
+print("accuracy:", round(accuracy_score(y_te, knn.predict(X_te)), 3))</code></pre></div>
+    <h4>Effect of k</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+
+X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+for k in [1, 5, 15]:
+    score = cross_val_score(KNeighborsClassifier(n_neighbors=k), X, y, cv=5).mean()
+    print("k=", k, "cv accuracy:", round(score, 3))</code></pre></div>
+        <h4>Scaling matters for distances</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5))
+print(pipe)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">KNN needs features on comparable scales because it measures distances, so it is almost always wrapped in a StandardScaler pipeline.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">from sklearn.datasets import load_iris
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+
+X, y = load_iris(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5))
+print("cv accuracy:", round(cross_val_score(pipe, X, y, cv=5).mean(), 3))</code></pre></div>
+    </div>
+    <div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: KNN Accuracy</div>
+      <div class="pd">Complete knn_accuracy(k): fit a KNeighborsClassifier with the given k on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s26" class="language-python">from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def knn_accuracy(k):
+    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+    # TODO: fit KNeighborsClassifier(n_neighbors=k) and return its test accuracy
+    return 0.0
+
+print(round(knn_accuracy(5), 3))</code></pre></div><template class="ho-check">acc = knn_accuracy(5)
+assert 0.0 &lt;= acc &lt;= 1.0, &quot;accuracy is a fraction&quot;
+assert acc &gt; 0.8, &quot;k=5 KNN should beat 0.8 on this dataset&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit a KNeighborsClassifier and score it on a held-out split</label></li>
+<li><label><input type="checkbox"> Compare cross-validated accuracy across several values of k</label></li>
+<li><label><input type="checkbox"> Wrap KNN in a StandardScaler pipeline so distances are fair</label></li></ul></div>
   </div>
 </div>
 </main>

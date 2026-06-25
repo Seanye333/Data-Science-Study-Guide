@@ -1030,6 +1030,14 @@
    {
     "t": "Practice Lab: Train, Tune & Score",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Precision & Recall",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: K-Nearest Neighbors",
+    "a": "s26"
    }
   ]
  },
@@ -1351,6 +1359,14 @@
    {
     "t": "Practice Lab: Neural Net Math in NumPy",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Sigmoid & Cross-Entropy",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: MSE & Its Gradient",
+    "a": "s26"
    }
   ]
  },

@@ -4321,6 +4321,125 @@ print("All checks passed \\u2713")''',
         },
     },
 
+    {
+        "title": "Challenge: Precision & Recall",
+        "desc": "Accuracy hides class imbalance; precision and recall tell the real story. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Precision and recall",
+        "code1": '''from sklearn.metrics import precision_score, recall_score, f1_score
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+print("precision:", round(precision_score(y_true, y_pred), 3))
+print("recall:   ", round(recall_score(y_true, y_pred), 3))
+print("f1:       ", round(f1_score(y_true, y_pred), 3))''',
+        "code2_title": "Confusion matrix",
+        "code2": '''from sklearn.metrics import confusion_matrix
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+print("tn, fp, fn, tp =", tn, fp, fn, tp)''',
+        "code3_title": "Full report",
+        "code3": '''from sklearn.metrics import classification_report
+
+y_true = [1, 1, 0, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1, 1]
+print(classification_report(y_true, y_pred, digits=3))''',
+        "rw_scenario": "For a fraud detector, recall (catching fraud) often matters more than precision; the threshold trades one for the other.",
+        "rw_code": '''from sklearn.metrics import precision_score, recall_score
+
+y_true = [1, 0, 1, 1, 0, 1, 0, 0]
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0]
+print("precision:", round(precision_score(y_true, y_pred), 3))
+print("recall:   ", round(recall_score(y_true, y_pred), 3))''',
+        "todos": [
+            "Compute precision and recall with sklearn.metrics",
+            "Read true/false positives/negatives from a confusion matrix",
+            "Remember precision is tp/(tp+fp), recall is tp/(tp+fn)",
+        ],
+        "practice": {
+            "title": "Precision & Recall",
+            "desc": "Implement precision_recall(y_true, y_pred) returning a (precision, recall) tuple using sklearn.metrics. Fill in the function, press Run, then press Check.",
+            "starter": '''from sklearn.metrics import precision_score, recall_score
+
+def precision_recall(y_true, y_pred):
+    # TODO: return (precision, recall) using sklearn.metrics
+    return (0.0, 0.0)
+
+print(precision_recall([1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 1, 0, 1, 1]))''',
+            "check": '''p, r = precision_recall([1, 1, 0, 1, 0, 0, 1], [1, 0, 0, 1, 0, 1, 1])
+assert abs(p - 0.75) < 1e-9, "3 true positives out of 4 predicted positives = 0.75"
+assert abs(r - 0.75) < 1e-9, "3 true positives out of 4 actual positives = 0.75"
+print("All checks passed \\u2713")''',
+        },
+    },
+
+    {
+        "title": "Challenge: K-Nearest Neighbors",
+        "desc": "A non-parametric classifier that just looks at the nearest training points. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Fit and predict",
+        "code1": '''from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+knn = KNeighborsClassifier(n_neighbors=5).fit(X_tr, y_tr)
+print("accuracy:", round(accuracy_score(y_te, knn.predict(X_te)), 3))''',
+        "code2_title": "Effect of k",
+        "code2": '''from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+
+X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+for k in [1, 5, 15]:
+    score = cross_val_score(KNeighborsClassifier(n_neighbors=k), X, y, cv=5).mean()
+    print("k=", k, "cv accuracy:", round(score, 3))''',
+        "code3_title": "Scaling matters for distances",
+        "code3": '''from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5))
+print(pipe)''',
+        "rw_scenario": "KNN needs features on comparable scales because it measures distances, so it is almost always wrapped in a StandardScaler pipeline.",
+        "rw_code": '''from sklearn.datasets import load_iris
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+
+X, y = load_iris(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5))
+print("cv accuracy:", round(cross_val_score(pipe, X, y, cv=5).mean(), 3))''',
+        "todos": [
+            "Fit a KNeighborsClassifier and score it on a held-out split",
+            "Compare cross-validated accuracy across several values of k",
+            "Wrap KNN in a StandardScaler pipeline so distances are fair",
+        ],
+        "practice": {
+            "title": "KNN Accuracy",
+            "desc": "Complete knn_accuracy(k): fit a KNeighborsClassifier with the given k on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.",
+            "starter": '''from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def knn_accuracy(k):
+    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+    # TODO: fit KNeighborsClassifier(n_neighbors=k) and return its test accuracy
+    return 0.0
+
+print(round(knn_accuracy(5), 3))''',
+            "check": '''acc = knn_accuracy(5)
+assert 0.0 <= acc <= 1.0, "accuracy is a fraction"
+assert acc > 0.8, "k=5 KNN should beat 0.8 on this dataset"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 

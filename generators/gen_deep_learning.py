@@ -4925,6 +4925,132 @@ print("All checks passed \\u2713")''',
         },
     },
 
+    {
+        "title": "Challenge: Sigmoid & Cross-Entropy",
+        "desc": "The logistic output and its loss, in pure NumPy. Press Run to try a snippet, then solve the exercise and press Check.",
+        "code1_title": "Sigmoid",
+        "code1": '''import numpy as np
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-np.asarray(z, float)))
+
+print(sigmoid([-2, 0, 2]).round(3).tolist())''',
+        "code2_title": "Binary cross-entropy",
+        "code2": '''import numpy as np
+
+def bce(y, p):
+    y = np.asarray(y, float)
+    p = np.clip(np.asarray(p, float), 1e-12, 1 - 1e-12)   # avoid log(0)
+    return float(-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p)))
+
+print(round(bce([1, 0, 1], [0.9, 0.1, 0.8]), 4))''',
+        "code3_title": "Putting them together",
+        "code3": '''import numpy as np
+rng = np.random.default_rng(0)
+X = rng.standard_normal((5, 3)); w = rng.standard_normal(3)
+probs = 1 / (1 + np.exp(-(X @ w)))
+print("predicted probs:", probs.round(3).tolist())''',
+        "rw_scenario": "Logistic regression is just sigmoid(Xw) trained to minimize cross-entropy; clipping the probabilities keeps the log finite.",
+        "rw_code": '''import numpy as np
+y = np.array([1.0, 0.0, 1.0, 0.0])
+p = np.array([0.8, 0.3, 0.6, 0.2])
+loss = -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+print("cross-entropy:", round(float(loss), 4))''',
+        "todos": [
+            "Implement a numerically safe sigmoid",
+            "Implement binary cross-entropy, clipping probabilities away from 0 and 1",
+            "Confirm BCE is near 0 for confident-correct predictions",
+        ],
+        "practice": {
+            "title": "Sigmoid & BCE",
+            "desc": "Implement sigmoid(z) and bce(y, p) (binary cross-entropy, clipped for stability). Fill in the functions, press Run, then press Check.",
+            "starter": '''import numpy as np
+
+def sigmoid(z):
+    # TODO: 1 / (1 + e^-z), elementwise
+    return np.asarray(z, float)
+
+def bce(y, p):
+    y = np.asarray(y, float)
+    p = np.clip(np.asarray(p, float), 1e-12, 1 - 1e-12)
+    # TODO: -mean( y*log(p) + (1-y)*log(1-p) )
+    return 0.0
+
+print(round(float(sigmoid(0)), 3))
+print(round(bce([1, 0], [0.9, 0.1]), 4))''',
+            "check": '''import numpy as np
+assert abs(float(sigmoid(0)) - 0.5) < 1e-9, "sigmoid(0) == 0.5"
+assert float(sigmoid(100)) > 0.99, "large input saturates near 1"
+assert bce([1, 1], [0.99, 0.99]) < 0.02, "confident-correct predictions give near-zero loss"
+assert bce([1, 0], [0.1, 0.9]) > 2.0, "confident-wrong predictions give a large loss"
+print("All checks passed \\u2713")''',
+        },
+    },
+
+    {
+        "title": "Challenge: MSE & Its Gradient",
+        "desc": "Mean squared error and the gradient that powers linear-model training. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Mean squared error",
+        "code1": '''import numpy as np
+
+def mse(y, yhat):
+    y = np.asarray(y, float); yhat = np.asarray(yhat, float)
+    return float(np.mean((y - yhat) ** 2))
+
+print(round(mse([1, 2, 3], [1.1, 1.9, 3.2]), 4))''',
+        "code2_title": "Gradient of MSE for a linear model",
+        "code2": '''import numpy as np
+
+def mse_grad(X, y, w):
+    X = np.asarray(X, float); y = np.asarray(y, float); w = np.asarray(w, float)
+    return X.T @ (X @ w - y) / len(y)
+
+X = np.array([[1.0, 0], [0, 1], [1, 1]]); y = np.array([1.0, 2, 3]); w = np.zeros(2)
+print(mse_grad(X, y, w).round(3).tolist())''',
+        "code3_title": "One gradient-descent step",
+        "code3": '''import numpy as np
+X = np.array([[1.0, 0], [0, 1], [1, 1]]); y = np.array([1.0, 2, 3]); w = np.zeros(2)
+w = w - 0.1 * (X.T @ (X @ w - y) / len(y))
+print("after one step:", w.round(3).tolist())''',
+        "rw_scenario": "Training a linear model is just repeated 'w -= lr * gradient' until the loss stops dropping.",
+        "rw_code": '''import numpy as np
+rng = np.random.default_rng(0)
+X = rng.standard_normal((50, 2)); w_true = np.array([2.0, -1.0]); y = X @ w_true
+w = np.zeros(2)
+for _ in range(300):
+    w -= 0.1 * (X.T @ (X @ w - y) / len(y))
+print("recovered:", w.round(2).tolist())''',
+        "todos": [
+            "Implement MSE as the mean of squared residuals",
+            "Implement the MSE gradient X^T (Xw - y) / n",
+            "Confirm MSE is 0 for a perfect fit",
+        ],
+        "practice": {
+            "title": "MSE & Gradient",
+            "desc": "Implement mse(y, yhat) and mse_grad(X, y, w) (the gradient of MSE for a linear model). Fill in the functions, press Run, then press Check.",
+            "starter": '''import numpy as np
+
+def mse(y, yhat):
+    y = np.asarray(y, float); yhat = np.asarray(yhat, float)
+    # TODO: mean of (y - yhat)^2
+    return 0.0
+
+def mse_grad(X, y, w):
+    X = np.asarray(X, float); y = np.asarray(y, float); w = np.asarray(w, float)
+    # TODO: X^T (Xw - y) / n
+    return np.zeros_like(w)
+
+print(round(mse([1, 2, 3], [1, 2, 3]), 6))''',
+            "check": '''import numpy as np
+assert abs(mse([1, 2, 3], [1, 2, 3])) < 1e-12, "perfect fit has zero error"
+assert abs(mse([0, 0], [1, 1]) - 1.0) < 1e-12, "mean of [1, 1] squared is 1"
+X = np.array([[1.0, 0], [0, 1], [1, 1]]); y = np.array([1.0, 2, 3]); w = np.array([1.0, 2])
+assert np.allclose(mse_grad(X, y, w), X.T @ (X @ w - y) / 3), "gradient matches X^T(Xw-y)/n"
+assert np.allclose(mse_grad(X, y, np.array([1.0, 2.0])), 0, atol=1e-9), "gradient is zero at the perfect-fit weights"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 
