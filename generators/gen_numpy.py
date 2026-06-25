@@ -2293,6 +2293,41 @@ print("All checks passed \\u2713")'''
     }
     },
 
+    {
+    "title": "35. Challenge: Row Argmax",
+    "desc": "Find the position of the max in each row — a one-liner with axis-aware reductions. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Axis-aware reductions", "code": '''import numpy as np
+
+M = np.array([[1, 5, 2], [9, 0, 3], [4, 4, 7]])
+print("max per row:   ", M.max(axis=1).tolist())
+print("argmax per row:", M.argmax(axis=1).tolist())
+print("sum per column:", M.sum(axis=0).tolist())'''},
+    ],
+    "todos": [
+        "Reduce along axis=1 to operate per row",
+        "Use argmax(axis=1) to get the index of the max in each row",
+        "Remember argmax returns the FIRST max on ties",
+    ],
+    "practice": {
+        "title": "Row Argmax",
+        "desc": "Implement row_argmax(M): return a 1-D array with the column index of the largest value in each row. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def row_argmax(M):
+    M = np.asarray(M)
+    # TODO: return the index of the max value in each row (hint: argmax with an axis)
+    return np.zeros(len(M), dtype=int)
+
+print(row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist())''',
+        "check": '''assert row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist() == [1, 0, 2], "index of the per-row max"
+assert row_argmax([[2, 1]]).tolist() == [0], "single row"
+import numpy as np
+assert np.array_equal(row_argmax([[3, 3, 1]]), [0]), "argmax returns the first max on ties"
+print("All checks passed \\u2713")'''
+    }
+    },
+
 ]  # end SECTIONS
 
 

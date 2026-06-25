@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 26 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 27 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Descriptive Statistics</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Probability Distributions</a></li>
@@ -38,8 +38,9 @@
     <li><a href="#s22" onclick="act(this,event)">23. Multiple Testing &amp; FDR Corrections</a></li>
     <li><a href="#s23" onclick="act(this,event)">24. Bootstrap &amp; Permutation Tests</a></li>
     <li><a href="#s24" onclick="act(this,event)">25. Practice Lab: Tests &amp; Z-Scores</a></li>
-    <li><a href="#s25" onclick="act(this,event)">26. Challenge: Correlation</a></li></ul></aside>
-<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">26 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
+    <li><a href="#s25" onclick="act(this,event)">26. Challenge: Correlation</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Challenge: Confidence Interval</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 from scipy import stats
 
 data = [23, 45, 12, 67, 34, 45, 89, 23, 45, 56, 78, 34, 23, 90, 12]
@@ -2907,7 +2908,34 @@ r = pearson_corr([1, 2, 3, 4, 5], [2, 4, 5, 4, 5])
 assert -1.0 &lt;= r &lt;= 1.0 and abs(r - 0.7746) &lt; 1e-3, &quot;matches np.corrcoef on the sample&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Center each variable by subtracting its mean</label></li>
 <li><label><input type="checkbox"> Pearson r = (xm . ym) / sqrt((xm.xm)(ym.ym))</label></li>
-<li><label><input type="checkbox"> Check the bounds: r is +1 for a perfect increasing line, -1 for decreasing</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Check the bounds: r is +1 for a perfect increasing line, -1 for decreasing</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Challenge: Confidence Interval</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build a t-based confidence interval for a mean from a small sample. NumPy + SciPy, Pyodide-runnable. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Standard error &amp; t critical value</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import numpy as np
+from scipy import stats
+
+data = np.array([12, 15, 14, 10, 13, 16, 11, 14], float)
+n = len(data)
+se = data.std(ddof=1) / np.sqrt(n)
+tcrit = stats.t.ppf(0.975, n - 1)        # two-sided 95%
+print(&quot;mean:&quot;, round(data.mean(), 3), &quot;se:&quot;, round(se, 3), &quot;t*:&quot;, round(tcrit, 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Confidence Interval</div><div class="pd">Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import numpy as np
+from scipy import stats
+
+def mean_ci(data, conf=0.95):
+    a = np.asarray(data, float)
+    n = len(a)
+    # TODO: mean +/- t* * standard_error, where t* = stats.t.ppf((1+conf)/2, n-1)
+    return (a.mean(), a.mean())
+
+lo, hi = mean_ci([12, 15, 14, 10, 13, 16, 11, 14])
+print(round(lo, 3), round(hi, 3))</code></pre></div><template class="ho-check">import numpy as np
+d = [12, 15, 14, 10, 13, 16, 11, 14]
+lo, hi = mean_ci(d)
+assert lo &lt; np.mean(d) &lt; hi, &quot;the interval must contain the sample mean&quot;
+assert abs((lo + hi) / 2 - np.mean(d)) &lt; 1e-9, &quot;the interval is centered on the mean&quot;
+assert abs(round(hi - lo, 2) - 3.40) &lt; 0.05, &quot;95% width matches the t interval for this sample&quot;
+wide = mean_ci(d, 0.99)
+assert (wide[1] - wide[0]) &gt; (hi - lo), &quot;99% interval is wider than 95%&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the sample mean and the standard error std(ddof=1)/sqrt(n)</label></li>
+<li><label><input type="checkbox"> Get the t critical value with scipy.stats.t.ppf((1+conf)/2, n-1)</label></li>
+<li><label><input type="checkbox"> The interval is mean +/- t* * se</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

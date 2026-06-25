@@ -1946,6 +1946,50 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "27. Challenge: Confidence Interval",
+"desc": "Build a t-based confidence interval for a mean from a small sample. NumPy + SciPy, Pyodide-runnable. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Standard error & t critical value", "code": '''import numpy as np
+from scipy import stats
+
+data = np.array([12, 15, 14, 10, 13, 16, 11, 14], float)
+n = len(data)
+se = data.std(ddof=1) / np.sqrt(n)
+tcrit = stats.t.ppf(0.975, n - 1)        # two-sided 95%
+print("mean:", round(data.mean(), 3), "se:", round(se, 3), "t*:", round(tcrit, 3))'''},
+],
+"todos": [
+    "Compute the sample mean and the standard error std(ddof=1)/sqrt(n)",
+    "Get the t critical value with scipy.stats.t.ppf((1+conf)/2, n-1)",
+    "The interval is mean +/- t* * se",
+],
+"practice": {
+    "title": "Mean Confidence Interval",
+    "desc": "Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+from scipy import stats
+
+def mean_ci(data, conf=0.95):
+    a = np.asarray(data, float)
+    n = len(a)
+    # TODO: mean +/- t* * standard_error, where t* = stats.t.ppf((1+conf)/2, n-1)
+    return (a.mean(), a.mean())
+
+lo, hi = mean_ci([12, 15, 14, 10, 13, 16, 11, 14])
+print(round(lo, 3), round(hi, 3))''',
+    "check": '''import numpy as np
+d = [12, 15, 14, 10, 13, 16, 11, 14]
+lo, hi = mean_ci(d)
+assert lo < np.mean(d) < hi, "the interval must contain the sample mean"
+assert abs((lo + hi) / 2 - np.mean(d)) < 1e-9, "the interval is centered on the mean"
+assert abs(round(hi - lo, 2) - 3.40) < 0.05, "95% width matches the t interval for this sample"
+wide = mean_ci(d, 0.99)
+assert (wide[1] - wide[0]) > (hi - lo), "99% interval is wider than 95%"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

@@ -2818,6 +2818,49 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "35. Challenge: Filter Groups with HAVING",
+"desc": "WHERE filters rows; HAVING filters groups after aggregation. Runs in-browser via SQLite. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "GROUP BY ... HAVING", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES ('a',10),('a',30),('b',5),('c',40),('c',40);
+""")
+rows = con.execute("""
+SELECT cat, SUM(amt) AS total
+FROM t GROUP BY cat HAVING SUM(amt) >= 40 ORDER BY cat
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "Aggregate per group with GROUP BY",
+    "Keep only groups passing a condition with HAVING (not WHERE)",
+    "Remember WHERE filters rows before grouping, HAVING filters after",
+],
+"practice": {
+    "title": "Big Spenders",
+    "desc": "Return (cat, total) for every category whose total amount is at least 40, ordered by cat. Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES ('a',10),('a',30),('b',5),('c',40),('c',40);
+""")
+
+# TODO: group by cat, sum amt as total, keep groups with total >= 40, order by cat
+query = """
+SELECT cat, SUM(amt) AS total FROM t GROUP BY cat   -- add a HAVING and ORDER BY
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert rows == [("a", 40), ("c", 80)], "only categories with total >= 40, ordered by cat"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 34 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🗄️ SQL with Python</h2><p>Study Guide &bull; 35 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup with sqlite3</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. SELECT &amp; WHERE</a></li>
@@ -46,8 +46,9 @@
     <li><a href="#s30" onclick="act(this,event)">31. Performance Tuning &amp; EXPLAIN</a></li>
     <li><a href="#s31" onclick="act(this,event)">32. SQL for Data Analysis Workflow</a></li>
     <li><a href="#s32" onclick="act(this,event)">33. Practice Lab: Windows &amp; CTEs</a></li>
-    <li><a href="#s33" onclick="act(this,event)">34. Challenge: Joins &amp; Aggregation</a></li></ul></aside>
-<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">34 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
+    <li><a href="#s33" onclick="act(this,event)">34. Challenge: Joins &amp; Aggregation</a></li>
+    <li><a href="#s34" onclick="act(this,event)">35. Challenge: Filter Groups with HAVING</a></li></ul></aside>
+<main class="main"><h1 class="pt">🗄️ SQL with Python</h1><p class="ps">35 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup with sqlite3</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python&#x27;s built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.</p><div class="code-block"><div class="ch"><span>Connect, create table, insert rows</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)   # in-memory DB
 cur  = conn.cursor()
@@ -4854,7 +4855,33 @@ assert rows[0] == (&quot;Bo&quot;, 200), &quot;highest total comes first&quot;
 assert len(rows) == 2, &quot;one row per customer with orders&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Join orders to customers on the foreign key with JOIN ... ON</label></li>
 <li><label><input type="checkbox"> Aggregate per customer with GROUP BY and SUM/COUNT</label></li>
-<li><label><input type="checkbox"> Order the result by the aggregate descending</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Order the result by the aggregate descending</label></li></ul></div></div></div><div class="topic" id="s34"><div class="th" onclick="tog(this)"><span>35. Challenge: Filter Groups with HAVING</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">WHERE filters rows; HAVING filters groups after aggregation. Runs in-browser via SQLite. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>GROUP BY ... HAVING</span><button onclick="cp('c34_0')">Copy</button></div><pre><code id="c34_0" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,10),(&#x27;a&#x27;,30),(&#x27;b&#x27;,5),(&#x27;c&#x27;,40),(&#x27;c&#x27;,40);
+&quot;&quot;&quot;)
+rows = con.execute(&quot;&quot;&quot;
+SELECT cat, SUM(amt) AS total
+FROM t GROUP BY cat HAVING SUM(amt) &gt;= 40 ORDER BY cat
+&quot;&quot;&quot;).fetchall()
+print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Big Spenders</div><div class="pd">Return (cat, total) for every category whose total amount is at least 40, ordered by cat. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,10),(&#x27;a&#x27;,30),(&#x27;b&#x27;,5),(&#x27;c&#x27;,40),(&#x27;c&#x27;,40);
+&quot;&quot;&quot;)
+
+# TODO: group by cat, sum amt as total, keep groups with total &gt;= 40, order by cat
+query = &quot;&quot;&quot;
+SELECT cat, SUM(amt) AS total FROM t GROUP BY cat   -- add a HAVING and ORDER BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&quot;a&quot;, 40), (&quot;c&quot;, 80)], &quot;only categories with total &gt;= 40, ordered by cat&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Aggregate per group with GROUP BY</label></li>
+<li><label><input type="checkbox"> Keep only groups passing a condition with HAVING (not WHERE)</label></li>
+<li><label><input type="checkbox"> Remember WHERE filters rows before grouping, HAVING filters after</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
