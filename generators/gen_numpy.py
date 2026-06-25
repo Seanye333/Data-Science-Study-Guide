@@ -2328,6 +2328,71 @@ print("All checks passed \\u2713")'''
     }
     },
 
+    {
+    "title": "36. Challenge: Cosine Similarity",
+    "desc": "Cosine similarity measures the angle between two vectors — the workhorse of search and recommendations. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Dot product and norms", "code": '''import numpy as np
+
+a = np.array([1.0, 2, 3]); b = np.array([2.0, 4, 6])
+print("dot:", float(a @ b), "norm a:", round(float(np.linalg.norm(a)), 3))
+print("cosine:", round(float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))), 3))'''},
+    ],
+    "todos": [
+        "Cosine similarity is (a . b) / (||a|| * ||b||)",
+        "Parallel vectors score 1, orthogonal vectors score 0",
+    ],
+    "practice": {
+        "title": "Cosine Similarity",
+        "desc": "Implement cosine_sim(a, b) returning the cosine similarity of two vectors. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def cosine_sim(a, b):
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    # TODO: (a . b) / (||a|| * ||b||)   -- np.linalg.norm gives the length
+    return 0.0
+
+print(round(cosine_sim([1, 2, 3], [2, 4, 6]), 4))''',
+        "check": '''assert abs(cosine_sim([1, 0], [1, 0]) - 1) < 1e-9, "identical direction -> 1"
+assert abs(cosine_sim([1, 0], [0, 1])) < 1e-9, "orthogonal -> 0"
+assert abs(cosine_sim([1, 1], [2, 2]) - 1) < 1e-9, "scaled copies are parallel -> 1"
+print("All checks passed \\u2713")'''
+    }
+    },
+
+    {
+    "title": "37. Challenge: Boolean Masking",
+    "desc": "Boolean arrays select and count elements without loops. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Mask and select", "code": '''import numpy as np
+
+a = np.array([1, 5, 3, 8, 2])
+mask = a > 3
+print("mask:", mask.tolist())
+print("selected:", a[mask].tolist(), "count:", int(mask.sum()))'''},
+    ],
+    "todos": [
+        "Build a boolean mask with a comparison like a > t",
+        "Count matches with mask.sum() and select with a[mask]",
+    ],
+    "practice": {
+        "title": "Count Above Threshold",
+        "desc": "Implement count_above(arr, t): return how many elements of arr are strictly greater than t. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def count_above(arr, t):
+    arr = np.asarray(arr)
+    # TODO: return the number of elements strictly greater than t
+    return 0
+
+print(count_above([1, 5, 3, 8, 2], 3))''',
+        "check": '''assert count_above([1, 5, 3, 8, 2], 3) == 2, "only 5 and 8 exceed 3"
+assert count_above([1, 2, 3], 5) == 0, "nothing exceeds 5"
+assert count_above([4, 4, 4], 3) == 3, "all exceed 3"
+print("All checks passed \\u2713")'''
+    }
+    },
+
 ]  # end SECTIONS
 
 

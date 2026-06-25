@@ -147,6 +147,14 @@
    {
     "t": "36. Challenge: Strings & Sequences",
     "a": "s35"
+   },
+   {
+    "t": "37. Challenge: FizzBuzz",
+    "a": "s36"
+   },
+   {
+    "t": "38. Challenge: Flatten",
+    "a": "s37"
    }
   ]
  },
@@ -294,6 +302,14 @@
    {
     "t": "35. Challenge: Row Argmax",
     "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Cosine Similarity",
+    "a": "s35"
+   },
+   {
+    "t": "37. Challenge: Boolean Masking",
+    "a": "s36"
    }
   ]
  },
@@ -441,6 +457,14 @@
    {
     "t": "35. Challenge: Filter Groups with HAVING",
     "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Find the Gaps (LEFT JOIN)",
+    "a": "s35"
+   },
+   {
+    "t": "37. Challenge: Above Average (Subquery)",
+    "a": "s36"
    }
   ]
  },

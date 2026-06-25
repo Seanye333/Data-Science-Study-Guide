@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 36 topics</p>
+  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 38 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Variables &amp; Data Types</a></li>
@@ -51,11 +51,13 @@
     <li><a href="#s32" onclick="act(this,event)">33. Introspection &amp; Metaprogramming</a></li>
     <li><a href="#s33" onclick="act(this,event)">34. Advanced Type Hints</a></li>
     <li><a href="#s34" onclick="act(this,event)">35. Practice Lab: Collections &amp; Counting</a></li>
-    <li><a href="#s35" onclick="act(this,event)">36. Challenge: Strings &amp; Sequences</a></li></ul>
+    <li><a href="#s35" onclick="act(this,event)">36. Challenge: Strings &amp; Sequences</a></li>
+    <li><a href="#s36" onclick="act(this,event)">37. Challenge: FizzBuzz</a></li>
+    <li><a href="#s37" onclick="act(this,event)">38. Challenge: Flatten</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🐍 Python Basics</h1>
-  <p class="ps">36 topics &bull; Click any card to expand</p>
+  <p class="ps">38 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Variables &amp; Data Types</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python is dynamically typed — you don&#x27;t declare types, Python infers them. The core types are int, float, str, bool, and NoneType.</p><div class="code-block"><div class="ch"><span>Basic types and type checking</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># Integers
 age    = 25
 year   = 2024
@@ -5535,7 +5537,46 @@ assert unique([3, 1, 3, 2, 1, 4]) == [3, 1, 2, 4], &quot;keep first occurrence, 
 assert unique([]) == [], &quot;empty stays empty&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Filter a string to alphanumerics and lowercase with a comprehension</label></li>
 <li><label><input type="checkbox"> Test for a palindrome by comparing a list to its reverse (seq[::-1])</label></li>
-<li><label><input type="checkbox"> Deduplicate a sequence while preserving order using a &#x27;seen&#x27; set</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Deduplicate a sequence while preserving order using a &#x27;seen&#x27; set</label></li></ul></div></div></div><div class="topic" id="s36"><div class="th" onclick="tog(this)"><span>37. Challenge: FizzBuzz</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The classic warm-up: numbers, but multiples of 3 become Fizz, of 5 become Buzz, of both become FizzBuzz. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Modulo checks</span><button onclick="cp('c36_0')">Copy</button></div><pre><code id="c36_0" class="language-python">for i in range(1, 8):
+    if i % 15 == 0:
+        print(i, &quot;FizzBuzz&quot;)
+    elif i % 3 == 0:
+        print(i, &quot;Fizz&quot;)
+    elif i % 5 == 0:
+        print(i, &quot;Buzz&quot;)
+    else:
+        print(i)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz</div><div class="pd">Implement fizzbuzz(n): return a list for 1..n where multiples of 3 are &#x27;Fizz&#x27;, of 5 &#x27;Buzz&#x27;, of both &#x27;FizzBuzz&#x27;, else the number as a string. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">def fizzbuzz(n):
+    out = []
+    for i in range(1, n + 1):
+        # TODO: append &quot;FizzBuzz&quot; / &quot;Fizz&quot; / &quot;Buzz&quot; / str(i) depending on divisibility
+        out.append(str(i))
+    return out
+
+print(fizzbuzz(5))</code></pre></div><template class="ho-check">assert fizzbuzz(5) == [&quot;1&quot;, &quot;2&quot;, &quot;Fizz&quot;, &quot;4&quot;, &quot;Buzz&quot;], &quot;3 -&gt; Fizz, 5 -&gt; Buzz&quot;
+assert fizzbuzz(15)[-1] == &quot;FizzBuzz&quot;, &quot;15 is divisible by both&quot;
+assert fizzbuzz(1) == [&quot;1&quot;], &quot;non-multiples are the number as a string&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Test divisibility with the modulo operator (i % 3 == 0)</label></li>
+<li><label><input type="checkbox"> Check the 15 case first, before 3 and 5</label></li></ul></div></div></div><div class="topic" id="s37"><div class="th" onclick="tog(this)"><span>38. Challenge: Flatten</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Flatten an arbitrarily nested list into a single flat list — a neat use of recursion. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Recurse into sublists</span><button onclick="cp('c37_0')">Copy</button></div><pre><code id="c37_0" class="language-python">def flatten(lst):
+    out = []
+    for x in lst:
+        if isinstance(x, list):
+            out.extend(flatten(x))
+        else:
+            out.append(x)
+    return out
+
+print(flatten([1, [2, [3, 4]], 5]))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Flatten Nested List</div><div class="pd">Implement flatten(lst): return all values from an arbitrarily nested list in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p37')">Copy</button></div><pre><code id="p37" class="language-python">def flatten(lst):
+    out = []
+    for x in lst:
+        # TODO: if x is a list, recurse and extend; otherwise append x
+        out.append(x)
+    return out
+
+print(flatten([1, [2, [3, 4]], 5]))</code></pre></div><template class="ho-check">assert flatten([1, [2, [3, 4]], 5]) == [1, 2, 3, 4, 5], &quot;deeply nested values come out in order&quot;
+assert flatten([]) == [], &quot;empty stays empty&quot;
+assert flatten([[1], [2], [3]]) == [1, 2, 3], &quot;list of singletons flattens&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Check each element with isinstance(x, list)</label></li>
+<li><label><input type="checkbox"> Recurse on sublists and extend; append plain values</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

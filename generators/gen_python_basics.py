@@ -4251,6 +4251,79 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "37. Challenge: FizzBuzz",
+"desc": "The classic warm-up: numbers, but multiples of 3 become Fizz, of 5 become Buzz, of both become FizzBuzz. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Modulo checks", "code": '''for i in range(1, 8):
+    if i % 15 == 0:
+        print(i, "FizzBuzz")
+    elif i % 3 == 0:
+        print(i, "Fizz")
+    elif i % 5 == 0:
+        print(i, "Buzz")
+    else:
+        print(i)'''},
+],
+"todos": [
+    "Test divisibility with the modulo operator (i % 3 == 0)",
+    "Check the 15 case first, before 3 and 5",
+],
+"practice": {
+    "title": "FizzBuzz",
+    "desc": "Implement fizzbuzz(n): return a list for 1..n where multiples of 3 are 'Fizz', of 5 'Buzz', of both 'FizzBuzz', else the number as a string. Fill in the function, press Run, then press Check.",
+    "starter": '''def fizzbuzz(n):
+    out = []
+    for i in range(1, n + 1):
+        # TODO: append "FizzBuzz" / "Fizz" / "Buzz" / str(i) depending on divisibility
+        out.append(str(i))
+    return out
+
+print(fizzbuzz(5))''',
+    "check": '''assert fizzbuzz(5) == ["1", "2", "Fizz", "4", "Buzz"], "3 -> Fizz, 5 -> Buzz"
+assert fizzbuzz(15)[-1] == "FizzBuzz", "15 is divisible by both"
+assert fizzbuzz(1) == ["1"], "non-multiples are the number as a string"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "38. Challenge: Flatten",
+"desc": "Flatten an arbitrarily nested list into a single flat list — a neat use of recursion. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Recurse into sublists", "code": '''def flatten(lst):
+    out = []
+    for x in lst:
+        if isinstance(x, list):
+            out.extend(flatten(x))
+        else:
+            out.append(x)
+    return out
+
+print(flatten([1, [2, [3, 4]], 5]))'''},
+],
+"todos": [
+    "Check each element with isinstance(x, list)",
+    "Recurse on sublists and extend; append plain values",
+],
+"practice": {
+    "title": "Flatten Nested List",
+    "desc": "Implement flatten(lst): return all values from an arbitrarily nested list in order. Fill in the function, press Run, then press Check.",
+    "starter": '''def flatten(lst):
+    out = []
+    for x in lst:
+        # TODO: if x is a list, recurse and extend; otherwise append x
+        out.append(x)
+    return out
+
+print(flatten([1, [2, [3, 4]], 5]))''',
+    "check": '''assert flatten([1, [2, [3, 4]], 5]) == [1, 2, 3, 4, 5], "deeply nested values come out in order"
+assert flatten([]) == [], "empty stays empty"
+assert flatten([[1], [2], [3]]) == [1, 2, 3], "list of singletons flattens"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
