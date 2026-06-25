@@ -4469,6 +4469,97 @@ print(result)'''
         },
     },
 
+    {
+        "title": "Challenge: Joins",
+        "desc": "Joining frames on a key is the same idea as SQL joins, with Polars' fast columnar engine. Polars is not in the in-page runner, so run these locally.",
+        "code1_title": "Inner join",
+        "code1": '''import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+print(vals.join(names, on="id", how="inner"))''',
+        "code2_title": "Left join keeps all left rows",
+        "code2": '''import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+print(vals.join(names, on="id", how="left"))''',
+        "code3_title": "Join then select",
+        "code3": '''import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+out = vals.join(names, on="id", how="inner").select(["name", "val"])
+print(out)''',
+        "rw_scenario": "Enriching a fact table with dimension attributes is a join; choose inner vs left depending on whether unmatched rows should be dropped or kept.",
+        "rw_code": '''import polars as pl
+
+orders = pl.DataFrame({"order": [1, 2, 3], "cust": [1, 1, 2]})
+cust = pl.DataFrame({"cust": [1, 2], "tier": ["gold", "silver"]})
+print(orders.join(cust, on="cust", how="left"))''',
+        "todos": [
+            "Join two DataFrames on a key with df.join(other, on=..., how=...)",
+            "Pick how='inner' to drop unmatched rows, how='left' to keep them",
+            "Chain .select after a join to keep only the columns you need",
+        ],
+        "practice": {
+            "title": "Enrich With Names",
+            "desc": "Inner-join the two frames below on 'id' and select just 'name' and 'val'. Run locally.",
+            "starter": '''import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+
+# TODO: inner-join on id, then select ["name", "val"]
+result = vals
+print(result)'''
+        },
+    },
+
+    {
+        "title": "Challenge: Window Over Groups",
+        "desc": "Window expressions compute per-group results without collapsing rows — like SQL window functions. Run locally.",
+        "code1_title": "Sort within groups",
+        "code1": '''import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+print(df.sort(["g", "v"]))''',
+        "code2_title": "Cumulative sum per group",
+        "code2": '''import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+out = df.sort(["g", "v"]).with_columns(pl.col("v").cum_sum().over("g").alias("running"))
+print(out)''',
+        "code3_title": "Group total alongside rows",
+        "code3": '''import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+out = df.with_columns(pl.col("v").sum().over("g").alias("group_total"))
+print(out)''',
+        "rw_scenario": "Adding a 'share of group total' column needs the group total on every row, which .over(group) provides without a separate aggregate and join.",
+        "rw_code": '''import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"], "v": [2, 6, 4]})
+out = df.with_columns((pl.col("v") / pl.col("v").sum().over("g")).alias("share"))
+print(out)''',
+        "todos": [
+            "Sort within groups with df.sort([group, value])",
+            "Use expr.over(group) to compute a per-group running or total value",
+            "Keep all rows: window expressions do not collapse the frame",
+        ],
+        "practice": {
+            "title": "Running Total Per Group",
+            "desc": "Add a 'running' column with the cumulative sum of 'v' within each group 'g' (sort by g then v first). Run locally.",
+            "starter": '''import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+
+# TODO: sort by ["g", "v"], then add pl.col("v").cum_sum().over("g") as "running"
+result = df
+print(result)'''
+        },
+    },
+
 ]
 
 

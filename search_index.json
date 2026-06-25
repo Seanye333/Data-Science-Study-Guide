@@ -1161,6 +1161,14 @@
    {
     "t": "Practice Lab: Widgets & Caching",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Forms",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Upload & Download",
+    "a": "s26"
    }
   ]
  },
@@ -1268,6 +1276,14 @@
    {
     "t": "Practice Lab: Expressions & Lazy Queries",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Joins",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Window Over Groups",
+    "a": "s26"
    }
   ]
  },

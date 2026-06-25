@@ -44,6 +44,8 @@
 <a href="#s22">23. Custom CSS & Theming</a>
 <a href="#s23">24. Deployment: Cloud, Docker & CI/CD</a>
 <a href="#s24">Practice Lab: Widgets & Caching</a>
+<a href="#s25">Challenge: Forms</a>
+<a href="#s26">Challenge: Upload & Download</a>
 
 </nav>
 <main>
@@ -5603,6 +5605,132 @@ st.title(&quot;Sales dashboard&quot;)</code></pre></div></div>
 <li><label><input type="checkbox"> Cache a slow function with @st.cache_data and confirm reruns are fast</label></li>
 <li><label><input type="checkbox"> Filter a dataframe from a sidebar widget and display the result</label></li>
 <li><label><input type="checkbox"> Show a KPI with st.metric and a chart with st.line_chart</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s25">
+  <div class="card-header" onclick="toggle('s25')">
+    <span>26. Challenge: Forms</span>
+    <span class="arrow" id="arr-s25">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s25" style="display:none">
+    <p class="desc">A form batches several widgets and only reruns the script when the user clicks Submit — ideal for multi-field input. Save as app.py and run with streamlit run app.py.</p>
+    <h4>A submit form</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+with st.form(&quot;signup&quot;):
+    name = st.text_input(&quot;Name&quot;)
+    age = st.number_input(&quot;Age&quot;, min_value=0, max_value=120, value=30)
+    submitted = st.form_submit_button(&quot;Submit&quot;)
+
+if submitted:
+    st.success(f&quot;Welcome {name}, age {age}&quot;)</code></pre></div>
+    <h4>Validate before acting</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+with st.form(&quot;login&quot;):
+    email = st.text_input(&quot;Email&quot;)
+    ok = st.form_submit_button(&quot;Sign in&quot;)
+
+if ok:
+    if &quot;@&quot; not in email:
+        st.error(&quot;Please enter a valid email&quot;)
+    else:
+        st.success(f&quot;Signed in as {email}&quot;)</code></pre></div>
+    <h4>Clear on submit</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+with st.form(&quot;note&quot;, clear_on_submit=True):
+    note = st.text_area(&quot;Note&quot;)
+    saved = st.form_submit_button(&quot;Save&quot;)
+
+if saved:
+    st.write(&quot;Saved:&quot;, note)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Parameter panels for a model demo are best in a form, so the (possibly slow) prediction only runs once when the user submits, not on every keystroke.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import streamlit as st
+
+with st.form(&quot;params&quot;):
+    lr = st.slider(&quot;Learning rate&quot;, 0.001, 1.0, 0.1)
+    epochs = st.number_input(&quot;Epochs&quot;, 1, 100, 10)
+    run = st.form_submit_button(&quot;Train&quot;)
+
+if run:
+    st.write(f&quot;Training with lr={lr}, epochs={epochs} ...&quot;)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Signup Form</div><div class="pd">Build a form with a name field and an age number_input, plus a submit button; on submit, show a success message echoing the values. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p25" class="language-python">import streamlit as st
+
+# TODO: with st.form(...): add text_input, number_input, and form_submit_button
+#       then, if submitted, st.success(...) with the values
+st.title(&quot;Sign up&quot;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Group inputs in a with st.form(...) block</label></li>
+<li><label><input type="checkbox"> End the form with st.form_submit_button</label></li>
+<li><label><input type="checkbox"> Validate inputs and branch on the submitted flag</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s26">
+  <div class="card-header" onclick="toggle('s26')">
+    <span>27. Challenge: Upload & Download</span>
+    <span class="arrow" id="arr-s26">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s26" style="display:none">
+    <p class="desc">file_uploader takes data in; download_button sends results back out — the two ends of a data app. Save as app.py and run with streamlit run app.py.</p>
+    <h4>Read an uploaded CSV</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+up = st.file_uploader(&quot;Upload a CSV&quot;, type=&quot;csv&quot;)
+if up is not None:
+    df = pd.read_csv(up)
+    st.write(&quot;Rows:&quot;, len(df))
+    st.dataframe(df.head())</code></pre></div>
+    <h4>Offer a download</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3], &quot;y&quot;: [4, 5, 6]})
+st.download_button(&quot;Download CSV&quot;, df.to_csv(index=False), &quot;data.csv&quot;, &quot;text/csv&quot;)</code></pre></div>
+    <h4>Round-trip: upload, transform, download</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+up = st.file_uploader(&quot;CSV&quot;, type=&quot;csv&quot;)
+if up is not None:
+    df = pd.read_csv(up)
+    df[&quot;total&quot;] = df.sum(axis=1, numeric_only=True)
+    st.download_button(&quot;Download result&quot;, df.to_csv(index=False), &quot;result.csv&quot;)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">A self-serve cleaning tool: users upload a messy CSV, the app applies fixed transformations, and they download the cleaned file — no backend required.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+up = st.file_uploader(&quot;Raw data&quot;, type=&quot;csv&quot;)
+if up is not None:
+    df = pd.read_csv(up).dropna().drop_duplicates()
+    st.write(&quot;Cleaned rows:&quot;, len(df))
+    st.download_button(&quot;Download clean CSV&quot;, df.to_csv(index=False), &quot;clean.csv&quot;)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Cleaner</div><div class="pd">Build an app that uploads a CSV, drops missing rows and duplicates, shows the cleaned row count, and offers the cleaned CSV as a download. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p26" class="language-python">import streamlit as st
+import pandas as pd
+
+up = st.file_uploader(&quot;Upload CSV&quot;, type=&quot;csv&quot;)
+# TODO: if up is not None: read it, dropna().drop_duplicates(),
+#       show the row count, and add a st.download_button for the cleaned CSV
+st.title(&quot;CSV cleaner&quot;)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Accept a file with st.file_uploader(type=&#x27;csv&#x27;) and guard for None</label></li>
+<li><label><input type="checkbox"> Read it into pandas and show a preview</label></li>
+<li><label><input type="checkbox"> Return a result with st.download_button(label, data, filename)</label></li></ul></div>
   </div>
 </div>
 </main>

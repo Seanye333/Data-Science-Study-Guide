@@ -5243,6 +5243,120 @@ st.title("Sales dashboard")'''
         },
     },
 
+    {
+        "title": "Challenge: Forms",
+        "desc": "A form batches several widgets and only reruns the script when the user clicks Submit — ideal for multi-field input. Save as app.py and run with streamlit run app.py.",
+        "code1_title": "A submit form",
+        "code1": '''import streamlit as st
+
+with st.form("signup"):
+    name = st.text_input("Name")
+    age = st.number_input("Age", min_value=0, max_value=120, value=30)
+    submitted = st.form_submit_button("Submit")
+
+if submitted:
+    st.success(f"Welcome {name}, age {age}")''',
+        "code2_title": "Validate before acting",
+        "code2": '''import streamlit as st
+
+with st.form("login"):
+    email = st.text_input("Email")
+    ok = st.form_submit_button("Sign in")
+
+if ok:
+    if "@" not in email:
+        st.error("Please enter a valid email")
+    else:
+        st.success(f"Signed in as {email}")''',
+        "code3_title": "Clear on submit",
+        "code3": '''import streamlit as st
+
+with st.form("note", clear_on_submit=True):
+    note = st.text_area("Note")
+    saved = st.form_submit_button("Save")
+
+if saved:
+    st.write("Saved:", note)''',
+        "rw_scenario": "Parameter panels for a model demo are best in a form, so the (possibly slow) prediction only runs once when the user submits, not on every keystroke.",
+        "rw_code": '''import streamlit as st
+
+with st.form("params"):
+    lr = st.slider("Learning rate", 0.001, 1.0, 0.1)
+    epochs = st.number_input("Epochs", 1, 100, 10)
+    run = st.form_submit_button("Train")
+
+if run:
+    st.write(f"Training with lr={lr}, epochs={epochs} ...")''',
+        "todos": [
+            "Group inputs in a with st.form(...) block",
+            "End the form with st.form_submit_button",
+            "Validate inputs and branch on the submitted flag",
+        ],
+        "practice": {
+            "title": "Signup Form",
+            "desc": "Build a form with a name field and an age number_input, plus a submit button; on submit, show a success message echoing the values. Save as app.py and run with streamlit run app.py.",
+            "starter": '''import streamlit as st
+
+# TODO: with st.form(...): add text_input, number_input, and form_submit_button
+#       then, if submitted, st.success(...) with the values
+st.title("Sign up")'''
+        },
+    },
+
+    {
+        "title": "Challenge: Upload & Download",
+        "desc": "file_uploader takes data in; download_button sends results back out — the two ends of a data app. Save as app.py and run with streamlit run app.py.",
+        "code1_title": "Read an uploaded CSV",
+        "code1": '''import streamlit as st
+import pandas as pd
+
+up = st.file_uploader("Upload a CSV", type="csv")
+if up is not None:
+    df = pd.read_csv(up)
+    st.write("Rows:", len(df))
+    st.dataframe(df.head())''',
+        "code2_title": "Offer a download",
+        "code2": '''import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({"x": [1, 2, 3], "y": [4, 5, 6]})
+st.download_button("Download CSV", df.to_csv(index=False), "data.csv", "text/csv")''',
+        "code3_title": "Round-trip: upload, transform, download",
+        "code3": '''import streamlit as st
+import pandas as pd
+
+up = st.file_uploader("CSV", type="csv")
+if up is not None:
+    df = pd.read_csv(up)
+    df["total"] = df.sum(axis=1, numeric_only=True)
+    st.download_button("Download result", df.to_csv(index=False), "result.csv")''',
+        "rw_scenario": "A self-serve cleaning tool: users upload a messy CSV, the app applies fixed transformations, and they download the cleaned file — no backend required.",
+        "rw_code": '''import streamlit as st
+import pandas as pd
+
+up = st.file_uploader("Raw data", type="csv")
+if up is not None:
+    df = pd.read_csv(up).dropna().drop_duplicates()
+    st.write("Cleaned rows:", len(df))
+    st.download_button("Download clean CSV", df.to_csv(index=False), "clean.csv")''',
+        "todos": [
+            "Accept a file with st.file_uploader(type='csv') and guard for None",
+            "Read it into pandas and show a preview",
+            "Return a result with st.download_button(label, data, filename)",
+        ],
+        "practice": {
+            "title": "CSV Cleaner",
+            "desc": "Build an app that uploads a CSV, drops missing rows and duplicates, shows the cleaned row count, and offers the cleaned CSV as a download. Save as app.py and run with streamlit run app.py.",
+            "starter": '''import streamlit as st
+import pandas as pd
+
+up = st.file_uploader("Upload CSV", type="csv")
+# TODO: if up is not None: read it, dropna().drop_duplicates(),
+#       show the row count, and add a st.download_button for the cleaned CSV
+st.title("CSV cleaner")'''
+        },
+    },
+
 ]
 
 

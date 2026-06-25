@@ -44,6 +44,8 @@
 <a href="#s22">23. Performance: Polars vs Pandas</a>
 <a href="#s23">24. Polars Production Patterns</a>
 <a href="#s24">Practice Lab: Expressions & Lazy Queries</a>
+<a href="#s25">Challenge: Joins</a>
+<a href="#s26">Challenge: Window Over Groups</a>
 
 </nav>
 <main>
@@ -4667,6 +4669,105 @@ print(result)</code></pre></div></div>
 <li><label><input type="checkbox"> Aggregate per group with group_by(...).agg(...)</label></li>
 <li><label><input type="checkbox"> Build a lazy query with .lazy() and run it with .collect()</label></li>
 <li><label><input type="checkbox"> Filter rows with an expression like pl.col(&#x27;val&#x27;).gt(threshold)</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s25">
+  <div class="card-header" onclick="toggle('s25')">
+    <span>26. Challenge: Joins</span>
+    <span class="arrow" id="arr-s25">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s25" style="display:none">
+    <p class="desc">Joining frames on a key is the same idea as SQL joins, with Polars' fast columnar engine. Polars is not in the in-page runner, so run these locally.</p>
+    <h4>Inner join</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+print(vals.join(names, on="id", how="inner"))</code></pre></div>
+    <h4>Left join keeps all left rows</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+print(vals.join(names, on="id", how="left"))</code></pre></div>
+    <h4>Join then select</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+out = vals.join(names, on="id", how="inner").select(["name", "val"])
+print(out)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Enriching a fact table with dimension attributes is a join; choose inner vs left depending on whether unmatched rows should be dropped or kept.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+
+orders = pl.DataFrame({"order": [1, 2, 3], "cust": [1, 1, 2]})
+cust = pl.DataFrame({"cust": [1, 2], "tier": ["gold", "silver"]})
+print(orders.join(cust, on="cust", how="left"))</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Enrich With Names</div><div class="pd">Inner-join the two frames below on 'id' and select just 'name' and 'val'. Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p25" class="language-python">import polars as pl
+
+vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
+names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+
+# TODO: inner-join on id, then select ["name", "val"]
+result = vals
+print(result)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Join two DataFrames on a key with df.join(other, on=..., how=...)</label></li>
+<li><label><input type="checkbox"> Pick how=&#x27;inner&#x27; to drop unmatched rows, how=&#x27;left&#x27; to keep them</label></li>
+<li><label><input type="checkbox"> Chain .select after a join to keep only the columns you need</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s26">
+  <div class="card-header" onclick="toggle('s26')">
+    <span>27. Challenge: Window Over Groups</span>
+    <span class="arrow" id="arr-s26">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s26" style="display:none">
+    <p class="desc">Window expressions compute per-group results without collapsing rows — like SQL window functions. Run locally.</p>
+    <h4>Sort within groups</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+print(df.sort(["g", "v"]))</code></pre></div>
+    <h4>Cumulative sum per group</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+out = df.sort(["g", "v"]).with_columns(pl.col("v").cum_sum().over("g").alias("running"))
+print(out)</code></pre></div>
+    <h4>Group total alongside rows</h4><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+out = df.with_columns(pl.col("v").sum().over("g").alias("group_total"))
+print(out)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Adding a 'share of group total' column needs the group total on every row, which .over(group) provides without a separate aggregate and join.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"], "v": [2, 6, 4]})
+out = df.with_columns((pl.col("v") / pl.col("v").sum().over("g")).alias("share"))
+print(out)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Total Per Group</div><div class="pd">Add a 'running' column with the cumulative sum of 'v' within each group 'g' (sort by g then v first). Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p26" class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
+
+# TODO: sort by ["g", "v"], then add pl.col("v").cum_sum().over("g") as "running"
+result = df
+print(result)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Sort within groups with df.sort([group, value])</label></li>
+<li><label><input type="checkbox"> Use expr.over(group) to compute a per-group running or total value</label></li>
+<li><label><input type="checkbox"> Keep all rows: window expressions do not collapse the frame</label></li></ul></div>
   </div>
 </div>
 </main>
