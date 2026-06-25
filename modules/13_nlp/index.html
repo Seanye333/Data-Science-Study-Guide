@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 27 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 29 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Tokenization &amp; Stopword Removal</a></li>
@@ -39,8 +39,10 @@
     <li><a href="#s23" onclick="act(this,event)">24. NLP Pipeline &amp; Production Deployment</a></li>
     <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tokenization &amp; N-grams</a></li>
     <li><a href="#s25" onclick="act(this,event)">Challenge: Stopword Removal</a></li>
-    <li><a href="#s26" onclick="act(this,event)">Challenge: Term-Frequency Vector</a></li></ul></aside>
-<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
+    <li><a href="#s26" onclick="act(this,event)">Challenge: Term-Frequency Vector</a></li>
+    <li><a href="#s27" onclick="act(this,event)">Challenge: Character N-grams</a></li>
+    <li><a href="#s28" onclick="act(this,event)">Challenge: Jaccard Similarity</a></li></ul></aside>
+<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">29 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
 
 text = &#x27;  Hello, World! This is NLP 101... Check &lt;b&gt;this&lt;/b&gt; out!  &#x27;
 
@@ -3190,7 +3192,28 @@ def tf_vector(tokens, vocab):
 print(tf_vector([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]))</code></pre></div><template class="ho-check">assert tf_vector([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]) == [3, 1, 1, 0], &quot;counts in vocab order, 0 for unseen &#x27;d&#x27;&quot;
 assert tf_vector([], [&quot;a&quot;, &quot;b&quot;]) == [0, 0], &quot;no tokens yields all zeros&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count tokens with collections.Counter</label></li>
-<li><label><input type="checkbox"> Read counts off in vocabulary order (0 for unseen words)</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Read counts off in vocabulary order (0 for unseen words)</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>Challenge: Character N-grams</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Character n-grams capture sub-word structure (useful for fuzzy matching and typo-tolerant search). Stdlib-only, runs in the browser. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Sliding character windows</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">s = &quot;hello&quot;
+bigrams = [s[i:i+2] for i in range(len(s) - 1)]
+print(bigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Char N-grams</div><div class="pd">Implement char_ngrams(s, n): drop spaces, then return the list of length-n character substrings in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">def char_ngrams(s, n):
+    s = s.replace(&quot; &quot;, &quot;&quot;)
+    # TODO: return [s[i:i+n] for i in range(len(s) - n + 1)]
+    return []
+
+print(char_ngrams(&quot;hello&quot;, 2))</code></pre></div><template class="ho-check">assert char_ngrams(&quot;hello&quot;, 2) == [&quot;he&quot;, &quot;el&quot;, &quot;ll&quot;, &quot;lo&quot;], &quot;consecutive 2-grams&quot;
+assert char_ngrams(&quot;ab&quot;, 3) == [], &quot;n larger than the string yields nothing&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Slide a window of size n across the string</label></li>
+<li><label><input type="checkbox"> There are len(s) - n + 1 character n-grams</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Jaccard Similarity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Jaccard similarity compares two sets of tokens by overlap — a quick document-similarity measure. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Intersection over union</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">a = {&quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;}
+b = {&quot;the&quot;, &quot;cat&quot;, &quot;ran&quot;}
+print(&quot;jaccard:&quot;, len(a &amp; b) / len(a | b))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jaccard</div><div class="pd">Implement jaccard(a, b): return the Jaccard similarity of two token collections (use sets). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">def jaccard(a, b):
+    A, B = set(a), set(b)
+    # TODO: |A &amp; B| / |A | B|  (return 1.0 if both are empty)
+    return 0.0
+
+print(jaccard([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;b&quot;, &quot;c&quot;, &quot;d&quot;]))</code></pre></div><template class="ho-check">assert jaccard([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;b&quot;, &quot;c&quot;, &quot;d&quot;]) == 2 / 4, &quot;2 shared of 4 distinct&quot;
+assert jaccard([&quot;a&quot;], [&quot;a&quot;]) == 1.0, &quot;identical sets -&gt; 1&quot;
+assert jaccard([&quot;a&quot;], [&quot;b&quot;]) == 0.0, &quot;no overlap -&gt; 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Jaccard = |A intersect B| / |A union B|</label></li>
+<li><label><input type="checkbox"> Convert token lists to sets first</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

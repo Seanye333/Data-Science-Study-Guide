@@ -701,6 +701,14 @@
    {
     "t": "Challenge: Share of Total",
     "a": "s34"
+   },
+   {
+    "t": "Challenge: Normalize for Plotting",
+    "a": "s35"
+   },
+   {
+    "t": "Challenge: Bin Midpoints",
+    "a": "s36"
    }
   ]
  },
@@ -848,6 +856,14 @@
    {
     "t": "Challenge: Pivot Table",
     "a": "s34"
+   },
+   {
+    "t": "Challenge: Value Counts",
+    "a": "s35"
+   },
+   {
+    "t": "Challenge: Group Medians",
+    "a": "s36"
    }
   ]
  },
@@ -1784,6 +1800,14 @@
    {
     "t": "Challenge: Term-Frequency Vector",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: Character N-grams",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Jaccard Similarity",
+    "a": "s28"
    }
   ]
  },
@@ -2116,6 +2140,14 @@
    {
     "t": "Challenge: Bayes Update",
     "a": "s12"
+   },
+   {
+    "t": "Challenge: Expected Value",
+    "a": "s13"
+   },
+   {
+    "t": "Challenge: Log-Odds",
+    "a": "s14"
    }
   ]
  }

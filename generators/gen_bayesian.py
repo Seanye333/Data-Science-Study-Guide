@@ -1773,6 +1773,69 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Expected Value",
+"desc": "The expected value of a discrete distribution is the probability-weighted average of its outcomes. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Weighted average", "code": '''import numpy as np
+
+values = np.array([1, 2, 3])
+probs = np.array([0.2, 0.3, 0.5])
+print("E[X]:", float(values @ probs))'''},
+],
+"todos": [
+    "E[X] = sum(value * probability)",
+    "A dot product does this in one step",
+],
+"practice": {
+    "title": "Expected Value",
+    "desc": "Implement expected_value(values, probs): return the expected value of a discrete distribution. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def expected_value(values, probs):
+    # TODO: probability-weighted sum of the values
+    return 0.0
+
+print(expected_value([1, 2, 3], [0.2, 0.3, 0.5]))''',
+    "check": '''assert abs(expected_value([1, 2, 3], [0.2, 0.3, 0.5]) - 2.3) < 1e-9, "0.2*1 + 0.3*2 + 0.5*3 = 2.3"
+assert abs(expected_value([10, 20], [0.5, 0.5]) - 15.0) < 1e-9, "fair average of 10 and 20"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Log-Odds",
+"desc": "Log-odds (the logit) maps a probability to the real line — the link function behind logistic regression. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Probability to logit", "code": '''import numpy as np
+
+for p in [0.25, 0.5, 0.75]:
+    print(p, "->", round(float(np.log(p / (1 - p))), 3))'''},
+],
+"todos": [
+    "Odds = p / (1 - p); log-odds is its natural log",
+    "p = 0.5 gives log-odds 0; above 0.5 is positive",
+],
+"practice": {
+    "title": "Logit",
+    "desc": "Implement log_odds(p): return the natural log of the odds p / (1 - p). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def log_odds(p):
+    p = float(p)
+    # TODO: return ln( p / (1 - p) )
+    return 0.0
+
+print(round(log_odds(0.75), 4))''',
+    "check": '''import numpy as np
+assert abs(log_odds(0.5)) < 1e-12, "p=0.5 -> log-odds 0"
+assert log_odds(0.75) > 0, "p above 0.5 -> positive log-odds"
+assert log_odds(0.25) < 0, "p below 0.5 -> negative log-odds"
+assert abs(log_odds(0.8) - np.log(0.8 / 0.2)) < 1e-9, "matches ln(odds)"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 

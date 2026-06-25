@@ -2061,6 +2061,61 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Character N-grams",
+"desc": "Character n-grams capture sub-word structure (useful for fuzzy matching and typo-tolerant search). Stdlib-only, runs in the browser. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Sliding character windows", "code": '''s = "hello"
+bigrams = [s[i:i+2] for i in range(len(s) - 1)]
+print(bigrams)'''},
+],
+"todos": [
+    "Slide a window of size n across the string",
+    "There are len(s) - n + 1 character n-grams",
+],
+"practice": {
+    "title": "Char N-grams",
+    "desc": "Implement char_ngrams(s, n): drop spaces, then return the list of length-n character substrings in order. Fill in the function, press Run, then press Check.",
+    "starter": '''def char_ngrams(s, n):
+    s = s.replace(" ", "")
+    # TODO: return [s[i:i+n] for i in range(len(s) - n + 1)]
+    return []
+
+print(char_ngrams("hello", 2))''',
+    "check": '''assert char_ngrams("hello", 2) == ["he", "el", "ll", "lo"], "consecutive 2-grams"
+assert char_ngrams("ab", 3) == [], "n larger than the string yields nothing"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Jaccard Similarity",
+"desc": "Jaccard similarity compares two sets of tokens by overlap — a quick document-similarity measure. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Intersection over union", "code": '''a = {"the", "cat", "sat"}
+b = {"the", "cat", "ran"}
+print("jaccard:", len(a & b) / len(a | b))'''},
+],
+"todos": [
+    "Jaccard = |A intersect B| / |A union B|",
+    "Convert token lists to sets first",
+],
+"practice": {
+    "title": "Jaccard",
+    "desc": "Implement jaccard(a, b): return the Jaccard similarity of two token collections (use sets). Fill in the function, press Run, then press Check.",
+    "starter": '''def jaccard(a, b):
+    A, B = set(a), set(b)
+    # TODO: |A & B| / |A | B|  (return 1.0 if both are empty)
+    return 0.0
+
+print(jaccard(["a", "b", "c"], ["b", "c", "d"]))''',
+    "check": '''assert jaccard(["a", "b", "c"], ["b", "c", "d"]) == 2 / 4, "2 shared of 4 distinct"
+assert jaccard(["a"], ["a"]) == 1.0, "identical sets -> 1"
+assert jaccard(["a"], ["b"]) == 0.0, "no overlap -> 0"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 if __name__ == "__main__":

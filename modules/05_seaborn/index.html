@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 35 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 37 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup &amp; Themes</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Distribution Plots</a></li>
@@ -47,8 +47,10 @@
     <li><a href="#s31" onclick="act(this,event)">32. Seaborn Dashboard Composition</a></li>
     <li><a href="#s32" onclick="act(this,event)">Practice Lab: Distributions &amp; Groups</a></li>
     <li><a href="#s33" onclick="act(this,event)">Challenge: Correlation Heatmap</a></li>
-    <li><a href="#s34" onclick="act(this,event)">Challenge: Pivot Table</a></li></ul></aside>
-<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">35 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s34" onclick="act(this,event)">Challenge: Pivot Table</a></li>
+    <li><a href="#s35" onclick="act(this,event)">Challenge: Value Counts</a></li>
+    <li><a href="#s36" onclick="act(this,event)">Challenge: Group Medians</a></li></ul></aside>
+<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">37 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5107,7 +5109,49 @@ assert np.isclose(pm.loc[&quot;a&quot;, &quot;p&quot;], 1.0), &quot;group (a, p)
 assert np.isclose(pm.loc[&quot;a&quot;, &quot;q&quot;], 3.0), &quot;group (a, q) mean is 3&quot;
 assert np.isclose(pm.loc[&quot;b&quot;, &quot;p&quot;], 5.0), &quot;group (b, p) mean is 5&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use DataFrame.pivot_table with index, columns, values and aggfunc=&#x27;mean&#x27;</label></li>
-<li><label><input type="checkbox"> Read a cell with table.loc[row, col]</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Read a cell with table.loc[row, col]</label></li></ul></div></div></div><div class="topic" id="s35"><div class="th" onclick="tog(this)"><span>Challenge: Value Counts</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Counting category frequencies is the first step before any count plot. The Check grades the data. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Count and plot categories</span><button onclick="cp('c35_0')">Copy</button></div><pre><code id="c35_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+s = pd.Series([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;])
+vc = s.value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); ax.set_title(&quot;Counts&quot;)
+plt.show()
+print(vc.to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sorted Value Counts</div><div class="pd">Implement value_counts_sorted(s): return the category counts sorted by category, then bar-plot them. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def value_counts_sorted(s):
+    s = pd.Series(s)
+    # TODO: value_counts(), then sort_index()
+    return s
+
+vc = value_counts_sorted([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;])
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); plt.show()
+print(vc.to_dict())</code></pre></div><template class="ho-check">vc = value_counts_sorted([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;])
+assert vc[&quot;a&quot;] == 3 and vc[&quot;b&quot;] == 1 and vc[&quot;c&quot;] == 1, &quot;frequencies per category&quot;
+assert list(vc.index) == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], &quot;sorted by category&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count categories with Series.value_counts()</label></li>
+<li><label><input type="checkbox"> sort_index() puts categories in a stable order</label></li></ul></div></div></div><div class="topic" id="s36"><div class="th" onclick="tog(this)"><span>Challenge: Group Medians</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The median is a robust group summary — less swayed by outliers than the mean. The Check grades the data. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Median per group</span><button onclick="cp('c36_0')">Copy</button></div><pre><code id="c36_0" class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2.0, 100.0, 5.0]})
+print(df.groupby(&quot;g&quot;)[&quot;v&quot;].median().to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Median</div><div class="pd">Implement group_median(df, by, col): return the median of `col` for each group in `by`, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def group_median(df, by, col):
+    # TODO: return df.groupby(by)[col].median()
+    return df
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 3.0, 5.0]})
+gm = group_median(df, &quot;g&quot;, &quot;v&quot;)
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); plt.show()
+print(gm.to_dict())</code></pre></div><template class="ho-check">import numpy as np
+gm = group_median(pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 3.0, 5.0]}), &quot;g&quot;, &quot;v&quot;)
+assert np.isclose(gm[&quot;a&quot;], 2.0), &quot;median of [1, 3] is 2&quot;
+assert np.isclose(gm[&quot;b&quot;], 5.0), &quot;single value is its own median&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Group with df.groupby(by)[col]</label></li>
+<li><label><input type="checkbox"> Aggregate with .median() for a robust center</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

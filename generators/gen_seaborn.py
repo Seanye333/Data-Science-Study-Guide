@@ -2964,6 +2964,82 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Value Counts",
+"desc": "Counting category frequencies is the first step before any count plot. The Check grades the data. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Count and plot categories", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+s = pd.Series(["a", "b", "a", "c", "a", "b"])
+vc = s.value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); ax.set_title("Counts")
+plt.show()
+print(vc.to_dict())'''},
+],
+"todos": [
+    "Count categories with Series.value_counts()",
+    "sort_index() puts categories in a stable order",
+],
+"practice": {
+    "title": "Sorted Value Counts",
+    "desc": "Implement value_counts_sorted(s): return the category counts sorted by category, then bar-plot them. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def value_counts_sorted(s):
+    s = pd.Series(s)
+    # TODO: value_counts(), then sort_index()
+    return s
+
+vc = value_counts_sorted(["a", "b", "a", "c", "a"])
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); plt.show()
+print(vc.to_dict())''',
+    "check": '''vc = value_counts_sorted(["a", "b", "a", "c", "a"])
+assert vc["a"] == 3 and vc["b"] == 1 and vc["c"] == 1, "frequencies per category"
+assert list(vc.index) == ["a", "b", "c"], "sorted by category"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Group Medians",
+"desc": "The median is a robust group summary — less swayed by outliers than the mean. The Check grades the data. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Median per group", "code": '''import pandas as pd
+
+df = pd.DataFrame({"g": ["a", "a", "a", "b"], "v": [1.0, 2.0, 100.0, 5.0]})
+print(df.groupby("g")["v"].median().to_dict())'''},
+],
+"todos": [
+    "Group with df.groupby(by)[col]",
+    "Aggregate with .median() for a robust center",
+],
+"practice": {
+    "title": "Group Median",
+    "desc": "Implement group_median(df, by, col): return the median of `col` for each group in `by`, then bar-plot it. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def group_median(df, by, col):
+    # TODO: return df.groupby(by)[col].median()
+    return df
+
+df = pd.DataFrame({"g": ["a", "a", "b"], "v": [1.0, 3.0, 5.0]})
+gm = group_median(df, "g", "v")
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); plt.show()
+print(gm.to_dict())''',
+    "check": '''import numpy as np
+gm = group_median(pd.DataFrame({"g": ["a", "a", "b"], "v": [1.0, 3.0, 5.0]}), "g", "v")
+assert np.isclose(gm["a"], 2.0), "median of [1, 3] is 2"
+assert np.isclose(gm["b"], 5.0), "single value is its own median"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
