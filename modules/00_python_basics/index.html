@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 35 topics</p>
+  <div class="sbh"><h2>🐍 Python Basics</h2><p>Study Guide &bull; 36 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Variables &amp; Data Types</a></li>
@@ -50,11 +50,12 @@
     <li><a href="#s31" onclick="act(this,event)">32. Virtual Environments &amp; Package Management</a></li>
     <li><a href="#s32" onclick="act(this,event)">33. Introspection &amp; Metaprogramming</a></li>
     <li><a href="#s33" onclick="act(this,event)">34. Advanced Type Hints</a></li>
-    <li><a href="#s34" onclick="act(this,event)">35. Practice Lab: Collections &amp; Counting</a></li></ul>
+    <li><a href="#s34" onclick="act(this,event)">35. Practice Lab: Collections &amp; Counting</a></li>
+    <li><a href="#s35" onclick="act(this,event)">36. Challenge: Strings &amp; Sequences</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🐍 Python Basics</h1>
-  <p class="ps">35 topics &bull; Click any card to expand</p>
+  <p class="ps">36 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Variables &amp; Data Types</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Python is dynamically typed — you don&#x27;t declare types, Python infers them. The core types are int, float, str, bool, and NoneType.</p><div class="code-block"><div class="ch"><span>Basic types and type checking</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># Integers
 age    = 25
 year   = 2024
@@ -5515,7 +5516,26 @@ assert len(top) == 2 and top[1][1] == 2, &quot;second place should have count 2&
 assert top[1][0] == &quot;blue&quot;, &quot;ties break alphabetically, so &#x27;blue&#x27; comes before &#x27;green&#x27;&quot;</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count word frequencies in a sentence with collections.Counter and read off the two most common</label></li>
 <li><label><input type="checkbox"> Group a list of (key, value) pairs into a dict of lists using collections.defaultdict</label></li>
 <li><label><input type="checkbox"> Sort items by descending count, breaking ties alphabetically, with sorted(key=lambda kv: (-kv[1], kv[0]))</label></li>
-<li><label><input type="checkbox"> Return only the top-N entries of a frequency table</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Return only the top-N entries of a frequency table</label></li></ul></div></div></div><div class="topic" id="s35"><div class="th" onclick="tog(this)"><span>36. Challenge: Strings &amp; Sequences</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Two classic interview-style exercises using only built-ins. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Normalize and reverse</span><button onclick="cp('c35_0')">Copy</button></div><pre><code id="c35_0" class="language-python">s = &quot;A man, a plan, a canal: Panama&quot;
+cleaned = [c.lower() for c in s if c.isalnum()]
+print(&quot;cleaned:&quot;, &quot;&quot;.join(cleaned))
+print(&quot;reversed == cleaned:&quot;, cleaned == cleaned[::-1])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Palindrome &amp; Unique</div><div class="pd">Implement is_palindrome(s) (ignoring case and non-alphanumerics) and unique(seq) (deduplicate while preserving first-seen order). Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">def is_palindrome(s):
+    # TODO: keep only alphanumerics, lowercase, and compare to the reverse
+    return False
+
+def unique(seq):
+    # TODO: return items in order, dropping later duplicates (use a &#x27;seen&#x27; set)
+    return []
+
+print(is_palindrome(&quot;A man, a plan, a canal: Panama&quot;))
+print(unique([3, 1, 3, 2, 1, 4]))</code></pre></div><template class="ho-check">assert is_palindrome(&quot;A man, a plan, a canal: Panama&quot;) is True, &quot;ignores case and punctuation&quot;
+assert is_palindrome(&quot;hello&quot;) is False, &quot;&#x27;hello&#x27; is not a palindrome&quot;
+assert is_palindrome(&quot;&quot;) is True, &quot;empty string is a palindrome&quot;
+assert unique([3, 1, 3, 2, 1, 4]) == [3, 1, 2, 4], &quot;keep first occurrence, preserve order&quot;
+assert unique([]) == [], &quot;empty stays empty&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Filter a string to alphanumerics and lowercase with a comprehension</label></li>
+<li><label><input type="checkbox"> Test for a palindrome by comparing a list to its reverse (seq[::-1])</label></li>
+<li><label><input type="checkbox"> Deduplicate a sequence while preserving order using a &#x27;seen&#x27; set</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

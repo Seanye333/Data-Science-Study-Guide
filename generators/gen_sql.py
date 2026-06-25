@@ -2767,6 +2767,57 @@ print("All checks passed ✓")'''
 }
 },
 
+{
+"title": "34. Challenge: Joins & Aggregation",
+"desc": "Join two tables and aggregate — the bread and butter of analytics SQL. Runs in-browser via SQLite. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Inner join + group by", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE customers(id INT, name TEXT);
+CREATE TABLE orders(id INT, cust_id INT, amount INT);
+INSERT INTO customers VALUES (1,'Ada'),(2,'Bo'),(3,'Cy');
+INSERT INTO orders VALUES (1,1,100),(2,1,50),(3,2,200);
+""")
+rows = con.execute("""
+SELECT c.name, COUNT(o.id) AS n_orders, SUM(o.amount) AS total
+FROM customers c JOIN orders o ON o.cust_id = c.id
+GROUP BY c.name ORDER BY total DESC
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "Join orders to customers on the foreign key with JOIN ... ON",
+    "Aggregate per customer with GROUP BY and SUM/COUNT",
+    "Order the result by the aggregate descending",
+],
+"practice": {
+    "title": "Spend Per Customer",
+    "desc": "Write a query returning (name, total) — each customer's total order amount — highest first. Customers with no orders may be omitted (an inner join is fine). Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE customers(id INT, name TEXT);
+CREATE TABLE orders(id INT, cust_id INT, amount INT);
+INSERT INTO customers VALUES (1,'Ada'),(2,'Bo');
+INSERT INTO orders VALUES (1,1,100),(2,1,50),(3,2,200);
+""")
+
+# TODO: join orders to customers, sum amount per name, order by total desc
+query = """
+SELECT name, 0 AS total FROM customers   -- replace me
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert ("Bo", 200) in rows, "Bo spent 200"
+assert ("Ada", 150) in rows, "Ada spent 100 + 50 = 150"
+assert rows[0] == ("Bo", 200), "highest total comes first"
+assert len(rows) == 2, "one row per customer with orders"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

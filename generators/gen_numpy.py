@@ -2259,6 +2259,40 @@ assert np.array_equal(oh.argmax(axis=1), labels), "argmax of each one-hot row mu
     }
     },
 
+    {
+    "title": "34. Challenge: Running Maximum",
+    "desc": "A quick vectorization challenge. Press Run to see the example, then solve the exercise and press Check.",
+    "examples": [
+        {"label": "Cumulative reductions", "code": '''import numpy as np
+
+a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
+print("cumsum: ", np.cumsum(a).tolist())
+print("cumprod:", np.cumprod(a[:4]).tolist())
+print("cummax: ", np.maximum.accumulate(a).tolist())'''},
+    ],
+    "todos": [
+        "Use np.maximum.accumulate for a running maximum",
+        "Compare it with np.cumsum and np.cumprod",
+    ],
+    "practice": {
+        "title": "Running Maximum",
+        "desc": "Implement running_max(a): return an array where each element is the maximum of all elements up to and including that position (a cumulative max). Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def running_max(a):
+    a = np.asarray(a)
+    # TODO: return the cumulative maximum (hint: np.maximum.accumulate)
+    return a
+
+print(running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist())''',
+        "check": '''assert running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist() == [3, 3, 4, 4, 5, 9, 9, 9], "each element is the max seen so far"
+assert running_max([5]).tolist() == [5], "single element stays itself"
+import numpy as np
+assert np.array_equal(running_max([1, 2, 3]), [1, 2, 3]), "already-increasing input is unchanged"
+print("All checks passed \\u2713")'''
+    }
+    },
+
 ]  # end SECTIONS
 
 

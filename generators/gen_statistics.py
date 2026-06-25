@@ -1911,6 +1911,41 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "26. Challenge: Correlation",
+"desc": "Implement Pearson correlation from scratch — a one-line idea once you see it. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Correlation with NumPy", "code": '''import numpy as np
+
+x = np.array([1, 2, 3, 4, 5], float)
+y = np.array([2, 4, 5, 4, 5], float)
+print("np.corrcoef:", round(float(np.corrcoef(x, y)[0, 1]), 4))'''},
+],
+"todos": [
+    "Center each variable by subtracting its mean",
+    "Pearson r = (xm . ym) / sqrt((xm.xm)(ym.ym))",
+    "Check the bounds: r is +1 for a perfect increasing line, -1 for decreasing",
+],
+"practice": {
+    "title": "Pearson Correlation",
+    "desc": "Implement pearson_corr(x, y) returning Pearson's correlation coefficient (a float in [-1, 1]) without using np.corrcoef. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def pearson_corr(x, y):
+    x = np.asarray(x, float)
+    y = np.asarray(y, float)
+    # TODO: center each, then r = (xm . ym) / sqrt((xm . xm) * (ym . ym))
+    return 0.0
+
+print(round(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]), 4))''',
+    "check": '''assert abs(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]) - 1.0) < 1e-9, "perfect increasing line is +1"
+assert abs(pearson_corr([1, 2, 3], [3, 2, 1]) + 1.0) < 1e-9, "perfect decreasing line is -1"
+r = pearson_corr([1, 2, 3, 4, 5], [2, 4, 5, 4, 5])
+assert -1.0 <= r <= 1.0 and abs(r - 0.7746) < 1e-3, "matches np.corrcoef on the sample"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

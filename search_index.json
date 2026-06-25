@@ -143,6 +143,10 @@
    {
     "t": "35. Practice Lab: Collections & Counting",
     "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Strings & Sequences",
+    "a": "s35"
    }
   ]
  },
@@ -282,6 +286,10 @@
    {
     "t": "33. Practice Lab: Array Challenges",
     "a": "s32"
+   },
+   {
+    "t": "34. Challenge: Running Maximum",
+    "a": "s33"
    }
   ]
  },
@@ -421,6 +429,10 @@
    {
     "t": "33. Practice Lab: Windows & CTEs",
     "a": "s32"
+   },
+   {
+    "t": "34. Challenge: Joins & Aggregation",
+    "a": "s33"
    }
   ]
  },
@@ -1422,6 +1434,10 @@
    {
     "t": "25. Practice Lab: Tests & Z-Scores",
     "a": "s24"
+   },
+   {
+    "t": "26. Challenge: Correlation",
+    "a": "s25"
    }
   ]
  },

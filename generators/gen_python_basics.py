@@ -4215,6 +4215,42 @@ assert top[1][0] == "blue", "ties break alphabetically, so 'blue' comes before '
 }
 },
 
+{
+"title": "36. Challenge: Strings & Sequences",
+"desc": "Two classic interview-style exercises using only built-ins. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Normalize and reverse", "code": '''s = "A man, a plan, a canal: Panama"
+cleaned = [c.lower() for c in s if c.isalnum()]
+print("cleaned:", "".join(cleaned))
+print("reversed == cleaned:", cleaned == cleaned[::-1])'''},
+],
+"todos": [
+    "Filter a string to alphanumerics and lowercase with a comprehension",
+    "Test for a palindrome by comparing a list to its reverse (seq[::-1])",
+    "Deduplicate a sequence while preserving order using a 'seen' set",
+],
+"practice": {
+    "title": "Palindrome & Unique",
+    "desc": "Implement is_palindrome(s) (ignoring case and non-alphanumerics) and unique(seq) (deduplicate while preserving first-seen order). Fill in the functions, press Run, then press Check.",
+    "starter": '''def is_palindrome(s):
+    # TODO: keep only alphanumerics, lowercase, and compare to the reverse
+    return False
+
+def unique(seq):
+    # TODO: return items in order, dropping later duplicates (use a 'seen' set)
+    return []
+
+print(is_palindrome("A man, a plan, a canal: Panama"))
+print(unique([3, 1, 3, 2, 1, 4]))''',
+    "check": '''assert is_palindrome("A man, a plan, a canal: Panama") is True, "ignores case and punctuation"
+assert is_palindrome("hello") is False, "'hello' is not a palindrome"
+assert is_palindrome("") is True, "empty string is a palindrome"
+assert unique([3, 1, 3, 2, 1, 4]) == [3, 1, 2, 4], "keep first occurrence, preserve order"
+assert unique([]) == [], "empty stays empty"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 
