@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 27 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📈 Time Series Analysis</h2><p>Study Guide &bull; 29 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. DateTime Indexing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Resampling &amp; Frequency Conversion</a></li>
@@ -39,8 +39,10 @@
     <li><a href="#s23" onclick="act(this,event)">24. Multivariate Time Series &amp; Prophet</a></li>
     <li><a href="#s24" onclick="act(this,event)">Practice Lab: Rolling &amp; Forecasting</a></li>
     <li><a href="#s25" onclick="act(this,event)">Challenge: Differencing</a></li>
-    <li><a href="#s26" onclick="act(this,event)">Challenge: Weekly Resample</a></li></ul></aside>
-<main class="main"><h1 class="pt">📈 Time Series Analysis</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. DateTime Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas DatetimeIndex enables powerful time-based selection, alignment, and operations. Use pd.to_datetime() to parse dates and set_index() to create a time series.</p><div class="code-block"><div class="ch"><span>Creating a DatetimeIndex</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
+    <li><a href="#s26" onclick="act(this,event)">Challenge: Weekly Resample</a></li>
+    <li><a href="#s27" onclick="act(this,event)">Challenge: Exponential Moving Average</a></li>
+    <li><a href="#s28" onclick="act(this,event)">Challenge: Rolling Volatility</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Time Series Analysis</h1><p class="ps">29 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. DateTime Indexing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas DatetimeIndex enables powerful time-based selection, alignment, and operations. Use pd.to_datetime() to parse dates and set_index() to create a time series.</p><div class="code-block"><div class="ch"><span>Creating a DatetimeIndex</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -3440,7 +3442,35 @@ def weekly_mean(values):
 print(weekly_mean([1, 2, 3, 4, 5, 6, 7, 8]).tolist())</code></pre></div><template class="ho-check">wm = weekly_mean([1, 2, 3, 4, 5, 6, 7, 8])
 assert wm.tolist() == [4.0, 8.0], &quot;week 1 (Jan 1-7) mean is 4, week 2 (Jan 8) mean is 8&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Attach a daily DatetimeIndex with pd.date_range(..., freq=&#x27;D&#x27;)</label></li>
-<li><label><input type="checkbox"> Aggregate to weekly means with .resample(&#x27;W&#x27;).mean()</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Aggregate to weekly means with .resample(&#x27;W&#x27;).mean()</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>Challenge: Exponential Moving Average</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">An EMA weights recent points more than old ones, reacting faster than a simple moving average. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>EMA with ewm</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import pandas as pd
+
+s = pd.Series([1, 2, 3, 4, 5], dtype=float)
+print(s.ewm(alpha=0.5, adjust=False).mean().round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EMA</div><div class="pd">Implement ema(s, alpha): return the exponential moving average (recursive form, adjust=False). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import pandas as pd
+
+def ema(s, alpha):
+    s = pd.Series(s, dtype=float)
+    # TODO: return the EMA using ewm(alpha=alpha, adjust=False).mean()
+    return s
+
+print(ema([1, 2, 3], 0.5).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(ema([1, 2, 3], 0.5).tolist(), [1.0, 1.5, 2.25]), &quot;recursive EMA: e_t = a*x_t + (1-a)*e_{t-1}&quot;
+assert abs(ema([5, 5, 5], 0.3).iloc[-1] - 5.0) &lt; 1e-9, &quot;constant input stays constant&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Series.ewm(alpha=...).mean() with adjust=False for a recursive EMA</label></li>
+<li><label><input type="checkbox"> Higher alpha reacts faster to recent values</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Rolling Volatility</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A rolling standard deviation tracks how a series&#x27; variability changes over time. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Rolling std</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import pandas as pd
+
+s = pd.Series([1, 2, 3, 10, 3, 2], dtype=float)
+print(s.rolling(3).std(ddof=0).round(3).dropna().tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Std</div><div class="pd">Implement rolling_std(s, w): return the rolling population std over window w, with leading NaNs dropped. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import pandas as pd
+
+def rolling_std(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).std(ddof=0), then drop NaNs
+    return s
+
+print(rolling_std([1, 2, 3, 4], 2).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(rolling_std([1, 2, 3, 4], 2).tolist(), [0.5, 0.5, 0.5]), &quot;each adjacent pair has population std 0.5&quot;
+assert len(rolling_std([1, 2, 3, 4, 5], 3)) == 3, &quot;n - w + 1 windows remain&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Series.rolling(window).std(ddof=0)</label></li>
+<li><label><input type="checkbox"> Drop the leading NaNs before the first full window</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

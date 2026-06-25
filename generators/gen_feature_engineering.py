@@ -1960,6 +1960,69 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Binning",
+"desc": "Binning turns a continuous feature into ordinal buckets — useful for trees, rules, and readable reports. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Digitize into bins", "code": '''import numpy as np
+
+values = [0.5, 1.5, 2.5, 3.5]
+edges = [1, 2, 3]
+print("bin index:", np.digitize(values, edges).tolist())'''},
+],
+"todos": [
+    "Use np.digitize(values, edges) to get a bin index per value",
+    "Values below the first edge get bin 0",
+],
+"practice": {
+    "title": "Bucketize",
+    "desc": "Implement bucketize(values, edges): return the bin index of each value given the bin edges. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def bucketize(values, edges):
+    # TODO: return the bin index for each value (hint: np.digitize)
+    return np.zeros(len(values), dtype=int)
+
+print(bucketize([0.5, 1.5, 2.5], [1, 2]).tolist())''',
+    "check": '''import numpy as np
+assert bucketize([0.5, 1.5, 2.5], [1, 2]).tolist() == [0, 1, 2], "values fall into bins 0, 1, 2"
+assert bucketize([5, 5], [1, 2, 3]).tolist() == [3, 3], "above all edges -> top bin"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Clip Outliers",
+"desc": "Capping extreme values at percentiles (winsorizing) limits the influence of outliers before modeling. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Clip to a range", "code": '''import pandas as pd
+
+s = pd.Series([1, 2, 3, 4, 100], dtype=float)
+capped = s.clip(s.quantile(0.0), s.quantile(0.75))
+print(capped.tolist())'''},
+],
+"todos": [
+    "Find the lower/upper cap with Series.quantile",
+    "Apply Series.clip(lo, hi) to winsorize",
+],
+"practice": {
+    "title": "Winsorize",
+    "desc": "Implement clip_outliers(s, lo_q, hi_q): clip the series to its lo_q and hi_q quantiles. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def clip_outliers(s, lo_q=0.05, hi_q=0.95):
+    s = pd.Series(s, dtype=float)
+    # TODO: clip s to its lo_q and hi_q quantiles
+    return s
+
+print(clip_outliers([1, 2, 3, 4, 100], 0.0, 0.75).tolist())''',
+    "check": '''c = clip_outliers([1, 2, 3, 4, 100], 0.0, 0.75)
+assert c.max() <= 4.0, "the 100 is capped at the 75th percentile"
+assert c.min() == 1.0, "the low end is unchanged here"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 

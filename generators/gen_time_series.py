@@ -2271,6 +2271,68 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Exponential Moving Average",
+"desc": "An EMA weights recent points more than old ones, reacting faster than a simple moving average. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "EMA with ewm", "code": '''import pandas as pd
+
+s = pd.Series([1, 2, 3, 4, 5], dtype=float)
+print(s.ewm(alpha=0.5, adjust=False).mean().round(3).tolist())'''},
+],
+"todos": [
+    "Use Series.ewm(alpha=...).mean() with adjust=False for a recursive EMA",
+    "Higher alpha reacts faster to recent values",
+],
+"practice": {
+    "title": "EMA",
+    "desc": "Implement ema(s, alpha): return the exponential moving average (recursive form, adjust=False). Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def ema(s, alpha):
+    s = pd.Series(s, dtype=float)
+    # TODO: return the EMA using ewm(alpha=alpha, adjust=False).mean()
+    return s
+
+print(ema([1, 2, 3], 0.5).tolist())''',
+    "check": '''import numpy as np
+assert np.allclose(ema([1, 2, 3], 0.5).tolist(), [1.0, 1.5, 2.25]), "recursive EMA: e_t = a*x_t + (1-a)*e_{t-1}"
+assert abs(ema([5, 5, 5], 0.3).iloc[-1] - 5.0) < 1e-9, "constant input stays constant"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Rolling Volatility",
+"desc": "A rolling standard deviation tracks how a series' variability changes over time. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Rolling std", "code": '''import pandas as pd
+
+s = pd.Series([1, 2, 3, 10, 3, 2], dtype=float)
+print(s.rolling(3).std(ddof=0).round(3).dropna().tolist())'''},
+],
+"todos": [
+    "Use Series.rolling(window).std(ddof=0)",
+    "Drop the leading NaNs before the first full window",
+],
+"practice": {
+    "title": "Rolling Std",
+    "desc": "Implement rolling_std(s, w): return the rolling population std over window w, with leading NaNs dropped. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def rolling_std(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).std(ddof=0), then drop NaNs
+    return s
+
+print(rolling_std([1, 2, 3, 4], 2).tolist())''',
+    "check": '''import numpy as np
+assert np.allclose(rolling_std([1, 2, 3, 4], 2).tolist(), [0.5, 0.5, 0.5]), "each adjacent pair has population std 0.5"
+assert len(rolling_std([1, 2, 3, 4, 5], 3)) == 3, "n - w + 1 windows remain"
+print("All checks passed \\u2713")'''
+}
+},
+
 
 ]
 

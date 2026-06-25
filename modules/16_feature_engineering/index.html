@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🧹 Cleaning &amp; Feature Engineering</h2><p>Study Guide &bull; 15 topics</p>
+  <div class="sbh"><h2>🧹 Cleaning &amp; Feature Engineering</h2><p>Study Guide &bull; 17 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Exploratory Data Profiling</a></li>
@@ -30,11 +30,13 @@
     <li><a href="#s11" onclick="act(this,event)">12. Building Complete Preprocessing Pipelines</a></li>
     <li><a href="#s12" onclick="act(this,event)">Practice Lab: Encode &amp; Scale</a></li>
     <li><a href="#s13" onclick="act(this,event)">Challenge: Standardize</a></li>
-    <li><a href="#s14" onclick="act(this,event)">Challenge: Label Encoding</a></li></ul>
+    <li><a href="#s14" onclick="act(this,event)">Challenge: Label Encoding</a></li>
+    <li><a href="#s15" onclick="act(this,event)">Challenge: Binning</a></li>
+    <li><a href="#s16" onclick="act(this,event)">Challenge: Clip Outliers</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🧹 Data Cleaning &amp; Feature Engineering</h1>
-  <p class="ps">15 topics &bull; Click any card to expand</p>
+  <p class="ps">17 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Exploratory Data Profiling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Before cleaning, you need to understand your data. Profiling reveals data types, missing values, distributions, and anomalies — the roadmap for your entire cleaning pipeline.</p><div class="code-block"><div class="ch"><span>Quick dataset overview</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import pandas as pd
 import numpy as np
 
@@ -1531,7 +1533,36 @@ def label_encode(s):
 print(label_encode([&quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;]).tolist())</code></pre></div><template class="ho-check">assert label_encode([&quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;]).tolist() == [1, 0, 2, 0], &quot;codes follow sorted order: a=0, b=1, c=2&quot;
 assert label_encode([&quot;x&quot;, &quot;x&quot;, &quot;x&quot;]).tolist() == [0, 0, 0], &quot;a single category is all 0&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Get the sorted unique categories</label></li>
-<li><label><input type="checkbox"> Assign each an integer code 0..k-1 and map the column</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Assign each an integer code 0..k-1 and map the column</label></li></ul></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>Challenge: Binning</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Binning turns a continuous feature into ordinal buckets — useful for trees, rules, and readable reports. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Digitize into bins</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import numpy as np
+
+values = [0.5, 1.5, 2.5, 3.5]
+edges = [1, 2, 3]
+print(&quot;bin index:&quot;, np.digitize(values, edges).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bucketize</div><div class="pd">Implement bucketize(values, edges): return the bin index of each value given the bin edges. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+
+def bucketize(values, edges):
+    # TODO: return the bin index for each value (hint: np.digitize)
+    return np.zeros(len(values), dtype=int)
+
+print(bucketize([0.5, 1.5, 2.5], [1, 2]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert bucketize([0.5, 1.5, 2.5], [1, 2]).tolist() == [0, 1, 2], &quot;values fall into bins 0, 1, 2&quot;
+assert bucketize([5, 5], [1, 2, 3]).tolist() == [3, 3], &quot;above all edges -&gt; top bin&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.digitize(values, edges) to get a bin index per value</label></li>
+<li><label><input type="checkbox"> Values below the first edge get bin 0</label></li></ul></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>Challenge: Clip Outliers</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Capping extreme values at percentiles (winsorizing) limits the influence of outliers before modeling. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Clip to a range</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import pandas as pd
+
+s = pd.Series([1, 2, 3, 4, 100], dtype=float)
+capped = s.clip(s.quantile(0.0), s.quantile(0.75))
+print(capped.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Winsorize</div><div class="pd">Implement clip_outliers(s, lo_q, hi_q): clip the series to its lo_q and hi_q quantiles. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import pandas as pd
+
+def clip_outliers(s, lo_q=0.05, hi_q=0.95):
+    s = pd.Series(s, dtype=float)
+    # TODO: clip s to its lo_q and hi_q quantiles
+    return s
+
+print(clip_outliers([1, 2, 3, 4, 100], 0.0, 0.75).tolist())</code></pre></div><template class="ho-check">c = clip_outliers([1, 2, 3, 4, 100], 0.0, 0.75)
+assert c.max() &lt;= 4.0, &quot;the 100 is capped at the 75th percentile&quot;
+assert c.min() == 1.0, &quot;the low end is unchanged here&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Find the lower/upper cap with Series.quantile</label></li>
+<li><label><input type="checkbox"> Apply Series.clip(lo, hi) to winsorize</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

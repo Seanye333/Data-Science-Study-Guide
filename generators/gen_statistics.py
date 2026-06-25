@@ -1990,6 +1990,69 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "28. Challenge: Interquartile Range",
+"desc": "The IQR (Q3 - Q1) is a robust measure of spread and the basis of box-plot whiskers. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Quartiles with NumPy", "code": '''import numpy as np
+
+data = [7, 1, 3, 5, 9, 2, 8]
+q1, q2, q3 = np.percentile(data, [25, 50, 75])
+print("Q1:", q1, "median:", q2, "Q3:", q3, "IQR:", q3 - q1)'''},
+],
+"todos": [
+    "Get the 25th and 75th percentiles with np.percentile",
+    "IQR = Q3 - Q1; it ignores the extreme tails",
+],
+"practice": {
+    "title": "IQR",
+    "desc": "Implement iqr(data): return the interquartile range (75th minus 25th percentile). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def iqr(data):
+    a = np.asarray(data, float)
+    # TODO: return the 75th percentile minus the 25th percentile
+    return 0.0
+
+print(iqr([1, 2, 3, 4, 5]))''',
+    "check": '''assert abs(iqr([1, 2, 3, 4, 5]) - 2.0) < 1e-9, "Q3=4, Q1=2, IQR=2"
+assert iqr([5, 5, 5, 5]) == 0.0, "no spread -> IQR 0"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "29. Challenge: Covariance",
+"desc": "Covariance measures how two variables move together — the unnormalized cousin of correlation. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Mean-centered product", "code": '''import numpy as np
+
+x = np.array([1.0, 2, 3, 4]); y = np.array([2.0, 4, 6, 8])
+cov = ((x - x.mean()) * (y - y.mean())).mean()
+print("covariance:", round(float(cov), 3))'''},
+],
+"todos": [
+    "Center each variable by subtracting its mean",
+    "Covariance is the mean of the product of the centered values",
+],
+"practice": {
+    "title": "Covariance",
+    "desc": "Implement covariance(x, y): return the population covariance (mean of the centered products). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def covariance(x, y):
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    # TODO: mean of (x - mean_x) * (y - mean_y)
+    return 0.0
+
+print(round(covariance([1, 2, 3, 4], [2, 4, 6, 8]), 3))''',
+    "check": '''import numpy as np
+assert abs(covariance([1, 2, 3], [1, 2, 3]) - np.var([1, 2, 3])) < 1e-9, "cov(x, x) == var(x)"
+assert covariance([1, 2, 3], [3, 2, 1]) < 0, "opposing trends give negative covariance"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

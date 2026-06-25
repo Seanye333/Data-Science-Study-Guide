@@ -1538,6 +1538,14 @@
    {
     "t": "27. Challenge: Confidence Interval",
     "a": "s26"
+   },
+   {
+    "t": "28. Challenge: Interquartile Range",
+    "a": "s27"
+   },
+   {
+    "t": "29. Challenge: Covariance",
+    "a": "s28"
    }
   ]
  },
@@ -1653,6 +1661,14 @@
    {
     "t": "Challenge: Weekly Resample",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: Exponential Moving Average",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Rolling Volatility",
+    "a": "s28"
    }
   ]
  },
@@ -2033,6 +2049,14 @@
    {
     "t": "Challenge: Label Encoding",
     "a": "s14"
+   },
+   {
+    "t": "Challenge: Binning",
+    "a": "s15"
+   },
+   {
+    "t": "Challenge: Clip Outliers",
+    "a": "s16"
    }
   ]
  },
