@@ -2887,6 +2887,83 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Correlation Heatmap",
+"desc": "A correlation matrix shown as a heatmap is the fastest way to spot related features. The Check grades the matrix. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Correlation heatmap", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+df = pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]})
+corr = df.corr()
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
+plt.show()
+print(corr.round(2).to_dict())'''},
+],
+"todos": [
+    "Compute the correlation matrix with DataFrame.corr",
+    "Visualize it with sns.heatmap(corr, annot=True)",
+],
+"practice": {
+    "title": "Correlation Matrix",
+    "desc": "Implement corr_matrix(df): return the pairwise correlation matrix of the numeric columns, then draw it as a heatmap. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def corr_matrix(df):
+    # TODO: return the correlation matrix of the numeric columns
+    return df
+
+df = pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]})
+cm = corr_matrix(df)
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(cm, annot=True, cmap="coolwarm", ax=ax); plt.show()
+print(cm.round(2).to_dict())''',
+    "check": '''import numpy as np
+cm = corr_matrix(pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]}))
+assert np.isclose(cm.loc["x", "y"], 1.0), "x and y are perfectly positively correlated"
+assert np.isclose(cm.loc["x", "z"], -1.0), "x and z are perfectly negatively correlated"
+assert np.isclose(cm.loc["x", "x"], 1.0), "a variable correlates 1 with itself"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Pivot Table",
+"desc": "A pivot table summarizes a long dataframe into a grid of group means — perfect for a heatmap or grouped bar. The Check grades the table. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Pivot to a grid of means", "code": '''import pandas as pd
+
+df = pd.DataFrame({"g": ["a", "a", "b", "b"], "h": ["p", "q", "p", "q"], "v": [1.0, 3.0, 5.0, 7.0]})
+table = df.pivot_table(index="g", columns="h", values="v", aggfunc="mean")
+print(table)'''},
+],
+"todos": [
+    "Use DataFrame.pivot_table with index, columns, values and aggfunc='mean'",
+    "Read a cell with table.loc[row, col]",
+],
+"practice": {
+    "title": "Pivot Means",
+    "desc": "Implement pivot_means(df, index, col, val): return a pivot table of the mean of `val` for each (index, col) combination. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def pivot_means(df, index, col, val):
+    # TODO: pivot_table of the mean of `val` over index x col
+    return df
+
+df = pd.DataFrame({"g": ["a", "a", "b"], "h": ["p", "q", "p"], "v": [1.0, 3.0, 5.0]})
+print(pivot_means(df, "g", "h", "v"))''',
+    "check": '''import numpy as np
+df = pd.DataFrame({"g": ["a", "a", "b"], "h": ["p", "q", "p"], "v": [1.0, 3.0, 5.0]})
+pm = pivot_means(df, "g", "h", "v")
+assert np.isclose(pm.loc["a", "p"], 1.0), "group (a, p) mean is 1"
+assert np.isclose(pm.loc["a", "q"], 3.0), "group (a, q) mean is 3"
+assert np.isclose(pm.loc["b", "p"], 5.0), "group (b, p) mean is 5"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

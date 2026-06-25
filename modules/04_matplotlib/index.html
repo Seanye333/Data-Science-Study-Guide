@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 33 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📊 Matplotlib</h2><p>Study Guide &bull; 35 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Line Plot</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Bar Chart</a></li>
@@ -45,8 +45,10 @@
     <li><a href="#s29" onclick="act(this,event)">30. Statistical Plots</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Multi-Figure Export &amp; Backends</a></li>
     <li><a href="#s31" onclick="act(this,event)">32. Dashboard Composition</a></li>
-    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Plot &amp; Verify</a></li></ul></aside>
-<main class="main"><h1 class="pt">📊 Matplotlib</h1><p class="ps">33 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Line Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.</p><div class="code-block"><div class="ch"><span>Simple line plot</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Plot &amp; Verify</a></li>
+    <li><a href="#s33" onclick="act(this,event)">Challenge: Cumulative Curve</a></li>
+    <li><a href="#s34" onclick="act(this,event)">Challenge: Share of Total</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Matplotlib</h1><p class="ps">35 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Line Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The most basic Matplotlib plot. Use plt.plot() for time series, trends, and continuous data. Always label axes and add a title.</p><div class="code-block"><div class="ch"><span>Simple line plot</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5289,7 +5291,56 @@ assert int(np.sum(counts)) == 12, &quot;the counts must sum to the 12 data point
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot two curves on one Axes and add a legend</label></li>
 <li><label><input type="checkbox"> Draw a bar chart and annotate it with Axes.bar_label</label></li>
 <li><label><input type="checkbox"> Compute histogram counts with np.histogram and bar-plot them</label></li>
-<li><label><input type="checkbox"> Confirm the bin counts sum to the number of data points</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Confirm the bin counts sum to the number of data points</label></li></ul></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>Challenge: Cumulative Curve</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A running total turns counts into a cumulative curve (the basis of CDFs and Pareto charts). The Check grades the data behind the plot. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Plot a running total</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+counts = [4, 2, 7, 1, 5]
+cum = np.cumsum(counts)
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.plot(range(1, len(cum) + 1), cum, marker=&quot;o&quot;)
+ax.set_title(&quot;Cumulative total&quot;); plt.show()
+print(&quot;cumulative:&quot;, cum.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Total</div><div class="pd">Implement cumulative(counts): return the running total, then line-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def cumulative(counts):
+    # TODO: return the running (cumulative) total
+    return np.asarray(counts)
+
+counts = [1, 2, 3, 4]
+cum = cumulative(counts)
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.plot(range(1, len(cum) + 1), cum, marker=&quot;o&quot;); ax.set_title(&quot;Cumulative&quot;)
+plt.show()
+print(list(cum))</code></pre></div><template class="ho-check">import numpy as np
+assert list(cumulative([1, 2, 3, 4])) == [1, 3, 6, 10], &quot;running total&quot;
+assert int(cumulative([4, 2, 7, 1, 5])[-1]) == 19, &quot;last value is the grand total&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.cumsum to get the running total</label></li>
+<li><label><input type="checkbox"> Plot it as a line and confirm the last value equals the grand total</label></li></ul></div></div></div><div class="topic" id="s34"><div class="th" onclick="tog(this)"><span>Challenge: Share of Total</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Convert raw values into percentages of the total for a share chart. The Check grades the data. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Percent of total</span><button onclick="cp('c34_0')">Copy</button></div><pre><code id="c34_0" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+values = np.array([30, 10, 60], float)
+pct = values / values.sum() * 100
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], pct, color=&quot;#58a6ff&quot;); ax.set_ylabel(&quot;%&quot;)
+plt.show()
+print(pct.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent of Total</div><div class="pd">Implement to_percent(values): return each value as a percentage of the total, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def to_percent(values):
+    v = np.asarray(values, float)
+    # TODO: return each value as a percent of the total (sums to 100)
+    return v
+
+pct = to_percent([1, 1, 2])
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], pct, color=&quot;#a78bfa&quot;); ax.set_ylabel(&quot;%&quot;)
+plt.show()
+print(pct.tolist())</code></pre></div><template class="ho-check">import numpy as np
+pct = to_percent([1, 1, 2])
+assert np.isclose(pct.sum(), 100), &quot;percentages sum to 100&quot;
+assert np.allclose(pct, [25, 25, 50]), &quot;each is its share of the total times 100&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Divide each value by the total and multiply by 100</label></li>
+<li><label><input type="checkbox"> Confirm the percentages sum to 100</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

@@ -661,6 +661,14 @@
    {
     "t": "Practice Lab: Plot & Verify",
     "a": "s32"
+   },
+   {
+    "t": "Challenge: Cumulative Curve",
+    "a": "s33"
+   },
+   {
+    "t": "Challenge: Share of Total",
+    "a": "s34"
    }
   ]
  },
@@ -800,6 +808,14 @@
    {
     "t": "Practice Lab: Distributions & Groups",
     "a": "s32"
+   },
+   {
+    "t": "Challenge: Correlation Heatmap",
+    "a": "s33"
+   },
+   {
+    "t": "Challenge: Pivot Table",
+    "a": "s34"
    }
   ]
  },
@@ -1980,6 +1996,14 @@
    {
     "t": "Practice Lab: Bayesian Updating",
     "a": "s10"
+   },
+   {
+    "t": "Challenge: Normalize a Posterior",
+    "a": "s11"
+   },
+   {
+    "t": "Challenge: Bayes Update",
+    "a": "s12"
    }
   ]
  }

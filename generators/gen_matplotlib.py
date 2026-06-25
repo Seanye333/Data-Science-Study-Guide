@@ -3530,6 +3530,89 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Cumulative Curve",
+"desc": "A running total turns counts into a cumulative curve (the basis of CDFs and Pareto charts). The Check grades the data behind the plot. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Plot a running total", "code": '''import matplotlib.pyplot as plt
+import numpy as np
+
+counts = [4, 2, 7, 1, 5]
+cum = np.cumsum(counts)
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.plot(range(1, len(cum) + 1), cum, marker="o")
+ax.set_title("Cumulative total"); plt.show()
+print("cumulative:", cum.tolist())'''},
+],
+"todos": [
+    "Use np.cumsum to get the running total",
+    "Plot it as a line and confirm the last value equals the grand total",
+],
+"practice": {
+    "title": "Cumulative Total",
+    "desc": "Implement cumulative(counts): return the running total, then line-plot it. Fill in the function, press Run, then press Check.",
+    "starter": '''import matplotlib.pyplot as plt
+import numpy as np
+
+def cumulative(counts):
+    # TODO: return the running (cumulative) total
+    return np.asarray(counts)
+
+counts = [1, 2, 3, 4]
+cum = cumulative(counts)
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.plot(range(1, len(cum) + 1), cum, marker="o"); ax.set_title("Cumulative")
+plt.show()
+print(list(cum))''',
+    "check": '''import numpy as np
+assert list(cumulative([1, 2, 3, 4])) == [1, 3, 6, 10], "running total"
+assert int(cumulative([4, 2, 7, 1, 5])[-1]) == 19, "last value is the grand total"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Share of Total",
+"desc": "Convert raw values into percentages of the total for a share chart. The Check grades the data. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Percent of total", "code": '''import matplotlib.pyplot as plt
+import numpy as np
+
+values = np.array([30, 10, 60], float)
+pct = values / values.sum() * 100
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar(["A", "B", "C"], pct, color="#58a6ff"); ax.set_ylabel("%")
+plt.show()
+print(pct.tolist())'''},
+],
+"todos": [
+    "Divide each value by the total and multiply by 100",
+    "Confirm the percentages sum to 100",
+],
+"practice": {
+    "title": "Percent of Total",
+    "desc": "Implement to_percent(values): return each value as a percentage of the total, then bar-plot it. Fill in the function, press Run, then press Check.",
+    "starter": '''import matplotlib.pyplot as plt
+import numpy as np
+
+def to_percent(values):
+    v = np.asarray(values, float)
+    # TODO: return each value as a percent of the total (sums to 100)
+    return v
+
+pct = to_percent([1, 1, 2])
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.bar(["A", "B", "C"], pct, color="#a78bfa"); ax.set_ylabel("%")
+plt.show()
+print(pct.tolist())''',
+    "check": '''import numpy as np
+pct = to_percent([1, 1, 2])
+assert np.isclose(pct.sum(), 100), "percentages sum to 100"
+assert np.allclose(pct, [25, 25, 50]), "each is its share of the total times 100"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

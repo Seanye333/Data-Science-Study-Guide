@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🎲 Bayesian Thinking</h2><p>Study Guide &bull; 11 topics</p>
+  <div class="sbh"><h2>🎲 Bayesian Thinking</h2><p>Study Guide &bull; 13 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Probability Foundations Refresher</a></li>
@@ -26,11 +26,13 @@
     <li><a href="#s7" onclick="act(this,event)">8. Probabilistic Programming with PyMC</a></li>
     <li><a href="#s8" onclick="act(this,event)">9. Bayesian vs Frequentist — When to Use Which</a></li>
     <li><a href="#s9" onclick="act(this,event)">10. Bayesian Optimization for Hyperparameter Tuning</a></li>
-    <li><a href="#s10" onclick="act(this,event)">Practice Lab: Bayesian Updating</a></li></ul>
+    <li><a href="#s10" onclick="act(this,event)">Practice Lab: Bayesian Updating</a></li>
+    <li><a href="#s11" onclick="act(this,event)">Challenge: Normalize a Posterior</a></li>
+    <li><a href="#s12" onclick="act(this,event)">Challenge: Bayes Update</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🎲 Probability &amp; Bayesian Thinking</h1>
-  <p class="ps">11 topics &bull; Click any card to expand</p>
+  <p class="ps">13 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Probability Foundations Refresher</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A quick refresher on core probability concepts: sample spaces, events, axioms, and the rules that everything else builds on.</p><div class="code-block"><div class="ch"><span>Basic probability rules</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 
 # Probability axioms:
@@ -1355,7 +1357,44 @@ assert abs(pm - 8/12) &lt; 1e-9, &quot;posterior mean is a/(a+b) = 8/12&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply Bayes&#x27; theorem to the medical-test problem and explain the low posterior</label></li>
 <li><label><input type="checkbox"> Update a Beta prior with observed heads/tails to get the posterior Beta</label></li>
 <li><label><input type="checkbox"> Compute the posterior mean a / (a + b) of a Beta distribution</label></li>
-<li><label><input type="checkbox"> Read a 95% credible interval from scipy.stats.beta(...).interval(0.95)</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Read a 95% credible interval from scipy.stats.beta(...).interval(0.95)</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>Challenge: Normalize a Posterior</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A discrete posterior is just proportional weights divided by their sum. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Weights to probabilities</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import numpy as np
+
+weights = np.array([1, 1, 2], float)
+probs = weights / weights.sum()
+print(&quot;probs:&quot;, probs.tolist(), &quot;sum:&quot;, probs.sum())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize</div><div class="pd">Implement normalize(weights): return probabilities proportional to the weights that sum to 1. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+
+def normalize(weights):
+    w = np.asarray(weights, float)
+    # TODO: divide by the total so the result sums to 1
+    return w
+
+print(normalize([1, 1, 2]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+p = normalize([1, 1, 2])
+assert np.isclose(p.sum(), 1), &quot;a probability vector sums to 1&quot;
+assert np.allclose(p, [0.25, 0.25, 0.5]), &quot;proportional to the weights&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Divide each weight by the total to get probabilities</label></li>
+<li><label><input type="checkbox"> Confirm the probabilities sum to 1</label></li></ul></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>Challenge: Bayes Update</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Posterior is proportional to prior times likelihood, then normalized. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Prior x likelihood</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">import numpy as np
+
+prior = np.array([0.5, 0.5])
+likelihood = np.array([0.8, 0.4])
+unnorm = prior * likelihood
+posterior = unnorm / unnorm.sum()
+print(&quot;posterior:&quot;, posterior.round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior from Prior and Likelihood</div><div class="pd">Implement bayes_update(priors, likelihoods): return the normalized posterior proportional to priors * likelihoods. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+
+def bayes_update(priors, likelihoods):
+    p = np.asarray(priors, float)
+    l = np.asarray(likelihoods, float)
+    # TODO: posterior is proportional to p * l, normalized to sum to 1
+    return p
+
+post = bayes_update([0.5, 0.5], [0.8, 0.4])
+print(post.round(3).tolist())</code></pre></div><template class="ho-check">import numpy as np
+post = bayes_update([0.5, 0.5], [0.8, 0.4])
+assert np.isclose(post.sum(), 1), &quot;posterior sums to 1&quot;
+assert np.isclose(post[0], 0.8 * 0.5 / (0.8 * 0.5 + 0.4 * 0.5)), &quot;Bayes&#x27; rule for hypothesis 0&quot;
+assert post[0] &gt; post[1], &quot;the higher-likelihood hypothesis gets more posterior mass&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Multiply prior by likelihood elementwise</label></li>
+<li><label><input type="checkbox"> Normalize the product so the posterior sums to 1</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

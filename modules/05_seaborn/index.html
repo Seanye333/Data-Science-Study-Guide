@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 33 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🎨 Seaborn</h2><p>Study Guide &bull; 35 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Setup &amp; Themes</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Distribution Plots</a></li>
@@ -45,8 +45,10 @@
     <li><a href="#s29" onclick="act(this,event)">30. Object-Oriented Seaborn</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Color Systems &amp; Accessibility</a></li>
     <li><a href="#s31" onclick="act(this,event)">32. Seaborn Dashboard Composition</a></li>
-    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Distributions &amp; Groups</a></li></ul></aside>
-<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">33 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
+    <li><a href="#s32" onclick="act(this,event)">Practice Lab: Distributions &amp; Groups</a></li>
+    <li><a href="#s33" onclick="act(this,event)">Challenge: Correlation Heatmap</a></li>
+    <li><a href="#s34" onclick="act(this,event)">Challenge: Pivot Table</a></li></ul></aside>
+<main class="main"><h1 class="pt">🎨 Seaborn</h1><p class="ps">35 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Setup &amp; Themes</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Seaborn works with pandas DataFrames. Set a theme once at the top of your notebook and all plots inherit consistent styling.</p><div class="code-block"><div class="ch"><span>sns.set_theme and built-in datasets</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5062,7 +5064,50 @@ assert np.isclose(gm[&quot;z&quot;], 5.0), &quot;mean of z (5) is 5&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Draw a boxplot of a value column split by a categorical group</label></li>
 <li><label><input type="checkbox"> Overlay a KDE on a histogram with sns.histplot(kde=True)</label></li>
 <li><label><input type="checkbox"> Compute group means with df.groupby(by)[col].mean()</label></li>
-<li><label><input type="checkbox"> Bar-plot the group means with sns.barplot</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Bar-plot the group means with sns.barplot</label></li></ul></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>Challenge: Correlation Heatmap</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A correlation matrix shown as a heatmap is the fastest way to spot related features. The Check grades the matrix. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Correlation heatmap</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3, 4], &quot;y&quot;: [2, 4, 6, 8], &quot;z&quot;: [4, 3, 2, 1]})
+corr = df.corr()
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;, ax=ax)
+plt.show()
+print(corr.round(2).to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix</div><div class="pd">Implement corr_matrix(df): return the pairwise correlation matrix of the numeric columns, then draw it as a heatmap. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def corr_matrix(df):
+    # TODO: return the correlation matrix of the numeric columns
+    return df
+
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3, 4], &quot;y&quot;: [2, 4, 6, 8], &quot;z&quot;: [4, 3, 2, 1]})
+cm = corr_matrix(df)
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(cm, annot=True, cmap=&quot;coolwarm&quot;, ax=ax); plt.show()
+print(cm.round(2).to_dict())</code></pre></div><template class="ho-check">import numpy as np
+cm = corr_matrix(pd.DataFrame({&quot;x&quot;: [1, 2, 3, 4], &quot;y&quot;: [2, 4, 6, 8], &quot;z&quot;: [4, 3, 2, 1]}))
+assert np.isclose(cm.loc[&quot;x&quot;, &quot;y&quot;], 1.0), &quot;x and y are perfectly positively correlated&quot;
+assert np.isclose(cm.loc[&quot;x&quot;, &quot;z&quot;], -1.0), &quot;x and z are perfectly negatively correlated&quot;
+assert np.isclose(cm.loc[&quot;x&quot;, &quot;x&quot;], 1.0), &quot;a variable correlates 1 with itself&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the correlation matrix with DataFrame.corr</label></li>
+<li><label><input type="checkbox"> Visualize it with sns.heatmap(corr, annot=True)</label></li></ul></div></div></div><div class="topic" id="s34"><div class="th" onclick="tog(this)"><span>Challenge: Pivot Table</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A pivot table summarizes a long dataframe into a grid of group means — perfect for a heatmap or grouped bar. The Check grades the table. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Pivot to a grid of means</span><button onclick="cp('c34_0')">Copy</button></div><pre><code id="c34_0" class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;h&quot;: [&quot;p&quot;, &quot;q&quot;, &quot;p&quot;, &quot;q&quot;], &quot;v&quot;: [1.0, 3.0, 5.0, 7.0]})
+table = df.pivot_table(index=&quot;g&quot;, columns=&quot;h&quot;, values=&quot;v&quot;, aggfunc=&quot;mean&quot;)
+print(table)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pivot Means</div><div class="pd">Implement pivot_means(df, index, col, val): return a pivot table of the mean of `val` for each (index, col) combination. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import pandas as pd
+
+def pivot_means(df, index, col, val):
+    # TODO: pivot_table of the mean of `val` over index x col
+    return df
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;h&quot;: [&quot;p&quot;, &quot;q&quot;, &quot;p&quot;], &quot;v&quot;: [1.0, 3.0, 5.0]})
+print(pivot_means(df, &quot;g&quot;, &quot;h&quot;, &quot;v&quot;))</code></pre></div><template class="ho-check">import numpy as np
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;h&quot;: [&quot;p&quot;, &quot;q&quot;, &quot;p&quot;], &quot;v&quot;: [1.0, 3.0, 5.0]})
+pm = pivot_means(df, &quot;g&quot;, &quot;h&quot;, &quot;v&quot;)
+assert np.isclose(pm.loc[&quot;a&quot;, &quot;p&quot;], 1.0), &quot;group (a, p) mean is 1&quot;
+assert np.isclose(pm.loc[&quot;a&quot;, &quot;q&quot;], 3.0), &quot;group (a, q) mean is 3&quot;
+assert np.isclose(pm.loc[&quot;b&quot;, &quot;p&quot;], 5.0), &quot;group (b, p) mean is 5&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use DataFrame.pivot_table with index, columns, values and aggfunc=&#x27;mean&#x27;</label></li>
+<li><label><input type="checkbox"> Read a cell with table.loc[row, col]</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

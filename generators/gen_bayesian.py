@@ -1702,6 +1702,77 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Normalize a Posterior",
+"desc": "A discrete posterior is just proportional weights divided by their sum. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Weights to probabilities", "code": '''import numpy as np
+
+weights = np.array([1, 1, 2], float)
+probs = weights / weights.sum()
+print("probs:", probs.tolist(), "sum:", probs.sum())'''},
+],
+"todos": [
+    "Divide each weight by the total to get probabilities",
+    "Confirm the probabilities sum to 1",
+],
+"practice": {
+    "title": "Normalize",
+    "desc": "Implement normalize(weights): return probabilities proportional to the weights that sum to 1. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def normalize(weights):
+    w = np.asarray(weights, float)
+    # TODO: divide by the total so the result sums to 1
+    return w
+
+print(normalize([1, 1, 2]).tolist())''',
+    "check": '''import numpy as np
+p = normalize([1, 1, 2])
+assert np.isclose(p.sum(), 1), "a probability vector sums to 1"
+assert np.allclose(p, [0.25, 0.25, 0.5]), "proportional to the weights"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Bayes Update",
+"desc": "Posterior is proportional to prior times likelihood, then normalized. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Prior x likelihood", "code": '''import numpy as np
+
+prior = np.array([0.5, 0.5])
+likelihood = np.array([0.8, 0.4])
+unnorm = prior * likelihood
+posterior = unnorm / unnorm.sum()
+print("posterior:", posterior.round(3).tolist())'''},
+],
+"todos": [
+    "Multiply prior by likelihood elementwise",
+    "Normalize the product so the posterior sums to 1",
+],
+"practice": {
+    "title": "Posterior from Prior and Likelihood",
+    "desc": "Implement bayes_update(priors, likelihoods): return the normalized posterior proportional to priors * likelihoods. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def bayes_update(priors, likelihoods):
+    p = np.asarray(priors, float)
+    l = np.asarray(likelihoods, float)
+    # TODO: posterior is proportional to p * l, normalized to sum to 1
+    return p
+
+post = bayes_update([0.5, 0.5], [0.8, 0.4])
+print(post.round(3).tolist())''',
+    "check": '''import numpy as np
+post = bayes_update([0.5, 0.5], [0.8, 0.4])
+assert np.isclose(post.sum(), 1), "posterior sums to 1"
+assert np.isclose(post[0], 0.8 * 0.5 / (0.8 * 0.5 + 0.4 * 0.5)), "Bayes' rule for hypothesis 0"
+assert post[0] > post[1], "the higher-likelihood hypothesis gets more posterior mass"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 
