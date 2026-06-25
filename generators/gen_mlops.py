@@ -2363,6 +2363,87 @@ def predict(f: Features):
 }
 },
 
+{
+"title": "Challenge: Data Drift (PSI)",
+"desc": "Population Stability Index measures how much a feature's distribution has shifted since training — a core monitoring metric. Pure NumPy, so it runs in the browser. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "PSI between two samples", "code": '''import numpy as np
+
+def psi(expected, actual, bins=10):
+    e = np.asarray(expected, float); a = np.asarray(actual, float)
+    edges = np.linspace(min(e.min(), a.min()), max(e.max(), a.max()), bins + 1)
+    e_pct = np.histogram(e, edges)[0] / len(e) + 1e-6
+    a_pct = np.histogram(a, edges)[0] / len(a) + 1e-6
+    return float(np.sum((a_pct - e_pct) * np.log(a_pct / e_pct)))
+
+rng = np.random.default_rng(0)
+print("no drift:", round(psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000)), 3))
+print("drifted: ", round(psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000)), 3))'''},
+],
+"todos": [
+    "Bin both samples on shared edges and convert counts to proportions",
+    "PSI = sum( (a% - e%) * ln(a% / e%) ); add a small epsilon to avoid log(0)",
+    "Rule of thumb: PSI < 0.1 stable, 0.1-0.25 moderate, > 0.25 significant drift",
+],
+"practice": {
+    "title": "Population Stability Index",
+    "desc": "Implement psi(expected, actual, bins=10) returning the PSI between two samples. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def psi(expected, actual, bins=10):
+    e = np.asarray(expected, float); a = np.asarray(actual, float)
+    edges = np.linspace(min(e.min(), a.min()), max(e.max(), a.max()), bins + 1)
+    e_pct = np.histogram(e, edges)[0] / len(e) + 1e-6
+    a_pct = np.histogram(a, edges)[0] / len(a) + 1e-6
+    # TODO: return sum( (a_pct - e_pct) * ln(a_pct / e_pct) )
+    return 0.0
+
+rng = np.random.default_rng(0)
+print(round(psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000)), 3))''',
+    "check": '''import numpy as np
+rng = np.random.default_rng(0)
+same = psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000))
+drift = psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000))
+assert same < 0.1, "similar distributions give a low PSI"
+assert drift > 0.2, "a shifted distribution gives a high PSI"
+assert drift > same, "more shift means more PSI"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Model Versioning",
+"desc": "Persisting models with a version tag and metadata makes deployments reproducible and rollbacks possible. Run locally (needs joblib + scikit-learn).",
+"examples": [
+    {"label": "Save with metadata", "code": '''import joblib, json, time
+
+def save_model(model, path, version, metrics):
+    bundle = {"model": model, "version": version, "metrics": metrics, "saved_at": time.time()}
+    joblib.dump(bundle, path)
+    return path
+
+# save_model(clf, "model_v2.joblib", "2.0.0", {"accuracy": 0.93})'''},
+],
+"todos": [
+    "Bundle the model with a version string and its eval metrics",
+    "Persist the bundle with joblib.dump",
+    "On load, check the version before serving",
+],
+"practice": {
+    "title": "Versioned Save/Load",
+    "desc": "Write save_model(model, path, version, metrics) and load_model(path) that round-trip a model plus its version and metrics. Run locally and confirm the loaded version matches.",
+    "starter": '''import joblib, time
+
+def save_model(model, path, version, metrics):
+    # TODO: dump a dict with the model, version, metrics, and a timestamp
+    pass
+
+def load_model(path):
+    # TODO: load the bundle and return (model, version, metrics)
+    pass'''
+}
+},
+
 ]
 
 if __name__ == "__main__":

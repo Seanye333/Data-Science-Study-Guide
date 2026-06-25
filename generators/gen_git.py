@@ -2125,6 +2125,77 @@ git log --oneline -5'''
 }
 },
 
+{
+"title": "Challenge: Interactive Rebase",
+"desc": "Interactive rebase rewrites a series of commits — squash, reword, reorder, or drop them — to produce a clean history before sharing. Try this in a throwaway repo.",
+"examples": [
+    {"label": "Squash and reword the last 3 commits", "lang": "bash", "code": '''# Open an editor listing the last 3 commits
+git rebase -i HEAD~3
+
+# In the todo list, change 'pick' to:
+#   reword  -> edit the commit message
+#   squash  -> fold this commit into the previous one
+#   drop    -> remove the commit entirely
+# Save and close; Git replays the commits with your edits.
+
+# If something goes wrong, bail out cleanly:
+git rebase --abort'''},
+],
+"todos": [
+    "Start an interactive rebase over the last N commits with git rebase -i HEAD~N",
+    "Use squash/fixup to combine commits and reword to fix messages",
+    "Abort safely with git rebase --abort if you get stuck",
+],
+"practice": {
+    "title": "Clean Up History",
+    "lang": "bash",
+    "desc": "You have 3 messy WIP commits. Write the commands to squash them into one well-named commit using interactive rebase. Try it in a scratch repo.",
+    "starter": '''# 1. Start the interactive rebase over the last 3 commits
+git rebase -i HEAD~3
+
+# 2. TODO: in the editor, keep the first as 'pick' and mark the other two
+#    as 'squash' (or 'fixup'), then write a single clear commit message
+
+# 3. Verify the result
+git log --oneline -1'''
+}
+},
+
+{
+"title": "Challenge: Stash & Cherry-pick",
+"desc": "Stash shelves unfinished work so you can switch context; cherry-pick copies a single commit onto your current branch. Try these in a real repo.",
+"examples": [
+    {"label": "Shelve work, then pick a commit", "lang": "bash", "code": '''# Shelve uncommitted changes to switch branches
+git stash push -m "wip: login form"
+git switch main
+# ... do something else ...
+git switch -
+git stash pop            # restore the shelved changes
+
+# Copy one specific commit from another branch onto this one
+git cherry-pick <sha>'''},
+],
+"todos": [
+    "Shelve changes with git stash push -m and restore them with git stash pop",
+    "List shelved entries with git stash list",
+    "Copy a single commit across branches with git cherry-pick <sha>",
+],
+"practice": {
+    "title": "Move One Commit",
+    "lang": "bash",
+    "desc": "You committed a fix on the wrong branch. Write the commands to copy just that commit onto main (find its sha, switch to main, cherry-pick it). Try it in a scratch repo.",
+    "starter": '''# 1. Find the sha of the commit you want to move
+git log --oneline -5
+
+# 2. TODO: switch to main and cherry-pick that sha
+#    git switch main
+#    git cherry-pick <sha>
+
+# 3. Confirm it landed
+git log --oneline -3'''
+}
+},
+
 ]
 
 

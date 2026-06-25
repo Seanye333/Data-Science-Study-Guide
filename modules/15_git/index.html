@@ -14,7 +14,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🔀 Git &amp; Version Control</h2><p>Study Guide &bull; 17 topics</p>
+  <div class="sbh"><h2>🔀 Git &amp; Version Control</h2><p>Study Guide &bull; 19 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. What is Git &amp; Why It Matters</a></li>
@@ -33,11 +33,13 @@
     <li><a href="#s13" onclick="act(this,event)">14. Git Workflows for Teams</a></li>
     <li><a href="#s14" onclick="act(this,event)">15. GitHub Actions for Data Science</a></li>
     <li><a href="#s15" onclick="act(this,event)">16. Git Best Practices Cheat Sheet</a></li>
-    <li><a href="#s16" onclick="act(this,event)">Practice Lab: Branching &amp; Recovery</a></li></ul>
+    <li><a href="#s16" onclick="act(this,event)">Practice Lab: Branching &amp; Recovery</a></li>
+    <li><a href="#s17" onclick="act(this,event)">Challenge: Interactive Rebase</a></li>
+    <li><a href="#s18" onclick="act(this,event)">Challenge: Stash &amp; Cherry-pick</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🔀 Git &amp; Version Control</h1>
-  <p class="ps">17 topics &bull; Click any card to expand</p>
+  <p class="ps">19 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. What is Git &amp; Why It Matters</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Git is a distributed version control system that tracks changes to files. Every data scientist needs Git to version code, collaborate with teams, reproduce experiments, and never lose work.</p><div class="code-block"><div class="ch"><span>Installing and configuring Git</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-bash"># Check if Git is installed
 git --version
 
@@ -1633,7 +1635,44 @@ git reflog
 git log --oneline -5</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a feature branch with git switch -c and merge it back with --ff-only</label></li>
 <li><label><input type="checkbox"> Rebase your branch onto origin/main and resolve any conflicts</label></li>
 <li><label><input type="checkbox"> Undo a pushed commit with git revert (not reset) to preserve history</label></li>
-<li><label><input type="checkbox"> Use git reflog to find and restore a commit lost to a hard reset</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Use git reflog to find and restore a commit lost to a hard reset</label></li></ul></div></div></div><div class="topic" id="s17"><div class="th" onclick="tog(this)"><span>Challenge: Interactive Rebase</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Interactive rebase rewrites a series of commits — squash, reword, reorder, or drop them — to produce a clean history before sharing. Try this in a throwaway repo.</p><div class="code-block"><div class="ch"><span>Squash and reword the last 3 commits</span><button onclick="cp('c17_0')">Copy</button></div><pre><code id="c17_0" class="language-bash"># Open an editor listing the last 3 commits
+git rebase -i HEAD~3
+
+# In the todo list, change &#x27;pick&#x27; to:
+#   reword  -&gt; edit the commit message
+#   squash  -&gt; fold this commit into the previous one
+#   drop    -&gt; remove the commit entirely
+# Save and close; Git replays the commits with your edits.
+
+# If something goes wrong, bail out cleanly:
+git rebase --abort</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clean Up History</div><div class="pd">You have 3 messy WIP commits. Write the commands to squash them into one well-named commit using interactive rebase. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-bash"># 1. Start the interactive rebase over the last 3 commits
+git rebase -i HEAD~3
+
+# 2. TODO: in the editor, keep the first as &#x27;pick&#x27; and mark the other two
+#    as &#x27;squash&#x27; (or &#x27;fixup&#x27;), then write a single clear commit message
+
+# 3. Verify the result
+git log --oneline -1</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Start an interactive rebase over the last N commits with git rebase -i HEAD~N</label></li>
+<li><label><input type="checkbox"> Use squash/fixup to combine commits and reword to fix messages</label></li>
+<li><label><input type="checkbox"> Abort safely with git rebase --abort if you get stuck</label></li></ul></div></div></div><div class="topic" id="s18"><div class="th" onclick="tog(this)"><span>Challenge: Stash &amp; Cherry-pick</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stash shelves unfinished work so you can switch context; cherry-pick copies a single commit onto your current branch. Try these in a real repo.</p><div class="code-block"><div class="ch"><span>Shelve work, then pick a commit</span><button onclick="cp('c18_0')">Copy</button></div><pre><code id="c18_0" class="language-bash"># Shelve uncommitted changes to switch branches
+git stash push -m &quot;wip: login form&quot;
+git switch main
+# ... do something else ...
+git switch -
+git stash pop            # restore the shelved changes
+
+# Copy one specific commit from another branch onto this one
+git cherry-pick &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Move One Commit</div><div class="pd">You committed a fix on the wrong branch. Write the commands to copy just that commit onto main (find its sha, switch to main, cherry-pick it). Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-bash"># 1. Find the sha of the commit you want to move
+git log --oneline -5
+
+# 2. TODO: switch to main and cherry-pick that sha
+#    git switch main
+#    git cherry-pick &lt;sha&gt;
+
+# 3. Confirm it landed
+git log --oneline -3</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Shelve changes with git stash push -m and restore them with git stash pop</label></li>
+<li><label><input type="checkbox"> List shelved entries with git stash list</label></li>
+<li><label><input type="checkbox"> Copy a single commit across branches with git cherry-pick &lt;sha&gt;</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

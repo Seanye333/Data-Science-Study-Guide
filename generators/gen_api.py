@@ -2788,6 +2788,87 @@ print(get_json("https://api.github.com/repos/python/cpython"))'''
 }
 },
 
+{
+"title": "Challenge: Authenticated POST",
+"desc": "Sending JSON with an auth header is the core of writing to an API. Run this in a local Python environment (the in-page runner has no network).",
+"examples": [
+    {"label": "POST JSON with a bearer token", "code": '''import requests, os
+
+def create_item(name, token):
+    r = requests.post(
+        "https://httpbin.org/post",
+        json={"name": name},
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=5,
+    )
+    r.raise_for_status()
+    return r.json()["json"]
+
+print(create_item("widget", os.environ.get("API_TOKEN", "demo")))'''},
+],
+"todos": [
+    "POST a JSON body with the json= argument (requests sets the content-type)",
+    "Send an Authorization: Bearer <token> header",
+    "Raise on error with raise_for_status()",
+],
+"practice": {
+    "title": "Authenticated POST",
+    "desc": "Write post_json(url, payload, token) that POSTs `payload` as JSON with a bearer token, a 5s timeout, raises for HTTP errors, and returns the parsed response. Run it locally.",
+    "starter": '''import requests
+
+def post_json(url, payload, token):
+    # TODO: requests.post with json=payload, an Authorization bearer header,
+    #       a timeout, raise_for_status(), then return r.json()
+    pass
+
+print(post_json("https://httpbin.org/post", {"name": "widget"}, "demo"))'''
+}
+},
+
+{
+"title": "Challenge: Pagination",
+"desc": "APIs return data in pages; collecting all of it means looping until a page is empty or there is no next link. Run locally.",
+"examples": [
+    {"label": "Follow page numbers", "code": '''import requests
+
+def fetch_all(base_url, per_page=100):
+    items, page = [], 1
+    while True:
+        r = requests.get(base_url, params={"page": page, "per_page": per_page}, timeout=5)
+        r.raise_for_status()
+        batch = r.json()
+        if not batch:
+            break
+        items.extend(batch)
+        page += 1
+    return items
+
+# items = fetch_all("https://api.github.com/repos/python/cpython/issues")'''},
+],
+"todos": [
+    "Loop incrementing the page number until a page comes back empty",
+    "Accumulate items across pages into one list",
+    "Pass a sensible per_page to reduce the number of requests",
+],
+"practice": {
+    "title": "Fetch All Pages",
+    "desc": "Write fetch_all(base_url, per_page=100) that pages through a list endpoint (page=1, 2, ...) until an empty page, accumulating and returning every item. Run it locally against a real paginated API.",
+    "starter": '''import requests
+
+def fetch_all(base_url, per_page=100):
+    items, page = [], 1
+    while True:
+        r = requests.get(base_url, params={"page": page, "per_page": per_page}, timeout=5)
+        r.raise_for_status()
+        batch = r.json()
+        # TODO: stop when batch is empty; otherwise extend items and go to the next page
+        break
+    return items
+
+print(len(fetch_all("https://api.github.com/repos/python/cpython/labels")))'''
+}
+},
+
 ]
 
 

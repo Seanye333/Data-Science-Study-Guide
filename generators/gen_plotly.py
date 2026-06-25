@@ -3012,6 +3012,65 @@ fig.show()'''
 }
 },
 
+{
+"title": "Challenge: Subplots",
+"desc": "make_subplots arranges several charts in one figure with a shared layout. Plotly renders interactive HTML, so run this locally with fig.show().",
+"examples": [
+    {"label": "Two charts side by side", "code": '''from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Bar", "Line"))
+fig.add_trace(go.Bar(x=["a", "b", "c"], y=[3, 1, 2]), row=1, col=1)
+fig.add_trace(go.Scatter(x=[1, 2, 3], y=[2, 4, 3], mode="lines+markers"), row=1, col=2)
+fig.update_layout(title="Dashboard", showlegend=False)
+fig.show()'''},
+],
+"todos": [
+    "Create a grid with make_subplots(rows, cols)",
+    "Place traces with the row= and col= arguments",
+    "Give a shared title and per-panel subplot_titles",
+],
+"practice": {
+    "title": "2x1 Dashboard",
+    "desc": "Build a 1-row, 2-column figure with a bar chart on the left and a line chart on the right, a shared title, and subplot titles. Run locally with fig.show().",
+    "starter": '''from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Bar", "Line"))
+# TODO: add a go.Bar to (row=1, col=1) and a go.Scatter line to (row=1, col=2)
+# TODO: update_layout with a title
+fig.show()'''
+}
+},
+
+{
+"title": "Challenge: Faceting with Express",
+"desc": "Plotly Express can split one chart into small multiples with facet_col. Run locally with fig.show().",
+"examples": [
+    {"label": "Facet by category", "code": '''import plotly.express as px
+
+df = px.data.tips()
+fig = px.scatter(df, x="total_bill", y="tip", color="sex",
+                 facet_col="time", trendline="ols", title="Tips by time of day")
+fig.show()'''},
+],
+"todos": [
+    "Use facet_col to make one panel per category",
+    "Map color to another column for extra dimension",
+    "Add a trendline='ols' to see the fit per panel",
+],
+"practice": {
+    "title": "Small Multiples",
+    "desc": "Using px.data.tips(), build a scatter of tip vs total_bill, colored by sex, with one panel per day (facet_col='day'). Run locally with fig.show().",
+    "starter": '''import plotly.express as px
+
+df = px.data.tips()
+# TODO: px.scatter(df, x="total_bill", y="tip", color="sex", facet_col="day")
+fig = None
+# fig.show()'''
+}
+},
+
 ]  # end SECTIONS
 
 

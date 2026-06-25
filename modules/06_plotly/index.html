@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 25 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📈 Plotly</h2><p>Study Guide &bull; 27 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Plotly Express Basics</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Bar &amp; Pie Charts</a></li>
@@ -37,8 +37,10 @@
     <li><a href="#s21" onclick="act(this,event)">22. Indicator &amp; Gauge Charts</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Animated Bar Chart Race &amp; Timelines</a></li>
     <li><a href="#s23" onclick="act(this,event)">24. Custom Templates &amp; Styling</a></li>
-    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Express &amp; Graph Objects</a></li></ul></aside>
-<main class="main"><h1 class="pt">📈 Plotly</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Plotly Express Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.</p><div class="code-block"><div class="ch"><span>First chart: px.scatter</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import plotly.express as px
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Express &amp; Graph Objects</a></li>
+    <li><a href="#s25" onclick="act(this,event)">Challenge: Subplots</a></li>
+    <li><a href="#s26" onclick="act(this,event)">Challenge: Faceting with Express</a></li></ul></aside>
+<main class="main"><h1 class="pt">📈 Plotly</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Plotly Express Basics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.</p><div class="code-block"><div class="ch"><span>First chart: px.scatter</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import plotly.express as px
 
 # Built-in dataset
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
@@ -3802,7 +3804,34 @@ fig = go.Figure()
 fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a scatter with px.scatter, mapping color and size to columns</label></li>
 <li><label><input type="checkbox"> Create a grouped bar chart with two go.Bar traces and barmode=&#x27;group&#x27;</label></li>
 <li><label><input type="checkbox"> Set a title and axis labels with fig.update_layout</label></li>
-<li><label><input type="checkbox"> Export a figure to HTML with fig.write_html(&#x27;chart.html&#x27;)</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Export a figure to HTML with fig.write_html(&#x27;chart.html&#x27;)</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>Challenge: Subplots</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">make_subplots arranges several charts in one figure with a shared layout. Plotly renders interactive HTML, so run this locally with fig.show().</p><div class="code-block"><div class="ch"><span>Two charts side by side</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=(&quot;Bar&quot;, &quot;Line&quot;))
+fig.add_trace(go.Bar(x=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], y=[3, 1, 2]), row=1, col=1)
+fig.add_trace(go.Scatter(x=[1, 2, 3], y=[2, 4, 3], mode=&quot;lines+markers&quot;), row=1, col=2)
+fig.update_layout(title=&quot;Dashboard&quot;, showlegend=False)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x1 Dashboard</div><div class="pd">Build a 1-row, 2-column figure with a bar chart on the left and a line chart on the right, a shared title, and subplot titles. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=(&quot;Bar&quot;, &quot;Line&quot;))
+# TODO: add a go.Bar to (row=1, col=1) and a go.Scatter line to (row=1, col=2)
+# TODO: update_layout with a title
+fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a grid with make_subplots(rows, cols)</label></li>
+<li><label><input type="checkbox"> Place traces with the row= and col= arguments</label></li>
+<li><label><input type="checkbox"> Give a shared title and per-panel subplot_titles</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>Challenge: Faceting with Express</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Plotly Express can split one chart into small multiples with facet_col. Run locally with fig.show().</p><div class="code-block"><div class="ch"><span>Facet by category</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import plotly.express as px
+
+df = px.data.tips()
+fig = px.scatter(df, x=&quot;total_bill&quot;, y=&quot;tip&quot;, color=&quot;sex&quot;,
+                 facet_col=&quot;time&quot;, trendline=&quot;ols&quot;, title=&quot;Tips by time of day&quot;)
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Small Multiples</div><div class="pd">Using px.data.tips(), build a scatter of tip vs total_bill, colored by sex, with one panel per day (facet_col=&#x27;day&#x27;). Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import plotly.express as px
+
+df = px.data.tips()
+# TODO: px.scatter(df, x=&quot;total_bill&quot;, y=&quot;tip&quot;, color=&quot;sex&quot;, facet_col=&quot;day&quot;)
+fig = None
+# fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use facet_col to make one panel per category</label></li>
+<li><label><input type="checkbox"> Map color to another column for extra dimension</label></li>
+<li><label><input type="checkbox"> Add a trendline=&#x27;ols&#x27; to see the fit per panel</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

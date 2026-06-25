@@ -516,6 +516,14 @@
    {
     "t": "Practice Lab: Requests & FastAPI",
     "a": "s16"
+   },
+   {
+    "t": "Challenge: Authenticated POST",
+    "a": "s17"
+   },
+   {
+    "t": "Challenge: Pagination",
+    "a": "s18"
    }
   ]
  },
@@ -923,6 +931,14 @@
    {
     "t": "Practice Lab: Express & Graph Objects",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Subplots",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Faceting with Express",
+    "a": "s26"
    }
   ]
  },
@@ -1819,6 +1835,14 @@
    {
     "t": "Practice Lab: Tracking & Serving",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Data Drift (PSI)",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Model Versioning",
+    "a": "s26"
    }
   ]
  },
@@ -1894,6 +1918,14 @@
    {
     "t": "Practice Lab: Branching & Recovery",
     "a": "s16"
+   },
+   {
+    "t": "Challenge: Interactive Rebase",
+    "a": "s17"
+   },
+   {
+    "t": "Challenge: Stash & Cherry-pick",
+    "a": "s18"
    }
   ]
  },
