@@ -5051,6 +5051,110 @@ print("All checks passed \\u2713")''',
         },
     },
 
+    {
+        "title": "Challenge: One-Hot Labels",
+        "desc": "Classifiers need integer labels turned into one-hot vectors for cross-entropy. Pure NumPy. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Broadcasting trick",
+        "code1": '''import numpy as np
+
+labels = np.array([0, 2, 1])
+onehot = (labels[:, None] == np.arange(3)[None, :]).astype(float)
+print(onehot.tolist())''',
+        "code2_title": "Each row sums to 1",
+        "code2": '''import numpy as np
+
+labels = np.array([0, 2, 1, 1])
+oh = (labels[:, None] == np.arange(3)[None, :]).astype(float)
+print("row sums:", oh.sum(axis=1).tolist())''',
+        "code3_title": "Recover labels with argmax",
+        "code3": '''import numpy as np
+
+oh = np.array([[1.0, 0, 0], [0, 0, 1], [0, 1, 0]])
+print("labels:", oh.argmax(axis=1).tolist())''',
+        "rw_scenario": "Cross-entropy compares predicted class probabilities to one-hot targets, so encoding the labels is the step right before computing the loss.",
+        "rw_code": '''import numpy as np
+
+def one_hot(labels, n):
+    labels = np.asarray(labels)
+    return (labels[:, None] == np.arange(n)[None, :]).astype(float)
+
+print(one_hot([0, 1, 2, 1], 3).tolist())''',
+        "todos": [
+            "Compare labels[:, None] to arange(n)[None, :] and cast to float",
+            "Every one-hot row sums to 1",
+            "argmax(axis=1) recovers the original label",
+        ],
+        "practice": {
+            "title": "One-Hot Encode",
+            "desc": "Implement one_hot(labels, n): return a (len(labels), n) one-hot matrix. Fill in the function, press Run, then press Check.",
+            "starter": '''import numpy as np
+
+def one_hot(labels, n):
+    labels = np.asarray(labels)
+    # TODO: (labels[:, None] == arange(n)[None, :]) as float
+    return np.zeros((len(labels), n))
+
+print(one_hot([0, 2, 1], 3).tolist())''',
+            "check": '''import numpy as np
+oh = one_hot([0, 2, 1], 3)
+assert oh.tolist() == [[1, 0, 0], [0, 0, 1], [0, 1, 0]], "one 1 per row at the label index"
+assert np.allclose(oh.sum(axis=1), 1), "each row sums to 1"
+assert oh.argmax(axis=1).tolist() == [0, 2, 1], "argmax recovers the labels"
+print("All checks passed \\u2713")''',
+        },
+    },
+
+    {
+        "title": "Challenge: Accuracy From Logits",
+        "desc": "Turning raw network outputs (logits) into a prediction is just an argmax; accuracy compares those to the labels. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Argmax over classes",
+        "code1": '''import numpy as np
+
+logits = np.array([[2.0, 1, 0], [0, 1, 2], [1, 0, 0]])
+print("predictions:", logits.argmax(axis=1).tolist())''',
+        "code2_title": "Compare to labels",
+        "code2": '''import numpy as np
+
+logits = np.array([[2.0, 1, 0], [0, 1, 2], [1, 0, 0]])
+labels = np.array([0, 2, 1])
+print("correct:", (logits.argmax(axis=1) == labels).tolist())''',
+        "code3_title": "Mean of the correct mask",
+        "code3": '''import numpy as np
+
+correct = np.array([True, True, False])
+print("accuracy:", float(correct.mean()))''',
+        "rw_scenario": "During training you log accuracy every epoch by taking argmax over the logits and comparing to the targets — no softmax needed, since argmax is unchanged by it.",
+        "rw_code": '''import numpy as np
+
+def accuracy(logits, labels):
+    return float((np.asarray(logits).argmax(axis=1) == np.asarray(labels)).mean())
+
+logits = np.array([[3.0, 1], [0, 2], [1, 0], [0, 5]])
+labels = np.array([0, 1, 0, 1])
+print("accuracy:", accuracy(logits, labels))''',
+        "todos": [
+            "Take argmax(axis=1) over the logits to get predictions",
+            "Compare predictions to labels and take the mean of the boolean mask",
+            "Softmax is not needed for argmax-based accuracy",
+        ],
+        "practice": {
+            "title": "Accuracy",
+            "desc": "Implement accuracy(logits, labels): predict with argmax over classes and return the fraction correct. Fill in the function, press Run, then press Check.",
+            "starter": '''import numpy as np
+
+def accuracy(logits, labels):
+    logits = np.asarray(logits); labels = np.asarray(labels)
+    # TODO: argmax over axis=1, compare to labels, return the mean
+    return 0.0
+
+print(accuracy([[2, 1, 0], [0, 1, 2], [1, 0, 0]], [0, 2, 0]))''',
+            "check": '''import numpy as np
+assert abs(accuracy([[2, 1, 0], [0, 1, 2], [1, 0, 0]], [0, 2, 0]) - 1.0) < 1e-9, "all three argmaxes match"
+assert abs(accuracy([[2, 1], [2, 1]], [0, 1]) - 0.5) < 1e-9, "one of two correct"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 

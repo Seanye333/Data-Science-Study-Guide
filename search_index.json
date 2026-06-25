@@ -1094,6 +1094,14 @@
    {
     "t": "Challenge: K-Nearest Neighbors",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: Logistic Regression Accuracy",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: R-squared",
+    "a": "s28"
    }
   ]
  },
@@ -1439,6 +1447,14 @@
    {
     "t": "Challenge: MSE & Its Gradient",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: One-Hot Labels",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Accuracy From Logits",
+    "a": "s28"
    }
   ]
  },

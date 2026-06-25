@@ -4440,6 +4440,131 @@ print("All checks passed \\u2713")''',
         },
     },
 
+    {
+        "title": "Challenge: Logistic Regression Accuracy",
+        "desc": "Logistic regression is the baseline classifier worth beating. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Fit and score",
+        "code1": '''from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=2)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=2)
+clf = LogisticRegression(max_iter=500).fit(X_tr, y_tr)
+print("accuracy:", round(accuracy_score(y_te, clf.predict(X_te)), 3))''',
+        "code2_title": "Predicted probabilities",
+        "code2": '''from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+
+X, y = make_classification(n_samples=200, random_state=0)
+clf = LogisticRegression(max_iter=500).fit(X, y)
+print("class 1 probabilities:", clf.predict_proba(X[:3])[:, 1].round(3).tolist())''',
+        "code3_title": "Coefficients",
+        "code3": '''from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+
+X, y = make_classification(n_samples=200, n_features=4, random_state=0)
+clf = LogisticRegression(max_iter=500).fit(X, y)
+print("coefficients:", clf.coef_[0].round(3).tolist())''',
+        "rw_scenario": "Always compare a fancy model against a logistic-regression baseline; if it cannot beat logistic regression, the complexity is not paying off.",
+        "rw_code": '''from sklearn.datasets import load_breast_cancer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+X, y = load_breast_cancer(return_X_y=True)
+pipe = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
+print("cv accuracy:", round(cross_val_score(pipe, X, y, cv=5).mean(), 3))''',
+        "todos": [
+            "Split, fit LogisticRegression, and score with accuracy_score",
+            "Read class probabilities from predict_proba",
+            "Use logistic regression as your baseline before trying complex models",
+        ],
+        "practice": {
+            "title": "LogReg Accuracy",
+            "desc": "Complete logreg_accuracy(): fit a LogisticRegression on a train split and return its test accuracy. Fill in the function, press Run, then press Check.",
+            "starter": '''from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def logreg_accuracy():
+    X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=2)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=2)
+    # TODO: fit LogisticRegression(max_iter=500) and return test accuracy
+    return 0.0
+
+print(round(logreg_accuracy(), 3))''',
+            "check": '''acc = logreg_accuracy()
+assert 0.0 <= acc <= 1.0, "accuracy is a fraction"
+assert acc > 0.8, "logistic regression should beat 0.8 here"
+print("All checks passed \\u2713")''',
+        },
+    },
+
+    {
+        "title": "Challenge: R-squared",
+        "desc": "R-squared is the standard goodness-of-fit score for regression: the fraction of variance explained. Press Run, then solve the exercise and press Check.",
+        "code1_title": "Fit a linear model",
+        "code1": '''from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+X, y = make_regression(n_samples=200, n_features=5, noise=10, random_state=3)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=3)
+reg = LinearRegression().fit(X_tr, y_tr)
+print("R2:", round(r2_score(y_te, reg.predict(X_te)), 3))''',
+        "code2_title": "The model has a built-in score",
+        "code2": '''from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+
+X, y = make_regression(n_samples=200, noise=10, random_state=3)
+reg = LinearRegression().fit(X, y)
+print("R2 via .score:", round(reg.score(X, y), 3))''',
+        "code3_title": "Coefficients and intercept",
+        "code3": '''from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+
+X, y = make_regression(n_samples=200, n_features=3, noise=5, random_state=3)
+reg = LinearRegression().fit(X, y)
+print("coef:", reg.coef_.round(2).tolist(), "intercept:", round(float(reg.intercept_), 2))''',
+        "rw_scenario": "R-squared on a held-out set tells you how much of the target's variance the model actually captures; near 1 is a tight fit, near 0 is no better than predicting the mean.",
+        "rw_code": '''from sklearn.datasets import load_diabetes
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+
+X, y = load_diabetes(return_X_y=True)
+print("cv R2:", round(cross_val_score(LinearRegression(), X, y, cv=5).mean(), 3))''',
+        "todos": [
+            "Fit LinearRegression and score with r2_score on a test split",
+            "Note that reg.score(X, y) returns R-squared directly",
+            "R-squared near 1 means most variance is explained",
+        ],
+        "practice": {
+            "title": "Regression R2",
+            "desc": "Complete linreg_r2(): fit a LinearRegression on a train split and return its R-squared on the test split. Fill in the function, press Run, then press Check.",
+            "starter": '''from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+def linreg_r2():
+    X, y = make_regression(n_samples=200, n_features=5, noise=10, random_state=3)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=3)
+    # TODO: fit LinearRegression and return r2_score on the test split
+    return 0.0
+
+print(round(linreg_r2(), 3))''',
+            "check": '''r2 = linreg_r2()
+assert r2 > 0.9, "a clean linear dataset should give a high R-squared"
+assert r2 <= 1.0, "R-squared never exceeds 1"
+print("All checks passed \\u2713")''',
+        },
+    },
+
 ]
 
 
