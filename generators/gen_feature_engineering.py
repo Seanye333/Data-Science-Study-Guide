@@ -1893,6 +1893,73 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Standardize",
+"desc": "Standardization (z-score) centers a column to mean 0 and scales to unit variance — what StandardScaler does. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Standardize a column", "code": '''import pandas as pd
+
+s = pd.Series([10, 20, 30, 40, 50], dtype=float)
+z = (s - s.mean()) / s.std(ddof=0)
+print("z:", z.round(3).tolist(), "mean:", round(z.mean(), 6), "std:", round(z.std(ddof=0), 6))'''},
+],
+"todos": [
+    "Subtract the mean and divide by the population std (ddof=0)",
+    "Confirm the result has mean 0 and std 1",
+],
+"practice": {
+    "title": "Z-Score Standardize",
+    "desc": "Implement standardize(s) returning the z-scored series (mean 0, population std 1). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np, pandas as pd
+
+def standardize(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: return (s - mean) / std, using population std (ddof=0)
+    return s
+
+z = standardize([10, 20, 30, 40, 50])
+print(z.round(3).tolist())''',
+    "check": '''import numpy as np
+z = standardize([10, 20, 30, 40, 50])
+assert abs(z.mean()) < 1e-9, "standardized data has mean 0"
+assert abs(z.std(ddof=0) - 1) < 1e-9, "standardized data has unit population std"
+assert abs(z.iloc[2]) < 1e-9, "the middle value (the mean) maps to 0"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Label Encoding",
+"desc": "Turn categories into integer codes — assign 0,1,2,... by sorted category order, deterministically. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Map categories to codes", "code": '''import pandas as pd
+
+s = pd.Series(["b", "a", "c", "a"])
+codes = {c: i for i, c in enumerate(sorted(s.unique()))}
+print("mapping:", codes)
+print("encoded:", s.map(codes).tolist())'''},
+],
+"todos": [
+    "Get the sorted unique categories",
+    "Assign each an integer code 0..k-1 and map the column",
+],
+"practice": {
+    "title": "Label Encode",
+    "desc": "Implement label_encode(s): map each category to an integer code assigned by sorted category order (smallest category -> 0). Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def label_encode(s):
+    s = pd.Series(s)
+    # TODO: codes assigned by sorted unique order, then map the series
+    return s
+
+print(label_encode(["b", "a", "c", "a"]).tolist())''',
+    "check": '''assert label_encode(["b", "a", "c", "a"]).tolist() == [1, 0, 2, 0], "codes follow sorted order: a=0, b=1, c=2"
+assert label_encode(["x", "x", "x"]).tolist() == [0, 0, 0], "a single category is all 0"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 

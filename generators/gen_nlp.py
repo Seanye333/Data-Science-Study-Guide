@@ -2001,6 +2001,66 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Stopword Removal",
+"desc": "Stopwords ('the', 'is', ...) carry little signal and are usually filtered before modeling. Stdlib-only, runs in the browser. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Filter tokens", "code": '''tokens = ["the", "quick", "brown", "fox", "is", "fast"]
+stop = {"the", "is", "a", "an"}
+kept = [t for t in tokens if t not in stop]
+print(kept)'''},
+],
+"todos": [
+    "Put the stopwords in a set for O(1) membership tests",
+    "Keep only tokens not in the stopword set, preserving order",
+],
+"practice": {
+    "title": "Remove Stopwords",
+    "desc": "Implement remove_stopwords(tokens, stop): return the tokens not in `stop`, in original order. Fill in the function, press Run, then press Check.",
+    "starter": '''def remove_stopwords(tokens, stop):
+    stop = set(stop)
+    # TODO: keep tokens that are NOT stopwords, preserving order
+    return tokens
+
+print(remove_stopwords(["the", "cat", "is", "here"], ["the", "is"]))''',
+    "check": '''assert remove_stopwords(["the", "cat", "is", "here"], ["the", "is"]) == ["cat", "here"], "drop the stopwords, keep order"
+assert remove_stopwords(["a", "b"], []) == ["a", "b"], "no stopwords keeps everything"
+assert remove_stopwords(["x", "x"], ["x"]) == [], "all-stopwords yields empty"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Term-Frequency Vector",
+"desc": "A bag-of-words vector counts how often each vocabulary word appears — the classic text feature. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Count over a vocab", "code": '''from collections import Counter
+
+tokens = ["a", "b", "a", "c", "a"]
+vocab = ["a", "b", "c", "d"]
+counts = Counter(tokens)
+print([counts[w] for w in vocab])'''},
+],
+"todos": [
+    "Count tokens with collections.Counter",
+    "Read counts off in vocabulary order (0 for unseen words)",
+],
+"practice": {
+    "title": "TF Vector",
+    "desc": "Implement tf_vector(tokens, vocab): return a list of counts of each vocab word in tokens, in vocab order. Fill in the function, press Run, then press Check.",
+    "starter": '''from collections import Counter
+
+def tf_vector(tokens, vocab):
+    # TODO: count tokens, then return [count of w for w in vocab]
+    return [0 for _ in vocab]
+
+print(tf_vector(["a", "b", "a", "c", "a"], ["a", "b", "c", "d"]))''',
+    "check": '''assert tf_vector(["a", "b", "a", "c", "a"], ["a", "b", "c", "d"]) == [3, 1, 1, 0], "counts in vocab order, 0 for unseen 'd'"
+assert tf_vector([], ["a", "b"]) == [0, 0], "no tokens yields all zeros"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 if __name__ == "__main__":

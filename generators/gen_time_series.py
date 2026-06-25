@@ -2208,6 +2208,69 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Differencing",
+"desc": "Differencing turns a level series into period-over-period changes — the first step toward stationarity. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Diff and pct_change", "code": '''import pandas as pd
+
+s = pd.Series([100, 110, 121, 133], dtype=float)
+print("diff:      ", s.diff().dropna().tolist())
+print("pct_change:", s.pct_change().dropna().round(3).tolist())'''},
+],
+"todos": [
+    "Compute the first difference with Series.diff()",
+    "Drop the leading NaN with .dropna()",
+],
+"practice": {
+    "title": "First Difference",
+    "desc": "Implement first_diff(s): return the first difference of the series with the leading NaN dropped. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def first_diff(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: return the first difference, dropping the leading NaN
+    return s
+
+print(first_diff([1, 3, 6, 10]).tolist())''',
+    "check": '''assert first_diff([1, 3, 6, 10]).tolist() == [2.0, 3.0, 4.0], "consecutive differences"
+assert len(first_diff([5, 5, 5])) == 2 and first_diff([5, 5, 5]).tolist() == [0.0, 0.0], "constant series differences to 0, length n-1"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Weekly Resample",
+"desc": "Resampling changes a series' frequency. Here: daily values to weekly means. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Daily to weekly", "code": '''import pandas as pd
+
+idx = pd.date_range("2024-01-01", periods=8, freq="D")
+s = pd.Series([1, 2, 3, 4, 5, 6, 7, 8], index=idx, dtype=float)
+print(s.resample("W").mean().tolist())'''},
+],
+"todos": [
+    "Attach a daily DatetimeIndex with pd.date_range(..., freq='D')",
+    "Aggregate to weekly means with .resample('W').mean()",
+],
+"practice": {
+    "title": "Weekly Mean",
+    "desc": "Implement weekly_mean(values): index the values as consecutive days from 2024-01-01 and return the weekly means. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def weekly_mean(values):
+    idx = pd.date_range("2024-01-01", periods=len(values), freq="D")
+    s = pd.Series(values, index=idx, dtype=float)
+    # TODO: resample to weekly ('W') and take the mean
+    return s
+
+print(weekly_mean([1, 2, 3, 4, 5, 6, 7, 8]).tolist())''',
+    "check": '''wm = weekly_mean([1, 2, 3, 4, 5, 6, 7, 8])
+assert wm.tolist() == [4.0, 8.0], "week 1 (Jan 1-7) mean is 4, week 2 (Jan 8) mean is 8"
+print("All checks passed \\u2713")'''
+}
+},
+
 
 ]
 

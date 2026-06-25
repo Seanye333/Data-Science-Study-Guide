@@ -1557,6 +1557,14 @@
    {
     "t": "Practice Lab: Rolling & Forecasting",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Differencing",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Weekly Resample",
+    "a": "s26"
    }
   ]
  },
@@ -1664,6 +1672,14 @@
    {
     "t": "Practice Lab: Tokenization & N-grams",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Stopword Removal",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Term-Frequency Vector",
+    "a": "s26"
    }
   ]
  },
@@ -1905,6 +1921,14 @@
    {
     "t": "Practice Lab: Encode & Scale",
     "a": "s12"
+   },
+   {
+    "t": "Challenge: Standardize",
+    "a": "s13"
+   },
+   {
+    "t": "Challenge: Label Encoding",
+    "a": "s14"
    }
   ]
  },

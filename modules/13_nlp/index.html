@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 25 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🧠 NLP & Text Processing</h2><p>Study Guide &bull; 27 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Text Cleaning &amp; Preprocessing</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Tokenization &amp; Stopword Removal</a></li>
@@ -37,8 +37,10 @@
     <li><a href="#s21" onclick="act(this,event)">22. Question Answering</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Text Generation &amp; Language Models</a></li>
     <li><a href="#s23" onclick="act(this,event)">24. NLP Pipeline &amp; Production Deployment</a></li>
-    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tokenization &amp; N-grams</a></li></ul></aside>
-<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
+    <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tokenization &amp; N-grams</a></li>
+    <li><a href="#s25" onclick="act(this,event)">Challenge: Stopword Removal</a></li>
+    <li><a href="#s26" onclick="act(this,event)">Challenge: Term-Frequency Vector</a></li></ul></aside>
+<main class="main"><h1 class="pt">🧠 NLP & Text Processing</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Text Cleaning &amp; Preprocessing</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Raw text is noisy. Learn to normalize case, remove punctuation, strip HTML, handle Unicode, and build reusable cleaning pipelines.</p><div class="code-block"><div class="ch"><span>Basic text normalization</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import re, string
 
 text = &#x27;  Hello, World! This is NLP 101... Check &lt;b&gt;this&lt;/b&gt; out!  &#x27;
 
@@ -3162,7 +3164,33 @@ assert len(bg) == len(toks) - 1, &quot;there are len(tokens) - 1 bigrams&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize text into lowercase words with re.findall(r&#x27;[a-z]+&#x27;, text.lower())</label></li>
 <li><label><input type="checkbox"> Count term frequencies with collections.Counter</label></li>
 <li><label><input type="checkbox"> Build bigrams with zip(tokens, tokens[1:])</label></li>
-<li><label><input type="checkbox"> Confirm there are len(tokens) - 1 bigrams</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Confirm there are len(tokens) - 1 bigrams</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>Challenge: Stopword Removal</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stopwords (&#x27;the&#x27;, &#x27;is&#x27;, ...) carry little signal and are usually filtered before modeling. Stdlib-only, runs in the browser. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Filter tokens</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">tokens = [&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;, &quot;is&quot;, &quot;fast&quot;]
+stop = {&quot;the&quot;, &quot;is&quot;, &quot;a&quot;, &quot;an&quot;}
+kept = [t for t in tokens if t not in stop]
+print(kept)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Remove Stopwords</div><div class="pd">Implement remove_stopwords(tokens, stop): return the tokens not in `stop`, in original order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">def remove_stopwords(tokens, stop):
+    stop = set(stop)
+    # TODO: keep tokens that are NOT stopwords, preserving order
+    return tokens
+
+print(remove_stopwords([&quot;the&quot;, &quot;cat&quot;, &quot;is&quot;, &quot;here&quot;], [&quot;the&quot;, &quot;is&quot;]))</code></pre></div><template class="ho-check">assert remove_stopwords([&quot;the&quot;, &quot;cat&quot;, &quot;is&quot;, &quot;here&quot;], [&quot;the&quot;, &quot;is&quot;]) == [&quot;cat&quot;, &quot;here&quot;], &quot;drop the stopwords, keep order&quot;
+assert remove_stopwords([&quot;a&quot;, &quot;b&quot;], []) == [&quot;a&quot;, &quot;b&quot;], &quot;no stopwords keeps everything&quot;
+assert remove_stopwords([&quot;x&quot;, &quot;x&quot;], [&quot;x&quot;]) == [], &quot;all-stopwords yields empty&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Put the stopwords in a set for O(1) membership tests</label></li>
+<li><label><input type="checkbox"> Keep only tokens not in the stopword set, preserving order</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>Challenge: Term-Frequency Vector</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A bag-of-words vector counts how often each vocabulary word appears — the classic text feature. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Count over a vocab</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">from collections import Counter
+
+tokens = [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;]
+vocab = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]
+counts = Counter(tokens)
+print([counts[w] for w in vocab])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TF Vector</div><div class="pd">Implement tf_vector(tokens, vocab): return a list of counts of each vocab word in tokens, in vocab order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">from collections import Counter
+
+def tf_vector(tokens, vocab):
+    # TODO: count tokens, then return [count of w for w in vocab]
+    return [0 for _ in vocab]
+
+print(tf_vector([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]))</code></pre></div><template class="ho-check">assert tf_vector([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]) == [3, 1, 1, 0], &quot;counts in vocab order, 0 for unseen &#x27;d&#x27;&quot;
+assert tf_vector([], [&quot;a&quot;, &quot;b&quot;]) == [0, 0], &quot;no tokens yields all zeros&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count tokens with collections.Counter</label></li>
+<li><label><input type="checkbox"> Read counts off in vocabulary order (0 for unseen words)</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}
