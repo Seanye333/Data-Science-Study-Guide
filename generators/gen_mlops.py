@@ -2444,6 +2444,63 @@ def load_model(path):
 }
 },
 
+{
+"title": "Challenge: F1 Score",
+"desc": "F1 is the harmonic mean of precision and recall — the standard single-number summary for imbalanced classification. Pure Python, runs in the browser. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Harmonic mean", "code": '''def f1(precision, recall):
+    if precision + recall == 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+print("f1(0.6, 0.9):", round(f1(0.6, 0.9), 3))'''},
+],
+"todos": [
+    "F1 = 2*P*R / (P+R)",
+    "Guard the P+R == 0 case to avoid dividing by zero",
+],
+"practice": {
+    "title": "F1 from Precision/Recall",
+    "desc": "Implement f1(precision, recall): return the F1 score (0 when both are 0). Fill in the function, press Run, then press Check.",
+    "starter": '''def f1(precision, recall):
+    # TODO: harmonic mean 2PR/(P+R); return 0.0 if P+R == 0
+    return 0.0
+
+print(round(f1(0.75, 0.75), 3))''',
+    "check": '''assert abs(f1(0.75, 0.75) - 0.75) < 1e-9, "equal P and R give that value"
+assert f1(0.0, 0.0) == 0.0, "guard the zero case"
+assert abs(f1(1.0, 0.5) - 2/3) < 1e-9, "harmonic mean is below the arithmetic mean"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Accuracy from Confusion Matrix",
+"desc": "Monitoring jobs often track raw counts (tp, tn, fp, fn); accuracy is (tp+tn)/total. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Counts to accuracy", "code": '''tp, tn, fp, fn = 50, 30, 10, 10
+print("accuracy:", (tp + tn) / (tp + tn + fp + fn))'''},
+],
+"todos": [
+    "Accuracy = (tp + tn) / (tp + tn + fp + fn)",
+    "Guard the empty (all-zero) case",
+],
+"practice": {
+    "title": "Accuracy from Counts",
+    "desc": "Implement accuracy_from_confusion(tp, tn, fp, fn): return accuracy, or 0.0 when there are no samples. Fill in the function, press Run, then press Check.",
+    "starter": '''def accuracy_from_confusion(tp, tn, fp, fn):
+    total = tp + tn + fp + fn
+    # TODO: return (tp + tn) / total, or 0.0 if total == 0
+    return 0.0
+
+print(accuracy_from_confusion(50, 30, 10, 10))''',
+    "check": '''assert abs(accuracy_from_confusion(50, 30, 10, 10) - 0.8) < 1e-9, "80 correct of 100"
+assert accuracy_from_confusion(0, 0, 0, 0) == 0.0, "no samples -> 0"
+assert abs(accuracy_from_confusion(1, 1, 0, 0) - 1.0) < 1e-9, "all correct -> 1"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]
 
 if __name__ == "__main__":

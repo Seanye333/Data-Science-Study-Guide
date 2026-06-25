@@ -13,7 +13,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🌐 APIs &amp; Data Collection</h2><p>Study Guide &bull; 19 topics</p>
+  <div class="sbh"><h2>🌐 APIs &amp; Data Collection</h2><p>Study Guide &bull; 21 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. How the Web Works — HTTP Fundamentals</a></li>
@@ -34,11 +34,13 @@
     <li><a href="#s15" onclick="act(this,event)">16. Data Collection Project — End-to-End Pipeline</a></li>
     <li><a href="#s16" onclick="act(this,event)">Practice Lab: Requests &amp; FastAPI</a></li>
     <li><a href="#s17" onclick="act(this,event)">Challenge: Authenticated POST</a></li>
-    <li><a href="#s18" onclick="act(this,event)">Challenge: Pagination</a></li></ul>
+    <li><a href="#s18" onclick="act(this,event)">Challenge: Pagination</a></li>
+    <li><a href="#s19" onclick="act(this,event)">Challenge: Respect Rate Limits</a></li>
+    <li><a href="#s20" onclick="act(this,event)">Challenge: Async Requests</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🌐 APIs &amp; Data Collection</h1>
-  <p class="ps">19 topics &bull; Click any card to expand</p>
+  <p class="ps">21 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. How the Web Works — HTTP Fundamentals</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Before consuming APIs you need to understand how HTTP works: requests, responses, methods, status codes, and headers. Every API call is just an HTTP request.</p><div class="code-block"><div class="ch"><span>HTTP methods overview</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python"># HTTP Methods (verbs) and their typical use
 # GET    — Retrieve data           (read-only, safe, idempotent)
 # POST   — Create a new resource   (not idempotent)
@@ -2235,7 +2237,46 @@ def fetch_all(base_url, per_page=100):
 
 print(len(fetch_all(&quot;https://api.github.com/repos/python/cpython/labels&quot;)))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Loop incrementing the page number until a page comes back empty</label></li>
 <li><label><input type="checkbox"> Accumulate items across pages into one list</label></li>
-<li><label><input type="checkbox"> Pass a sensible per_page to reduce the number of requests</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> Pass a sensible per_page to reduce the number of requests</label></li></ul></div></div></div><div class="topic" id="s19"><div class="th" onclick="tog(this)"><span>Challenge: Respect Rate Limits</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Good clients back off when the server says 429 Too Many Requests, honoring the Retry-After header. Run locally.</p><div class="code-block"><div class="ch"><span>Honor Retry-After</span><button onclick="cp('c19_0')">Copy</button></div><pre><code id="c19_0" class="language-python">import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        if r.status_code == 429:
+            wait = int(r.headers.get(&quot;Retry-After&quot;, &quot;1&quot;))
+            time.sleep(wait)
+            continue
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError(&quot;rate limited&quot;)
+
+# data = get_with_backoff(&quot;https://api.example.com/items&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Backoff on 429</div><div class="pd">Write get_with_backoff(url, max_tries=5) that retries on HTTP 429, sleeping for the Retry-After seconds, and returns JSON on success. Run locally.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        # TODO: on status 429, sleep int(Retry-After) and continue; else raise_for_status and return r.json()
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError(&quot;rate limited&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect HTTP 429 and read the Retry-After header</label></li>
+<li><label><input type="checkbox"> Sleep for the suggested time, then retry</label></li>
+<li><label><input type="checkbox"> Give up after a bounded number of attempts</label></li></ul></div></div></div><div class="topic" id="s20"><div class="th" onclick="tog(this)"><span>Challenge: Async Requests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">httpx + asyncio fetch many URLs concurrently — far faster than a serial loop for I/O-bound work. Run locally (pip install httpx).</p><div class="code-block"><div class="ch"><span>Fetch many URLs at once</span><button onclick="cp('c20_0')">Copy</button></div><pre><code id="c20_0" class="language-python">import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        responses = await asyncio.gather(*(client.get(u) for u in urls))
+        return [r.status_code for r in responses]
+
+# print(asyncio.run(fetch_all([&quot;https://example.com&quot;, &quot;https://httpbin.org/get&quot;])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Concurrent Fetch</div><div class="pd">Write an async fetch_all(urls) that GETs every URL concurrently with httpx and returns the list of status codes. Run locally with asyncio.run(...).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        # TODO: gather client.get(u) for all urls, then return [r.status_code for r in responses]
+        return []
+
+# print(asyncio.run(fetch_all([&quot;https://example.com&quot;])))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an httpx.AsyncClient inside an async with block</label></li>
+<li><label><input type="checkbox"> Schedule requests concurrently with asyncio.gather</label></li>
+<li><label><input type="checkbox"> Await the gathered results and read each response</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 27 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>🚀 MLOps & Model Deployment</h2><p>Study Guide &bull; 29 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Saving &amp; Loading Models</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. FastAPI Model Serving</a></li>
@@ -39,8 +39,10 @@
     <li><a href="#s23" onclick="act(this,event)">24. Feature Stores &amp; ML Platforms</a></li>
     <li><a href="#s24" onclick="act(this,event)">Practice Lab: Tracking &amp; Serving</a></li>
     <li><a href="#s25" onclick="act(this,event)">Challenge: Data Drift (PSI)</a></li>
-    <li><a href="#s26" onclick="act(this,event)">Challenge: Model Versioning</a></li></ul></aside>
-<main class="main"><h1 class="pt">🚀 MLOps & Model Deployment</h1><p class="ps">27 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Saving &amp; Loading Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.</p><div class="code-block"><div class="ch"><span>Save/load sklearn model with joblib</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import joblib
+    <li><a href="#s26" onclick="act(this,event)">Challenge: Model Versioning</a></li>
+    <li><a href="#s27" onclick="act(this,event)">Challenge: F1 Score</a></li>
+    <li><a href="#s28" onclick="act(this,event)">Challenge: Accuracy from Confusion Matrix</a></li></ul></aside>
+<main class="main"><h1 class="pt">🚀 MLOps & Model Deployment</h1><p class="ps">29 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Saving &amp; Loading Models</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.</p><div class="code-block"><div class="ch"><span>Save/load sklearn model with joblib</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
 
@@ -3582,7 +3584,30 @@ def load_model(path):
     # TODO: load the bundle and return (model, version, metrics)
     pass</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Bundle the model with a version string and its eval metrics</label></li>
 <li><label><input type="checkbox"> Persist the bundle with joblib.dump</label></li>
-<li><label><input type="checkbox"> On load, check the version before serving</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> On load, check the version before serving</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>Challenge: F1 Score</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">F1 is the harmonic mean of precision and recall — the standard single-number summary for imbalanced classification. Pure Python, runs in the browser. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Harmonic mean</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">def f1(precision, recall):
+    if precision + recall == 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+print(&quot;f1(0.6, 0.9):&quot;, round(f1(0.6, 0.9), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: F1 from Precision/Recall</div><div class="pd">Implement f1(precision, recall): return the F1 score (0 when both are 0). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">def f1(precision, recall):
+    # TODO: harmonic mean 2PR/(P+R); return 0.0 if P+R == 0
+    return 0.0
+
+print(round(f1(0.75, 0.75), 3))</code></pre></div><template class="ho-check">assert abs(f1(0.75, 0.75) - 0.75) &lt; 1e-9, &quot;equal P and R give that value&quot;
+assert f1(0.0, 0.0) == 0.0, &quot;guard the zero case&quot;
+assert abs(f1(1.0, 0.5) - 2/3) &lt; 1e-9, &quot;harmonic mean is below the arithmetic mean&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> F1 = 2*P*R / (P+R)</label></li>
+<li><label><input type="checkbox"> Guard the P+R == 0 case to avoid dividing by zero</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Accuracy from Confusion Matrix</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Monitoring jobs often track raw counts (tp, tn, fp, fn); accuracy is (tp+tn)/total. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Counts to accuracy</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">tp, tn, fp, fn = 50, 30, 10, 10
+print(&quot;accuracy:&quot;, (tp + tn) / (tp + tn + fp + fn))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy from Counts</div><div class="pd">Implement accuracy_from_confusion(tp, tn, fp, fn): return accuracy, or 0.0 when there are no samples. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">def accuracy_from_confusion(tp, tn, fp, fn):
+    total = tp + tn + fp + fn
+    # TODO: return (tp + tn) / total, or 0.0 if total == 0
+    return 0.0
+
+print(accuracy_from_confusion(50, 30, 10, 10))</code></pre></div><template class="ho-check">assert abs(accuracy_from_confusion(50, 30, 10, 10) - 0.8) &lt; 1e-9, &quot;80 correct of 100&quot;
+assert accuracy_from_confusion(0, 0, 0, 0) == 0.0, &quot;no samples -&gt; 0&quot;
+assert abs(accuracy_from_confusion(1, 1, 0, 0) - 1.0) &lt; 1e-9, &quot;all correct -&gt; 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Accuracy = (tp + tn) / (tp + tn + fp + fn)</label></li>
+<li><label><input type="checkbox"> Guard the empty (all-zero) case</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(a,e){e.preventDefault();document.querySelectorAll('#nl a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

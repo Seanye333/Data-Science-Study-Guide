@@ -548,6 +548,14 @@
    {
     "t": "Challenge: Pagination",
     "a": "s18"
+   },
+   {
+    "t": "Challenge: Respect Rate Limits",
+    "a": "s19"
+   },
+   {
+    "t": "Challenge: Async Requests",
+    "a": "s20"
    }
   ]
  },
@@ -979,6 +987,14 @@
    {
     "t": "Challenge: Faceting with Express",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: 3D Scatter",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Choropleth Map",
+    "a": "s28"
    }
   ]
  },
@@ -1217,6 +1233,14 @@
    {
     "t": "Challenge: Upload & Download",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: Layout — Columns & Tabs",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Cache a Connection",
+    "a": "s28"
    }
   ]
  },
@@ -1332,6 +1356,14 @@
    {
     "t": "Challenge: Window Over Groups",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: Pivot",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: String Expressions",
+    "a": "s28"
    }
   ]
  },
@@ -1939,6 +1971,14 @@
    {
     "t": "Challenge: Model Versioning",
     "a": "s26"
+   },
+   {
+    "t": "Challenge: F1 Score",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Accuracy from Confusion Matrix",
+    "a": "s28"
    }
   ]
  },
@@ -2022,6 +2062,14 @@
    {
     "t": "Challenge: Stash & Cherry-pick",
     "a": "s18"
+   },
+   {
+    "t": "Challenge: Bisect to Find a Bug",
+    "a": "s19"
+   },
+   {
+    "t": "Challenge: Worktrees",
+    "a": "s20"
    }
   ]
  },

@@ -5357,6 +5357,121 @@ st.title("CSV cleaner")'''
         },
     },
 
+    {
+        "title": "Challenge: Layout — Columns & Tabs",
+        "desc": "st.columns and st.tabs organize a busy app into a clean layout. Save as app.py and run with streamlit run app.py.",
+        "code1_title": "Side-by-side columns",
+        "code1": '''import streamlit as st
+
+left, right = st.columns(2)
+left.metric("Revenue", "$12k", "+8%")
+right.metric("Users", "1,240", "-3%")''',
+        "code2_title": "Tabbed sections",
+        "code2": '''import streamlit as st
+
+overview, detail = st.tabs(["Overview", "Detail"])
+with overview:
+    st.write("High-level summary here")
+with detail:
+    st.write("Row-level detail here")''',
+        "code3_title": "Weighted columns",
+        "code3": '''import streamlit as st
+
+main, side = st.columns([3, 1])
+main.write("Main content (3 parts wide)")
+side.info("Sidebar-like panel (1 part)")''',
+        "rw_scenario": "A dashboard with KPIs across the top (columns) and 'Charts'/'Data' as tabs keeps everything on one screen without scrolling.",
+        "rw_code": '''import streamlit as st
+import pandas as pd
+
+c1, c2, c3 = st.columns(3)
+c1.metric("Orders", 320); c2.metric("Revenue", "$48k"); c3.metric("Refunds", 12)
+
+charts, data = st.tabs(["Charts", "Data"])
+df = pd.DataFrame({"day": [1, 2, 3], "sales": [10, 14, 9]})
+with charts:
+    st.line_chart(df, x="day", y="sales")
+with data:
+    st.dataframe(df)''',
+        "todos": [
+            "Split the page horizontally with st.columns(n)",
+            "Group content into st.tabs([...]) and write under each with a with block",
+            "Pass a list of weights to st.columns for uneven widths",
+        ],
+        "practice": {
+            "title": "KPI Dashboard",
+            "desc": "Build a layout with three KPI metrics in a row of columns and two tabs ('Charts', 'Data'). Save as app.py and run with streamlit run app.py.",
+            "starter": '''import streamlit as st
+
+st.title("Dashboard")
+# TODO: c1, c2, c3 = st.columns(3) with three st.metric calls
+# TODO: charts, data = st.tabs(["Charts", "Data"]) and put content under each'''
+        },
+    },
+
+    {
+        "title": "Challenge: Cache a Connection",
+        "desc": "st.cache_resource caches global, unserializable handles (DB connections, loaded models) once per session — unlike cache_data, which caches return values. Run locally.",
+        "code1_title": "Cache a resource",
+        "code1": '''import streamlit as st
+
+@st.cache_resource
+def get_connection():
+    import sqlite3
+    return sqlite3.connect("app.db", check_same_thread=False)
+
+conn = get_connection()   # created once, reused on every rerun
+st.write("Connected:", conn is not None)''',
+        "code2_title": "cache_data vs cache_resource",
+        "code2": '''import streamlit as st
+import pandas as pd
+
+@st.cache_data       # caches the returned DataFrame (by argument)
+def load(n):
+    return pd.DataFrame({"x": range(n)})
+
+@st.cache_resource   # caches the object itself (a singleton)
+def model():
+    return {"weights": [0.1, 0.2]}
+
+st.write(len(load(100)), model()["weights"])''',
+        "code3_title": "Clear the cache",
+        "code3": '''import streamlit as st
+
+if st.button("Reset caches"):
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    st.success("Caches cleared")''',
+        "rw_scenario": "Load a heavy ML model once with cache_resource so every user interaction reuses the same in-memory model instead of reloading it each rerun.",
+        "rw_code": '''import streamlit as st
+
+@st.cache_resource
+def load_model():
+    # imagine joblib.load("model.joblib") here
+    return {"name": "demo-model", "version": "1.0"}
+
+model = load_model()
+st.write("Serving", model["name"], model["version"])''',
+        "todos": [
+            "Use @st.cache_resource for connections/models (one shared instance)",
+            "Use @st.cache_data for serializable return values (keyed by args)",
+            "Expose a button that calls .clear() to invalidate caches",
+        ],
+        "practice": {
+            "title": "Singleton Resource",
+            "desc": "Write a get_connection() cached with st.cache_resource that returns a sqlite3 connection, and show that it is reused. Save as app.py and run with streamlit run app.py.",
+            "starter": '''import streamlit as st
+
+# TODO: decorate get_connection with @st.cache_resource and return a sqlite3 connection
+def get_connection():
+    import sqlite3
+    return sqlite3.connect("app.db", check_same_thread=False)
+
+conn = get_connection()
+st.write("Connected:", conn is not None)'''
+        },
+    },
+
 ]
 
 

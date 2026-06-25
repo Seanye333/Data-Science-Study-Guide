@@ -3071,6 +3071,60 @@ fig = None
 }
 },
 
+{
+"title": "Challenge: 3D Scatter",
+"desc": "Plotly renders interactive, rotatable 3D scatter plots in a couple of lines. Run locally with fig.show().",
+"examples": [
+    {"label": "3D scatter", "code": '''import plotly.express as px
+
+df = px.data.iris()
+fig = px.scatter_3d(df, x="sepal_length", y="sepal_width", z="petal_length",
+                    color="species", title="Iris in 3D")
+fig.show()'''},
+],
+"todos": [
+    "Use px.scatter_3d with x, y, and z columns",
+    "Map color to a category to separate groups",
+],
+"practice": {
+    "title": "3D Plot",
+    "desc": "Build a 3D scatter of the iris dataset (sepal_length, sepal_width, petal_length), colored by species. Run locally with fig.show().",
+    "starter": '''import plotly.express as px
+
+df = px.data.iris()
+# TODO: px.scatter_3d(df, x="sepal_length", y="sepal_width", z="petal_length", color="species")
+fig = None
+# fig.show()'''
+}
+},
+
+{
+"title": "Challenge: Choropleth Map",
+"desc": "A choropleth shades regions by a value — Plotly handles the geography for you. Run locally with fig.show().",
+"examples": [
+    {"label": "World choropleth", "code": '''import plotly.express as px
+
+df = px.data.gapminder().query("year == 2007")
+fig = px.choropleth(df, locations="iso_alpha", color="lifeExp",
+                    hover_name="country", title="Life expectancy, 2007")
+fig.show()'''},
+],
+"todos": [
+    "Pass ISO-3 country codes to locations=",
+    "Map color to the metric you want to shade by",
+],
+"practice": {
+    "title": "Map a Metric",
+    "desc": "Using px.data.gapminder() filtered to year 2007, draw a choropleth shading countries by gdpPercap. Run locally with fig.show().",
+    "starter": '''import plotly.express as px
+
+df = px.data.gapminder().query("year == 2007")
+# TODO: px.choropleth(df, locations="iso_alpha", color="gdpPercap", hover_name="country")
+fig = None
+# fig.show()'''
+}
+},
+
 ]  # end SECTIONS
 
 

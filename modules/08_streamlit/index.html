@@ -46,6 +46,8 @@
 <a href="#s24">Practice Lab: Widgets & Caching</a>
 <a href="#s25">Challenge: Forms</a>
 <a href="#s26">Challenge: Upload & Download</a>
+<a href="#s27">Challenge: Layout — Columns & Tabs</a>
+<a href="#s28">Challenge: Cache a Connection</a>
 
 </nav>
 <main>
@@ -5731,6 +5733,133 @@ st.title(&quot;CSV cleaner&quot;)</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Accept a file with st.file_uploader(type=&#x27;csv&#x27;) and guard for None</label></li>
 <li><label><input type="checkbox"> Read it into pandas and show a preview</label></li>
 <li><label><input type="checkbox"> Return a result with st.download_button(label, data, filename)</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s27">
+  <div class="card-header" onclick="toggle('s27')">
+    <span>28. Challenge: Layout — Columns & Tabs</span>
+    <span class="arrow" id="arr-s27">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s27" style="display:none">
+    <p class="desc">st.columns and st.tabs organize a busy app into a clean layout. Save as app.py and run with streamlit run app.py.</p>
+    <h4>Side-by-side columns</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+left, right = st.columns(2)
+left.metric(&quot;Revenue&quot;, &quot;$12k&quot;, &quot;+8%&quot;)
+right.metric(&quot;Users&quot;, &quot;1,240&quot;, &quot;-3%&quot;)</code></pre></div>
+    <h4>Tabbed sections</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+overview, detail = st.tabs([&quot;Overview&quot;, &quot;Detail&quot;])
+with overview:
+    st.write(&quot;High-level summary here&quot;)
+with detail:
+    st.write(&quot;Row-level detail here&quot;)</code></pre></div>
+    <h4>Weighted columns</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+main, side = st.columns([3, 1])
+main.write(&quot;Main content (3 parts wide)&quot;)
+side.info(&quot;Sidebar-like panel (1 part)&quot;)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">A dashboard with KPIs across the top (columns) and 'Charts'/'Data' as tabs keeps everything on one screen without scrolling.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+c1, c2, c3 = st.columns(3)
+c1.metric(&quot;Orders&quot;, 320); c2.metric(&quot;Revenue&quot;, &quot;$48k&quot;); c3.metric(&quot;Refunds&quot;, 12)
+
+charts, data = st.tabs([&quot;Charts&quot;, &quot;Data&quot;])
+df = pd.DataFrame({&quot;day&quot;: [1, 2, 3], &quot;sales&quot;: [10, 14, 9]})
+with charts:
+    st.line_chart(df, x=&quot;day&quot;, y=&quot;sales&quot;)
+with data:
+    st.dataframe(df)</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: KPI Dashboard</div><div class="pd">Build a layout with three KPI metrics in a row of columns and two tabs (&#x27;Charts&#x27;, &#x27;Data&#x27;). Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p27" class="language-python">import streamlit as st
+
+st.title(&quot;Dashboard&quot;)
+# TODO: c1, c2, c3 = st.columns(3) with three st.metric calls
+# TODO: charts, data = st.tabs([&quot;Charts&quot;, &quot;Data&quot;]) and put content under each</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Split the page horizontally with st.columns(n)</label></li>
+<li><label><input type="checkbox"> Group content into st.tabs([...]) and write under each with a with block</label></li>
+<li><label><input type="checkbox"> Pass a list of weights to st.columns for uneven widths</label></li></ul></div>
+  </div>
+</div>
+<div class="card" id="s28">
+  <div class="card-header" onclick="toggle('s28')">
+    <span>29. Challenge: Cache a Connection</span>
+    <span class="arrow" id="arr-s28">&#9654;</span>
+  </div>
+  <div class="card-body" id="body-s28" style="display:none">
+    <p class="desc">st.cache_resource caches global, unserializable handles (DB connections, loaded models) once per session — unlike cache_data, which caches return values. Run locally.</p>
+    <h4>Cache a resource</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+@st.cache_resource
+def get_connection():
+    import sqlite3
+    return sqlite3.connect(&quot;app.db&quot;, check_same_thread=False)
+
+conn = get_connection()   # created once, reused on every rerun
+st.write(&quot;Connected:&quot;, conn is not None)</code></pre></div>
+    <h4>cache_data vs cache_resource</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+import pandas as pd
+
+@st.cache_data       # caches the returned DataFrame (by argument)
+def load(n):
+    return pd.DataFrame({&quot;x&quot;: range(n)})
+
+@st.cache_resource   # caches the object itself (a singleton)
+def model():
+    return {&quot;weights&quot;: [0.1, 0.2]}
+
+st.write(len(load(100)), model()[&quot;weights&quot;])</code></pre></div>
+    <h4>Clear the cache</h4>
+    <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <pre><code class="language-python">import streamlit as st
+
+if st.button(&quot;Reset caches&quot;):
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    st.success(&quot;Caches cleared&quot;)</code></pre></div>
+    
+    <div class="rw">
+      <div class="rh">Real-World Use Case</div>
+      <div class="rd">Load a heavy ML model once with cache_resource so every user interaction reuses the same in-memory model instead of reloading it each rerun.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code class="language-python">import streamlit as st
+
+@st.cache_resource
+def load_model():
+    # imagine joblib.load(&quot;model.joblib&quot;) here
+    return {&quot;name&quot;: &quot;demo-model&quot;, &quot;version&quot;: &quot;1.0&quot;}
+
+model = load_model()
+st.write(&quot;Serving&quot;, model[&quot;name&quot;], model[&quot;version&quot;])</code></pre></div>
+    </div>
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Singleton Resource</div><div class="pd">Write a get_connection() cached with st.cache_resource that returns a sqlite3 connection, and show that it is reused. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p28" class="language-python">import streamlit as st
+
+# TODO: decorate get_connection with @st.cache_resource and return a sqlite3 connection
+def get_connection():
+    import sqlite3
+    return sqlite3.connect(&quot;app.db&quot;, check_same_thread=False)
+
+conn = get_connection()
+st.write(&quot;Connected:&quot;, conn is not None)</code></pre></div></div>
+    <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use @st.cache_resource for connections/models (one shared instance)</label></li>
+<li><label><input type="checkbox"> Use @st.cache_data for serializable return values (keyed by args)</label></li>
+<li><label><input type="checkbox"> Expose a button that calls .clear() to invalidate caches</label></li></ul></div>
   </div>
 </div>
 </main>

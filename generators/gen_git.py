@@ -2196,6 +2196,75 @@ git log --oneline -3'''
 }
 },
 
+{
+"title": "Challenge: Bisect to Find a Bug",
+"desc": "git bisect does a binary search across history to pinpoint the commit that introduced a bug. Try it in a real repo.",
+"examples": [
+    {"label": "Binary-search for the bad commit", "lang": "bash", "code": '''# Start bisecting: mark a known-bad and known-good commit
+git bisect start
+git bisect bad                 # current commit is broken
+git bisect good v1.0          # this older tag worked
+
+# Git checks out a commit in the middle; test it, then tell Git:
+git bisect good               # ... or: git bisect bad
+# Repeat until Git prints the first bad commit, then:
+git bisect reset'''},
+],
+"todos": [
+    "Start with git bisect start, then mark one bad and one good commit",
+    "Test each checkout and mark it good or bad",
+    "Finish with git bisect reset to return to your branch",
+],
+"practice": {
+    "title": "Pinpoint the Regression",
+    "lang": "bash",
+    "desc": "A test passes at tag v1.0 but fails now. Write the bisect commands to find the first bad commit. Try it in a scratch repo.",
+    "starter": '''# 1. Begin the search
+git bisect start
+git bisect bad
+git bisect good v1.0
+
+# 2. TODO: at each checkout, run your test and mark the commit
+#    git bisect good   (test passes)
+#    git bisect bad    (test fails)
+
+# 3. When Git names the first bad commit, end the session
+git bisect reset'''
+}
+},
+
+{
+"title": "Challenge: Worktrees",
+"desc": "git worktree checks out multiple branches into separate folders at once — handy for reviewing a PR without stashing your work. Try it in a real repo.",
+"examples": [
+    {"label": "A second working directory", "lang": "bash", "code": '''# Check out a branch into a sibling folder
+git worktree add ../review-pr feature/login
+
+# Work in ../review-pr independently of your main checkout
+cd ../review-pr && git status
+
+# When done, remove it
+git worktree remove ../review-pr'''},
+],
+"todos": [
+    "Create a linked checkout with git worktree add <path> <branch>",
+    "List active worktrees with git worktree list",
+    "Clean up with git worktree remove <path>",
+],
+"practice": {
+    "title": "Review Without Stashing",
+    "lang": "bash",
+    "desc": "You're mid-change and need to review branch feature/login. Write the commands to check it out in a separate folder and remove it afterward. Try it in a scratch repo.",
+    "starter": '''# 1. Add a worktree for the branch to review
+git worktree add ../review feature/login
+
+# 2. TODO: cd into ../review, inspect it, then come back
+
+# 3. Remove the worktree when finished
+git worktree remove ../review'''
+}
+},
+
 ]
 
 

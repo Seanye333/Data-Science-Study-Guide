@@ -2869,6 +2869,77 @@ print(len(fetch_all("https://api.github.com/repos/python/cpython/labels")))'''
 }
 },
 
+{
+"title": "Challenge: Respect Rate Limits",
+"desc": "Good clients back off when the server says 429 Too Many Requests, honoring the Retry-After header. Run locally.",
+"examples": [
+    {"label": "Honor Retry-After", "code": '''import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        if r.status_code == 429:
+            wait = int(r.headers.get("Retry-After", "1"))
+            time.sleep(wait)
+            continue
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError("rate limited")
+
+# data = get_with_backoff("https://api.example.com/items")'''},
+],
+"todos": [
+    "Detect HTTP 429 and read the Retry-After header",
+    "Sleep for the suggested time, then retry",
+    "Give up after a bounded number of attempts",
+],
+"practice": {
+    "title": "Backoff on 429",
+    "desc": "Write get_with_backoff(url, max_tries=5) that retries on HTTP 429, sleeping for the Retry-After seconds, and returns JSON on success. Run locally.",
+    "starter": '''import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        # TODO: on status 429, sleep int(Retry-After) and continue; else raise_for_status and return r.json()
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError("rate limited")'''
+}
+},
+
+{
+"title": "Challenge: Async Requests",
+"desc": "httpx + asyncio fetch many URLs concurrently — far faster than a serial loop for I/O-bound work. Run locally (pip install httpx).",
+"examples": [
+    {"label": "Fetch many URLs at once", "code": '''import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        responses = await asyncio.gather(*(client.get(u) for u in urls))
+        return [r.status_code for r in responses]
+
+# print(asyncio.run(fetch_all(["https://example.com", "https://httpbin.org/get"])))'''},
+],
+"todos": [
+    "Create an httpx.AsyncClient inside an async with block",
+    "Schedule requests concurrently with asyncio.gather",
+    "Await the gathered results and read each response",
+],
+"practice": {
+    "title": "Concurrent Fetch",
+    "desc": "Write an async fetch_all(urls) that GETs every URL concurrently with httpx and returns the list of status codes. Run locally with asyncio.run(...).",
+    "starter": '''import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        # TODO: gather client.get(u) for all urls, then return [r.status_code for r in responses]
+        return []
+
+# print(asyncio.run(fetch_all(["https://example.com"])))'''
+}
+},
+
 ]
 
 
