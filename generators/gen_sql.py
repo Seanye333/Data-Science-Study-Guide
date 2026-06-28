@@ -2767,6 +2767,187 @@ print("All checks passed ✓")'''
 }
 },
 
+{
+"title": "34. Challenge: Joins & Aggregation",
+"desc": "Join two tables and aggregate — the bread and butter of analytics SQL. Runs in-browser via SQLite. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Inner join + group by", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE customers(id INT, name TEXT);
+CREATE TABLE orders(id INT, cust_id INT, amount INT);
+INSERT INTO customers VALUES (1,'Ada'),(2,'Bo'),(3,'Cy');
+INSERT INTO orders VALUES (1,1,100),(2,1,50),(3,2,200);
+""")
+rows = con.execute("""
+SELECT c.name, COUNT(o.id) AS n_orders, SUM(o.amount) AS total
+FROM customers c JOIN orders o ON o.cust_id = c.id
+GROUP BY c.name ORDER BY total DESC
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "Join orders to customers on the foreign key with JOIN ... ON",
+    "Aggregate per customer with GROUP BY and SUM/COUNT",
+    "Order the result by the aggregate descending",
+],
+"practice": {
+    "title": "Spend Per Customer",
+    "desc": "Write a query returning (name, total) — each customer's total order amount — highest first. Customers with no orders may be omitted (an inner join is fine). Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE customers(id INT, name TEXT);
+CREATE TABLE orders(id INT, cust_id INT, amount INT);
+INSERT INTO customers VALUES (1,'Ada'),(2,'Bo');
+INSERT INTO orders VALUES (1,1,100),(2,1,50),(3,2,200);
+""")
+
+# TODO: join orders to customers, sum amount per name, order by total desc
+query = """
+SELECT name, 0 AS total FROM customers   -- replace me
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert ("Bo", 200) in rows, "Bo spent 200"
+assert ("Ada", 150) in rows, "Ada spent 100 + 50 = 150"
+assert rows[0] == ("Bo", 200), "highest total comes first"
+assert len(rows) == 2, "one row per customer with orders"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "35. Challenge: Filter Groups with HAVING",
+"desc": "WHERE filters rows; HAVING filters groups after aggregation. Runs in-browser via SQLite. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "GROUP BY ... HAVING", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES ('a',10),('a',30),('b',5),('c',40),('c',40);
+""")
+rows = con.execute("""
+SELECT cat, SUM(amt) AS total
+FROM t GROUP BY cat HAVING SUM(amt) >= 40 ORDER BY cat
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "Aggregate per group with GROUP BY",
+    "Keep only groups passing a condition with HAVING (not WHERE)",
+    "Remember WHERE filters rows before grouping, HAVING filters after",
+],
+"practice": {
+    "title": "Big Spenders",
+    "desc": "Return (cat, total) for every category whose total amount is at least 40, ordered by cat. Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE t(cat TEXT, amt INT);
+INSERT INTO t VALUES ('a',10),('a',30),('b',5),('c',40),('c',40);
+""")
+
+# TODO: group by cat, sum amt as total, keep groups with total >= 40, order by cat
+query = """
+SELECT cat, SUM(amt) AS total FROM t GROUP BY cat   -- add a HAVING and ORDER BY
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert rows == [("a", 40), ("c", 80)], "only categories with total >= 40, ordered by cat"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "36. Challenge: Find the Gaps (LEFT JOIN)",
+"desc": "A LEFT JOIN plus IS NULL finds rows with no match — e.g. customers who never ordered. Runs in-browser via SQLite. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Anti-join with IS NULL", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE c(id INT, name TEXT);
+CREATE TABLE o(id INT, cid INT);
+INSERT INTO c VALUES (1,'A'),(2,'B'),(3,'C');
+INSERT INTO o VALUES (1,1),(2,1),(3,2);
+""")
+rows = con.execute("""
+SELECT c.name FROM c LEFT JOIN o ON o.cid = c.id
+WHERE o.id IS NULL ORDER BY c.name
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "LEFT JOIN keeps every left row, with NULLs where there is no match",
+    "Filter WHERE the right key IS NULL to keep only unmatched rows",
+],
+"practice": {
+    "title": "Customers With No Orders",
+    "desc": "Return the names of customers that have no orders, ordered by name. Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE c(id INT, name TEXT);
+CREATE TABLE o(id INT, cid INT);
+INSERT INTO c VALUES (1,'A'),(2,'B'),(3,'C');
+INSERT INTO o VALUES (1,1),(2,1),(3,2);
+""")
+
+# TODO: LEFT JOIN o on c, keep rows where o.id IS NULL, order by name
+query = """
+SELECT name FROM c   -- replace me
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert rows == [("C",)], "only C has no matching order"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "37. Challenge: Above Average (Subquery)",
+"desc": "A scalar subquery lets you compare each row to an aggregate of the whole table. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Compare to the average", "code": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE s(name TEXT, amt INT);
+INSERT INTO s VALUES ('a',10),('b',20),('c',60);
+""")
+rows = con.execute("""
+SELECT name, amt FROM s WHERE amt > (SELECT AVG(amt) FROM s) ORDER BY name
+""").fetchall()
+print(rows)'''},
+],
+"todos": [
+    "Use a scalar subquery (SELECT AVG(amt) FROM s) inside WHERE",
+    "Each row is compared against the whole-table aggregate",
+],
+"practice": {
+    "title": "Bigger Than Average",
+    "desc": "Return the names whose amt is strictly greater than the average amt, ordered by name. Fill in the query, press Run, then press Check.",
+    "starter": '''import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE s(name TEXT, amt INT);
+INSERT INTO s VALUES ('a',10),('b',20),('c',60);
+""")
+
+# TODO: keep rows where amt is greater than the average amt, order by name
+query = """
+SELECT name FROM s ORDER BY name   -- add the WHERE with a subquery
+"""
+
+rows = con.execute(query).fetchall()
+print(rows)''',
+    "check": '''assert rows == [("c",)], "average is 30; only c (60) is above it"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

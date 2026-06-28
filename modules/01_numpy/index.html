@@ -12,7 +12,7 @@
   <div class="loader-text">Loading Module…</div>
 </div>
 <aside class="sidebar">
-  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 33 topics</p>
+  <div class="sbh"><h2>🔢 NumPy</h2><p>Study Guide &bull; 37 topics</p>
     <input id="q" placeholder="Search..." oninput="filt(this.value)">
   </div>
   <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Array Creation</a></li>
@@ -47,11 +47,15 @@
     <li><a href="#s29" onclick="act(this,event)">30. Advanced Linear Algebra Operations</a></li>
     <li><a href="#s30" onclick="act(this,event)">31. Numerical Differentiation &amp; Optimization</a></li>
     <li><a href="#s31" onclick="act(this,event)">32. NumPy in Data Science Workflows</a></li>
-    <li><a href="#s32" onclick="act(this,event)">33. Practice Lab: Array Challenges</a></li></ul>
+    <li><a href="#s32" onclick="act(this,event)">33. Practice Lab: Array Challenges</a></li>
+    <li><a href="#s33" onclick="act(this,event)">34. Challenge: Running Maximum</a></li>
+    <li><a href="#s34" onclick="act(this,event)">35. Challenge: Row Argmax</a></li>
+    <li><a href="#s35" onclick="act(this,event)">36. Challenge: Cosine Similarity</a></li>
+    <li><a href="#s36" onclick="act(this,event)">37. Challenge: Boolean Masking</a></li></ul>
 </aside>
 <main class="main">
   <h1 class="pt">🔢 NumPy</h1>
-  <p class="ps">33 topics &bull; Click any card to expand</p>
+  <p class="ps">37 topics &bull; Click any card to expand</p>
   <div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Array Creation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">NumPy arrays are the foundation of scientific computing. Create them from lists, ranges, or built-in factory functions.</p><div class="code-block"><div class="ch"><span>From lists and factory functions</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 
 a = np.array([1, 2, 3, 4, 5])
@@ -4356,7 +4360,73 @@ assert np.array_equal(oh.sum(axis=1), np.ones(len(labels))), &quot;each one-hot 
 assert np.array_equal(oh.argmax(axis=1), labels), &quot;argmax of each one-hot row must equal the label&quot;</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a pairwise distance matrix with the ||a-b||^2 expansion and confirm it is symmetric with a zero diagonal</label></li>
 <li><label><input type="checkbox"> Compute a 5-point moving average with np.convolve and a uniform kernel</label></li>
 <li><label><input type="checkbox"> Min-max normalize a matrix so every column spans exactly [0, 1]</label></li>
-<li><label><input type="checkbox"> One-hot encode an integer label vector using the broadcasting == arange trick</label></li></ul></div></div></div>
+<li><label><input type="checkbox"> One-hot encode an integer label vector using the broadcasting == arange trick</label></li></ul></div></div></div><div class="topic" id="s33"><div class="th" onclick="tog(this)"><span>34. Challenge: Running Maximum</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A quick vectorization challenge. Press Run to see the example, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Cumulative reductions</span><button onclick="cp('c33_0')">Copy</button></div><pre><code id="c33_0" class="language-python">import numpy as np
+
+a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
+print(&quot;cumsum: &quot;, np.cumsum(a).tolist())
+print(&quot;cumprod:&quot;, np.cumprod(a[:4]).tolist())
+print(&quot;cummax: &quot;, np.maximum.accumulate(a).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Maximum</div><div class="pd">Implement running_max(a): return an array where each element is the maximum of all elements up to and including that position (a cumulative max). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import numpy as np
+
+def running_max(a):
+    a = np.asarray(a)
+    # TODO: return the cumulative maximum (hint: np.maximum.accumulate)
+    return a
+
+print(running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist())</code></pre></div><template class="ho-check">assert running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist() == [3, 3, 4, 4, 5, 9, 9, 9], &quot;each element is the max seen so far&quot;
+assert running_max([5]).tolist() == [5], &quot;single element stays itself&quot;
+import numpy as np
+assert np.array_equal(running_max([1, 2, 3]), [1, 2, 3]), &quot;already-increasing input is unchanged&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.maximum.accumulate for a running maximum</label></li>
+<li><label><input type="checkbox"> Compare it with np.cumsum and np.cumprod</label></li></ul></div></div></div><div class="topic" id="s34"><div class="th" onclick="tog(this)"><span>35. Challenge: Row Argmax</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Find the position of the max in each row — a one-liner with axis-aware reductions. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Axis-aware reductions</span><button onclick="cp('c34_0')">Copy</button></div><pre><code id="c34_0" class="language-python">import numpy as np
+
+M = np.array([[1, 5, 2], [9, 0, 3], [4, 4, 7]])
+print(&quot;max per row:   &quot;, M.max(axis=1).tolist())
+print(&quot;argmax per row:&quot;, M.argmax(axis=1).tolist())
+print(&quot;sum per column:&quot;, M.sum(axis=0).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Argmax</div><div class="pd">Implement row_argmax(M): return a 1-D array with the column index of the largest value in each row. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import numpy as np
+
+def row_argmax(M):
+    M = np.asarray(M)
+    # TODO: return the index of the max value in each row (hint: argmax with an axis)
+    return np.zeros(len(M), dtype=int)
+
+print(row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist())</code></pre></div><template class="ho-check">assert row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist() == [1, 0, 2], &quot;index of the per-row max&quot;
+assert row_argmax([[2, 1]]).tolist() == [0], &quot;single row&quot;
+import numpy as np
+assert np.array_equal(row_argmax([[3, 3, 1]]), [0]), &quot;argmax returns the first max on ties&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Reduce along axis=1 to operate per row</label></li>
+<li><label><input type="checkbox"> Use argmax(axis=1) to get the index of the max in each row</label></li>
+<li><label><input type="checkbox"> Remember argmax returns the FIRST max on ties</label></li></ul></div></div></div><div class="topic" id="s35"><div class="th" onclick="tog(this)"><span>36. Challenge: Cosine Similarity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Cosine similarity measures the angle between two vectors — the workhorse of search and recommendations. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Dot product and norms</span><button onclick="cp('c35_0')">Copy</button></div><pre><code id="c35_0" class="language-python">import numpy as np
+
+a = np.array([1.0, 2, 3]); b = np.array([2.0, 4, 6])
+print(&quot;dot:&quot;, float(a @ b), &quot;norm a:&quot;, round(float(np.linalg.norm(a)), 3))
+print(&quot;cosine:&quot;, round(float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cosine Similarity</div><div class="pd">Implement cosine_sim(a, b) returning the cosine similarity of two vectors. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import numpy as np
+
+def cosine_sim(a, b):
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    # TODO: (a . b) / (||a|| * ||b||)   -- np.linalg.norm gives the length
+    return 0.0
+
+print(round(cosine_sim([1, 2, 3], [2, 4, 6]), 4))</code></pre></div><template class="ho-check">assert abs(cosine_sim([1, 0], [1, 0]) - 1) &lt; 1e-9, &quot;identical direction -&gt; 1&quot;
+assert abs(cosine_sim([1, 0], [0, 1])) &lt; 1e-9, &quot;orthogonal -&gt; 0&quot;
+assert abs(cosine_sim([1, 1], [2, 2]) - 1) &lt; 1e-9, &quot;scaled copies are parallel -&gt; 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Cosine similarity is (a . b) / (||a|| * ||b||)</label></li>
+<li><label><input type="checkbox"> Parallel vectors score 1, orthogonal vectors score 0</label></li></ul></div></div></div><div class="topic" id="s36"><div class="th" onclick="tog(this)"><span>37. Challenge: Boolean Masking</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Boolean arrays select and count elements without loops. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Mask and select</span><button onclick="cp('c36_0')">Copy</button></div><pre><code id="c36_0" class="language-python">import numpy as np
+
+a = np.array([1, 5, 3, 8, 2])
+mask = a &gt; 3
+print(&quot;mask:&quot;, mask.tolist())
+print(&quot;selected:&quot;, a[mask].tolist(), &quot;count:&quot;, int(mask.sum()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Above Threshold</div><div class="pd">Implement count_above(arr, t): return how many elements of arr are strictly greater than t. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import numpy as np
+
+def count_above(arr, t):
+    arr = np.asarray(arr)
+    # TODO: return the number of elements strictly greater than t
+    return 0
+
+print(count_above([1, 5, 3, 8, 2], 3))</code></pre></div><template class="ho-check">assert count_above([1, 5, 3, 8, 2], 3) == 2, &quot;only 5 and 8 exceed 3&quot;
+assert count_above([1, 2, 3], 5) == 0, &quot;nothing exceeds 5&quot;
+assert count_above([4, 4, 4], 3) == 3, &quot;all exceed 3&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a boolean mask with a comparison like a &gt; t</label></li>
+<li><label><input type="checkbox"> Count matches with mask.sum() and select with a[mask]</label></li></ul></div></div></div>
 </main>
 <script>
 hljs.highlightAll();

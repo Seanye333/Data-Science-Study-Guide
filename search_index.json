@@ -143,6 +143,18 @@
    {
     "t": "35. Practice Lab: Collections & Counting",
     "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Strings & Sequences",
+    "a": "s35"
+   },
+   {
+    "t": "37. Challenge: FizzBuzz",
+    "a": "s36"
+   },
+   {
+    "t": "38. Challenge: Flatten",
+    "a": "s37"
    }
   ]
  },
@@ -282,6 +294,22 @@
    {
     "t": "33. Practice Lab: Array Challenges",
     "a": "s32"
+   },
+   {
+    "t": "34. Challenge: Running Maximum",
+    "a": "s33"
+   },
+   {
+    "t": "35. Challenge: Row Argmax",
+    "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Cosine Similarity",
+    "a": "s35"
+   },
+   {
+    "t": "37. Challenge: Boolean Masking",
+    "a": "s36"
    }
   ]
  },
@@ -421,6 +449,22 @@
    {
     "t": "33. Practice Lab: Windows & CTEs",
     "a": "s32"
+   },
+   {
+    "t": "34. Challenge: Joins & Aggregation",
+    "a": "s33"
+   },
+   {
+    "t": "35. Challenge: Filter Groups with HAVING",
+    "a": "s34"
+   },
+   {
+    "t": "36. Challenge: Find the Gaps (LEFT JOIN)",
+    "a": "s35"
+   },
+   {
+    "t": "37. Challenge: Above Average (Subquery)",
+    "a": "s36"
    }
   ]
  },
@@ -496,6 +540,22 @@
    {
     "t": "Practice Lab: Requests & FastAPI",
     "a": "s16"
+   },
+   {
+    "t": "Challenge: Authenticated POST",
+    "a": "s17"
+   },
+   {
+    "t": "Challenge: Pagination",
+    "a": "s18"
+   },
+   {
+    "t": "Challenge: Respect Rate Limits",
+    "a": "s19"
+   },
+   {
+    "t": "Challenge: Async Requests",
+    "a": "s20"
    }
   ]
  },
@@ -641,6 +701,22 @@
    {
     "t": "Practice Lab: Plot & Verify",
     "a": "s32"
+   },
+   {
+    "t": "Challenge: Cumulative Curve",
+    "a": "s33"
+   },
+   {
+    "t": "Challenge: Share of Total",
+    "a": "s34"
+   },
+   {
+    "t": "Challenge: Normalize for Plotting",
+    "a": "s35"
+   },
+   {
+    "t": "Challenge: Bin Midpoints",
+    "a": "s36"
    }
   ]
  },
@@ -780,6 +856,22 @@
    {
     "t": "Practice Lab: Distributions & Groups",
     "a": "s32"
+   },
+   {
+    "t": "Challenge: Correlation Heatmap",
+    "a": "s33"
+   },
+   {
+    "t": "Challenge: Pivot Table",
+    "a": "s34"
+   },
+   {
+    "t": "Challenge: Value Counts",
+    "a": "s35"
+   },
+   {
+    "t": "Challenge: Group Medians",
+    "a": "s36"
    }
   ]
  },
@@ -887,6 +979,22 @@
    {
     "t": "Practice Lab: Express & Graph Objects",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Subplots",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Faceting with Express",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: 3D Scatter",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Choropleth Map",
+    "a": "s28"
    }
   ]
  },
@@ -994,6 +1102,22 @@
    {
     "t": "Practice Lab: Train, Tune & Score",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Precision & Recall",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: K-Nearest Neighbors",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: Logistic Regression Accuracy",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: R-squared",
+    "a": "s28"
    }
   ]
  },
@@ -1101,6 +1225,22 @@
    {
     "t": "Practice Lab: Widgets & Caching",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Forms",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Upload & Download",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: Layout — Columns & Tabs",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Cache a Connection",
+    "a": "s28"
    }
   ]
  },
@@ -1208,6 +1348,22 @@
    {
     "t": "Practice Lab: Expressions & Lazy Queries",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Joins",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Window Over Groups",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: Pivot",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: String Expressions",
+    "a": "s28"
    }
   ]
  },
@@ -1315,6 +1471,22 @@
    {
     "t": "Practice Lab: Neural Net Math in NumPy",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Sigmoid & Cross-Entropy",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: MSE & Its Gradient",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: One-Hot Labels",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Accuracy From Logits",
+    "a": "s28"
    }
   ]
  },
@@ -1422,6 +1594,22 @@
    {
     "t": "25. Practice Lab: Tests & Z-Scores",
     "a": "s24"
+   },
+   {
+    "t": "26. Challenge: Correlation",
+    "a": "s25"
+   },
+   {
+    "t": "27. Challenge: Confidence Interval",
+    "a": "s26"
+   },
+   {
+    "t": "28. Challenge: Interquartile Range",
+    "a": "s27"
+   },
+   {
+    "t": "29. Challenge: Covariance",
+    "a": "s28"
    }
   ]
  },
@@ -1529,6 +1717,22 @@
    {
     "t": "Practice Lab: Rolling & Forecasting",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Differencing",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Weekly Resample",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: Exponential Moving Average",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Rolling Volatility",
+    "a": "s28"
    }
   ]
  },
@@ -1636,6 +1840,22 @@
    {
     "t": "Practice Lab: Tokenization & N-grams",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Stopword Removal",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Term-Frequency Vector",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: Character N-grams",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Jaccard Similarity",
+    "a": "s28"
    }
   ]
  },
@@ -1743,6 +1963,22 @@
    {
     "t": "Practice Lab: Tracking & Serving",
     "a": "s24"
+   },
+   {
+    "t": "Challenge: Data Drift (PSI)",
+    "a": "s25"
+   },
+   {
+    "t": "Challenge: Model Versioning",
+    "a": "s26"
+   },
+   {
+    "t": "Challenge: F1 Score",
+    "a": "s27"
+   },
+   {
+    "t": "Challenge: Accuracy from Confusion Matrix",
+    "a": "s28"
    }
   ]
  },
@@ -1818,6 +2054,22 @@
    {
     "t": "Practice Lab: Branching & Recovery",
     "a": "s16"
+   },
+   {
+    "t": "Challenge: Interactive Rebase",
+    "a": "s17"
+   },
+   {
+    "t": "Challenge: Stash & Cherry-pick",
+    "a": "s18"
+   },
+   {
+    "t": "Challenge: Bisect to Find a Bug",
+    "a": "s19"
+   },
+   {
+    "t": "Challenge: Worktrees",
+    "a": "s20"
    }
   ]
  },
@@ -1877,6 +2129,22 @@
    {
     "t": "Practice Lab: Encode & Scale",
     "a": "s12"
+   },
+   {
+    "t": "Challenge: Standardize",
+    "a": "s13"
+   },
+   {
+    "t": "Challenge: Label Encoding",
+    "a": "s14"
+   },
+   {
+    "t": "Challenge: Binning",
+    "a": "s15"
+   },
+   {
+    "t": "Challenge: Clip Outliers",
+    "a": "s16"
    }
   ]
  },
@@ -1928,6 +2196,22 @@
    {
     "t": "Practice Lab: Bayesian Updating",
     "a": "s10"
+   },
+   {
+    "t": "Challenge: Normalize a Posterior",
+    "a": "s11"
+   },
+   {
+    "t": "Challenge: Bayes Update",
+    "a": "s12"
+   },
+   {
+    "t": "Challenge: Expected Value",
+    "a": "s13"
+   },
+   {
+    "t": "Challenge: Log-Odds",
+    "a": "s14"
    }
   ]
  }

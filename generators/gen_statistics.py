@@ -1911,6 +1911,148 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "26. Challenge: Correlation",
+"desc": "Implement Pearson correlation from scratch — a one-line idea once you see it. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Correlation with NumPy", "code": '''import numpy as np
+
+x = np.array([1, 2, 3, 4, 5], float)
+y = np.array([2, 4, 5, 4, 5], float)
+print("np.corrcoef:", round(float(np.corrcoef(x, y)[0, 1]), 4))'''},
+],
+"todos": [
+    "Center each variable by subtracting its mean",
+    "Pearson r = (xm . ym) / sqrt((xm.xm)(ym.ym))",
+    "Check the bounds: r is +1 for a perfect increasing line, -1 for decreasing",
+],
+"practice": {
+    "title": "Pearson Correlation",
+    "desc": "Implement pearson_corr(x, y) returning Pearson's correlation coefficient (a float in [-1, 1]) without using np.corrcoef. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def pearson_corr(x, y):
+    x = np.asarray(x, float)
+    y = np.asarray(y, float)
+    # TODO: center each, then r = (xm . ym) / sqrt((xm . xm) * (ym . ym))
+    return 0.0
+
+print(round(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]), 4))''',
+    "check": '''assert abs(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]) - 1.0) < 1e-9, "perfect increasing line is +1"
+assert abs(pearson_corr([1, 2, 3], [3, 2, 1]) + 1.0) < 1e-9, "perfect decreasing line is -1"
+r = pearson_corr([1, 2, 3, 4, 5], [2, 4, 5, 4, 5])
+assert -1.0 <= r <= 1.0 and abs(r - 0.7746) < 1e-3, "matches np.corrcoef on the sample"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "27. Challenge: Confidence Interval",
+"desc": "Build a t-based confidence interval for a mean from a small sample. NumPy + SciPy, Pyodide-runnable. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Standard error & t critical value", "code": '''import numpy as np
+from scipy import stats
+
+data = np.array([12, 15, 14, 10, 13, 16, 11, 14], float)
+n = len(data)
+se = data.std(ddof=1) / np.sqrt(n)
+tcrit = stats.t.ppf(0.975, n - 1)        # two-sided 95%
+print("mean:", round(data.mean(), 3), "se:", round(se, 3), "t*:", round(tcrit, 3))'''},
+],
+"todos": [
+    "Compute the sample mean and the standard error std(ddof=1)/sqrt(n)",
+    "Get the t critical value with scipy.stats.t.ppf((1+conf)/2, n-1)",
+    "The interval is mean +/- t* * se",
+],
+"practice": {
+    "title": "Mean Confidence Interval",
+    "desc": "Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+from scipy import stats
+
+def mean_ci(data, conf=0.95):
+    a = np.asarray(data, float)
+    n = len(a)
+    # TODO: mean +/- t* * standard_error, where t* = stats.t.ppf((1+conf)/2, n-1)
+    return (a.mean(), a.mean())
+
+lo, hi = mean_ci([12, 15, 14, 10, 13, 16, 11, 14])
+print(round(lo, 3), round(hi, 3))''',
+    "check": '''import numpy as np
+d = [12, 15, 14, 10, 13, 16, 11, 14]
+lo, hi = mean_ci(d)
+assert lo < np.mean(d) < hi, "the interval must contain the sample mean"
+assert abs((lo + hi) / 2 - np.mean(d)) < 1e-9, "the interval is centered on the mean"
+assert abs(round(hi - lo, 2) - 3.40) < 0.05, "95% width matches the t interval for this sample"
+wide = mean_ci(d, 0.99)
+assert (wide[1] - wide[0]) > (hi - lo), "99% interval is wider than 95%"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "28. Challenge: Interquartile Range",
+"desc": "The IQR (Q3 - Q1) is a robust measure of spread and the basis of box-plot whiskers. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Quartiles with NumPy", "code": '''import numpy as np
+
+data = [7, 1, 3, 5, 9, 2, 8]
+q1, q2, q3 = np.percentile(data, [25, 50, 75])
+print("Q1:", q1, "median:", q2, "Q3:", q3, "IQR:", q3 - q1)'''},
+],
+"todos": [
+    "Get the 25th and 75th percentiles with np.percentile",
+    "IQR = Q3 - Q1; it ignores the extreme tails",
+],
+"practice": {
+    "title": "IQR",
+    "desc": "Implement iqr(data): return the interquartile range (75th minus 25th percentile). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def iqr(data):
+    a = np.asarray(data, float)
+    # TODO: return the 75th percentile minus the 25th percentile
+    return 0.0
+
+print(iqr([1, 2, 3, 4, 5]))''',
+    "check": '''assert abs(iqr([1, 2, 3, 4, 5]) - 2.0) < 1e-9, "Q3=4, Q1=2, IQR=2"
+assert iqr([5, 5, 5, 5]) == 0.0, "no spread -> IQR 0"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "29. Challenge: Covariance",
+"desc": "Covariance measures how two variables move together — the unnormalized cousin of correlation. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Mean-centered product", "code": '''import numpy as np
+
+x = np.array([1.0, 2, 3, 4]); y = np.array([2.0, 4, 6, 8])
+cov = ((x - x.mean()) * (y - y.mean())).mean()
+print("covariance:", round(float(cov), 3))'''},
+],
+"todos": [
+    "Center each variable by subtracting its mean",
+    "Covariance is the mean of the product of the centered values",
+],
+"practice": {
+    "title": "Covariance",
+    "desc": "Implement covariance(x, y): return the population covariance (mean of the centered products). Fill in the function, press Run, then press Check.",
+    "starter": '''import numpy as np
+
+def covariance(x, y):
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    # TODO: mean of (x - mean_x) * (y - mean_y)
+    return 0.0
+
+print(round(covariance([1, 2, 3, 4], [2, 4, 6, 8]), 3))''',
+    "check": '''import numpy as np
+assert abs(covariance([1, 2, 3], [1, 2, 3]) - np.var([1, 2, 3])) < 1e-9, "cov(x, x) == var(x)"
+assert covariance([1, 2, 3], [3, 2, 1]) < 0, "opposing trends give negative covariance"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

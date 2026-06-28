@@ -2259,6 +2259,140 @@ assert np.array_equal(oh.argmax(axis=1), labels), "argmax of each one-hot row mu
     }
     },
 
+    {
+    "title": "34. Challenge: Running Maximum",
+    "desc": "A quick vectorization challenge. Press Run to see the example, then solve the exercise and press Check.",
+    "examples": [
+        {"label": "Cumulative reductions", "code": '''import numpy as np
+
+a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
+print("cumsum: ", np.cumsum(a).tolist())
+print("cumprod:", np.cumprod(a[:4]).tolist())
+print("cummax: ", np.maximum.accumulate(a).tolist())'''},
+    ],
+    "todos": [
+        "Use np.maximum.accumulate for a running maximum",
+        "Compare it with np.cumsum and np.cumprod",
+    ],
+    "practice": {
+        "title": "Running Maximum",
+        "desc": "Implement running_max(a): return an array where each element is the maximum of all elements up to and including that position (a cumulative max). Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def running_max(a):
+    a = np.asarray(a)
+    # TODO: return the cumulative maximum (hint: np.maximum.accumulate)
+    return a
+
+print(running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist())''',
+        "check": '''assert running_max([3, 1, 4, 1, 5, 9, 2, 6]).tolist() == [3, 3, 4, 4, 5, 9, 9, 9], "each element is the max seen so far"
+assert running_max([5]).tolist() == [5], "single element stays itself"
+import numpy as np
+assert np.array_equal(running_max([1, 2, 3]), [1, 2, 3]), "already-increasing input is unchanged"
+print("All checks passed \\u2713")'''
+    }
+    },
+
+    {
+    "title": "35. Challenge: Row Argmax",
+    "desc": "Find the position of the max in each row — a one-liner with axis-aware reductions. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Axis-aware reductions", "code": '''import numpy as np
+
+M = np.array([[1, 5, 2], [9, 0, 3], [4, 4, 7]])
+print("max per row:   ", M.max(axis=1).tolist())
+print("argmax per row:", M.argmax(axis=1).tolist())
+print("sum per column:", M.sum(axis=0).tolist())'''},
+    ],
+    "todos": [
+        "Reduce along axis=1 to operate per row",
+        "Use argmax(axis=1) to get the index of the max in each row",
+        "Remember argmax returns the FIRST max on ties",
+    ],
+    "practice": {
+        "title": "Row Argmax",
+        "desc": "Implement row_argmax(M): return a 1-D array with the column index of the largest value in each row. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def row_argmax(M):
+    M = np.asarray(M)
+    # TODO: return the index of the max value in each row (hint: argmax with an axis)
+    return np.zeros(len(M), dtype=int)
+
+print(row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist())''',
+        "check": '''assert row_argmax([[1, 5, 2], [9, 0, 3], [4, 4, 7]]).tolist() == [1, 0, 2], "index of the per-row max"
+assert row_argmax([[2, 1]]).tolist() == [0], "single row"
+import numpy as np
+assert np.array_equal(row_argmax([[3, 3, 1]]), [0]), "argmax returns the first max on ties"
+print("All checks passed \\u2713")'''
+    }
+    },
+
+    {
+    "title": "36. Challenge: Cosine Similarity",
+    "desc": "Cosine similarity measures the angle between two vectors — the workhorse of search and recommendations. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Dot product and norms", "code": '''import numpy as np
+
+a = np.array([1.0, 2, 3]); b = np.array([2.0, 4, 6])
+print("dot:", float(a @ b), "norm a:", round(float(np.linalg.norm(a)), 3))
+print("cosine:", round(float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))), 3))'''},
+    ],
+    "todos": [
+        "Cosine similarity is (a . b) / (||a|| * ||b||)",
+        "Parallel vectors score 1, orthogonal vectors score 0",
+    ],
+    "practice": {
+        "title": "Cosine Similarity",
+        "desc": "Implement cosine_sim(a, b) returning the cosine similarity of two vectors. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def cosine_sim(a, b):
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    # TODO: (a . b) / (||a|| * ||b||)   -- np.linalg.norm gives the length
+    return 0.0
+
+print(round(cosine_sim([1, 2, 3], [2, 4, 6]), 4))''',
+        "check": '''assert abs(cosine_sim([1, 0], [1, 0]) - 1) < 1e-9, "identical direction -> 1"
+assert abs(cosine_sim([1, 0], [0, 1])) < 1e-9, "orthogonal -> 0"
+assert abs(cosine_sim([1, 1], [2, 2]) - 1) < 1e-9, "scaled copies are parallel -> 1"
+print("All checks passed \\u2713")'''
+    }
+    },
+
+    {
+    "title": "37. Challenge: Boolean Masking",
+    "desc": "Boolean arrays select and count elements without loops. Press Run, then solve and press Check.",
+    "examples": [
+        {"label": "Mask and select", "code": '''import numpy as np
+
+a = np.array([1, 5, 3, 8, 2])
+mask = a > 3
+print("mask:", mask.tolist())
+print("selected:", a[mask].tolist(), "count:", int(mask.sum()))'''},
+    ],
+    "todos": [
+        "Build a boolean mask with a comparison like a > t",
+        "Count matches with mask.sum() and select with a[mask]",
+    ],
+    "practice": {
+        "title": "Count Above Threshold",
+        "desc": "Implement count_above(arr, t): return how many elements of arr are strictly greater than t. Fill in the function, press Run, then press Check.",
+        "starter": '''import numpy as np
+
+def count_above(arr, t):
+    arr = np.asarray(arr)
+    # TODO: return the number of elements strictly greater than t
+    return 0
+
+print(count_above([1, 5, 3, 8, 2], 3))''',
+        "check": '''assert count_above([1, 5, 3, 8, 2], 3) == 2, "only 5 and 8 exceed 3"
+assert count_above([1, 2, 3], 5) == 0, "nothing exceeds 5"
+assert count_above([4, 4, 4], 3) == 3, "all exceed 3"
+print("All checks passed \\u2713")'''
+    }
+    },
+
 ]  # end SECTIONS
 
 

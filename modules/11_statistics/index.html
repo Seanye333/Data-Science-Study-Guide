@@ -11,7 +11,7 @@
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-text">Loading Module…</div>
 </div>
-<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 25 topics</p>
+<aside class="sidebar"><div class="sbh"><h2>📊 Statistics with Python</h2><p>Study Guide &bull; 29 topics</p>
 <input id="q" placeholder="Search..." oninput="filt(this.value)"></div>
 <ul class="nav-list" id="nl"><li><a href="#s0" onclick="act(this,event)">1. Descriptive Statistics</a></li>
     <li><a href="#s1" onclick="act(this,event)">2. Probability Distributions</a></li>
@@ -37,8 +37,12 @@
     <li><a href="#s21" onclick="act(this,event)">22. Effect Size &amp; Statistical Power</a></li>
     <li><a href="#s22" onclick="act(this,event)">23. Multiple Testing &amp; FDR Corrections</a></li>
     <li><a href="#s23" onclick="act(this,event)">24. Bootstrap &amp; Permutation Tests</a></li>
-    <li><a href="#s24" onclick="act(this,event)">25. Practice Lab: Tests &amp; Z-Scores</a></li></ul></aside>
-<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">25 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
+    <li><a href="#s24" onclick="act(this,event)">25. Practice Lab: Tests &amp; Z-Scores</a></li>
+    <li><a href="#s25" onclick="act(this,event)">26. Challenge: Correlation</a></li>
+    <li><a href="#s26" onclick="act(this,event)">27. Challenge: Confidence Interval</a></li>
+    <li><a href="#s27" onclick="act(this,event)">28. Challenge: Interquartile Range</a></li>
+    <li><a href="#s28" onclick="act(this,event)">29. Challenge: Covariance</a></li></ul></aside>
+<main class="main"><h1 class="pt">📊 Statistics with Python</h1><p class="ps">29 topics &bull; Click any card to expand</p><div class="topic" id="s0"><div class="th" onclick="tog(this)"><span>1. Descriptive Statistics</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Descriptive statistics summarize and describe the main features of a dataset. Key measures include central tendency (mean, median, mode) and spread (std, variance, percentiles, IQR). NumPy and scipy.stats provide fast, vectorized implementations.</p><div class="code-block"><div class="ch"><span>Mean, median, mode with numpy and scipy</span><button onclick="cp('c0_0')">Copy</button></div><pre><code id="c0_0" class="language-python">import numpy as np
 from scipy import stats
 
 data = [23, 45, 12, 67, 34, 45, 89, 23, 45, 56, 78, 34, 23, 90, 12]
@@ -2888,7 +2892,81 @@ assert flags.sum() == 1 and bool(flags[5]), &quot;only the value 50 is an outlie
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a two-sample t-test with scipy.stats.ttest_ind and interpret the p-value</label></li>
 <li><label><input type="checkbox"> Build a 95% bootstrap CI by resampling the mean 2000 times and taking the 2.5/97.5 percentiles</label></li>
 <li><label><input type="checkbox"> Standardize a vector to z-scores: (x - mean) / std, and confirm mean 0, std 1</label></li>
-<li><label><input type="checkbox"> Flag outliers as |z| &gt; 2 and count how many there are</label></li></ul></div></div></div></main>
+<li><label><input type="checkbox"> Flag outliers as |z| &gt; 2 and count how many there are</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>26. Challenge: Correlation</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Implement Pearson correlation from scratch — a one-line idea once you see it. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Correlation with NumPy</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">import numpy as np
+
+x = np.array([1, 2, 3, 4, 5], float)
+y = np.array([2, 4, 5, 4, 5], float)
+print(&quot;np.corrcoef:&quot;, round(float(np.corrcoef(x, y)[0, 1]), 4))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pearson Correlation</div><div class="pd">Implement pearson_corr(x, y) returning Pearson&#x27;s correlation coefficient (a float in [-1, 1]) without using np.corrcoef. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import numpy as np
+
+def pearson_corr(x, y):
+    x = np.asarray(x, float)
+    y = np.asarray(y, float)
+    # TODO: center each, then r = (xm . ym) / sqrt((xm . xm) * (ym . ym))
+    return 0.0
+
+print(round(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]), 4))</code></pre></div><template class="ho-check">assert abs(pearson_corr([1, 2, 3, 4], [2, 4, 6, 8]) - 1.0) &lt; 1e-9, &quot;perfect increasing line is +1&quot;
+assert abs(pearson_corr([1, 2, 3], [3, 2, 1]) + 1.0) &lt; 1e-9, &quot;perfect decreasing line is -1&quot;
+r = pearson_corr([1, 2, 3, 4, 5], [2, 4, 5, 4, 5])
+assert -1.0 &lt;= r &lt;= 1.0 and abs(r - 0.7746) &lt; 1e-3, &quot;matches np.corrcoef on the sample&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Center each variable by subtracting its mean</label></li>
+<li><label><input type="checkbox"> Pearson r = (xm . ym) / sqrt((xm.xm)(ym.ym))</label></li>
+<li><label><input type="checkbox"> Check the bounds: r is +1 for a perfect increasing line, -1 for decreasing</label></li></ul></div></div></div><div class="topic" id="s26"><div class="th" onclick="tog(this)"><span>27. Challenge: Confidence Interval</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Build a t-based confidence interval for a mean from a small sample. NumPy + SciPy, Pyodide-runnable. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Standard error &amp; t critical value</span><button onclick="cp('c26_0')">Copy</button></div><pre><code id="c26_0" class="language-python">import numpy as np
+from scipy import stats
+
+data = np.array([12, 15, 14, 10, 13, 16, 11, 14], float)
+n = len(data)
+se = data.std(ddof=1) / np.sqrt(n)
+tcrit = stats.t.ppf(0.975, n - 1)        # two-sided 95%
+print(&quot;mean:&quot;, round(data.mean(), 3), &quot;se:&quot;, round(se, 3), &quot;t*:&quot;, round(tcrit, 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Confidence Interval</div><div class="pd">Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import numpy as np
+from scipy import stats
+
+def mean_ci(data, conf=0.95):
+    a = np.asarray(data, float)
+    n = len(a)
+    # TODO: mean +/- t* * standard_error, where t* = stats.t.ppf((1+conf)/2, n-1)
+    return (a.mean(), a.mean())
+
+lo, hi = mean_ci([12, 15, 14, 10, 13, 16, 11, 14])
+print(round(lo, 3), round(hi, 3))</code></pre></div><template class="ho-check">import numpy as np
+d = [12, 15, 14, 10, 13, 16, 11, 14]
+lo, hi = mean_ci(d)
+assert lo &lt; np.mean(d) &lt; hi, &quot;the interval must contain the sample mean&quot;
+assert abs((lo + hi) / 2 - np.mean(d)) &lt; 1e-9, &quot;the interval is centered on the mean&quot;
+assert abs(round(hi - lo, 2) - 3.40) &lt; 0.05, &quot;95% width matches the t interval for this sample&quot;
+wide = mean_ci(d, 0.99)
+assert (wide[1] - wide[0]) &gt; (hi - lo), &quot;99% interval is wider than 95%&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the sample mean and the standard error std(ddof=1)/sqrt(n)</label></li>
+<li><label><input type="checkbox"> Get the t critical value with scipy.stats.t.ppf((1+conf)/2, n-1)</label></li>
+<li><label><input type="checkbox"> The interval is mean +/- t* * se</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>28. Challenge: Interquartile Range</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The IQR (Q3 - Q1) is a robust measure of spread and the basis of box-plot whiskers. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Quartiles with NumPy</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import numpy as np
+
+data = [7, 1, 3, 5, 9, 2, 8]
+q1, q2, q3 = np.percentile(data, [25, 50, 75])
+print(&quot;Q1:&quot;, q1, &quot;median:&quot;, q2, &quot;Q3:&quot;, q3, &quot;IQR:&quot;, q3 - q1)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR</div><div class="pd">Implement iqr(data): return the interquartile range (75th minus 25th percentile). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import numpy as np
+
+def iqr(data):
+    a = np.asarray(data, float)
+    # TODO: return the 75th percentile minus the 25th percentile
+    return 0.0
+
+print(iqr([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">assert abs(iqr([1, 2, 3, 4, 5]) - 2.0) &lt; 1e-9, &quot;Q3=4, Q1=2, IQR=2&quot;
+assert iqr([5, 5, 5, 5]) == 0.0, &quot;no spread -&gt; IQR 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Get the 25th and 75th percentiles with np.percentile</label></li>
+<li><label><input type="checkbox"> IQR = Q3 - Q1; it ignores the extreme tails</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>29. Challenge: Covariance</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Covariance measures how two variables move together — the unnormalized cousin of correlation. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Mean-centered product</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import numpy as np
+
+x = np.array([1.0, 2, 3, 4]); y = np.array([2.0, 4, 6, 8])
+cov = ((x - x.mean()) * (y - y.mean())).mean()
+print(&quot;covariance:&quot;, round(float(cov), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Covariance</div><div class="pd">Implement covariance(x, y): return the population covariance (mean of the centered products). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import numpy as np
+
+def covariance(x, y):
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    # TODO: mean of (x - mean_x) * (y - mean_y)
+    return 0.0
+
+print(round(covariance([1, 2, 3, 4], [2, 4, 6, 8]), 3))</code></pre></div><template class="ho-check">import numpy as np
+assert abs(covariance([1, 2, 3], [1, 2, 3]) - np.var([1, 2, 3])) &lt; 1e-9, &quot;cov(x, x) == var(x)&quot;
+assert covariance([1, 2, 3], [3, 2, 1]) &lt; 0, &quot;opposing trends give negative covariance&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Center each variable by subtracting its mean</label></li>
+<li><label><input type="checkbox"> Covariance is the mean of the product of the centered values</label></li></ul></div></div></div></main>
 <script>hljs.highlightAll();
 function tog(h){var b=h.nextElementSibling,a=h.querySelector('.arr');b.classList.toggle('open');a.classList.toggle('open');}
 function act(el,e){if(e)e.preventDefault();document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.querySelector(el.getAttribute('href')).scrollIntoView({behavior:'smooth'});}

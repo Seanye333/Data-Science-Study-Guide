@@ -2788,6 +2788,158 @@ print(get_json("https://api.github.com/repos/python/cpython"))'''
 }
 },
 
+{
+"title": "Challenge: Authenticated POST",
+"desc": "Sending JSON with an auth header is the core of writing to an API. Run this in a local Python environment (the in-page runner has no network).",
+"examples": [
+    {"label": "POST JSON with a bearer token", "code": '''import requests, os
+
+def create_item(name, token):
+    r = requests.post(
+        "https://httpbin.org/post",
+        json={"name": name},
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=5,
+    )
+    r.raise_for_status()
+    return r.json()["json"]
+
+print(create_item("widget", os.environ.get("API_TOKEN", "demo")))'''},
+],
+"todos": [
+    "POST a JSON body with the json= argument (requests sets the content-type)",
+    "Send an Authorization: Bearer <token> header",
+    "Raise on error with raise_for_status()",
+],
+"practice": {
+    "title": "Authenticated POST",
+    "desc": "Write post_json(url, payload, token) that POSTs `payload` as JSON with a bearer token, a 5s timeout, raises for HTTP errors, and returns the parsed response. Run it locally.",
+    "starter": '''import requests
+
+def post_json(url, payload, token):
+    # TODO: requests.post with json=payload, an Authorization bearer header,
+    #       a timeout, raise_for_status(), then return r.json()
+    pass
+
+print(post_json("https://httpbin.org/post", {"name": "widget"}, "demo"))'''
+}
+},
+
+{
+"title": "Challenge: Pagination",
+"desc": "APIs return data in pages; collecting all of it means looping until a page is empty or there is no next link. Run locally.",
+"examples": [
+    {"label": "Follow page numbers", "code": '''import requests
+
+def fetch_all(base_url, per_page=100):
+    items, page = [], 1
+    while True:
+        r = requests.get(base_url, params={"page": page, "per_page": per_page}, timeout=5)
+        r.raise_for_status()
+        batch = r.json()
+        if not batch:
+            break
+        items.extend(batch)
+        page += 1
+    return items
+
+# items = fetch_all("https://api.github.com/repos/python/cpython/issues")'''},
+],
+"todos": [
+    "Loop incrementing the page number until a page comes back empty",
+    "Accumulate items across pages into one list",
+    "Pass a sensible per_page to reduce the number of requests",
+],
+"practice": {
+    "title": "Fetch All Pages",
+    "desc": "Write fetch_all(base_url, per_page=100) that pages through a list endpoint (page=1, 2, ...) until an empty page, accumulating and returning every item. Run it locally against a real paginated API.",
+    "starter": '''import requests
+
+def fetch_all(base_url, per_page=100):
+    items, page = [], 1
+    while True:
+        r = requests.get(base_url, params={"page": page, "per_page": per_page}, timeout=5)
+        r.raise_for_status()
+        batch = r.json()
+        # TODO: stop when batch is empty; otherwise extend items and go to the next page
+        break
+    return items
+
+print(len(fetch_all("https://api.github.com/repos/python/cpython/labels")))'''
+}
+},
+
+{
+"title": "Challenge: Respect Rate Limits",
+"desc": "Good clients back off when the server says 429 Too Many Requests, honoring the Retry-After header. Run locally.",
+"examples": [
+    {"label": "Honor Retry-After", "code": '''import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        if r.status_code == 429:
+            wait = int(r.headers.get("Retry-After", "1"))
+            time.sleep(wait)
+            continue
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError("rate limited")
+
+# data = get_with_backoff("https://api.example.com/items")'''},
+],
+"todos": [
+    "Detect HTTP 429 and read the Retry-After header",
+    "Sleep for the suggested time, then retry",
+    "Give up after a bounded number of attempts",
+],
+"practice": {
+    "title": "Backoff on 429",
+    "desc": "Write get_with_backoff(url, max_tries=5) that retries on HTTP 429, sleeping for the Retry-After seconds, and returns JSON on success. Run locally.",
+    "starter": '''import requests, time
+
+def get_with_backoff(url, max_tries=5):
+    for _ in range(max_tries):
+        r = requests.get(url, timeout=5)
+        # TODO: on status 429, sleep int(Retry-After) and continue; else raise_for_status and return r.json()
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError("rate limited")'''
+}
+},
+
+{
+"title": "Challenge: Async Requests",
+"desc": "httpx + asyncio fetch many URLs concurrently — far faster than a serial loop for I/O-bound work. Run locally (pip install httpx).",
+"examples": [
+    {"label": "Fetch many URLs at once", "code": '''import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        responses = await asyncio.gather(*(client.get(u) for u in urls))
+        return [r.status_code for r in responses]
+
+# print(asyncio.run(fetch_all(["https://example.com", "https://httpbin.org/get"])))'''},
+],
+"todos": [
+    "Create an httpx.AsyncClient inside an async with block",
+    "Schedule requests concurrently with asyncio.gather",
+    "Await the gathered results and read each response",
+],
+"practice": {
+    "title": "Concurrent Fetch",
+    "desc": "Write an async fetch_all(urls) that GETs every URL concurrently with httpx and returns the list of status codes. Run locally with asyncio.run(...).",
+    "starter": '''import asyncio, httpx
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        # TODO: gather client.get(u) for all urls, then return [r.status_code for r in responses]
+        return []
+
+# print(asyncio.run(fetch_all(["https://example.com"])))'''
+}
+},
+
 ]
 
 

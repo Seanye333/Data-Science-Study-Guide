@@ -2887,6 +2887,159 @@ print("All checks passed \\u2713")'''
 }
 },
 
+{
+"title": "Challenge: Correlation Heatmap",
+"desc": "A correlation matrix shown as a heatmap is the fastest way to spot related features. The Check grades the matrix. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Correlation heatmap", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+df = pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]})
+corr = df.corr()
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
+plt.show()
+print(corr.round(2).to_dict())'''},
+],
+"todos": [
+    "Compute the correlation matrix with DataFrame.corr",
+    "Visualize it with sns.heatmap(corr, annot=True)",
+],
+"practice": {
+    "title": "Correlation Matrix",
+    "desc": "Implement corr_matrix(df): return the pairwise correlation matrix of the numeric columns, then draw it as a heatmap. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def corr_matrix(df):
+    # TODO: return the correlation matrix of the numeric columns
+    return df
+
+df = pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]})
+cm = corr_matrix(df)
+fig, ax = plt.subplots(figsize=(4, 3))
+sns.heatmap(cm, annot=True, cmap="coolwarm", ax=ax); plt.show()
+print(cm.round(2).to_dict())''',
+    "check": '''import numpy as np
+cm = corr_matrix(pd.DataFrame({"x": [1, 2, 3, 4], "y": [2, 4, 6, 8], "z": [4, 3, 2, 1]}))
+assert np.isclose(cm.loc["x", "y"], 1.0), "x and y are perfectly positively correlated"
+assert np.isclose(cm.loc["x", "z"], -1.0), "x and z are perfectly negatively correlated"
+assert np.isclose(cm.loc["x", "x"], 1.0), "a variable correlates 1 with itself"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Pivot Table",
+"desc": "A pivot table summarizes a long dataframe into a grid of group means — perfect for a heatmap or grouped bar. The Check grades the table. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Pivot to a grid of means", "code": '''import pandas as pd
+
+df = pd.DataFrame({"g": ["a", "a", "b", "b"], "h": ["p", "q", "p", "q"], "v": [1.0, 3.0, 5.0, 7.0]})
+table = df.pivot_table(index="g", columns="h", values="v", aggfunc="mean")
+print(table)'''},
+],
+"todos": [
+    "Use DataFrame.pivot_table with index, columns, values and aggfunc='mean'",
+    "Read a cell with table.loc[row, col]",
+],
+"practice": {
+    "title": "Pivot Means",
+    "desc": "Implement pivot_means(df, index, col, val): return a pivot table of the mean of `val` for each (index, col) combination. Fill in the function, press Run, then press Check.",
+    "starter": '''import pandas as pd
+
+def pivot_means(df, index, col, val):
+    # TODO: pivot_table of the mean of `val` over index x col
+    return df
+
+df = pd.DataFrame({"g": ["a", "a", "b"], "h": ["p", "q", "p"], "v": [1.0, 3.0, 5.0]})
+print(pivot_means(df, "g", "h", "v"))''',
+    "check": '''import numpy as np
+df = pd.DataFrame({"g": ["a", "a", "b"], "h": ["p", "q", "p"], "v": [1.0, 3.0, 5.0]})
+pm = pivot_means(df, "g", "h", "v")
+assert np.isclose(pm.loc["a", "p"], 1.0), "group (a, p) mean is 1"
+assert np.isclose(pm.loc["a", "q"], 3.0), "group (a, q) mean is 3"
+assert np.isclose(pm.loc["b", "p"], 5.0), "group (b, p) mean is 5"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Value Counts",
+"desc": "Counting category frequencies is the first step before any count plot. The Check grades the data. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Count and plot categories", "code": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+s = pd.Series(["a", "b", "a", "c", "a", "b"])
+vc = s.value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); ax.set_title("Counts")
+plt.show()
+print(vc.to_dict())'''},
+],
+"todos": [
+    "Count categories with Series.value_counts()",
+    "sort_index() puts categories in a stable order",
+],
+"practice": {
+    "title": "Sorted Value Counts",
+    "desc": "Implement value_counts_sorted(s): return the category counts sorted by category, then bar-plot them. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def value_counts_sorted(s):
+    s = pd.Series(s)
+    # TODO: value_counts(), then sort_index()
+    return s
+
+vc = value_counts_sorted(["a", "b", "a", "c", "a"])
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=vc.index, y=vc.values, ax=ax); plt.show()
+print(vc.to_dict())''',
+    "check": '''vc = value_counts_sorted(["a", "b", "a", "c", "a"])
+assert vc["a"] == 3 and vc["b"] == 1 and vc["c"] == 1, "frequencies per category"
+assert list(vc.index) == ["a", "b", "c"], "sorted by category"
+print("All checks passed \\u2713")'''
+}
+},
+
+{
+"title": "Challenge: Group Medians",
+"desc": "The median is a robust group summary — less swayed by outliers than the mean. The Check grades the data. Press Run, then solve and press Check.",
+"examples": [
+    {"label": "Median per group", "code": '''import pandas as pd
+
+df = pd.DataFrame({"g": ["a", "a", "a", "b"], "v": [1.0, 2.0, 100.0, 5.0]})
+print(df.groupby("g")["v"].median().to_dict())'''},
+],
+"todos": [
+    "Group with df.groupby(by)[col]",
+    "Aggregate with .median() for a robust center",
+],
+"practice": {
+    "title": "Group Median",
+    "desc": "Implement group_median(df, by, col): return the median of `col` for each group in `by`, then bar-plot it. Fill in the function, press Run, then press Check.",
+    "starter": '''import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd
+
+def group_median(df, by, col):
+    # TODO: return df.groupby(by)[col].median()
+    return df
+
+df = pd.DataFrame({"g": ["a", "a", "b"], "v": [1.0, 3.0, 5.0]})
+gm = group_median(df, "g", "v")
+fig, ax = plt.subplots(figsize=(5, 3))
+sns.barplot(x=gm.index, y=gm.values, ax=ax); plt.show()
+print(gm.to_dict())''',
+    "check": '''import numpy as np
+gm = group_median(pd.DataFrame({"g": ["a", "a", "b"], "v": [1.0, 3.0, 5.0]}), "g", "v")
+assert np.isclose(gm["a"], 2.0), "median of [1, 3] is 2"
+assert np.isclose(gm["b"], 5.0), "single value is its own median"
+print("All checks passed \\u2713")'''
+}
+},
+
 ]  # end SECTIONS
 
 

@@ -5,7 +5,7 @@
  *   • Same-origin assets (css/js/json) → cache-first, then network.
  *   • Cross-origin (e.g. the Pyodide CDN, highlight.js) → not intercepted.
  * Bump VERSION to invalidate old caches on deploy. */
-var VERSION = "v1";
+var VERSION = "v2";
 var CACHE = "dssp-" + VERSION;
 var CORE = [
   "./",
@@ -18,6 +18,9 @@ var CORE = [
   "styles/search.js",
   "styles/hands-on.js",
   "styles/icon.svg",
+  "styles/apple-touch-icon.png",
+  "styles/icon-192.png",
+  "styles/icon-512.png",
   "search_index.json",
 ];
 
