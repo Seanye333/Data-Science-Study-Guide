@@ -747,7 +747,8 @@ print("piecewise output:", y.round(2))"""}
     "Compute pairwise squared Euclidean distances between 4 points using broadcasting (no loop)",
     "Use np.einsum('ij,jk->ik', A, B) to multiply two matrices and verify with A @ B",
 ],
-"practice": {
+"practices": [
+{
 "title": "Vectorized Math Challenge",
 "desc": "1) Given angles in degrees [0, 30, 45, 60, 90, 120, 180], compute sin and cos without a loop. Verify sin²+cos²=1 for all. 2) Given a 1D price array, compute: % daily return, 5-day moving average (using np.convolve), and cumulative return. 3) Use np.clip to cap values between the 10th and 90th percentile.",
 "starter":
@@ -775,6 +776,65 @@ data = np.random.randn(100) * 10
 # print(f"Original range: [{data.min():.1f}, {data.max():.1f}]")
 # print(f"Clipped range:  [{clipped.min():.1f}, {clipped.max():.1f}]")"""
 },
+{
+"title": "Elementwise Power",
+"desc": "Implement elementwise_power(a, p): raise every element of a to the power p. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def elementwise_power(a, p):
+    a = np.asarray(a, float)
+    # TODO: return a ** p (elementwise)
+    return a
+
+print(elementwise_power([1, 2, 3], 2).tolist())''',
+"check": '''assert elementwise_power([1, 2, 3], 2).tolist() == [1, 4, 9], "each squared"
+assert elementwise_power([2, 4], 0.5).tolist() == [2 ** 0.5, 2.0], "fractional power = sqrt"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Safe Divide",
+"desc": "Implement safe_divide(a, b): elementwise a / b, but 0 wherever b is 0 (use np.where). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def safe_divide(a, b):
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    # TODO: where b == 0 use 0.0, else a / b (hint: np.where)
+    return a
+
+print(safe_divide([1, 2, 3], [1, 0, 3]).tolist())''',
+"check": '''assert safe_divide([1, 2, 3], [1, 0, 3]).tolist() == [1, 0, 1], "0 where the divisor is 0"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Cumulative Sum",
+"desc": "Implement cumulative_sum(a): return the running total (each element is the sum of everything up to it). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def cumulative_sum(a):
+    a = np.asarray(a)
+    # TODO: running total (hint: np.cumsum)
+    return a
+
+print(cumulative_sum([1, 2, 3, 4]).tolist())''',
+"check": '''assert cumulative_sum([1, 2, 3, 4]).tolist() == [1, 3, 6, 10], "running total"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Round To",
+"desc": "Implement round_to(a, dec): round every element to `dec` decimal places. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def round_to(a, dec):
+    a = np.asarray(a, float)
+    # TODO: round to dec decimals (hint: np.round)
+    return a
+
+print(round_to([1.234, 5.678], 1).tolist())''',
+"check": '''assert round_to([1.234, 5.678], 1).tolist() == [1.2, 5.7], "one decimal place"
+assert round_to([2.5, 3.14159], 2).tolist() == [2.5, 3.14], "two decimals"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Daily Return & Volatility Calculation",
 "scenario": "A quant analyst vectorizes stock return and volatility calculations across a price history array.",
@@ -1288,7 +1348,8 @@ print("Most occupied bin count:", int(H.max()))"""}
     "Use np.histogram with 10 bins on 1000 normal samples and verify bin counts sum to 1000",
     "Use np.nanmean on an array with NaN values and compare the result to np.mean",
 ],
-"practice": {
+"practices": [
+{
 "title": "Statistics on a 2D Dataset",
 "desc": "Create a (10, 5) matrix of random student scores (int, 0-100). Compute: per-column mean, std, min, max. Find which column (subject) has the highest variance. Identify which rows (students) have an average below 50. Compute the correlation matrix between all 5 subjects.",
 "starter":
@@ -1319,6 +1380,66 @@ for j, subj in enumerate(subjects):
 # TODO: corr = np.corrcoef(scores.T)
 # print("Correlation:\\n", corr.round(2))"""
 },
+{
+"title": "Column Means",
+"desc": "Implement column_means(M): return the mean of each column of a 2-D array. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def column_means(M):
+    M = np.asarray(M, float)
+    # TODO: mean over axis=0 (down each column)
+    return M
+
+print(column_means([[1, 2], [3, 4]]).tolist())''',
+"check": '''assert column_means([[1, 2], [3, 4]]).tolist() == [2, 3], "means of columns [1,3] and [2,4]"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Weighted Mean",
+"desc": "Implement weighted_mean(v, w): return the weighted average of v with weights w. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def weighted_mean(v, w):
+    # TODO: sum(v * w) / sum(w)  (hint: np.average(v, weights=w))
+    return 0.0
+
+print(weighted_mean([1, 2, 3], [1, 1, 2]))''',
+"check": '''assert abs(weighted_mean([1, 2, 3], [1, 1, 2]) - 2.25) < 1e-9, "(1+2+6)/4 = 2.25"
+assert abs(weighted_mean([10, 20], [1, 1]) - 15.0) < 1e-9, "equal weights = plain mean"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Variance",
+"desc": "Implement variance(a): return the population variance (mean of squared deviations). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def variance(a):
+    a = np.asarray(a, float)
+    # TODO: population variance (hint: a.var())
+    return 0.0
+
+print(variance([1, 2, 3]))''',
+"check": '''assert abs(variance([1, 2, 3]) - (2/3)) < 1e-9, "population variance of 1,2,3"
+assert variance([5, 5, 5]) == 0.0, "no spread -> 0"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Normalize to Sum 1",
+"desc": "Implement normalize_sum(a): divide by the total so the values sum to 1 (a probability vector). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def normalize_sum(a):
+    a = np.asarray(a, float)
+    # TODO: divide by the sum
+    return a
+
+print(normalize_sum([1, 1, 2]).tolist())''',
+"check": '''import numpy as np
+assert np.allclose(normalize_sum([1, 1, 2]), [0.25, 0.25, 0.5]), "each divided by the total"
+assert abs(normalize_sum([3, 7]).sum() - 1) < 1e-9, "sums to 1"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Manufacturing QC Outlier Detection",
 "scenario": "A quality engineer uses Z-scores to identify defective units exceeding 3 standard deviations from the process mean.",
