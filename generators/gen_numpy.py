@@ -39,15 +39,17 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -129,8 +131,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -229,7 +233,8 @@ print("Top scorer:", students[np.argmax(students['score'])]['name'])"""}
     "Use np.linspace(0, 1, 11) and np.logspace(0, 3, 4) and print both results",
     "Create a 5x5 checkerboard of 0s and 1s using np.tile and a 2x2 unit pattern",
 ],
-"practice": {
+"practices": [
+{
 "title": "Array Construction Challenge",
 "desc": "1) Create a 6x6 checkerboard of 0s and 1s using np.tile. 2) Build a 5x5 identity matrix, then multiply its diagonal by [1,2,3,4,5]. 3) Generate 20 log-spaced points from 10 to 10000 and find the one closest to 500.",
 "starter":
@@ -251,6 +256,66 @@ pts = np.logspace(1, 4, 20)   # 10^1 to 10^4
 # TODO: idx = np.argmin(np.abs(pts - 500))
 # print(f"Closest to 500: {pts[idx]:.2f} at index {idx}")"""
 },
+{
+"title": "Identity Matrix",
+"desc": "Implement identity(n) returning an n x n identity matrix (1s on the diagonal, 0s elsewhere). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def identity(n):
+    # TODO: return an n x n identity matrix (hint: np.eye)
+    return np.zeros((n, n))
+
+print(identity(3).tolist())''',
+"check": '''import numpy as np
+assert identity(2).tolist() == [[1, 0], [0, 1]], "1s on the diagonal, 0s elsewhere"
+assert np.trace(identity(4)) == 4, "an n x n identity has trace n"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Reshaped Range",
+"desc": "Implement grid(rows, cols): return a rows x cols array filled with 0, 1, 2, ... in row-major order. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def grid(rows, cols):
+    # TODO: np.arange the right length, then reshape
+    return np.zeros((rows, cols), dtype=int)
+
+print(grid(2, 3).tolist())''',
+"check": '''assert grid(2, 3).tolist() == [[0, 1, 2], [3, 4, 5]], "0..5 filled row by row"
+assert grid(3, 1).tolist() == [[0], [1], [2]], "a column vector"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Evenly Spaced",
+"desc": "Implement evenly_spaced(a, b, n): return n points evenly spaced from a to b inclusive. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def evenly_spaced(a, b, n):
+    # TODO: n points from a to b, endpoints included (hint: np.linspace)
+    return np.zeros(n)
+
+print(evenly_spaced(0, 10, 5).tolist())''',
+"check": '''import numpy as np
+assert np.allclose(evenly_spaced(0, 10, 5), [0, 2.5, 5, 7.5, 10]), "5 points 0..10"
+assert evenly_spaced(1, 2, 2).tolist() == [1.0, 2.0], "both endpoints included"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Constant Array",
+"desc": "Implement constant(shape, value): return an array of the given shape filled with value. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def constant(shape, value):
+    # TODO: return an array of `shape` filled with `value` (hint: np.full)
+    return np.zeros(shape)
+
+print(constant((2, 2), 7).tolist())''',
+"check": '''import numpy as np
+assert constant((2, 2), 7).tolist() == [[7, 7], [7, 7]], "2x2 of 7s"
+assert constant((3,), 0).tolist() == [0, 0, 0], "1-D of zeros"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Feature Matrix for Machine Learning",
 "scenario": "A data scientist prepares a feature matrix with a bias column before training a linear model.",
@@ -754,7 +819,8 @@ print("All batch outputs equal?", False, "(each row of A_batch differs)")"""}
     "Compute pairwise L2 distances between 5 points in 2D using (pts[:,None,:] - pts[None,:,:])",
     "Implement row-wise softmax on a (3, 5) logit matrix and verify each row sums to 1.0",
 ],
-"practice": {
+"practices": [
+{
 "title": "Broadcasting Workout",
 "desc": "1) Add a bias column of 1s to a (50, 4) feature matrix using broadcasting/hstack. 2) Compute the softmax of a (3, 5) logit matrix row-wise: exp(x) / sum(exp(x)) — verify each row sums to 1. 3) Subtract the per-row mean from a (4, 6) matrix so each row has zero mean.",
 "starter":
@@ -779,6 +845,69 @@ M = np.random.randn(4, 6)
 # TODO: M_centered = M - row_means
 # print("Row means after centering:", M_centered.mean(axis=1).round(10))"""
 },
+{
+"title": "Outer Sum",
+"desc": "Implement outer_sum(a, b): return the matrix where entry [i, j] is a[i] + b[j], using broadcasting (no loops). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def outer_sum(a, b):
+    a = np.asarray(a); b = np.asarray(b)
+    # TODO: use a[:, None] + b[None, :]
+    return np.zeros((len(a), len(b)))
+
+print(outer_sum([1, 2], [10, 20, 30]).tolist())''',
+"check": '''assert outer_sum([1, 2], [10, 20, 30]).tolist() == [[11, 21, 31], [12, 22, 32]], "entry [i,j] = a[i] + b[j]"
+import numpy as np
+assert outer_sum([0], [0]).tolist() == [[0]], "1x1 case"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Row Normalize",
+"desc": "Implement row_normalize(M): divide each row by its own sum so every row sums to 1 (use keepdims). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def row_normalize(M):
+    M = np.asarray(M, float)
+    # TODO: divide by the row sums, keeping dims so broadcasting lines up
+    return M
+
+print(row_normalize([[1, 1], [1, 3]]).tolist())''',
+"check": '''import numpy as np
+assert np.allclose(row_normalize([[1, 1], [1, 3]]), [[0.5, 0.5], [0.25, 0.75]]), "each row divided by its sum"
+assert np.allclose(row_normalize([[2, 2, 4]]).sum(axis=1), 1), "rows sum to 1"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Scale Columns",
+"desc": "Implement scale_columns(M, factors): multiply column j of M by factors[j] using broadcasting. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def scale_columns(M, factors):
+    # TODO: elementwise multiply M by factors (which broadcasts across rows)
+    return np.asarray(M, float)
+
+print(scale_columns([[1, 2], [3, 4]], [10, 100]).tolist())''',
+"check": '''assert scale_columns([[1, 2], [3, 4]], [10, 100]).tolist() == [[10, 200], [30, 400]], "column j times factors[j]"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Center Columns",
+"desc": "Implement center_columns(M): subtract each column's mean so every column has mean 0. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def center_columns(M):
+    M = np.asarray(M, float)
+    # TODO: subtract the per-column mean (axis=0)
+    return M
+
+print(center_columns([[1, 2], [3, 4]]).tolist())''',
+"check": '''import numpy as np
+c = center_columns([[1, 2], [3, 4]])
+assert np.allclose(c.mean(axis=0), 0), "each column has mean 0"
+assert np.allclose(c, [[-1, -1], [1, 1]]), "values shifted by the column mean"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Batch Image Normalization for CNNs",
 "scenario": "A computer vision engineer normalizes a batch of RGB images using channel-wise ImageNet statistics.",

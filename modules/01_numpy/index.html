@@ -132,7 +132,7 @@ X_b  = np.hstack([bias, X])
 print(f&quot;Feature matrix shape: {X_b.shape}&quot;)
 print(f&quot;Memory: {X_b.nbytes / 1024:.1f} KB&quot;)
 print(f&quot;dtype: {X_b.dtype}&quot;)
-print(f&quot;Sample row[:5]: {X_b[0, :5].round(3)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Array Construction Challenge</div><div class="pd">1) Create a 6x6 checkerboard of 0s and 1s using np.tile. 2) Build a 5x5 identity matrix, then multiply its diagonal by [1,2,3,4,5]. 3) Generate 20 log-spaced points from 10 to 10000 and find the one closest to 500.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import numpy as np
+print(f&quot;Sample row[:5]: {X_b[0, :5].round(3)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Array Construction Challenge</div><div class="pd">1) Create a 6x6 checkerboard of 0s and 1s using np.tile. 2) Build a 5x5 identity matrix, then multiply its diagonal by [1,2,3,4,5]. 3) Generate 20 log-spaced points from 10 to 10000 and find the one closest to 500.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import numpy as np
 
 # 1. 6x6 checkerboard using np.tile
 unit = np.array([[0, 1], [1, 0]])
@@ -148,7 +148,42 @@ scale = np.array([1, 2, 3, 4, 5])
 # 3. Log-spaced points, find closest to 500
 pts = np.logspace(1, 4, 20)   # 10^1 to 10^4
 # TODO: idx = np.argmin(np.abs(pts - 500))
-# print(f&quot;Closest to 500: {pts[idx]:.2f} at index {idx}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3x4 array of zeros and a 3x4 array of ones — add them together</label></li>
+# print(f&quot;Closest to 500: {pts[idx]:.2f} at index {idx}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Identity Matrix</div><div class="pd">Implement identity(n) returning an n x n identity matrix (1s on the diagonal, 0s elsewhere). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import numpy as np
+
+def identity(n):
+    # TODO: return an n x n identity matrix (hint: np.eye)
+    return np.zeros((n, n))
+
+print(identity(3).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert identity(2).tolist() == [[1, 0], [0, 1]], &quot;1s on the diagonal, 0s elsewhere&quot;
+assert np.trace(identity(4)) == 4, &quot;an n x n identity has trace n&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reshaped Range</div><div class="pd">Implement grid(rows, cols): return a rows x cols array filled with 0, 1, 2, ... in row-major order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">import numpy as np
+
+def grid(rows, cols):
+    # TODO: np.arange the right length, then reshape
+    return np.zeros((rows, cols), dtype=int)
+
+print(grid(2, 3).tolist())</code></pre></div><template class="ho-check">assert grid(2, 3).tolist() == [[0, 1, 2], [3, 4, 5]], &quot;0..5 filled row by row&quot;
+assert grid(3, 1).tolist() == [[0], [1], [2]], &quot;a column vector&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Evenly Spaced</div><div class="pd">Implement evenly_spaced(a, b, n): return n points evenly spaced from a to b inclusive. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import numpy as np
+
+def evenly_spaced(a, b, n):
+    # TODO: n points from a to b, endpoints included (hint: np.linspace)
+    return np.zeros(n)
+
+print(evenly_spaced(0, 10, 5).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(evenly_spaced(0, 10, 5), [0, 2.5, 5, 7.5, 10]), &quot;5 points 0..10&quot;
+assert evenly_spaced(1, 2, 2).tolist() == [1.0, 2.0], &quot;both endpoints included&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Constant Array</div><div class="pd">Implement constant(shape, value): return an array of the given shape filled with value. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">import numpy as np
+
+def constant(shape, value):
+    # TODO: return an array of `shape` filled with `value` (hint: np.full)
+    return np.zeros(shape)
+
+print(constant((2, 2), 7).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert constant((2, 2), 7).tolist() == [[7, 7], [7, 7]], &quot;2x2 of 7s&quot;
+assert constant((3,), 0).tolist() == [0, 0, 0], &quot;1-D of zeros&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3x4 array of zeros and a 3x4 array of ones — add them together</label></li>
 <li><label><input type="checkbox"> Use np.arange(0, 100, 5) and reshape it to (4, 5) — print shape and values</label></li>
 <li><label><input type="checkbox"> Generate a 3x3 identity matrix with np.eye(3) and verify the diagonal is all 1s</label></li>
 <li><label><input type="checkbox"> Use np.linspace(0, 1, 11) and np.logspace(0, 3, 4) and print both results</label></li>
@@ -232,7 +267,7 @@ print(&quot;-&quot; * 50)
 for name, arr in sensors.items():
     mb64  = arr.nbytes / 1e6
     mb32  = arr.astype(np.float32).nbytes / 1e6
-    print(f&quot;{name:12s} {mb64:&gt;12.3f} {mb32:&gt;12.3f} {mb64-mb32:&gt;10.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Array Attribute Inspector</div><div class="pd">Create three arrays of different dtypes (int8, float32, complex128), each shaped (4, 5). For each: print shape, ndim, dtype, itemsize, nbytes, and compute the memory saving vs float64. Then reshape one to (2, 2, 5) and verify shares_memory returns True.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import numpy as np
+    print(f&quot;{name:12s} {mb64:&gt;12.3f} {mb32:&gt;12.3f} {mb64-mb32:&gt;10.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Array Attribute Inspector</div><div class="pd">Create three arrays of different dtypes (int8, float32, complex128), each shaped (4, 5). For each: print shape, ndim, dtype, itemsize, nbytes, and compute the memory saving vs float64. Then reshape one to (2, 2, 5) and verify shares_memory returns True.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import numpy as np
 
 dtypes = [np.int8, np.float32, np.complex128]
 base_bytes = np.zeros((4, 5), dtype=np.float64).nbytes
@@ -333,7 +368,7 @@ peak_idx = np.argmax(stds)
 print(f&quot;Most variable window starts at hour {peak_idx}&quot;)
 print(f&quot;  std  = {stds[peak_idx]:.3f}&quot;)
 print(f&quot;  mean = {windows[peak_idx].mean():.2f}°C&quot;)
-print(f&quot;  range [{windows[peak_idx].min():.1f}, {windows[peak_idx].max():.1f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Matrix Surgery</div><div class="pd">Create a 6x6 matrix from arange(36). Using only indexing (no loops): 1) Extract the 2x2 center block (rows 2-3, cols 2-3). 2) Extract the main diagonal. 3) Set all values &gt; 25 to -1. 4) Extract every other element from the last row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import numpy as np
+print(f&quot;  range [{windows[peak_idx].min():.1f}, {windows[peak_idx].max():.1f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Matrix Surgery</div><div class="pd">Create a 6x6 matrix from arange(36). Using only indexing (no loops): 1) Extract the 2x2 center block (rows 2-3, cols 2-3). 2) Extract the main diagonal. 3) Set all values &gt; 25 to -1. 4) Extract every other element from the last row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import numpy as np
 
 m = np.arange(36).reshape(6, 6)
 print(&quot;Original:\n&quot;, m)
@@ -443,7 +478,7 @@ sharpe = log_ret.mean() / log_ret.std() * np.sqrt(252)
 
 print(f&quot;Daily returns %: {pct_ret.round(2)}&quot;)
 print(f&quot;Annualized vol:  {ann_vol:.4f}&quot;)
-print(f&quot;Sharpe ratio:    {sharpe:.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorized Math Challenge</div><div class="pd">1) Given angles in degrees [0, 30, 45, 60, 90, 120, 180], compute sin and cos without a loop. Verify sin²+cos²=1 for all. 2) Given a 1D price array, compute: % daily return, 5-day moving average (using np.convolve), and cumulative return. 3) Use np.clip to cap values between the 10th and 90th percentile.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import numpy as np
+print(f&quot;Sharpe ratio:    {sharpe:.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorized Math Challenge</div><div class="pd">1) Given angles in degrees [0, 30, 45, 60, 90, 120, 180], compute sin and cos without a loop. Verify sin²+cos²=1 for all. 2) Given a 1D price array, compute: % daily return, 5-day moving average (using np.convolve), and cumulative return. 3) Use np.clip to cap values between the 10th and 90th percentile.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import numpy as np
 
 # 1. Trig on degree array
 degrees = np.array([0, 30, 45, 60, 90, 120, 180], dtype=float)
@@ -543,7 +578,7 @@ normalized = (images.astype(np.float32) / 255.0 - mean_rgb) / std_rgb
 print(f&quot;Input:  {images.shape}  dtype={images.dtype}&quot;)
 print(f&quot;Output: {normalized.shape}  dtype={normalized.dtype}&quot;)
 print(f&quot;Range:  [{normalized.min():.3f}, {normalized.max():.3f}]&quot;)
-print(f&quot;Per-channel mean: {normalized.mean(axis=(0,1,2)).round(3)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Broadcasting Workout</div><div class="pd">1) Add a bias column of 1s to a (50, 4) feature matrix using broadcasting/hstack. 2) Compute the softmax of a (3, 5) logit matrix row-wise: exp(x) / sum(exp(x)) — verify each row sums to 1. 3) Subtract the per-row mean from a (4, 6) matrix so each row has zero mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+print(f&quot;Per-channel mean: {normalized.mean(axis=(0,1,2)).round(3)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Broadcasting Workout</div><div class="pd">1) Add a bias column of 1s to a (50, 4) feature matrix using broadcasting/hstack. 2) Compute the softmax of a (3, 5) logit matrix row-wise: exp(x) / sum(exp(x)) — verify each row sums to 1. 3) Subtract the per-row mean from a (4, 6) matrix so each row has zero mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import numpy as np
 np.random.seed(42)
 
 # 1. Add bias column (column of 1s) to feature matrix
@@ -562,7 +597,45 @@ logits = np.random.randn(3, 5)
 M = np.random.randn(4, 6)
 # TODO: row_means = M.mean(axis=1, keepdims=True)
 # TODO: M_centered = M - row_means
-# print(&quot;Row means after centering:&quot;, M_centered.mean(axis=1).round(10))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar 10 to a (3, 4) array and then multiply by a (4,) row vector — verify broadcast shapes</label></li>
+# print(&quot;Row means after centering:&quot;, M_centered.mean(axis=1).round(10))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Outer Sum</div><div class="pd">Implement outer_sum(a, b): return the matrix where entry [i, j] is a[i] + b[j], using broadcasting (no loops). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import numpy as np
+
+def outer_sum(a, b):
+    a = np.asarray(a); b = np.asarray(b)
+    # TODO: use a[:, None] + b[None, :]
+    return np.zeros((len(a), len(b)))
+
+print(outer_sum([1, 2], [10, 20, 30]).tolist())</code></pre></div><template class="ho-check">assert outer_sum([1, 2], [10, 20, 30]).tolist() == [[11, 21, 31], [12, 22, 32]], &quot;entry [i,j] = a[i] + b[j]&quot;
+import numpy as np
+assert outer_sum([0], [0]).tolist() == [[0]], &quot;1x1 case&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Normalize</div><div class="pd">Implement row_normalize(M): divide each row by its own sum so every row sums to 1 (use keepdims). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import numpy as np
+
+def row_normalize(M):
+    M = np.asarray(M, float)
+    # TODO: divide by the row sums, keeping dims so broadcasting lines up
+    return M
+
+print(row_normalize([[1, 1], [1, 3]]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(row_normalize([[1, 1], [1, 3]]), [[0.5, 0.5], [0.25, 0.75]]), &quot;each row divided by its sum&quot;
+assert np.allclose(row_normalize([[2, 2, 4]]).sum(axis=1), 1), &quot;rows sum to 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Scale Columns</div><div class="pd">Implement scale_columns(M, factors): multiply column j of M by factors[j] using broadcasting. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import numpy as np
+
+def scale_columns(M, factors):
+    # TODO: elementwise multiply M by factors (which broadcasts across rows)
+    return np.asarray(M, float)
+
+print(scale_columns([[1, 2], [3, 4]], [10, 100]).tolist())</code></pre></div><template class="ho-check">assert scale_columns([[1, 2], [3, 4]], [10, 100]).tolist() == [[10, 200], [30, 400]], &quot;column j times factors[j]&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Center Columns</div><div class="pd">Implement center_columns(M): subtract each column&#x27;s mean so every column has mean 0. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import numpy as np
+
+def center_columns(M):
+    M = np.asarray(M, float)
+    # TODO: subtract the per-column mean (axis=0)
+    return M
+
+print(center_columns([[1, 2], [3, 4]]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+c = center_columns([[1, 2], [3, 4]])
+assert np.allclose(c.mean(axis=0), 0), &quot;each column has mean 0&quot;
+assert np.allclose(c, [[-1, -1], [1, 1]]), &quot;values shifted by the column mean&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar 10 to a (3, 4) array and then multiply by a (4,) row vector — verify broadcast shapes</label></li>
 <li><label><input type="checkbox"> Subtract the per-column mean from a (100, 5) array using axis=0 and keepdims=True</label></li>
 <li><label><input type="checkbox"> Compute the outer product of [1,2,3] and [10,20,30] using broadcasting (a[:,None] * b[None,:])</label></li>
 <li><label><input type="checkbox"> Compute pairwise L2 distances between 5 points in 2D using (pts[:,None,:] - pts[None,:,:])</label></li>
@@ -654,7 +727,7 @@ print(f&quot;Heating degree-hours:   {heating.sum():.0f}&quot;)
 print(f&quot;Cooling degree-hours:   {cooling.sum():.0f}&quot;)
 print(f&quot;Extreme hours (&lt;0/&gt;38): {extreme.sum()}&quot;)
 print(f&quot;Coldest: {temps.min():.1f}°C at hour {temps.argmin()}&quot;)
-print(f&quot;Hottest: {temps.max():.1f}°C at hour {temps.argmax()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Boolean Filtering &amp; Replacement</div><div class="pd">Generate 200 random normal values (mean=100, std=20). 1) Count values in each band: &lt;70, 70-90, 90-110, 110-130, &gt;130. 2) Use np.select to label them &#x27;very_low&#x27;,&#x27;low&#x27;,&#x27;normal&#x27;,&#x27;high&#x27;,&#x27;very_high&#x27;. 3) Replace all values outside [60, 140] with the band boundary (clip). Verify no values remain outside [60, 140].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import numpy as np
+print(f&quot;Hottest: {temps.max():.1f}°C at hour {temps.argmax()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Boolean Filtering &amp; Replacement</div><div class="pd">Generate 200 random normal values (mean=100, std=20). 1) Count values in each band: &lt;70, 70-90, 90-110, 110-130, &gt;130. 2) Use np.select to label them &#x27;very_low&#x27;,&#x27;low&#x27;,&#x27;normal&#x27;,&#x27;high&#x27;,&#x27;very_high&#x27;. 3) Replace all values outside [60, 140] with the band boundary (clip). Verify no values remain outside [60, 140].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import numpy as np
 np.random.seed(0)
 data = np.random.normal(100, 20, 200)
 
@@ -774,7 +847,7 @@ print(f&quot;Process mean:  {mean:.2f}mm,  std: {std:.2f}mm&quot;)
 print(f&quot;Total units:   {len(measurements):,}&quot;)
 print(f&quot;Defects found: {outlier_mask.sum()} ({outlier_mask.mean():.2%})&quot;)
 print(f&quot;Defect values: {outlier_vals.round(1)}&quot;)
-print(f&quot;At indices:    {outlier_idx}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Statistics on a 2D Dataset</div><div class="pd">Create a (10, 5) matrix of random student scores (int, 0-100). Compute: per-column mean, std, min, max. Find which column (subject) has the highest variance. Identify which rows (students) have an average below 50. Compute the correlation matrix between all 5 subjects.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import numpy as np
+print(f&quot;At indices:    {outlier_idx}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Statistics on a 2D Dataset</div><div class="pd">Create a (10, 5) matrix of random student scores (int, 0-100). Compute: per-column mean, std, min, max. Find which column (subject) has the highest variance. Identify which rows (students) have an average below 50. Compute the correlation matrix between all 5 subjects.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import numpy as np
 np.random.seed(1)
 
 scores = np.random.randint(0, 101, (10, 5))
@@ -888,7 +961,7 @@ port_std = np.sqrt(port_var * 252)   # annualized
 
 print(&quot;Min-variance weights:&quot;, w_minvar.round(4))
 print(f&quot;Sum of weights: {w_minvar.sum():.6f}&quot;)
-print(f&quot;Annualized portfolio vol: {port_std:.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Solve a 3x3 Linear System</div><div class="pd">Solve this system: 2x + y - z = 8, -3x - y + 2z = -11, -2x + y + 2z = -3. Set up as Ax=b, solve with np.linalg.solve, verify with np.allclose. Then compute det(A), inv(A), and confirm A @ inv(A) is the identity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import numpy as np
+print(f&quot;Annualized portfolio vol: {port_std:.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Solve a 3x3 Linear System</div><div class="pd">Solve this system: 2x + y - z = 8, -3x - y + 2z = -11, -2x + y + 2z = -3. Set up as Ax=b, solve with np.linalg.solve, verify with np.allclose. Then compute det(A), inv(A), and confirm A @ inv(A) is the identity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
 
 # 2x + y - z  = 8
 # -3x - y + 2z = -11
@@ -1002,7 +1075,7 @@ print(f&quot;CHW format: {chw.shape}&quot;)
 # Stack two batches along batch axis
 batch2   = np.random.rand(batch_size, H, W, C).astype(np.float32)
 combined = np.concatenate([images, batch2], axis=0)
-print(f&quot;Combined:   {combined.shape}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Shape Manipulation Challenge</div><div class="pd">1) Start with np.arange(60), reshape to (3, 4, 5). Transpose axes to (5, 4, 3), then flatten. 2) Stack three (4, 3) matrices along a new axis 0 to get (3, 4, 3). 3) Split a (12, 8) matrix into 4 equal row-chunks and stack them along axis=2.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import numpy as np
+print(f&quot;Combined:   {combined.shape}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Shape Manipulation Challenge</div><div class="pd">1) Start with np.arange(60), reshape to (3, 4, 5). Transpose axes to (5, 4, 3), then flatten. 2) Stack three (4, 3) matrices along a new axis 0 to get (3, 4, 3). 3) Split a (12, 8) matrix into 4 equal row-chunks and stack them along axis=2.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import numpy as np
 
 # 1. Reshape, transpose, flatten
 a = np.arange(60)
@@ -1126,7 +1199,7 @@ prob_loss = (final &lt; S0).mean()
 print(f&quot;Expected year-end price:  ${final.mean():.2f}&quot;)
 print(f&quot;95% Value-at-Risk (loss): ${S0 - var_95:.2f}&quot;)
 print(f&quot;95% CVaR (expected loss): ${S0 - cvar_95:.2f}&quot;)
-print(f&quot;Probability of loss:      {prob_loss:.1%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monte Carlo Dice Simulation</div><div class="pd">Simulate 1,000,000 rolls of two 6-sided dice using NumPy (no Python loops). 1) Compute the frequency of each sum (2-12). 2) Compare to theoretical probability. 3) Find the empirical probability of rolling a sum of 7. 4) Simulate the &#x27;Craps&#x27; first-roll win condition (sum 7 or 11).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import numpy as np
+print(f&quot;Probability of loss:      {prob_loss:.1%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monte Carlo Dice Simulation</div><div class="pd">Simulate 1,000,000 rolls of two 6-sided dice using NumPy (no Python loops). 1) Compute the frequency of each sum (2-12). 2) Compare to theoretical probability. 3) Find the empirical probability of rolling a sum of 7. 4) Simulate the &#x27;Craps&#x27; first-roll win condition (sum 7 or 11).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import numpy as np
 rng = np.random.default_rng(42)
 N = 1_000_000
 
@@ -1222,7 +1295,7 @@ x = np.linspace(0, np.pi, 6)
 tmp = np.empty_like(x)
 np.sin(x, out=tmp)        # tmp = sin(x)
 np.square(tmp, out=tmp)   # tmp = sin(x)^2 — still same memory
-print(&#x27;sin^2:&#x27;, tmp.round(4))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stride-Based Feature Matrix</div><div class="pd">Given a 1D time series, use sliding_window_view to build a feature matrix where each row contains [t-3, t-2, t-1, t] values. Then compute the mean and std of each row as features.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import numpy as np
+print(&#x27;sin^2:&#x27;, tmp.round(4))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stride-Based Feature Matrix</div><div class="pd">Given a 1D time series, use sliding_window_view to build a feature matrix where each row contains [t-3, t-2, t-1, t] values. Then compute the mean and std of each row as features.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import numpy as np
 
 np.random.seed(0)
 ts = np.cumsum(np.random.randn(50))  # random walk
@@ -1312,7 +1385,7 @@ print(df)
 df2 = pd.DataFrame({&#x27;x&#x27;: [1.0, 2.0], &#x27;y&#x27;: [3.0, 4.0], &#x27;label&#x27;: [&#x27;a&#x27;, &#x27;b&#x27;]})
 rec = df2.to_records(index=False)
 print(&#x27;\nRecord array:&#x27;, rec)
-print(&#x27;x field:&#x27;, rec[&#x27;x&#x27;])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Student Records Sorter</div><div class="pd">Create a structured array with fields: name (str), grade (int), gpa (float) for 6 students. Sort by gpa descending and print the top 3. Then compute average gpa per grade level.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+print(&#x27;x field:&#x27;, rec[&#x27;x&#x27;])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Student Records Sorter</div><div class="pd">Create a structured array with fields: name (str), grade (int), gpa (float) for 6 students. Sort by gpa descending and print the top 3. Then compute average gpa per grade level.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import numpy as np
 
 dtype = np.dtype([(&#x27;name&#x27;,&#x27;U20&#x27;),(&#x27;grade&#x27;,&#x27;i4&#x27;),(&#x27;gpa&#x27;,&#x27;f8&#x27;)])
 students = np.array([
@@ -1398,7 +1471,7 @@ print(f&#x27;RMSE vs true: {rmse:.4f}&#x27;)
 for deg in [1, 2, 3, 5]:
     c = np.polyfit(x, y_noisy, deg)
     y_hat = np.polyval(c, x)
-    print(f&#x27;Degree {deg}: train RMSE = {np.sqrt(np.mean((y_hat - y_noisy)**2)):.4f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Curve Fitting &amp; Residuals</div><div class="pd">Generate 60 points of noisy sine data (y = sin(x) + noise). Fit polynomial degrees 1, 3, 5, and 7. For each, compute the RMSE and plot residuals. Identify the degree with best bias-variance tradeoff.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+    print(f&#x27;Degree {deg}: train RMSE = {np.sqrt(np.mean((y_hat - y_noisy)**2)):.4f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Curve Fitting &amp; Residuals</div><div class="pd">Generate 60 points of noisy sine data (y = sin(x) + noise). Fit polynomial degrees 1, 3, 5, and 7. For each, compute the RMSE and plot residuals. Identify the degree with best bias-variance tradeoff.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 x = np.linspace(0, 2*np.pi, 60)
@@ -1506,7 +1579,7 @@ print(&#x27;After zeroing patch:&#x27;, img_batch[0, 1:6, 1:6])
 H, W = 4, 4
 ri, ci = np.indices((H, W))
 dist_from_center = np.sqrt((ri - H//2)**2 + (ci - W//2)**2)
-print(&#x27;\nDistance from center:\n&#x27;, dist_from_center.round(2))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Student Score Analyzer</div><div class="pd">Given a 2D array of exam scores (30 students x 5 subjects), use advanced indexing to: (1) find each student&#x27;s best and worst subject, (2) select the top 5 students by total score using np.argpartition, (3) assign letter grades (A&gt;=90, B&gt;=80, C&gt;=70, D&gt;=60, F&lt;60) using np.where, (4) create a pass/fail mask where students need avg &gt;= 70 in at least 3 subjects.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+print(&#x27;\nDistance from center:\n&#x27;, dist_from_center.round(2))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Student Score Analyzer</div><div class="pd">Given a 2D array of exam scores (30 students x 5 subjects), use advanced indexing to: (1) find each student&#x27;s best and worst subject, (2) select the top 5 students by total score using np.argpartition, (3) assign letter grades (A&gt;=90, B&gt;=80, C&gt;=70, D&gt;=60, F&lt;60) using np.where, (4) create a pass/fail mask where students need avg &gt;= 70 in at least 3 subjects.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 scores = np.random.randint(40, 100, (30, 5))
@@ -1662,7 +1735,7 @@ print(f&#x27;Results match: {np.allclose(r1, r2)}&#x27;)</code></pre></div><div 
 except ImportError:
     print(&#x27;pip install numba&#x27;)
     print(&#x27;Numba @njit: compiles Python+NumPy loops to LLVM machine code.&#x27;)
-    print(&#x27;Typical speedup: 10-100x for loop-heavy numeric code.&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorize a Distance Computation</div><div class="pd">Given a matrix X of shape (1000, 5), compute the pairwise Euclidean distance matrix D[i,j] = ||x_i - x_j||. Implement three versions: (1) pure Python nested loop, (2) NumPy broadcasting (X[:,None,:] - X[None,:,:]), (3) using np.einsum or scipy.spatial.distance. Benchmark all three and report speedups.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import numpy as np
+    print(&#x27;Typical speedup: 10-100x for loop-heavy numeric code.&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorize a Distance Computation</div><div class="pd">Given a matrix X of shape (1000, 5), compute the pairwise Euclidean distance matrix D[i,j] = ||x_i - x_j||. Implement three versions: (1) pure Python nested loop, (2) NumPy broadcasting (X[:,None,:] - X[None,:,:]), (3) using np.einsum or scipy.spatial.distance. Benchmark all three and report speedups.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import numpy as np
 import time
 
 np.random.seed(42)
@@ -1790,7 +1863,7 @@ fig, axes = plt.subplots(1, 3, figsize=(12, 4))
 axes[0].imshow(image, cmap=&#x27;gray&#x27;); axes[0].set_title(&#x27;Original&#x27;)
 axes[1].imshow(log_mag, cmap=&#x27;hot&#x27;); axes[1].set_title(&#x27;2D Spectrum (log)&#x27;)
 axes[2].imshow(filtered, cmap=&#x27;gray&#x27;); axes[2].set_title(&#x27;Low-pass Filtered&#x27;)
-plt.tight_layout(); plt.savefig(&#x27;fft2d.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved fft2d.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Audio Denoising Pipeline</div><div class="pd">Simulate an audio signal: 440Hz tone + 880Hz harmonic + white noise. (1) Compute FFT and plot the power spectrum. (2) Design a bandpass FFT filter that keeps only 400-950Hz. (3) Reconstruct the signal with ifft. (4) Compute SNR before and after filtering. (5) Also try a 21-point Gaussian smoothing kernel via np.convolve as an alternative.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+plt.tight_layout(); plt.savefig(&#x27;fft2d.png&#x27;, dpi=80); plt.close(); print(&#x27;Saved fft2d.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Audio Denoising Pipeline</div><div class="pd">Simulate an audio signal: 440Hz tone + 880Hz harmonic + white noise. (1) Compute FFT and plot the power spectrum. (2) Design a bandpass FFT filter that keeps only 400-950Hz. (3) Reconstruct the signal with ifft. (4) Compute SNR before and after filtering. (5) Also try a 21-point Gaussian smoothing kernel via np.convolve as an alternative.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 fs = 8000
@@ -1904,7 +1977,7 @@ sorted_rev = np.sort(revenues)
 sample_rev = np.array([50_000, 100_000, 500_000])
 pct_ranks  = np.searchsorted(sorted_rev, sample_rev) / n_reps * 100
 for rev, pct in zip(sample_rev, pct_ranks):
-    print(f&quot;  ${rev:&gt;8,} is at the {pct:.1f}th percentile&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top-K Selector</div><div class="pd">Write a function top_k_products(sales, k) that takes a 2D array (rows=products, cols=days) and returns the indices of the k products with the highest total sales. Use argpartition for efficiency. Also write bottom_k_days(sales, k) that returns the k days (columns) with lowest average sales across all products.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import numpy as np
+    print(f&quot;  ${rev:&gt;8,} is at the {pct:.1f}th percentile&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top-K Selector</div><div class="pd">Write a function top_k_products(sales, k) that takes a 2D array (rows=products, cols=days) and returns the indices of the k products with the highest total sales. Use argpartition for efficiency. Also write bottom_k_days(sales, k) that returns the k days (columns) with lowest average sales across all products.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import numpy as np
 
 def top_k_products(sales, k):
     # Sum across days (axis=1), then use argpartition
@@ -2031,7 +2104,7 @@ print(f&quot;Confirmed:   {len(confirmed):,} ({len(confirmed)/len(manifest_u):.1
 print(f&quot;Missing:     {len(missing):,}&quot;)
 print(f&quot;Unexpected:  {len(unexpected):,}&quot;)
 print(f&quot;Duplicates:  {len(duplicates):,}&quot;)
-print(f&quot;Accuracy:    {len(confirmed)/len(manifest_u):.2%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cohort Analysis</div><div class="pd">Write a function cohort_analysis(cohorts: dict) where cohorts maps week labels to user_id arrays. For each week, compute: (1) new users (not seen in any previous week), (2) returning users (seen in at least one previous week), (3) churned from previous week. Return a list of dicts with these counts.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import numpy as np
+print(f&quot;Accuracy:    {len(confirmed)/len(manifest_u):.2%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cohort Analysis</div><div class="pd">Write a function cohort_analysis(cohorts: dict) where cohorts maps week labels to user_id arrays. For each week, compute: (1) new users (not seen in any previous week), (2) returning users (seen in at least one previous week), (3) churned from previous week. Return a list of dicts with these counts.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import numpy as np
 
 def cohort_analysis(cohorts):
     results = []
@@ -2187,7 +2260,7 @@ print(f&quot;Days cleaned: {np.isnan(prices).sum() + (prices &lt;= 0).sum()}&quo
 print(f&quot;Valid returns: {len(rets)}&quot;)
 print(f&quot;Mean return: {np.nanmean(rets):.4%}&quot;)
 print(f&quot;Volatility:  {np.nanstd(rets):.4%}&quot;)
-print(f&quot;Sharpe (approx): {np.nanmean(rets)/np.nanstd(rets)*np.sqrt(252):.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stable Softmax</div><div class="pd">Implement stable_softmax(x) that computes softmax using the log-sum-exp trick to avoid overflow. Implement log_softmax(x) using the same trick. Verify both give the same probabilities on x = [1000, 1001, 999] and x = [-1000, -999, -1001]. Compare against naive softmax to show instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import numpy as np
+print(f&quot;Sharpe (approx): {np.nanmean(rets)/np.nanstd(rets)*np.sqrt(252):.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stable Softmax</div><div class="pd">Implement stable_softmax(x) that computes softmax using the log-sum-exp trick to avoid overflow. Implement log_softmax(x) using the same trick. Verify both give the same probabilities on x = [1000, 1001, 999] and x = [-1000, -999, -1001]. Compare against naive softmax to show instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import numpy as np
 
 def naive_softmax(x):
     e = np.exp(x)
@@ -2333,7 +2406,7 @@ print(f&quot;Permutation test p-value: {p_value:.4f}&quot;)
 print(f&quot;Significant at alpha=0.05: {p_value &lt; 0.05}&quot;)
 
 ci = np.percentile(perm_diffs, [2.5, 97.5])
-print(f&quot;Null distribution 95% CI: [{ci[0]:.4f}, {ci[1]:.4f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Fitter</div><div class="pd">Write fit_normal(data) that uses np.mean and np.std to estimate parameters, then generates n_samples from that distribution and computes the KS-like statistic (max absolute difference between sorted empirical CDF and normal CDF). Also write simulate_geometric_brownian(S0, mu, sigma, T, n_steps) for stock price simulation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import numpy as np
+print(f&quot;Null distribution 95% CI: [{ci[0]:.4f}, {ci[1]:.4f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Fitter</div><div class="pd">Write fit_normal(data) that uses np.mean and np.std to estimate parameters, then generates n_samples from that distribution and computes the KS-like statistic (max absolute difference between sorted empirical CDF and normal CDF). Also write simulate_geometric_brownian(S0, mu, sigma, T, n_steps) for stock price simulation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import numpy as np
 
 def fit_normal(data, n_samples=1000, seed=42):
     rng = np.random.default_rng(seed)
@@ -2499,7 +2572,7 @@ def random_hflip(batch, rng, p=0.5):
 processed = preprocess(random_hflip(batch, rng))
 print(f&quot;Input: {batch.shape} uint8&quot;)
 print(f&quot;Output: {processed.shape} float32&quot;)
-print(f&quot;Channel 0: mean={processed[:,0,:,:].mean():.3f}, std={processed[:,0,:,:].std():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Statistics</div><div class="pd">Write a function image_stats(img) that takes a (H,W,3) uint8 image and returns a dict with per-channel mean, std, min, max, and the percentage of &#x27;near-white&#x27; pixels (all channels &gt; 200) and &#x27;near-black&#x27; pixels (all channels &lt; 55). Also write normalize_contrast(img) that maps pixel values to [0,255] using min-max normalization per channel.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import numpy as np
+print(f&quot;Channel 0: mean={processed[:,0,:,:].mean():.3f}, std={processed[:,0,:,:].std():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Statistics</div><div class="pd">Write a function image_stats(img) that takes a (H,W,3) uint8 image and returns a dict with per-channel mean, std, min, max, and the percentage of &#x27;near-white&#x27; pixels (all channels &gt; 200) and &#x27;near-black&#x27; pixels (all channels &lt; 55). Also write normalize_contrast(img) that maps pixel values to [0,255] using min-max normalization per channel.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import numpy as np
 
 def image_stats(img):
     # img is (H, W, 3) uint8
@@ -2659,7 +2732,7 @@ print(f&quot;Expected Shortfall (CVaR 99%): {es_99:.4%}&quot;)
 
 # Correlation matrix
 corr = np.corrcoef(returns.T)
-print(f&quot;Avg pairwise correlation: {corr[np.triu_indices(n_assets, k=1)].mean():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weighted Statistics</div><div class="pd">Implement weighted_mean(data, weights), weighted_std(data, weights, ddof=0), and weighted_percentile(data, weights, q) where weights represent observation frequencies. Verify weighted_mean on data=[1,2,3,4,5] with weights=[5,1,1,1,1] (mean should be close to 1 since 5 is heavily weighted).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import numpy as np
+print(f&quot;Avg pairwise correlation: {corr[np.triu_indices(n_assets, k=1)].mean():.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weighted Statistics</div><div class="pd">Implement weighted_mean(data, weights), weighted_std(data, weights, ddof=0), and weighted_percentile(data, weights, q) where weights represent observation frequencies. Verify weighted_mean on data=[1,2,3,4,5] with weights=[5,1,1,1,1] (mean should be close to 1 since 5 is heavily weighted).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import numpy as np
 
 def weighted_mean(data, weights):
     data, weights = np.asarray(data, float), np.asarray(weights, float)
@@ -2822,7 +2895,7 @@ ep, W, H = load_checkpoint(ckpt_path)
 print(f&quot;Loaded epoch {ep}, W1 shape: {W[&#x27;W1&#x27;].shape}&quot;)
 print(f&quot;Final train loss: {H[&#x27;train_loss&#x27;][-1]:.4f}&quot;)
 
-shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Pipeline with npz Cache</div><div class="pd">Write a DataCache class that saves a numpy array to disk as .npz if it doesn&#x27;t exist, or loads it if it does. Add methods: cache_exists(key), save(key, **arrays), load(key), and delete(key). The cache directory should be configurable in __init__. Test by saving and loading a feature matrix and label array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import numpy as np, pathlib
+shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Pipeline with npz Cache</div><div class="pd">Write a DataCache class that saves a numpy array to disk as .npz if it doesn&#x27;t exist, or loads it if it does. Add methods: cache_exists(key), save(key, **arrays), load(key), and delete(key). The cache directory should be configurable in __init__. Test by saving and loading a feature matrix and label array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import numpy as np, pathlib
 
 class DataCache:
     def __init__(self, cache_dir=&#x27;./cache&#x27;):
@@ -2991,7 +3064,7 @@ day_buckets = times.astype(&#x27;datetime64[D]&#x27;)
 for day in np.unique(day_buckets):
     m = (day_buckets == day)
     p = prices[m]
-    print(f&quot;  {day}: O={p[0]:.2f} H={p.max():.2f} L={p.min():.2f} C={p[-1]:.2f} V={m.sum()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holiday Calendar</div><div class="pd">Write a function get_trading_days(start, end, holidays) that returns all business days between start and end (as datetime64 strings) excluding the given holidays. Write next_trading_day(date, holidays) that returns the next business day on or after date. Test with US holidays from 2024.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import numpy as np
+    print(f&quot;  {day}: O={p[0]:.2f} H={p.max():.2f} L={p.min():.2f} C={p[-1]:.2f} V={m.sum()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holiday Calendar</div><div class="pd">Write a function get_trading_days(start, end, holidays) that returns all business days between start and end (as datetime64 strings) excluding the given holidays. Write next_trading_day(date, holidays) that returns the next business day on or after date. Test with US holidays from 2024.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import numpy as np
 
 def get_trading_days(start, end, holidays=None):
     start = np.datetime64(start, &#x27;D&#x27;)
@@ -3139,7 +3212,7 @@ print(f&quot;Peak density at: lat={lat_grid.ravel()[density.argmax()]:.4f}, &quo
 # Hot spots: top 10% density cells
 threshold = np.percentile(density, 90)
 hot_spots  = density &gt; threshold
-print(f&quot;Hot spot cells: {hot_spots.sum()} ({hot_spots.mean():.1%} of grid)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bivariate Gaussian</div><div class="pd">Write a function bivariate_gaussian(X, Y, mu_x, mu_y, sigma_x, sigma_y, rho) that evaluates the bivariate normal PDF at grid points (X, Y). Parameters: mu = means, sigma = std devs, rho = correlation. Use meshgrid to create a 50x50 grid over [-3, 3] x [-3, 3] and plot (print stats). Verify the PDF integrates to ~1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np
+print(f&quot;Hot spot cells: {hot_spots.sum()} ({hot_spots.mean():.1%} of grid)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bivariate Gaussian</div><div class="pd">Write a function bivariate_gaussian(X, Y, mu_x, mu_y, sigma_x, sigma_y, rho) that evaluates the bivariate normal PDF at grid points (X, Y). Parameters: mu = means, sigma = std devs, rho = correlation. Use meshgrid to create a 50x50 grid over [-3, 3] x [-3, 3] and plot (print stats). Verify the PDF integrates to ~1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import numpy as np
 
 def bivariate_gaussian(X, Y, mu_x=0, mu_y=0, sigma_x=1, sigma_y=1, rho=0):
     z = ((X - mu_x)**2 / sigma_x**2
@@ -3291,7 +3364,7 @@ queries = rng.standard_normal((n_queries, dim))
 queries /= np.linalg.norm(queries, axis=1, keepdims=True)
 batch_sims = queries @ docs.T   # (100, 50000)
 batch_top1 = batch_sims.argmax(axis=1)
-print(f&quot;Batch top-1 for {n_queries} queries: mean sim={batch_sims.max(axis=1).mean():.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Attention Scores</div><div class="pd">Implement scaled_dot_product_attention(Q, K, V) where Q, K have shape (seq_len, d_k) and V has shape (seq_len, d_v). Compute scores = softmax(Q @ K.T / sqrt(d_k)) @ V using only NumPy. Also implement multi_head_attention(Q, K, V, n_heads) that splits into n_heads, applies attention, and concatenates.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import numpy as np
+print(f&quot;Batch top-1 for {n_queries} queries: mean sim={batch_sims.max(axis=1).mean():.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Attention Scores</div><div class="pd">Implement scaled_dot_product_attention(Q, K, V) where Q, K have shape (seq_len, d_k) and V has shape (seq_len, d_v). Compute scores = softmax(Q @ K.T / sqrt(d_k)) @ V using only NumPy. Also implement multi_head_attention(Q, K, V, n_heads) that splits into n_heads, applies attention, and concatenates.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import numpy as np
 
 def softmax(x, axis=-1):
     e = np.exp(x - x.max(axis=axis, keepdims=True))
@@ -3454,7 +3527,7 @@ activations = {
 
 for name, act in activations.items():
     print(f&quot;{name:8s}: mean={act.mean():.4f}, std={act.std():.4f}, &quot;
-          f&quot;range=[{act.min():.3f}, {act.max():.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Ufunc</div><div class="pd">Use np.frompyfunc to create a ufunc haversine_ufunc that computes the great-circle distance in km between a (lat1, lon1) and (lat2, lon2) point pair. Then use vectorize to wrap it into a function that accepts arrays of lat/lon pairs. Compute distances between New York and a grid of 100 cities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import numpy as np
+          f&quot;range=[{act.min():.3f}, {act.max():.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Ufunc</div><div class="pd">Use np.frompyfunc to create a ufunc haversine_ufunc that computes the great-circle distance in km between a (lat1, lon1) and (lat2, lon2) point pair. Then use vectorize to wrap it into a function that accepts arrays of lat/lon pairs. Compute distances between New York and a grid of 100 cities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import numpy as np
 
 def haversine_scalar(lat1, lon1, lat2, lon2):
     R = 6371  # Earth radius in km
@@ -3597,7 +3670,7 @@ print(f&quot;Seasonal range: [{clean.min():.2f}, {clean.max():.2f}]°C&quot;)
 annual = clean[:n_years*365].reshape(n_years, 365)
 for y in range(n_years):
     row = annual[y]
-    print(f&quot;  Year {y+1}: mean={row.mean():.2f}°C, valid={row.count()} days&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Masked Correlation</div><div class="pd">Write masked_corrcoef(X) that computes a pairwise correlation matrix for a 2D masked array X (shape n_obs x n_vars), where each pair of variables is correlated only using rows where BOTH are valid. Return a regular (n_vars x n_vars) ndarray. Test on a dataset where each column has independent random missing values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import numpy as np
+    print(f&quot;  Year {y+1}: mean={row.mean():.2f}°C, valid={row.count()} days&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Masked Correlation</div><div class="pd">Write masked_corrcoef(X) that computes a pairwise correlation matrix for a 2D masked array X (shape n_obs x n_vars), where each pair of variables is correlated only using rows where BOTH are valid. Return a regular (n_vars x n_vars) ndarray. Test on a dataset where each column has independent random missing values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import numpy as np
 
 def masked_corrcoef(X):
     n_obs, n_vars = X.shape
@@ -3752,7 +3825,7 @@ print(&quot;Results match:&quot;, np.allclose(C1, C2))
 # Memory usage check
 import sys
 print(f&quot;B.T.copy() size: {sys.getsizeof(B.T.copy()):,} bytes&quot;)
-print(f&quot;B.T view size:   {sys.getsizeof(B.T):,} bytes (metadata only)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stride Inspector</div><div class="pd">Write inspect_array(arr) that prints: shape, dtype, strides, itemsize, nbytes, is_C_contiguous, is_F_contiguous, is_view (arr.base is not None), total elements. Then write reshape_safe(arr, shape) that reshapes arr to shape, ensuring the result is C-contiguous (copy only if needed). Test with various slices and transpositions.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import numpy as np
+print(f&quot;B.T view size:   {sys.getsizeof(B.T):,} bytes (metadata only)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stride Inspector</div><div class="pd">Write inspect_array(arr) that prints: shape, dtype, strides, itemsize, nbytes, is_C_contiguous, is_F_contiguous, is_view (arr.base is not None), total elements. Then write reshape_safe(arr, shape) that reshapes arr to shape, ensuring the result is C-contiguous (copy only if needed). Test with various slices and transpositions.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import numpy as np
 
 def inspect_array(arr):
     print(f&quot;Shape:           {arr.shape}&quot;)
@@ -3913,7 +3986,7 @@ print(f&quot;RMSE on observed ratings: {rmse:.3f}&quot;)
 user0_scores = R_hat[0]
 user0_unseen = ~observed_mask[0]
 top5 = np.argsort(user0_scores * user0_unseen)[::-1][:5]
-print(f&quot;Top-5 recommendations for user 0: items {top5} with scores {user0_scores[top5].round(2)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: System of Equations Solver</div><div class="pd">Write solve_system(A, b) that checks if the system Ax=b is (1) well-determined (use rank), (2) overdetermined (least squares), or (3) underdetermined (minimum-norm solution via pinv), and solves accordingly with a label. Also write condition_number(A) and show how ill-conditioned matrices cause solution instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import numpy as np
+print(f&quot;Top-5 recommendations for user 0: items {top5} with scores {user0_scores[top5].round(2)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: System of Equations Solver</div><div class="pd">Write solve_system(A, b) that checks if the system Ax=b is (1) well-determined (use rank), (2) overdetermined (least squares), or (3) underdetermined (minimum-norm solution via pinv), and solves accordingly with a label. Also write condition_number(A) and show how ill-conditioned matrices cause solution instability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_0')">Copy</button></div><pre><code id="p29_0" class="language-python">import numpy as np
 
 def solve_system(A, b):
     m, n = A.shape
@@ -4084,7 +4157,7 @@ mu_hat    = params[0]
 sigma_hat = np.exp(params[1])
 print(f&quot;True:      mu={true_mu:.4f}, sigma={true_sigma:.4f}&quot;)
 print(f&quot;Estimated: mu={mu_hat:.4f}, sigma={sigma_hat:.4f}&quot;)
-print(f&quot;Error:     mu={abs(mu_hat-true_mu):.2e}, sigma={abs(sigma_hat-true_sigma):.2e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jacobian Checker</div><div class="pd">Write jacobian(f, x, h=1e-6) that computes the Jacobian matrix of a vector-valued function f: R^n -&gt; R^m using central differences. Then write gradient_check(f, grad_f, x) that compares the numerical Jacobian with the analytic gradient and reports the relative error. Test with f(x) = [sin(x0)*x1, x0^2 + exp(x1)].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import numpy as np
+print(f&quot;Error:     mu={abs(mu_hat-true_mu):.2e}, sigma={abs(sigma_hat-true_sigma):.2e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jacobian Checker</div><div class="pd">Write jacobian(f, x, h=1e-6) that computes the Jacobian matrix of a vector-valued function f: R^n -&gt; R^m using central differences. Then write gradient_check(f, grad_f, x) that compares the numerical Jacobian with the analytic gradient and reports the relative error. Test with f(x) = [sin(x0)*x1, x0^2 + exp(x1)].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_0')">Copy</button></div><pre><code id="p30_0" class="language-python">import numpy as np
 
 def jacobian(f, x, h=1e-6):
     x  = np.asarray(x, float)
@@ -4270,7 +4343,7 @@ def accuracy(X, y_true, w):
 
 print(f&quot;Train acc: {accuracy(X_tr, y[tr], w):.3f}&quot;)
 print(f&quot;Val   acc: {accuracy(X_va, y[va], w):.3f}&quot;)
-print(f&quot;Test  acc: {accuracy(X_te, y[te], w):.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validation</div><div class="pd">Implement k_fold_cv(X, y, model_fn, k=5, seed=42) where model_fn(X_train, y_train, X_val) returns predictions. Split data into k folds, train on k-1 folds, predict on the held-out fold, compute accuracy for each fold, and return mean and std. Test with a simple threshold classifier.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import numpy as np
+print(f&quot;Test  acc: {accuracy(X_te, y[te], w):.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validation</div><div class="pd">Implement k_fold_cv(X, y, model_fn, k=5, seed=42) where model_fn(X_train, y_train, X_val) returns predictions. Split data into k folds, train on k-1 folds, predict on the held-out fold, compute accuracy for each fold, and return mean and std. Test with a simple threshold classifier.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_0')">Copy</button></div><pre><code id="p31_0" class="language-python">import numpy as np
 
 def k_fold_cv(X, y, model_fn, k=5, seed=42):
     rng  = np.random.default_rng(seed)
@@ -4331,7 +4404,7 @@ run_mean = np.cumsum(x) / np.arange(1, len(x) + 1)
 
 print(&quot;3-point moving average:&quot;, ma3.round(2))
 print(&quot;running mean:&quot;, run_mean.round(2))
-print(&quot;global mean == last running mean:&quot;, np.isclose(run_mean[-1], x.mean()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize &amp; One-Hot</div><div class="pd">Implement normalize(X) so each column is min-max scaled to [0, 1], and one_hot(labels, n_classes) so each row is a one-hot vector for the corresponding label. Fill in the two functions, press Run to see the output, then press Check to grade your solution.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import numpy as np
+print(&quot;global mean == last running mean:&quot;, np.isclose(run_mean[-1], x.mean()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize &amp; One-Hot</div><div class="pd">Implement normalize(X) so each column is min-max scaled to [0, 1], and one_hot(labels, n_classes) so each row is a one-hot vector for the corresponding label. Fill in the two functions, press Run to see the output, then press Check to grade your solution.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_0')">Copy</button></div><pre><code id="p32_0" class="language-python">import numpy as np
 
 # TODO 1: min-max normalize each column of X to the range [0, 1]
 def normalize(X):
@@ -4365,7 +4438,7 @@ assert np.array_equal(oh.argmax(axis=1), labels), &quot;argmax of each one-hot r
 a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
 print(&quot;cumsum: &quot;, np.cumsum(a).tolist())
 print(&quot;cumprod:&quot;, np.cumprod(a[:4]).tolist())
-print(&quot;cummax: &quot;, np.maximum.accumulate(a).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Maximum</div><div class="pd">Implement running_max(a): return an array where each element is the maximum of all elements up to and including that position (a cumulative max). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import numpy as np
+print(&quot;cummax: &quot;, np.maximum.accumulate(a).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Maximum</div><div class="pd">Implement running_max(a): return an array where each element is the maximum of all elements up to and including that position (a cumulative max). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_0')">Copy</button></div><pre><code id="p33_0" class="language-python">import numpy as np
 
 def running_max(a):
     a = np.asarray(a)
@@ -4382,7 +4455,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 M = np.array([[1, 5, 2], [9, 0, 3], [4, 4, 7]])
 print(&quot;max per row:   &quot;, M.max(axis=1).tolist())
 print(&quot;argmax per row:&quot;, M.argmax(axis=1).tolist())
-print(&quot;sum per column:&quot;, M.sum(axis=0).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Argmax</div><div class="pd">Implement row_argmax(M): return a 1-D array with the column index of the largest value in each row. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import numpy as np
+print(&quot;sum per column:&quot;, M.sum(axis=0).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Argmax</div><div class="pd">Implement row_argmax(M): return a 1-D array with the column index of the largest value in each row. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34_0')">Copy</button></div><pre><code id="p34_0" class="language-python">import numpy as np
 
 def row_argmax(M):
     M = np.asarray(M)
@@ -4399,7 +4472,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 a = np.array([1.0, 2, 3]); b = np.array([2.0, 4, 6])
 print(&quot;dot:&quot;, float(a @ b), &quot;norm a:&quot;, round(float(np.linalg.norm(a)), 3))
-print(&quot;cosine:&quot;, round(float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cosine Similarity</div><div class="pd">Implement cosine_sim(a, b) returning the cosine similarity of two vectors. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import numpy as np
+print(&quot;cosine:&quot;, round(float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cosine Similarity</div><div class="pd">Implement cosine_sim(a, b) returning the cosine similarity of two vectors. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35_0')">Copy</button></div><pre><code id="p35_0" class="language-python">import numpy as np
 
 def cosine_sim(a, b):
     a = np.asarray(a, float); b = np.asarray(b, float)
@@ -4415,7 +4488,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 a = np.array([1, 5, 3, 8, 2])
 mask = a &gt; 3
 print(&quot;mask:&quot;, mask.tolist())
-print(&quot;selected:&quot;, a[mask].tolist(), &quot;count:&quot;, int(mask.sum()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Above Threshold</div><div class="pd">Implement count_above(arr, t): return how many elements of arr are strictly greater than t. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import numpy as np
+print(&quot;selected:&quot;, a[mask].tolist(), &quot;count:&quot;, int(mask.sum()))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Above Threshold</div><div class="pd">Implement count_above(arr, t): return how many elements of arr are strictly greater than t. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36_0')">Copy</button></div><pre><code id="p36_0" class="language-python">import numpy as np
 
 def count_above(arr, t):
     arr = np.asarray(arr)
