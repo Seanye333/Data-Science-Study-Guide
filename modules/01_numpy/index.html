@@ -388,7 +388,42 @@ m_copy = m.copy()
 
 # 4. Every other element from last row
 # TODO: every_other = m[-1, ???]
-# print(&quot;Every other (last row):&quot;, every_other)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Index a 2D array to extract a single element, a full row, and a full column</label></li>
+# print(&quot;Every other (last row):&quot;, every_other)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Main Diagonal</div><div class="pd">Implement get_diagonal(M): return the main diagonal of a square matrix as a 1-D array. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import numpy as np
+
+def get_diagonal(M):
+    M = np.asarray(M)
+    # TODO: return the main diagonal (hint: np.diag)
+    return M
+
+print(get_diagonal([[1, 2], [3, 4]]).tolist())</code></pre></div><template class="ho-check">assert get_diagonal([[1, 2], [3, 4]]).tolist() == [1, 4], &quot;top-left to bottom-right&quot;
+assert get_diagonal([[5]]).tolist() == [5], &quot;1x1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reverse Rows</div><div class="pd">Implement reverse_rows(M): return the matrix with its row order reversed (top becomes bottom). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import numpy as np
+
+def reverse_rows(M):
+    M = np.asarray(M)
+    # TODO: reverse along the first axis (hint: M[::-1])
+    return M
+
+print(reverse_rows([[1, 2], [3, 4]]).tolist())</code></pre></div><template class="ho-check">assert reverse_rows([[1, 2], [3, 4]]).tolist() == [[3, 4], [1, 2]], &quot;rows flipped&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Every Other</div><div class="pd">Implement every_other(a): return every second element starting from the first (indices 0, 2, 4, ...). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import numpy as np
+
+def every_other(a):
+    a = np.asarray(a)
+    # TODO: slice with a step of 2 (hint: a[::2])
+    return a
+
+print(every_other([0, 1, 2, 3, 4]).tolist())</code></pre></div><template class="ho-check">assert every_other([0, 1, 2, 3, 4]).tolist() == [0, 2, 4], &quot;indices 0, 2, 4&quot;
+assert every_other([9]).tolist() == [9], &quot;single element&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Last N</div><div class="pd">Implement last_n(a, n): return the last n elements of the array. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import numpy as np
+
+def last_n(a, n):
+    a = np.asarray(a)
+    # TODO: return the final n elements (hint: negative slicing a[-n:])
+    return a
+
+print(last_n([1, 2, 3, 4, 5], 2).tolist())</code></pre></div><template class="ho-check">assert last_n([1, 2, 3, 4, 5], 2).tolist() == [4, 5], &quot;last two&quot;
+assert last_n([1, 2, 3], 3).tolist() == [1, 2, 3], &quot;n equals length&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Index a 2D array to extract a single element, a full row, and a full column</label></li>
 <li><label><input type="checkbox"> Use a slice with step to extract every other element from a 1D array</label></li>
 <li><label><input type="checkbox"> Use fancy indexing with an integer list to reorder rows of a 2D array</label></li>
 <li><label><input type="checkbox"> Use np.ix_([0,2], [1,3]) to extract a 2x2 sub-matrix from a 4x4 array</label></li>
@@ -754,7 +789,42 @@ conds = [
 
 # 3. Clip and verify
 # TODO: clipped = np.clip(data, 60, 140)
-# TODO: print(&quot;All in [60,140]:&quot;, np.all((clipped &gt;= 60) &amp; (clipped &lt;= 140)))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a boolean mask for values &gt; 20 in a 1D array and use it to extract those values</label></li>
+# TODO: print(&quot;All in [60,140]:&quot;, np.all((clipped &gt;= 60) &amp; (clipped &lt;= 140)))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Replace Negatives</div><div class="pd">Implement replace_negatives(a): return the array with every negative value replaced by 0 (use np.where). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import numpy as np
+
+def replace_negatives(a):
+    a = np.asarray(a)
+    # TODO: where a &lt; 0, use 0, else keep a (hint: np.where)
+    return a
+
+print(replace_negatives([-1, 2, -3, 4]).tolist())</code></pre></div><template class="ho-check">assert replace_negatives([-1, 2, -3, 4]).tolist() == [0, 2, 0, 4], &quot;negatives become 0&quot;
+assert replace_negatives([1, 2, 3]).tolist() == [1, 2, 3], &quot;no negatives, unchanged&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Select Even</div><div class="pd">Implement select_even(a): return only the even values, in order, using a boolean mask. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import numpy as np
+
+def select_even(a):
+    a = np.asarray(a)
+    # TODO: build a mask a % 2 == 0 and index with it
+    return a
+
+print(select_even([1, 2, 3, 4, 5, 6]).tolist())</code></pre></div><template class="ho-check">assert select_even([1, 2, 3, 4, 5, 6]).tolist() == [2, 4, 6], &quot;even values kept&quot;
+assert select_even([1, 3, 5]).tolist() == [], &quot;no evens -&gt; empty&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clip Range</div><div class="pd">Implement clip_range(a, lo, hi): clamp every value into [lo, hi] (below lo becomes lo, above hi becomes hi). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import numpy as np
+
+def clip_range(a, lo, hi):
+    a = np.asarray(a)
+    # TODO: clamp into [lo, hi] (hint: np.clip)
+    return a
+
+print(clip_range([-5, 0, 5, 10], 0, 7).tolist())</code></pre></div><template class="ho-check">assert clip_range([-5, 0, 5, 10], 0, 7).tolist() == [0, 0, 5, 7], &quot;clamped into [0, 7]&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Between</div><div class="pd">Implement count_between(a, lo, hi): count how many values fall in the inclusive range [lo, hi]. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import numpy as np
+
+def count_between(a, lo, hi):
+    a = np.asarray(a)
+    # TODO: combine two masks with &amp; and count the Trues
+    return 0
+
+print(count_between([1, 5, 3, 8, 2], 2, 5))</code></pre></div><template class="ho-check">assert count_between([1, 5, 3, 8, 2], 2, 5) == 3, &quot;5, 3, 2 are in [2, 5]&quot;
+assert count_between([1, 2, 3], 10, 20) == 0, &quot;none in range&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a boolean mask for values &gt; 20 in a 1D array and use it to extract those values</label></li>
 <li><label><input type="checkbox"> Use np.where to replace all negatives in an array with 0 (ReLU-style activation)</label></li>
 <li><label><input type="checkbox"> Use np.select to assign &#x27;low&#x27;, &#x27;medium&#x27;, &#x27;high&#x27; labels based on score thresholds</label></li>
 <li><label><input type="checkbox"> Use np.argwhere to find the (row, col) indices of all zeros in a 2D array</label></li>

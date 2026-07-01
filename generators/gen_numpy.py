@@ -551,7 +551,8 @@ print("First matrix block:\\n", gathered[0])"""}
     "Use np.ix_([0,2], [1,3]) to extract a 2x2 sub-matrix from a 4x4 array",
     "Set all values greater than 10 to 0 in a copy of an array using boolean indexing",
 ],
-"practice": {
+"practices": [
+{
 "title": "Matrix Surgery",
 "desc": "Create a 6x6 matrix from arange(36). Using only indexing (no loops): 1) Extract the 2x2 center block (rows 2-3, cols 2-3). 2) Extract the main diagonal. 3) Set all values > 25 to -1. 4) Extract every other element from the last row.",
 "starter":
@@ -577,6 +578,66 @@ m_copy = m.copy()
 # TODO: every_other = m[-1, ???]
 # print("Every other (last row):", every_other)"""
 },
+{
+"title": "Main Diagonal",
+"desc": "Implement get_diagonal(M): return the main diagonal of a square matrix as a 1-D array. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def get_diagonal(M):
+    M = np.asarray(M)
+    # TODO: return the main diagonal (hint: np.diag)
+    return M
+
+print(get_diagonal([[1, 2], [3, 4]]).tolist())''',
+"check": '''assert get_diagonal([[1, 2], [3, 4]]).tolist() == [1, 4], "top-left to bottom-right"
+assert get_diagonal([[5]]).tolist() == [5], "1x1"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Reverse Rows",
+"desc": "Implement reverse_rows(M): return the matrix with its row order reversed (top becomes bottom). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def reverse_rows(M):
+    M = np.asarray(M)
+    # TODO: reverse along the first axis (hint: M[::-1])
+    return M
+
+print(reverse_rows([[1, 2], [3, 4]]).tolist())''',
+"check": '''assert reverse_rows([[1, 2], [3, 4]]).tolist() == [[3, 4], [1, 2]], "rows flipped"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Every Other",
+"desc": "Implement every_other(a): return every second element starting from the first (indices 0, 2, 4, ...). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def every_other(a):
+    a = np.asarray(a)
+    # TODO: slice with a step of 2 (hint: a[::2])
+    return a
+
+print(every_other([0, 1, 2, 3, 4]).tolist())''',
+"check": '''assert every_other([0, 1, 2, 3, 4]).tolist() == [0, 2, 4], "indices 0, 2, 4"
+assert every_other([9]).tolist() == [9], "single element"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Last N",
+"desc": "Implement last_n(a, n): return the last n elements of the array. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def last_n(a, n):
+    a = np.asarray(a)
+    # TODO: return the final n elements (hint: negative slicing a[-n:])
+    return a
+
+print(last_n([1, 2, 3, 4, 5], 2).tolist())''',
+"check": '''assert last_n([1, 2, 3, 4, 5], 2).tolist() == [4, 5], "last two"
+assert last_n([1, 2, 3], 3).tolist() == [1, 2, 3], "n equals length"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Sliding Window for Anomaly Detection",
 "scenario": "An IoT engineer extracts overlapping 24-hour windows from continuous sensor readings to detect anomalies.",
@@ -1023,7 +1084,8 @@ print("Extreme flag:", extreme)"""}
     "Use np.argwhere to find the (row, col) indices of all zeros in a 2D array",
     "Combine two boolean conditions with & to find values in a range, then replace outliers with median",
 ],
-"practice": {
+"practices": [
+{
 "title": "Boolean Filtering & Replacement",
 "desc": "Generate 200 random normal values (mean=100, std=20). 1) Count values in each band: <70, 70-90, 90-110, 110-130, >130. 2) Use np.select to label them 'very_low','low','normal','high','very_high'. 3) Replace all values outside [60, 140] with the band boundary (clip). Verify no values remain outside [60, 140].",
 "starter":
@@ -1056,6 +1118,66 @@ conds = [
 # TODO: clipped = np.clip(data, 60, 140)
 # TODO: print("All in [60,140]:", np.all((clipped >= 60) & (clipped <= 140)))"""
 },
+{
+"title": "Replace Negatives",
+"desc": "Implement replace_negatives(a): return the array with every negative value replaced by 0 (use np.where). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def replace_negatives(a):
+    a = np.asarray(a)
+    # TODO: where a < 0, use 0, else keep a (hint: np.where)
+    return a
+
+print(replace_negatives([-1, 2, -3, 4]).tolist())''',
+"check": '''assert replace_negatives([-1, 2, -3, 4]).tolist() == [0, 2, 0, 4], "negatives become 0"
+assert replace_negatives([1, 2, 3]).tolist() == [1, 2, 3], "no negatives, unchanged"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Select Even",
+"desc": "Implement select_even(a): return only the even values, in order, using a boolean mask. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def select_even(a):
+    a = np.asarray(a)
+    # TODO: build a mask a % 2 == 0 and index with it
+    return a
+
+print(select_even([1, 2, 3, 4, 5, 6]).tolist())''',
+"check": '''assert select_even([1, 2, 3, 4, 5, 6]).tolist() == [2, 4, 6], "even values kept"
+assert select_even([1, 3, 5]).tolist() == [], "no evens -> empty"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Clip Range",
+"desc": "Implement clip_range(a, lo, hi): clamp every value into [lo, hi] (below lo becomes lo, above hi becomes hi). Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def clip_range(a, lo, hi):
+    a = np.asarray(a)
+    # TODO: clamp into [lo, hi] (hint: np.clip)
+    return a
+
+print(clip_range([-5, 0, 5, 10], 0, 7).tolist())''',
+"check": '''assert clip_range([-5, 0, 5, 10], 0, 7).tolist() == [0, 0, 5, 7], "clamped into [0, 7]"
+print("All checks passed \\u2713")'''
+},
+{
+"title": "Count Between",
+"desc": "Implement count_between(a, lo, hi): count how many values fall in the inclusive range [lo, hi]. Fill in the function, press Run, then press Check.",
+"starter": '''import numpy as np
+
+def count_between(a, lo, hi):
+    a = np.asarray(a)
+    # TODO: combine two masks with & and count the Trues
+    return 0
+
+print(count_between([1, 5, 3, 8, 2], 2, 5))''',
+"check": '''assert count_between([1, 5, 3, 8, 2], 2, 5) == 3, "5, 3, 2 are in [2, 5]"
+assert count_between([1, 2, 3], 10, 20) == 0, "none in range"
+print("All checks passed \\u2713")'''
+},
+],
 "rw": {
 "title": "Energy Consumption Flagging",
 "scenario": "A building engineer computes heating/cooling degree-hours and flags extreme temperature events for HVAC optimization.",
