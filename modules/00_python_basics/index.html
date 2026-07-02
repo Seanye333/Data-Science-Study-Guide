@@ -158,7 +158,7 @@ def parse_order(quantity_str, price_str, discount_str):
     }
 
 print(parse_order(&quot;3&quot;, &quot;29.99&quot;, &quot;10&quot;))
-print(parse_order(&quot;abc&quot;, &quot;9.99&quot;, &quot;5&quot;))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Variable Juggling</div><div class="pd">Create name (str), age (int), height (float). Swap age and height using tuple unpacking. Check if original age is between 18 and 65 (inclusive). Print a formatted f-string summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">name   = &quot;YOUR_NAME&quot;
+print(parse_order(&quot;abc&quot;, &quot;9.99&quot;, &quot;5&quot;))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Variable Juggling</div><div class="pd">Create name (str), age (int), height (float). Swap age and height using tuple unpacking. Check if original age is between 18 and 65 (inclusive). Print a formatted f-string summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">name   = &quot;YOUR_NAME&quot;
 age    = 25          # set your age
 height = 1.75        # set height in meters
 
@@ -271,7 +271,7 @@ for log in logs:
     level   = parts[0]
     service = parts[1].rstrip(&quot;:&quot;)
     msg     = parts[2] if len(parts) &gt; 2 else &quot;&quot;
-    print(f&quot;{ts[11:]:9s} {level:8s} {service:15s} {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String Cleaning Pipeline</div><div class="pd">Given raw = &#x27;  super-pro Widget X200  &#x27;, clean it: strip whitespace, title-case it, replace hyphens with spaces, check if &#x27;pro&#x27; appears (case-insensitive), and build a 6-char product code from the first 3 + last 3 chars (no spaces) uppercased.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">raw = &quot;  super-pro Widget X200  &quot;
+    print(f&quot;{ts[11:]:9s} {level:8s} {service:15s} {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String Cleaning Pipeline</div><div class="pd">Given raw = &#x27;  super-pro Widget X200  &#x27;, clean it: strip whitespace, title-case it, replace hyphens with spaces, check if &#x27;pro&#x27; appears (case-insensitive), and build a 6-char product code from the first 3 + last 3 chars (no spaces) uppercased.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">raw = &quot;  super-pro Widget X200  &quot;
 
 # 1. Strip whitespace and title-case
 clean = raw.strip().title()
@@ -289,7 +289,30 @@ clean = raw.strip().title()
 print(f&quot;Clean: &#x27;{clean}&#x27;&quot;)
 # print(f&quot;Has pro: {has_pro}&quot;)
 # print(f&quot;Code: &#x27;{code}&#x27;&quot;)
-# Expected: Clean=&#x27;Super Pro Widget X200&#x27;, Code=&#x27;SUP200&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use .strip(), .lower(), and .upper() on a messy string and print each result</label></li>
+# Expected: Clean=&#x27;Super Pro Widget X200&#x27;, Code=&#x27;SUP200&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reverse String</div><div class="pd">Implement reverse_string(s): return s reversed. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">def reverse_string(s):
+    # TODO: return s reversed (hint: slicing s[::-1])
+    return s
+
+print(reverse_string(&quot;abc&quot;))</code></pre></div><template class="ho-check">assert reverse_string(&quot;abc&quot;) == &quot;cba&quot;, &quot;characters reversed&quot;
+assert reverse_string(&quot;&quot;) == &quot;&quot;, &quot;empty stays empty&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Vowels</div><div class="pd">Implement count_vowels(s): count the vowels (a, e, i, o, u), case-insensitive. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">def count_vowels(s):
+    # TODO: count characters in &quot;aeiou&quot; (case-insensitive)
+    return 0
+
+print(count_vowels(&quot;Hello&quot;))</code></pre></div><template class="ho-check">assert count_vowels(&quot;Hello&quot;) == 2, &quot;e and o&quot;
+assert count_vowels(&quot;xyz&quot;) == 0, &quot;no vowels&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Anagram Check</div><div class="pd">Implement is_anagram(a, b): return True if a and b are anagrams (same letters, case-insensitive). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">def is_anagram(a, b):
+    # TODO: compare the sorted lowercase letters
+    return False
+
+print(is_anagram(&quot;listen&quot;, &quot;silent&quot;))</code></pre></div><template class="ho-check">assert is_anagram(&quot;listen&quot;, &quot;silent&quot;) is True, &quot;same letters&quot;
+assert is_anagram(&quot;a&quot;, &quot;b&quot;) is False, &quot;different letters&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Title Case</div><div class="pd">Implement title_case(s): capitalize the first letter of each word. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">def title_case(s):
+    # TODO: return s in Title Case (hint: str.title)
+    return s
+
+print(title_case(&quot;hello world&quot;))</code></pre></div><template class="ho-check">assert title_case(&quot;hello world&quot;) == &quot;Hello World&quot;, &quot;each word capitalized&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use .strip(), .lower(), and .upper() on a messy string and print each result</label></li>
 <li><label><input type="checkbox"> Slice a string to get the first 3 characters, the last 3, and every other character</label></li>
 <li><label><input type="checkbox"> Use f-string with :&lt;10 and :&gt;10 to left- and right-align the same word in a fixed-width column</label></li>
 <li><label><input type="checkbox"> Split a comma-separated string into a list and join it back with &#x27; | &#x27; as separator</label></li>
@@ -383,7 +406,7 @@ ranked  = sorted(students, key=lambda x: x[1], reverse=True)
 print(f&quot;Class average: {avg:.1f}&quot;)
 print(f&quot;Passing ({len(passing)}): {[n for n,_ in passing]}&quot;)
 print(f&quot;Failing ({len(failing)}): {[(n,s) for n,s in failing]}&quot;)
-print(&quot;Top 3:&quot;, ranked[:3])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Temperature Converter</div><div class="pd">Given temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0], convert all to Fahrenheit (F = C*9/5+32) using a list comprehension. Filter hot days (&gt;30°C). Sort descending. Find the min and max.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0]
+print(&quot;Top 3:&quot;, ranked[:3])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Temperature Converter</div><div class="pd">Given temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0], convert all to Fahrenheit (F = C*9/5+32) using a list comprehension. Filter hot days (&gt;30°C). Sort descending. Find the min and max.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0]
 
 # 1. TODO: Convert to Fahrenheit using list comprehension
 # temps_f = [??? for t in temps_c]
@@ -400,7 +423,34 @@ print(&quot;Top 3:&quot;, ranked[:3])</code></pre></div><div class="practice"><d
 print(&quot;Fahrenheit:&quot;, [round(f, 1) for f in temps_f])
 print(&quot;Hot days:&quot;, sorted(hot_days))
 print(&quot;Sorted desc:&quot;, sorted_desc)
-print(f&quot;Range: {lo}°C — {hi}°C&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a list of 5 integers and use append, insert, remove, and pop on it</label></li>
+print(f&quot;Range: {lo}°C — {hi}°C&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Second Largest</div><div class="pd">Implement second_largest(lst): return the second largest distinct value. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">def second_largest(lst):
+    # TODO: sort the distinct values and take the second from the top
+    return None
+
+print(second_largest([3, 1, 4, 1, 5]))</code></pre></div><template class="ho-check">assert second_largest([3, 1, 4, 1, 5]) == 4, &quot;5 is largest, 4 is second&quot;
+assert second_largest([9, 9, 7]) == 7, &quot;distinct values only&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chunk</div><div class="pd">Implement chunk(lst, n): split lst into consecutive sublists of length n (last may be shorter). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">def chunk(lst, n):
+    # TODO: return [lst[i:i+n] for i in range(0, len(lst), n)]
+    return []
+
+print(chunk([1, 2, 3, 4, 5], 2))</code></pre></div><template class="ho-check">assert chunk([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]], &quot;size-2 chunks&quot;
+assert chunk([], 3) == [], &quot;empty input&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sum of Squares</div><div class="pd">Implement sum_of_squares(lst): return the sum of each element squared. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">def sum_of_squares(lst):
+    # TODO: sum(x*x for x in lst)
+    return 0
+
+print(sum_of_squares([1, 2, 3]))</code></pre></div><template class="ho-check">assert sum_of_squares([1, 2, 3]) == 14, &quot;1 + 4 + 9&quot;
+assert sum_of_squares([]) == 0, &quot;empty -&gt; 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rotate</div><div class="pd">Implement rotate(lst, k): rotate the list right by k positions. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">def rotate(lst, k):
+    if not lst:
+        return lst
+    k %= len(lst)
+    # TODO: move the last k elements to the front (hint: lst[-k:] + lst[:-k])
+    return lst
+
+print(rotate([1, 2, 3, 4, 5], 2))</code></pre></div><template class="ho-check">assert rotate([1, 2, 3, 4, 5], 2) == [4, 5, 1, 2, 3], &quot;right by 2&quot;
+assert rotate([1, 2, 3], 3) == [1, 2, 3], &quot;full rotation is identity&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a list of 5 integers and use append, insert, remove, and pop on it</label></li>
 <li><label><input type="checkbox"> Use a list comprehension to generate squares of even numbers from 0 to 20</label></li>
 <li><label><input type="checkbox"> Sort a list of strings by length (shortest first) using key=len</label></li>
 <li><label><input type="checkbox"> Flatten a 3x3 nested list into a single list using a nested comprehension</label></li>
@@ -514,7 +564,7 @@ print(f&quot;Items to reorder ({len(reorder)}): {reorder}&quot;)
 
 for item in sorted(reorder):
     d = inventory[item]
-    print(f&quot;  {item:8s} qty={d[&#x27;qty&#x27;]:3d}  min={d[&#x27;min_stock&#x27;]:3d}  (order {d[&#x27;min_stock&#x27;]*2 - d[&#x27;qty&#x27;]} units)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grade Book Manager</div><div class="pd">Create a grade book from two lists using zip, find failed students with a set comprehension, and map scores to letter grades with a dict comprehension.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;, &quot;Dave&quot;, &quot;Eve&quot;, &quot;Frank&quot;]
+    print(f&quot;  {item:8s} qty={d[&#x27;qty&#x27;]:3d}  min={d[&#x27;min_stock&#x27;]:3d}  (order {d[&#x27;min_stock&#x27;]*2 - d[&#x27;qty&#x27;]} units)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grade Book Manager</div><div class="pd">Create a grade book from two lists using zip, find failed students with a set comprehension, and map scores to letter grades with a dict comprehension.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;, &quot;Dave&quot;, &quot;Eve&quot;, &quot;Frank&quot;]
 scores   = [92, 58, 76, 45, 88, 63]
 
 # TODO: Build grade_book dict from zip(students, scores)
@@ -534,7 +584,29 @@ scores   = [92, 58, 76, 45, 88, 63]
 
 print(&quot;Grade book:&quot;, grade_book)
 print(&quot;Failed:&quot;, failed)
-print(&quot;Letter grades:&quot;, letter_grades)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a dict from two lists (names and scores) using dict(zip(...))</label></li>
+print(&quot;Letter grades:&quot;, letter_grades)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Invert Dict</div><div class="pd">Implement invert_dict(d): swap keys and values. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">def invert_dict(d):
+    # TODO: return {value: key for key, value in d.items()}
+    return {}
+
+print(invert_dict({&quot;a&quot;: 1, &quot;b&quot;: 2}))</code></pre></div><template class="ho-check">assert invert_dict({&quot;a&quot;: 1, &quot;b&quot;: 2}) == {1: &quot;a&quot;, 2: &quot;b&quot;}, &quot;keys and values swapped&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Merge Dicts</div><div class="pd">Implement merge_dicts(a, b): merge two dicts, with b winning on conflicts. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">def merge_dicts(a, b):
+    # TODO: return a merged dict where b overrides a (hint: {**a, **b})
+    return {}
+
+print(merge_dicts({&quot;x&quot;: 1}, {&quot;y&quot;: 2, &quot;x&quot;: 9}))</code></pre></div><template class="ho-check">assert merge_dicts({&quot;x&quot;: 1}, {&quot;y&quot;: 2, &quot;x&quot;: 9}) == {&quot;x&quot;: 9, &quot;y&quot;: 2}, &quot;b overrides a&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Char Counts</div><div class="pd">Implement char_counts(s): return a dict mapping each character to its count. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">def char_counts(s):
+    d = {}
+    # TODO: count each character into d (hint: d.get(c, 0) + 1)
+    return d
+
+print(char_counts(&quot;aab&quot;))</code></pre></div><template class="ho-check">assert char_counts(&quot;aab&quot;) == {&quot;a&quot;: 2, &quot;b&quot;: 1}, &quot;per-character counts&quot;
+assert char_counts(&quot;&quot;) == {}, &quot;empty -&gt; empty&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Max Value Key</div><div class="pd">Implement max_value_key(d): return the key with the largest value. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">def max_value_key(d):
+    # TODO: return the key whose value is largest (hint: max(d, key=d.get))
+    return None
+
+print(max_value_key({&quot;a&quot;: 1, &quot;b&quot;: 9, &quot;c&quot;: 3}))</code></pre></div><template class="ho-check">assert max_value_key({&quot;a&quot;: 1, &quot;b&quot;: 9, &quot;c&quot;: 3}) == &quot;b&quot;, &quot;b has the largest value&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a dict from two lists (names and scores) using dict(zip(...))</label></li>
 <li><label><input type="checkbox"> Use a set to find unique tags from a list that contains duplicates</label></li>
 <li><label><input type="checkbox"> Write a dict comprehension that maps student names to their letter grades (A/B/C/D/F)</label></li>
 <li><label><input type="checkbox"> Merge two config dicts using ** so the second dict&#x27;s values override the first</label></li>
@@ -692,7 +764,7 @@ applicants = [
 ]
 for a in applicants:
     status, msg = check_loan(*a)
-    print(f&quot;  Age={a[0]}, Income=${a[1]:,}, Score={a[2]} → {status}: {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Traffic Light Simulator</div><div class="pd">Implement traffic_action(color, has_pedestrian, is_emergency) that returns the correct action string using if/elif/else logic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">def traffic_action(color, has_pedestrian=False, is_emergency=False):
+    print(f&quot;  Age={a[0]}, Income=${a[1]:,}, Score={a[2]} → {status}: {msg}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Traffic Light Simulator</div><div class="pd">Implement traffic_action(color, has_pedestrian, is_emergency) that returns the correct action string using if/elif/else logic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">def traffic_action(color, has_pedestrian=False, is_emergency=False):
     # TODO: if is_emergency, all lights should yield — return &quot;All yield for emergency&quot;
 
     # TODO: use if/elif/else on color:
@@ -708,7 +780,28 @@ print(traffic_action(&quot;green&quot;,  has_pedestrian=True))    # Go, watch fo
 print(traffic_action(&quot;yellow&quot;))                         # Slow down
 print(traffic_action(&quot;red&quot;,    has_pedestrian=True))    # Stop — pedestrians crossing
 print(traffic_action(&quot;red&quot;,    is_emergency=True))      # All yield for emergency
-print(traffic_action(&quot;purple&quot;))                         # Unknown signal: purple</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write an if/elif/else chain that assigns a letter grade based on a numeric score</label></li>
+print(traffic_action(&quot;purple&quot;))                         # Unknown signal: purple</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sign</div><div class="pd">Implement sign(n): return -1, 0, or 1 for negative, zero, positive. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">def sign(n):
+    # TODO: return -1 if n&lt;0, 1 if n&gt;0, else 0
+    return 0
+
+print(sign(-5), sign(0), sign(3))</code></pre></div><template class="ho-check">assert sign(-5) == -1 and sign(0) == 0 and sign(3) == 1, &quot;three-way sign&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Letter Grade</div><div class="pd">Implement grade(score): A&gt;=90, B&gt;=80, C&gt;=70, else F. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">def grade(score):
+    # TODO: return &quot;A&quot;/&quot;B&quot;/&quot;C&quot;/&quot;F&quot; by the thresholds
+    return &quot;F&quot;
+
+print(grade(95), grade(72), grade(50))</code></pre></div><template class="ho-check">assert grade(95) == &quot;A&quot; and grade(85) == &quot;B&quot; and grade(72) == &quot;C&quot; and grade(50) == &quot;F&quot;, &quot;grade bands&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clamp</div><div class="pd">Implement clamp(x, lo, hi): constrain x into [lo, hi]. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">def clamp(x, lo, hi):
+    # TODO: return x limited to the range [lo, hi]
+    return x
+
+print(clamp(15, 0, 10), clamp(-3, 0, 10), clamp(5, 0, 10))</code></pre></div><template class="ho-check">assert clamp(15, 0, 10) == 10 and clamp(-3, 0, 10) == 0 and clamp(5, 0, 10) == 5, &quot;clamped into range&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Leap Year</div><div class="pd">Implement is_leap(y): True if y is a leap year (divisible by 4, except centuries unless by 400). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">def is_leap(y):
+    # TODO: divisible by 4, but centuries only if divisible by 400
+    return False
+
+print(is_leap(2000), is_leap(1900), is_leap(2024))</code></pre></div><template class="ho-check">assert is_leap(2000) and not is_leap(1900), &quot;century rule&quot;
+assert is_leap(2024) and not is_leap(2023), &quot;normal rule&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write an if/elif/else chain that assigns a letter grade based on a numeric score</label></li>
 <li><label><input type="checkbox"> Use the walrus operator := to check the length of a list inside an if condition</label></li>
 <li><label><input type="checkbox"> Implement a simple password strength checker using any() and all() with generator expressions</label></li>
 <li><label><input type="checkbox"> Write a match statement (Python 3.10+) to handle HTTP status codes 200, 404, 500, and a default</label></li>
@@ -832,7 +925,7 @@ print(f&quot;
 Total:     ${total:&gt;9,}&quot;)
 print(f&quot;Average:   ${avg:&gt;9,.0f}&quot;)
 print(f&quot;Best week: Week {best_week} (${best_amount:,})&quot;)
-print(f&quot;On target: {above_target}/{len(weekly_sales)} weeks&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz Plus</div><div class="pd">Loop from 1 to 30. For each number: if divisible by 3 add &#x27;Fizz&#x27;, by 5 add &#x27;Buzz&#x27;, by 7 add &#x27;Zap&#x27;. Print the composed string, or the number if none apply.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">results = []
+print(f&quot;On target: {above_target}/{len(weekly_sales)} weeks&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz Plus</div><div class="pd">Loop from 1 to 30. For each number: if divisible by 3 add &#x27;Fizz&#x27;, by 5 add &#x27;Buzz&#x27;, by 7 add &#x27;Zap&#x27;. Print the composed string, or the number if none apply.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">results = []
 
 for n in range(1, 31):
     label = &quot;&quot;
@@ -988,7 +1081,7 @@ raw_records = [
 for rec in raw_records:
     cleaned = clean_record(rec)
     valid = &quot;OK&quot; if cleaned[&quot;age&quot;] is not None else &quot;INVALID AGE&quot;
-    print(f&quot;  {cleaned[&#x27;name&#x27;]:18s} | {cleaned[&#x27;email&#x27;]:25s} | age={cleaned[&#x27;age&#x27;]} {valid}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize Decorator</div><div class="pd">Write a memoize(func) decorator that caches results in a dict keyed by args. Then decorate a recursive fibonacci function and observe the speedup.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">def memoize(func):
+    print(f&quot;  {cleaned[&#x27;name&#x27;]:18s} | {cleaned[&#x27;email&#x27;]:25s} | age={cleaned[&#x27;age&#x27;]} {valid}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize Decorator</div><div class="pd">Write a memoize(func) decorator that caches results in a dict keyed by args. Then decorate a recursive fibonacci function and observe the speedup.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">def memoize(func):
     cache = {}
     # TODO: define wrapper(*args) that:
     #   1. checks if args is already in cache
@@ -1008,7 +1101,32 @@ def fibonacci(n):
 
 # Test: should complete instantly even for large n
 print([fibonacci(i) for i in range(10)])  # [0,1,1,2,3,5,8,13,21,34]
-print(fibonacci(35))                       # 9227465 — fast with memoize!</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function that accepts *args and returns their sum — test with varying argument counts</label></li>
+print(fibonacci(35))                       # 9227465 — fast with memoize!</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Apply Twice</div><div class="pd">Implement apply_twice(f, x): return f(f(x)). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">def apply_twice(f, x):
+    # TODO: apply f to x, then to the result
+    return x
+
+print(apply_twice(lambda v: v + 3, 1))</code></pre></div><template class="ho-check">assert apply_twice(lambda v: v + 3, 1) == 7, &quot;1 -&gt; 4 -&gt; 7&quot;
+assert apply_twice(str.upper, &quot;ab&quot;) == &quot;AB&quot;, &quot;works for any callable&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compose</div><div class="pd">Implement compose(f, g): return a function computing f(g(x)). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_2')">Copy</button></div><pre><code id="p6_2" class="language-python">def compose(f, g):
+    # TODO: return a function of x that computes f(g(x))
+    return lambda x: x
+
+print(compose(lambda v: v + 1, lambda v: v * 2)(3))</code></pre></div><template class="ho-check">h = compose(lambda v: v + 1, lambda v: v * 2)
+assert h(3) == 7, &quot;g doubles (6), f adds 1 (7)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make Multiplier</div><div class="pd">Implement make_multiplier(n): return a function that multiplies its argument by n (a closure). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_3')">Copy</button></div><pre><code id="p6_3" class="language-python">def make_multiplier(n):
+    # TODO: return a function that multiplies its input by n
+    return lambda x: x
+
+triple = make_multiplier(3)
+print(triple(4))</code></pre></div><template class="ho-check">assert make_multiplier(3)(4) == 12, &quot;3 * 4&quot;
+assert make_multiplier(0)(99) == 0, &quot;times zero&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Call</div><div class="pd">Implement safe_call(f, *args): call f(*args), returning None if it raises. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_4')">Copy</button></div><pre><code id="p6_4" class="language-python">def safe_call(f, *args):
+    # TODO: try calling f(*args); return None on any exception
+    return f(*args)
+
+print(safe_call(lambda: 1 / 0), safe_call(lambda x: x + 1, 4))</code></pre></div><template class="ho-check">assert safe_call(lambda: 1 / 0) is None, &quot;swallows the error&quot;
+assert safe_call(lambda x: x + 1, 4) == 5, &quot;passes args through&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function that accepts *args and returns their sum — test with varying argument counts</label></li>
 <li><label><input type="checkbox"> Write a function that accepts **kwargs and prints each key-value pair</label></li>
 <li><label><input type="checkbox"> Create a closure: a make_multiplier(n) factory that returns a lambda multiplying by n</label></li>
 <li><label><input type="checkbox"> Write a decorator @timer that prints how long a function takes to run</label></li>
@@ -1204,7 +1322,7 @@ cart = Cart(&quot;Alice&quot;)
 cart.add(Product(&quot;Laptop&quot;,  999.99, &quot;Electronics&quot;), 1)
 cart.add(Product(&quot;Mouse&quot;,    29.99, &quot;Electronics&quot;), 2)
 cart.add(Product(&quot;Notebook&quot;,  5.99, &quot;Stationery&quot;),  3)
-cart.checkout(&quot;SAVE10&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Stack</div><div class="pd">Implement a Stack class with push, pop, peek, __len__, and __repr__. The stack should raise IndexError on pop/peek from an empty stack.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">class Stack:
+cart.checkout(&quot;SAVE10&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Stack</div><div class="pd">Implement a Stack class with push, pop, peek, __len__, and __repr__. The stack should raise IndexError on pop/peek from an empty stack.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">class Stack:
     def __init__(self):
         # TODO: initialise internal list self._data = []
         pass
@@ -1388,7 +1506,7 @@ try:
 except KeyError as e:
     print(f&quot;Configuration error: {e}&quot;)
     host, port, timeout = &quot;localhost&quot;, 5432, 30
-    print(f&quot;Using defaults: {host}:{port}, timeout={timeout}s&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Data Parser</div><div class="pd">Write parse_record(line) that parses a CSV line like &#x27;Alice,28,92.5&#x27; into a dict with name (str), age (int), score (float). Return None on any error.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">def parse_record(line):
+    print(f&quot;Using defaults: {host}:{port}, timeout={timeout}s&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Data Parser</div><div class="pd">Write parse_record(line) that parses a CSV line like &#x27;Alice,28,92.5&#x27; into a dict with name (str), age (int), score (float). Return None on any error.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">def parse_record(line):
     # TODO: split line by &quot;,&quot;
     # TODO: wrap in try/except to catch ValueError and IndexError
     # TODO: inside try:
@@ -1566,7 +1684,7 @@ report = {k: {&quot;revenue&quot;: round(v[&quot;total_revenue&quot;],2), &quot;
               &quot;top_region&quot;: max(v[&quot;regions&quot;], key=v[&quot;regions&quot;].get)}
           for k, v in summary.items()}
 
-print(json.dumps(report, indent=2))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Analyzer</div><div class="pd">Parse a multi-line log string (via io.StringIO), count occurrences of each log level, and collect all ERROR message lines.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import io
+print(json.dumps(report, indent=2))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Analyzer</div><div class="pd">Parse a multi-line log string (via io.StringIO), count occurrences of each log level, and collect all ERROR message lines.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import io
 
 log_data = &quot;&quot;&quot;2024-01-15 INFO    Server started on port 8080
 2024-01-15 DEBUG   Loading config file
@@ -1725,7 +1843,7 @@ sample_log = io.StringIO(&quot;
 alerts = list(stream_logs(sample_log, min_level=&quot;WARNING&quot;))
 print(f&quot;Found {len(alerts)} alerts:&quot;)
 for a in alerts:
-    print(f&quot;  [{a[&#x27;level&#x27;]:8s}] {a[&#x27;service&#x27;]:12s} {a[&#x27;msg&#x27;]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Processing Pipeline</div><div class="pd">Implement three chained generators: csv_rows() yields raw lines, parse_sales() parses each to a dict, high_value() keeps only sales above a threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import io
+    print(f&quot;  [{a[&#x27;level&#x27;]:8s}] {a[&#x27;service&#x27;]:12s} {a[&#x27;msg&#x27;]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Processing Pipeline</div><div class="pd">Implement three chained generators: csv_rows() yields raw lines, parse_sales() parses each to a dict, high_value() keeps only sales above a threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import io
 
 csv_data = &quot;&quot;&quot;date,product,qty,price
 2024-01-01,Widget,10,9.99
@@ -1907,7 +2025,7 @@ Top IPs:&quot;)
 for ip, count in ip_requests.most_common():
     fails = failures_by_ip[ip]
     flag  = &quot; ⚠️ SUSPICIOUS&quot; if fails &gt;= 2 else &quot;&quot;
-    print(f&quot;  {ip:16s} {count:3d} requests, {fails} failures{flag}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Analyze Dataset with Built-ins</div><div class="pd">Use the statistics module and built-in functions to compute mean/median/stdev, find top-5 and bottom-5 scores, and bin scores into letter grade counts with Counter.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import statistics
+    print(f&quot;  {ip:16s} {count:3d} requests, {fails} failures{flag}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Analyze Dataset with Built-ins</div><div class="pd">Use the statistics module and built-in functions to compute mean/median/stdev, find top-5 and bottom-5 scores, and bin scores into letter grade counts with Counter.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import statistics
 from collections import Counter
 
 scores = [72, 88, 95, 63, 79, 91, 55, 84, 76, 90,
@@ -2045,7 +2163,7 @@ with log_section(&#x27;data processing&#x27;):
 # contextlib.suppress replaces try/except for known ignorable errors
 with suppress(FileNotFoundError):
     pathlib.Path(&#x27;nonexistent.txt&#x27;).unlink()
-print(&#x27;Suppressed FileNotFoundError cleanly&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Database Connection Manager</div><div class="pd">Write a context manager class DatabaseConnection that simulates opening/closing a DB connection (print messages). It should auto-rollback (print &#x27;rolling back&#x27;) if an exception occurs inside the with block, and auto-commit otherwise.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">class DatabaseConnection:
+print(&#x27;Suppressed FileNotFoundError cleanly&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Database Connection Manager</div><div class="pd">Write a context manager class DatabaseConnection that simulates opening/closing a DB connection (print messages). It should auto-rollback (print &#x27;rolling back&#x27;) if an exception occurs inside the with block, and auto-commit otherwise.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">class DatabaseConnection:
     def __init__(self, url):
         self.url = url
         self.connected = False
@@ -2160,7 +2278,7 @@ Twitter: #DataScience #Python
 for name, pattern in PATTERNS.items():
     matches = re.findall(pattern, sample)
     if matches:
-        print(f&#x27;{name:8s}: {matches}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Extractor</div><div class="pd">Write regex patterns to extract all email addresses, US phone numbers (xxx-xxx-xxxx format), and dollar amounts (e.g. $1,234.56) from the sample text below.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import re
+        print(f&#x27;{name:8s}: {matches}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Extractor</div><div class="pd">Write regex patterns to extract all email addresses, US phone numbers (xxx-xxx-xxxx format), and dollar amounts (e.g. $1,234.56) from the sample text below.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import re
 
 text = &#x27;&#x27;&#x27;
 Please contact billing@company.com or support@help.org.
@@ -2297,7 +2415,7 @@ except Exception as e:
 employees = [Employee(&#x27;Carol&#x27;, 95000, &#x27;Eng&#x27;), Employee(&#x27;Bob&#x27;, 80000, &#x27;Sales&#x27;), Employee(&#x27;Alice&#x27;, 110000, &#x27;Eng&#x27;)]
 employees.sort()
 for e in employees:
-    print(f&#x27;  {e.name}: ${e.salary:,.0f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Typed Address Book</div><div class="pd">Create a Person dataclass (name: str, age: int, email: str, phone: Optional[str] = None). Create an AddressBook dataclass holding a List[Person]. Add methods: add(person), find_by_name(name) -&gt; Optional[Person], adults() -&gt; List[Person] (age &gt;= 18).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">from dataclasses import dataclass, field
+    print(f&#x27;  {e.name}: ${e.salary:,.0f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Typed Address Book</div><div class="pd">Create a Person dataclass (name: str, age: int, email: str, phone: Optional[str] = None). Create an AddressBook dataclass holding a List[Person]. Add methods: add(person), find_by_name(name) -&gt; Optional[Person], adults() -&gt; List[Person] (age &gt;= 18).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">from dataclasses import dataclass, field
 from typing import List, Optional
 
 @dataclass
@@ -2449,7 +2567,7 @@ cons = threading.Thread(target=consumer, args=(q, results))
 prod.start(); cons.start()
 prod.join(); cons.join()
 print(f&#x27;Processed {len(results)} items in {time.perf_counter()-t0:.3f}s&#x27;)
-print(&#x27;Processed:&#x27;, results[:5], &#x27;...&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parallel Web Scraper Simulation</div><div class="pd">Simulate fetching 15 URLs concurrently with ThreadPoolExecutor. Each &#x27;fetch&#x27; sleeps for a random 0.05–0.3s and returns a fake HTML string. Collect results in order. Measure speedup vs sequential. Also implement a version using asyncio.gather. Report total time for both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">from concurrent.futures import ThreadPoolExecutor
+print(&#x27;Processed:&#x27;, results[:5], &#x27;...&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parallel Web Scraper Simulation</div><div class="pd">Simulate fetching 15 URLs concurrently with ThreadPoolExecutor. Each &#x27;fetch&#x27; sleeps for a random 0.05–0.3s and returns a fake HTML string. Collect results in order. Measure speedup vs sequential. Also implement a version using asyncio.gather. Report total time for both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">from concurrent.futures import ThreadPoolExecutor
 import asyncio, time, random
 
 URLS = [f&#x27;https://example.com/page/{i}&#x27; for i in range(15)]
@@ -2636,7 +2754,7 @@ class DataProcessor(LogMixin, TimeMixin):
 p = DataProcessor()
 p.log(&#x27;Starting processing&#x27;)
 result = p.timed(p.process, list(range(-100, 100)))
-print(&#x27;Sample output:&#x27;, [round(x,2) for x in result[:5]])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Plugin System with Factory + Observer</div><div class="pd">Build a data export plugin system: (1) Factory creates exporter objects (CSV, JSON, Parquet) based on format string. Each implements export(data, path). (2) Observer pattern: attach at least 2 listeners (Logger, FileSizeChecker) that react to &#x27;export_complete&#x27; events. Test with a list of 100 dicts as data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">from abc import ABC, abstractmethod
+print(&#x27;Sample output:&#x27;, [round(x,2) for x in result[:5]])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Plugin System with Factory + Observer</div><div class="pd">Build a data export plugin system: (1) Factory creates exporter objects (CSV, JSON, Parquet) based on format string. Each implements export(data, path). (2) Observer pattern: attach at least 2 listeners (Logger, FileSizeChecker) that react to &#x27;export_complete&#x27; events. Test with a list of 100 dicts as data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">from abc import ABC, abstractmethod
 
 class BaseExporter(ABC):
     @abstractmethod
@@ -2828,7 +2946,7 @@ except ImportError:
     for _ in range(100):
         lst = [random.randint(-100, 100) for _ in range(random.randint(0, 30))]
         assert sorted(sorted(lst)) == sorted(lst), &#x27;Sort not idempotent!&#x27;
-    print(&#x27;PASS: manual sort idempotence test (100 random lists)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Test a Data Validation Class</div><div class="pd">Implement and test a DataValidator class with methods: validate_types(df) checks column dtypes, validate_ranges(df, rules) checks min/max per column, validate_no_nulls(df, cols) checks specific columns. Write at least 6 tests covering: passing validation, each failure mode, and edge cases (empty df, single row).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import pandas as pd
+    print(&#x27;PASS: manual sort idempotence test (100 random lists)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Test a Data Validation Class</div><div class="pd">Implement and test a DataValidator class with methods: validate_types(df) checks column dtypes, validate_ranges(df, rules) checks min/max per column, validate_no_nulls(df, cols) checks specific columns. Write at least 6 tests covering: passing validation, each failure mode, and edge cases (empty df, single row).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import pandas as pd
 import numpy as np
 
 class DataValidator:
@@ -2952,7 +3070,7 @@ grand = reduce(lambda acc, r: acc + r[&quot;total&quot;], with_total, 0.0)
 
 for r in with_total:
     print(f&#x27;  {r[&quot;item&quot;]:8s}: ${r[&quot;total&quot;]:.2f}&#x27;)
-print(f&quot;Grand total: ${grand:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Functional Data Processor</div><div class="pd">Write a function process_data(numbers) that uses ONLY map(), filter(), and reduce() (no loops): remove negatives, multiply each by 3, return the sum. Then create a partial called process_small that pre-filters values below 100 before calling process_data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">from functools import reduce, partial
+print(f&quot;Grand total: ${grand:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Functional Data Processor</div><div class="pd">Write a function process_data(numbers) that uses ONLY map(), filter(), and reduce() (no loops): remove negatives, multiply each by 3, return the sum. Then create a partial called process_small that pre-filters values below 100 before calling process_data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">from functools import reduce, partial
 
 def process_data(numbers):
     # Step 1: filter out negatives with filter()
@@ -3059,7 +3177,7 @@ print(f&quot;Total configs: {len(configs)}&quot;)
 for i, combo in enumerate(itertools.islice(configs, 3)):
     cfg = dict(zip(keys, combo))
     print(f&quot;  Config {i+1}: {cfg}&quot;)
-print(&quot;  ...&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Itertools Combinatorics</div><div class="pd">Write a function all_pairs(items) using itertools.combinations that returns all unique pairs. Write team_schedules(teams) using itertools.permutations(teams, 2) for home/away matchups. Write batch(iterable, n) using islice that yields chunks of size n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import itertools
+print(&quot;  ...&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Itertools Combinatorics</div><div class="pd">Write a function all_pairs(items) using itertools.combinations that returns all unique pairs. Write team_schedules(teams) using itertools.permutations(teams, 2) for home/away matchups. Write batch(iterable, n) using islice that yields chunks of size n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import itertools
 
 def all_pairs(items):
     # Return list of all unique 2-element combinations
@@ -3204,7 +3322,7 @@ for validator, val in tests:
         print(f&quot;  OK: {val!r}&quot;)
         validator(val)
     except ValueError as e:
-        print(f&quot;  FAIL: {e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize with Closure</div><div class="pd">Write a function memoize(func) that returns a new function. The new function caches results in a dict (stored in a closure). It should handle any positional arguments as the cache key. Test it with a slow Fibonacci function and verify the cache speeds it up.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">def memoize(func):
+        print(f&quot;  FAIL: {e}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoize with Closure</div><div class="pd">Write a function memoize(func) that returns a new function. The new function caches results in a dict (stored in a closure). It should handle any positional arguments as the cache key. Test it with a slow Fibonacci function and verify the cache speeds it up.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">def memoize(func):
     cache = {}   # closure variable
     def wrapper(*args):
         # TODO: if args in cache, return cached result
@@ -3346,7 +3464,7 @@ def fetch(url):
 
 urls = [&quot;http://a.com&quot;, &quot;http://b.com&quot;, &quot;http://c.com&quot;]
 for url in urls:
-    print(fetch(url))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Decorator with TTL</div><div class="pd">Write a parameterized decorator @cache(ttl=60) that caches function results for ttl seconds. After the TTL expires, re-call the function and refresh the cache. Use a dict with (args, timestamp) as cache entries. Test with a function that returns time.time() so you can observe expiry.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import functools, time
+    print(fetch(url))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Decorator with TTL</div><div class="pd">Write a parameterized decorator @cache(ttl=60) that caches function results for ttl seconds. After the TTL expires, re-call the function and refresh the cache. Use a dict with (args, timestamp) as cache entries. Test with a function that returns time.time() so you can observe expiry.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import functools, time
 
 def cache(ttl=60):
     def decorator(func):
@@ -3499,7 +3617,7 @@ class APISource(DataSource):
 
 for src in [CSVSource([1,2,3]), APISource([&quot;a&quot;,&quot;b&quot;])]:
     for record in src.stream():
-        print(&quot; &quot;, record)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Serializable Protocol</div><div class="pd">Define a Protocol called Serializable with methods to_dict() -&gt; dict and classmethod from_dict(cls, d: dict). Implement it on a Product(name, price, qty) class. Write a function save_all(items) that checks isinstance(item, Serializable) before converting each item to dict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">from typing import Protocol, runtime_checkable
+        print(&quot; &quot;, record)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Serializable Protocol</div><div class="pd">Define a Protocol called Serializable with methods to_dict() -&gt; dict and classmethod from_dict(cls, d: dict). Implement it on a Product(name, price, qty) class. Write a function save_all(items) that checks isinstance(item, Serializable) before converting each item to dict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">from typing import Protocol, runtime_checkable
 from dataclasses import dataclass
 
 @runtime_checkable
@@ -3674,7 +3792,7 @@ print(f&quot;Config: {cfg.host}:{cfg.port} debug={cfg.debug} timeout={cfg.timeou
 try:
     cfg.port = &quot;8080&quot;  # wrong type!
 except TypeError as e:
-    print(&quot;Caught:&quot;, e)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unit-Enforced Measurement</div><div class="pd">Create a descriptor class UnitFloat(unit, min_val, max_val) that stores a float and records its unit. On __get__, return a namedtuple (value, unit). Create a class Measurement with descriptors for temperature (unit=&#x27;C&#x27;, min=-273.15), pressure (unit=&#x27;Pa&#x27;, min=0), and humidity (unit=&#x27;%&#x27;, min=0, max=100).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">from collections import namedtuple
+    print(&quot;Caught:&quot;, e)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unit-Enforced Measurement</div><div class="pd">Create a descriptor class UnitFloat(unit, min_val, max_val) that stores a float and records its unit. On __get__, return a namedtuple (value, unit). Create a class Measurement with descriptors for temperature (unit=&#x27;C&#x27;, min=-273.15), pressure (unit=&#x27;Pa&#x27;, min=0), and humidity (unit=&#x27;%&#x27;, min=0, max=100).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">from collections import namedtuple
 
 class UnitFloat:
     Reading = namedtuple(&quot;Reading&quot;, [&quot;value&quot;, &quot;unit&quot;])
@@ -3838,7 +3956,7 @@ top = snap2.compare_to(snap1, &quot;lineno&quot;)[:2]
 for stat in top:
     print(f&quot;  Memory diff: {stat}&quot;)
 print(f&quot;Cache deep size: {deep_size(cache):,} bytes&quot;)
-tracemalloc.stop()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Profile and Optimize</div><div class="pd">Write two versions of a function that finds all prime numbers up to n: (1) trial_division(n) using a simple loop, (2) sieve(n) using the Sieve of Eratosthenes. Use timeit to benchmark both for n=10000. Use cProfile to show which lines of trial_division are slowest.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import cProfile, timeit
+tracemalloc.stop()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Profile and Optimize</div><div class="pd">Write two versions of a function that finds all prime numbers up to n: (1) trial_division(n) using a simple loop, (2) sieve(n) using the Sieve of Eratosthenes. Use timeit to benchmark both for n=10000. Use cProfile to show which lines of trial_division are slowest.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import cProfile, timeit
 
 def trial_division(n):
     primes = []
@@ -4006,7 +4124,7 @@ try:
     d = transform(d)
     load(d, &quot;warehouse&quot;)
 except Exception:
-    log.exception(&quot;Pipeline failed&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Analyzer</div><div class="pd">Write a function parse_log_line(line) that extracts timestamp, level, and message from a log line like &#x27;12:34:56 WARNING myapp: disk 90% full&#x27;. Write analyze_logs(lines) that counts occurrences of each level and returns a dict like {&#x27;WARNING&#x27;: 3, &#x27;ERROR&#x27;: 1}. Use the logging module to emit a summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import logging, re
+    log.exception(&quot;Pipeline failed&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Analyzer</div><div class="pd">Write a function parse_log_line(line) that extracts timestamp, level, and message from a log line like &#x27;12:34:56 WARNING myapp: disk 90% full&#x27;. Write analyze_logs(lines) that counts occurrences of each level and returns a dict like {&#x27;WARNING&#x27;: 3, &#x27;ERROR&#x27;: 1}. Use the logging module to emit a summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import logging, re
 from collections import Counter
 
 def parse_log_line(line):
@@ -4149,7 +4267,7 @@ args = parser.parse_args([
     &quot;daily_sales&quot;, &quot;s3://bucket/sales.parquet&quot;, &quot;postgres://db/warehouse&quot;,
     &quot;--format&quot;, &quot;parquet&quot;, &quot;--batch-size&quot;, &quot;5000&quot;, &quot;--dry-run&quot;
 ])
-sys.exit(run_etl(args))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File Processor CLI</div><div class="pd">Build a CLI with two subcommands: (1) count — takes a filename, optional --pattern (regex), prints count of matching lines; (2) summary — takes a filename, --cols (repeatable), prints first/last/count for each column in a CSV. Use argparse with proper help strings and type validation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import argparse, csv, re
+sys.exit(run_etl(args))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File Processor CLI</div><div class="pd">Build a CLI with two subcommands: (1) count — takes a filename, optional --pattern (regex), prints count of matching lines; (2) summary — takes a filename, --cols (repeatable), prints first/last/count for each column in a CSV. Use argparse with proper help strings and type validation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import argparse, csv, re
 
 parser = argparse.ArgumentParser(prog=&quot;fileproc&quot;)
 subs = parser.add_subparsers(dest=&quot;cmd&quot;, required=True)
@@ -4326,7 +4444,7 @@ if result is None:
     result = data
 
 print(&quot;Result:&quot;, result)
-cache.get(url, params)  # should be cache hit</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Config File Manager</div><div class="pd">Write a ConfigManager class that loads from a JSON file (on init) and falls back to defaults if the file does not exist. Support get(key, default=None), set(key, value), and save() (writes back to JSON). Write a test that creates a temp file, sets values, saves, reloads, and verifies.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import json, pathlib
+cache.get(url, params)  # should be cache hit</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Config File Manager</div><div class="pd">Write a ConfigManager class that loads from a JSON file (on init) and falls back to defaults if the file does not exist. Support get(key, default=None), set(key, value), and save() (writes back to JSON). Write a test that creates a temp file, sets values, saves, reloads, and verifies.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import json, pathlib
 
 class ConfigManager:
     def __init__(self, path, defaults=None):
@@ -4498,7 +4616,7 @@ for subdir in sorted(src.iterdir()):
     if subdir.is_dir():
         print(f&quot;  {subdir.name}/:&quot;, [f.name for f in subdir.iterdir()])
 
-shutil.rmtree(src)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Archiver</div><div class="pd">Write a function archive_logs(log_dir, archive_dir, days_old=7) that uses pathlib to: (1) find all .log files in log_dir older than days_old days, (2) compress each with shutil.make_archive (or just move for simplicity), (3) move them to archive_dir/YYYY-MM/ subfolders based on file modification date. Return a list of moved files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import pathlib, shutil, tempfile
+shutil.rmtree(src)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log File Archiver</div><div class="pd">Write a function archive_logs(log_dir, archive_dir, days_old=7) that uses pathlib to: (1) find all .log files in log_dir older than days_old days, (2) compress each with shutil.make_archive (or just move for simplicity), (3) move them to archive_dir/YYYY-MM/ subfolders based on file modification date. Return a list of moved files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import pathlib, shutil, tempfile
 from datetime import datetime, timedelta
 
 def archive_logs(log_dir, archive_dir, days_old=7):
@@ -4663,7 +4781,7 @@ data = [
     {&quot;region&quot;: &quot;West&quot;,   &quot;revenue&quot;: 1_750_000, &quot;units&quot;: 11_000},
 ]
 
-print(format_report(&quot;Q1 2024 Sales Report&quot;, data))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Invoice Formatter</div><div class="pd">Write a function format_invoice(company, items, tax_rate) where items is a list of (desc, qty, unit_price) tuples. Print a formatted invoice with: header (company name, date), line items table (description, qty, unit price, line total), subtotal, tax amount, and grand total. Use f-strings with format specs for alignment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">from datetime import date
+print(format_report(&quot;Q1 2024 Sales Report&quot;, data))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Invoice Formatter</div><div class="pd">Write a function format_invoice(company, items, tax_rate) where items is a list of (desc, qty, unit_price) tuples. Print a formatted invoice with: header (company name, date), line items table (description, qty, unit price, line total), subtotal, tax amount, and grand total. Use f-strings with format specs for alignment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_0')">Copy</button></div><pre><code id="p29_0" class="language-python">from datetime import date
 
 def format_invoice(company, items, tax_rate=0.08):
     today    = date.today()
@@ -4825,7 +4943,7 @@ agg = FastAggregator(records)
 print(&quot;Group means:&quot;, {k: f&quot;{v:.2f}&quot; for k, v in agg.group_means.items()})
 print(&quot;Group counts:&quot;, agg.group_counts)
 print(&quot;Overall mean:&quot;, f&quot;{agg.overall_mean:.2f}&quot;)
-print(&quot;(Accessing again — no recompute):&quot;, f&quot;{agg.overall_mean:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Challenge</div><div class="pd">Write three versions of a function find_duplicates(lst) that returns a list of values appearing more than once: (1) brute_force using nested loops O(n^2), (2) sort_based by sorting first O(n log n), (3) hash_based using Counter O(n). Benchmark all three with timeit on a list of 10,000 integers. Report the speedups.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import timeit, collections, random
+print(&quot;(Accessing again — no recompute):&quot;, f&quot;{agg.overall_mean:.2f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Challenge</div><div class="pd">Write three versions of a function find_duplicates(lst) that returns a list of values appearing more than once: (1) brute_force using nested loops O(n^2), (2) sort_based by sorting first O(n log n), (3) hash_based using Counter O(n). Benchmark all three with timeit on a list of 10,000 integers. Report the speedups.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_0')">Copy</button></div><pre><code id="p30_0" class="language-python">import timeit, collections, random
 
 random.seed(42)
 data = [random.randint(0, 500) for _ in range(10_000)]
@@ -5026,7 +5144,7 @@ for name, plugin in plugins.items():
     print(f&quot;  {name}: {plugin.run(data)}&quot;)
 
 sys.path.pop(0)
-shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dependency Checker</div><div class="pd">Write a function check_dependencies(requirements) that takes a list of package names and uses importlib.util.find_spec() to check if each is installed. Return a dict with &#x27;installed&#x27; and &#x27;missing&#x27; lists. Write another function install_missing(missing) that prints the pip install command needed (don&#x27;t actually run it — just print it).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import importlib.util
+shutil.rmtree(tmp)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dependency Checker</div><div class="pd">Write a function check_dependencies(requirements) that takes a list of package names and uses importlib.util.find_spec() to check if each is installed. Return a dict with &#x27;installed&#x27; and &#x27;missing&#x27; lists. Write another function install_missing(missing) that prints the pip install command needed (don&#x27;t actually run it — just print it).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_0')">Copy</button></div><pre><code id="p31_0" class="language-python">import importlib.util
 
 def check_dependencies(requirements):
     installed = []
@@ -5214,7 +5332,7 @@ def get_user(user_id: int, include_meta: bool = False):
     # Fetch a single user by ID.
     pass
 
-router.docs()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Inspector</div><div class="pd">Write a function inspect_class(cls) that returns a dict with: &#x27;name&#x27; (class name), &#x27;bases&#x27; (list of base class names), &#x27;mro&#x27; (list of names), &#x27;class_attrs&#x27; (non-dunder class-level attributes), &#x27;methods&#x27; (public methods with their signatures as strings). Test it on a class you define with inheritance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import inspect
+router.docs()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Inspector</div><div class="pd">Write a function inspect_class(cls) that returns a dict with: &#x27;name&#x27; (class name), &#x27;bases&#x27; (list of base class names), &#x27;mro&#x27; (list of names), &#x27;class_attrs&#x27; (non-dunder class-level attributes), &#x27;methods&#x27; (public methods with their signatures as strings). Test it on a class you define with inheritance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_0')">Copy</button></div><pre><code id="p32_0" class="language-python">import inspect
 
 def inspect_class(cls):
     result = {
@@ -5427,7 +5545,7 @@ pipeline: Pipeline[RawRecord, CleanRecord] = Pipeline()
 pipeline.add_step(filter_valid).add_step(normalize)
 result = pipeline.run(records)
 for r in result:
-    print(f&quot;  {r}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generic Result Type</div><div class="pd">Implement a generic Result[T, E] class (inspired by Rust) with two states: Ok(value: T) and Err(error: E). Add methods: is_ok(), is_err(), unwrap() (returns value or raises), unwrap_or(default), map(fn) (applies fn to value if Ok, returns new Result). Write tests using Result[int, str].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">from typing import Generic, TypeVar, Callable, Optional
+    print(f&quot;  {r}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generic Result Type</div><div class="pd">Implement a generic Result[T, E] class (inspired by Rust) with two states: Ok(value: T) and Err(error: E). Add methods: is_ok(), is_err(), unwrap() (returns value or raises), unwrap_or(default), map(fn) (applies fn to value if Ok, returns new Result). Write tests using Result[int, str].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_0')">Copy</button></div><pre><code id="p33_0" class="language-python">from typing import Generic, TypeVar, Callable, Optional
 from dataclasses import dataclass
 
 T = TypeVar(&quot;T&quot;)
@@ -5497,7 +5615,7 @@ for dept, name in people:
 
 for dept, names in sorted(groups.items()):
     print(f&quot;{dept}: {names}&quot;)
-print(&quot;largest team:&quot;, max(groups, key=lambda d: len(groups[d])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Word Counter</div><div class="pd">Implement word_count(text) returning a mapping of word -&gt; frequency, and top_n(counts, n) returning the n most frequent (word, count) pairs sorted by descending count, breaking ties alphabetically. Fill in the two functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">from collections import Counter
+print(&quot;largest team:&quot;, max(groups, key=lambda d: len(groups[d])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Word Counter</div><div class="pd">Implement word_count(text) returning a mapping of word -&gt; frequency, and top_n(counts, n) returning the n most frequent (word, count) pairs sorted by descending count, breaking ties alphabetically. Fill in the two functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34_0')">Copy</button></div><pre><code id="p34_0" class="language-python">from collections import Counter
 
 def word_count(text):
     # TODO: return a dict/Counter of word -&gt; frequency (split on whitespace, lowercased)
@@ -5521,7 +5639,7 @@ assert top[1][0] == &quot;blue&quot;, &quot;ties break alphabetically, so &#x27;
 <li><label><input type="checkbox"> Return only the top-N entries of a frequency table</label></li></ul></div></div></div><div class="topic" id="s35"><div class="th" onclick="tog(this)"><span>36. Challenge: Strings &amp; Sequences</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Two classic interview-style exercises using only built-ins. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Normalize and reverse</span><button onclick="cp('c35_0')">Copy</button></div><pre><code id="c35_0" class="language-python">s = &quot;A man, a plan, a canal: Panama&quot;
 cleaned = [c.lower() for c in s if c.isalnum()]
 print(&quot;cleaned:&quot;, &quot;&quot;.join(cleaned))
-print(&quot;reversed == cleaned:&quot;, cleaned == cleaned[::-1])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Palindrome &amp; Unique</div><div class="pd">Implement is_palindrome(s) (ignoring case and non-alphanumerics) and unique(seq) (deduplicate while preserving first-seen order). Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">def is_palindrome(s):
+print(&quot;reversed == cleaned:&quot;, cleaned == cleaned[::-1])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Palindrome &amp; Unique</div><div class="pd">Implement is_palindrome(s) (ignoring case and non-alphanumerics) and unique(seq) (deduplicate while preserving first-seen order). Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35_0')">Copy</button></div><pre><code id="p35_0" class="language-python">def is_palindrome(s):
     # TODO: keep only alphanumerics, lowercase, and compare to the reverse
     return False
 
@@ -5545,7 +5663,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
     elif i % 5 == 0:
         print(i, &quot;Buzz&quot;)
     else:
-        print(i)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz</div><div class="pd">Implement fizzbuzz(n): return a list for 1..n where multiples of 3 are &#x27;Fizz&#x27;, of 5 &#x27;Buzz&#x27;, of both &#x27;FizzBuzz&#x27;, else the number as a string. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">def fizzbuzz(n):
+        print(i)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FizzBuzz</div><div class="pd">Implement fizzbuzz(n): return a list for 1..n where multiples of 3 are &#x27;Fizz&#x27;, of 5 &#x27;Buzz&#x27;, of both &#x27;FizzBuzz&#x27;, else the number as a string. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36_0')">Copy</button></div><pre><code id="p36_0" class="language-python">def fizzbuzz(n):
     out = []
     for i in range(1, n + 1):
         # TODO: append &quot;FizzBuzz&quot; / &quot;Fizz&quot; / &quot;Buzz&quot; / str(i) depending on divisibility
@@ -5565,7 +5683,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
             out.append(x)
     return out
 
-print(flatten([1, [2, [3, 4]], 5]))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Flatten Nested List</div><div class="pd">Implement flatten(lst): return all values from an arbitrarily nested list in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p37')">Copy</button></div><pre><code id="p37" class="language-python">def flatten(lst):
+print(flatten([1, [2, [3, 4]], 5]))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Flatten Nested List</div><div class="pd">Implement flatten(lst): return all values from an arbitrarily nested list in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p37_0')">Copy</button></div><pre><code id="p37_0" class="language-python">def flatten(lst):
     out = []
     for x in lst:
         # TODO: if x is a list, recurse and extend; otherwise append x

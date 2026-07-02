@@ -35,17 +35,19 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             # Optional auto-grading: hidden assertions run after the learner's
             # code (see styles/hands-on.js, which adds a "Check" button).
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -129,8 +131,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -391,7 +395,8 @@ print(f"{x=}, {x**2=}, {math.sqrt(x)=:.4f}")"""}
     "Split a comma-separated string into a list and join it back with ' | ' as separator",
     "Check if 'python' appears in a sentence (case-insensitive) using .lower() and 'in'",
 ],
-"practice": {
+"practices": [
+{
 "title": "String Cleaning Pipeline",
 "desc": "Given raw = '  super-pro Widget X200  ', clean it: strip whitespace, title-case it, replace hyphens with spaces, check if 'pro' appears (case-insensitive), and build a 6-char product code from the first 3 + last 3 chars (no spaces) uppercased.",
 "starter":
@@ -415,6 +420,31 @@ print(f"Clean: '{clean}'")
 # print(f"Code: '{code}'")
 # Expected: Clean='Super Pro Widget X200', Code='SUP200'"""
 },
+{
+"title": 'Reverse String',
+"desc": 'Implement reverse_string(s): return s reversed. Fill in the function, press Run, then press Check.',
+"starter": 'def reverse_string(s):\n    # TODO: return s reversed (hint: slicing s[::-1])\n    return s\n\nprint(reverse_string("abc"))',
+"check": 'assert reverse_string("abc") == "cba", "characters reversed"\nassert reverse_string("") == "", "empty stays empty"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Count Vowels',
+"desc": 'Implement count_vowels(s): count the vowels (a, e, i, o, u), case-insensitive. Fill in the function, press Run, then press Check.',
+"starter": 'def count_vowels(s):\n    # TODO: count characters in "aeiou" (case-insensitive)\n    return 0\n\nprint(count_vowels("Hello"))',
+"check": 'assert count_vowels("Hello") == 2, "e and o"\nassert count_vowels("xyz") == 0, "no vowels"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Anagram Check',
+"desc": 'Implement is_anagram(a, b): return True if a and b are anagrams (same letters, case-insensitive). Fill in the function, press Run, then press Check.',
+"starter": 'def is_anagram(a, b):\n    # TODO: compare the sorted lowercase letters\n    return False\n\nprint(is_anagram("listen", "silent"))',
+"check": 'assert is_anagram("listen", "silent") is True, "same letters"\nassert is_anagram("a", "b") is False, "different letters"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Title Case',
+"desc": 'Implement title_case(s): capitalize the first letter of each word. Fill in the function, press Run, then press Check.',
+"starter": 'def title_case(s):\n    # TODO: return s in Title Case (hint: str.title)\n    return s\n\nprint(title_case("hello world"))',
+"check": 'assert title_case("hello world") == "Hello World", "each word capitalized"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "title": "Log File Parser",
 "scenario": "A DevOps engineer parses and formats structured log messages from an application server.",
@@ -534,7 +564,8 @@ print(f"Rank from top: {len(scores) - pos} of {len(scores)}")"""}
     "Flatten a 3x3 nested list into a single list using a nested comprehension",
     "Use any() and all() to check if a list has at least one negative and all positives respectively",
 ],
-"practice": {
+"practices": [
+{
 "title": "Temperature Converter",
 "desc": "Given temps_c = [22.5, 35.1, 18.0, 40.2, 28.7, 15.3, 33.8, 25.0], convert all to Fahrenheit (F = C*9/5+32) using a list comprehension. Filter hot days (>30°C). Sort descending. Find the min and max.",
 "starter":
@@ -557,6 +588,31 @@ print("Hot days:", sorted(hot_days))
 print("Sorted desc:", sorted_desc)
 print(f"Range: {lo}°C — {hi}°C")"""
 },
+{
+"title": 'Second Largest',
+"desc": 'Implement second_largest(lst): return the second largest distinct value. Fill in the function, press Run, then press Check.',
+"starter": 'def second_largest(lst):\n    # TODO: sort the distinct values and take the second from the top\n    return None\n\nprint(second_largest([3, 1, 4, 1, 5]))',
+"check": 'assert second_largest([3, 1, 4, 1, 5]) == 4, "5 is largest, 4 is second"\nassert second_largest([9, 9, 7]) == 7, "distinct values only"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Chunk',
+"desc": 'Implement chunk(lst, n): split lst into consecutive sublists of length n (last may be shorter). Fill in the function, press Run, then press Check.',
+"starter": 'def chunk(lst, n):\n    # TODO: return [lst[i:i+n] for i in range(0, len(lst), n)]\n    return []\n\nprint(chunk([1, 2, 3, 4, 5], 2))',
+"check": 'assert chunk([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]], "size-2 chunks"\nassert chunk([], 3) == [], "empty input"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Sum of Squares',
+"desc": 'Implement sum_of_squares(lst): return the sum of each element squared. Fill in the function, press Run, then press Check.',
+"starter": 'def sum_of_squares(lst):\n    # TODO: sum(x*x for x in lst)\n    return 0\n\nprint(sum_of_squares([1, 2, 3]))',
+"check": 'assert sum_of_squares([1, 2, 3]) == 14, "1 + 4 + 9"\nassert sum_of_squares([]) == 0, "empty -> 0"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rotate',
+"desc": 'Implement rotate(lst, k): rotate the list right by k positions. Fill in the function, press Run, then press Check.',
+"starter": 'def rotate(lst, k):\n    if not lst:\n        return lst\n    k %= len(lst)\n    # TODO: move the last k elements to the front (hint: lst[-k:] + lst[:-k])\n    return lst\n\nprint(rotate([1, 2, 3, 4, 5], 2))',
+"check": 'assert rotate([1, 2, 3, 4, 5], 2) == [4, 5, 1, 2, 3], "right by 2"\nassert rotate([1, 2, 3], 3) == [1, 2, 3], "full rotation is identity"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "title": "Student Grade Processor",
 "scenario": "A teacher processes a class grade list: compute stats, filter failing students, and build a ranking.",
@@ -692,7 +748,8 @@ print("After intersection_update:", sorted(a))"""}
     "Merge two config dicts using ** so the second dict's values override the first",
     "Loop over a dict's .items() and print each key-value pair on one line",
 ],
-"practice": {
+"practices": [
+{
 "title": "Grade Book Manager",
 "desc": "Create a grade book from two lists using zip, find failed students with a set comprehension, and map scores to letter grades with a dict comprehension.",
 "starter":
@@ -718,6 +775,31 @@ print("Grade book:", grade_book)
 print("Failed:", failed)
 print("Letter grades:", letter_grades)"""
 },
+{
+"title": 'Invert Dict',
+"desc": 'Implement invert_dict(d): swap keys and values. Fill in the function, press Run, then press Check.',
+"starter": 'def invert_dict(d):\n    # TODO: return {value: key for key, value in d.items()}\n    return {}\n\nprint(invert_dict({"a": 1, "b": 2}))',
+"check": 'assert invert_dict({"a": 1, "b": 2}) == {1: "a", 2: "b"}, "keys and values swapped"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Merge Dicts',
+"desc": 'Implement merge_dicts(a, b): merge two dicts, with b winning on conflicts. Fill in the function, press Run, then press Check.',
+"starter": 'def merge_dicts(a, b):\n    # TODO: return a merged dict where b overrides a (hint: {**a, **b})\n    return {}\n\nprint(merge_dicts({"x": 1}, {"y": 2, "x": 9}))',
+"check": 'assert merge_dicts({"x": 1}, {"y": 2, "x": 9}) == {"x": 9, "y": 2}, "b overrides a"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Char Counts',
+"desc": 'Implement char_counts(s): return a dict mapping each character to its count. Fill in the function, press Run, then press Check.',
+"starter": 'def char_counts(s):\n    d = {}\n    # TODO: count each character into d (hint: d.get(c, 0) + 1)\n    return d\n\nprint(char_counts("aab"))',
+"check": 'assert char_counts("aab") == {"a": 2, "b": 1}, "per-character counts"\nassert char_counts("") == {}, "empty -> empty"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Max Value Key',
+"desc": 'Implement max_value_key(d): return the key with the largest value. Fill in the function, press Run, then press Check.',
+"starter": 'def max_value_key(d):\n    # TODO: return the key whose value is largest (hint: max(d, key=d.get))\n    return None\n\nprint(max_value_key({"a": 1, "b": 9, "c": 3}))',
+"check": 'assert max_value_key({"a": 1, "b": 9, "c": 3}) == "b", "b has the largest value"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "title": "Inventory Tracking System",
 "scenario": "A small shop tracks stock levels with a dictionary and uses sets to find products needing reorder.",
@@ -883,7 +965,8 @@ print("Encoded:", data)"""}
     "Write a match statement (Python 3.10+) to handle HTTP status codes 200, 404, 500, and a default",
     "Use short-circuit evaluation: write an expression that avoids calling an expensive function if the first condition is False",
 ],
-"practice": {
+"practices": [
+{
 "title": "Traffic Light Simulator",
 "desc": "Implement traffic_action(color, has_pedestrian, is_emergency) that returns the correct action string using if/elif/else logic.",
 "starter":
@@ -905,6 +988,31 @@ print(traffic_action("red",    has_pedestrian=True))    # Stop — pedestrians c
 print(traffic_action("red",    is_emergency=True))      # All yield for emergency
 print(traffic_action("purple"))                         # Unknown signal: purple"""
 },
+{
+"title": 'Sign',
+"desc": 'Implement sign(n): return -1, 0, or 1 for negative, zero, positive. Fill in the function, press Run, then press Check.',
+"starter": 'def sign(n):\n    # TODO: return -1 if n<0, 1 if n>0, else 0\n    return 0\n\nprint(sign(-5), sign(0), sign(3))',
+"check": 'assert sign(-5) == -1 and sign(0) == 0 and sign(3) == 1, "three-way sign"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Letter Grade',
+"desc": 'Implement grade(score): A>=90, B>=80, C>=70, else F. Fill in the function, press Run, then press Check.',
+"starter": 'def grade(score):\n    # TODO: return "A"/"B"/"C"/"F" by the thresholds\n    return "F"\n\nprint(grade(95), grade(72), grade(50))',
+"check": 'assert grade(95) == "A" and grade(85) == "B" and grade(72) == "C" and grade(50) == "F", "grade bands"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Clamp',
+"desc": 'Implement clamp(x, lo, hi): constrain x into [lo, hi]. Fill in the function, press Run, then press Check.',
+"starter": 'def clamp(x, lo, hi):\n    # TODO: return x limited to the range [lo, hi]\n    return x\n\nprint(clamp(15, 0, 10), clamp(-3, 0, 10), clamp(5, 0, 10))',
+"check": 'assert clamp(15, 0, 10) == 10 and clamp(-3, 0, 10) == 0 and clamp(5, 0, 10) == 5, "clamped into range"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Leap Year',
+"desc": 'Implement is_leap(y): True if y is a leap year (divisible by 4, except centuries unless by 400). Fill in the function, press Run, then press Check.',
+"starter": 'def is_leap(y):\n    # TODO: divisible by 4, but centuries only if divisible by 400\n    return False\n\nprint(is_leap(2000), is_leap(1900), is_leap(2024))',
+"check": 'assert is_leap(2000) and not is_leap(1900), "century rule"\nassert is_leap(2024) and not is_leap(2023), "normal rule"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "title": "Loan Eligibility Checker",
 "scenario": "A fintech app determines loan eligibility and interest rate tier based on applicant data.",
@@ -1241,7 +1349,8 @@ for name, param in sig.parameters.items():
     "Write a decorator @timer that prints how long a function takes to run",
     "Use functools.reduce() to compute the product of all elements in a list without a loop",
 ],
-"practice": {
+"practices": [
+{
 "title": "Memoize Decorator",
 "desc": "Write a memoize(func) decorator that caches results in a dict keyed by args. Then decorate a recursive fibonacci function and observe the speedup.",
 "starter":
@@ -1267,6 +1376,31 @@ def fibonacci(n):
 print([fibonacci(i) for i in range(10)])  # [0,1,1,2,3,5,8,13,21,34]
 print(fibonacci(35))                       # 9227465 — fast with memoize!"""
 },
+{
+"title": 'Apply Twice',
+"desc": 'Implement apply_twice(f, x): return f(f(x)). Fill in the function, press Run, then press Check.',
+"starter": 'def apply_twice(f, x):\n    # TODO: apply f to x, then to the result\n    return x\n\nprint(apply_twice(lambda v: v + 3, 1))',
+"check": 'assert apply_twice(lambda v: v + 3, 1) == 7, "1 -> 4 -> 7"\nassert apply_twice(str.upper, "ab") == "AB", "works for any callable"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Compose',
+"desc": 'Implement compose(f, g): return a function computing f(g(x)). Fill in the function, press Run, then press Check.',
+"starter": 'def compose(f, g):\n    # TODO: return a function of x that computes f(g(x))\n    return lambda x: x\n\nprint(compose(lambda v: v + 1, lambda v: v * 2)(3))',
+"check": 'h = compose(lambda v: v + 1, lambda v: v * 2)\nassert h(3) == 7, "g doubles (6), f adds 1 (7)"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Make Multiplier',
+"desc": 'Implement make_multiplier(n): return a function that multiplies its argument by n (a closure). Fill in the function, press Run, then press Check.',
+"starter": 'def make_multiplier(n):\n    # TODO: return a function that multiplies its input by n\n    return lambda x: x\n\ntriple = make_multiplier(3)\nprint(triple(4))',
+"check": 'assert make_multiplier(3)(4) == 12, "3 * 4"\nassert make_multiplier(0)(99) == 0, "times zero"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Safe Call',
+"desc": 'Implement safe_call(f, *args): call f(*args), returning None if it raises. Fill in the function, press Run, then press Check.',
+"starter": 'def safe_call(f, *args):\n    # TODO: try calling f(*args); return None on any exception\n    return f(*args)\n\nprint(safe_call(lambda: 1 / 0), safe_call(lambda x: x + 1, 4))',
+"check": 'assert safe_call(lambda: 1 / 0) is None, "swallows the error"\nassert safe_call(lambda x: x + 1, 4) == 5, "passes args through"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "title": "Data Cleaning Pipeline",
 "scenario": "A data engineer writes a set of small, composable functions to clean and validate user records.",
