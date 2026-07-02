@@ -32,15 +32,17 @@ def make_html(sections):
                        f'<div class="code-block"><div class="ch"><span>Real-World Code</span>'
                        f'<button onclick="cp(\'{rwid}\')">Copy</button></div>'
                        f'<pre><code id="{rwid}" class="language-python">{esc(rw_code)}</code></pre></div></div>')
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -108,8 +110,10 @@ def make_nb(sections):
         if rw_scenario:
             cells.append(md(f"### Real-World Scenario\n\n> {rw_scenario}"))
             cells.append(code(rw_code))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"nbformat":4,"nbformat_minor":5}
@@ -216,7 +220,8 @@ print(f"Skewness:    {series.skew():.3f}")
 high_bp = bp[bp > 140]
 print(f"Hypertensive (>140): {len(high_bp)} patients ({100*len(high_bp)/len(bp):.1f}%)")
 """,
-"practice": {
+"practices": [
+{
     "title": "Analyze a Sales Dataset",
     "desc": "Given a list of daily sales figures, compute mean, median, std, IQR, and identify any outliers using both the IQR fence and z-score methods. Report the percentage of days with sales above the 90th percentile.",
     "starter":
@@ -234,7 +239,32 @@ daily_sales = np.concatenate([
 # TODO: Find outliers using z-score (|z| > 2)
 # TODO: Report % of days above 90th percentile
 """
-}
+},
+{
+"title": 'Median',
+"desc": 'Implement median(a): return the middle value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef median(a):\n    # TODO: return the median (hint: np.median)\n    return 0.0\n\nprint(median([1, 2, 3, 4]))',
+"check": 'assert median([1, 2, 3, 4]) == 2.5\nassert median([5, 1, 3]) == 3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mode',
+"desc": 'Implement mode_val(a): return the most frequent value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef mode_val(a):\n    vals, counts = np.unique(a, return_counts=True)\n    # TODO: return the value with the highest count\n    return 0\n\nprint(mode_val([1, 2, 2, 3, 2]))',
+"check": 'assert mode_val([1, 2, 2, 3, 2]) == 2\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Population Std',
+"desc": 'Implement pop_std(a): population standard deviation.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef pop_std(a):\n    # TODO: population std (np.std, ddof=0)\n    return 0.0\n\nprint(round(pop_std([1, 2, 3]), 4))',
+"check": 'import numpy as np\nassert abs(pop_std([1,2,3]) - np.sqrt(2/3)) < 1e-9\nassert pop_std([5,5,5]) == 0.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Range',
+"desc": 'Implement data_range(a): max minus min.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef data_range(a):\n    a = np.asarray(a)\n    # TODO: max - min\n    return 0\n\nprint(data_range([3, 7, 1, 9]))',
+"check": 'assert data_range([3, 7, 1, 9]) == 8\nprint("All checks passed \\u2713")',
+},
+]
 },
 
 {
@@ -478,7 +508,8 @@ moe = np.percentile(boot, 97.5) - np.percentile(boot, 2.5)
 print(f"Bootstrap 95% CI:     [{np.percentile(boot,2.5):.3f}, {np.percentile(boot,97.5):.3f}]")
 print(f"Margin of error:      ±{moe/2:.3f}")
 """,
-"practice": {
+"practices": [
+{
     "title": "Verify CLT with a Uniform Distribution",
     "desc": "Draw 2000 samples of size n from a Uniform(0,1) population. For n in [2, 10, 30, 100], compute the mean of sample means, the empirical standard error, and the theoretical standard error (1/sqrt(12*n)). Show that they converge.",
     "starter":
@@ -494,7 +525,32 @@ for n in [2, 10, 30, 100]:
     # TODO: Print mean of sample means, empirical SE, theoretical SE
     pass
 """
-}
+},
+{
+"title": 'Standard Error',
+"desc": 'Implement standard_error(d): std(ddof=1)/sqrt(n).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef standard_error(d):\n    d = np.asarray(d, float)\n    # TODO: sample std (ddof=1) / sqrt(n)\n    return 0.0\n\nprint(round(standard_error([2, 4, 6, 8]), 4))',
+"check": 'import numpy as np\nd=[2,4,6,8]\nassert abs(standard_error(d) - np.std(d,ddof=1)/np.sqrt(4)) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Z-Score',
+"desc": 'Implement z_score(x, mu, sigma): (x-mu)/sigma.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef z_score(x, mu, sigma):\n    # TODO: standardize x\n    return 0.0\n\nprint(z_score(85, 75, 5))',
+"check": 'assert z_score(85, 75, 5) == 2.0\nassert z_score(75, 75, 5) == 0.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Margin of Error',
+"desc": 'Implement margin_of_error(sem, z): sem*z.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef margin_of_error(sem, z):\n    # TODO: sem * z\n    return 0.0\n\nprint(margin_of_error(2.0, 1.96))',
+"check": 'assert margin_of_error(2.0, 1.96) == 3.92\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Proportion SE',
+"desc": 'Implement proportion_se(p, n): sqrt(p(1-p)/n).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef proportion_se(p, n):\n    # TODO: standard error of a proportion\n    return 0.0\n\nprint(round(proportion_se(0.5, 100), 4))',
+"check": 'assert abs(proportion_se(0.5, 100) - 0.05) < 1e-9\nprint("All checks passed \\u2713")',
+},
+]
 },
 
 {
@@ -610,7 +666,8 @@ boot_med = np.array([np.median(np.random.choice(reduction, len(reduction), repla
                      for _ in range(4000)])
 print(f"\nBootstrap 95% CI (median): ({np.percentile(boot_med,2.5):.2f}, {np.percentile(boot_med,97.5):.2f})")
 """,
-"practice": {
+"practices": [
+{
     "title": "Compare Confidence Intervals",
     "desc": "Generate two samples from Normal(60, 8) with n=20 and n=100. For each, compute the 95% t-CI for the mean. Then generate a skewed sample from Exponential(scale=5) with n=40 and compute both the t-CI and a bootstrap CI. Discuss which is more appropriate.",
     "starter":
@@ -624,7 +681,32 @@ np.random.seed(77)
 # TODO: Sample 3 (n=40) from Exponential(scale=5) — compute both t-CI and bootstrap CI
 # TODO: Compare widths and discuss
 """
-}
+},
+{
+"title": 'CI (known sigma)',
+"desc": 'Implement ci_known(mean, sigma, n, z): (low, high).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef ci_known(mean, sigma, n, z):\n    h = z * sigma / np.sqrt(n)\n    # TODO: return (mean - h, mean + h)\n    return (mean, mean)\n\nprint(ci_known(100, 15, 25, 1.96))',
+"check": 'lo, hi = ci_known(100, 15, 25, 1.96)\nassert abs((hi-lo) - 2*1.96*3) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'CI Width',
+"desc": 'Implement ci_width(lo, hi): hi - lo.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef ci_width(lo, hi):\n    # TODO: interval width\n    return 0.0\n\nprint(ci_width(2, 5))',
+"check": 'assert ci_width(2, 5) == 3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 't Critical',
+"desc": 'Implement t_critical(df, conf): two-sided t*.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef t_critical(df, conf):\n    # TODO: stats.t.ppf((1+conf)/2, df)\n    return 0.0\n\nprint(round(t_critical(10, 0.95), 3))',
+"check": 'from scipy import stats\nassert abs(t_critical(10, 0.95) - stats.t.ppf(0.975, 10)) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Proportion CI',
+"desc": 'Implement proportion_ci(p, n, z): (low, high).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef proportion_ci(p, n, z):\n    se = np.sqrt(p * (1 - p) / n)\n    # TODO: return (p - z*se, p + z*se)\n    return (p, p)\n\nprint(proportion_ci(0.5, 100, 1.96))',
+"check": 'a, b = proportion_ci(0.5, 100, 1.96)\nassert a < 0.5 < b\nprint("All checks passed \\u2713")',
+},
+]
 },
 
 {
@@ -751,7 +833,8 @@ print(f"Decision (alpha=0.05): {'Reject H0 — new page works' if p_val < 0.05 e
 uplift = (treatment.mean() - control.mean()) / control.mean() * 100
 print(f"Revenue uplift: {uplift:.1f}%")
 """,
-"practice": {
+"practices": [
+{
     "title": "One-Sample and Two-Sample Tests",
     "desc": "A company claims their delivery time averages 3 days. You sample 40 recent deliveries. Run a one-sample t-test to check the claim. Then compare morning vs afternoon delivery times using an independent t-test. Report t-statistic, p-value, and conclusion at alpha=0.05.",
     "starter":
@@ -767,7 +850,32 @@ afternoon  = np.random.normal(loc=3.6, scale=0.9, size=25)
 # TODO: Two-sample t-test: morning vs afternoon
 # TODO: Print t, p, and conclusion for each
 """
-}
+},
+{
+"title": 'Two-Sample p',
+"desc": 'Implement t_test_p(a, b): two-sample t-test p-value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef t_test_p(a, b):\n    # TODO: stats.ttest_ind(a, b).pvalue\n    return 1.0\n\nprint(round(t_test_p([1, 2, 3], [4, 5, 6]), 4))',
+"check": 'from scipy import stats\nassert abs(t_test_p([1,2,3],[4,5,6]) - stats.ttest_ind([1,2,3],[4,5,6]).pvalue) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Reject?',
+"desc": 'Implement reject(p, alpha): True if p < alpha.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef reject(p, alpha):\n    # TODO: reject when p < alpha\n    return False\n\nprint(reject(0.01, 0.05), reject(0.2, 0.05))',
+"check": 'assert reject(0.01, 0.05) is True\nassert reject(0.2, 0.05) is False\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'One-Sample p',
+"desc": 'Implement one_sample_p(data, mu0): one-sample t-test p-value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef one_sample_p(data, mu0):\n    # TODO: stats.ttest_1samp(data, mu0).pvalue\n    return 1.0\n\nprint(round(one_sample_p([1, 2, 3, 4, 5], 3), 4))',
+"check": 'from scipy import stats\nassert abs(one_sample_p([1,2,3,4,5],3) - stats.ttest_1samp([1,2,3,4,5],3).pvalue) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Z Statistic',
+"desc": 'Implement z_stat(xbar, mu, sigma, n): (xbar-mu)/(sigma/sqrt(n)).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef z_stat(xbar, mu, sigma, n):\n    # TODO: the z statistic\n    return 0.0\n\nprint(z_stat(102, 100, 10, 100))',
+"check": 'assert abs(z_stat(102, 100, 10, 100) - 2.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+]
 },
 
 {
@@ -1180,7 +1288,8 @@ residuals = df["price"] - (result.slope * df["sqft"] + result.intercept)
 std_res = (residuals - residuals.mean()) / residuals.std(ddof=1)
 print(f"\nOutlier properties (|std resid|>2.5): {(np.abs(std_res)>2.5).sum()}")
 """,
-"practice": {
+"practices": [
+{
     "title": "Advertising Spend vs Sales Regression",
     "desc": "Given weekly advertising spend (x) ranging from $1000 to $10000 and weekly sales (y), fit a linear regression. Compute slope, intercept, R-squared, and predict sales for a $7500 spend. Compute both Pearson and Spearman correlations and compare them.",
     "starter":
@@ -1196,7 +1305,32 @@ sales    = 2000 + 3.5 * ad_spend + np.random.normal(0, 3000, 52)
 # TODO: Print slope, intercept, R²
 # TODO: Predict sales for $7500 ad spend
 """
-}
+},
+{
+"title": 'Pearson r',
+"desc": 'Implement pearson(x, y): correlation coefficient.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef pearson(x, y):\n    # TODO: np.corrcoef(x, y)[0, 1]\n    return 0.0\n\nprint(round(pearson([1, 2, 3], [2, 4, 6]), 4))',
+"check": 'assert abs(pearson([1,2,3],[2,4,6]) - 1.0) < 1e-9\nassert abs(pearson([1,2,3],[3,2,1]) + 1.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Covariance',
+"desc": 'Implement covariance(x, y): population covariance.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef covariance(x, y):\n    x = np.asarray(x, float); y = np.asarray(y, float)\n    # TODO: mean of (x-xbar)*(y-ybar)\n    return 0.0\n\nprint(round(covariance([1, 2, 3], [1, 2, 3]), 4))',
+"check": 'import numpy as np\nassert abs(covariance([1,2,3],[1,2,3]) - np.var([1,2,3])) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Slope',
+"desc": 'Implement slope(x, y): least-squares slope.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef slope(x, y):\n    x = np.asarray(x, float); y = np.asarray(y, float)\n    # TODO: np.polyfit(x, y, 1)[0]\n    return 0.0\n\nprint(slope([0, 1, 2], [1, 3, 5]))',
+"check": 'assert abs(slope([0,1,2],[1,3,5]) - 2.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'R-squared',
+"desc": 'Implement r_squared(y, yhat): 1 - SS_res/SS_tot.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef r_squared(y, yhat):\n    y = np.asarray(y, float); yhat = np.asarray(yhat, float)\n    # TODO: 1 - sum((y-yhat)^2)/sum((y-mean)^2)\n    return 0.0\n\nprint(r_squared([1, 2, 3], [1, 2, 3]))',
+"check": 'assert abs(r_squared([1,2,3],[1,2,3]) - 1.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+]
 },
 
 {

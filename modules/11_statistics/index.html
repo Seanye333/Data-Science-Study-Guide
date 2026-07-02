@@ -119,7 +119,7 @@ print(f&quot;Skewness:    {series.skew():.3f}&quot;)
 
 high_bp = bp[bp &gt; 140]
 print(f&quot;Hypertensive (&gt;140): {len(high_bp)} patients ({100*len(high_bp)/len(bp):.1f}%)&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Analyze a Sales Dataset</div><div class="pd">Given a list of daily sales figures, compute mean, median, std, IQR, and identify any outliers using both the IQR fence and z-score methods. Report the percentage of days with sales above the 90th percentile.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Analyze a Sales Dataset</div><div class="pd">Given a list of daily sales figures, compute mean, median, std, IQR, and identify any outliers using both the IQR fence and z-score methods. Report the percentage of days with sales above the 90th percentile.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(123)
@@ -132,7 +132,44 @@ daily_sales = np.concatenate([
 # TODO: Find outliers using IQR fence
 # TODO: Find outliers using z-score (|z| &gt; 2)
 # TODO: Report % of days above 90th percentile
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute mean, median, mode, std, and IQR on a list of 20 numbers</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Median</div><div class="pd">Implement median(a): return the middle value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import numpy as np
+from scipy import stats
+
+def median(a):
+    # TODO: return the median (hint: np.median)
+    return 0.0
+
+print(median([1, 2, 3, 4]))</code></pre></div><template class="ho-check">assert median([1, 2, 3, 4]) == 2.5
+assert median([5, 1, 3]) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mode</div><div class="pd">Implement mode_val(a): return the most frequent value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">import numpy as np
+from scipy import stats
+
+def mode_val(a):
+    vals, counts = np.unique(a, return_counts=True)
+    # TODO: return the value with the highest count
+    return 0
+
+print(mode_val([1, 2, 2, 3, 2]))</code></pre></div><template class="ho-check">assert mode_val([1, 2, 2, 3, 2]) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Std</div><div class="pd">Implement pop_std(a): population standard deviation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import numpy as np
+from scipy import stats
+
+def pop_std(a):
+    # TODO: population std (np.std, ddof=0)
+    return 0.0
+
+print(round(pop_std([1, 2, 3]), 4))</code></pre></div><template class="ho-check">import numpy as np
+assert abs(pop_std([1,2,3]) - np.sqrt(2/3)) &lt; 1e-9
+assert pop_std([5,5,5]) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Range</div><div class="pd">Implement data_range(a): max minus min.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">import numpy as np
+from scipy import stats
+
+def data_range(a):
+    a = np.asarray(a)
+    # TODO: max - min
+    return 0
+
+print(data_range([3, 7, 1, 9]))</code></pre></div><template class="ho-check">assert data_range([3, 7, 1, 9]) == 8
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute mean, median, mode, std, and IQR on a list of 20 numbers</label></li>
 <li><label><input type="checkbox"> Use np.percentile to find the 10th, 25th, 75th, and 90th percentiles of a dataset</label></li>
 <li><label><input type="checkbox"> Identify outliers with the IQR fence method (below Q1-1.5*IQR or above Q3+1.5*IQR)</label></li>
 <li><label><input type="checkbox"> Compute skewness and kurtosis with scipy.stats and interpret the result</label></li>
@@ -229,7 +266,7 @@ avg_order, std_order, n_orders = 85, 30, 150
 rev_dist = stats.norm(loc=avg_order*n_orders, scale=std_order*np.sqrt(n_orders))
 print(f&quot;
 P(daily revenue &gt; $14000): {rev_dist.sf(14000):.4f}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Parameter Fitting</div><div class="pd">Given a dataset of customer wait times, fit an exponential distribution using scipy.stats.expon.fit(), compute the fitted mean, and calculate the probability that a customer waits more than 5 minutes. Also compute the 90th percentile wait time.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Parameter Fitting</div><div class="pd">Given a dataset of customer wait times, fit an exponential distribution using scipy.stats.expon.fit(), compute the fitted mean, and calculate the probability that a customer waits more than 5 minutes. Also compute the 90th percentile wait time.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -335,7 +372,7 @@ boot = np.array(boot)
 moe = np.percentile(boot, 97.5) - np.percentile(boot, 2.5)
 print(f&quot;Bootstrap 95% CI:     [{np.percentile(boot,2.5):.3f}, {np.percentile(boot,97.5):.3f}]&quot;)
 print(f&quot;Margin of error:      ±{moe/2:.3f}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Verify CLT with a Uniform Distribution</div><div class="pd">Draw 2000 samples of size n from a Uniform(0,1) population. For n in [2, 10, 30, 100], compute the mean of sample means, the empirical standard error, and the theoretical standard error (1/sqrt(12*n)). Show that they converge.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Verify CLT with a Uniform Distribution</div><div class="pd">Draw 2000 samples of size n from a Uniform(0,1) population. For n in [2, 10, 30, 100], compute the mean of sample means, the empirical standard error, and the theoretical standard error (1/sqrt(12*n)). Show that they converge.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import numpy as np
 
 np.random.seed(99)
 n_simulations = 2000
@@ -346,7 +383,43 @@ for n in [2, 10, 30, 100]:
     # TODO: Compute sample means array
     # TODO: Print mean of sample means, empirical SE, theoretical SE
     pass
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Generate 10000 sample means from samples of size n=5 from an exponential distribution and plot/print the histogram shape</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Standard Error</div><div class="pd">Implement standard_error(d): std(ddof=1)/sqrt(n).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import numpy as np
+from scipy import stats
+
+def standard_error(d):
+    d = np.asarray(d, float)
+    # TODO: sample std (ddof=1) / sqrt(n)
+    return 0.0
+
+print(round(standard_error([2, 4, 6, 8]), 4))</code></pre></div><template class="ho-check">import numpy as np
+d=[2,4,6,8]
+assert abs(standard_error(d) - np.std(d,ddof=1)/np.sqrt(4)) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Score</div><div class="pd">Implement z_score(x, mu, sigma): (x-mu)/sigma.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import numpy as np
+from scipy import stats
+
+def z_score(x, mu, sigma):
+    # TODO: standardize x
+    return 0.0
+
+print(z_score(85, 75, 5))</code></pre></div><template class="ho-check">assert z_score(85, 75, 5) == 2.0
+assert z_score(75, 75, 5) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Margin of Error</div><div class="pd">Implement margin_of_error(sem, z): sem*z.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import numpy as np
+from scipy import stats
+
+def margin_of_error(sem, z):
+    # TODO: sem * z
+    return 0.0
+
+print(margin_of_error(2.0, 1.96))</code></pre></div><template class="ho-check">assert margin_of_error(2.0, 1.96) == 3.92
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Proportion SE</div><div class="pd">Implement proportion_se(p, n): sqrt(p(1-p)/n).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import numpy as np
+from scipy import stats
+
+def proportion_se(p, n):
+    # TODO: standard error of a proportion
+    return 0.0
+
+print(round(proportion_se(0.5, 100), 4))</code></pre></div><template class="ho-check">assert abs(proportion_se(0.5, 100) - 0.05) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Generate 10000 sample means from samples of size n=5 from an exponential distribution and plot/print the histogram shape</label></li>
 <li><label><input type="checkbox"> Verify the CLT: as n increases from 5 to 100, confirm the sample mean distribution becomes more normal</label></li>
 <li><label><input type="checkbox"> Compute the standard error of the mean for sample sizes 10, 50, and 200 from the same population</label></li>
 <li><label><input type="checkbox"> Compare the theoretical SE (sigma/sqrt(n)) to the empirical SE from bootstrap resampling</label></li>
@@ -443,7 +516,7 @@ boot_med = np.array([np.median(np.random.choice(reduction, len(reduction), repla
                      for _ in range(4000)])
 print(f&quot;
 Bootstrap 95% CI (median): ({np.percentile(boot_med,2.5):.2f}, {np.percentile(boot_med,97.5):.2f})&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Confidence Intervals</div><div class="pd">Generate two samples from Normal(60, 8) with n=20 and n=100. For each, compute the 95% t-CI for the mean. Then generate a skewed sample from Exponential(scale=5) with n=40 and compute both the t-CI and a bootstrap CI. Discuss which is more appropriate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Confidence Intervals</div><div class="pd">Generate two samples from Normal(60, 8) with n=20 and n=100. For each, compute the 95% t-CI for the mean. Then generate a skewed sample from Exponential(scale=5) with n=40 and compute both the t-CI and a bootstrap CI. Discuss which is more appropriate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(77)
@@ -452,7 +525,44 @@ np.random.seed(77)
 # TODO: Sample 2 (n=100) from Normal(60,8) — compute 95% t-CI
 # TODO: Sample 3 (n=40) from Exponential(scale=5) — compute both t-CI and bootstrap CI
 # TODO: Compare widths and discuss
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% confidence interval for the mean using stats.t.interval for a sample of size 30</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CI (known sigma)</div><div class="pd">Implement ci_known(mean, sigma, n, z): (low, high).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import numpy as np
+from scipy import stats
+
+def ci_known(mean, sigma, n, z):
+    h = z * sigma / np.sqrt(n)
+    # TODO: return (mean - h, mean + h)
+    return (mean, mean)
+
+print(ci_known(100, 15, 25, 1.96))</code></pre></div><template class="ho-check">lo, hi = ci_known(100, 15, 25, 1.96)
+assert abs((hi-lo) - 2*1.96*3) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CI Width</div><div class="pd">Implement ci_width(lo, hi): hi - lo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">import numpy as np
+from scipy import stats
+
+def ci_width(lo, hi):
+    # TODO: interval width
+    return 0.0
+
+print(ci_width(2, 5))</code></pre></div><template class="ho-check">assert ci_width(2, 5) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: t Critical</div><div class="pd">Implement t_critical(df, conf): two-sided t*.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import numpy as np
+from scipy import stats
+
+def t_critical(df, conf):
+    # TODO: stats.t.ppf((1+conf)/2, df)
+    return 0.0
+
+print(round(t_critical(10, 0.95), 3))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(t_critical(10, 0.95) - stats.t.ppf(0.975, 10)) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Proportion CI</div><div class="pd">Implement proportion_ci(p, n, z): (low, high).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">import numpy as np
+from scipy import stats
+
+def proportion_ci(p, n, z):
+    se = np.sqrt(p * (1 - p) / n)
+    # TODO: return (p - z*se, p + z*se)
+    return (p, p)
+
+print(proportion_ci(0.5, 100, 1.96))</code></pre></div><template class="ho-check">a, b = proportion_ci(0.5, 100, 1.96)
+assert a &lt; 0.5 &lt; b
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% confidence interval for the mean using stats.t.interval for a sample of size 30</label></li>
 <li><label><input type="checkbox"> Compute a 95% bootstrap CI for the mean by resampling 5000 times and taking percentiles</label></li>
 <li><label><input type="checkbox"> Build a CI for a proportion using the normal approximation: p +/- 1.96*sqrt(p*(1-p)/n)</label></li>
 <li><label><input type="checkbox"> Compare the CI width for n=30 vs n=300 at the same confidence level</label></li>
@@ -560,7 +670,7 @@ print(f&quot;Decision (alpha=0.05): {&#x27;Reject H0 — new page works&#x27; if
 
 uplift = (treatment.mean() - control.mean()) / control.mean() * 100
 print(f&quot;Revenue uplift: {uplift:.1f}%&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Sample and Two-Sample Tests</div><div class="pd">A company claims their delivery time averages 3 days. You sample 40 recent deliveries. Run a one-sample t-test to check the claim. Then compare morning vs afternoon delivery times using an independent t-test. Report t-statistic, p-value, and conclusion at alpha=0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Sample and Two-Sample Tests</div><div class="pd">A company claims their delivery time averages 3 days. You sample 40 recent deliveries. Run a one-sample t-test to check the claim. Then compare morning vs afternoon delivery times using an independent t-test. Report t-statistic, p-value, and conclusion at alpha=0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(11)
@@ -571,7 +681,42 @@ afternoon  = np.random.normal(loc=3.6, scale=0.9, size=25)
 # TODO: One-sample t-test: H0: mean = 3.0 days
 # TODO: Two-sample t-test: morning vs afternoon
 # TODO: Print t, p, and conclusion for each
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform a one-sample t-test on simulated data and interpret the resulting p-value</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Two-Sample p</div><div class="pd">Implement t_test_p(a, b): two-sample t-test p-value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import numpy as np
+from scipy import stats
+
+def t_test_p(a, b):
+    # TODO: stats.ttest_ind(a, b).pvalue
+    return 1.0
+
+print(round(t_test_p([1, 2, 3], [4, 5, 6]), 4))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(t_test_p([1,2,3],[4,5,6]) - stats.ttest_ind([1,2,3],[4,5,6]).pvalue) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reject?</div><div class="pd">Implement reject(p, alpha): True if p &lt; alpha.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import numpy as np
+from scipy import stats
+
+def reject(p, alpha):
+    # TODO: reject when p &lt; alpha
+    return False
+
+print(reject(0.01, 0.05), reject(0.2, 0.05))</code></pre></div><template class="ho-check">assert reject(0.01, 0.05) is True
+assert reject(0.2, 0.05) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Sample p</div><div class="pd">Implement one_sample_p(data, mu0): one-sample t-test p-value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import numpy as np
+from scipy import stats
+
+def one_sample_p(data, mu0):
+    # TODO: stats.ttest_1samp(data, mu0).pvalue
+    return 1.0
+
+print(round(one_sample_p([1, 2, 3, 4, 5], 3), 4))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(one_sample_p([1,2,3,4,5],3) - stats.ttest_1samp([1,2,3,4,5],3).pvalue) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z Statistic</div><div class="pd">Implement z_stat(xbar, mu, sigma, n): (xbar-mu)/(sigma/sqrt(n)).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import numpy as np
+from scipy import stats
+
+def z_stat(xbar, mu, sigma, n):
+    # TODO: the z statistic
+    return 0.0
+
+print(z_stat(102, 100, 10, 100))</code></pre></div><template class="ho-check">assert abs(z_stat(102, 100, 10, 100) - 2.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform a one-sample t-test on simulated data and interpret the resulting p-value</label></li>
 <li><label><input type="checkbox"> Generate two groups with different means and run a two-sample t-test with stats.ttest_ind</label></li>
 <li><label><input type="checkbox"> Check normality assumption using the Shapiro-Wilk test before running a t-test</label></li>
 <li><label><input type="checkbox"> Try changing the sample size from 10 to 1000 and observe how p-value changes</label></li>
@@ -680,7 +825,7 @@ if p_val &lt; 0.05:
     for n1, n2 in pairs:
         _, p = stats.ttest_ind(diets[n1], diets[n2])
         print(f&quot;  {n1:15s} vs {n2:15s}: p={p:.4f} {&#x27;*&#x27; if p&lt;bonf else &#x27;&#x27;}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Three Teaching Methods</div><div class="pd">Simulate exam scores for students taught by three methods: Lecture (mean=72), Active Learning (mean=78), Online (mean=74), each with std=10 and n=30. Run one-way ANOVA. If significant, apply Bonferroni-corrected pairwise t-tests. Also run Kruskal-Wallis as a robustness check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Three Teaching Methods</div><div class="pd">Simulate exam scores for students taught by three methods: Lecture (mean=72), Active Learning (mean=78), Online (mean=74), each with std=10 and n=30. Run one-way ANOVA. If significant, apply Bonferroni-corrected pairwise t-tests. Also run Kruskal-Wallis as a robustness check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import numpy as np
 from scipy import stats
 from itertools import combinations
 
@@ -793,7 +938,7 @@ print(f&quot;
 Chi2={chi2:.3f}, df={dof}, p={p_val:.4f}&quot;)
 print(f&quot;Cramer&#x27;s V = {cramers_v:.4f} ({&#x27;small&#x27; if cramers_v&lt;0.1 else &#x27;medium&#x27; if cramers_v&lt;0.3 else &#x27;large&#x27;} effect)&quot;)
 print(f&quot;Association between age and payment method: {&#x27;Yes&#x27; if p_val&lt;0.05 else &#x27;No&#x27;}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test with Chi-Square</div><div class="pd">An A/B test shows 180 conversions out of 900 visitors (control) and 210 conversions out of 900 visitors (treatment). Build a 2x2 contingency table and run a chi-square test of independence to determine if the conversion rate differs significantly. Compute Cramer&#x27;s V.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test with Chi-Square</div><div class="pd">An A/B test shows 180 conversions out of 900 visitors (control) and 210 conversions out of 900 visitors (treatment). Build a 2x2 contingency table and run a chi-square test of independence to determine if the conversion rate differs significantly. Compute Cramer&#x27;s V.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import numpy as np
 from scipy import stats
 
 # Control:   180 converted, 720 did not
@@ -922,7 +1067,7 @@ residuals = df[&quot;price&quot;] - (result.slope * df[&quot;sqft&quot;] + resul
 std_res = (residuals - residuals.mean()) / residuals.std(ddof=1)
 print(f&quot;
 Outlier properties (|std resid|&gt;2.5): {(np.abs(std_res)&gt;2.5).sum()}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Advertising Spend vs Sales Regression</div><div class="pd">Given weekly advertising spend (x) ranging from $1000 to $10000 and weekly sales (y), fit a linear regression. Compute slope, intercept, R-squared, and predict sales for a $7500 spend. Compute both Pearson and Spearman correlations and compare them.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Advertising Spend vs Sales Regression</div><div class="pd">Given weekly advertising spend (x) ranging from $1000 to $10000 and weekly sales (y), fit a linear regression. Compute slope, intercept, R-squared, and predict sales for a $7500 spend. Compute both Pearson and Spearman correlations and compare them.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(88)
@@ -933,7 +1078,44 @@ sales    = 2000 + 3.5 * ad_spend + np.random.normal(0, 3000, 52)
 # TODO: Fit linear regression with scipy.stats.linregress
 # TODO: Print slope, intercept, R²
 # TODO: Predict sales for $7500 ad spend
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson and Spearman correlation between two variables and compare when they differ</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pearson r</div><div class="pd">Implement pearson(x, y): correlation coefficient.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import numpy as np
+from scipy import stats
+
+def pearson(x, y):
+    # TODO: np.corrcoef(x, y)[0, 1]
+    return 0.0
+
+print(round(pearson([1, 2, 3], [2, 4, 6]), 4))</code></pre></div><template class="ho-check">assert abs(pearson([1,2,3],[2,4,6]) - 1.0) &lt; 1e-9
+assert abs(pearson([1,2,3],[3,2,1]) + 1.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Covariance</div><div class="pd">Implement covariance(x, y): population covariance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_2')">Copy</button></div><pre><code id="p7_2" class="language-python">import numpy as np
+from scipy import stats
+
+def covariance(x, y):
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    # TODO: mean of (x-xbar)*(y-ybar)
+    return 0.0
+
+print(round(covariance([1, 2, 3], [1, 2, 3]), 4))</code></pre></div><template class="ho-check">import numpy as np
+assert abs(covariance([1,2,3],[1,2,3]) - np.var([1,2,3])) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Slope</div><div class="pd">Implement slope(x, y): least-squares slope.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_3')">Copy</button></div><pre><code id="p7_3" class="language-python">import numpy as np
+from scipy import stats
+
+def slope(x, y):
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    # TODO: np.polyfit(x, y, 1)[0]
+    return 0.0
+
+print(slope([0, 1, 2], [1, 3, 5]))</code></pre></div><template class="ho-check">assert abs(slope([0,1,2],[1,3,5]) - 2.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: R-squared</div><div class="pd">Implement r_squared(y, yhat): 1 - SS_res/SS_tot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_4')">Copy</button></div><pre><code id="p7_4" class="language-python">import numpy as np
+from scipy import stats
+
+def r_squared(y, yhat):
+    y = np.asarray(y, float); yhat = np.asarray(yhat, float)
+    # TODO: 1 - sum((y-yhat)^2)/sum((y-mean)^2)
+    return 0.0
+
+print(r_squared([1, 2, 3], [1, 2, 3]))</code></pre></div><template class="ho-check">assert abs(r_squared([1,2,3],[1,2,3]) - 1.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson and Spearman correlation between two variables and compare when they differ</label></li>
 <li><label><input type="checkbox"> Fit a simple linear regression with stats.linregress and print slope, intercept, and R-squared</label></li>
 <li><label><input type="checkbox"> Plot residuals vs fitted values to check for heteroscedasticity (or print residual statistics)</label></li>
 <li><label><input type="checkbox"> Compute partial correlation between X and Y while controlling for a confounding variable Z</label></li>
@@ -1037,7 +1219,7 @@ cohort_b = np.random.beta(1.5, 2, 40) * 10
 u_stat, mw_p = stats.mannwhitneyu(cohort_a, cohort_b, alternative=&quot;two-sided&quot;)
 print(f&quot;
 Mann-Whitney U (cohort comparison): U={u_stat:.1f}, p={mw_p:.4f}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Choose Parametric vs Non-Parametric</div><div class="pd">Generate three datasets: (A) Normal(50,10) n=40, (B) Exponential(scale=5) n=40, (C) Uniform(0,100) n=40. For each pair, first run Shapiro-Wilk, then decide whether to use t-test or Mann-Whitney U. Run both and compare p-values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Choose Parametric vs Non-Parametric</div><div class="pd">Generate three datasets: (A) Normal(50,10) n=40, (B) Exponential(scale=5) n=40, (C) Uniform(0,100) n=40. For each pair, first run Shapiro-Wilk, then decide whether to use t-test or Mann-Whitney U. Run both and compare p-values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(22)
@@ -1166,7 +1348,7 @@ Simulated experiment results:&quot;)
 print(f&quot;Observed Cohen&#x27;s d: {obs_d:.4f}&quot;)
 print(f&quot;p-value:            {p_val:.4f}&quot;)
 print(f&quot;Decision: {&#x27;Reject H0 — new flow is better&#x27; if p_val&lt;0.05 else &#x27;Fail to reject H0&#x27;}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design a Clinical Trial Sample Size</div><div class="pd">A new medication is expected to reduce symptom severity by 2 points (scale 0-20) with a pooled standard deviation of 5. Compute Cohen&#x27;s d. Then use TTestIndPower to find the sample size needed for 80%, 85%, and 90% power at alpha=0.05. Finally, simulate 3000 trials with the recommended n and estimate empirical power.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design a Clinical Trial Sample Size</div><div class="pd">A new medication is expected to reduce symptom severity by 2 points (scale 0-20) with a pooled standard deviation of 5. Compute Cohen&#x27;s d. Then use TTestIndPower to find the sample size needed for 80%, 85%, and 90% power at alpha=0.05. Finally, simulate 3000 trials with the recommended n and estimate empirical power.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import numpy as np
 from scipy import stats
 from statsmodels.stats.power import TTestIndPower
 
@@ -1309,7 +1491,7 @@ for day in range(1, n_days+1):
     print(f&#x27; {day:2d} | {daily_visitors}/{daily_visitors}        | {conv_a:3d}/{conv_b:3d}    | {prob_b_better:.1%}&#x27;)
     if prob_b_better &gt; 0.95:
         print(f&#x27;&gt;&gt;&gt; Declare B winner on day {day}! (P(B&gt;A)={prob_b_better:.1%})&#x27;)
-        break</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Conversion Rate</div><div class="pd">You observe 30 conversions from 200 visitors. Use a Beta(1,1) prior. Compute the posterior distribution, posterior mean, and 90% credible interval. Compare to the MLE estimate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">from scipy.stats import beta
+        break</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Conversion Rate</div><div class="pd">You observe 30 conversions from 200 visitors. Use a Beta(1,1) prior. Compute the posterior distribution, posterior mean, and 90% credible interval. Compare to the MLE estimate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">from scipy.stats import beta
 import numpy as np
 
 conversions = 30
@@ -1492,7 +1674,7 @@ ax.set_title(&#x27;Customer Retention by Acquisition Channel&#x27;)
 ax.legend(); ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig(&#x27;retention_cohorts.png&#x27;, dpi=80); plt.close()
-print(&#x27;Saved retention_cohorts.png&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Equipment Failure Analysis</div><div class="pd">Simulate failure times for two machine types (A: exponential mean=100 days, B: exponential mean=150 days, both n=80, max=200 days). Plot KM curves and run a log-rank test.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+print(&#x27;Saved retention_cohorts.png&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Equipment Failure Analysis</div><div class="pd">Simulate failure times for two machine types (A: exponential mean=100 days, B: exponential mean=150 days, both n=80, max=200 days). Plot KM curves and run a log-rank test.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import numpy as np
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -1600,7 +1782,7 @@ for name, boots, obs in [(&#x27;mean&#x27;, mean_boots, revenue.mean()), (&#x27;
     print(f&#x27;\n{name.capitalize()} bootstrap:&#x27;)
     print(f&#x27;  Observed: ${obs:,.2f}&#x27;)
     print(f&#x27;  95% CI:   (${ci[0]:,.2f}, ${ci[1]:,.2f})&#x27;)
-    print(f&#x27;  SE:       ${boots.std():,.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test with Permutation</div><div class="pd">Group A: 50 users, mean session time 4.2 min. Group B: 50 users, mean 4.8 min. Run a permutation test with 10,000 iterations. Report the p-value and whether the difference is significant.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+    print(f&#x27;  SE:       ${boots.std():,.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test with Permutation</div><div class="pd">Group A: 50 users, mean session time 4.2 min. Group B: 50 users, mean 4.8 min. Run a permutation test with 10,000 iterations. Report the p-value and whether the difference is significant.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 group_a = np.random.normal(4.2, 1.5, 50)
@@ -1669,7 +1851,7 @@ p_val = np.mean(np.array(boot_diffs) &lt;= 0)
 print(f&quot;Observed lift: {obs_diff:.4f} ({obs_diff/conv_a.mean():.1%} relative)&quot;)
 print(f&quot;95% Bootstrap CI: [{ci[0]:.4f}, {ci[1]:.4f}]&quot;)
 print(f&quot;One-sided p-value: {p_val:.4f}&quot;)
-print(&quot;Significant at alpha=0.05:&quot;, ci[0] &gt; 0)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bootstrap Customer Lifetime Value</div><div class="pd">You have 60 customer LTV values from a heavy-tailed distribution. Compute 90% and 95% percentile bootstrap CIs for the mean and the 75th percentile. Also run a two-sample permutation test comparing &#x27;premium&#x27; vs &#x27;standard&#x27; customers (30 each). Report p-values and effect sizes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+print(&quot;Significant at alpha=0.05:&quot;, ci[0] &gt; 0)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bootstrap Customer Lifetime Value</div><div class="pd">You have 60 customer LTV values from a heavy-tailed distribution. Compute 90% and 95% percentile bootstrap CIs for the mean and the 75th percentile. Also run a two-sample permutation test comparing &#x27;premium&#x27; vs &#x27;standard&#x27; customers (30 each). Report p-values and effect sizes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np
 np.random.seed(11)
 ltv = np.random.pareto(2, 60) * 100 + 50
 premium = ltv[:30]
@@ -1767,7 +1949,7 @@ tp = reject[-n_de:].sum()
 fp = reject[:-n_de].sum()
 print(f&quot;Significant genes: {reject.sum()}&quot;)
 print(f&quot;True positives: {tp}/{n_de} ({tp/n_de:.1%} sensitivity)&quot;)
-print(f&quot;False positives: {fp} (FDR={fp/max(reject.sum(),1):.3f})&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drug Trial Multiple Endpoints</div><div class="pd">A clinical trial tests 12 endpoints (primary + secondary). Raw p-values are given. Apply Bonferroni, Holm, and BH corrections. Build a table showing which endpoints remain significant under each method. Discuss the tradeoff between FWER and FDR control in regulatory contexts.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import numpy as np
+print(f&quot;False positives: {fp} (FDR={fp/max(reject.sum(),1):.3f})&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drug Trial Multiple Endpoints</div><div class="pd">A clinical trial tests 12 endpoints (primary + secondary). Raw p-values are given. Apply Bonferroni, Holm, and BH corrections. Build a table showing which endpoints remain significant under each method. Discuss the tradeoff between FWER and FDR control in regulatory contexts.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import numpy as np
 # 12 endpoint p-values from clinical trial
 p_values = np.array([0.001, 0.008, 0.023, 0.046, 0.052, 0.071,
                      0.12, 0.18, 0.21, 0.34, 0.52, 0.74])
@@ -1847,7 +2029,7 @@ for i in range(5):
     print(f&quot;PC{i+1}: defaulters vs non-defaulters t={t:.2f}, p={p:.4f}&quot;)
 clf = LogisticRegression()
 scores = cross_val_score(clf, X_pca, y, cv=5, scoring=&#x27;roc_auc&#x27;)
-print(f&quot;Logistic Regression AUC (PCA features): {scores.mean():.3f} ± {scores.std():.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Segmentation with Dimensionality Reduction</div><div class="pd">Apply PCA then k-means (k=4) to a simulated customer dataset with 15 features. For each cluster, run one-way ANOVA on the top 3 PCs and 3 original features to test for between-cluster differences. Report F-statistics, p-values, and effect sizes (eta-squared). Visualize clusters in 2D PCA space.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+print(f&quot;Logistic Regression AUC (PCA features): {scores.mean():.3f} ± {scores.std():.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Segmentation with Dimensionality Reduction</div><div class="pd">Apply PCA then k-means (k=4) to a simulated customer dataset with 15 features. For each cluster, run one-way ANOVA on the top 3 PCs and 3 original features to test for between-cluster differences. Report F-statistics, p-values, and effect sizes (eta-squared). Visualize clusters in 2D PCA space.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
@@ -1955,7 +2137,7 @@ t_compare, p_compare = stats.ttest_ind(drug_diff,     placebo_diff)
 print(f&quot;Drug group:    mean reduction={drug_diff.mean():.1f}, p={p_drug:.4f}&quot;)
 print(f&quot;Placebo group: mean reduction={placebo_diff.mean():.1f}, p={p_placebo:.4f}&quot;)
 print(f&quot;Drug vs Placebo: t={t_compare:.3f}, p={p_compare:.4f}&quot;)
-print(f&quot;Drug significantly better? {p_compare &lt; 0.05}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Analysis</div><div class="pd">Two email subject lines were tested: A sent to 800 users (92 opened), B to 800 users (117 opened). (1) Run a two-proportion z-test. (2) Compute the 95% CI for the difference in rates. (3) Calculate the lift (relative improvement). (4) Determine the minimum detectable effect if you want 80% power at alpha=0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">from scipy import stats
+print(f&quot;Drug significantly better? {p_compare &lt; 0.05}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Analysis</div><div class="pd">Two email subject lines were tested: A sent to 800 users (92 opened), B to 800 users (117 opened). (1) Run a two-proportion z-test. (2) Compute the 95% CI for the difference in rates. (3) Calculate the lift (relative improvement). (4) Determine the minimum detectable effect if you want 80% power at alpha=0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">from scipy import stats
 import numpy as np
 
 n_a, open_a = 800, 92
@@ -2060,7 +2242,7 @@ tukey = pairwise_tukeyhsd(all_times, all_labels, alpha=0.05)
 print(tukey.summary())
 
 for name, times in flows.items():
-    print(f&quot;{name}: mean={times.mean():.1f}s, sd={times.std():.1f}s&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Marketing Channel ANOVA</div><div class="pd">Generate sales data for 4 marketing channels (Email, Social, Search, Display) — 25 observations each with means 120, 135, 150, 110 and std=25. (1) Run one-way ANOVA. (2) If significant, run Tukey HSD to identify which channels differ. (3) Compute eta-squared (effect size = SS_between / SS_total).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">from scipy import stats
+    print(f&quot;{name}: mean={times.mean():.1f}s, sd={times.std():.1f}s&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Marketing Channel ANOVA</div><div class="pd">Generate sales data for 4 marketing channels (Email, Social, Search, Display) — 25 observations each with means 120, 135, 150, 110 and std=25. (1) Run one-way ANOVA. (2) If significant, run Tukey HSD to identify which channels differ. (3) Compute eta-squared (effect size = SS_between / SS_total).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">from scipy import stats
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import numpy as np
 
@@ -2187,7 +2369,7 @@ r_sp = np.corrcoef(speed, performance)[0,1]
 r_sa = np.corrcoef(speed, age)[0,1]
 r_pa = np.corrcoef(performance, age)[0,1]
 pc = (r_sp - r_sa*r_pa) / (np.sqrt(1-r_sa**2)*np.sqrt(1-r_pa**2))
-print(f&quot;\nSpeed-Perf raw r={r_sp:.3f}, partial (ctrl age)={pc:.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Correlation Screening</div><div class="pd">Generate 8 features for 300 samples (some correlated, some independent, one binary). (1) Compute and print the full Pearson correlation matrix. (2) Flag all feature pairs with |r| &gt; 0.7 as highly correlated. (3) Compute point-biserial correlation of the binary feature with each continuous feature. (4) Test each correlation for significance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">from scipy import stats
+print(f&quot;\nSpeed-Perf raw r={r_sp:.3f}, partial (ctrl age)={pc:.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Correlation Screening</div><div class="pd">Generate 8 features for 300 samples (some correlated, some independent, one binary). (1) Compute and print the full Pearson correlation matrix. (2) Flag all feature pairs with |r| &gt; 0.7 as highly correlated. (3) Compute point-biserial correlation of the binary feature with each continuous feature. (4) Test each correlation for significance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">from scipy import stats
 import numpy as np, pandas as pd
 
 np.random.seed(42)
@@ -2306,7 +2488,7 @@ print(f&quot;Use non-parametric: {p_drug &lt; 0.05 or p_ctrl &lt; 0.05}&quot;)
 u, p = stats.mannwhitneyu(drug_scores, control_scores, alternative=&#x27;less&#x27;)
 print(f&quot;Mann-Whitney: U={u:.1f}, p={p:.4f}&quot;)
 print(f&quot;Drug reduces pain? {p &lt; 0.05}&quot;)
-print(f&quot;Median drug={np.median(drug_scores):.1f}, control={np.median(control_scores):.1f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Pipeline</div><div class="pd">Write a function compare_groups(a, b) that: (1) Tests normality of both groups with Shapiro-Wilk, (2) If both normal, runs Levene&#x27;s test for equal variances, then appropriate t-test (Welch or Student), (3) If either non-normal, runs Mann-Whitney U, (4) Returns a dict with test_used, statistic, p_value, significant. Test with normal and non-normal pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">from scipy import stats
+print(f&quot;Median drug={np.median(drug_scores):.1f}, control={np.median(control_scores):.1f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Pipeline</div><div class="pd">Write a function compare_groups(a, b) that: (1) Tests normality of both groups with Shapiro-Wilk, (2) If both normal, runs Levene&#x27;s test for equal variances, then appropriate t-test (Welch or Student), (3) If either non-normal, runs Mann-Whitney U, (4) Returns a dict with test_used, statistic, p_value, significant. Test with normal and non-normal pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">from scipy import stats
 import numpy as np
 
 def compare_groups(a, b, alpha=0.05):
@@ -2450,7 +2632,7 @@ for day in range(1, 31):
         print(f&quot;{day:5d}  {n_total//2:6d}  {n_total//2:6d}  {post_a.mean():8.4f}  {post_b.mean():8.4f}  {p_b_wins:8.4f}&quot;)
     if p_b_wins &gt; 0.95:
         print(f&quot;  --&gt; Stopping: P(B&gt;A)={p_b_wins:.4f} &gt; 0.95 on day {day}&quot;)
-        break</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Coin Fairness</div><div class="pd">A coin is flipped 100 times with 62 heads. (1) Start with a uniform prior Beta(1,1). (2) Update sequentially after every 10 flips. (3) Print posterior mean and 95% credible interval at each step. (4) Compare to the frequentist 95% CI at each step. (5) Compute P(p &gt; 0.5) from the final posterior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">from scipy import stats
+        break</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Coin Fairness</div><div class="pd">A coin is flipped 100 times with 62 heads. (1) Start with a uniform prior Beta(1,1). (2) Update sequentially after every 10 flips. (3) Print posterior mean and 95% credible interval at each step. (4) Compare to the frequentist 95% CI at each step. (5) Compute P(p &gt; 0.5) from the final posterior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">from scipy import stats
 import numpy as np
 
 np.random.seed(0)
@@ -2575,7 +2757,7 @@ n_per = int(analysis.solve_power(effect_size=h, alpha=0.05, power=0.80)) + 1
 conv_a = np.random.binomial(n_per, rate_a)
 conv_b = np.random.binomial(n_per, rate_b)
 _, p = stats.proportions_ztest([conv_a, conv_b], [n_per, n_per])
-print(f&quot;\nSimulated test: A={conv_a/n_per:.3f}, B={conv_b/n_per:.3f}, p={p:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Power Analysis Dashboard</div><div class="pd">For a two-sample t-test: (1) Compute required n for all combinations of effect_size in [0.2,0.5,0.8] and power in [0.70,0.80,0.90] at alpha=0.05. Print as a grid. (2) For n=150 per group and alpha=0.05, plot (print) a table of achieved power for effect sizes 0.1 to 0.8 in steps of 0.1. (3) Find the MDE for n=300 at 80% power.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">from statsmodels.stats.power import TTestIndPower
+print(f&quot;\nSimulated test: A={conv_a/n_per:.3f}, B={conv_b/n_per:.3f}, p={p:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Power Analysis Dashboard</div><div class="pd">For a two-sample t-test: (1) Compute required n for all combinations of effect_size in [0.2,0.5,0.8] and power in [0.70,0.80,0.90] at alpha=0.05. Print as a grid. (2) For n=150 per group and alpha=0.05, plot (print) a table of achieved power for effect sizes 0.1 to 0.8 in steps of 0.1. (3) Find the MDE for n=300 at 80% power.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">from statsmodels.stats.power import TTestIndPower
 import numpy as np
 
 analysis = TTestIndPower()
@@ -2706,7 +2888,7 @@ for method in [&#x27;none&#x27;, &#x27;bonferroni&#x27;, &#x27;fdr_bh&#x27;]:
 
     tp = reject[:n_de].sum()
     fp = reject[n_de:].sum()
-    print(f&quot;{method:12s}: significant={reject.sum():5d}  TP={tp:4d}  FP={fp:4d}  FDR={fp/max(reject.sum(),1):.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Metric A/B Correction</div><div class="pd">You ran an A/B test measuring 12 metrics simultaneously (CTR, bounce rate, time on page, conversions, etc.). Generate synthetic p-values for each metric (mix of some truly different and some null). Apply Bonferroni, Holm, BH corrections. For each method, print which metrics are significant. Discuss when you&#x27;d prefer BH over Bonferroni.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">from statsmodels.stats.multitest import multipletests
+    print(f&quot;{method:12s}: significant={reject.sum():5d}  TP={tp:4d}  FP={fp:4d}  FDR={fp/max(reject.sum(),1):.3f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Metric A/B Correction</div><div class="pd">You ran an A/B test measuring 12 metrics simultaneously (CTR, bounce rate, time on page, conversions, etc.). Generate synthetic p-values for each metric (mix of some truly different and some null). Apply Bonferroni, Holm, BH corrections. For each method, print which metrics are significant. Discuss when you&#x27;d prefer BH over Bonferroni.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">from statsmodels.stats.multitest import multipletests
 import numpy as np
 from scipy import stats
 
@@ -2831,7 +3013,7 @@ print(f&quot;Median A: {np.median(version_a):.2f}ms&quot;)
 print(f&quot;Median B: {np.median(version_b):.2f}ms&quot;)
 print(f&quot;Observed difference: {obs_diff:.2f}ms&quot;)
 print(f&quot;Bootstrap 95% CI: ({ci[0]:.2f}, {ci[1]:.2f})ms&quot;)
-print(f&quot;CI excludes 0: {ci[0] &gt; 0 or ci[1] &lt; 0} -&gt; B is {&#x27;faster&#x27; if obs_diff &gt; 0 else &#x27;slower&#x27;}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bootstrap vs Analytical CI Comparison</div><div class="pd">Generate 3 datasets: (1) Normal n=30, (2) Exponential n=30, (3) Heavy-tailed Pareto n=30. For each: compute bootstrap 95% CI for the mean (5000 resamples), the analytical t-interval, and the bootstrap CI for the median. Print all three side-by-side. Observe how they differ for non-normal data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import numpy as np
+print(f&quot;CI excludes 0: {ci[0] &gt; 0 or ci[1] &lt; 0} -&gt; B is {&#x27;faster&#x27; if obs_diff &gt; 0 else &#x27;slower&#x27;}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bootstrap vs Analytical CI Comparison</div><div class="pd">Generate 3 datasets: (1) Normal n=30, (2) Exponential n=30, (3) Heavy-tailed Pareto n=30. For each: compute bootstrap 95% CI for the mean (5000 resamples), the analytical t-interval, and the bootstrap CI for the median. Print all three side-by-side. Observe how they differ for non-normal data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -2871,7 +3053,7 @@ boot = np.array([rng.choice(data, len(data), replace=True).mean()
                  for _ in range(2000)])
 lo, hi = np.percentile(boot, [2.5, 97.5])
 print(f&quot;sample mean      = {data.mean():.3f}&quot;)
-print(f&quot;95% bootstrap CI = [{lo:.3f}, {hi:.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Scores &amp; Outliers</div><div class="pd">Implement zscores(x) returning the standardized values (population std, ddof=0), and outliers(x, thresh) returning a boolean mask where |z| &gt; thresh. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np
+print(f&quot;95% bootstrap CI = [{lo:.3f}, {hi:.3f}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Scores &amp; Outliers</div><div class="pd">Implement zscores(x) returning the standardized values (population std, ddof=0), and outliers(x, thresh) returning a boolean mask where |z| &gt; thresh. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import numpy as np
 
 def zscores(x):
     x = np.asarray(x, float)
@@ -2896,7 +3078,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 x = np.array([1, 2, 3, 4, 5], float)
 y = np.array([2, 4, 5, 4, 5], float)
-print(&quot;np.corrcoef:&quot;, round(float(np.corrcoef(x, y)[0, 1]), 4))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pearson Correlation</div><div class="pd">Implement pearson_corr(x, y) returning Pearson&#x27;s correlation coefficient (a float in [-1, 1]) without using np.corrcoef. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import numpy as np
+print(&quot;np.corrcoef:&quot;, round(float(np.corrcoef(x, y)[0, 1]), 4))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pearson Correlation</div><div class="pd">Implement pearson_corr(x, y) returning Pearson&#x27;s correlation coefficient (a float in [-1, 1]) without using np.corrcoef. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import numpy as np
 
 def pearson_corr(x, y):
     x = np.asarray(x, float)
@@ -2917,7 +3099,7 @@ data = np.array([12, 15, 14, 10, 13, 16, 11, 14], float)
 n = len(data)
 se = data.std(ddof=1) / np.sqrt(n)
 tcrit = stats.t.ppf(0.975, n - 1)        # two-sided 95%
-print(&quot;mean:&quot;, round(data.mean(), 3), &quot;se:&quot;, round(se, 3), &quot;t*:&quot;, round(tcrit, 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Confidence Interval</div><div class="pd">Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import numpy as np
+print(&quot;mean:&quot;, round(data.mean(), 3), &quot;se:&quot;, round(se, 3), &quot;t*:&quot;, round(tcrit, 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Confidence Interval</div><div class="pd">Implement mean_ci(data, conf=0.95) returning the (low, high) t-based confidence interval for the mean. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import numpy as np
 from scipy import stats
 
 def mean_ci(data, conf=0.95):
@@ -2941,7 +3123,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 data = [7, 1, 3, 5, 9, 2, 8]
 q1, q2, q3 = np.percentile(data, [25, 50, 75])
-print(&quot;Q1:&quot;, q1, &quot;median:&quot;, q2, &quot;Q3:&quot;, q3, &quot;IQR:&quot;, q3 - q1)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR</div><div class="pd">Implement iqr(data): return the interquartile range (75th minus 25th percentile). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import numpy as np
+print(&quot;Q1:&quot;, q1, &quot;median:&quot;, q2, &quot;Q3:&quot;, q3, &quot;IQR:&quot;, q3 - q1)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR</div><div class="pd">Implement iqr(data): return the interquartile range (75th minus 25th percentile). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import numpy as np
 
 def iqr(data):
     a = np.asarray(data, float)
@@ -2955,7 +3137,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 x = np.array([1.0, 2, 3, 4]); y = np.array([2.0, 4, 6, 8])
 cov = ((x - x.mean()) * (y - y.mean())).mean()
-print(&quot;covariance:&quot;, round(float(cov), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Covariance</div><div class="pd">Implement covariance(x, y): return the population covariance (mean of the centered products). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import numpy as np
+print(&quot;covariance:&quot;, round(float(cov), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Covariance</div><div class="pd">Implement covariance(x, y): return the population covariance (mean of the centered products). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import numpy as np
 
 def covariance(x, y):
     x = np.asarray(x, float); y = np.asarray(y, float)
