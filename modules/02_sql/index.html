@@ -159,7 +159,7 @@ row = conn.execute(
     &quot;SELECT COUNT(*), ROUND(SUM(amount),2), ROUND(AVG(amount),2) FROM sales&quot;
 ).fetchone()
 print(f&quot;Rows: {row[0]}  Total: ${row[1]:,.2f}  Avg: ${row[2]:.2f}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design a Library Table Schema</div><div class="pd">Create an in-memory SQLite database with two tables: &#x27;books&#x27; (id, title, author, year, genre) and &#x27;members&#x27; (id, name, email). Insert at least 5 books and 3 members. Then query all books published after 2000, ordered by year descending.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design a Library Table Schema</div><div class="pd">Create an in-memory SQLite database with two tables: &#x27;books&#x27; (id, title, author, year, genre) and &#x27;members&#x27; (id, name, email). Insert at least 5 books and 3 members. Then query all books published after 2000, ordered by year descending.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 
@@ -295,7 +295,7 @@ rows = conn.execute(
 print(&quot;Priority orders:&quot;)
 for r in rows:
     print(f&quot;  #{r[0]} {r[1]:8s} ${r[2]:6.2f}  {r[3]}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: SELECT with WHERE, ORDER BY, and LIMIT</div><div class="pd">Build an employees table with columns: id, name, department, salary, city. Insert 8+ rows. Then write three queries: 1) All employees in &#x27;Engineering&#x27; earning over 80000, sorted by salary DESC. 2) Employees from &#x27;NYC&#x27; or &#x27;LA&#x27; using IN. 3) The top 3 earners company-wide using LIMIT.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: SELECT with WHERE, ORDER BY, and LIMIT</div><div class="pd">Build an employees table with columns: id, name, department, salary, city. Insert 8+ rows. Then write three queries: 1) All employees in &#x27;Engineering&#x27; earning over 80000, sorted by salary DESC. 2) Employees from &#x27;NYC&#x27; or &#x27;LA&#x27; using IN. 3) The top 3 earners company-wide using LIMIT.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE employees (id INT, name TEXT, department TEXT, salary REAL, city TEXT)&quot;)
@@ -319,7 +319,63 @@ conn.commit()
 # rows = conn.execute(&quot;SELECT name, salary FROM employees ORDER BY ... LIMIT ...&quot;).fetchall()
 # print(&quot;Top 3:&quot;, rows)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. GROUP BY, Aggregates &amp; HAVING</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Aggregate functions (COUNT, SUM, AVG, MAX) summarize groups. HAVING filters groups after aggregation — like WHERE but for groups.</p><div class="code-block"><div class="ch"><span>COUNT, SUM, AVG per group</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Rows</div><div class="pd">Return the names where val is greater than 15, ordered by name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: names with val &gt; 15, ordered by name
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add WHERE and ORDER BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,), (&#x27;c&#x27;,), (&#x27;d&#x27;,)], &quot;names with val &gt; 15, ordered by name&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distinct Categories</div><div class="pd">Return the distinct categories, ordered.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: the distinct cat values, ordered
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- make it DISTINCT and ORDER BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;,), (&#x27;y&#x27;,)], &quot;the distinct cat values, ordered&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top Two</div><div class="pd">Return the two names with the highest val (ties broken by name).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: the 2 highest-val names, ORDER BY val DESC, name
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- ORDER BY and LIMIT
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,), (&#x27;c&#x27;,)], &quot;the 2 highest-val names, ORDER BY val DESC, name&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: In List</div><div class="pd">Return the names whose cat is &#x27;x&#x27;, ordered by name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: names where cat IN (&#x27;x&#x27;), ordered by name
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add WHERE cat IN (...)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;,), (&#x27;b&#x27;,)], &quot;names where cat IN (&#x27;x&#x27;), ordered by name&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. GROUP BY, Aggregates &amp; HAVING</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Aggregate functions (COUNT, SUM, AVG, MAX) summarize groups. HAVING filters groups after aggregation — like WHERE but for groups.</p><div class="code-block"><div class="ch"><span>COUNT, SUM, AVG per group</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE sales (region TEXT, rep TEXT, amount REAL)&quot;)
@@ -432,7 +488,7 @@ print(f&quot;{&#x27;Category&#x27;:15s} {&#x27;Txns&#x27;:&gt;5} {&#x27;Total&#x
 print(&quot;-&quot; * 50)
 for r in report:
     print(f&quot;{r[0]:15s} {r[1]:&gt;5} ${r[2]:&gt;9,.2f} ${r[3]:&gt;7.2f} {r[4]:&gt;5.1f}%&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: GROUP BY with HAVING Aggregation</div><div class="pd">Create a &#x27;sales&#x27; table with columns: rep (TEXT), region (TEXT), amount (REAL). Insert 10+ rows. Write queries to: 1) Show total and average sales per region, ordered by total DESC. 2) Use HAVING to list only reps whose total sales exceed 3000. 3) Find the region with the single highest average sale amount.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: GROUP BY with HAVING Aggregation</div><div class="pd">Create a &#x27;sales&#x27; table with columns: rep (TEXT), region (TEXT), amount (REAL). Insert 10+ rows. Write queries to: 1) Show total and average sales per region, ordered by total DESC. 2) Use HAVING to list only reps whose total sales exceed 3000. 3) Find the region with the single highest average sale amount.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE sales (rep TEXT, region TEXT, amount REAL)&quot;)
@@ -463,7 +519,63 @@ conn.commit()
 # ).fetchone()
 # print(&quot;Best avg region:&quot;, row)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. JOINs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">JOINs combine rows from multiple tables. INNER keeps only matches; LEFT keeps all rows from the left table even without a match.</p><div class="code-block"><div class="ch"><span>INNER JOIN and LEFT JOIN</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Per Group</div><div class="pd">Return each category and its row count, ordered by cat.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cat and COUNT(*) per group, ordered by cat
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- GROUP BY with COUNT(*)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 2), (&#x27;y&#x27;, 3)], &quot;cat and COUNT(*) per group, ordered by cat&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sum Per Group</div><div class="pd">Return each category and the sum of val, ordered by cat.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cat and SUM(val) per group
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- GROUP BY with SUM(val)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 40), (&#x27;y&#x27;, 45)], &quot;cat and SUM(val) per group&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Having Filter</div><div class="pd">Return categories whose average val is below 20.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cats with AVG(val) &lt; 20
+query = &quot;&quot;&quot;
+SELECT cat FROM t GROUP BY cat   -- add HAVING
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;y&#x27;,)], &quot;cats with AVG(val) &lt; 20&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Max Per Group</div><div class="pd">Return each category and its maximum val.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cat and MAX(val) per group
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- GROUP BY with MAX(val)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 30), (&#x27;y&#x27;, 20)], &quot;cat and MAX(val) per group&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. JOINs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">JOINs combine rows from multiple tables. INNER keeps only matches; LEFT keeps all rows from the left table even without a match.</p><div class="code-block"><div class="ch"><span>INNER JOIN and LEFT JOIN</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE dept (id INT, name TEXT)&quot;)
@@ -594,7 +706,7 @@ rows = conn.execute(
 print(f&quot;{&#x27;Product&#x27;:12s} {&#x27;Category&#x27;:12s} {&#x27;Stock&#x27;:&gt;6} {&#x27;Sold&#x27;:&gt;6} {&#x27;Weeks&#x27;:&gt;6}&quot;)
 for r in rows:
     print(f&quot;{r[0]:12s} {r[1]:12s} {r[2]:&gt;6} {r[3]:&gt;6} {str(r[4]):&gt;6}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: INNER and LEFT JOIN Queries</div><div class="pd">Create two tables: &#x27;students&#x27; (id, name, grade) and &#x27;enrollments&#x27; (student_id, course, score). Insert 5 students and 8 enrollments (some students have no enrollment). Write: 1) An INNER JOIN to show each student&#x27;s course and score. 2) A LEFT JOIN to include students with no enrollment (show NULL for course). 3) Add a GROUP BY to show each student&#x27;s average score.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: INNER and LEFT JOIN Queries</div><div class="pd">Create two tables: &#x27;students&#x27; (id, name, grade) and &#x27;enrollments&#x27; (student_id, course, score). Insert 5 students and 8 enrollments (some students have no enrollment). Write: 1) An INNER JOIN to show each student&#x27;s course and score. 2) A LEFT JOIN to include students with no enrollment (show NULL for course). 3) Add a GROUP BY to show each student&#x27;s average score.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE students (id INT, name TEXT, grade TEXT)&quot;)
@@ -634,7 +746,71 @@ conn.commit()
 # ).fetchall()
 # print(&quot;Avg scores:&quot;, rows)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subqueries &amp; CTEs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries run a query inside another. CTEs (WITH clause) make complex logic readable and reusable — they&#x27;re like named temp tables.</p><div class="code-block"><div class="ch"><span>Scalar subquery and IN subquery</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Inner Join</div><div class="pd">Return (name, amt) for each order, ordered by name then amt.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE c(id INT,name TEXT);
+CREATE TABLE o(cid INT,amt INT);
+INSERT INTO c VALUES (1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;);
+INSERT INTO o VALUES (1,100),(1,50),(2,200);
+&quot;&quot;&quot;)
+
+# TODO: join o to c, show name and amt
+query = &quot;&quot;&quot;
+SELECT c.name FROM c   -- JOIN o and ORDER BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;A&#x27;, 50), (&#x27;A&#x27;, 100), (&#x27;B&#x27;, 200)], &quot;join o to c, show name and amt&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customers Without Orders</div><div class="pd">Return names of customers with no orders.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE c(id INT,name TEXT);
+CREATE TABLE o(cid INT,amt INT);
+INSERT INTO c VALUES (1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;);
+INSERT INTO o VALUES (1,100),(1,50),(2,200);
+&quot;&quot;&quot;)
+
+# TODO: LEFT JOIN, keep rows where o.cid IS NULL
+query = &quot;&quot;&quot;
+SELECT c.name FROM c   -- LEFT JOIN o, WHERE o.cid IS NULL
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;C&#x27;,)], &quot;LEFT JOIN, keep rows where o.cid IS NULL&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Orders Per Customer</div><div class="pd">Return (name, order_count) for every customer, ordered by name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE c(id INT,name TEXT);
+CREATE TABLE o(cid INT,amt INT);
+INSERT INTO c VALUES (1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;);
+INSERT INTO o VALUES (1,100),(1,50),(2,200);
+&quot;&quot;&quot;)
+
+# TODO: LEFT JOIN, COUNT(o.cid) per customer
+query = &quot;&quot;&quot;
+SELECT c.name FROM c   -- LEFT JOIN, GROUP BY, COUNT
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;A&#x27;, 2), (&#x27;B&#x27;, 1), (&#x27;C&#x27;, 0)], &quot;LEFT JOIN, COUNT(o.cid) per customer&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Spend Per Customer</div><div class="pd">Return (name, total_amt) for customers with orders, highest first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE c(id INT,name TEXT);
+CREATE TABLE o(cid INT,amt INT);
+INSERT INTO c VALUES (1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;);
+INSERT INTO o VALUES (1,100),(1,50),(2,200);
+&quot;&quot;&quot;)
+
+# TODO: JOIN, SUM(amt) per customer, ORDER BY total DESC
+query = &quot;&quot;&quot;
+SELECT c.name FROM c   -- JOIN o, GROUP BY, SUM, ORDER BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;B&#x27;, 200), (&#x27;A&#x27;, 150)], &quot;JOIN, SUM(amt) per customer, ORDER BY total DESC&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Subqueries &amp; CTEs</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Subqueries run a query inside another. CTEs (WITH clause) make complex logic readable and reusable — they&#x27;re like named temp tables.</p><div class="code-block"><div class="ch"><span>Scalar subquery and IN subquery</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE emp (name TEXT, dept TEXT, salary REAL)&quot;)
@@ -760,7 +936,7 @@ report = conn.execute(
 
 print(&quot;Conversion Funnel:&quot;)
 for r in report: print(f&quot;  {r[0]:16s} {r[1]:4d} users ({r[2]}%)&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Subquery in WHERE and CTE</div><div class="pd">Using an &#x27;orders&#x27; table (id, customer, product, amount, order_date): 1) Write a subquery in WHERE to find orders with amount above the overall average. 2) Write a subquery in FROM (derived table) to get the top customer by total spend. 3) Write a WITH clause CTE that computes monthly totals, then selects only months above the average monthly total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Subquery in WHERE and CTE</div><div class="pd">Using an &#x27;orders&#x27; table (id, customer, product, amount, order_date): 1) Write a subquery in WHERE to find orders with amount above the overall average. 2) Write a subquery in FROM (derived table) to get the top customer by total spend. 3) Write a WITH clause CTE that computes monthly totals, then selects only months above the average monthly total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE orders (id INT, customer TEXT, product TEXT, amount REAL, order_date TEXT)&quot;)
@@ -804,7 +980,63 @@ conn.commit()
 # ).fetchall()
 # print(&quot;Above-avg months:&quot;, rows)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Window functions compute values across rows related to the current row — ranking, running totals, lag/lead — without collapsing groups.</p><div class="code-block"><div class="ch"><span>RANK, SUM OVER, percent of total</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Above Average</div><div class="pd">Return names with val above the overall average, ordered by name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: names where val &gt; overall AVG(val)
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- WHERE val &gt; (SELECT AVG(val)...)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,), (&#x27;c&#x27;,), (&#x27;d&#x27;,)], &quot;names where val &gt; overall AVG(val)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CTE Filter</div><div class="pd">Using a CTE of rows with val &gt;= 20, return their names ordered.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: WITH big AS (...): names ordered
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- use a WITH clause
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,), (&#x27;c&#x27;,), (&#x27;d&#x27;,)], &quot;WITH big AS (...): names ordered&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: In Subquery</div><div class="pd">Return names in categories that have more than 2 rows.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cats with COUNT(*) &gt; 2, then names in them
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- WHERE cat IN (subquery)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;c&#x27;,), (&#x27;d&#x27;,), (&#x27;e&#x27;,)], &quot;cats with COUNT(*) &gt; 2, then names in them&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Argmax Category</div><div class="pd">Return the cat of the single row with the maximum val.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(name TEXT, cat TEXT, val INT);
+INSERT INTO t VALUES (&#x27;a&#x27;,&#x27;x&#x27;,10),(&#x27;b&#x27;,&#x27;x&#x27;,30),(&#x27;c&#x27;,&#x27;y&#x27;,20),(&#x27;d&#x27;,&#x27;y&#x27;,20),(&#x27;e&#x27;,&#x27;y&#x27;,5);
+&quot;&quot;&quot;)
+
+# TODO: cat where val equals the MAX(val)
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- WHERE val = (SELECT MAX...)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;,)], &quot;cat where val equals the MAX(val)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Window Functions</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Window functions compute values across rows related to the current row — ranking, running totals, lag/lead — without collapsing groups.</p><div class="code-block"><div class="ch"><span>RANK, SUM OVER, percent of total</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE sales (month TEXT, rep TEXT, amount REAL)&quot;)
@@ -925,7 +1157,7 @@ result = conn.execute(
 print(f&quot;{&#x27;Date&#x27;:12s} {&#x27;Price&#x27;:&gt;8} {&#x27;MA3&#x27;:&gt;8} {&#x27;Signal&#x27;:&gt;7}&quot;)
 for r in result:
     print(f&quot;{r[1]} {r[2]:&gt;8.2f} {r[3]:&gt;8.2f} {r[4]:&gt;7}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ROW_NUMBER and RANK Window Functions</div><div class="pd">Create a &#x27;sales&#x27; table with columns rep (TEXT), month (TEXT), amount (REAL). Insert data for 3 reps across 4 months. Write a query using: 1) RANK() OVER (PARTITION BY month ORDER BY amount DESC) to rank reps each month. 2) SUM(amount) OVER (PARTITION BY rep ORDER BY month) for a running total per rep. 3) LAG(amount) to compute month-over-month change per rep.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ROW_NUMBER and RANK Window Functions</div><div class="pd">Create a &#x27;sales&#x27; table with columns rep (TEXT), month (TEXT), amount (REAL). Insert data for 3 reps across 4 months. Write a query using: 1) RANK() OVER (PARTITION BY month ORDER BY amount DESC) to rank reps each month. 2) SUM(amount) OVER (PARTITION BY rep ORDER BY month) for a running total per rep. 3) LAG(amount) to compute month-over-month change per rep.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE sales (rep TEXT, month TEXT, amount REAL)&quot;)
@@ -963,7 +1195,63 @@ conn.commit()
 # ).fetchall()
 # for r in rows: print(r)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. UPDATE &amp; DELETE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">UPDATE modifies existing rows. DELETE removes rows. Always use WHERE — without it you affect the entire table.</p><div class="code-block"><div class="ch"><span>UPDATE with conditions</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Number</div><div class="pd">Return (g, v, row_number) numbered within each group ordered by v.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE s(g TEXT,v INT);
+INSERT INTO s VALUES (&#x27;a&#x27;,3),(&#x27;a&#x27;,1),(&#x27;b&#x27;,4),(&#x27;b&#x27;,2);
+&quot;&quot;&quot;)
+
+# TODO: ROW_NUMBER() OVER (PARTITION BY g ORDER BY v)
+query = &quot;&quot;&quot;
+SELECT g, v FROM s   -- add the window function
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;, 1, 1), (&#x27;a&#x27;, 3, 2), (&#x27;b&#x27;, 2, 1), (&#x27;b&#x27;, 4, 2)], &quot;ROW_NUMBER() OVER (PARTITION BY g ORDER BY v)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rank</div><div class="pd">Return (v, rank) ranking all rows by v descending.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE s(g TEXT,v INT);
+INSERT INTO s VALUES (&#x27;a&#x27;,3),(&#x27;a&#x27;,1),(&#x27;b&#x27;,4),(&#x27;b&#x27;,2);
+&quot;&quot;&quot;)
+
+# TODO: RANK() OVER (ORDER BY v DESC)
+query = &quot;&quot;&quot;
+SELECT v FROM s   -- add RANK() and ORDER BY v DESC
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(4, 1), (3, 2), (2, 3), (1, 4)], &quot;RANK() OVER (ORDER BY v DESC)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Total</div><div class="pd">Return (g, v, running_sum) cumulating v within each group.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE s(g TEXT,v INT);
+INSERT INTO s VALUES (&#x27;a&#x27;,3),(&#x27;a&#x27;,1),(&#x27;b&#x27;,4),(&#x27;b&#x27;,2);
+&quot;&quot;&quot;)
+
+# TODO: SUM(v) OVER (PARTITION BY g ORDER BY v)
+query = &quot;&quot;&quot;
+SELECT g, v FROM s   -- add the running sum
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;, 1, 1), (&#x27;a&#x27;, 3, 4), (&#x27;b&#x27;, 2, 2), (&#x27;b&#x27;, 4, 6)], &quot;SUM(v) OVER (PARTITION BY g ORDER BY v)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Previous Value</div><div class="pd">Return (v, prev) where prev is the previous v ordered ascending.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE s(g TEXT,v INT);
+INSERT INTO s VALUES (&#x27;a&#x27;,3),(&#x27;a&#x27;,1),(&#x27;b&#x27;,4),(&#x27;b&#x27;,2);
+&quot;&quot;&quot;)
+
+# TODO: LAG(v) OVER (ORDER BY v)
+query = &quot;&quot;&quot;
+SELECT v FROM s   -- add LAG(v)
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(1, None), (2, 1), (3, 2), (4, 3)], &quot;LAG(v) OVER (ORDER BY v)&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. UPDATE &amp; DELETE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">UPDATE modifies existing rows. DELETE removes rows. Always use WHERE — without it you affect the entire table.</p><div class="code-block"><div class="ch"><span>UPDATE with conditions</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE inventory (id INT, item TEXT, qty INT, price REAL)&quot;)
@@ -1089,7 +1377,7 @@ conn.commit()
 print(f&quot;{&#x27;User&#x27;:8s} {&#x27;Plan&#x27;:6s} {&#x27;Price&#x27;:&gt;8} {&#x27;Status&#x27;:&gt;8}&quot;)
 for r in conn.execute(&quot;SELECT user,plan,price,status FROM subs&quot;).fetchall():
     print(f&quot;{r[0]:8s} {r[1]:6s} ${r[2]:&gt;7.2f} {r[3]:&gt;8}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Transaction with Error Handling</div><div class="pd">Create an &#x27;accounts&#x27; table (id, owner, balance). Insert 3 accounts. Write a transfer function that: 1) Checks the sender has sufficient balance. 2) DECREMENTs the sender&#x27;s balance and INCREMENTs the receiver&#x27;s balance inside a transaction. 3) Rolls back if any error occurs. Test both a successful transfer and a failing one (insufficient funds).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Transaction with Error Handling</div><div class="pd">Create an &#x27;accounts&#x27; table (id, owner, balance). Insert 3 accounts. Write a transfer function that: 1) Checks the sender has sufficient balance. 2) DECREMENTs the sender&#x27;s balance and INCREMENTs the receiver&#x27;s balance inside a transaction. 3) Rolls back if any error occurs. Test both a successful transfer and a failing one (insufficient funds).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE accounts (id INT PRIMARY KEY, owner TEXT, balance REAL)&quot;)
@@ -1278,7 +1566,7 @@ result = conn.execute(
 print(f&quot;Query: {(time.perf_counter()-t0)*1000:.1f}ms  ({len(result)} rows)&quot;)
 for r in result[:4]:
     print(f&quot;  {r[0]:14s} | {r[1]:10s} | {r[2]:&gt;5d} | ${r[3]:&gt;10,.2f}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Appropriate Indexes</div><div class="pd">Create a &#x27;log_events&#x27; table with 100,000 rows: columns id, user_id (1-1000), event_type (&#x27;login&#x27;,&#x27;logout&#x27;,&#x27;purchase&#x27;,&#x27;view&#x27;), created_at (date string). 1) Measure query time for SELECT WHERE user_id=42 without an index. 2) Create a single-column index on user_id and re-measure. 3) Create a compound index on (event_type, created_at) and verify with EXPLAIN QUERY PLAN.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import sqlite3, random, time, datetime
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Appropriate Indexes</div><div class="pd">Create a &#x27;log_events&#x27; table with 100,000 rows: columns id, user_id (1-1000), event_type (&#x27;login&#x27;,&#x27;logout&#x27;,&#x27;purchase&#x27;,&#x27;view&#x27;), created_at (date string). 1) Measure query time for SELECT WHERE user_id=42 without an index. 2) Create a single-column index on user_id and re-measure. 3) Create a compound index on (event_type, created_at) and verify with EXPLAIN QUERY PLAN.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import sqlite3, random, time, datetime
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(
@@ -1437,7 +1725,7 @@ report = pd.read_sql(
     conn
 )
 print(report.to_string(index=False))
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create a View for a Report Query</div><div class="pd">Create a &#x27;transactions&#x27; table (id, customer, category, amount, txn_date) and populate it. Then: 1) CREATE VIEW monthly_summary AS a query grouping by month and category with totals. 2) SELECT from the view to display the report. 3) Use pd.read_sql() to load the view result into a DataFrame and show the top 3 rows by revenue.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create a View for a Report Query</div><div class="pd">Create a &#x27;transactions&#x27; table (id, customer, category, amount, txn_date) and populate it. Then: 1) CREATE VIEW monthly_summary AS a query grouping by month and category with totals. 2) SELECT from the view to display the report. 3) Use pd.read_sql() to load the view result into a DataFrame and show the top 3 rows by revenue.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import sqlite3
 import pandas as pd
 import numpy as np
 
@@ -1619,7 +1907,7 @@ rows = conn.execute(
 ).fetchall()
 for r in rows:
     print(f&quot;  {&#x27;  &#x27;*r[1]}[{r[0]}] {r[2]}&quot;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Write a WITH Clause (CTE) Query</div><div class="pd">Create a &#x27;sales&#x27; table (rep, quarter, amount). Insert data for 3 reps over 4 quarters. Write a CTE query that: 1) Computes total sales per rep (CTE: rep_totals). 2) Computes the company-wide average rep total (CTE: company_avg). 3) Final SELECT shows each rep&#x27;s total and whether they are &#x27;above_avg&#x27;, &#x27;average&#x27;, or &#x27;below_avg&#x27; using CASE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Write a WITH Clause (CTE) Query</div><div class="pd">Create a &#x27;sales&#x27; table (rep, quarter, amount). Insert data for 3 reps over 4 quarters. Write a CTE query that: 1) Computes total sales per rep (CTE: rep_totals). 2) Computes the company-wide average rep total (CTE: company_avg). 3) Final SELECT shows each rep&#x27;s total and whether they are &#x27;above_avg&#x27;, &#x27;average&#x27;, or &#x27;below_avg&#x27; using CASE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE sales (rep TEXT, quarter TEXT, amount REAL)&quot;)
@@ -1770,7 +2058,7 @@ WHERE avg_amount &gt; 100;
 
 print(&#x27;Subquery result:&#x27;); print(pd.read_sql(q_sub, conn).to_string(index=False))
 print(&#x27;CTE result:&#x27;);      print(pd.read_sql(q_cte, conn).to_string(index=False))
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Pipeline CTE</div><div class="pd">Using CTEs, write a query that: (1) computes monthly revenue, (2) adds a 3-month rolling average using LAG, (3) flags months where revenue fell below the rolling average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import sqlite3, pandas as pd
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Pipeline CTE</div><div class="pd">Using CTEs, write a query that: (1) computes monthly revenue, (2) adds a 3-month rolling average using LAG, (3) flags months where revenue fell below the rolling average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import sqlite3, pandas as pd
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;CREATE TABLE orders (order_date TEXT, amount REAL)&#x27;)
@@ -1878,7 +2166,7 @@ df = pd.read_sql(query, conn)
 print(df.to_string(index=False))
 print(&#x27;\nQuartile summary:&#x27;)
 print(df.groupby(&#x27;quartile&#x27;)[&#x27;lifetime_value&#x27;].agg([&#x27;min&#x27;,&#x27;max&#x27;,&#x27;mean&#x27;]).round(0))
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Leaderboard</div><div class="pd">Rank salespeople by total revenue within each region using DENSE_RANK. Show their revenue vs the region average and flag the top performer per region with &#x27;CHAMPION&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import sqlite3, pandas as pd
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Leaderboard</div><div class="pd">Rank salespeople by total revenue within each region using DENSE_RANK. Show their revenue vs the region average and flag the top performer per region with &#x27;CHAMPION&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import sqlite3, pandas as pd
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&quot;&quot;&quot;
@@ -1994,7 +2282,7 @@ print(f&#x27;N+1 queries: {(time.perf_counter()-t0)*1000:.2f} ms ({len(results)}
 t0 = time.perf_counter()
 results2 = conn.execute(&#x27;SELECT b.title, a.name FROM books b LEFT JOIN authors a ON b.author_id=a.id&#x27;).fetchall()
 print(f&#x27;Single JOIN: {(time.perf_counter()-t0)*1000:.2f} ms ({len(results2)} results)&#x27;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a filter query on customer_id WITHOUT an index, add the index, re-run, and print the speedup factor. Also run EXPLAIN QUERY PLAN on both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import sqlite3, time
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a filter query on customer_id WITHOUT an index, add the index, re-run, and print the speedup factor. Also run EXPLAIN QUERY PLAN on both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import sqlite3, time
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;CREATE TABLE orders (id INT, customer_id INT, amount REAL, status TEXT)&#x27;)
@@ -2091,7 +2379,7 @@ cte_query = &#x27;&#x27;&#x27;
 df = pd.read_sql(cte_query, conn)
 print(&#x27;Top buyers via CTE:&#x27;)
 print(df.to_string(index=False))
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a customer_id filter query WITHOUT index, add the index, re-run, print speedup, and show EXPLAIN QUERY PLAN before vs after.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import sqlite3, time
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Advisor</div><div class="pd">Create a 100K-row orders table. Time a customer_id filter query WITHOUT index, add the index, re-run, print speedup, and show EXPLAIN QUERY PLAN before vs after.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import sqlite3, time
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: create orders table with 100K rows (id, customer_id, amount, status)
@@ -2170,7 +2458,7 @@ df = pd.read_sql(&#x27;&#x27;&#x27;
     FROM feedback GROUP BY category ORDER BY pct_pos DESC
 &#x27;&#x27;&#x27;, conn)
 print(df.to_string(index=False))
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dynamic Sales Pivot</div><div class="pd">Create a sales table with 5 reps and 4 quarters. Get distinct quarters from DB, build a CASE WHEN pivot query dynamically, and display as a DataFrame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import sqlite3, pandas as pd, numpy as np
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dynamic Sales Pivot</div><div class="pd">Create a sales table with 5 reps and 4 quarters. Get distinct quarters from DB, build a CASE WHEN pivot query dynamically, and display as a DataFrame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import sqlite3, pandas as pd, numpy as np
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 np.random.seed(42)
@@ -2260,7 +2548,7 @@ conn.executescript(&#x27;&#x27;&#x27;
 conn.execute(&quot;UPDATE emp_view SET salary=90000 WHERE name=&#x27;Alice&#x27;&quot;)
 for row in conn.execute(&#x27;SELECT name, salary FROM employees&#x27;).fetchall():
     print(f&#x27;{row[0]}: ${row[1]:,.0f}&#x27;)
-conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Banking Triggers</div><div class="pd">Create accounts and transactions tables. Add triggers: (1) log withdrawals &gt;$1000 to large_withdrawals, (2) prevent negative balances. Test with 5 transactions including one that should fail.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import sqlite3
+conn.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Banking Triggers</div><div class="pd">Create accounts and transactions tables. Add triggers: (1) log withdrawals &gt;$1000 to large_withdrawals, (2) prevent negative balances. Test with 5 transactions including one that should fail.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: CREATE TABLE accounts (id, name, balance)
@@ -2431,7 +2719,7 @@ rows = run(f&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Reps beating both regional AND company average:&quot;)
 for r in rows:
-    print(f&quot;  {r[0]} ({r[1]}): ${r[2]:,.0f} &gt; regional ${r[3]:,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-referencing Subquery</div><div class="pd">Create a products table (id, name, category, price, cost). Write: (1) A query using a scalar subquery to show each product with its category&#x27;s avg price. (2) A correlated subquery to find the cheapest product in each category. (3) A derived table query to show categories where avg margin (price-cost)/price &gt; 30%.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import sqlite3, contextlib
+    print(f&quot;  {r[0]} ({r[1]}): ${r[2]:,.0f} &gt; regional ${r[3]:,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-referencing Subquery</div><div class="pd">Create a products table (id, name, category, price, cost). Write: (1) A query using a scalar subquery to show each product with its category&#x27;s avg price. (2) A correlated subquery to find the cheapest product in each category. (3) A derived table query to show categories where avg margin (price-cost)/price &gt; 30%.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -2631,7 +2919,7 @@ rows = run(&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Domain analysis:&quot;)
 for r in rows:
-    print(f&quot;  {r[0]:&lt;20} total={r[1]} gold={r[2]} silver={r[3]} bronze={r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Name Formatter</div><div class="pd">Create a people table (id, full_name, email). Write a query that produces: first_name (before first space), last_name (after last space), initials (first letter of each word), username (lowercase first_name + &#x27;.&#x27; + last 4 of email before @), and email_valid (1 if contains &#x27;@&#x27; and &#x27;.&#x27;, else 0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import sqlite3, contextlib
+    print(f&quot;  {r[0]:&lt;20} total={r[1]} gold={r[2]} silver={r[3]} bronze={r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Name Formatter</div><div class="pd">Create a people table (id, full_name, email). Write a query that produces: first_name (before first space), last_name (after last space), initials (first letter of each word), username (lowercase first_name + &#x27;.&#x27; + last 4 of email before @), and email_valid (1 if contains &#x27;@&#x27; and &#x27;.&#x27;, else 0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -2831,7 +3119,7 @@ rows = run(&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Subscription analysis:&quot;)
 for r in rows:
-    print(f&quot;  Cust {r[0]} ({r[1]}): {r[4]} days, {r[5]}, {r[6]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Date Range Queries</div><div class="pd">Create a bookings table (id, room, check_in, check_out, guest). Write: (1) Find bookings overlapping a given date range (&#x27;2024-06-01&#x27; to &#x27;2024-06-10&#x27;). (2) Calculate avg stay length by month. (3) Find rooms that were booked more than 80% of days in Q2 2024. (4) Show guests with return visits within 6 months.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import sqlite3, contextlib
+    print(f&quot;  Cust {r[0]} ({r[1]}): {r[4]} days, {r[5]}, {r[6]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Date Range Queries</div><div class="pd">Create a bookings table (id, room, check_in, check_out, guest). Write: (1) Find bookings overlapping a given date range (&#x27;2024-06-01&#x27; to &#x27;2024-06-10&#x27;). (2) Calculate avg stay length by month. (3) Find rooms that were booked more than 80% of days in Q2 2024. (4) Show guests with return visits within 6 months.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3051,7 +3339,7 @@ rows = run(&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Customer RFM tiers:&quot;)
 for r in rows:
-    print(f&quot;  Cust {r[0]}: recency={r[1]}d, freq={r[2]}, monetary=${r[3]} -&gt; {r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Score Bucketing</div><div class="pd">Create a test_results table (student_id, subject, score). Write: (1) A pivot showing each subject&#x27;s count of A/B/C/D/F grades using CASE in SUM. (2) A letter grade column + &#x27;needs_review&#x27; flag (grade D or F). (3) Each student&#x27;s weakest subject (lowest score). (4) Students who improved: passed all subjects (score &gt;= 70).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import sqlite3, contextlib
+    print(f&quot;  Cust {r[0]}: recency={r[1]}d, freq={r[2]}, monetary=${r[3]} -&gt; {r[4]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Score Bucketing</div><div class="pd">Create a test_results table (student_id, subject, score). Write: (1) A pivot showing each subject&#x27;s count of A/B/C/D/F grades using CASE in SUM. (2) A letter grade column + &#x27;needs_review&#x27; flag (grade D or F). (3) Each student&#x27;s weakest subject (lowest score). (4) Students who improved: passed all subjects (score &gt;= 70).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3283,7 +3571,7 @@ print(f&quot;Source: {run(&#x27;SELECT COUNT(*) FROM source_customers&#x27;)[0][
 print(f&quot;Migrated: {run(&#x27;SELECT COUNT(*) FROM migrated_customers&#x27;)[0][0]} records&quot;)
 print(f&quot;Fully matched: {fully_matched}&quot;)
 print(f&quot;Missing from dest: {[(r[0],r[1]) for r in missing_in_dest]}&quot;)
-print(f&quot;Extra in dest: {[(r[0],r[1]) for r in extra_in_dest]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Operation Analytics</div><div class="pd">Create active_users_jan, active_users_feb, active_users_mar tables (each with user_id). Write queries to find: (1) Users active all 3 months (INTERSECT x3). (2) Users active in Jan but NOT Feb (EXCEPT). (3) All unique users across 3 months (UNION). (4) Users active in exactly 2 of 3 months using INTERSECT/EXCEPT combinations.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import sqlite3, contextlib
+print(f&quot;Extra in dest: {[(r[0],r[1]) for r in extra_in_dest]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Operation Analytics</div><div class="pd">Create active_users_jan, active_users_feb, active_users_mar tables (each with user_id). Write queries to find: (1) Users active all 3 months (INTERSECT x3). (2) Users active in Jan but NOT Feb (EXCEPT). (3) All unique users across 3 months (UNION). (4) Users active in exactly 2 of 3 months using INTERSECT/EXCEPT combinations.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3543,7 +3831,7 @@ rows = run(&#x27;&#x27;&#x27;
 print(&quot;Conversion funnel:&quot;)
 for r in rows:
     bar = &quot;#&quot; * int(r[3] / 5)
-    print(f&quot;  {r[0]:15s}: {r[1]:&gt;4d} users | step={r[2]:&gt;5.1f}% | {bar}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CTE Report Builder</div><div class="pd">Build a multi-CTE query that: CTE1 computes monthly revenue per product from an orders table, CTE2 computes 3-month moving average per product (using LAG), CTE3 flags months where revenue dropped more than 20% vs the moving average. Return only flagged months with product, month, revenue, avg, and drop_pct.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import sqlite3, contextlib
+    print(f&quot;  {r[0]:15s}: {r[1]:&gt;4d} users | step={r[2]:&gt;5.1f}% | {bar}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CTE Report Builder</div><div class="pd">Build a multi-CTE query that: CTE1 computes monthly revenue per product from an orders table, CTE2 computes 3-month moving average per product (using LAG), CTE3 flags months where revenue dropped more than 20% vs the moving average. Return only flagged months with product, month, revenue, avg, and drop_pct.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -3764,7 +4052,7 @@ print(&quot;Order detail (from view):&quot;)
 for r in rows: print(f&quot;  {r[0]} - {r[1]}: ${r[2]} ({r[3]}% margin)&quot;)
 
 rows = run(&#x27;SELECT category, ROUND(AVG(margin_pct),1) AS avg_margin FROM order_detail GROUP BY category&#x27;)
-print(&quot;Avg margin by category:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: View-Based Dashboard</div><div class="pd">Create a sales table (id, rep, product, amount, region, sale_date). Create: (1) A view rep_dashboard with each rep&#x27;s total, count, avg, and rank. (2) A view regional_summary with region totals and % of grand total. (3) A view top_products showing the top 5 products by revenue. Query each view to confirm it works.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import sqlite3, contextlib
+print(&quot;Avg margin by category:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: View-Based Dashboard</div><div class="pd">Create a sales table (id, rep, product, amount, region, sale_date). Create: (1) A view rep_dashboard with each rep&#x27;s total, count, avg, and rank. (2) A view regional_summary with region totals and % of grand total. (3) A view top_products showing the top 5 products by revenue. Query each view to confirm it works.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -4000,7 +4288,7 @@ rows = run(&#x27;&#x27;&#x27;
     ORDER BY p.name, sl.qty DESC
 &#x27;&#x27;&#x27;)
 print(&quot;Current stock:&quot;)
-for r in rows: print(f&quot;  {r[0]} @ {r[1]}: {r[2]} units&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bank Account Constraints</div><div class="pd">Create an accounts table (id, holder, balance REAL CHECK &gt;= 0, account_type CHECK IN list, opened_date). Create a transactions table (id, account_id FK, amount, type CHECK IN debit/credit, ts). Write: (1) Insert a debit that would go negative (should fail). (2) A trigger that auto-updates balance on transaction insert. (3) UPSERT to create or update account balance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import sqlite3, contextlib
+for r in rows: print(f&quot;  {r[0]} @ {r[1]}: {r[2]} units&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bank Account Constraints</div><div class="pd">Create an accounts table (id, holder, balance REAL CHECK &gt;= 0, account_type CHECK IN list, opened_date). Create a transactions table (id, account_id FK, amount, type CHECK IN debit/credit, ts). Write: (1) Insert a debit that would go negative (should fail). (2) A trigger that auto-updates balance on transaction insert. (3) UPSERT to create or update account balance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import sqlite3, contextlib
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)
 def run(sql, params=()):
@@ -4121,7 +4409,7 @@ rows = run(&#x27;&#x27;&#x27;
     UNION ALL
     SELECT NULL, NULL, SUM(amount), NULL FROM rev&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conditional Aggregation Practice</div><div class="pd">Create a &#x27;transactions&#x27; table with columns (id, type TEXT, amount REAL). Write a query that returns total amount where type=&#x27;credit&#x27;, total where type=&#x27;debit&#x27;, and the net difference — all in one row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS transactions (
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conditional Aggregation Practice</div><div class="pd">Create a &#x27;transactions&#x27; table with columns (id, type TEXT, amount REAL). Write a query that returns total amount where type=&#x27;credit&#x27;, total where type=&#x27;debit&#x27;, and the net difference — all in one row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY, type TEXT, amount REAL)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO transactions VALUES (?,?,?)&#x27;, [
     (1,&#x27;credit&#x27;,500),(2,&#x27;debit&#x27;,200),(3,&#x27;credit&#x27;,300),(4,&#x27;debit&#x27;,150)])
@@ -4207,7 +4495,7 @@ rows = run(&#x27;&#x27;&#x27;
     LEFT JOIN staff m ON e.manager_id=m.id
     ORDER BY e.id&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-Join Practice</div><div class="pd">Using the &#x27;staff&#x27; table above, find all pairs of employees in the same department where one earns at least 20% more than the other.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS staff (
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-Join Practice</div><div class="pd">Using the &#x27;staff&#x27; table above, find all pairs of employees in the same department where one earns at least 20% more than the other.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS staff (
     id INTEGER PRIMARY KEY, name TEXT,
     dept TEXT, salary REAL)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO staff VALUES (?,?,?,?)&#x27;, [
@@ -4277,7 +4565,7 @@ rows = run(&#x27;&#x27;&#x27;
         NTILE(3) OVER(ORDER BY revenue) AS tier
     FROM monthly&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Window Function Practice</div><div class="pd">Using a &#x27;visits&#x27; table with columns (user_id, visit_date TEXT, pages_viewed INTEGER), compute for each user: their previous visit date, the gap in days between visits, and their max pages_viewed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS visits (
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Window Function Practice</div><div class="pd">Using a &#x27;visits&#x27; table with columns (user_id, visit_date TEXT, pages_viewed INTEGER), compute for each user: their previous visit date, the gap in days between visits, and their max pages_viewed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS visits (
     user_id INTEGER, visit_date TEXT, pages_viewed INTEGER)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO visits VALUES (?,?,?)&#x27;, [
     (1,&#x27;2024-01-01&#x27;,5),(1,&#x27;2024-01-05&#x27;,8),(1,&#x27;2024-01-12&#x27;,3),
@@ -4370,7 +4658,7 @@ rows = run(&#x27;&#x27;&#x27;
     JOIN order_lines ol ON ol.order_id=o.id
     JOIN products2 p ON p.id=ol.product_id&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalization Practice</div><div class="pd">You have a denormalized table: orders_flat(order_id, customer_name, customer_email, product_name, price, qty). Identify the normal form violations and write CREATE TABLE statements for a 3NF schema.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# Denormalized (bad):
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalization Practice</div><div class="pd">You have a denormalized table: orders_flat(order_id, customer_name, customer_email, product_name, price, qty). Identify the normal form violations and write CREATE TABLE statements for a 3NF schema.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# Denormalized (bad):
 # orders_flat: order_id, customer_name, customer_email, product_name, price, qty
 # Violates 2NF (price depends only on product) and 3NF if email depends on name.
 # Write your normalized CREATE TABLE statements here:
@@ -4454,7 +4742,7 @@ rows = run(&#x27;&#x27;&#x27;
     WHERE json_extract(payload,&#x27;$.action&#x27;)=&#x27;purchase&#x27;
     GROUP BY user ORDER BY total_spend DESC&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Querying Practice</div><div class="pd">Create a &#x27;logs&#x27; table with an id and a &#x27;data&#x27; JSON column. Insert 3 log entries with fields: level (INFO/ERROR), message, and timestamp. Write a query to show only ERROR logs with their message and timestamp.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Querying Practice</div><div class="pd">Create a &#x27;logs&#x27; table with an id and a &#x27;data&#x27; JSON column. Insert 3 log entries with fields: level (INFO/ERROR), message, and timestamp. Write a query to show only ERROR logs with their message and timestamp.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport json
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, data TEXT)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO logs VALUES (?,?)&#x27;, [
     (1,json.dumps({&#x27;level&#x27;:&#x27;INFO&#x27;,&#x27;message&#x27;:&#x27;Started&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:00:00&#x27;})),
@@ -4536,7 +4824,7 @@ rows = run(f&#x27;&#x27;&#x27;
     ORDER BY rank
 &#x27;&#x27;&#x27;, (query,))
 for r in rows: print(r[0], &#x27;|&#x27;, r[1])
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FTS5 Practice</div><div class="pd">Create an FTS5 table called &#x27;recipes&#x27; with columns (name, ingredients, instructions). Insert 4 recipes. Write a query to find all recipes where the ingredients contain &#x27;garlic&#x27; AND instructions contain &#x27;stir&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS recipes
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FTS5 Practice</div><div class="pd">Create an FTS5 table called &#x27;recipes&#x27; with columns (name, ingredients, instructions). Insert 4 recipes. Write a query to find all recipes where the ingredients contain &#x27;garlic&#x27; AND instructions contain &#x27;stir&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_0')">Copy</button></div><pre><code id="p29_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE VIRTUAL TABLE IF NOT EXISTS recipes
     USING fts5(name, ingredients, instructions)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO recipes VALUES (?,?,?)&#x27;, [
     (&#x27;Pasta&#x27;,&#x27;flour eggs garlic olive oil&#x27;,&#x27;stir pasta in boiling water&#x27;),
@@ -4641,7 +4929,7 @@ plan2 = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
     WHERE o.status=&#x27;paid&#x27; AND c.tier=&#x27;gold&#x27;
     GROUP BY c.id&#x27;&#x27;&#x27;)
 for p in plan2: print(p)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Optimization Practice</div><div class="pd">Create a &#x27;transactions2&#x27; table (id, account_id INTEGER, type TEXT, amount REAL, created_at TEXT). Insert 500 rows. Use EXPLAIN QUERY PLAN to check a query filtering by account_id and type, then add the right index to make it efficient.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport random; random.seed(9)
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Optimization Practice</div><div class="pd">Create a &#x27;transactions2&#x27; table (id, account_id INTEGER, type TEXT, amount REAL, created_at TEXT). Insert 500 rows. Use EXPLAIN QUERY PLAN to check a query filtering by account_id and type, then add the right index to make it efficient.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_0')">Copy</button></div><pre><code id="p30_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nimport random; random.seed(9)
 run(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS transactions2 (
     id INTEGER PRIMARY KEY, account_id INTEGER,
     type TEXT, amount REAL, created_at TEXT)&#x27;&#x27;&#x27;)
@@ -4755,7 +5043,7 @@ rows = run(&#x27;&#x27;&#x27;
     SELECT *, RANK() OVER(PARTITION BY region, month ORDER BY total DESC) AS region_rank
     FROM with_growth ORDER BY region, month, region_rank&#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: End-to-End Analysis Practice</div><div class="pd">Create a &#x27;web_logs&#x27; table with (session_id INTEGER, user_id INTEGER, page TEXT, duration_sec INTEGER, log_date TEXT). Insert 10 rows. Write a query that: (1) filters sessions over 30s, (2) counts sessions per user per day, and (3) shows each user&#x27;s max daily sessions using a window function.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS web_logs (
+</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: End-to-End Analysis Practice</div><div class="pd">Create a &#x27;web_logs&#x27; table with (session_id INTEGER, user_id INTEGER, page TEXT, duration_sec INTEGER, log_date TEXT). Insert 10 rows. Write a query that: (1) filters sessions over 30s, (2) counts sessions per user per day, and (3) shows each user&#x27;s max daily sessions using a window function.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_0')">Copy</button></div><pre><code id="p31_0" class="language-python">import sqlite3, contextlib\nconn = sqlite3.connect(&#x27;:memory:&#x27;)\nconn.execute(&#x27;PRAGMA journal_mode=WAL&#x27;)\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(&#x27;&#x27;&#x27;CREATE TABLE IF NOT EXISTS web_logs (
     session_id INTEGER, user_id INTEGER,
     page TEXT, duration_sec INTEGER, log_date TEXT)&#x27;&#x27;&#x27;)
 runmany(&#x27;INSERT INTO web_logs VALUES (?,?,?,?,?)&#x27;, [
@@ -4800,7 +5088,7 @@ WITH ranked AS (
 )
 SELECT subject, student, score FROM ranked WHERE rnk = 1 ORDER BY subject;
 &quot;&quot;&quot;).fetchall()
-print(&quot;winner per subject:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top Scorer Per Subject</div><div class="pd">Using the scores table, write a query that returns one row per subject — the highest-scoring student, as (subject, student, score). Fill in the query string, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import sqlite3
+print(&quot;winner per subject:&quot;, rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top Scorer Per Subject</div><div class="pd">Using the scores table, write a query that returns one row per subject — the highest-scoring student, as (subject, student, score). Fill in the query string, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_0')">Copy</button></div><pre><code id="p32_0" class="language-python">import sqlite3
 con = sqlite3.connect(&quot;:memory:&quot;)
 con.executescript(&quot;&quot;&quot;
 CREATE TABLE scores(student TEXT, subject TEXT, score INT);
@@ -4836,7 +5124,7 @@ SELECT c.name, COUNT(o.id) AS n_orders, SUM(o.amount) AS total
 FROM customers c JOIN orders o ON o.cust_id = c.id
 GROUP BY c.name ORDER BY total DESC
 &quot;&quot;&quot;).fetchall()
-print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Spend Per Customer</div><div class="pd">Write a query returning (name, total) — each customer&#x27;s total order amount — highest first. Customers with no orders may be omitted (an inner join is fine). Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import sqlite3
+print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Spend Per Customer</div><div class="pd">Write a query returning (name, total) — each customer&#x27;s total order amount — highest first. Customers with no orders may be omitted (an inner join is fine). Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_0')">Copy</button></div><pre><code id="p33_0" class="language-python">import sqlite3
 con = sqlite3.connect(&quot;:memory:&quot;)
 con.executescript(&quot;&quot;&quot;
 CREATE TABLE customers(id INT, name TEXT);
@@ -4867,7 +5155,7 @@ rows = con.execute(&quot;&quot;&quot;
 SELECT cat, SUM(amt) AS total
 FROM t GROUP BY cat HAVING SUM(amt) &gt;= 40 ORDER BY cat
 &quot;&quot;&quot;).fetchall()
-print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Big Spenders</div><div class="pd">Return (cat, total) for every category whose total amount is at least 40, ordered by cat. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import sqlite3
+print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Big Spenders</div><div class="pd">Return (cat, total) for every category whose total amount is at least 40, ordered by cat. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34_0')">Copy</button></div><pre><code id="p34_0" class="language-python">import sqlite3
 con = sqlite3.connect(&quot;:memory:&quot;)
 con.executescript(&quot;&quot;&quot;
 CREATE TABLE t(cat TEXT, amt INT);
@@ -4895,7 +5183,7 @@ rows = con.execute(&quot;&quot;&quot;
 SELECT c.name FROM c LEFT JOIN o ON o.cid = c.id
 WHERE o.id IS NULL ORDER BY c.name
 &quot;&quot;&quot;).fetchall()
-print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customers With No Orders</div><div class="pd">Return the names of customers that have no orders, ordered by name. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import sqlite3
+print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customers With No Orders</div><div class="pd">Return the names of customers that have no orders, ordered by name. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35_0')">Copy</button></div><pre><code id="p35_0" class="language-python">import sqlite3
 con = sqlite3.connect(&quot;:memory:&quot;)
 con.executescript(&quot;&quot;&quot;
 CREATE TABLE c(id INT, name TEXT);
@@ -4921,7 +5209,7 @@ INSERT INTO s VALUES (&#x27;a&#x27;,10),(&#x27;b&#x27;,20),(&#x27;c&#x27;,60);
 rows = con.execute(&quot;&quot;&quot;
 SELECT name, amt FROM s WHERE amt &gt; (SELECT AVG(amt) FROM s) ORDER BY name
 &quot;&quot;&quot;).fetchall()
-print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bigger Than Average</div><div class="pd">Return the names whose amt is strictly greater than the average amt, ordered by name. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import sqlite3
+print(rows)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bigger Than Average</div><div class="pd">Return the names whose amt is strictly greater than the average amt, ordered by name. Fill in the query, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36_0')">Copy</button></div><pre><code id="p36_0" class="language-python">import sqlite3
 con = sqlite3.connect(&quot;:memory:&quot;)
 con.executescript(&quot;&quot;&quot;
 CREATE TABLE s(name TEXT, amt INT);

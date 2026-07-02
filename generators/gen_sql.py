@@ -26,15 +26,17 @@ def make_html(sections):
         rw_html = (f'<div class="rw"><div class="rh">&#x1F4BC; Real-World: {esc(rw["title"])}</div>'
                    f'<div class="rd">{esc(rw["scenario"])}</div>'
                    f'<pre><code class="language-python">{esc(rw["code"])}</code></pre></div>') if rw else ""
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -101,8 +103,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"nbformat":4,"nbformat_minor":5}
@@ -376,7 +380,8 @@ missing = conn.execute(
 print("No effective bonus:", [m[0] for m in missing])
 conn.close()"""}
 ],
-"practice": {
+"practices": [
+{
 "title": "SELECT with WHERE, ORDER BY, and LIMIT",
 "desc": "Build an employees table with columns: id, name, department, salary, city. Insert 8+ rows. Then write three queries: 1) All employees in 'Engineering' earning over 80000, sorted by salary DESC. 2) Employees from 'NYC' or 'LA' using IN. 3) The top 3 earners company-wide using LIMIT.",
 "starter":
@@ -406,6 +411,31 @@ conn.commit()
 
 conn.close()"""
 },
+{
+"title": 'Filter Rows',
+"desc": 'Return the names where val is greater than 15, ordered by name.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: names with val > 15, ordered by name\nquery = """\nSELECT name FROM t   -- add WHERE and ORDER BY\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',), (\'c\',), (\'d\',)], "names with val > 15, ordered by name"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Distinct Categories',
+"desc": 'Return the distinct categories, ordered.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: the distinct cat values, ordered\nquery = """\nSELECT cat FROM t   -- make it DISTINCT and ORDER BY\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\',), (\'y\',)], "the distinct cat values, ordered"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Top Two',
+"desc": 'Return the two names with the highest val (ties broken by name).',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: the 2 highest-val names, ORDER BY val DESC, name\nquery = """\nSELECT name FROM t   -- ORDER BY and LIMIT\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',), (\'c\',)], "the 2 highest-val names, ORDER BY val DESC, name"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'In List',
+"desc": "Return the names whose cat is 'x', ordered by name.",
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: names where cat IN (\'x\'), ordered by name\nquery = """\nSELECT name FROM t   -- add WHERE cat IN (...)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\',), (\'b\',)], "names where cat IN (\'x\'), ordered by name"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "todos": [
     "Write a SELECT query using WHERE with LIKE 'A%' and verify with a known dataset",
@@ -546,7 +576,8 @@ for r in rows:
     print(f"{r[0]:8s} {r[1]:>6} ${r[2]:>7,.0f} ${r[3]:>7,.0f} {r[4]:>5.1f}%")
 conn.close()"""}
 ],
-"practice": {
+"practices": [
+{
 "title": "GROUP BY with HAVING Aggregation",
 "desc": "Create a 'sales' table with columns: rep (TEXT), region (TEXT), amount (REAL). Insert 10+ rows. Write queries to: 1) Show total and average sales per region, ordered by total DESC. 2) Use HAVING to list only reps whose total sales exceed 3000. 3) Find the region with the single highest average sale amount.",
 "starter":
@@ -583,6 +614,31 @@ conn.commit()
 
 conn.close()"""
 },
+{
+"title": 'Count Per Group',
+"desc": 'Return each category and its row count, ordered by cat.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cat and COUNT(*) per group, ordered by cat\nquery = """\nSELECT cat FROM t   -- GROUP BY with COUNT(*)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 2), (\'y\', 3)], "cat and COUNT(*) per group, ordered by cat"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Sum Per Group',
+"desc": 'Return each category and the sum of val, ordered by cat.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cat and SUM(val) per group\nquery = """\nSELECT cat FROM t   -- GROUP BY with SUM(val)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 40), (\'y\', 45)], "cat and SUM(val) per group"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Having Filter',
+"desc": 'Return categories whose average val is below 20.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cats with AVG(val) < 20\nquery = """\nSELECT cat FROM t GROUP BY cat   -- add HAVING\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'y\',)], "cats with AVG(val) < 20"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Max Per Group',
+"desc": 'Return each category and its maximum val.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cat and MAX(val) per group\nquery = """\nSELECT cat FROM t   -- GROUP BY with MAX(val)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 30), (\'y\', 20)], "cat and MAX(val) per group"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "todos": [
     "Write COUNT(*) and COUNT(DISTINCT col) on the same table and explain the difference",
@@ -734,7 +790,8 @@ for r in conn.execute(
     print(f"  {r[0]} x {r[1]} = {r[2]}")
 conn.close()"""}
 ],
-"practice": {
+"practices": [
+{
 "title": "INNER and LEFT JOIN Queries",
 "desc": "Create two tables: 'students' (id, name, grade) and 'enrollments' (student_id, course, score). Insert 5 students and 8 enrollments (some students have no enrollment). Write: 1) An INNER JOIN to show each student's course and score. 2) A LEFT JOIN to include students with no enrollment (show NULL for course). 3) Add a GROUP BY to show each student's average score.",
 "starter":
@@ -780,6 +837,31 @@ conn.commit()
 
 conn.close()"""
 },
+{
+"title": 'Inner Join',
+"desc": 'Return (name, amt) for each order, ordered by name then amt.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE c(id INT,name TEXT);\nCREATE TABLE o(cid INT,amt INT);\nINSERT INTO c VALUES (1,\'A\'),(2,\'B\'),(3,\'C\');\nINSERT INTO o VALUES (1,100),(1,50),(2,200);\n""")\n\n# TODO: join o to c, show name and amt\nquery = """\nSELECT c.name FROM c   -- JOIN o and ORDER BY\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'A\', 50), (\'A\', 100), (\'B\', 200)], "join o to c, show name and amt"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Customers Without Orders',
+"desc": 'Return names of customers with no orders.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE c(id INT,name TEXT);\nCREATE TABLE o(cid INT,amt INT);\nINSERT INTO c VALUES (1,\'A\'),(2,\'B\'),(3,\'C\');\nINSERT INTO o VALUES (1,100),(1,50),(2,200);\n""")\n\n# TODO: LEFT JOIN, keep rows where o.cid IS NULL\nquery = """\nSELECT c.name FROM c   -- LEFT JOIN o, WHERE o.cid IS NULL\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'C\',)], "LEFT JOIN, keep rows where o.cid IS NULL"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Orders Per Customer',
+"desc": 'Return (name, order_count) for every customer, ordered by name.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE c(id INT,name TEXT);\nCREATE TABLE o(cid INT,amt INT);\nINSERT INTO c VALUES (1,\'A\'),(2,\'B\'),(3,\'C\');\nINSERT INTO o VALUES (1,100),(1,50),(2,200);\n""")\n\n# TODO: LEFT JOIN, COUNT(o.cid) per customer\nquery = """\nSELECT c.name FROM c   -- LEFT JOIN, GROUP BY, COUNT\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'A\', 2), (\'B\', 1), (\'C\', 0)], "LEFT JOIN, COUNT(o.cid) per customer"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Spend Per Customer',
+"desc": 'Return (name, total_amt) for customers with orders, highest first.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE c(id INT,name TEXT);\nCREATE TABLE o(cid INT,amt INT);\nINSERT INTO c VALUES (1,\'A\'),(2,\'B\'),(3,\'C\');\nINSERT INTO o VALUES (1,100),(1,50),(2,200);\n""")\n\n# TODO: JOIN, SUM(amt) per customer, ORDER BY total DESC\nquery = """\nSELECT c.name FROM c   -- JOIN o, GROUP BY, SUM, ORDER BY\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'B\', 200), (\'A\', 150)], "JOIN, SUM(amt) per customer, ORDER BY total DESC"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "todos": [
     "Write an INNER JOIN between two tables and verify the row count matches expectations",
@@ -935,7 +1017,8 @@ for r in conn.execute(
     print(f"  Month {r[0]}  total=${r[1]:.0f}  rank={r[2]}")
 conn.close()"""}
 ],
-"practice": {
+"practices": [
+{
 "title": "Subquery in WHERE and CTE",
 "desc": "Using an 'orders' table (id, customer, product, amount, order_date): 1) Write a subquery in WHERE to find orders with amount above the overall average. 2) Write a subquery in FROM (derived table) to get the top customer by total spend. 3) Write a WITH clause CTE that computes monthly totals, then selects only months above the average monthly total.",
 "starter":
@@ -985,6 +1068,31 @@ conn.commit()
 
 conn.close()"""
 },
+{
+"title": 'Above Average',
+"desc": 'Return names with val above the overall average, ordered by name.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: names where val > overall AVG(val)\nquery = """\nSELECT name FROM t   -- WHERE val > (SELECT AVG(val)...)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',), (\'c\',), (\'d\',)], "names where val > overall AVG(val)"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'CTE Filter',
+"desc": 'Using a CTE of rows with val >= 20, return their names ordered.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: WITH big AS (...): names ordered\nquery = """\nSELECT name FROM t   -- use a WITH clause\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',), (\'c\',), (\'d\',)], "WITH big AS (...): names ordered"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'In Subquery',
+"desc": 'Return names in categories that have more than 2 rows.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cats with COUNT(*) > 2, then names in them\nquery = """\nSELECT name FROM t   -- WHERE cat IN (subquery)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'c\',), (\'d\',), (\'e\',)], "cats with COUNT(*) > 2, then names in them"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Argmax Category',
+"desc": 'Return the cat of the single row with the maximum val.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(name TEXT, cat TEXT, val INT);\nINSERT INTO t VALUES (\'a\',\'x\',10),(\'b\',\'x\',30),(\'c\',\'y\',20),(\'d\',\'y\',20),(\'e\',\'y\',5);\n""")\n\n# TODO: cat where val equals the MAX(val)\nquery = """\nSELECT cat FROM t   -- WHERE val = (SELECT MAX...)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\',)], "cat where val equals the MAX(val)"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "todos": [
     "Write a scalar subquery in WHERE to find rows where a value exceeds the overall average",
@@ -1136,7 +1244,8 @@ for r in conn.execute(
     print(f"  bucket={r[2]}  {r[0]}  ${r[1]:,.0f}")
 conn.close()"""}
 ],
-"practice": {
+"practices": [
+{
 "title": "ROW_NUMBER and RANK Window Functions",
 "desc": "Create a 'sales' table with columns rep (TEXT), month (TEXT), amount (REAL). Insert data for 3 reps across 4 months. Write a query using: 1) RANK() OVER (PARTITION BY month ORDER BY amount DESC) to rank reps each month. 2) SUM(amount) OVER (PARTITION BY rep ORDER BY month) for a running total per rep. 3) LAG(amount) to compute month-over-month change per rep.",
 "starter":
@@ -1180,6 +1289,31 @@ conn.commit()
 
 conn.close()"""
 },
+{
+"title": 'Row Number',
+"desc": 'Return (g, v, row_number) numbered within each group ordered by v.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE s(g TEXT,v INT);\nINSERT INTO s VALUES (\'a\',3),(\'a\',1),(\'b\',4),(\'b\',2);\n""")\n\n# TODO: ROW_NUMBER() OVER (PARTITION BY g ORDER BY v)\nquery = """\nSELECT g, v FROM s   -- add the window function\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\', 1, 1), (\'a\', 3, 2), (\'b\', 2, 1), (\'b\', 4, 2)], "ROW_NUMBER() OVER (PARTITION BY g ORDER BY v)"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rank',
+"desc": 'Return (v, rank) ranking all rows by v descending.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE s(g TEXT,v INT);\nINSERT INTO s VALUES (\'a\',3),(\'a\',1),(\'b\',4),(\'b\',2);\n""")\n\n# TODO: RANK() OVER (ORDER BY v DESC)\nquery = """\nSELECT v FROM s   -- add RANK() and ORDER BY v DESC\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(4, 1), (3, 2), (2, 3), (1, 4)], "RANK() OVER (ORDER BY v DESC)"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Running Total',
+"desc": 'Return (g, v, running_sum) cumulating v within each group.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE s(g TEXT,v INT);\nINSERT INTO s VALUES (\'a\',3),(\'a\',1),(\'b\',4),(\'b\',2);\n""")\n\n# TODO: SUM(v) OVER (PARTITION BY g ORDER BY v)\nquery = """\nSELECT g, v FROM s   -- add the running sum\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\', 1, 1), (\'a\', 3, 4), (\'b\', 2, 2), (\'b\', 4, 6)], "SUM(v) OVER (PARTITION BY g ORDER BY v)"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Previous Value',
+"desc": 'Return (v, prev) where prev is the previous v ordered ascending.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE s(g TEXT,v INT);\nINSERT INTO s VALUES (\'a\',3),(\'a\',1),(\'b\',4),(\'b\',2);\n""")\n\n# TODO: LAG(v) OVER (ORDER BY v)\nquery = """\nSELECT v FROM s   -- add LAG(v)\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(1, None), (2, 1), (3, 2), (4, 3)], "LAG(v) OVER (ORDER BY v)"\nprint("All checks passed \\u2713")',
+},
+],
 "rw": {
 "todos": [
     "Use RANK() OVER (PARTITION BY dept ORDER BY salary DESC) to rank employees per department",
