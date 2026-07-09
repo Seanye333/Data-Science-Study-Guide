@@ -118,7 +118,7 @@ tickets = [
     &#x27;App crashed 😤 after update v2.1 — please fix ASAP!!!&#x27;,
 ]
 for t in tickets:
-    print(preprocess_ticket(t))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Email Cleaner</div><div class="pd">Write a function that strips email headers (From:, To:, Subject:), removes quoted lines starting with &#x27;&gt;&#x27;, and cleans leftover whitespace.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import re
+    print(preprocess_ticket(t))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Email Cleaner</div><div class="pd">Write a function that strips email headers (From:, To:, Subject:), removes quoted lines starting with &#x27;&gt;&#x27;, and cleans leftover whitespace.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import re
 
 email = &#x27;&#x27;&#x27;
 From: alice@example.com
@@ -139,7 +139,33 @@ def clean_email(text: str) -&gt; str:
     # TODO: Collapse blank lines
     pass
 
-print(clean_email(email))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Lowercase a string and strip HTML tags using re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27;&#x27;, text)</label></li>
+print(clean_email(email))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lowercase &amp; Strip</div><div class="pd">Lowercase and strip surrounding whitespace.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def to_lower_clean(s):
+    # TODO: lowercase and strip
+    return s
+
+print(repr(to_lower_clean(&quot;  Hello  &quot;)))</code></pre></div><template class="ho-check">assert to_lower_clean(&quot;  Hello  &quot;) == &quot;hello&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Remove Punctuation</div><div class="pd">Remove all non-word, non-space characters.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">import re
+
+def remove_punct(s):
+    # TODO: re.sub(r&quot;[^\w\s]&quot;, &quot;&quot;, s)
+    return s
+
+print(remove_punct(&quot;hi, there!&quot;))</code></pre></div><template class="ho-check">assert remove_punct(&quot;hi, there!&quot;) == &quot;hi there&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize Whitespace</div><div class="pd">Collapse runs of whitespace to single spaces, trimmed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import re
+
+def normalize_ws(s):
+    # TODO: collapse whitespace to single spaces and strip
+    return s
+
+print(repr(normalize_ws(&quot;a   b\t c&quot;)))</code></pre></div><template class="ho-check">assert normalize_ws(&quot;a   b\t c&quot;) == &quot;a b c&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strip HTML Tags</div><div class="pd">Remove &lt;...&gt; tags from a string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">import re
+
+def strip_tags(s):
+    # TODO: re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot;&quot;, s)
+    return s
+
+print(strip_tags(&quot;&lt;b&gt;hi&lt;/b&gt;&quot;))</code></pre></div><template class="ho-check">assert strip_tags(&quot;&lt;b&gt;hi&lt;/b&gt;&quot;) == &quot;hi&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Lowercase a string and strip HTML tags using re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27;&#x27;, text)</label></li>
 <li><label><input type="checkbox"> Remove URLs, @mentions, and hashtags from a tweet using three separate regex patterns</label></li>
 <li><label><input type="checkbox"> Apply unicode normalization to strip accent characters from foreign text</label></li>
 <li><label><input type="checkbox"> Build a text cleaning pipeline as a list of lambda functions applied sequentially</label></li>
@@ -206,7 +232,7 @@ def extract_keywords(review: str, top_n: int = 5):
     return Counter(keywords).most_common(top_n)
 
 review = &#x27;The battery life is amazing. This phone has the best battery I have ever used. Great camera too.&#x27;
-print(extract_keywords(review))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Stopword Filter</div><div class="pd">Extend the standard NLTK stopword list with domain-specific words (e.g., &#x27;customer&#x27;, &#x27;product&#x27;, &#x27;order&#x27;) and filter a list of reviews.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import nltk
+print(extract_keywords(review))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Stopword Filter</div><div class="pd">Extend the standard NLTK stopword list with domain-specific words (e.g., &#x27;customer&#x27;, &#x27;product&#x27;, &#x27;order&#x27;) and filter a list of reviews.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import nltk
 nltk.download(&#x27;stopwords&#x27;, quiet=True)
 nltk.download(&#x27;punkt&#x27;, quiet=True)
 nltk.download(&#x27;punkt_tab&#x27;, quiet=True)
@@ -225,7 +251,32 @@ reviews = [
     &#x27;Order arrived late but item was in perfect condition&#x27;,
 ]
 for r in reviews:
-    print(filter_tokens(r))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize a paragraph using both word_tokenize and sent_tokenize — compare output</label></li>
+    print(filter_tokens(r))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tokenize</div><div class="pd">Lowercase word tokens.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import re
+
+def tokenize(s):
+    # TODO: re.findall(r&quot;[a-z]+&quot;, s.lower())
+    return []
+
+print(tokenize(&quot;The Cat!&quot;))</code></pre></div><template class="ho-check">assert tokenize(&quot;The Cat!&quot;) == [&quot;the&quot;, &quot;cat&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentence Split</div><div class="pd">Split text into trimmed non-empty sentences on . ! ?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import re
+
+def sentence_split(s):
+    # TODO: split on [.!?]+, strip, drop empties
+    return []
+
+print(sentence_split(&quot;Hi. Bye!&quot;))</code></pre></div><template class="ho-check">assert sentence_split(&quot;Hi. Bye!&quot;) == [&quot;Hi&quot;, &quot;Bye&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Remove Stopwords</div><div class="pd">Filter out stopwords, preserving order.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">def remove_stops(toks, stop):
+    stop = set(stop)
+    # TODO: keep tokens not in stop
+    return toks
+
+print(remove_stops([&quot;the&quot;, &quot;cat&quot;], [&quot;the&quot;]))</code></pre></div><template class="ho-check">assert remove_stops([&quot;the&quot;, &quot;cat&quot;], [&quot;the&quot;]) == [&quot;cat&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Word N-grams</div><div class="pd">Build word n-grams as tuples.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">def ngrams(toks, n):
+    # TODO: [tuple(toks[i:i+n]) for i in range(len(toks)-n+1)]
+    return []
+
+print(ngrams([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], 2))</code></pre></div><template class="ho-check">assert ngrams([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], 2) == [(&quot;a&quot;, &quot;b&quot;), (&quot;b&quot;, &quot;c&quot;)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Tokenize a paragraph using both word_tokenize and sent_tokenize — compare output</label></li>
 <li><label><input type="checkbox"> Remove stopwords from a sentence and count how many words remain</label></li>
 <li><label><input type="checkbox"> Apply stemming vs lemmatization to the same words and compare the results</label></li>
 <li><label><input type="checkbox"> Tokenize a tweet with hashtags/emojis — note how standard tokenizers handle it</label></li>
@@ -305,7 +356,7 @@ job_kw  = normalize_skills(job_req)
 res_kw  = normalize_skills(resume)
 overlap = job_kw &amp; res_kw
 print(&#x27;Match score:&#x27;, len(overlap) / len(job_kw))
-print(&#x27;Matched keywords:&#x27;, overlap)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Search Term Normalizer</div><div class="pd">Write a function that takes a search query and returns all lemma forms so a search for &#x27;running shoes&#x27; also matches &#x27;run&#x27; and &#x27;shoe&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import nltk
+print(&#x27;Matched keywords:&#x27;, overlap)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Search Term Normalizer</div><div class="pd">Write a function that takes a search query and returns all lemma forms so a search for &#x27;running shoes&#x27; also matches &#x27;run&#x27; and &#x27;shoe&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import nltk
 nltk.download(&#x27;wordnet&#x27;, quiet=True)
 nltk.download(&#x27;omw-1.4&#x27;, quiet=True)
 nltk.download(&#x27;punkt&#x27;, quiet=True)
@@ -408,7 +459,7 @@ except OSError:
     for entity, article_ids in entity_index.items():
         print(f&#x27;{entity}: articles {article_ids}&#x27;)
 except OSError:
-    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Entity Frequency Counter</div><div class="pd">Process a list of news headlines, extract all PERSON and ORG entities, and return the top 5 most mentioned entities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">headlines = [
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Entity Frequency Counter</div><div class="pd">Process a list of news headlines, extract all PERSON and ORG entities, and return the top 5 most mentioned entities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">headlines = [
     &#x27;Google CEO Sundar Pichai unveils new AI products at Google I/O&#x27;,
     &#x27;Apple and Google partner on health data standards&#x27;,
     &#x27;Jeff Bezos steps down as Amazon CEO&#x27;,
@@ -523,7 +574,7 @@ reviews = [
 ]
 flagged = triage_reviews(reviews)
 for review, score in flagged:
-    print(f&#x27;Review {review.id} (score={score:.3f}): {review.text}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment Dashboard</div><div class="pd">Given a list of tweets, compute the daily average sentiment score and print a summary showing whether the day was overall positive or negative.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import nltk
+    print(f&#x27;Review {review.id} (score={score:.3f}): {review.text}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment Dashboard</div><div class="pd">Given a list of tweets, compute the daily average sentiment score and print a summary showing whether the day was overall positive or negative.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import nltk
 nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
@@ -639,7 +690,7 @@ for i in range(len(clauses)):
         if sim[i, j] &gt; THRESHOLD:
             print(f&#x27;  [{i}] &amp; [{j}]: {sim[i,j]:.3f}&#x27;)
             print(f&#x27;    {clauses[i][:60]}&#x27;)
-            print(f&#x27;    {clauses[j][:60]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Matcher</div><div class="pd">Build a simple FAQ bot: given a user question, find the most similar FAQ entry using TF-IDF cosine similarity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+            print(f&#x27;    {clauses[j][:60]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Matcher</div><div class="pd">Build a simple FAQ bot: given a user question, find the most similar FAQ entry using TF-IDF cosine similarity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
@@ -657,7 +708,39 @@ def find_answer(question: str) -&gt; str:
     pass
 
 print(find_answer(&#x27;How can I change my password?&#x27;))
-print(find_answer(&#x27;Do you accept credit cards?&#x27;))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit TF-IDF on a 3-doc corpus and inspect the feature matrix with get_feature_names_out()</label></li>
+print(find_answer(&#x27;Do you accept credit cards?&#x27;))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jaccard</div><div class="pd">Jaccard similarity of two token sets.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">def jaccard(a, b):
+    A, B = set(a), set(b)
+    # TODO: |A &amp; B| / |A | B| (1.0 if both empty)
+    return 0.0
+
+print(round(jaccard([&quot;a&quot;, &quot;b&quot;], [&quot;b&quot;, &quot;c&quot;]), 3))</code></pre></div><template class="ho-check">assert jaccard([&quot;a&quot;, &quot;b&quot;], [&quot;b&quot;, &quot;c&quot;]) == 1/3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TF Vector</div><div class="pd">Term-frequency vector over a fixed vocab.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import re
+from collections import Counter
+
+def tf_vector(toks, vocab):
+    c = Counter(toks)
+    # TODO: [count of w for w in vocab]
+    return []
+
+print(tf_vector([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]))</code></pre></div><template class="ho-check">assert tf_vector([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]) == [2, 1, 0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cosine Similarity</div><div class="pd">Cosine similarity of two count vectors.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import math
+
+def cosine(a, b):
+    dot = sum(x*y for x, y in zip(a, b))
+    na = math.sqrt(sum(x*x for x in a))
+    nb = math.sqrt(sum(y*y for y in b))
+    # TODO: dot / (na*nb), or 0.0 if a norm is 0
+    return 0.0
+
+print(cosine([1, 0], [1, 0]))</code></pre></div><template class="ho-check">assert abs(cosine([1, 0], [1, 0]) - 1) &lt; 1e-9
+assert cosine([1, 0], [0, 1]) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Overlap Coefficient</div><div class="pd">Overlap = |A &amp; B| / min(|A|, |B|).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">def overlap(a, b):
+    A, B = set(a), set(b)
+    # TODO: |A &amp; B| / min(|A|, |B|), 0.0 if either is empty
+    return 0.0
+
+print(overlap([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;a&quot;, &quot;b&quot;]))</code></pre></div><template class="ho-check">assert overlap([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;a&quot;, &quot;b&quot;]) == 1.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit TF-IDF on a 3-doc corpus and inspect the feature matrix with get_feature_names_out()</label></li>
 <li><label><input type="checkbox"> Compute cosine similarity between two TF-IDF vectors and interpret the score</label></li>
 <li><label><input type="checkbox"> Train Word2Vec with gensim on tokenized sentences and find similar words</label></li>
 <li><label><input type="checkbox"> Use sentence-transformers to encode 3 sentences and compare cosine similarity</label></li>
@@ -779,7 +862,7 @@ lda.fit(X)
 topic_dist = lda.transform(X)
 for article, dist in zip(articles, topic_dist):
     dominant = dist.argmax()
-    print(f&#x27;{TOPIC_NAMES[dominant]}: {article[:55]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Feedback Topics</div><div class="pd">Apply LDA to a dataset of customer feedback comments and print the top 5 words for each discovered topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+    print(f&#x27;{TOPIC_NAMES[dominant]}: {article[:55]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Feedback Topics</div><div class="pd">Apply LDA to a dataset of customer feedback comments and print the top 5 words for each discovered topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
 feedback = [
@@ -911,7 +994,7 @@ press_releases = [
 for pr in press_releases:
     desk = router.predict([pr])[0]
     proba = router.predict_proba([pr]).max()
-    print(f&#x27;{desk.upper()} ({proba:.0%}): {pr}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Sentiment Classifier</div><div class="pd">Train a TF-IDF + Logistic Regression classifier to predict star rating buckets (1-2=negative, 3=neutral, 4-5=positive) from review text.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+    print(f&#x27;{desk.upper()} ({proba:.0%}): {pr}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Sentiment Classifier</div><div class="pd">Train a TF-IDF + Logistic Regression classifier to predict star rating buckets (1-2=negative, 3=neutral, 4-5=positive) from review text.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -931,7 +1014,41 @@ texts, labels = zip(*reviews)
 X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.3, random_state=42)
 
 # TODO: build Pipeline with TfidfVectorizer + LogisticRegression
-# TODO: fit, predict, print classification_report</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a Pipeline with TfidfVectorizer + MultinomialNB and print the classification report</label></li>
+# TODO: fit, predict, print classification_report</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Counts By Class</div><div class="pd">Aggregate word counts per class label.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import re
+from collections import Counter
+
+def word_counts_by_class(docs):
+    d = {}
+    # TODO: for (label, tokens) in docs, accumulate a Counter per label; return dict of dicts
+    for label, toks in docs:
+        d.setdefault(label, Counter()).update(toks)
+    return {k: dict(v) for k, v in d.items()}
+
+print(word_counts_by_class([(&quot;pos&quot;, [&quot;good&quot;, &quot;great&quot;]), (&quot;neg&quot;, [&quot;bad&quot;])]))</code></pre></div><template class="ho-check">r = word_counts_by_class([(&quot;pos&quot;, [&quot;good&quot;, &quot;great&quot;]), (&quot;neg&quot;, [&quot;bad&quot;])])
+assert r[&quot;pos&quot;] == {&quot;good&quot;: 1, &quot;great&quot;: 1} and r[&quot;neg&quot;] == {&quot;bad&quot;: 1}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Majority Class</div><div class="pd">Return the most common label.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_2')">Copy</button></div><pre><code id="p7_2" class="language-python">import re
+from collections import Counter
+
+def majority_class(labels):
+    # TODO: most common label (Counter.most_common)
+    return None
+
+print(majority_class([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;]))</code></pre></div><template class="ho-check">assert majority_class([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;]) == &quot;a&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Prior</div><div class="pd">P(class) = count / total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_3')">Copy</button></div><pre><code id="p7_3" class="language-python">def class_prior(labels, c):
+    # TODO: fraction of labels equal to c
+    return 0.0
+
+print(round(class_prior([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;a&quot;), 3))</code></pre></div><template class="ho-check">assert class_prior([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;a&quot;) == 2/3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Keyword Predict</div><div class="pd">Predict pos if any positive keyword appears, else neg.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_4')">Copy</button></div><pre><code id="p7_4" class="language-python">import re
+
+def predict_keyword(text, pos_words):
+    toks = set(re.findall(r&quot;[a-z]+&quot;, text.lower()))
+    # TODO: &quot;pos&quot; if toks intersects pos_words else &quot;neg&quot;
+    return &quot;neg&quot;
+
+print(predict_keyword(&quot;this is good&quot;, [&quot;good&quot;, &quot;great&quot;]))</code></pre></div><template class="ho-check">assert predict_keyword(&quot;this is good&quot;, [&quot;good&quot;, &quot;great&quot;]) == &quot;pos&quot;
+assert predict_keyword(&quot;this is bad&quot;, [&quot;good&quot;]) == &quot;neg&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a Pipeline with TfidfVectorizer + MultinomialNB and print the classification report</label></li>
 <li><label><input type="checkbox"> Try ngram_range=(1,2) in TF-IDF and compare accuracy to unigrams only</label></li>
 <li><label><input type="checkbox"> Use zero-shot classification with transformers for category labels you define at runtime</label></li>
 <li><label><input type="checkbox"> Inspect LogisticRegression coefficients to find the most predictive words per class</label></li>
@@ -1045,7 +1162,7 @@ except ImportError:
         print(f&#x27;Q: {question}&#x27;)
         print(f&#x27;A: {answer} (confidence: {conf:.2f})\n&#x27;)
 except ImportError:
-    print(&#x27;pip install sentence-transformers&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Summarizer Pipeline</div><div class="pd">Use a HuggingFace summarization pipeline to condense a long article into a 2-sentence summary and compare the word count reduction.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">try:
+    print(&#x27;pip install sentence-transformers&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Summarizer Pipeline</div><div class="pd">Use a HuggingFace summarization pipeline to condense a long article into a 2-sentence summary and compare the word count reduction.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">try:
     from transformers import pipeline
 
     summarizer = pipeline(&#x27;summarization&#x27;, model=&#x27;facebook/bart-large-cnn&#x27;)
@@ -1195,7 +1312,7 @@ print(ner_metrics(true_entities, pred_entities))</code></pre></div><div class="r
         print(json.dumps({&#x27;text&#x27;: text[:40], &#x27;topic&#x27;: topic,
                           &#x27;entities&#x27;: [(e.text, e.label_) for e in doc.ents]}, indent=2))
 except OSError:
-    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Text Analytics Report</div><div class="pd">Build a function that takes a list of documents and returns a JSON report with: total word count, unique entities, top 5 keywords (TF-IDF), and dominant sentiment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import nltk
+    print(&#x27;Run: python -m spacy download en_core_web_sm&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Text Analytics Report</div><div class="pd">Build a function that takes a list of documents and returns a JSON report with: total word count, unique entities, top 5 keywords (TF-IDF), and dominant sentiment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import nltk
 nltk.download(&#x27;vader_lexicon&#x27;, quiet=True)
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -1352,7 +1469,7 @@ Effective January 15, 2024. The total value is $500,000.00.
 Acme shall deliver the software by March 31, 2024.
 Beta must pay within 30 days of invoice.
 &#x27;&#x27;&#x27;
-print(extract_contract_metadata(contract))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Write a function that extracts key resume fields from raw text: name (first line), email, phone, years of experience (parse &#x27;X years&#x27; patterns), and programming languages mentioned from a predefined list. Test it on a sample resume string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import re
+print(extract_contract_metadata(contract))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Write a function that extracts key resume fields from raw text: name (first line), email, phone, years of experience (parse &#x27;X years&#x27; patterns), and programming languages mentioned from a predefined list. Test it on a sample resume string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import re
 
 LANGUAGES = [&#x27;Python&#x27;, &#x27;Java&#x27;, &#x27;C++&#x27;, &#x27;JavaScript&#x27;, &#x27;SQL&#x27;, &#x27;R&#x27;, &#x27;Go&#x27;, &#x27;Rust&#x27;, &#x27;Scala&#x27;]
 
@@ -1370,7 +1487,35 @@ jane.doe@email.com | +1-555-123-4567
 5 years of experience in data engineering.
 Skills: Python, SQL, Scala, Apache Spark.
 &#x27;&#x27;&#x27;
-print(extract_resume(resume))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses and phone numbers from a text block</label></li>
+print(extract_resume(resume))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract Emails</div><div class="pd">Find email-like substrings.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">import re
+
+def extract_emails(s):
+    # TODO: re.findall(r&quot;[\w.]+@[\w.]+&quot;, s)
+    return []
+
+print(extract_emails(&quot;a@x.com b@y.org&quot;))</code></pre></div><template class="ho-check">assert extract_emails(&quot;a@x.com b@y.org&quot;) == [&quot;a@x.com&quot;, &quot;b@y.org&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract Numbers</div><div class="pd">Find integers in text.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_2')">Copy</button></div><pre><code id="p10_2" class="language-python">import re
+
+def extract_numbers(s):
+    # TODO: [int(x) for x in re.findall(r&quot;\d+&quot;, s)]
+    return []
+
+print(extract_numbers(&quot;a1 b23&quot;))</code></pre></div><template class="ho-check">assert extract_numbers(&quot;a1 b23&quot;) == [1, 23]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract Hashtags</div><div class="pd">Find hashtag words (without the #).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_3')">Copy</button></div><pre><code id="p10_3" class="language-python">import re
+
+def extract_hashtags(s):
+    # TODO: re.findall(r&quot;#(\w+)&quot;, s)
+    return []
+
+print(extract_hashtags(&quot;#ai and #ml&quot;))</code></pre></div><template class="ho-check">assert extract_hashtags(&quot;#ai and #ml&quot;) == [&quot;ai&quot;, &quot;ml&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract Capitalized</div><div class="pd">Find capitalized words (crude proper nouns).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_4')">Copy</button></div><pre><code id="p10_4" class="language-python">import re
+
+def extract_caps(s):
+    # TODO: re.findall(r&quot;\b[A-Z][a-z]+&quot;, s)
+    return []
+
+print(extract_caps(&quot;Alice met Bob&quot;))</code></pre></div><template class="ho-check">assert extract_caps(&quot;Alice met Bob&quot;) == [&quot;Alice&quot;, &quot;Bob&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses and phone numbers from a text block</label></li>
 <li><label><input type="checkbox"> Write a function that extracts (subject, verb, object) triples using dependency parsing</label></li>
 <li><label><input type="checkbox"> Extract all monetary amounts using a regex pattern like \$[\d,]+</label></li>
 <li><label><input type="checkbox"> Parse structured data from text using event trigger words (e.g., &#x27;acquired&#x27;, &#x27;raised&#x27;)</label></li>
@@ -1516,7 +1661,7 @@ THRESHOLD = 0.35
 for en, fr in pairs:
     score = simple_bleu(en, fr)
     flag = &#x27;REVIEW&#x27; if score &lt; THRESHOLD else &#x27;OK&#x27;
-    print(f&#x27;[{flag}] BLEU={score:.3f} | {fr[:50]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: BLEU Score Evaluator</div><div class="pd">Implement a BLEU-1 and BLEU-2 evaluator. Given a list of (reference, hypothesis) pairs, compute per-pair BLEU scores and the corpus-level BLEU (average). Flag translations below 0.4 for human review. Test with at least 3 sentence pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">from collections import Counter
+    print(f&#x27;[{flag}] BLEU={score:.3f} | {fr[:50]}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: BLEU Score Evaluator</div><div class="pd">Implement a BLEU-1 and BLEU-2 evaluator. Given a list of (reference, hypothesis) pairs, compute per-pair BLEU scores and the corpus-level BLEU (average). Flag translations below 0.4 for human review. Test with at least 3 sentence pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">from collections import Counter
 import math
 
 def bleu_n(ref: str, hyp: str, n: int) -&gt; float:
@@ -1701,7 +1846,7 @@ def answer_question(query: str, top_k: int = 2) -&gt; str:
 for q in [&#x27;How many vacation days do I get?&#x27;, &#x27;Can I work from home?&#x27;, &#x27;expense reimbursement policy&#x27;]:
     print(f&#x27;Q: {q}&#x27;)
     print(f&#x27;A: {answer_question(q)[:120]}&#x27;)
-    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Chatbot with TF-IDF Retrieval</div><div class="pd">Build a simple FAQ chatbot. Given a list of (question, answer) pairs as your knowledge base, retrieve the most similar FAQ question to user input using TF-IDF + cosine similarity, and return its answer. Test with at least 5 FAQ entries and 3 user queries. Report similarity scores.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: FAQ Chatbot with TF-IDF Retrieval</div><div class="pd">Build a simple FAQ chatbot. Given a list of (question, answer) pairs as your knowledge base, retrieve the most similar FAQ question to user input using TF-IDF + cosine similarity, and return its answer. Test with at least 5 FAQ entries and 3 user queries. Report similarity scores.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
@@ -1776,7 +1921,7 @@ for ticket in tickets:
     top_score = result[&quot;scores&quot;][0]
     print(f&quot;Ticket: {ticket[:55]}...&quot;)
     print(f&quot;  -&gt; {top_dept} ({top_score:.3f})&quot;)
-    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Article Classifier</div><div class="pd">Use zero-shot classification with 6 news categories (politics, sports, technology, science, entertainment, business). Classify 5 different news headlines. Then use a pre-trained sentiment pipeline on the same headlines and combine both outputs into a structured report showing category + sentiment for each article.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">from transformers import pipeline
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Article Classifier</div><div class="pd">Use zero-shot classification with 6 news categories (politics, sports, technology, science, entertainment, business). Classify 5 different news headlines. Then use a pre-trained sentiment pipeline on the same headlines and combine both outputs into a structured report showing category + sentiment for each article.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">from transformers import pipeline
 # News headlines to classify
 headlines = [
     &quot;SpaceX successfully lands reusable rocket for 20th time.&quot;,
@@ -1865,7 +2010,7 @@ print(f&quot;Amounts:  {money}&quot;)
 # Extract obligations with regex on sentence level
 for sent in doc.sents:
     if any(w in sent.text.lower() for w in [&quot;agrees&quot;, &quot;shall&quot;, &quot;must&quot;, &quot;terminates&quot;]):
-        print(f&quot;Obligation: {sent.text.strip()[:80]}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Given a sample resume text (3-4 sentences), use spaCy to extract: person name (PERSON), organizations (ORG), job titles (using custom Matcher patterns for &#x27;Senior Engineer&#x27;, &#x27;Data Scientist&#x27;, etc.), years of experience (CARDINAL + &#x27;years&#x27;), and skills (custom pattern for capitalized tech terms). Output a structured JSON-like summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import spacy
+        print(f&quot;Obligation: {sent.text.strip()[:80]}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resume Information Extractor</div><div class="pd">Given a sample resume text (3-4 sentences), use spaCy to extract: person name (PERSON), organizations (ORG), job titles (using custom Matcher patterns for &#x27;Senior Engineer&#x27;, &#x27;Data Scientist&#x27;, etc.), years of experience (CARDINAL + &#x27;years&#x27;), and skills (custom pattern for capitalized tech terms). Output a structured JSON-like summary.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import spacy
 from spacy.matcher import Matcher
 nlp = spacy.load(&quot;en_core_web_sm&quot;)
 resume = &quot;&quot;&quot;
@@ -1954,7 +2099,7 @@ for post in posts:
     print(f&quot;Post: {post[:55]}...&quot;)
     print(f&quot;  Sentiment: {sentiment[&#x27;label&#x27;]} ({sentiment[&#x27;score&#x27;]:.2f})&quot;)
     print(f&quot;  Severity:  {severity}&quot;)
-    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Document Summarization</div><div class="pd">Summarize 3 different news articles (each 100+ words, on the same topic) using BART. Then concatenate the summaries and summarize again to create a &#x27;meta-summary&#x27;. Compare word counts at each stage and compute the compression ratio. Also extract key noun phrases from the meta-summary using spaCy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">from transformers import pipeline
+    print()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Document Summarization</div><div class="pd">Summarize 3 different news articles (each 100+ words, on the same topic) using BART. Then concatenate the summaries and summarize again to create a &#x27;meta-summary&#x27;. Compare word counts at each stage and compute the compression ratio. Also extract key noun phrases from the meta-summary using spaCy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">from transformers import pipeline
 import spacy
 nlp_sp = spacy.load(&quot;en_core_web_sm&quot;)
 summarizer = pipeline(&quot;summarization&quot;, model=&quot;facebook/bart-large-cnn&quot;,
@@ -2071,7 +2216,7 @@ for ticket in tickets:
     ents = extract_entities(ticket)
     print(f&quot;Ticket: {ticket}&quot;)
     print(f&quot;  Entities: {ents}\n&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract entities from text</div><div class="pd">Use re.findall with named patterns to extract PERSON, ORG, and DATE-like patterns from a text string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import re
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract entities from text</div><div class="pd">Use re.findall with named patterns to extract PERSON, ORG, and DATE-like patterns from a text string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import re
 text = &quot;John Smith joined Acme Corp on 2024-01-15 and Microsoft on 2024-03-20.&quot;
 dates = re.findall(r&quot;\d{4}-\d{2}-\d{2}&quot;, text)
 names = re.findall(r&quot;[A-Z][a-z]+ [A-Z][a-z]+&quot;, text)
@@ -2184,7 +2329,7 @@ test_queries = [
 for q in test_queries:
     print(f&quot;Q: {q}&quot;)
     print(f&quot;A: {answer_query(q)}\n&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a semantic search function</div><div class="pd">Use TfidfVectorizer and cosine_similarity to find the most similar document to a query.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a semantic search function</div><div class="pd">Use TfidfVectorizer and cosine_similarity to find the most similar document to a query.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
@@ -2305,7 +2450,7 @@ for review in new_reviews:
     pred = clf.predict([review])[0]
     prob = max(clf.predict_proba([review])[0])
     print(f&quot;  [{pred:&gt;8}] ({prob:.3f}) {review}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classifier pipeline</div><div class="pd">Use sklearn Pipeline with TfidfVectorizer and LogisticRegression to classify text into categories.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">from sklearn.pipeline import Pipeline
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classifier pipeline</div><div class="pd">Use sklearn Pipeline with TfidfVectorizer and LogisticRegression to classify text into categories.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
@@ -2438,7 +2583,7 @@ for model_name, (model, vec) in models.items():
     for topic in range(n_topics):
         docs = [articles[j][:40] for j in range(len(articles)) if assignments[j] == topic]
         print(f&quot;  Topic {topic+1} docs: {docs}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Discover topics in a corpus</div><div class="pd">Apply LDA with CountVectorizer to find 3 topics and print the top 5 words per topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Discover topics in a corpus</div><div class="pd">Apply LDA with CountVectorizer to find 3 topics and print the top 5 words per topic.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
 docs = [&quot;cats dogs pets animals&quot;, &quot;python code programming&quot;, &quot;market stocks trading&quot;,
@@ -2597,7 +2742,7 @@ summary = hybrid_summarize(legal_text, ratio=0.4)
 print(f&quot;Original: {len(legal_text.split())} words, {len(legal_text.split(&#x27;. &#x27;))} sentences&quot;)
 print(f&quot;Summary:  {len(summary.split())} words&quot;)
 print(f&quot;\n{summary}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement extractive summarization</div><div class="pd">Write a function that scores sentences by word frequency and returns the top N sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import re
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement extractive summarization</div><div class="pd">Write a function that scores sentences by word frequency and returns the top N sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import re
 from collections import Counter
 
 def summarize(text, n=2):
@@ -2750,7 +2895,7 @@ questions = [
 for q in questions:
     print(f&quot;Q: {q}&quot;)
     print(f&quot;A: {hr_qa(q)}\n&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a simple QA retriever</div><div class="pd">Index a list of passages with TF-IDF and return the most relevant passage for a question.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a simple QA retriever</div><div class="pd">Index a list of passages with TF-IDF and return the most relevant passage for a question.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
@@ -2909,7 +3054,7 @@ for i in range(4):
 print(&quot;\nGenerated Items:&quot;)
 for i in range(4):
     print(f&quot;  Item {i+1}: {gen.generate_from_template(&#x27;item&#x27;, seed=i+10)}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Markov chain text generator</div><div class="pd">Train a bigram Markov chain on sample text and generate 3 different sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import random
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Markov chain text generator</div><div class="pd">Train a bigram Markov chain on sample text and generate 3 different sentences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import random
 from collections import defaultdict
 
 chain = defaultdict(list)
@@ -3124,7 +3269,7 @@ for text in test_inputs:
 
 print(&quot;\nAudit Log:&quot;)
 print(json.dumps(audit, indent=2))
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classification pipeline</div><div class="pd">Create an sklearn Pipeline with TfidfVectorizer + LogisticRegression, train it on intent examples, and classify new inputs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">from sklearn.pipeline import Pipeline
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a text classification pipeline</div><div class="pd">Create an sklearn Pipeline with TfidfVectorizer + LogisticRegression, train it on intent examples, and classify new inputs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
@@ -3143,7 +3288,7 @@ print(&quot;term frequency:&quot;, Counter(tokens).most_common(3))</code></pre><
 bigrams = list(zip(tokens, tokens[1:]))
 trigrams = list(zip(tokens, tokens[1:], tokens[2:]))
 print(&quot;bigrams:&quot;, bigrams)
-print(&quot;trigrams:&quot;, trigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tokenize &amp; Bigrams</div><div class="pd">Implement tokenize(text) returning lowercase word tokens, and bigrams(tokens) returning the list of consecutive (w1, w2) pairs. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import re
+print(&quot;trigrams:&quot;, trigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tokenize &amp; Bigrams</div><div class="pd">Implement tokenize(text) returning lowercase word tokens, and bigrams(tokens) returning the list of consecutive (w1, w2) pairs. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import re
 from collections import Counter
 
 def tokenize(text):
@@ -3169,7 +3314,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 <li><label><input type="checkbox"> Confirm there are len(tokens) - 1 bigrams</label></li></ul></div></div></div><div class="topic" id="s25"><div class="th" onclick="tog(this)"><span>Challenge: Stopword Removal</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Stopwords (&#x27;the&#x27;, &#x27;is&#x27;, ...) carry little signal and are usually filtered before modeling. Stdlib-only, runs in the browser. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Filter tokens</span><button onclick="cp('c25_0')">Copy</button></div><pre><code id="c25_0" class="language-python">tokens = [&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;, &quot;is&quot;, &quot;fast&quot;]
 stop = {&quot;the&quot;, &quot;is&quot;, &quot;a&quot;, &quot;an&quot;}
 kept = [t for t in tokens if t not in stop]
-print(kept)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Remove Stopwords</div><div class="pd">Implement remove_stopwords(tokens, stop): return the tokens not in `stop`, in original order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">def remove_stopwords(tokens, stop):
+print(kept)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Remove Stopwords</div><div class="pd">Implement remove_stopwords(tokens, stop): return the tokens not in `stop`, in original order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">def remove_stopwords(tokens, stop):
     stop = set(stop)
     # TODO: keep tokens that are NOT stopwords, preserving order
     return tokens
@@ -3183,7 +3328,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 tokens = [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;]
 vocab = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]
 counts = Counter(tokens)
-print([counts[w] for w in vocab])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TF Vector</div><div class="pd">Implement tf_vector(tokens, vocab): return a list of counts of each vocab word in tokens, in vocab order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">from collections import Counter
+print([counts[w] for w in vocab])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TF Vector</div><div class="pd">Implement tf_vector(tokens, vocab): return a list of counts of each vocab word in tokens, in vocab order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">from collections import Counter
 
 def tf_vector(tokens, vocab):
     # TODO: count tokens, then return [count of w for w in vocab]
@@ -3194,7 +3339,7 @@ assert tf_vector([], [&quot;a&quot;, &quot;b&quot;]) == [0, 0], &quot;no tokens 
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Count tokens with collections.Counter</label></li>
 <li><label><input type="checkbox"> Read counts off in vocabulary order (0 for unseen words)</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>Challenge: Character N-grams</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Character n-grams capture sub-word structure (useful for fuzzy matching and typo-tolerant search). Stdlib-only, runs in the browser. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Sliding character windows</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">s = &quot;hello&quot;
 bigrams = [s[i:i+2] for i in range(len(s) - 1)]
-print(bigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Char N-grams</div><div class="pd">Implement char_ngrams(s, n): drop spaces, then return the list of length-n character substrings in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">def char_ngrams(s, n):
+print(bigrams)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Char N-grams</div><div class="pd">Implement char_ngrams(s, n): drop spaces, then return the list of length-n character substrings in order. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">def char_ngrams(s, n):
     s = s.replace(&quot; &quot;, &quot;&quot;)
     # TODO: return [s[i:i+n] for i in range(len(s) - n + 1)]
     return []
@@ -3204,7 +3349,7 @@ assert char_ngrams(&quot;ab&quot;, 3) == [], &quot;n larger than the string yiel
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Slide a window of size n across the string</label></li>
 <li><label><input type="checkbox"> There are len(s) - n + 1 character n-grams</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Jaccard Similarity</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Jaccard similarity compares two sets of tokens by overlap — a quick document-similarity measure. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Intersection over union</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">a = {&quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;}
 b = {&quot;the&quot;, &quot;cat&quot;, &quot;ran&quot;}
-print(&quot;jaccard:&quot;, len(a &amp; b) / len(a | b))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jaccard</div><div class="pd">Implement jaccard(a, b): return the Jaccard similarity of two token collections (use sets). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">def jaccard(a, b):
+print(&quot;jaccard:&quot;, len(a &amp; b) / len(a | b))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Jaccard</div><div class="pd">Implement jaccard(a, b): return the Jaccard similarity of two token collections (use sets). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">def jaccard(a, b):
     A, B = set(a), set(b)
     # TODO: |A &amp; B| / |A | B|  (return 1.0 if both are empty)
     return 0.0

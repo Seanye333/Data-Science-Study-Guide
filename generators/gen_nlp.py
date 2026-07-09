@@ -32,15 +32,17 @@ def make_html(sections):
                        f'<div class="code-block"><div class="ch"><span>Real-World Code</span>'
                        f'<button onclick="cp(\'{rwid}\')">Copy</button></div>'
                        f'<pre><code id="{rwid}" class="language-python">{esc(rw_code)}</code></pre></div></div>')
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -98,8 +100,7 @@ def make_nb(sections):
         if s.get("rw_scenario"):
             md(f"### Real-World Scenario\n\n{s['rw_scenario']}")
             code(s["rw_code"])
-        if s.get("practice"):
-            p = s["practice"]
+        for p in (s.get("practices") if s.get("practices") is not None else ([s["practice"]] if s.get("practice") else [])):
             md(f"### Practice: {p['title']}\n\n{p['desc']}")
             code(p["starter"])
     return {"nbformat":4,"nbformat_minor":5,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"cells":cells}
@@ -193,7 +194,8 @@ SECTIONS = [
             "for t in tickets:\n"
             "    print(preprocess_ticket(t))"
         ),
-        "practice": {
+        "practices": [
+{
             "title": "Email Cleaner",
             "desc": "Write a function that strips email headers (From:, To:, Subject:), removes quoted lines starting with '>', and cleans leftover whitespace.",
             "starter": (
@@ -215,6 +217,31 @@ SECTIONS = [
                 "print(clean_email(email))"
             )
         },
+{
+"title": 'Lowercase & Strip',
+"desc": 'Lowercase and strip surrounding whitespace.',
+"starter": 'def to_lower_clean(s):\n    # TODO: lowercase and strip\n    return s\n\nprint(repr(to_lower_clean("  Hello  ")))',
+"check": 'assert to_lower_clean("  Hello  ") == "hello"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Remove Punctuation',
+"desc": 'Remove all non-word, non-space characters.',
+"starter": 'import re\n\ndef remove_punct(s):\n    # TODO: re.sub(r"[^\\w\\s]", "", s)\n    return s\n\nprint(remove_punct("hi, there!"))',
+"check": 'assert remove_punct("hi, there!") == "hi there"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Normalize Whitespace',
+"desc": 'Collapse runs of whitespace to single spaces, trimmed.',
+"starter": 'import re\n\ndef normalize_ws(s):\n    # TODO: collapse whitespace to single spaces and strip\n    return s\n\nprint(repr(normalize_ws("a   b\\t c")))',
+"check": 'assert normalize_ws("a   b\\t c") == "a b c"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Strip HTML Tags',
+"desc": 'Remove <...> tags from a string.',
+"starter": 'import re\n\ndef strip_tags(s):\n    # TODO: re.sub(r"<[^>]+>", "", s)\n    return s\n\nprint(strip_tags("<b>hi</b>"))',
+"check": 'assert strip_tags("<b>hi</b>") == "hi"\nprint("All checks passed \\u2713")',
+}
+],
         "todos": [
             "Lowercase a string and strip HTML tags using re.sub(r'<[^>]+>', '', text)",
             "Remove URLs, @mentions, and hashtags from a tweet using three separate regex patterns",
@@ -308,7 +335,8 @@ SECTIONS = [
             "review = 'The battery life is amazing. This phone has the best battery I have ever used. Great camera too.'\n"
             "print(extract_keywords(review))"
         ),
-        "practice": {
+        "practices": [
+{
             "title": "Custom Stopword Filter",
             "desc": "Extend the standard NLTK stopword list with domain-specific words (e.g., 'customer', 'product', 'order') and filter a list of reviews.",
             "starter": (
@@ -331,6 +359,31 @@ SECTIONS = [
                 "    print(filter_tokens(r))"
             )
         },
+{
+"title": 'Tokenize',
+"desc": 'Lowercase word tokens.',
+"starter": 'import re\n\ndef tokenize(s):\n    # TODO: re.findall(r"[a-z]+", s.lower())\n    return []\n\nprint(tokenize("The Cat!"))',
+"check": 'assert tokenize("The Cat!") == ["the", "cat"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Sentence Split',
+"desc": 'Split text into trimmed non-empty sentences on . ! ?',
+"starter": 'import re\n\ndef sentence_split(s):\n    # TODO: split on [.!?]+, strip, drop empties\n    return []\n\nprint(sentence_split("Hi. Bye!"))',
+"check": 'assert sentence_split("Hi. Bye!") == ["Hi", "Bye"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Remove Stopwords',
+"desc": 'Filter out stopwords, preserving order.',
+"starter": 'def remove_stops(toks, stop):\n    stop = set(stop)\n    # TODO: keep tokens not in stop\n    return toks\n\nprint(remove_stops(["the", "cat"], ["the"]))',
+"check": 'assert remove_stops(["the", "cat"], ["the"]) == ["cat"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Word N-grams',
+"desc": 'Build word n-grams as tuples.',
+"starter": 'def ngrams(toks, n):\n    # TODO: [tuple(toks[i:i+n]) for i in range(len(toks)-n+1)]\n    return []\n\nprint(ngrams(["a", "b", "c"], 2))',
+"check": 'assert ngrams(["a", "b", "c"], 2) == [("a", "b"), ("b", "c")]\nprint("All checks passed \\u2713")',
+}
+],
         "todos": [
             "Tokenize a paragraph using both word_tokenize and sent_tokenize — compare output",
             "Remove stopwords from a sentence and count how many words remain",
@@ -850,7 +903,8 @@ SECTIONS = [
             "            print(f'    {clauses[i][:60]}')\n"
             "            print(f'    {clauses[j][:60]}')"
         ),
-        "practice": {
+        "practices": [
+{
             "title": "FAQ Matcher",
             "desc": "Build a simple FAQ bot: given a user question, find the most similar FAQ entry using TF-IDF cosine similarity.",
             "starter": (
@@ -872,6 +926,31 @@ SECTIONS = [
                 "print(find_answer('Do you accept credit cards?'))"
             )
         },
+{
+"title": 'Jaccard',
+"desc": 'Jaccard similarity of two token sets.',
+"starter": 'def jaccard(a, b):\n    A, B = set(a), set(b)\n    # TODO: |A & B| / |A | B| (1.0 if both empty)\n    return 0.0\n\nprint(round(jaccard(["a", "b"], ["b", "c"]), 3))',
+"check": 'assert jaccard(["a", "b"], ["b", "c"]) == 1/3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'TF Vector',
+"desc": 'Term-frequency vector over a fixed vocab.',
+"starter": 'import re\nfrom collections import Counter\n\ndef tf_vector(toks, vocab):\n    c = Counter(toks)\n    # TODO: [count of w for w in vocab]\n    return []\n\nprint(tf_vector(["a", "a", "b"], ["a", "b", "c"]))',
+"check": 'assert tf_vector(["a", "a", "b"], ["a", "b", "c"]) == [2, 1, 0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Cosine Similarity',
+"desc": 'Cosine similarity of two count vectors.',
+"starter": 'import math\n\ndef cosine(a, b):\n    dot = sum(x*y for x, y in zip(a, b))\n    na = math.sqrt(sum(x*x for x in a))\n    nb = math.sqrt(sum(y*y for y in b))\n    # TODO: dot / (na*nb), or 0.0 if a norm is 0\n    return 0.0\n\nprint(cosine([1, 0], [1, 0]))',
+"check": 'assert abs(cosine([1, 0], [1, 0]) - 1) < 1e-9\nassert cosine([1, 0], [0, 1]) == 0.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Overlap Coefficient',
+"desc": 'Overlap = |A & B| / min(|A|, |B|).',
+"starter": 'def overlap(a, b):\n    A, B = set(a), set(b)\n    # TODO: |A & B| / min(|A|, |B|), 0.0 if either is empty\n    return 0.0\n\nprint(overlap(["a", "b", "c"], ["a", "b"]))',
+"check": 'assert overlap(["a", "b", "c"], ["a", "b"]) == 1.0\nprint("All checks passed \\u2713")',
+}
+],
         "todos": [
             "Fit TF-IDF on a 3-doc corpus and inspect the feature matrix with get_feature_names_out()",
             "Compute cosine similarity between two TF-IDF vectors and interpret the score",
@@ -1165,7 +1244,8 @@ SECTIONS = [
             "    proba = router.predict_proba([pr]).max()\n"
             "    print(f'{desk.upper()} ({proba:.0%}): {pr}')"
         ),
-        "practice": {
+        "practices": [
+{
             "title": "Review Sentiment Classifier",
             "desc": "Train a TF-IDF + Logistic Regression classifier to predict star rating buckets (1-2=negative, 3=neutral, 4-5=positive) from review text.",
             "starter": (
@@ -1189,6 +1269,31 @@ SECTIONS = [
                 "# TODO: fit, predict, print classification_report"
             )
         },
+{
+"title": 'Counts By Class',
+"desc": 'Aggregate word counts per class label.',
+"starter": 'import re\nfrom collections import Counter\n\ndef word_counts_by_class(docs):\n    d = {}\n    # TODO: for (label, tokens) in docs, accumulate a Counter per label; return dict of dicts\n    for label, toks in docs:\n        d.setdefault(label, Counter()).update(toks)\n    return {k: dict(v) for k, v in d.items()}\n\nprint(word_counts_by_class([("pos", ["good", "great"]), ("neg", ["bad"])]))',
+"check": 'r = word_counts_by_class([("pos", ["good", "great"]), ("neg", ["bad"])])\nassert r["pos"] == {"good": 1, "great": 1} and r["neg"] == {"bad": 1}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Majority Class',
+"desc": 'Return the most common label.',
+"starter": 'import re\nfrom collections import Counter\n\ndef majority_class(labels):\n    # TODO: most common label (Counter.most_common)\n    return None\n\nprint(majority_class(["a", "b", "a"]))',
+"check": 'assert majority_class(["a", "b", "a"]) == "a"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Class Prior',
+"desc": 'P(class) = count / total.',
+"starter": 'def class_prior(labels, c):\n    # TODO: fraction of labels equal to c\n    return 0.0\n\nprint(round(class_prior(["a", "a", "b"], "a"), 3))',
+"check": 'assert class_prior(["a", "a", "b"], "a") == 2/3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Keyword Predict',
+"desc": 'Predict pos if any positive keyword appears, else neg.',
+"starter": 'import re\n\ndef predict_keyword(text, pos_words):\n    toks = set(re.findall(r"[a-z]+", text.lower()))\n    # TODO: "pos" if toks intersects pos_words else "neg"\n    return "neg"\n\nprint(predict_keyword("this is good", ["good", "great"]))',
+"check": 'assert predict_keyword("this is good", ["good", "great"]) == "pos"\nassert predict_keyword("this is bad", ["good"]) == "neg"\nprint("All checks passed \\u2713")',
+}
+],
         "todos": [
             "Build a Pipeline with TfidfVectorizer + MultinomialNB and print the classification report",
             "Try ngram_range=(1,2) in TF-IDF and compare accuracy to unigrams only",
@@ -1548,7 +1653,8 @@ SECTIONS = [
         ],
         "rw_scenario": "A legal tech company needs to extract contract metadata (parties, dates, amounts, obligations) from thousands of PDF contracts to populate a contract management system automatically.",
         "rw_code": "import re\nfrom typing import Optional\n\ndef extract_contract_metadata(text: str) -> dict:\n    result = {}\n    # Party extraction: 'between X and Y'\n    party_m = re.search(r'between\\s+([^,]+?)\\s+and\\s+([^,\\.]+)', text, re.I)\n    if party_m:\n        result['party_1'] = party_m.group(1).strip()\n        result['party_2'] = party_m.group(2).strip()\n    # Date extraction\n    date_m = re.findall(r'\\b(\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{1,2},? \\d{4})\\b', text, re.I)\n    result['dates'] = date_m[:3]\n    # Amount extraction\n    amounts = re.findall(r'\\$[\\d,]+(?:\\.\\d{2})?(?:\\s*(?:million|billion|thousand))?', text, re.I)\n    result['amounts'] = amounts\n    # Obligation keywords\n    obligations = re.findall(r'\\b(shall|must|will|agrees to|is required to)\\b', text, re.I)\n    result['obligation_count'] = len(obligations)\n    return result\n\ncontract = '''\nThis agreement is entered into between Acme Corporation and Beta Ltd.\nEffective January 15, 2024. The total value is $500,000.00.\nAcme shall deliver the software by March 31, 2024.\nBeta must pay within 30 days of invoice.\n'''\nprint(extract_contract_metadata(contract))",
-        "practice": {
+        "practices": [
+{
             "title": "Resume Information Extractor",
             "desc": "Write a function that extracts key resume fields from raw text: name (first line), email, phone, years of experience (parse 'X years' patterns), and programming languages mentioned from a predefined list. Test it on a sample resume string.",
             "starter": (
@@ -1570,6 +1676,31 @@ SECTIONS = [
                 "print(extract_resume(resume))"
             )
         },
+{
+"title": 'Extract Emails',
+"desc": 'Find email-like substrings.',
+"starter": 'import re\n\ndef extract_emails(s):\n    # TODO: re.findall(r"[\\w.]+@[\\w.]+", s)\n    return []\n\nprint(extract_emails("a@x.com b@y.org"))',
+"check": 'assert extract_emails("a@x.com b@y.org") == ["a@x.com", "b@y.org"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Extract Numbers',
+"desc": 'Find integers in text.',
+"starter": 'import re\n\ndef extract_numbers(s):\n    # TODO: [int(x) for x in re.findall(r"\\d+", s)]\n    return []\n\nprint(extract_numbers("a1 b23"))',
+"check": 'assert extract_numbers("a1 b23") == [1, 23]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Extract Hashtags',
+"desc": 'Find hashtag words (without the #).',
+"starter": 'import re\n\ndef extract_hashtags(s):\n    # TODO: re.findall(r"#(\\w+)", s)\n    return []\n\nprint(extract_hashtags("#ai and #ml"))',
+"check": 'assert extract_hashtags("#ai and #ml") == ["ai", "ml"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Extract Capitalized',
+"desc": 'Find capitalized words (crude proper nouns).',
+"starter": 'import re\n\ndef extract_caps(s):\n    # TODO: re.findall(r"\\b[A-Z][a-z]+", s)\n    return []\n\nprint(extract_caps("Alice met Bob"))',
+"check": 'assert extract_caps("Alice met Bob") == ["Alice", "Bob"]\nprint("All checks passed \\u2713")',
+}
+],
         "todos": [
             "Use re.findall to extract all email addresses and phone numbers from a text block",
             "Write a function that extracts (subject, verb, object) triples using dependency parsing",
