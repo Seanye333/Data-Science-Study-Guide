@@ -32,15 +32,17 @@ def make_html(sections):
                        f'<div class="code-block"><div class="ch"><span>Real-World Code</span>'
                        f'<button onclick="cp(\'{rwid}\')">Copy</button></div>'
                        f'<pre><code id="{rwid}" class="language-python">{esc(rw_code)}</code></pre></div></div>')
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -108,8 +110,10 @@ def make_nb(sections):
         if rw_scenario:
             cells.append(md(f"### Real-World Scenario\n\n> {rw_scenario}"))
             cells.append(code(rw_code))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"nbformat":4,"nbformat_minor":5}
@@ -216,7 +220,8 @@ print('Cleaned time series:')
 print(raw[['store', 'amount']])
 print('\\nIndex timezone:', raw.index.tz)
 print('Date range:', raw.index[0], 'to', raw.index[-1])""",
-"practice": {
+"practices": [
+{
 "title": "Custom DatetimeIndex",
 "desc": "Create a DatetimeIndex for every Monday in 2024. Build a Series with random weekly sales (uniform 1000-5000). Print the total sales per quarter using .resample('QE').sum().",
 "starter":
@@ -231,6 +236,31 @@ rng = np.random.default_rng(0)
 
 # TODO: resample to quarterly and print
 """},
+{
+"title": 'Make Time Series',
+"desc": 'Index values as consecutive days from 2024-01-01.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    # TODO: pd.Series with a daily DatetimeIndex (pd.date_range)\n    return pd.Series(values)\n\nprint(make_ts([1, 2, 3]).index[0])',
+"check": 'import pandas as pd\nassert make_ts([1, 2, 3]).index[0] == pd.Timestamp("2024-01-01")\nassert make_ts([1, 2, 3]).index.freqstr == "D"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Day of Week',
+"desc": 'Return the weekday name of a date string.',
+"starter": 'import pandas as pd\n\ndef day_of_week(date_str):\n    # TODO: pd.Timestamp(date_str).day_name()\n    return ""\n\nprint(day_of_week("2024-01-01"))',
+"check": 'assert day_of_week("2024-01-01") == "Monday"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Days Between',
+"desc": 'Return the number of days from d1 to d2.',
+"starter": 'import pandas as pd\n\ndef days_between(d1, d2):\n    # TODO: (Timestamp(d2) - Timestamp(d1)).days\n    return 0\n\nprint(days_between("2024-01-01", "2024-01-10"))',
+"check": 'assert days_between("2024-01-01", "2024-01-10") == 9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Filter Month',
+"desc": 'Keep only the observations in a given month.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq="D"))\n\ndef filter_month(s, month):\n    # TODO: keep rows where s.index.month == month\n    return s\n\nprint(len(filter_month(make_ts(range(60)), 2)))',
+"check": 'assert len(filter_month(make_ts(range(60)), 2)) == 29, "Feb 2024 has 29 days"\nprint("All checks passed \\u2713")',
+}
+],
 "todos": [
     "Parse a CSV with mixed date formats using pd.to_datetime(infer_datetime_format=True)",
     "Slice a time series to just one year using string indexing ts['2024']",
@@ -354,7 +384,8 @@ report = pd.DataFrame({'revenue': monthly, 'mom_growth_%': monthly_growth}).tail
 print(report.round(2))
 print('\\nQuarterly totals with QoQ growth:')
 print(pd.DataFrame({'revenue': quarterly, 'qoq_%': quarterly_growth}).round(2))""",
-"practice": {
+"practices": [
+{
 "title": "Resample and Compare",
 "desc": "Generate hourly temperature data for January 2024 (mean=5°C, std=8°C, with a sine wave daily cycle). Resample to daily min/mean/max. Find the coldest and warmest day.",
 "starter":
@@ -369,6 +400,31 @@ idx = pd.date_range('2024-01-01', '2024-01-31 23:00', freq='h')
 
 # TODO: print coldest and warmest day
 """},
+{
+"title": 'Monthly Sum',
+"desc": 'Resample a daily series to monthly totals.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq="D"))\n\ndef monthly_sum(s):\n    # TODO: resample to month-end ("ME") and sum\n    return s\n\nprint(monthly_sum(make_ts([1]*31)).iloc[0])',
+"check": 'assert monthly_sum(make_ts([1]*31)).iloc[0] == 31\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Weekly Average',
+"desc": 'Resample a daily series to weekly means.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq="D"))\n\ndef to_weekly_mean(s):\n    # TODO: resample to weekly ("W") and take the mean\n    return s\n\nprint(len(to_weekly_mean(make_ts(range(14)))))',
+"check": 'assert len(to_weekly_mean(make_ts(range(14)))) >= 2\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Upsample Forward-Fill',
+"desc": 'Upsample to 12-hourly, forward-filling values.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq="D"))\n\ndef upsample_ffill(s):\n    # TODO: resample to "12h" and forward-fill\n    return s\n\nprint(len(upsample_ffill(make_ts([1, 2, 3]))))',
+"check": 'assert len(upsample_ffill(make_ts([1, 2, 3]))) >= 5, "denser grid than daily"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Count Per Month',
+"desc": 'Count observations per month.',
+"starter": 'import pandas as pd\n\ndef make_ts(values, start="2024-01-01"):\n    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq="D"))\n\ndef count_per_month(s):\n    # TODO: resample to "ME" and count\n    return s\n\nprint(count_per_month(make_ts(range(31))).iloc[0])',
+"check": 'assert count_per_month(make_ts(range(31))).iloc[0] == 31\nprint("All checks passed \\u2713")',
+}
+],
 "todos": [
     "Load a daily dataset and resample to weekly using .resample('W').mean()",
     "Compare sum vs mean aggregation when resampling — note when each makes sense",
@@ -485,7 +541,8 @@ print('\\nAnomalous days:')
 for date, val in anomalies.items():
     print(f'  {date.date()}: {val:.0f} orders (mean={rm[date]:.0f}, '
           f'bounds=[{lower[date]:.0f}, {upper[date]:.0f}])')""",
-"practice": {
+"practices": [
+{
 "title": "Bollinger Bands",
 "desc": "Generate 60 days of synthetic stock price data starting at $100 with daily returns from N(0.001, 0.02). Compute 20-day SMA and 2-std Bollinger Bands. Print the last 10 rows showing price, upper band, lower band, and whether the price is outside the bands.",
 "starter":
@@ -500,6 +557,31 @@ idx = pd.date_range('2024-01-01', periods=60, freq='B')
 
 # TODO: flag days outside bands and print last 10 rows
 """},
+{
+"title": 'Rolling Mean',
+"desc": 'Rolling mean over window w, leading NaNs dropped.',
+"starter": 'import pandas as pd\n\ndef roll_mean(s, w):\n    s = pd.Series(s, dtype=float)\n    # TODO: rolling(w).mean().dropna()\n    return s\n\nprint(roll_mean([1, 2, 3, 4], 2).tolist())',
+"check": 'assert roll_mean([1, 2, 3, 4], 2).tolist() == [1.5, 2.5, 3.5]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rolling Max',
+"desc": 'Rolling maximum over window w.',
+"starter": 'import pandas as pd\n\ndef roll_max(s, w):\n    s = pd.Series(s, dtype=float)\n    # TODO: rolling(w).max().dropna()\n    return s\n\nprint(roll_max([1, 3, 2, 5], 2).tolist())',
+"check": 'assert roll_max([1, 3, 2, 5], 2).tolist() == [3, 3, 5]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Expanding Sum',
+"desc": 'Cumulative expanding sum.',
+"starter": 'import pandas as pd\n\ndef expanding_sum(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: expanding().sum()\n    return s\n\nprint(expanding_sum([1, 2, 3]).tolist())',
+"check": 'assert expanding_sum([1, 2, 3]).tolist() == [1, 3, 6]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rolling Min',
+"desc": 'Rolling minimum over window w.',
+"starter": 'import pandas as pd\n\ndef roll_min(s, w):\n    s = pd.Series(s, dtype=float)\n    # TODO: rolling(w).min().dropna()\n    return s\n\nprint(roll_min([4, 2, 3, 1], 2).tolist())',
+"check": 'assert roll_min([4, 2, 3, 1], 2).tolist() == [2, 2, 1]\nprint("All checks passed \\u2713")',
+}
+],
 "todos": [
     "Apply a 7-day rolling mean to a noisy series and compare it to a 14-day rolling mean",
     "Use .rolling(window, min_periods=3) and observe where NaN values appear vs disappear",
@@ -1018,7 +1100,8 @@ try:
     print(log_sdiff_diff.dropna().describe().round(4))
 except ImportError:
     print('pip install statsmodels')""",
-"practice": {
+"practices": [
+{
 "title": "Make It Stationary",
 "desc": "Generate 60 months of quarterly sales data: base=500, trend=+5/month, seasonal amplitude=100, noise std=20. Apply the minimum number of transformations to make it stationary (ADF p < 0.05). Print the ADF result at each step.",
 "starter":
@@ -1036,6 +1119,31 @@ try:
     # TODO: print ADF result at each step
 except ImportError:
     print('pip install statsmodels')"""},
+{
+"title": 'N-th Difference',
+"desc": 'First difference, leading NaN dropped.',
+"starter": 'import pandas as pd\n\ndef diff_n(s, n=1):\n    s = pd.Series(s, dtype=float)\n    # TODO: diff(n).dropna()\n    return s\n\nprint(diff_n([1, 3, 6, 10]).tolist())',
+"check": 'assert diff_n([1, 3, 6, 10]).tolist() == [2, 3, 4]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Seasonal Difference',
+"desc": 'Difference at a seasonal lag `period`.',
+"starter": 'import pandas as pd\n\ndef seasonal_diff(s, period):\n    s = pd.Series(s, dtype=float)\n    # TODO: diff(period).dropna()\n    return s\n\nprint(seasonal_diff([1, 2, 3, 4, 5, 6], 3).tolist())',
+"check": 'assert seasonal_diff([1, 2, 3, 4, 5, 6], 3).tolist() == [3, 3, 3]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Percent Change',
+"desc": 'Period-over-period percent change.',
+"starter": 'import pandas as pd\n\ndef pct_change_s(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: pct_change().dropna()\n    return s\n\nprint(pct_change_s([100, 110, 121]).round(2).tolist())',
+"check": 'assert pct_change_s([100, 110, 121]).round(2).tolist() == [0.1, 0.1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Cumulative Return',
+"desc": 'Total return from a price series.',
+"starter": 'import pandas as pd\n\ndef cumulative_returns(s):\n    r = pd.Series(s, dtype=float).pct_change().dropna()\n    # TODO: return (1 + r).prod() - 1\n    return 0.0\n\nprint(round(cumulative_returns([100, 110, 121]), 4))',
+"check": 'assert abs(cumulative_returns([100, 110, 121]) - 0.21) < 1e-9\nprint("All checks passed \\u2713")',
+}
+],
 "todos": [
     "Run adfuller() on a random walk and a stationary AR(1) series — compare ADF statistics",
     "Apply first differencing with .diff() and re-run the ADF test to confirm stationarity",
@@ -1549,7 +1657,8 @@ fi = pd.Series(model.feature_importances_, index=X.columns).nlargest(5)
 print('\\nTop features:')
 for f, v in fi.items():
     print(f'  {f}: {v:.4f}')""",
-"practice": {
+"practices": [
+{
 "title": "Build a Feature Matrix",
 "desc": "Use the hourly energy dataset (simulate: 7 days × 24 hours = 168 hourly readings with daily cycle). Create: lag_1, lag_24 (same hour yesterday), roll_24_mean, hour_of_day, is_weekday. Train a LinearRegression model and print RMSE.",
 "starter":
@@ -1566,6 +1675,31 @@ idx = pd.date_range('2024-01-01', periods=168, freq='h')
 
 # TODO: train LinearRegression and print RMSE
 """},
+{
+"title": 'Lag Feature',
+"desc": 'Shift the series by k to build a lag feature.',
+"starter": 'import pandas as pd\n\ndef lag(s, k):\n    s = pd.Series(s, dtype=float)\n    # TODO: shift by k\n    return s\n\nprint(lag([1, 2, 3], 1).tolist())',
+"check": 'assert lag([1, 2, 3], 1).tolist()[1:] == [1.0, 2.0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rolling Feature',
+"desc": 'A window-w rolling-mean feature (keep NaNs aligned).',
+"starter": 'import pandas as pd\n\nimport numpy as np\n\ndef rolling_feat(s, w):\n    s = pd.Series(s, dtype=float)\n    # TODO: rolling(w).mean()  (do NOT drop NaNs here)\n    return s\n\nprint(rolling_feat([1, 2, 3], 2).round(2).tolist())',
+"check": 'import numpy as np\nassert np.isnan(rolling_feat([1, 2, 3], 2).iloc[0]), "first value has no full window"\nassert rolling_feat([1, 2, 3], 2).iloc[1] == 1.5\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Difference Feature',
+"desc": 'First-difference feature.',
+"starter": 'import pandas as pd\n\ndef diff_feature(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: diff()\n    return s\n\nprint(diff_feature([1, 3, 6]).dropna().tolist())',
+"check": 'assert diff_feature([1, 3, 6]).dropna().tolist() == [2, 3]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Weekend Flag',
+"desc": '1 for Saturday/Sunday, else 0, for a list of dates.',
+"starter": 'import pandas as pd\n\ndef is_weekend(dates):\n    idx = pd.to_datetime(dates)\n    # TODO: (idx.dayofweek >= 5) as int\n    return idx\n\nprint(list(is_weekend(["2024-01-06", "2024-01-08"])))',
+"check": 'assert list(is_weekend(["2024-01-06", "2024-01-08"])) == [1, 0], "Sat=1, Mon=0"\nprint("All checks passed \\u2713")',
+}
+],
 "todos": [
     "Create lag_1 through lag_7 features for a daily series and check their correlation with target",
     "Add a rolling 14-day mean feature shifted by 1 day (to avoid data leakage)",

@@ -124,7 +124,7 @@ raw.index = raw.index.tz_localize(&#x27;US/Eastern&#x27;).tz_convert(&#x27;UTC&#
 print(&#x27;Cleaned time series:&#x27;)
 print(raw[[&#x27;store&#x27;, &#x27;amount&#x27;]])
 print(&#x27;\nIndex timezone:&#x27;, raw.index.tz)
-print(&#x27;Date range:&#x27;, raw.index[0], &#x27;to&#x27;, raw.index[-1])</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom DatetimeIndex</div><div class="pd">Create a DatetimeIndex for every Monday in 2024. Build a Series with random weekly sales (uniform 1000-5000). Print the total sales per quarter using .resample(&#x27;QE&#x27;).sum().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import pandas as pd
+print(&#x27;Date range:&#x27;, raw.index[0], &#x27;to&#x27;, raw.index[-1])</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom DatetimeIndex</div><div class="pd">Create a DatetimeIndex for every Monday in 2024. Build a Series with random weekly sales (uniform 1000-5000). Print the total sales per quarter using .resample(&#x27;QE&#x27;).sum().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(0)
@@ -134,7 +134,40 @@ rng = np.random.default_rng(0)
 # TODO: create Series with random sales
 
 # TODO: resample to quarterly and print
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Parse a CSV with mixed date formats using pd.to_datetime(infer_datetime_format=True)</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make Time Series</div><div class="pd">Index values as consecutive days from 2024-01-01.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    # TODO: pd.Series with a daily DatetimeIndex (pd.date_range)
+    return pd.Series(values)
+
+print(make_ts([1, 2, 3]).index[0])</code></pre></div><template class="ho-check">import pandas as pd
+assert make_ts([1, 2, 3]).index[0] == pd.Timestamp(&quot;2024-01-01&quot;)
+assert make_ts([1, 2, 3]).index.freqstr == &quot;D&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Day of Week</div><div class="pd">Return the weekday name of a date string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">import pandas as pd
+
+def day_of_week(date_str):
+    # TODO: pd.Timestamp(date_str).day_name()
+    return &quot;&quot;
+
+print(day_of_week(&quot;2024-01-01&quot;))</code></pre></div><template class="ho-check">assert day_of_week(&quot;2024-01-01&quot;) == &quot;Monday&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Days Between</div><div class="pd">Return the number of days from d1 to d2.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import pandas as pd
+
+def days_between(d1, d2):
+    # TODO: (Timestamp(d2) - Timestamp(d1)).days
+    return 0
+
+print(days_between(&quot;2024-01-01&quot;, &quot;2024-01-10&quot;))</code></pre></div><template class="ho-check">assert days_between(&quot;2024-01-01&quot;, &quot;2024-01-10&quot;) == 9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Month</div><div class="pd">Keep only the observations in a given month.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq=&quot;D&quot;))
+
+def filter_month(s, month):
+    # TODO: keep rows where s.index.month == month
+    return s
+
+print(len(filter_month(make_ts(range(60)), 2)))</code></pre></div><template class="ho-check">assert len(filter_month(make_ts(range(60)), 2)) == 29, &quot;Feb 2024 has 29 days&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Parse a CSV with mixed date formats using pd.to_datetime(infer_datetime_format=True)</label></li>
 <li><label><input type="checkbox"> Slice a time series to just one year using string indexing ts[&#x27;2024&#x27;]</label></li>
 <li><label><input type="checkbox"> Extract day-of-week from a DatetimeIndex and compute the mean value per weekday</label></li>
 <li><label><input type="checkbox"> Localize a naive DatetimeIndex to UTC then convert it to US/Eastern</label></li>
@@ -236,7 +269,7 @@ print(&#x27;Monthly revenue with MoM growth (last 6):&#x27;)
 report = pd.DataFrame({&#x27;revenue&#x27;: monthly, &#x27;mom_growth_%&#x27;: monthly_growth}).tail(6)
 print(report.round(2))
 print(&#x27;\nQuarterly totals with QoQ growth:&#x27;)
-print(pd.DataFrame({&#x27;revenue&#x27;: quarterly, &#x27;qoq_%&#x27;: quarterly_growth}).round(2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resample and Compare</div><div class="pd">Generate hourly temperature data for January 2024 (mean=5°C, std=8°C, with a sine wave daily cycle). Resample to daily min/mean/max. Find the coldest and warmest day.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import pandas as pd
+print(pd.DataFrame({&#x27;revenue&#x27;: quarterly, &#x27;qoq_%&#x27;: quarterly_growth}).round(2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resample and Compare</div><div class="pd">Generate hourly temperature data for January 2024 (mean=5°C, std=8°C, with a sine wave daily cycle). Resample to daily min/mean/max. Find the coldest and warmest day.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -246,7 +279,47 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, &#x27;2024-01-31 23:00&#x27;, freq=&
 # TODO: resample to daily min/mean/max
 
 # TODO: print coldest and warmest day
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a daily dataset and resample to weekly using .resample(&#x27;W&#x27;).mean()</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monthly Sum</div><div class="pd">Resample a daily series to monthly totals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq=&quot;D&quot;))
+
+def monthly_sum(s):
+    # TODO: resample to month-end (&quot;ME&quot;) and sum
+    return s
+
+print(monthly_sum(make_ts([1]*31)).iloc[0])</code></pre></div><template class="ho-check">assert monthly_sum(make_ts([1]*31)).iloc[0] == 31
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weekly Average</div><div class="pd">Resample a daily series to weekly means.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq=&quot;D&quot;))
+
+def to_weekly_mean(s):
+    # TODO: resample to weekly (&quot;W&quot;) and take the mean
+    return s
+
+print(len(to_weekly_mean(make_ts(range(14)))))</code></pre></div><template class="ho-check">assert len(to_weekly_mean(make_ts(range(14)))) &gt;= 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upsample Forward-Fill</div><div class="pd">Upsample to 12-hourly, forward-filling values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq=&quot;D&quot;))
+
+def upsample_ffill(s):
+    # TODO: resample to &quot;12h&quot; and forward-fill
+    return s
+
+print(len(upsample_ffill(make_ts([1, 2, 3]))))</code></pre></div><template class="ho-check">assert len(upsample_ffill(make_ts([1, 2, 3]))) &gt;= 5, &quot;denser grid than daily&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Per Month</div><div class="pd">Count observations per month.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import pandas as pd
+
+def make_ts(values, start=&quot;2024-01-01&quot;):
+    return pd.Series(values, index=pd.date_range(start, periods=len(values), freq=&quot;D&quot;))
+
+def count_per_month(s):
+    # TODO: resample to &quot;ME&quot; and count
+    return s
+
+print(count_per_month(make_ts(range(31))).iloc[0])</code></pre></div><template class="ho-check">assert count_per_month(make_ts(range(31))).iloc[0] == 31
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a daily dataset and resample to weekly using .resample(&#x27;W&#x27;).mean()</label></li>
 <li><label><input type="checkbox"> Compare sum vs mean aggregation when resampling — note when each makes sense</label></li>
 <li><label><input type="checkbox"> Apply OHLC resampling to a daily price series to get weekly open/high/low/close</label></li>
 <li><label><input type="checkbox"> Use .resample(&#x27;M&#x27;).agg({&#x27;col&#x27;: [&#x27;mean&#x27;, &#x27;min&#x27;, &#x27;max&#x27;]}) for multiple stats</label></li>
@@ -341,7 +414,7 @@ print(f&#x27;Total days: {len(orders)}, Anomalies detected: {len(anomalies)}&#x2
 print(&#x27;\nAnomalous days:&#x27;)
 for date, val in anomalies.items():
     print(f&#x27;  {date.date()}: {val:.0f} orders (mean={rm[date]:.0f}, &#x27;
-          f&#x27;bounds=[{lower[date]:.0f}, {upper[date]:.0f}])&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bollinger Bands</div><div class="pd">Generate 60 days of synthetic stock price data starting at $100 with daily returns from N(0.001, 0.02). Compute 20-day SMA and 2-std Bollinger Bands. Print the last 10 rows showing price, upper band, lower band, and whether the price is outside the bands.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import pandas as pd
+          f&#x27;bounds=[{lower[date]:.0f}, {upper[date]:.0f}])&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bollinger Bands</div><div class="pd">Generate 60 days of synthetic stock price data starting at $100 with daily returns from N(0.001, 0.02). Compute 20-day SMA and 2-std Bollinger Bands. Print the last 10 rows showing price, upper band, lower band, and whether the price is outside the bands.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -351,7 +424,39 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=60, freq=&#x27;B&#x27;)
 # TODO: compute 20-day SMA and Bollinger Bands
 
 # TODO: flag days outside bands and print last 10 rows
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply a 7-day rolling mean to a noisy series and compare it to a 14-day rolling mean</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Mean</div><div class="pd">Rolling mean over window w, leading NaNs dropped.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import pandas as pd
+
+def roll_mean(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).mean().dropna()
+    return s
+
+print(roll_mean([1, 2, 3, 4], 2).tolist())</code></pre></div><template class="ho-check">assert roll_mean([1, 2, 3, 4], 2).tolist() == [1.5, 2.5, 3.5]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Max</div><div class="pd">Rolling maximum over window w.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import pandas as pd
+
+def roll_max(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).max().dropna()
+    return s
+
+print(roll_max([1, 3, 2, 5], 2).tolist())</code></pre></div><template class="ho-check">assert roll_max([1, 3, 2, 5], 2).tolist() == [3, 3, 5]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expanding Sum</div><div class="pd">Cumulative expanding sum.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import pandas as pd
+
+def expanding_sum(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: expanding().sum()
+    return s
+
+print(expanding_sum([1, 2, 3]).tolist())</code></pre></div><template class="ho-check">assert expanding_sum([1, 2, 3]).tolist() == [1, 3, 6]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Min</div><div class="pd">Rolling minimum over window w.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import pandas as pd
+
+def roll_min(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).min().dropna()
+    return s
+
+print(roll_min([4, 2, 3, 1], 2).tolist())</code></pre></div><template class="ho-check">assert roll_min([4, 2, 3, 1], 2).tolist() == [2, 2, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply a 7-day rolling mean to a noisy series and compare it to a 14-day rolling mean</label></li>
 <li><label><input type="checkbox"> Use .rolling(window, min_periods=3) and observe where NaN values appear vs disappear</label></li>
 <li><label><input type="checkbox"> Compute a 20-day rolling standard deviation and identify the most volatile periods</label></li>
 <li><label><input type="checkbox"> Use .ewm(span=10).mean() and compare it to a simple 10-day rolling mean on the same data</label></li>
@@ -500,7 +605,7 @@ plt.savefig(&#x27;ts_dashboard.png&#x27;, dpi=100)
 plt.close()
 print(&#x27;Saved ts_dashboard.png&#x27;)
 yoy_growth = (y2024.mean() / y2023.mean() - 1) * 100
-print(f&#x27;YoY growth: {yoy_growth:+.1f}%&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Series Time Plot</div><div class="pd">Generate 52 weeks of data for three products (A, B, C) with different trends and seasonalities. Plot all three on the same axis with a legend. Add a 4-week rolling average for each. Save as &#x27;practice_ts.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import matplotlib
+print(f&#x27;YoY growth: {yoy_growth:+.1f}%&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Series Time Plot</div><div class="pd">Generate 52 weeks of data for three products (A, B, C) with different trends and seasonalities. Plot all three on the same axis with a legend. Add a 4-week rolling average for each. Save as &#x27;practice_ts.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -649,7 +754,7 @@ try:
     print(f&#x27;\nOverall trend: +{(res.trend.iloc[-1] - res.trend.iloc[0]):.1f} kWh over the period&#x27;)
     print(f&#x27;Residual std (noise): {res.resid.std():.1f} kWh&#x27;)
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Decompose and Evaluate</div><div class="pd">Generate 3 years of monthly sales data with an upward trend and strong December seasonality (add 200 to December values). Use seasonal_decompose with period=12. Print the seasonal indices for each month. Which month has the highest seasonal component?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Decompose and Evaluate</div><div class="pd">Generate 3 years of monthly sales data with an upward trend and strong December seasonality (add 200 to December values). Use seasonal_decompose with period=12. Print the seasonal indices for each month. Which month has the highest seasonal component?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import pandas as pd
 import numpy as np
 
 rng = np.random.default_rng(42)
@@ -796,7 +901,7 @@ try:
     print(&#x27;\nFinal series ready for ARIMA:&#x27;)
     print(log_sdiff_diff.dropna().describe().round(4))
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make It Stationary</div><div class="pd">Generate 60 months of quarterly sales data: base=500, trend=+5/month, seasonal amplitude=100, noise std=20. Apply the minimum number of transformations to make it stationary (ADF p &lt; 0.05). Print the ADF result at each step.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make It Stationary</div><div class="pd">Generate 60 months of quarterly sales data: base=500, trend=+5/month, seasonal amplitude=100, noise std=20. Apply the minimum number of transformations to make it stationary (ADF p &lt; 0.05). Print the ADF result at each step.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -809,7 +914,39 @@ try:
 
     # TODO: print ADF result at each step
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and a stationary AR(1) series — compare ADF statistics</label></li>
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: N-th Difference</div><div class="pd">First difference, leading NaN dropped.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import pandas as pd
+
+def diff_n(s, n=1):
+    s = pd.Series(s, dtype=float)
+    # TODO: diff(n).dropna()
+    return s
+
+print(diff_n([1, 3, 6, 10]).tolist())</code></pre></div><template class="ho-check">assert diff_n([1, 3, 6, 10]).tolist() == [2, 3, 4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Seasonal Difference</div><div class="pd">Difference at a seasonal lag `period`.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import pandas as pd
+
+def seasonal_diff(s, period):
+    s = pd.Series(s, dtype=float)
+    # TODO: diff(period).dropna()
+    return s
+
+print(seasonal_diff([1, 2, 3, 4, 5, 6], 3).tolist())</code></pre></div><template class="ho-check">assert seasonal_diff([1, 2, 3, 4, 5, 6], 3).tolist() == [3, 3, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent Change</div><div class="pd">Period-over-period percent change.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import pandas as pd
+
+def pct_change_s(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: pct_change().dropna()
+    return s
+
+print(pct_change_s([100, 110, 121]).round(2).tolist())</code></pre></div><template class="ho-check">assert pct_change_s([100, 110, 121]).round(2).tolist() == [0.1, 0.1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Return</div><div class="pd">Total return from a price series.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import pandas as pd
+
+def cumulative_returns(s):
+    r = pd.Series(s, dtype=float).pct_change().dropna()
+    # TODO: return (1 + r).prod() - 1
+    return 0.0
+
+print(round(cumulative_returns([100, 110, 121]), 4))</code></pre></div><template class="ho-check">assert abs(cumulative_returns([100, 110, 121]) - 0.21) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and a stationary AR(1) series — compare ADF statistics</label></li>
 <li><label><input type="checkbox"> Apply first differencing with .diff() and re-run the ADF test to confirm stationarity</label></li>
 <li><label><input type="checkbox"> Use np.log() on an exponentially growing series then check ADF — does log alone help?</label></li>
 <li><label><input type="checkbox"> Apply seasonal differencing with .diff(12) to monthly data and test with adfuller()</label></li>
@@ -944,7 +1081,7 @@ try:
     print(f&#x27;\nMAPE: {mape:.1f}%&#x27;)
     print(f&#x27;RMSE: {rmse:.1f} units&#x27;)
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fit and Forecast</div><div class="pd">Generate 48 months of AR(2) data: y_t = 0.6*y_{t-1} - 0.2*y_{t-2} + noise. Use ARIMA(2,0,0) on the first 36 months. Forecast the last 12 months and compute MAE. Print forecast vs actual.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fit and Forecast</div><div class="pd">Generate 48 months of AR(2) data: y_t = 0.6*y_{t-1} - 0.2*y_{t-2} + noise. Use ARIMA(2,0,0) on the first 36 months. Forecast the last 12 months and compute MAE. Print forecast vs actual.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -1093,7 +1230,7 @@ try:
         print(f&#x27;  {d.strftime(&quot;%a %b %d&quot;)}: forecast={f:.0f}, actual={a:.0f}&#x27;)
     print(f&#x27;\nMAE: {mae:.1f} | MAPE: {mape:.1f}%&#x27;)
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holt-Winters Tuning</div><div class="pd">Generate 3 years of monthly retail sales with trend and seasonality. Compare Holt-Winters additive vs multiplicative seasonal on a 6-month holdout. Print RMSE for both. Which model wins?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holt-Winters Tuning</div><div class="pd">Generate 3 years of monthly retail sales with trend and seasonality. Compare Holt-Winters additive vs multiplicative seasonal on a 6-month holdout. Print RMSE for both. Which model wins?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import pandas as pd
 import numpy as np
 
 try:
@@ -1249,7 +1386,7 @@ print(f&#x27;MAE: {mae:.0f} packages/day&#x27;)
 fi = pd.Series(model.feature_importances_, index=X.columns).nlargest(5)
 print(&#x27;\nTop features:&#x27;)
 for f, v in fi.items():
-    print(f&#x27;  {f}: {v:.4f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Matrix</div><div class="pd">Use the hourly energy dataset (simulate: 7 days × 24 hours = 168 hourly readings with daily cycle). Create: lag_1, lag_24 (same hour yesterday), roll_24_mean, hour_of_day, is_weekday. Train a LinearRegression model and print RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import pandas as pd
+    print(f&#x27;  {f}: {v:.4f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Matrix</div><div class="pd">Use the hourly energy dataset (simulate: 7 days × 24 hours = 168 hourly readings with daily cycle). Create: lag_1, lag_24 (same hour yesterday), roll_24_mean, hour_of_day, is_weekday. Train a LinearRegression model and print RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -1261,7 +1398,43 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=168, freq=&#x27;h&#x27;)
 # TODO: build feature matrix
 
 # TODO: train LinearRegression and print RMSE
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_7 features for a daily series and check their correlation with target</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lag Feature</div><div class="pd">Shift the series by k to build a lag feature.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">import pandas as pd
+
+def lag(s, k):
+    s = pd.Series(s, dtype=float)
+    # TODO: shift by k
+    return s
+
+print(lag([1, 2, 3], 1).tolist())</code></pre></div><template class="ho-check">assert lag([1, 2, 3], 1).tolist()[1:] == [1.0, 2.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Feature</div><div class="pd">A window-w rolling-mean feature (keep NaNs aligned).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_2')">Copy</button></div><pre><code id="p8_2" class="language-python">import pandas as pd
+
+import numpy as np
+
+def rolling_feat(s, w):
+    s = pd.Series(s, dtype=float)
+    # TODO: rolling(w).mean()  (do NOT drop NaNs here)
+    return s
+
+print(rolling_feat([1, 2, 3], 2).round(2).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.isnan(rolling_feat([1, 2, 3], 2).iloc[0]), &quot;first value has no full window&quot;
+assert rolling_feat([1, 2, 3], 2).iloc[1] == 1.5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Difference Feature</div><div class="pd">First-difference feature.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_3')">Copy</button></div><pre><code id="p8_3" class="language-python">import pandas as pd
+
+def diff_feature(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: diff()
+    return s
+
+print(diff_feature([1, 3, 6]).dropna().tolist())</code></pre></div><template class="ho-check">assert diff_feature([1, 3, 6]).dropna().tolist() == [2, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weekend Flag</div><div class="pd">1 for Saturday/Sunday, else 0, for a list of dates.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_4')">Copy</button></div><pre><code id="p8_4" class="language-python">import pandas as pd
+
+def is_weekend(dates):
+    idx = pd.to_datetime(dates)
+    # TODO: (idx.dayofweek &gt;= 5) as int
+    return idx
+
+print(list(is_weekend([&quot;2024-01-06&quot;, &quot;2024-01-08&quot;])))</code></pre></div><template class="ho-check">assert list(is_weekend([&quot;2024-01-06&quot;, &quot;2024-01-08&quot;])) == [1, 0], &quot;Sat=1, Mon=0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_7 features for a daily series and check their correlation with target</label></li>
 <li><label><input type="checkbox"> Add a rolling 14-day mean feature shifted by 1 day (to avoid data leakage)</label></li>
 <li><label><input type="checkbox"> Encode month as cyclical features using sin/cos and compare to one-hot encoding on RMSE</label></li>
 <li><label><input type="checkbox"> Add is_weekend and is_month_end binary features and check their feature importance</label></li>
@@ -1413,7 +1586,7 @@ try:
         mape = np.mean(np.abs((actual - fc_v)/actual))*100
         print(f&#x27;{name:&lt;15} {mae:&gt;7.1f} {rmse:&gt;7.1f} {mape:&gt;7.1f}&#x27;)
 except ImportError:
-    print(&#x27;pip install statsmodels scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validate a Forecast</div><div class="pd">Generate 180 days of daily demand data with weekly seasonality. Use TimeSeriesSplit with 5 folds on lag features. Test Ridge, GradientBoosting, and a naive (last value) baseline. Print mean MAE per model.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import pandas as pd
+    print(&#x27;pip install statsmodels scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Validate a Forecast</div><div class="pd">Generate 180 days of daily demand data with weekly seasonality. Use TimeSeriesSplit with 5 folds on lag features. Test Ridge, GradientBoosting, and a naive (last value) baseline. Print mean MAE per model.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.linear_model import Ridge
@@ -1589,7 +1762,7 @@ m = Ridge(alpha=1.0).fit(sc.transform(X[idx_tr]), y[idx_tr])
 resid = y[idx_tr] - m.predict(sc.transform(X[idx_tr]))
 pred = m.predict(sc.transform(X[~idx_tr]))
 print(f&#x27;Forecast RMSE: {np.sqrt(((y[~idx_tr]-pred)**2).mean()):.2f}&#x27;)
-print(f&#x27;80% PI: ±{1.28*resid.std():.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Forecast Weekly Revenue with Confidence Intervals</div><div class="pd">Given 2 years of weekly revenue data with trend and seasonality, build a feature-based Ridge model (lag features + time index + month dummies). Perform walk-forward validation with 4-week horizons. Report average RMSE and generate 80% prediction intervals using residual std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import pandas as pd
+print(f&#x27;80% PI: ±{1.28*resid.std():.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Forecast Weekly Revenue with Confidence Intervals</div><div class="pd">Given 2 years of weekly revenue data with trend and seasonality, build a feature-based Ridge model (lag features + time index + month dummies). Perform walk-forward validation with 4-week horizons. Report average RMSE and generate 80% prediction intervals using residual std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.linear_model import Ridge
 
@@ -1758,7 +1931,7 @@ X = df[[&#x27;cpu&#x27;, &#x27;hour&#x27;, &#x27;roll_mean&#x27;, &#x27;roll_std
 iso = IsolationForest(contamination=0.01, random_state=42)
 df[&#x27;anomaly&#x27;] = iso.fit_predict(X) == -1
 print(f&#x27;Anomalies detected: {df[&quot;anomaly&quot;].sum()} of {len(df)} points ({df[&quot;anomaly&quot;].mean():.1%})&#x27;)
-print(df[df[&#x27;anomaly&#x27;]].groupby(df[df[&#x27;anomaly&#x27;]][&#x27;time&#x27;].dt.date)[&#x27;anomaly&#x27;].count())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Detect Order Volume Anomalies</div><div class="pd">Given hourly e-commerce order counts with weekly seasonality, detect anomalies using rolling z-score (window=24h, threshold=3). Also apply Isolation Forest on (count, hour, day_of_week) features. Compare which method catches more of the injected spikes (3 injected anomalies) with fewer false positives.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import pandas as pd
+print(df[df[&#x27;anomaly&#x27;]].groupby(df[df[&#x27;anomaly&#x27;]][&#x27;time&#x27;].dt.date)[&#x27;anomaly&#x27;].count())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Detect Order Volume Anomalies</div><div class="pd">Given hourly e-commerce order counts with weekly seasonality, detect anomalies using rolling z-score (window=24h, threshold=3). Also apply Isolation Forest on (count, hour, day_of_week) features. Compare which method catches more of the injected spikes (3 injected anomalies) with fewer false positives.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
 
@@ -1939,7 +2112,7 @@ pred = model.predict(X[split:])
 rmse = np.sqrt(((Y[split:]-pred)**2).mean())
 baseline = np.sqrt(((Y[split:]-Y[split-1:-1])**2).mean())  # persistence
 print(f&#x27;GBM RMSE: {rmse:.2f}, Persistence RMSE: {baseline:.2f}&#x27;)
-print(f&#x27;Improvement: {(baseline-rmse)/baseline:.1%}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Seq2Seq Solar Power Forecasting</div><div class="pd">Using 1 year of hourly solar generation data (sinusoidal with daily pattern, zero at night), build a seq2seq GBM model with 48-hour lookback and 12-hour horizon. Compare RMSE for the first 4 steps vs last 4 steps. Also implement a simple attention weighting by computing per-lag correlations with the target.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+print(f&#x27;Improvement: {(baseline-rmse)/baseline:.1%}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Seq2Seq Solar Power Forecasting</div><div class="pd">Using 1 year of hourly solar generation data (sinusoidal with daily pattern, zero at night), build a seq2seq GBM model with 48-hour lookback and 12-hour horizon. Compare RMSE for the first 4 steps vs last 4 steps. Also implement a simple attention weighting by computing per-lag correlations with the target.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np
 import pandas as pd
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.ensemble import GradientBoostingRegressor
@@ -2025,7 +2198,7 @@ for label, sig in [(&#x27;Normal&#x27;, normal), (&#x27;Fault&#x27;, fault)]:
     hf_energy = np.sum(coeffs[1]**2) / np.sum(sig**2)
     print(f&quot;{label}: high-freq energy ratio = {hf_energy:.4f}&quot;)
     energies = [np.sum(c**2) / np.sum(sig**2) for c in coeffs]
-    print(f&quot;  Energy by level: &quot; + &quot;, &quot;.join(f&quot;L{i}={e:.3f}&quot; for i, e in enumerate(energies)))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EEG Brainwave Analysis</div><div class="pd">Given a simulated EEG signal (1-second, 256 Hz) with delta (1-4 Hz), alpha (8-13 Hz), and beta (13-30 Hz) components, use wavelet decomposition to extract each band. Report the relative power of each band. Inject a 50ms epileptic spike at t=0.5s and detect it using wavelet residuals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+    print(f&quot;  Energy by level: &quot; + &quot;, &quot;.join(f&quot;L{i}={e:.3f}&quot; for i, e in enumerate(energies)))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EEG Brainwave Analysis</div><div class="pd">Given a simulated EEG signal (1-second, 256 Hz) with delta (1-4 Hz), alpha (8-13 Hz), and beta (13-30 Hz) components, use wavelet decomposition to extract each band. Report the relative power of each band. Inject a 50ms epileptic spike at t=0.5s and detect it using wavelet residuals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np
 import pywt
 fs = 256  # Hz
 t = np.arange(0, 1, 1/fs)
@@ -2113,7 +2286,7 @@ forecast = res.forecast(df.values[-res.k_ar:], steps=12)
 print(f&quot;12-month GDP forecast range: {forecast[:,0].min():.3f} to {forecast[:,0].max():.3f}&quot;)
 # Impulse response
 irf = res.irf(10)
-print(f&quot;GDP response to interest shock at lag 3: {irf.orth_irfs[3, 0, 2]:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairs Trading Signal</div><div class="pd">Using two simulated stock price series that are cointegrated (sharing a common random walk), implement a pairs trading strategy: (1) verify cointegration with Engle-Granger test, (2) estimate the spread, (3) generate long/short signals when z-score &gt; 2 or &lt; -2, (4) backtest and report Sharpe ratio and max drawdown.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import numpy as np
+print(f&quot;GDP response to interest shock at lag 3: {irf.orth_irfs[3, 0, 2]:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairs Trading Signal</div><div class="pd">Using two simulated stock price series that are cointegrated (sharing a common random walk), implement a pairs trading strategy: (1) verify cointegration with Engle-Granger test, (2) estimate the spread, (3) generate long/short signals when z-score &gt; 2 or &lt; -2, (4) backtest and report Sharpe ratio and max drawdown.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import numpy as np
 import pandas as pd
 from statsmodels.tsa.stattools import coint
 from statsmodels.regression.linear_model import OLS
@@ -2205,7 +2378,7 @@ for s in range(n_sensors):
     if alerts[s]:
         print(f&quot;Sensor {s}: {len(alerts[s])} alerts, first at t={alerts[s][0]}&quot;)
     else:
-        print(f&quot;Sensor {s}: no alerts&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real-Time Fraud Score Streaming</div><div class="pd">Simulate a stream of 2000 credit card transactions (amount, time_since_last, is_weekend). Use online logistic regression (River) trained incrementally. At t=1000, inject a concept drift (fraudsters change behavior). Detect drift using ADWIN on prediction errors. Report AUC before and after drift, and adaptation speed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python"># pip install river
+        print(f&quot;Sensor {s}: no alerts&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real-Time Fraud Score Streaming</div><div class="pd">Simulate a stream of 2000 credit card transactions (amount, time_since_last, is_weekend). Use online logistic regression (River) trained incrementally. At t=1000, inject a concept drift (fraudsters change behavior). Detect drift using ADWIN on prediction errors. Report AUC before and after drift, and adaptation speed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python"># pip install river
 from river import linear_model, preprocessing, metrics, drift, stream as rv_stream
 import numpy as np
 np.random.seed(99)
@@ -2324,7 +2497,7 @@ print(f&quot;  Residual RMSE: ${np.sqrt((res.resid**2).mean()):.1f}&quot;)
 
 # Deseasonalized series for cleaner trend analysis
 deseas = sales - res.seasonal
-print(f&quot;  Deseasonalized range: [{deseas.min():.0f}, {deseas.max():.0f}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom STL Pipeline</div><div class="pd">Generate 5 years of weekly sales data (trend + two seasonalities: annual 52-week and quarterly 13-week + noise). Apply STL with period=52. Extract and print: (1) Overall trend slope (slope of linear fit to trend component), (2) Peak week of the year seasonally, (3) Percentage of variance explained by trend, seasonal, and residual components.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import numpy as np, pandas as pd
+print(f&quot;  Deseasonalized range: [{deseas.min():.0f}, {deseas.max():.0f}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom STL Pipeline</div><div class="pd">Generate 5 years of weekly sales data (trend + two seasonalities: annual 52-week and quarterly 13-week + noise). Apply STL with period=52. Extract and print: (1) Overall trend slope (slope of linear fit to trend component), (2) Peak week of the year seasonally, (3) Percentage of variance explained by trend, seasonal, and residual components.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.seasonal import STL
 from scipy import stats as sp_stats
 
@@ -2459,7 +2632,7 @@ pacf_vals = pacf(log_diff, nlags=8)[1:]
 conf = 1.96 / np.sqrt(len(log_diff))
 print(f&quot;\nACF  lags 1-8: {acf_vals.round(3)}&quot;)
 print(f&quot;PACF lags 1-8: {pacf_vals.round(3)}&quot;)
-print(f&quot;Suggested ARIMA(p,1,q): p={sum(abs(pacf_vals[:4])&gt;conf)}, q={sum(abs(acf_vals[:4])&gt;conf)}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Automated Stationarity Pipeline</div><div class="pd">Write a function make_stationary(ts, max_diffs=2) that: (1) Tests ADF on the original series, (2) If non-stationary, applies log transform (if all positive) and re-tests, (3) If still non-stationary, applies first differencing, (4) Repeats up to max_diffs times, (5) Returns the stationary series, number of differences applied, and whether log was used.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import numpy as np, pandas as pd
+print(f&quot;Suggested ARIMA(p,1,q): p={sum(abs(pacf_vals[:4])&gt;conf)}, q={sum(abs(acf_vals[:4])&gt;conf)}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Automated Stationarity Pipeline</div><div class="pd">Write a function make_stationary(ts, max_diffs=2) that: (1) Tests ADF on the original series, (2) If non-stationary, applies log transform (if all positive) and re-tests, (3) If still non-stationary, applies first differencing, (4) Repeats up to max_diffs times, (5) Returns the stationary series, number of differences applied, and whether log was used.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.stattools import adfuller
 
 def make_stationary(ts, max_diffs=2, alpha=0.05):
@@ -2601,7 +2774,7 @@ print(f&quot;  MAPE: {mape:.2f}%  RMSE: {rmse:.2f} MMcf&quot;)
 print(f&quot;  AIC: {fitted.aic:.1f}&quot;)
 print(f&quot;\n6-month capacity forecast (MMcf):&quot;)
 for i in range(6):
-    print(f&quot;  {pred.index[i].strftime(&#x27;%Y-%m&#x27;)}: {pred.iloc[i]:.0f} [{ci.iloc[i,0]:.0f}-{ci.iloc[i,1]:.0f}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Auto-ARIMA Order Selection</div><div class="pd">Generate monthly sales data for 4 years with AR(2) dynamics and monthly seasonality. Write a function select_arima_order(ts, max_p=3, max_q=3, d=1) that tries all ARIMA(p,d,q) combinations and returns the order with the lowest AIC. Compare its forecast (12 months) RMSE to naive persistence forecast.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import numpy as np, pandas as pd
+    print(f&quot;  {pred.index[i].strftime(&#x27;%Y-%m&#x27;)}: {pred.iloc[i]:.0f} [{ci.iloc[i,0]:.0f}-{ci.iloc[i,1]:.0f}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Auto-ARIMA Order Selection</div><div class="pd">Generate monthly sales data for 4 years with AR(2) dynamics and monthly seasonality. Write a function select_arima_order(ts, max_p=3, max_q=3, d=1) that tries all ARIMA(p,d,q) combinations and returns the order with the lowest AIC. Compare its forecast (12 months) RMSE to naive persistence forecast.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
 
@@ -2754,7 +2927,7 @@ for seas_type in [&#x27;add&#x27;, &#x27;mul&#x27;]:
 best_hw = ExponentialSmoothing(weekly_sales, trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;,
                                 seasonal_periods=52, initialization_method=&#x27;estimated&#x27;).fit(optimized=True)
 next4 = best_hw.forecast(4)
-print(f&quot;\nNext 4 weeks inventory needs: {next4.round(0).values}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ETS Grid Search</div><div class="pd">Generate 5 years of monthly data with trend + seasonality. Write a grid_search_ets(train, test, h) function that tries all combinations of trend in [None, &#x27;add&#x27;], seasonal in [None, &#x27;add&#x27;, &#x27;mul&#x27;], damped in [True, False] (only when trend is not None). Return a DataFrame with columns: model_name, AIC, test_RMSE, test_MAPE. Sort by test_RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import numpy as np, pandas as pd
+print(f&quot;\nNext 4 weeks inventory needs: {next4.round(0).values}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ETS Grid Search</div><div class="pd">Generate 5 years of monthly data with trend + seasonality. Write a grid_search_ets(train, test, h) function that tries all combinations of trend in [None, &#x27;add&#x27;], seasonal in [None, &#x27;add&#x27;, &#x27;mul&#x27;], damped in [True, False] (only when trend is not None). Return a DataFrame with columns: model_name, AIC, test_RMSE, test_MAPE. Sort by test_RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
 
@@ -2926,7 +3099,7 @@ mape = mean_absolute_percentage_error(y_te, preds) * 100
 rmse = np.sqrt(((y_te.values - preds)**2).mean())
 print(f&quot;Daily volume forecast: MAPE={mape:.2f}%, RMSE={rmse:.1f}&quot;)
 top5 = pd.Series(gbr.feature_importances_, index=X.columns).nlargest(5)
-print(f&quot;Top features: {top5.round(3).to_dict()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Engineering for Weekly Data</div><div class="pd">Generate 3 years of weekly store sales (trend + annual seasonality + weekly dip on off-season weeks). Create features: lags 1-8, rolling mean/std at 4 and 8 weeks, week-of-year sine/cosine, year indicator. Train RandomForest on first 2.5 years, test on last 6 months. Report RMSE and MAPE. Plot (print) actual vs predicted for the test period.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import numpy as np, pandas as pd
+print(f&quot;Top features: {top5.round(3).to_dict()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Engineering for Weekly Data</div><div class="pd">Generate 3 years of weekly store sales (trend + annual seasonality + weekly dip on off-season weeks). Create features: lags 1-8, rolling mean/std at 4 and 8 weeks, week-of-year sine/cosine, year indicator. Train RandomForest on first 2.5 years, test on last 6 months. Report RMSE and MAPE. Plot (print) actual vs predicted for the test period.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import numpy as np, pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_percentage_error
 
@@ -3074,7 +3247,7 @@ stl_flags = abs(resid) &gt; 3 * mad / 0.6745
 
 print(f&quot;Rolling z-score flagged: {z_flags.sum()} minutes&quot;)
 print(f&quot;STL (hourly) flagged:    {stl_flags.sum()} hours&quot;)
-print(f&quot;Z-score alerts during spike period: {z_flags.iloc[195:215].sum()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Method Anomaly Ensemble</div><div class="pd">Generate 2 years of daily temperature data (seasonal + trend + noise). Inject 6 anomalies (3 spikes, 3 drops). Implement 3 detectors: (1) rolling 30-day z-score threshold 3, (2) IQR fence on 30-day window, (3) STL residuals with 3-sigma MAD threshold. Print a table showing which detectors caught each injected anomaly (TP matrix).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import numpy as np, pandas as pd
+print(f&quot;Z-score alerts during spike period: {z_flags.iloc[195:215].sum()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Method Anomaly Ensemble</div><div class="pd">Generate 2 years of daily temperature data (seasonal + trend + noise). Inject 6 anomalies (3 spikes, 3 drops). Implement 3 detectors: (1) rolling 30-day z-score threshold 3, (2) IQR fence on 30-day window, (3) STL residuals with 3-sigma MAD threshold. Print a table showing which detectors caught each injected anomaly (TP matrix).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.seasonal import STL
 from sklearn.ensemble import IsolationForest
 from scipy.stats import median_abs_deviation
@@ -3236,7 +3409,7 @@ for fold in range(folds):
 
 for model, rmses in results.items():
     if rmses:
-        print(f&quot;{model:8s}: mean RMSE={np.mean(rmses):.2f} ± {np.std(rmses):.2f} ({len(rmses)} folds)&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Comprehensive Forecast Tournament</div><div class="pd">Generate 5 years of monthly data. Implement a forecast_tournament(ts, h=12) function that: (1) Runs walk-forward CV (4 folds) on SARIMA, Holt-Winters, and a naive seasonal benchmark, (2) Returns a summary DataFrame with model, mean_RMSE, std_RMSE, mean_MAPE, (3) Declares a winner. Test it on your generated data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import numpy as np, pandas as pd
+        print(f&quot;{model:8s}: mean RMSE={np.mean(rmses):.2f} ± {np.std(rmses):.2f} ({len(rmses)} folds)&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Comprehensive Forecast Tournament</div><div class="pd">Generate 5 years of monthly data. Implement a forecast_tournament(ts, h=12) function that: (1) Runs walk-forward CV (4 folds) on SARIMA, Holt-Winters, and a naive seasonal benchmark, (2) Returns a summary DataFrame with model, mean_RMSE, std_RMSE, mean_MAPE, (3) Declares a winner. Test it on your generated data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
@@ -3361,7 +3534,7 @@ for caused in [&#x27;unemp&#x27;,&#x27;inflation&#x27;]:
 fc = pd.DataFrame(
     fitted.forecast(df.values[-fitted.k_ar:], steps=6),
     columns=[&#x27;gdp&#x27;,&#x27;unemp&#x27;,&#x27;inflation&#x27;])
-print(f&quot;\n6-month forecast:\n{fc.round(3).to_string()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multivariate Forecasting Pipeline</div><div class="pd">Generate 3 correlated time series (temp, humidity, energy_demand) where energy = 0.7*temp_lag1 + 0.4*humidity + noise. (1) Test stationarity, difference if needed. (2) Fit VAR, select lag order by AIC. (3) Test Granger causality of temp -&gt; energy and humidity -&gt; energy. (4) Forecast 6 steps and compare to actual using RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import numpy as np, pandas as pd
+print(f&quot;\n6-month forecast:\n{fc.round(3).to_string()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multivariate Forecasting Pipeline</div><div class="pd">Generate 3 correlated time series (temp, humidity, energy_demand) where energy = 0.7*temp_lag1 + 0.4*humidity + noise. (1) Test stationarity, difference if needed. (2) Fit VAR, select lag order by AIC. (3) Test Granger causality of temp -&gt; energy and humidity -&gt; energy. (4) Forecast 6 steps and compare to actual using RMSE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import numpy as np, pandas as pd
 from statsmodels.tsa.vector_ar.var_model import VAR
 from statsmodels.tsa.stattools import adfuller, grangercausalitytests
 import warnings; warnings.filterwarnings(&#x27;ignore&#x27;)
@@ -3394,7 +3567,7 @@ print(s.resample(&quot;W&quot;).sum().to_string())</code></pre></div><div class=
 
 s = pd.Series([1,2,3,4,5,6,7,8,9,10], dtype=float)
 df = pd.DataFrame({&quot;y&quot;: s, &quot;lag1&quot;: s.shift(1), &quot;pct&quot;: s.pct_change().round(3)})
-print(df.head(6).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Moving-Average Forecast</div><div class="pd">Implement moving_average_forecast(series, window) returning the mean of the last `window` values, and mae(actual, predicted) returning the mean absolute error. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import numpy as np, pandas as pd
+print(df.head(6).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Moving-Average Forecast</div><div class="pd">Implement moving_average_forecast(series, window) returning the mean of the last `window` values, and mae(actual, predicted) returning the mean absolute error. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import numpy as np, pandas as pd
 
 def moving_average_forecast(series, window):
     s = pd.Series(series, dtype=float)
@@ -3417,7 +3590,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 s = pd.Series([100, 110, 121, 133], dtype=float)
 print(&quot;diff:      &quot;, s.diff().dropna().tolist())
-print(&quot;pct_change:&quot;, s.pct_change().dropna().round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: First Difference</div><div class="pd">Implement first_diff(s): return the first difference of the series with the leading NaN dropped. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import pandas as pd
+print(&quot;pct_change:&quot;, s.pct_change().dropna().round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: First Difference</div><div class="pd">Implement first_diff(s): return the first difference of the series with the leading NaN dropped. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import pandas as pd
 
 def first_diff(s):
     s = pd.Series(s, dtype=float)
@@ -3431,7 +3604,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 idx = pd.date_range(&quot;2024-01-01&quot;, periods=8, freq=&quot;D&quot;)
 s = pd.Series([1, 2, 3, 4, 5, 6, 7, 8], index=idx, dtype=float)
-print(s.resample(&quot;W&quot;).mean().tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weekly Mean</div><div class="pd">Implement weekly_mean(values): index the values as consecutive days from 2024-01-01 and return the weekly means. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import pandas as pd
+print(s.resample(&quot;W&quot;).mean().tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Weekly Mean</div><div class="pd">Implement weekly_mean(values): index the values as consecutive days from 2024-01-01 and return the weekly means. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import pandas as pd
 
 def weekly_mean(values):
     idx = pd.date_range(&quot;2024-01-01&quot;, periods=len(values), freq=&quot;D&quot;)
@@ -3445,7 +3618,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 <li><label><input type="checkbox"> Aggregate to weekly means with .resample(&#x27;W&#x27;).mean()</label></li></ul></div></div></div><div class="topic" id="s27"><div class="th" onclick="tog(this)"><span>Challenge: Exponential Moving Average</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">An EMA weights recent points more than old ones, reacting faster than a simple moving average. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>EMA with ewm</span><button onclick="cp('c27_0')">Copy</button></div><pre><code id="c27_0" class="language-python">import pandas as pd
 
 s = pd.Series([1, 2, 3, 4, 5], dtype=float)
-print(s.ewm(alpha=0.5, adjust=False).mean().round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EMA</div><div class="pd">Implement ema(s, alpha): return the exponential moving average (recursive form, adjust=False). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import pandas as pd
+print(s.ewm(alpha=0.5, adjust=False).mean().round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: EMA</div><div class="pd">Implement ema(s, alpha): return the exponential moving average (recursive form, adjust=False). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import pandas as pd
 
 def ema(s, alpha):
     s = pd.Series(s, dtype=float)
@@ -3459,7 +3632,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 <li><label><input type="checkbox"> Higher alpha reacts faster to recent values</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Rolling Volatility</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A rolling standard deviation tracks how a series&#x27; variability changes over time. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Rolling std</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">import pandas as pd
 
 s = pd.Series([1, 2, 3, 10, 3, 2], dtype=float)
-print(s.rolling(3).std(ddof=0).round(3).dropna().tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Std</div><div class="pd">Implement rolling_std(s, w): return the rolling population std over window w, with leading NaNs dropped. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import pandas as pd
+print(s.rolling(3).std(ddof=0).round(3).dropna().tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Std</div><div class="pd">Implement rolling_std(s, w): return the rolling population std over window w, with leading NaNs dropped. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import pandas as pd
 
 def rolling_std(s, w):
     s = pd.Series(s, dtype=float)
