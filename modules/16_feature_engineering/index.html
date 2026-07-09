@@ -284,7 +284,7 @@ df[&quot;income_was_missing&quot;] = df[&quot;income&quot;].isnull().astype(int)
 df[&quot;bmi_was_missing&quot;] = df[&quot;bmi&quot;].isnull().astype(int)
 
 print(f&quot;After:  {df.isnull().sum().to_dict()}&quot;)
-print(df.describe().round(1))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Missing Data Handler</div><div class="pd">Create a class that analyzes missingness patterns and automatically selects the right imputation strategy based on the percentage missing and data type.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import pandas as pd
+print(df.describe().round(1))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Missing Data Handler</div><div class="pd">Create a class that analyzes missingness patterns and automatically selects the right imputation strategy based on the percentage missing and data type.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import pandas as pd
 import numpy as np
 
 class SmartImputer:
@@ -324,7 +324,39 @@ df = pd.DataFrame({
 imputer = SmartImputer()
 imputer.fit(df)
 result = imputer.transform(df)
-print(result)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a DataFrame with 20% missing values and plot the missingness pattern</label></li>
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Missing</div><div class="pd">Total NaN cells.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import pandas as pd
+
+def count_missing(df):
+    # TODO: df.isna().sum().sum()
+    return 0
+
+print(count_missing(pd.DataFrame({&quot;a&quot;: [1, None], &quot;b&quot;: [None, None]})))</code></pre></div><template class="ho-check">import pandas as pd
+assert count_missing(pd.DataFrame({&quot;a&quot;:[1,None],&quot;b&quot;:[None,None]})) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fill With Mean</div><div class="pd">Fill NaNs with the mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import pandas as pd
+
+def fill_mean(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: fillna with the mean
+    return s
+
+print(fill_mean([1, None, 3]).tolist())</code></pre></div><template class="ho-check">assert fill_mean([1, None, 3]).tolist() == [1, 2, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drop Missing Rows</div><div class="pd">Drop rows with any NaN.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import pandas as pd
+
+def drop_missing_rows(df):
+    # TODO: dropna
+    return df
+
+print(len(drop_missing_rows(pd.DataFrame({&quot;a&quot;: [1, None, 3]}))))</code></pre></div><template class="ho-check">import pandas as pd
+assert len(drop_missing_rows(pd.DataFrame({&quot;a&quot;:[1,None,3]}))) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Forward Fill</div><div class="pd">Fill NaNs with the last valid value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import pandas as pd
+
+def fill_forward(s):
+    s = pd.Series(s)
+    # TODO: ffill
+    return s
+
+print(fill_forward([1, None, None, 4]).tolist())</code></pre></div><template class="ho-check">assert fill_forward([1, None, None, 4]).tolist() == [1, 1, 1, 4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a DataFrame with 20% missing values and plot the missingness pattern</label></li>
 <li><label><input type="checkbox"> Compare mean vs median imputation on a skewed column — which is better?</label></li>
 <li><label><input type="checkbox"> Use KNNImputer with k=3 and k=10 — check if the imputed values differ</label></li>
 <li><label><input type="checkbox"> Add a binary &#x27;was_missing&#x27; indicator column alongside imputed values</label></li>
@@ -527,7 +559,54 @@ df[&quot;amount_pctile&quot;] = df[&quot;amount&quot;].rank(pct=True)
 print(&quot;Feature correlations with fraud:&quot;)
 for col in [&quot;log_amount&quot;, &quot;amount_zscore&quot;, &quot;is_negative&quot;, &quot;is_extreme&quot;, &quot;amount_pctile&quot;]:
     corr = df[col].corr(df[&quot;is_fraud&quot;])
-    print(f&quot;  {col:20s}: {corr:.3f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect outliers using Z-score and IQR on the same column — compare which flags more values</label></li>
+    print(f&quot;  {col:20s}: {corr:.3f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR Bounds</div><div class="pd">Return the Tukey fences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import pandas as pd
+
+def iqr_bounds(s):
+    s = pd.Series(s, dtype=float)
+    q1, q3 = s.quantile(0.25), s.quantile(0.75)
+    iqr = q3 - q1
+    # TODO: (q1 - 1.5*iqr, q3 + 1.5*iqr)
+    return (q1, q3)
+
+print(iqr_bounds([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">lo, hi = iqr_bounds([1, 2, 3, 4, 5])
+assert lo &lt; 1 and hi &gt; 5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Score Outliers</div><div class="pd">Mask where |z| &gt; thresh.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import pandas as pd
+
+def is_outlier_z(s, thresh=1.5):
+    s = pd.Series(s, dtype=float)
+    z = (s - s.mean()) / s.std(ddof=0)
+    # TODO: mask where |z| exceeds thresh
+    return z
+
+print(is_outlier_z([10, 10, 10, 10, 100], 1.5).tolist())</code></pre></div><template class="ho-check">assert is_outlier_z([10, 10, 10, 10, 100], 1.5).sum() == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cap Outliers</div><div class="pd">Clip into [lo, hi].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">import pandas as pd
+
+def cap_outliers(s, lo, hi):
+    # TODO: clip into [lo, hi]
+    return pd.Series(s, dtype=float)
+
+print(cap_outliers([1, 5, 100], 0, 10).tolist())</code></pre></div><template class="ho-check">assert cap_outliers([1, 5, 100], 0, 10).tolist() == [1, 5, 10]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count IQR Outliers</div><div class="pd">Count values outside the fences.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import pandas as pd
+
+def iqr_bounds(s):
+    s = pd.Series(s, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); iqr = q3 - q1
+    return (q1 - 1.5*iqr, q3 + 1.5*iqr)
+
+def count_outliers_iqr(s):
+    lo, hi = iqr_bounds(s); s = pd.Series(s, dtype=float)
+    # TODO: count values below lo or above hi
+    return 0
+
+print(count_outliers_iqr([1, 2, 3, 4, 5, 100]))</code></pre></div><template class="ho-check">assert count_outliers_iqr([1, 2, 3, 4, 5, 100]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MAD</div><div class="pd">Median absolute deviation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">import pandas as pd
+
+def mad(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: median of |s - median(s)|
+    return 0.0
+
+print(mad([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">assert mad([1, 2, 3, 4, 5]) == 1.0, &quot;median of absolute deviations&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect outliers using Z-score and IQR on the same column — compare which flags more values</label></li>
 <li><label><input type="checkbox"> Apply winsorization (clip at 1st and 99th percentile) and compare mean/std before and after</label></li>
 <li><label><input type="checkbox"> Apply a log1p transform to a skewed column and compare the histogram shape</label></li>
 <li><label><input type="checkbox"> Create an &#x27;is_outlier&#x27; binary flag column instead of removing outliers — train a model with it</label></li>
@@ -637,7 +716,46 @@ df[&quot;zip_target&quot;] = te.fit_transform(df[[&quot;zip_code&quot;]], df[&qu
 # Combine
 result = pd.concat([color_dummies, df[[&quot;size_ord&quot;, &quot;zip_target&quot;, &quot;price&quot;]]], axis=1)
 print(result.head())
-print(f&quot;\nFinal shape: {result.shape}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply one-hot encoding to a nominal column and confirm the resulting column count</label></li>
+print(f&quot;\nFinal shape: {result.shape}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Hot Column</div><div class="pd">get_dummies on a column.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import pandas as pd
+
+def one_hot_col(df, col):
+    # TODO: pd.get_dummies(df, columns=[col])
+    return df
+
+print(list(one_hot_col(pd.DataFrame({&quot;c&quot;: [&quot;x&quot;, &quot;y&quot;]}), &quot;c&quot;).columns))</code></pre></div><template class="ho-check">import pandas as pd
+cols = list(one_hot_col(pd.DataFrame({&quot;c&quot;:[&quot;x&quot;,&quot;y&quot;]}), &quot;c&quot;).columns)
+assert &quot;c_x&quot; in cols and &quot;c_y&quot; in cols
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ordinal Encode</div><div class="pd">Map categories to rank in order.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import pandas as pd
+
+def ordinal_encode(s, order):
+    # TODO: map by {value: index of order}
+    return pd.Series(s)
+
+print(ordinal_encode([&quot;low&quot;, &quot;high&quot;, &quot;mid&quot;], [&quot;low&quot;, &quot;mid&quot;, &quot;high&quot;]).tolist())</code></pre></div><template class="ho-check">assert ordinal_encode([&quot;low&quot;,&quot;high&quot;,&quot;mid&quot;], [&quot;low&quot;,&quot;mid&quot;,&quot;high&quot;]).tolist() == [0, 2, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Binary Encode</div><div class="pd">1 where equal to positive.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import pandas as pd
+
+def binary_encode(s, positive):
+    # TODO: (s == positive) as int
+    return pd.Series(s)
+
+print(binary_encode([&quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;], &quot;yes&quot;).tolist())</code></pre></div><template class="ho-check">assert binary_encode([&quot;yes&quot;,&quot;no&quot;,&quot;yes&quot;], &quot;yes&quot;).tolist() == [1, 0, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Frequency Encode</div><div class="pd">Replace category with its frequency.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import pandas as pd
+
+def freq_encode(s):
+    s = pd.Series(s)
+    # TODO: map to value_counts(normalize=True)
+    return s
+
+print(freq_encode([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;]).round(3).tolist())</code></pre></div><template class="ho-check">assert abs(freq_encode([&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]).iloc[0] - 2/3) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Encode</div><div class="pd">Replace category with its raw count.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import pandas as pd
+
+def count_encode(s):
+    s = pd.Series(s)
+    # TODO: map each value to value_counts() (raw counts)
+    return s
+
+print(count_encode([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;]).tolist())</code></pre></div><template class="ho-check">assert count_encode([&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]).tolist() == [2, 2, 1], &quot;count per category&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply one-hot encoding to a nominal column and confirm the resulting column count</label></li>
 <li><label><input type="checkbox"> Use OrdinalEncoder with an explicit category order and verify the numbers follow the ranking</label></li>
 <li><label><input type="checkbox"> Apply frequency encoding to a high-cardinality column and inspect the distribution of encoded values</label></li>
 <li><label><input type="checkbox"> Apply target encoding only on the training set and use transform on the test set to avoid leakage</label></li>
@@ -758,7 +876,50 @@ preprocessor = ColumnTransformer([
 
 X = preprocessor.fit_transform(df.drop(&quot;target&quot;, axis=1))
 print(f&quot;Transformed shape: {X.shape}&quot;)
-print(f&quot;Feature names: {preprocessor.get_feature_names_out()}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply StandardScaler, MinMaxScaler, and RobustScaler to the same column — print mean and std for each</label></li>
+print(f&quot;Feature names: {preprocessor.get_feature_names_out()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Min-Max Scale</div><div class="pd">Scale to [0, 1].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import pandas as pd
+
+def min_max(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: (s - min) / (max - min)
+    return s
+
+print(min_max([0, 5, 10]).tolist())</code></pre></div><template class="ho-check">assert min_max([0, 5, 10]).tolist() == [0, 0.5, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Normalize</div><div class="pd">Standardize (mean 0, std 1).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import pandas as pd
+
+def z_normalize(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: (s - mean) / std(ddof=0)
+    return s
+
+print(z_normalize([1, 2, 3]).round(3).tolist())</code></pre></div><template class="ho-check">assert abs(z_normalize([1, 2, 3]).mean()) &lt; 1e-9
+assert abs(z_normalize([1, 2, 3]).std(ddof=0) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Robust Scale</div><div class="pd">(s - median) / IQR.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import pandas as pd
+
+def robust_scale(s):
+    s = pd.Series(s, dtype=float)
+    iqr = s.quantile(0.75) - s.quantile(0.25)
+    # TODO: (s - median) / iqr
+    return s
+
+print(robust_scale([1, 2, 3, 4, 5]).round(3).tolist())</code></pre></div><template class="ho-check">assert abs(robust_scale([1, 2, 3, 4, 5]).median()) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unit Norm</div><div class="pd">Scale a vector to length 1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import numpy as np, pandas as pd
+
+def unit_norm(v):
+    v = np.asarray(v, float)
+    # TODO: divide by np.linalg.norm(v)
+    return v
+
+print(unit_norm([3, 4]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert abs(np.linalg.norm(unit_norm([3, 4])) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Max-Abs Scale</div><div class="pd">Scale by the maximum absolute value into [-1, 1].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import pandas as pd
+
+def max_abs_scale(s):
+    s = pd.Series(s, dtype=float)
+    # TODO: divide by the maximum absolute value
+    return s
+
+print(max_abs_scale([-4, 2, -8]).tolist())</code></pre></div><template class="ho-check">assert max_abs_scale([-4, 2, -8]).tolist() == [-0.5, 0.25, -1.0], &quot;divided by max |value|&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply StandardScaler, MinMaxScaler, and RobustScaler to the same column — print mean and std for each</label></li>
 <li><label><input type="checkbox"> Train a KNN classifier on unscaled vs StandardScaler-scaled data and compare accuracy</label></li>
 <li><label><input type="checkbox"> Demonstrate data leakage by fitting a scaler on the full dataset before splitting — check test set mean</label></li>
 <li><label><input type="checkbox"> Build a ColumnTransformer that applies RobustScaler to one column and StandardScaler to another</label></li>
@@ -900,7 +1061,7 @@ def build_customer_features(txns):
 
 customer_features = build_customer_features(transactions)
 print(customer_features.describe().round(2))
-print(f&quot;\nFeature count: {customer_features.shape[1]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Engineering Challenge</div><div class="pd">Given raw sales data, create at least 10 meaningful features including ratios, time-based, and aggregation features. Explain why each feature might be predictive.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import pandas as pd
+print(f&quot;\nFeature count: {customer_features.shape[1]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Engineering Challenge</div><div class="pd">Given raw sales data, create at least 10 meaningful features including ratios, time-based, and aggregation features. Explain why each feature might be predictive.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import pandas as pd
 import numpy as np
 
 np.random.seed(42)
@@ -926,7 +1087,37 @@ df = pd.DataFrame({
 # 10. Your own creative feature!
 
 # Show the final DataFrame with all features
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create ratio features (price_per_unit, aspect_ratio) and check their correlation with a target</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Polynomial</div><div class="pd">2-column [x, x**2].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">import numpy as np, pandas as pd
+
+def poly2(x):
+    x = np.asarray(x, float)
+    # TODO: column-stack x and x**2
+    return x
+
+print(poly2([1, 2, 3]).tolist())</code></pre></div><template class="ho-check">assert poly2([1, 2, 3]).tolist() == [[1, 1], [2, 4], [3, 9]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interaction</div><div class="pd">Elementwise product.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_2')">Copy</button></div><pre><code id="p6_2" class="language-python">import numpy as np, pandas as pd
+
+def interaction(a, b):
+    # TODO: a * b elementwise
+    return np.asarray(a, float)
+
+print(interaction([1, 2], [3, 4]).tolist())</code></pre></div><template class="ho-check">assert interaction([1, 2], [3, 4]).tolist() == [3, 8]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Binarize</div><div class="pd">1 where value &gt; thresh.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_3')">Copy</button></div><pre><code id="p6_3" class="language-python">import pandas as pd
+
+def binarize(s, thresh):
+    # TODO: (s &gt; thresh) as int
+    return pd.Series(s, dtype=float)
+
+print(binarize([1, 5, 3], 2).tolist())</code></pre></div><template class="ho-check">assert binarize([1, 5, 3], 2).tolist() == [0, 1, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Transform</div><div class="pd">log(1 + s).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_4')">Copy</button></div><pre><code id="p6_4" class="language-python">import numpy as np, pandas as pd
+
+def log_transform(s):
+    # TODO: np.log1p
+    return np.asarray(s, float)
+
+print(log_transform([0, 1]).round(4).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert abs(log_transform([0])[0]) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create ratio features (price_per_unit, aspect_ratio) and check their correlation with a target</label></li>
 <li><label><input type="checkbox"> Extract 5 datetime features (month, day_of_week, is_weekend, quarter, is_month_end) from a date column</label></li>
 <li><label><input type="checkbox"> Build RFM (Recency, Frequency, Monetary) features from a transactions DataFrame</label></li>
 <li><label><input type="checkbox"> Apply cyclical encoding (sin/cos) to month and day_of_week and confirm Dec and Jan are close together</label></li>
@@ -1440,7 +1631,7 @@ pipeline = Pipeline([
 X = df.drop(&quot;churned&quot;, axis=1)
 y = df[&quot;churned&quot;]
 scores = cross_val_score(pipeline, X, y, cv=5, scoring=&quot;f1&quot;)
-print(f&quot;Full pipeline F1: {scores.mean():.4f} (+/- {scores.std():.4f})&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build Your Own Preprocessing Pipeline</div><div class="pd">Create a complete sklearn pipeline for a messy dataset: handle missing values, encode categoricals, scale numerics, and train a model. Use cross-validation to evaluate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import pandas as pd
+print(f&quot;Full pipeline F1: {scores.mean():.4f} (+/- {scores.std():.4f})&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build Your Own Preprocessing Pipeline</div><div class="pd">Create a complete sklearn pipeline for a messy dataset: handle missing values, encode categoricals, scale numerics, and train a model. Use cross-validation to evaluate.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import pandas as pd
 import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -1476,7 +1667,7 @@ print(onehot.round(3).to_string(index=False))</code></pre></div><div class="code
 rng = np.random.default_rng(0)
 df = pd.DataFrame({&quot;age&quot;: rng.integers(18, 70, 12), &quot;churn&quot;: rng.integers(0, 2, 12)})
 df[&quot;age_bin&quot;] = pd.cut(df[&quot;age&quot;], bins=[18, 30, 45, 70], labels=[&quot;young&quot;, &quot;mid&quot;, &quot;senior&quot;])
-print(df.groupby(&quot;age_bin&quot;, observed=True)[&quot;churn&quot;].mean().round(3).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Min-Max &amp; Frequency Encoding</div><div class="pd">Implement minmax_scale(s) to scale a series to [0, 1], and frequency_encode(s) to replace each category with its relative frequency. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np, pandas as pd
+print(df.groupby(&quot;age_bin&quot;, observed=True)[&quot;churn&quot;].mean().round(3).to_string())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Min-Max &amp; Frequency Encoding</div><div class="pd">Implement minmax_scale(s) to scale a series to [0, 1], and frequency_encode(s) to replace each category with its relative frequency. Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np, pandas as pd
 
 def minmax_scale(s):
     s = pd.Series(s, dtype=float)
@@ -1504,7 +1695,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 s = pd.Series([10, 20, 30, 40, 50], dtype=float)
 z = (s - s.mean()) / s.std(ddof=0)
-print(&quot;z:&quot;, z.round(3).tolist(), &quot;mean:&quot;, round(z.mean(), 6), &quot;std:&quot;, round(z.std(ddof=0), 6))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Score Standardize</div><div class="pd">Implement standardize(s) returning the z-scored series (mean 0, population std 1). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np, pandas as pd
+print(&quot;z:&quot;, z.round(3).tolist(), &quot;mean:&quot;, round(z.mean(), 6), &quot;std:&quot;, round(z.std(ddof=0), 6))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Score Standardize</div><div class="pd">Implement standardize(s) returning the z-scored series (mean 0, population std 1). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np, pandas as pd
 
 def standardize(s):
     s = pd.Series(s, dtype=float)
@@ -1523,7 +1714,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 s = pd.Series([&quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;])
 codes = {c: i for i, c in enumerate(sorted(s.unique()))}
 print(&quot;mapping:&quot;, codes)
-print(&quot;encoded:&quot;, s.map(codes).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Label Encode</div><div class="pd">Implement label_encode(s): map each category to an integer code assigned by sorted category order (smallest category -&gt; 0). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import pandas as pd
+print(&quot;encoded:&quot;, s.map(codes).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Label Encode</div><div class="pd">Implement label_encode(s): map each category to an integer code assigned by sorted category order (smallest category -&gt; 0). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import pandas as pd
 
 def label_encode(s):
     s = pd.Series(s)
@@ -1537,7 +1728,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 values = [0.5, 1.5, 2.5, 3.5]
 edges = [1, 2, 3]
-print(&quot;bin index:&quot;, np.digitize(values, edges).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bucketize</div><div class="pd">Implement bucketize(values, edges): return the bin index of each value given the bin edges. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+print(&quot;bin index:&quot;, np.digitize(values, edges).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bucketize</div><div class="pd">Implement bucketize(values, edges): return the bin index of each value given the bin edges. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import numpy as np
 
 def bucketize(values, edges):
     # TODO: return the bin index for each value (hint: np.digitize)
@@ -1551,7 +1742,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 s = pd.Series([1, 2, 3, 4, 100], dtype=float)
 capped = s.clip(s.quantile(0.0), s.quantile(0.75))
-print(capped.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Winsorize</div><div class="pd">Implement clip_outliers(s, lo_q, hi_q): clip the series to its lo_q and hi_q quantiles. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import pandas as pd
+print(capped.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Winsorize</div><div class="pd">Implement clip_outliers(s, lo_q, hi_q): clip the series to its lo_q and hi_q quantiles. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import pandas as pd
 
 def clip_outliers(s, lo_q=0.05, hi_q=0.95):
     s = pd.Series(s, dtype=float)

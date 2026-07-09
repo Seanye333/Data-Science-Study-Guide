@@ -35,15 +35,17 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -127,8 +129,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = s.get("practices")
+        if practices is None:
+            practices = [s["practice"]] if s.get("practice") else []
+        for practice in practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -430,7 +434,8 @@ df["bmi_was_missing"] = df["bmi"].isnull().astype(int)
 print(f"After:  {df.isnull().sum().to_dict()}")
 print(df.describe().round(1))"""
 },
-"practice": {
+"practices": [
+{
     "title": "Build a Missing Data Handler",
     "desc": "Create a class that analyzes missingness patterns and automatically selects the right imputation strategy based on the percentage missing and data type.",
     "starter":
@@ -476,6 +481,31 @@ imputer.fit(df)
 result = imputer.transform(df)
 print(result)"""
 },
+{
+"title": 'Count Missing',
+"desc": 'Total NaN cells.',
+"starter": 'import pandas as pd\n\ndef count_missing(df):\n    # TODO: df.isna().sum().sum()\n    return 0\n\nprint(count_missing(pd.DataFrame({"a": [1, None], "b": [None, None]})))',
+"check": 'import pandas as pd\nassert count_missing(pd.DataFrame({"a":[1,None],"b":[None,None]})) == 3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Fill With Mean',
+"desc": 'Fill NaNs with the mean.',
+"starter": 'import pandas as pd\n\ndef fill_mean(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: fillna with the mean\n    return s\n\nprint(fill_mean([1, None, 3]).tolist())',
+"check": 'assert fill_mean([1, None, 3]).tolist() == [1, 2, 3]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Drop Missing Rows',
+"desc": 'Drop rows with any NaN.',
+"starter": 'import pandas as pd\n\ndef drop_missing_rows(df):\n    # TODO: dropna\n    return df\n\nprint(len(drop_missing_rows(pd.DataFrame({"a": [1, None, 3]}))))',
+"check": 'import pandas as pd\nassert len(drop_missing_rows(pd.DataFrame({"a":[1,None,3]}))) == 2\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Forward Fill',
+"desc": 'Fill NaNs with the last valid value.',
+"starter": 'import pandas as pd\n\ndef fill_forward(s):\n    s = pd.Series(s)\n    # TODO: ffill\n    return s\n\nprint(fill_forward([1, None, None, 4]).tolist())',
+"check": 'assert fill_forward([1, None, None, 4]).tolist() == [1, 1, 1, 4]\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create a DataFrame with 20% missing values and plot the missingness pattern",
     "Compare mean vs median imputation on a skewed column — which is better?",
@@ -728,6 +758,38 @@ for col in ["log_amount", "amount_zscore", "is_negative", "is_extreme", "amount_
     "Create an 'is_outlier' binary flag column instead of removing outliers — train a model with it",
     "Use the modified Z-score method on a column with extreme values and compare it to IQR results",
 ],
+"practices": [
+{
+"title": 'IQR Bounds',
+"desc": 'Return the Tukey fences.',
+"starter": 'import pandas as pd\n\ndef iqr_bounds(s):\n    s = pd.Series(s, dtype=float)\n    q1, q3 = s.quantile(0.25), s.quantile(0.75)\n    iqr = q3 - q1\n    # TODO: (q1 - 1.5*iqr, q3 + 1.5*iqr)\n    return (q1, q3)\n\nprint(iqr_bounds([1, 2, 3, 4, 5]))',
+"check": 'lo, hi = iqr_bounds([1, 2, 3, 4, 5])\nassert lo < 1 and hi > 5\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Z-Score Outliers',
+"desc": 'Mask where |z| > thresh.',
+"starter": 'import pandas as pd\n\ndef is_outlier_z(s, thresh=1.5):\n    s = pd.Series(s, dtype=float)\n    z = (s - s.mean()) / s.std(ddof=0)\n    # TODO: mask where |z| exceeds thresh\n    return z\n\nprint(is_outlier_z([10, 10, 10, 10, 100], 1.5).tolist())',
+"check": 'assert is_outlier_z([10, 10, 10, 10, 100], 1.5).sum() == 1\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Cap Outliers',
+"desc": 'Clip into [lo, hi].',
+"starter": 'import pandas as pd\n\ndef cap_outliers(s, lo, hi):\n    # TODO: clip into [lo, hi]\n    return pd.Series(s, dtype=float)\n\nprint(cap_outliers([1, 5, 100], 0, 10).tolist())',
+"check": 'assert cap_outliers([1, 5, 100], 0, 10).tolist() == [1, 5, 10]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Count IQR Outliers',
+"desc": 'Count values outside the fences.',
+"starter": 'import pandas as pd\n\ndef iqr_bounds(s):\n    s = pd.Series(s, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); iqr = q3 - q1\n    return (q1 - 1.5*iqr, q3 + 1.5*iqr)\n\ndef count_outliers_iqr(s):\n    lo, hi = iqr_bounds(s); s = pd.Series(s, dtype=float)\n    # TODO: count values below lo or above hi\n    return 0\n\nprint(count_outliers_iqr([1, 2, 3, 4, 5, 100]))',
+"check": 'assert count_outliers_iqr([1, 2, 3, 4, 5, 100]) == 1\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'MAD',
+"desc": 'Median absolute deviation.',
+"starter": 'import pandas as pd\n\ndef mad(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: median of |s - median(s)|\n    return 0.0\n\nprint(mad([1, 2, 3, 4, 5]))',
+"check": 'assert mad([1, 2, 3, 4, 5]) == 1.0, "median of absolute deviations"\nprint("All checks passed \\u2713")',
+},
+],
 },
 
 {
@@ -859,6 +921,38 @@ print(f"\\nFinal shape: {result.shape}")"""
     "Apply frequency encoding to a high-cardinality column and inspect the distribution of encoded values",
     "Apply target encoding only on the training set and use transform on the test set to avoid leakage",
     "Compare label encoding vs one-hot encoding in a logistic regression — which gives better accuracy?",
+],
+"practices": [
+{
+"title": 'One-Hot Column',
+"desc": 'get_dummies on a column.',
+"starter": 'import pandas as pd\n\ndef one_hot_col(df, col):\n    # TODO: pd.get_dummies(df, columns=[col])\n    return df\n\nprint(list(one_hot_col(pd.DataFrame({"c": ["x", "y"]}), "c").columns))',
+"check": 'import pandas as pd\ncols = list(one_hot_col(pd.DataFrame({"c":["x","y"]}), "c").columns)\nassert "c_x" in cols and "c_y" in cols\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Ordinal Encode',
+"desc": 'Map categories to rank in order.',
+"starter": 'import pandas as pd\n\ndef ordinal_encode(s, order):\n    # TODO: map by {value: index of order}\n    return pd.Series(s)\n\nprint(ordinal_encode(["low", "high", "mid"], ["low", "mid", "high"]).tolist())',
+"check": 'assert ordinal_encode(["low","high","mid"], ["low","mid","high"]).tolist() == [0, 2, 1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Binary Encode',
+"desc": '1 where equal to positive.',
+"starter": 'import pandas as pd\n\ndef binary_encode(s, positive):\n    # TODO: (s == positive) as int\n    return pd.Series(s)\n\nprint(binary_encode(["yes", "no", "yes"], "yes").tolist())',
+"check": 'assert binary_encode(["yes","no","yes"], "yes").tolist() == [1, 0, 1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Frequency Encode',
+"desc": 'Replace category with its frequency.',
+"starter": 'import pandas as pd\n\ndef freq_encode(s):\n    s = pd.Series(s)\n    # TODO: map to value_counts(normalize=True)\n    return s\n\nprint(freq_encode(["a", "a", "b"]).round(3).tolist())',
+"check": 'assert abs(freq_encode(["a","a","b"]).iloc[0] - 2/3) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Count Encode',
+"desc": 'Replace category with its raw count.',
+"starter": 'import pandas as pd\n\ndef count_encode(s):\n    s = pd.Series(s)\n    # TODO: map each value to value_counts() (raw counts)\n    return s\n\nprint(count_encode(["a", "a", "b"]).tolist())',
+"check": 'assert count_encode(["a","a","b"]).tolist() == [2, 2, 1], "count per category"\nprint("All checks passed \\u2713")',
+},
 ],
 },
 
@@ -1002,6 +1096,38 @@ print(f"Feature names: {preprocessor.get_feature_names_out()}")"""
     "Demonstrate data leakage by fitting a scaler on the full dataset before splitting — check test set mean",
     "Build a ColumnTransformer that applies RobustScaler to one column and StandardScaler to another",
     "Confirm that tree-based models (RandomForest) give the same accuracy with and without scaling",
+],
+"practices": [
+{
+"title": 'Min-Max Scale',
+"desc": 'Scale to [0, 1].',
+"starter": 'import pandas as pd\n\ndef min_max(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: (s - min) / (max - min)\n    return s\n\nprint(min_max([0, 5, 10]).tolist())',
+"check": 'assert min_max([0, 5, 10]).tolist() == [0, 0.5, 1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Z-Normalize',
+"desc": 'Standardize (mean 0, std 1).',
+"starter": 'import pandas as pd\n\ndef z_normalize(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: (s - mean) / std(ddof=0)\n    return s\n\nprint(z_normalize([1, 2, 3]).round(3).tolist())',
+"check": 'assert abs(z_normalize([1, 2, 3]).mean()) < 1e-9\nassert abs(z_normalize([1, 2, 3]).std(ddof=0) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Robust Scale',
+"desc": '(s - median) / IQR.',
+"starter": 'import pandas as pd\n\ndef robust_scale(s):\n    s = pd.Series(s, dtype=float)\n    iqr = s.quantile(0.75) - s.quantile(0.25)\n    # TODO: (s - median) / iqr\n    return s\n\nprint(robust_scale([1, 2, 3, 4, 5]).round(3).tolist())',
+"check": 'assert abs(robust_scale([1, 2, 3, 4, 5]).median()) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Unit Norm',
+"desc": 'Scale a vector to length 1.',
+"starter": 'import numpy as np, pandas as pd\n\ndef unit_norm(v):\n    v = np.asarray(v, float)\n    # TODO: divide by np.linalg.norm(v)\n    return v\n\nprint(unit_norm([3, 4]).tolist())',
+"check": 'import numpy as np\nassert abs(np.linalg.norm(unit_norm([3, 4])) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Max-Abs Scale',
+"desc": 'Scale by the maximum absolute value into [-1, 1].',
+"starter": 'import pandas as pd\n\ndef max_abs_scale(s):\n    s = pd.Series(s, dtype=float)\n    # TODO: divide by the maximum absolute value\n    return s\n\nprint(max_abs_scale([-4, 2, -8]).tolist())',
+"check": 'assert max_abs_scale([-4, 2, -8]).tolist() == [-0.5, 0.25, -1.0], "divided by max |value|"\nprint("All checks passed \\u2713")',
+},
 ],
 },
 
@@ -1160,7 +1286,8 @@ customer_features = build_customer_features(transactions)
 print(customer_features.describe().round(2))
 print(f"\\nFeature count: {customer_features.shape[1]}")"""
 },
-"practice": {
+"practices": [
+{
     "title": "Feature Engineering Challenge",
     "desc": "Given raw sales data, create at least 10 meaningful features including ratios, time-based, and aggregation features. Explain why each feature might be predictive.",
     "starter":
@@ -1192,6 +1319,31 @@ df = pd.DataFrame({
 # Show the final DataFrame with all features
 """
 },
+{
+"title": 'Polynomial',
+"desc": '2-column [x, x**2].',
+"starter": 'import numpy as np, pandas as pd\n\ndef poly2(x):\n    x = np.asarray(x, float)\n    # TODO: column-stack x and x**2\n    return x\n\nprint(poly2([1, 2, 3]).tolist())',
+"check": 'assert poly2([1, 2, 3]).tolist() == [[1, 1], [2, 4], [3, 9]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Interaction',
+"desc": 'Elementwise product.',
+"starter": 'import numpy as np, pandas as pd\n\ndef interaction(a, b):\n    # TODO: a * b elementwise\n    return np.asarray(a, float)\n\nprint(interaction([1, 2], [3, 4]).tolist())',
+"check": 'assert interaction([1, 2], [3, 4]).tolist() == [3, 8]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Binarize',
+"desc": '1 where value > thresh.',
+"starter": 'import pandas as pd\n\ndef binarize(s, thresh):\n    # TODO: (s > thresh) as int\n    return pd.Series(s, dtype=float)\n\nprint(binarize([1, 5, 3], 2).tolist())',
+"check": 'assert binarize([1, 5, 3], 2).tolist() == [0, 1, 1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Log Transform',
+"desc": 'log(1 + s).',
+"starter": 'import numpy as np, pandas as pd\n\ndef log_transform(s):\n    # TODO: np.log1p\n    return np.asarray(s, float)\n\nprint(log_transform([0, 1]).round(4).tolist())',
+"check": 'import numpy as np\nassert abs(log_transform([0])[0]) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create ratio features (price_per_unit, aspect_ratio) and check their correlation with a target",
     "Extract 5 datetime features (month, day_of_week, is_weekend, quarter, is_month_end) from a date column",
