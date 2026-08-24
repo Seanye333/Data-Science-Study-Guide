@@ -8,6 +8,32 @@ ACCENT = "#34d399"
 SECTIONS = [
     {
         "title": "Setup & Data Loading",
+"practices": [
+{
+"title": 'Dataset Shape',
+"desc": 'Return the (rows, features) shape of the iris data.',
+"starter": 'from sklearn.datasets import load_iris\n\ndef load_shape():\n    X, y = load_iris(return_X_y=True)\n    # TODO: return X.shape\n    return (0, 0)\n\nprint(load_shape())',
+"check": 'assert load_shape() == (150, 4)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Split Sizes',
+"desc": 'Sizes of the train/test split for a given test_size.',
+"starter": 'from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\n\ndef split_sizes(test_size):\n    X, y = load_iris(return_X_y=True)\n    a, b, _, _ = train_test_split(X, y, test_size=test_size, random_state=0)\n    # TODO: return (len(a), len(b))\n    return (0, 0)\n\nprint(split_sizes(0.2))',
+"check": 'assert split_sizes(0.2) == (120, 30)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Class Count',
+"desc": 'How many distinct target classes the dataset has.',
+"starter": 'import numpy as np\nfrom sklearn.datasets import load_iris\n\ndef n_classes():\n    X, y = load_iris(return_X_y=True)\n    # TODO: number of unique labels (np.unique)\n    return 0\n\nprint(n_classes())',
+"check": 'assert n_classes() == 3\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Scaled Mean',
+"desc": 'After StandardScaler, the largest absolute column mean.',
+"starter": 'import numpy as np\nfrom sklearn.datasets import load_iris\nfrom sklearn.preprocessing import StandardScaler\n\ndef scale_fit_mean():\n    X, _ = load_iris(return_X_y=True)\n    # TODO: fit_transform with StandardScaler, then max abs mean\n    return 1.0\n\nprint(round(scale_fit_mean(), 12))',
+"check": 'assert scale_fit_mean() < 1e-9, "scaled data is centered"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Import scikit-learn, load built-in datasets, split data into train/test sets.",
         "code1_title": "Loading Datasets & Train/Test Split",
         "code1": (
@@ -141,6 +167,32 @@ SECTIONS = [
     },
     {
         "title": "Linear & Logistic Regression",
+"practices": [
+{
+"title": 'Linear Coefficient',
+"desc": 'Fitted slope on a single-feature regression.',
+"starter": 'from sklearn.datasets import make_regression\nfrom sklearn.linear_model import LinearRegression\n\ndef linreg_coef():\n    X, y = make_regression(n_samples=100, n_features=1, noise=0, random_state=1)\n    # TODO: fit LinearRegression and return float(model.coef_[0])\n    return 0.0\n\nprint(round(linreg_coef(), 3))',
+"check": 'assert linreg_coef() > 0, "positive relationship in this data"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Logistic Accuracy',
+"desc": 'Test accuracy of a logistic-regression baseline.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\n\ndef logreg_acc():\n    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)\n    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)\n    # TODO: fit LogisticRegression(max_iter=500) and return accuracy_score on the test split\n    return 0.0\n\nprint(round(logreg_acc(), 3))',
+"check": 'assert logreg_acc() > 0.8\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Probabilities Sum To One',
+"desc": 'Max deviation of predict_proba row sums from 1.',
+"starter": 'import numpy as np\nfrom sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\n\ndef predict_proba_sum():\n    X, y = make_classification(n_samples=100, random_state=0)\n    p = LogisticRegression(max_iter=500).fit(X, y).predict_proba(X[:5])\n    # TODO: max absolute difference between each row sum and 1\n    return 1.0\n\nprint(round(predict_proba_sum(), 12))',
+"check": 'assert predict_proba_sum() < 1e-9, "each row of probabilities sums to 1"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mean Absolute Error',
+"desc": 'Training MAE of a linear model.',
+"starter": 'from sklearn.datasets import make_regression\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_absolute_error\n\ndef mae_score():\n    X, y = make_regression(n_samples=100, n_features=3, noise=5, random_state=2)\n    m = LinearRegression().fit(X, y)\n    # TODO: mean_absolute_error(y, m.predict(X))\n    return -1.0\n\nprint(round(mae_score(), 3))',
+"check": 'assert mae_score() >= 0, "MAE is non-negative"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "LinearRegression for continuous targets; LogisticRegression for binary/multiclass classification.",
         "code1_title": "Linear Regression",
         "code1": (
@@ -285,6 +337,32 @@ SECTIONS = [
     },
     {
         "title": "Decision Trees & Random Forest",
+"practices": [
+{
+"title": 'Tree Accuracy',
+"desc": 'Test accuracy of a depth-limited decision tree.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\n\ndef tree_acc(depth):\n    X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=3)\n    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=3)\n    # TODO: fit DecisionTreeClassifier(max_depth=depth, random_state=3), return test accuracy\n    return 0.0\n\nprint(round(tree_acc(4), 3))',
+"check": 'assert tree_acc(4) > 0.7\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Importances Sum',
+"desc": 'Feature importances of a forest sum to 1.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.ensemble import RandomForestClassifier\n\ndef forest_importance_sum():\n    X, y = make_classification(n_samples=200, n_features=5, random_state=4)\n    m = RandomForestClassifier(n_estimators=30, random_state=4).fit(X, y)\n    # TODO: return float of the summed feature_importances_\n    return 0.0\n\nprint(round(forest_importance_sum(), 6))',
+"check": 'assert abs(forest_importance_sum() - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Depth Used',
+"desc": 'Actual depth a max_depth-3 tree grows to.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.tree import DecisionTreeClassifier\n\ndef tree_depth_used():\n    X, y = make_classification(n_samples=200, random_state=5)\n    m = DecisionTreeClassifier(max_depth=3, random_state=5).fit(X, y)\n    # TODO: return int(m.get_depth())\n    return 0\n\nprint(tree_depth_used())',
+"check": 'assert tree_depth_used() <= 3, "cannot exceed max_depth"\nassert tree_depth_used() >= 1\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Forest vs Tree',
+"desc": 'Cross-validated scores of a tree and a forest.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import cross_val_score\n\ndef forest_vs_tree():\n    X, y = make_classification(n_samples=400, n_features=10, n_informative=6, random_state=6)\n    # TODO: return (tree_cv_mean, forest_cv_mean) as floats, cv=5\n    return (0.0, 0.0)\n\nprint([round(v, 3) for v in forest_vs_tree()])',
+"check": 't, f = forest_vs_tree()\nassert 0 < t <= 1 and 0 < f <= 1\nassert f >= t - 0.05, "the ensemble should not be much worse"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Tree-based models: interpretable Decision Trees and powerful ensemble Random Forests.",
         "code1_title": "Decision Tree Classifier",
         "code1": (
@@ -428,6 +506,32 @@ SECTIONS = [
     },
     {
         "title": "Support Vector Machines",
+"practices": [
+{
+"title": 'SVC Accuracy',
+"desc": 'Test accuracy of a scaled SVC pipeline.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\n\ndef svc_acc():\n    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=7)\n    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=7)\n    # TODO: fit make_pipeline(StandardScaler(), SVC()) and return test accuracy\n    return 0.0\n\nprint(round(svc_acc(), 3))',
+"check": 'assert svc_acc() > 0.7\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Kernel Comparison',
+"desc": 'CV accuracy for the linear and rbf kernels.',
+"starter": 'from sklearn.datasets import load_iris\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.model_selection import cross_val_score\n\ndef kernel_compare():\n    X, y = load_iris(return_X_y=True)\n    # TODO: return a dict mapping "linear" and "rbf" to their cv=5 mean scores\n    return {}\n\nprint({k: round(v, 3) for k, v in kernel_compare().items()})',
+"check": 'r = kernel_compare()\nassert set(r) == {"linear", "rbf"}\nassert all(v > 0.8 for v in r.values())\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Support Vector Count',
+"desc": 'How many support vectors an SVC keeps.',
+"starter": 'from sklearn.datasets import load_iris\nfrom sklearn.svm import SVC\n\ndef n_support_vectors():\n    X, y = load_iris(return_X_y=True)\n    m = SVC().fit(X, y)\n    # TODO: return int of the number of rows in m.support_vectors_\n    return 0\n\nprint(n_support_vectors())',
+"check": 'n = n_support_vectors()\nassert n > 0 and n <= 150\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Scaling Matters',
+"desc": 'CV score of a raw SVC vs a scaled pipeline.',
+"starter": 'from sklearn.datasets import load_iris\nfrom sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.model_selection import cross_val_score\n\ndef scaled_vs_raw():\n    X, y = load_iris(return_X_y=True)\n    # TODO: return (raw_cv_mean, scaled_cv_mean) as floats, cv=5\n    return (0.0, 0.0)\n\nprint([round(v, 3) for v in scaled_vs_raw()])',
+"check": 'r, s = scaled_vs_raw()\nassert 0 < r <= 1 and 0 < s <= 1\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "SVM finds the maximum-margin hyperplane. Works for classification (SVC) and regression (SVR).",
         "code1_title": "SVC with Kernel Trick",
         "code1": (
@@ -887,6 +991,32 @@ SECTIONS = [
     },
     {
         "title": "Model Evaluation & Metrics",
+"practices": [
+{
+"title": 'F1 Score',
+"desc": 'F1 for binary predictions.',
+"starter": 'from sklearn.metrics import f1_score\n\ndef f1(y_true, y_pred):\n    # TODO: f1_score(y_true, y_pred) as a float\n    return 0.0\n\nprint(round(f1([1, 1, 0, 1], [1, 0, 0, 1]), 4))',
+"check": 'assert abs(f1([1, 1, 0, 1], [1, 0, 0, 1]) - 0.8) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Confusion Counts',
+"desc": 'Return (tn, fp, fn, tp).',
+"starter": 'from sklearn.metrics import confusion_matrix\n\ndef confusion_counts(y_true, y_pred):\n    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()\n    # TODO: return the four counts as ints\n    return (0, 0, 0, 0)\n\nprint(confusion_counts([1, 1, 0, 0], [1, 0, 0, 0]))',
+"check": 'assert confusion_counts([1, 1, 0, 0], [1, 0, 0, 0]) == (2, 0, 1, 1)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Accuracy By Hand',
+"desc": 'Fraction of predictions that match, without sklearn.',
+"starter": 'import numpy as np\n\ndef accuracy_manual(y_true, y_pred):\n    y_true = np.asarray(y_true); y_pred = np.asarray(y_pred)\n    # TODO: mean of the equality mask\n    return 0.0\n\nprint(round(accuracy_manual([1, 0, 1], [1, 0, 0]), 4))',
+"check": 'assert accuracy_manual([1, 0, 1], [1, 0, 0]) == 2/3\nassert accuracy_manual([1, 1], [1, 1]) == 1.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'CV Mean and Std',
+"desc": 'Mean and std of cross-validated accuracy.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\n\ndef cv_mean_std(seed=8):\n    X, y = make_classification(n_samples=300, random_state=seed)\n    sc = cross_val_score(LogisticRegression(max_iter=500), X, y, cv=5)\n    # TODO: return (float(sc.mean()), float(sc.std()))\n    return (0.0, 0.0)\n\nprint([round(v, 3) for v in cv_mean_std()])',
+"check": 'm, sd = cv_mean_std()\nassert 0 < m <= 1 and sd >= 0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Measure model performance: confusion matrix, ROC-AUC, precision-recall, cross-validation.",
         "code1_title": "Classification Metrics",
         "code1": (
@@ -4587,13 +4717,15 @@ def make_html(sections):
     <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
     <pre><code class="language-python">{s["code4"]}</code></pre></div>"""
 
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_block = ""
-        if practice:
-            pid = f"prac-{sid}"
+        for _k, practice in enumerate(practices):
+            pid = f"prac-{sid}-{_k}"
             check_html = (f'<template class="ho-check">{esc(practice["check"])}</template>'
                           if practice.get("check") else "")
-            practice_block = f"""<div class="practice">
+            practice_block += f"""<div class="practice">
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: {practice["title"]}</div>
       <div class="pd">{practice["desc"]}</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -4720,8 +4852,10 @@ def make_nb(sections):
             cells.append(code(s["code4"]))
         cells.append(md(f"### Real-World Use Case\n\n**Scenario:** {s['rw_scenario']}"))
         cells.append(code(s["rw_code"]))
-        practice = s.get("practice")
-        if practice:
+        nb_practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            nb_practices = [s["practice"]] + nb_practices
+        for practice in nb_practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
 

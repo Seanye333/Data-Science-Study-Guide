@@ -174,7 +174,7 @@ print(f'Train positives: {y_train.mean():.1%} | Test positives: {y_test.mean():.
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Stratified K-Fold CV Practice</div>
       <div class="pd">Using make_classification (1000 samples, 8 features, 3 classes), perform 10-fold stratified cross-validation with a LogisticRegression. Print each fold's accuracy, the mean, and std. Then compare to a simple train/test split — does CV give a more reliable estimate?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s0" class="language-python">from sklearn.datasets import make_classification
+      <pre><code id="prac-s0-0" class="language-python">from sklearn.datasets import make_classification
 from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.linear_model import LogisticRegression
 import numpy as np
@@ -197,6 +197,63 @@ X, y = make_classification(
 # model = LogisticRegression(max_iter=500)
 # model.fit(X_train, y_train)
 # print('Single split accuracy:', model.score(X_test, y_test).round(4))</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Dataset Shape</div>
+      <div class="pd">Return the (rows, features) shape of the iris data.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s0-1" class="language-python">from sklearn.datasets import load_iris
+
+def load_shape():
+    X, y = load_iris(return_X_y=True)
+    # TODO: return X.shape
+    return (0, 0)
+
+print(load_shape())</code></pre></div><template class="ho-check">assert load_shape() == (150, 4)
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Split Sizes</div>
+      <div class="pd">Sizes of the train/test split for a given test_size.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s0-2" class="language-python">from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+def split_sizes(test_size):
+    X, y = load_iris(return_X_y=True)
+    a, b, _, _ = train_test_split(X, y, test_size=test_size, random_state=0)
+    # TODO: return (len(a), len(b))
+    return (0, 0)
+
+print(split_sizes(0.2))</code></pre></div><template class="ho-check">assert split_sizes(0.2) == (120, 30)
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Count</div>
+      <div class="pd">How many distinct target classes the dataset has.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s0-3" class="language-python">import numpy as np
+from sklearn.datasets import load_iris
+
+def n_classes():
+    X, y = load_iris(return_X_y=True)
+    # TODO: number of unique labels (np.unique)
+    return 0
+
+print(n_classes())</code></pre></div><template class="ho-check">assert n_classes() == 3
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Scaled Mean</div>
+      <div class="pd">After StandardScaler, the largest absolute column mean.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s0-4" class="language-python">import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+def scale_fit_mean():
+    X, _ = load_iris(return_X_y=True)
+    # TODO: fit_transform with StandardScaler, then max abs mean
+    return 1.0
+
+print(round(scale_fit_mean(), 12))</code></pre></div><template class="ho-check">assert scale_fit_mean() &lt; 1e-9, &quot;scaled data is centered&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load the iris dataset and print its feature names, target names, and shape</label></li>
 <li><label><input type="checkbox"> Perform an 80/20 stratified train/test split and verify class proportions match in both sets</label></li>
@@ -329,7 +386,7 @@ print(classification_report(y_test, model.predict(X_test)))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Selection via Coefficients</div>
       <div class="pd">Generate regression data with 15 features (only 5 informative). Train LinearRegression and Lasso(alpha=0.5). Compare: which features does Lasso zero out? Print feature coefficients sorted by absolute value for both models. Verify Lasso selects approximately the 5 informative features.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s1" class="language-python">from sklearn.linear_model import LinearRegression, Lasso
+      <pre><code id="prac-s1-0" class="language-python">from sklearn.linear_model import LinearRegression, Lasso
 from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
@@ -359,6 +416,69 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # for name, coef in [('LR', lr.coef_), ('Lasso', lasso.coef_)]:
 #     top5 = np.argsort(np.abs(coef))[::-1][:5]
 #     print(f'{name} top features: {top5}')</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Linear Coefficient</div>
+      <div class="pd">Fitted slope on a single-feature regression.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s1-1" class="language-python">from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+
+def linreg_coef():
+    X, y = make_regression(n_samples=100, n_features=1, noise=0, random_state=1)
+    # TODO: fit LinearRegression and return float(model.coef_[0])
+    return 0.0
+
+print(round(linreg_coef(), 3))</code></pre></div><template class="ho-check">assert linreg_coef() &gt; 0, &quot;positive relationship in this data&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Logistic Accuracy</div>
+      <div class="pd">Test accuracy of a logistic-regression baseline.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s1-2" class="language-python">from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def logreg_acc():
+    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=1)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+    # TODO: fit LogisticRegression(max_iter=500) and return accuracy_score on the test split
+    return 0.0
+
+print(round(logreg_acc(), 3))</code></pre></div><template class="ho-check">assert logreg_acc() &gt; 0.8
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Probabilities Sum To One</div>
+      <div class="pd">Max deviation of predict_proba row sums from 1.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s1-3" class="language-python">import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+
+def predict_proba_sum():
+    X, y = make_classification(n_samples=100, random_state=0)
+    p = LogisticRegression(max_iter=500).fit(X, y).predict_proba(X[:5])
+    # TODO: max absolute difference between each row sum and 1
+    return 1.0
+
+print(round(predict_proba_sum(), 12))</code></pre></div><template class="ho-check">assert predict_proba_sum() &lt; 1e-9, &quot;each row of probabilities sums to 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Absolute Error</div>
+      <div class="pd">Training MAE of a linear model.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s1-4" class="language-python">from sklearn.datasets import make_regression
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
+
+def mae_score():
+    X, y = make_regression(n_samples=100, n_features=3, noise=5, random_state=2)
+    m = LinearRegression().fit(X, y)
+    # TODO: mean_absolute_error(y, m.predict(X))
+    return -1.0
+
+print(round(mae_score(), 3))</code></pre></div><template class="ho-check">assert mae_score() &gt;= 0, &quot;MAE is non-negative&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a LinearRegression on make_regression data and print R2 score and RMSE</label></li>
 <li><label><input type="checkbox"> Train a LogisticRegression on the iris dataset and print the classification_report</label></li>
@@ -496,7 +616,7 @@ print(classification_report(y_test, rf.predict(X_test)))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Tree Depth vs Accuracy</div>
       <div class="pd">Using load_iris, train DecisionTreeClassifier with max_depth from 1 to 10. For each depth, record training accuracy and 5-fold CV accuracy. Print results as a table and identify the depth that minimises overfitting (smallest gap between train and CV). Which depth generalises best?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s2" class="language-python">from sklearn.tree import DecisionTreeClassifier
+      <pre><code id="prac-s2-0" class="language-python">from sklearn.tree import DecisionTreeClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import cross_val_score
 import numpy as np
@@ -519,6 +639,72 @@ for depth in range(1, 11):
     pass
 
 # TODO: print(f'Best depth: {best_depth} with CV accuracy {best_cv:.4f}')</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Tree Accuracy</div>
+      <div class="pd">Test accuracy of a depth-limited decision tree.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s2-1" class="language-python">from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def tree_acc(depth):
+    X, y = make_classification(n_samples=400, n_features=8, n_informative=5, random_state=3)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=3)
+    # TODO: fit DecisionTreeClassifier(max_depth=depth, random_state=3), return test accuracy
+    return 0.0
+
+print(round(tree_acc(4), 3))</code></pre></div><template class="ho-check">assert tree_acc(4) &gt; 0.7
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Importances Sum</div>
+      <div class="pd">Feature importances of a forest sum to 1.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s2-2" class="language-python">from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+
+def forest_importance_sum():
+    X, y = make_classification(n_samples=200, n_features=5, random_state=4)
+    m = RandomForestClassifier(n_estimators=30, random_state=4).fit(X, y)
+    # TODO: return float of the summed feature_importances_
+    return 0.0
+
+print(round(forest_importance_sum(), 6))</code></pre></div><template class="ho-check">assert abs(forest_importance_sum() - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Depth Used</div>
+      <div class="pd">Actual depth a max_depth-3 tree grows to.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s2-3" class="language-python">from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+
+def tree_depth_used():
+    X, y = make_classification(n_samples=200, random_state=5)
+    m = DecisionTreeClassifier(max_depth=3, random_state=5).fit(X, y)
+    # TODO: return int(m.get_depth())
+    return 0
+
+print(tree_depth_used())</code></pre></div><template class="ho-check">assert tree_depth_used() &lt;= 3, &quot;cannot exceed max_depth&quot;
+assert tree_depth_used() &gt;= 1
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Forest vs Tree</div>
+      <div class="pd">Cross-validated scores of a tree and a forest.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s2-4" class="language-python">from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+
+def forest_vs_tree():
+    X, y = make_classification(n_samples=400, n_features=10, n_informative=6, random_state=6)
+    # TODO: return (tree_cv_mean, forest_cv_mean) as floats, cv=5
+    return (0.0, 0.0)
+
+print([round(v, 3) for v in forest_vs_tree()])</code></pre></div><template class="ho-check">t, f = forest_vs_tree()
+assert 0 &lt; t &lt;= 1 and 0 &lt; f &lt;= 1
+assert f &gt;= t - 0.05, &quot;the ensemble should not be much worse&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a DecisionTreeClassifier with max_depth=3 and print feature importances</label></li>
 <li><label><input type="checkbox"> Compare Decision Tree vs Random Forest accuracy on the iris dataset</label></li>
@@ -664,7 +850,7 @@ print('True labels:', ['Positive' if l else 'Negative' for l in labels[6:]])</co
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: SVM Kernel Comparison</div>
       <div class="pd">Use make_classification (500 samples, 6 features). Scale features with StandardScaler. Train SVC with linear, rbf, poly, and sigmoid kernels, each with C=1.0. For each: record 5-fold CV accuracy. Print a summary table. Which kernel wins? Now try rbf with C values [0.1, 1, 10, 100] and find the best C.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s3" class="language-python">from sklearn.svm import SVC
+      <pre><code id="prac-s3-0" class="language-python">from sklearn.svm import SVC
 from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
@@ -692,6 +878,78 @@ for C in [0.1, 1, 10, 100]:
     # TODO: scores = cross_val_score(svm, X_s, y, cv=5)
     # TODO: print(f'C={C:6.1f} | {scores.mean():.4f}')
     pass</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: SVC Accuracy</div>
+      <div class="pd">Test accuracy of a scaled SVC pipeline.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s3-1" class="language-python">from sklearn.datasets import make_classification
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def svc_acc():
+    X, y = make_classification(n_samples=300, n_features=6, n_informative=4, random_state=7)
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=7)
+    # TODO: fit make_pipeline(StandardScaler(), SVC()) and return test accuracy
+    return 0.0
+
+print(round(svc_acc(), 3))</code></pre></div><template class="ho-check">assert svc_acc() &gt; 0.7
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Kernel Comparison</div>
+      <div class="pd">CV accuracy for the linear and rbf kernels.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s3-2" class="language-python">from sklearn.datasets import load_iris
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import cross_val_score
+
+def kernel_compare():
+    X, y = load_iris(return_X_y=True)
+    # TODO: return a dict mapping "linear" and "rbf" to their cv=5 mean scores
+    return {}
+
+print({k: round(v, 3) for k, v in kernel_compare().items()})</code></pre></div><template class="ho-check">r = kernel_compare()
+assert set(r) == {&quot;linear&quot;, &quot;rbf&quot;}
+assert all(v &gt; 0.8 for v in r.values())
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Support Vector Count</div>
+      <div class="pd">How many support vectors an SVC keeps.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s3-3" class="language-python">from sklearn.datasets import load_iris
+from sklearn.svm import SVC
+
+def n_support_vectors():
+    X, y = load_iris(return_X_y=True)
+    m = SVC().fit(X, y)
+    # TODO: return int of the number of rows in m.support_vectors_
+    return 0
+
+print(n_support_vectors())</code></pre></div><template class="ho-check">n = n_support_vectors()
+assert n &gt; 0 and n &lt;= 150
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Scaling Matters</div>
+      <div class="pd">CV score of a raw SVC vs a scaled pipeline.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s3-4" class="language-python">from sklearn.datasets import load_iris
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import cross_val_score
+
+def scaled_vs_raw():
+    X, y = load_iris(return_X_y=True)
+    # TODO: return (raw_cv_mean, scaled_cv_mean) as floats, cv=5
+    return (0.0, 0.0)
+
+print([round(v, 3) for v in scaled_vs_raw()])</code></pre></div><template class="ho-check">r, s = scaled_vs_raw()
+assert 0 &lt; r &lt;= 1 and 0 &lt; s &lt;= 1
+print(&quot;All checks passed \u2713&quot;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train an SVC with kernel='rbf' on the iris dataset and print accuracy</label></li>
 <li><label><input type="checkbox"> Compare kernel='linear', 'rbf', and 'poly' on the same dataset</label></li>
@@ -847,7 +1105,7 @@ for i, d in zip(indices[0][1:], distances[0][1:]):
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: KNN: Distance Metric Comparison</div>
       <div class="pd">Using load_iris (scaled with StandardScaler), compare KNeighborsClassifier with k=5 using euclidean, manhattan, and chebyshev distance metrics. Use 5-fold CV for each. Print accuracy for each metric. Then find the best k (1-15) for the winning metric using CV. Report the optimal k.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s4" class="language-python">from sklearn.neighbors import KNeighborsClassifier
+      <pre><code id="prac-s4-0" class="language-python">from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
@@ -1003,7 +1261,7 @@ print(summary.round(1))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Elbow Method for Optimal K</div>
       <div class="pd">Generate blobs with 5 centers (make_blobs, 400 samples). Run KMeans for k=2 to 10. For each k, record inertia and silhouette score. Print a table. Identify the elbow point visually from the inertia values — at which k does the decrease in inertia slow down? Confirm with silhouette score.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s5" class="language-python">from sklearn.cluster import KMeans
+      <pre><code id="prac-s5-0" class="language-python">from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
@@ -1180,7 +1438,7 @@ print(classification_report(y_test, y_pred, target_names=['Healthy','Cancer']))<
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Threshold Tuning for Imbalanced Data</div>
       <div class="pd">Generate imbalanced data (weights=[0.9, 0.1], 800 samples). Train a RandomForestClassifier. At the default 0.5 threshold, compute precision, recall, F1. Then sweep thresholds from 0.1 to 0.9 in steps of 0.05. For each threshold compute F1. Print the threshold that maximises F1. Also compute ROC-AUC.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s6" class="language-python">from sklearn.ensemble import RandomForestClassifier
+      <pre><code id="prac-s6-0" class="language-python">from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score
@@ -1212,6 +1470,62 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # TODO: ROC-AUC
 # print('ROC-AUC:', roc_auc_score(y_test, y_prob).round(4))</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: F1 Score</div>
+      <div class="pd">F1 for binary predictions.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s6-1" class="language-python">from sklearn.metrics import f1_score
+
+def f1(y_true, y_pred):
+    # TODO: f1_score(y_true, y_pred) as a float
+    return 0.0
+
+print(round(f1([1, 1, 0, 1], [1, 0, 0, 1]), 4))</code></pre></div><template class="ho-check">assert abs(f1([1, 1, 0, 1], [1, 0, 0, 1]) - 0.8) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Confusion Counts</div>
+      <div class="pd">Return (tn, fp, fn, tp).</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s6-2" class="language-python">from sklearn.metrics import confusion_matrix
+
+def confusion_counts(y_true, y_pred):
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+    # TODO: return the four counts as ints
+    return (0, 0, 0, 0)
+
+print(confusion_counts([1, 1, 0, 0], [1, 0, 0, 0]))</code></pre></div><template class="ho-check">assert confusion_counts([1, 1, 0, 0], [1, 0, 0, 0]) == (2, 0, 1, 1)
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy By Hand</div>
+      <div class="pd">Fraction of predictions that match, without sklearn.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s6-3" class="language-python">import numpy as np
+
+def accuracy_manual(y_true, y_pred):
+    y_true = np.asarray(y_true); y_pred = np.asarray(y_pred)
+    # TODO: mean of the equality mask
+    return 0.0
+
+print(round(accuracy_manual([1, 0, 1], [1, 0, 0]), 4))</code></pre></div><template class="ho-check">assert accuracy_manual([1, 0, 1], [1, 0, 0]) == 2/3
+assert accuracy_manual([1, 1], [1, 1]) == 1.0
+print(&quot;All checks passed \u2713&quot;)</template>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: CV Mean and Std</div>
+      <div class="pd">Mean and std of cross-validated accuracy.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s6-4" class="language-python">from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+def cv_mean_std(seed=8):
+    X, y = make_classification(n_samples=300, random_state=seed)
+    sc = cross_val_score(LogisticRegression(max_iter=500), X, y, cv=5)
+    # TODO: return (float(sc.mean()), float(sc.std()))
+    return (0.0, 0.0)
+
+print([round(v, 3) for v in cv_mean_std()])</code></pre></div><template class="ho-check">m, sd = cv_mean_std()
+assert 0 &lt; m &lt;= 1 and sd &gt;= 0
+print(&quot;All checks passed \u2713&quot;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a LogisticRegression and print accuracy_score plus the classification_report</label></li>
 <li><label><input type="checkbox"> Plot a confusion matrix using ConfusionMatrixDisplay and inspect FP vs FN counts</label></li>
@@ -1374,7 +1688,7 @@ print(classification_report(y_test, pipe.predict(X_test)))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Build an End-to-End Pipeline</div>
       <div class="pd">Create a full sklearn Pipeline for a mixed-type DataFrame: numeric columns need imputation + scaling, categorical columns need imputation + one-hot encoding. Chain everything into a RandomForest and run 5-fold CV.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s7" class="language-python">from sklearn.pipeline import Pipeline
+      <pre><code id="prac-s7-0" class="language-python">from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
@@ -1570,7 +1884,7 @@ print('Test AUC:', round(roc_auc_score(y_test, y_prob), 4))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Tune an SVM Classifier</div>
       <div class="pd">Build a Pipeline(StandardScaler + SVC) and use GridSearchCV to tune C, kernel, and gamma. Then compare with RandomizedSearchCV using n_iter=10. Which finds a better score and runs faster?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s8" class="language-python">from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+      <pre><code id="prac-s8-0" class="language-python">from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
@@ -1745,7 +2059,7 @@ print('True labels:     ', labels[-3:])</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: PCA + KNN: Compress and Classify</div>
       <div class="pd">Load the digits dataset, apply PCA to retain 90% variance, then compare KNN accuracy before and after reduction using 5-fold CV. Also try 2D PCA and print the cluster centers per digit class.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s9" class="language-python">from sklearn.decomposition import PCA
+      <pre><code id="prac-s9-0" class="language-python">from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
@@ -1944,7 +2258,7 @@ print(f'AUC-PR: {average_precision_score(y_te, proba):.4f}')</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Imbalanced Credit Default Prediction</div>
       <div class="pd">With 5% positive rate, compare: (1) default LR, (2) balanced LR, (3) LR + random oversampling. Report minority F1 and AUC-PR for each. Find the optimal decision threshold for balanced LR to maximize minority F1.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s10" class="language-python">import numpy as np
+      <pre><code id="prac-s10-0" class="language-python">import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -2160,7 +2474,7 @@ print(f'Custom pipeline CV: {scores.mean():.4f} +/- {scores.std():.4f}')</code><
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a ClipTransformer</div>
       <div class="pd">Implement a ClipTransformer that clips each feature to [mean - k*std, mean + k*std] where k is a hyperparameter (default=3). It must be sklearn-compatible (BaseEstimator + TransformerMixin). Use it in a Pipeline with LogisticRegression. Grid search over k in [1.5, 2, 2.5, 3] on data with injected outliers.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s11" class="language-python">import numpy as np
+      <pre><code id="prac-s11-0" class="language-python">import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
@@ -2364,7 +2678,7 @@ for name, clf in [('Raw GBM', raw), ('Calibrated', cal)]:
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Calibrate a Random Forest for Insurance Pricing</div>
       <div class="pd">Train a Random Forest on imbalanced classification data (10% positive). Compare reliability diagrams (calibration curves) for: (1) raw RF, (2) Platt-calibrated RF, (3) isotonic-calibrated RF. Compute Brier score and ECE for each. Identify which performs best.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s12" class="language-python">import numpy as np
+      <pre><code id="prac-s12-0" class="language-python">import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV, calibration_curve
@@ -2531,7 +2845,7 @@ for name, clf in estimators + [("stack", stack)]:
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Breast Cancer Ensemble</div>
       <div class="pd">Build a 3-model stacking classifier on the breast cancer dataset. Compare individual model AUC vs stacking AUC with and without feature passthrough. Also try a weighted average blend and optimize weights by grid search. Report which combination gives the best result.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s13" class="language-python">import numpy as np
+      <pre><code id="prac-s13-0" class="language-python">import numpy as np
 from sklearn.datasets import load_breast_cancer
 from sklearn.ensemble import (RandomForestClassifier, GradientBoostingClassifier,
                                StackingClassifier)
@@ -2699,7 +3013,7 @@ print(f"Mean RMSE: {np.mean(results):.6f}")
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Demand Forecasting Walk-Forward</div>
       <div class="pd">Build a walk-forward validation pipeline for 730 days of demand data with weekly and annual seasonality. Compare Ridge, Random Forest, and GBM using TimeSeriesSplit(n_splits=5, gap=7). Report per-fold RMSE and select the best model. Use lag features (1-14 days) plus day-of-week and month features.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s14" class="language-python">import numpy as np
+      <pre><code id="prac-s14-0" class="language-python">import numpy as np
 import pandas as pd
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
@@ -2832,7 +3146,7 @@ for feat, val in sorted(zip(feature_names, sv[0]), key=lambda x: abs(x[1]), reve
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: California Housing SHAP Analysis</div>
       <div class="pd">Train a GBM on the California housing dataset and compute SHAP values for 200 test samples. Report global feature importance, explain the 3 highest and 3 lowest predicted houses, and verify SHAP additivity (SHAP values should sum to prediction - expected value).</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s15" class="language-python">import numpy as np
+      <pre><code id="prac-s15-0" class="language-python">import numpy as np
 import pandas as pd
 from sklearn.datasets import fetch_california_housing
 from sklearn.ensemble import GradientBoostingRegressor
@@ -3071,7 +3385,7 @@ print(f"Churn ROC-AUC: {scores.mean():.4f} ± {scores.std():.4f}")
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Price Prediction Feature Pipeline</div>
       <div class="pd">Build a feature engineering pipeline for house prices: (1) Apply log1p to 'sqft' and 'price' (target), (2) Add PolynomialFeatures(degree=2) on numerical features, (3) OneHotEncode 'neighborhood'. Use ColumnTransformer + Pipeline. Report R2 with 5-fold CV.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s16" class="language-python">from sklearn.pipeline import Pipeline
+      <pre><code id="prac-s16-0" class="language-python">from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler, OneHotEncoder, FunctionTransformer
 from sklearn.linear_model import Ridge
@@ -3278,7 +3592,7 @@ if high_recall_mask.any():
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Threshold Tuning for Recall</div>
       <div class="pd">Train a RandomForest on an imbalanced dataset (weights=[0.9,0.1], 2000 samples). Plot the precision-recall trade-off (print precision and recall at 10 evenly-spaced thresholds). Find and print the threshold that achieves recall >= 0.85 with the highest precision. Show the confusion matrix at that threshold.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s17" class="language-python">from sklearn.datasets import make_classification
+      <pre><code id="prac-s17-0" class="language-python">from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_recall_curve, confusion_matrix
@@ -3489,7 +3803,7 @@ print(classification_report(y_te, model.predict(X_te)))
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: GBM Hyperparameter Grid Search</div>
       <div class="pd">Use GridSearchCV with GradientBoostingClassifier on the breast cancer dataset. Search over: n_estimators=[100,200], learning_rate=[0.05,0.1], max_depth=[2,3,4]. Use 5-fold CV with ROC-AUC. Print the best params, best score, and the top 5 parameter combinations.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s18" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+      <pre><code id="prac-s18-0" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
@@ -3699,7 +4013,7 @@ print("Top selected:", [feature_names[i] for i in selected[:5]])
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Regularization Strength Sweep</div>
       <div class="pd">Load the diabetes dataset. For Lasso with alpha in [0.01, 0.1, 1, 10, 100], print: alpha, R2 on test set, number of non-zero coefficients, and which features survive (by name). Do the same for Ridge. Conclude: which alpha gives the best test R2 for each method?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s19" class="language-python">from sklearn.datasets import load_diabetes
+      <pre><code id="prac-s19-0" class="language-python">from sklearn.datasets import load_diabetes
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -3928,7 +4242,7 @@ for i, r in enumerate(results):
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Save and Reload Comparison</div>
       <div class="pd">Train two models on wine dataset (RandomForest and GradientBoosting). Save both with joblib including metadata (accuracy, params, date). Write a function compare_models(paths) that loads all saved models and prints a comparison table (name, accuracy, train time, file size KB). Save as 'models/' directory.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s20" class="language-python">import joblib, os, time, tempfile
+      <pre><code id="prac-s20-0" class="language-python">import joblib, os, time, tempfile
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
@@ -4155,7 +4469,7 @@ print(confusion_matrix(y_te, y_pred))
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Class News Classifier</div>
       <div class="pd">Use fetch_20newsgroups with 5 categories of your choice. Build a Pipeline: TfidfVectorizer (max_features=15000, ngram_range=(1,2), sublinear_tf=True) + LinearSVC(C=1.0). Evaluate with cross_val_score (5-fold, accuracy). Print the top-5 most informative words per class using the SVC coef_ attribute.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s21" class="language-python">from sklearn.datasets import fetch_20newsgroups
+      <pre><code id="prac-s21-0" class="language-python">from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 from sklearn.pipeline import Pipeline
@@ -4364,7 +4678,7 @@ print(f"True Positives: {true_pos} | Recall: {true_pos/n_anom:.2%}")
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Network Intrusion Detection</div>
       <div class="pd">Generate a dataset with 800 normal network connections (3 features: packet_size normal(512,100), duration normal(0.5,0.2), port uniform(0,1024)) and 20 intrusion attempts (packet_size~5000, duration~0.01, port~random). Train IsolationForest, LocalOutlierFactor, and OneClassSVM. Compare precision and recall. Which performs best?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s22" class="language-python">from sklearn.ensemble import IsolationForest
+      <pre><code id="prac-s22-0" class="language-python">from sklearn.ensemble import IsolationForest
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.svm import OneClassSVM
 from sklearn.preprocessing import StandardScaler
@@ -4579,7 +4893,7 @@ print(f"Low-confidence assignments (<60%): {low_conf} ({low_conf/len(df):.1%})")
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Hierarchical vs GMM Comparison</div>
       <div class="pd">Generate 3 clusters with varying density (n=100 each): dense circle at origin std=0.3, spread at (5,5) std=1.5, elongated at (2,-3) with cov [[4,2],[2,1]]). Compare: AgglomerativeClustering(ward, k=3), GaussianMixture(full, k=3), KMeans(k=3). Print ARI and silhouette for each. Which handles the elongated cluster best?</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s23" class="language-python">from sklearn.cluster import AgglomerativeClustering, KMeans
+      <pre><code id="prac-s23-0" class="language-python">from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import adjusted_rand_score, silhouette_score
@@ -4670,7 +4984,7 @@ print("best cv accuracy:", round(search.best_score_, 3))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Tree Depth and Accuracy</div>
       <div class="pd">Complete train_and_score(max_depth): fit a DecisionTreeClassifier of the given depth on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s24" class="language-python">from sklearn.datasets import make_classification
+      <pre><code id="prac-s24-0" class="language-python">from sklearn.datasets import make_classification
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -4740,7 +5054,7 @@ print("recall:   ", round(recall_score(y_true, y_pred), 3))</code></pre></div>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Precision & Recall</div>
       <div class="pd">Implement precision_recall(y_true, y_pred) returning a (precision, recall) tuple using sklearn.metrics. Fill in the function, press Run, then press Check.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s25" class="language-python">from sklearn.metrics import precision_score, recall_score
+      <pre><code id="prac-s25-0" class="language-python">from sklearn.metrics import precision_score, recall_score
 
 def precision_recall(y_true, y_pred):
     # TODO: return (precision, recall) using sklearn.metrics
@@ -4811,7 +5125,7 @@ print("cv accuracy:", round(cross_val_score(pipe, X, y, cv=5).mean(), 3))</code>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: KNN Accuracy</div>
       <div class="pd">Complete knn_accuracy(k): fit a KNeighborsClassifier with the given k on a train split and return its accuracy on the test split. Fill in the function, press Run, then press Check.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s26" class="language-python">from sklearn.datasets import make_classification
+      <pre><code id="prac-s26-0" class="language-python">from sklearn.datasets import make_classification
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -4885,7 +5199,7 @@ print("cv accuracy:", round(cross_val_score(pipe, X, y, cv=5).mean(), 3))</code>
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: LogReg Accuracy</div>
       <div class="pd">Complete logreg_accuracy(): fit a LogisticRegression on a train split and return its test accuracy. Fill in the function, press Run, then press Check.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s27" class="language-python">from sklearn.datasets import make_classification
+      <pre><code id="prac-s27-0" class="language-python">from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -4956,7 +5270,7 @@ print("cv R2:", round(cross_val_score(LinearRegression(), X, y, cv=5).mean(), 3)
       <div class="ph">&#x1F3CB;&#xFE0F; Practice: Regression R2</div>
       <div class="pd">Complete linreg_r2(): fit a LinearRegression on a train split and return its R-squared on the test split. Fill in the function, press Run, then press Check.</div>
       <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code id="prac-s28" class="language-python">from sklearn.datasets import make_regression
+      <pre><code id="prac-s28-0" class="language-python">from sklearn.datasets import make_regression
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score

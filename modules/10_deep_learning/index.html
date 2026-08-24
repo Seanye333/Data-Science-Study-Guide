@@ -195,7 +195,7 @@ print(&#x27;Batch shape:&#x27;, normalized.shape)   # [8, 3, 224, 224]
 print(&#x27;Channel means:&#x27;, normalized.mean(dim=[0, 2, 3]).round(decimals=3))
 print(&#x27;Channel stds: &#x27;, normalized.std(dim=[0, 2, 3]).round(decimals=3))
 print(&#x27;dtype:&#x27;, normalized.dtype)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tensor Operations Challenge</div><div class="pd">Create two tensors A (3x4) and B (4x5) with random values. Compute matrix multiply, L2 norm of each row of A, convert to numpy and back, and check device availability.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Tensor Operations Challenge</div><div class="pd">Create two tensors A (3x4) and B (4x5) with random values. Compute matrix multiply, L2 norm of each row of A, convert to numpy and back, and check device availability.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0_0" class="language-python">import torch
 import numpy as np
 
 torch.manual_seed(42)
@@ -217,7 +217,39 @@ print(f&#x27;Using: {device}&#x27;)
 # TODO: Move A to device and back to CPU numpy
 # A_dev = A.to(device)
 # A_np  = A_dev.cpu().numpy()
-# print(&#x27;Numpy shape:&#x27;, A_np.shape)</code></pre></div></div>
+# print(&#x27;Numpy shape:&#x27;, A_np.shape)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Array Shape</div><div class="pd">Shape of an array.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0_1" class="language-python">import numpy as np
+
+def shape_of(a):
+    # TODO: return np.asarray(a).shape
+    return ()
+
+print(shape_of([[1, 2, 3]]))</code></pre></div><template class="ho-check">assert shape_of([[1, 2, 3]]) == (1, 3)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reshape</div><div class="pd">Reshape a flat array into r x c.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0_2" class="language-python">import numpy as np
+
+def reshape_to(a, r, c):
+    # TODO: np.asarray(a).reshape(r, c)
+    return np.asarray(a)
+
+print(reshape_to([1, 2, 3, 4], 2, 2).tolist())</code></pre></div><template class="ho-check">assert reshape_to([1, 2, 3, 4], 2, 2).tolist() == [[1, 2], [3, 4]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Matrix Multiply</div><div class="pd">Matrix product of two arrays.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0_3" class="language-python">import numpy as np
+
+def matmul(a, b):
+    # TODO: a @ b (as float arrays)
+    return np.asarray(a, float)
+
+print(matmul([[1, 2]], [[3], [4]]).tolist())</code></pre></div><template class="ho-check">assert matmul([[1, 2]], [[3], [4]]).tolist() == [[11.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Broadcast Add</div><div class="pd">Add a row vector to every row of a matrix.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p0_4" class="language-python">import numpy as np
+
+def broadcast_add(m, v):
+    # TODO: m + v, letting broadcasting align the shapes
+    return np.asarray(m, float)
+
+print(broadcast_add([[1, 2], [3, 4]], [10, 20]).tolist())</code></pre></div><template class="ho-check">assert broadcast_add([[1, 2], [3, 4]], [10, 20]).tolist() == [[11, 22], [13, 24]]
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3x3 tensor of random floats and compute its mean, std, and max</label></li>
 <li><label><input type="checkbox"> Reshape a 1D tensor of 12 elements into (3,4) and (2,2,3)</label></li>
 <li><label><input type="checkbox"> Move a tensor to GPU with .cuda() if available, else keep on CPU</label></li>
@@ -377,7 +409,7 @@ for epoch in range(300):
 print(&#x27;True weights:&#x27;, true_w.tolist())
 print(&#x27;Learned:     &#x27;, [round(v, 3) for v in w.tolist()])
 print(&#x27;Final loss:&#x27;, loss.item().__round__(4))</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Manual Gradient Descent on f(x,y)</div><div class="pd">Implement gradient descent manually (no optimizer) to minimize f(x,y) = (x-3)^2 + (y+2)^2 starting from (0,0). Run 50 steps with lr=0.1 and verify convergence to (3, -2).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Manual Gradient Descent on f(x,y)</div><div class="pd">Implement gradient descent manually (no optimizer) to minimize f(x,y) = (x-3)^2 + (y+2)^2 starting from (0,0). Run 50 steps with lr=0.1 and verify convergence to (3, -2).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_0" class="language-python">import torch
 
 torch.manual_seed(42)
 
@@ -405,7 +437,41 @@ for step in range(50):
         pass  # TODO: print step, f.item(), x.item(), y.item()
 
 # TODO: Verify convergence — x should be ~3, y should be ~-2
-# print(f&#x27;Converged to x={x.item():.4f}, y={y.item():.4f}&#x27;)</code></pre></div></div>
+# print(f&#x27;Converged to x={x.item():.4f}, y={y.item():.4f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Numeric Gradient</div><div class="pd">Central-difference derivative of f at x.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_1" class="language-python">def numeric_grad(f, x, h=1e-6):
+    # TODO: (f(x+h) - f(x-h)) / (2h)
+    return 0.0
+
+print(round(numeric_grad(lambda v: v*v, 3), 4))</code></pre></div><template class="ho-check">assert abs(numeric_grad(lambda v: v*v, 3) - 6) &lt; 1e-4, &quot;d/dx x^2 = 2x&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Gradient Step</div><div class="pd">One gradient-descent update.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_2" class="language-python">def grad_descent_step(x, grad, lr):
+    # TODO: x - lr * grad
+    return x
+
+print(grad_descent_step(1.0, 2.0, 0.1))</code></pre></div><template class="ho-check">assert abs(grad_descent_step(1.0, 2.0, 0.1) - 0.8) &lt; 1e-12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Partial Derivatives</div><div class="pd">Numerical gradient vector of a multivariate f.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_3" class="language-python">import numpy as np
+
+def partials(f, p, h=1e-6):
+    p = np.asarray(p, float); g = np.zeros_like(p)
+    for i in range(len(p)):
+        e = np.zeros_like(p); e[i] = h
+        # TODO: g[i] = central difference along dimension i
+        g[i] = 0.0
+    return g
+
+print(partials(lambda v: v[0]**2 + 3*v[1], [2.0, 1.0]).round(4).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(partials(lambda v: v[0]**2 + 3*v[1], [2.0, 1.0]), [4, 3], atol=1e-4)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Minimize Quadratic</div><div class="pd">Gradient descent on f(x) = x^2.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_4" class="language-python">def minimize_quadratic(steps, lr=0.1, x0=5.0):
+    x = x0
+    for _ in range(steps):
+        # TODO: x = x - lr * derivative of x^2 (which is 2x)
+        pass
+    return x
+
+print(round(minimize_quadratic(100), 8))</code></pre></div><template class="ho-check">assert abs(minimize_quadratic(100)) &lt; 1e-6, &quot;converges to the minimum at 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a tensor with requires_grad=True, compute a loss, call .backward(), inspect .grad</label></li>
 <li><label><input type="checkbox"> Zero gradients with .grad.zero_() after each backward pass and verify grad is zeroed</label></li>
 <li><label><input type="checkbox"> Use torch.no_grad() to run inference and confirm no gradients are computed</label></li>
@@ -587,7 +653,7 @@ output = model(batch_features)
 loss = nn.MSELoss()(output, batch_ltv)
 print(&#x27;Output shape:&#x27;, output.shape)
 print(&#x27;Initial MSE loss:&#x27;, loss.item().__round__(2))</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Configurable MLP with Dropout &amp; BatchNorm</div><div class="pd">Build a ConfigMLP class that takes a list of layer sizes (e.g., [128, 64, 32, 1]). Add dropout after each hidden layer and batch norm before activation. Test with input shape (16, 128) and print parameter counts.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Configurable MLP with Dropout &amp; BatchNorm</div><div class="pd">Build a ConfigMLP class that takes a list of layer sizes (e.g., [128, 64, 32, 1]). Add dropout after each hidden layer and batch norm before activation. Test with input shape (16, 128) and print parameter counts.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2_0" class="language-python">import torch
 import torch.nn as nn
 
 torch.manual_seed(42)
@@ -626,7 +692,44 @@ class ConfigMLP(nn.Module):
 # TODO: Test forward pass with input (16, 128)
 # x = torch.randn(16, 128)
 # out = model(x)
-# print(&#x27;Output shape:&#x27;, out.shape)</code></pre></div></div>
+# print(&#x27;Output shape:&#x27;, out.shape)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dense Forward</div><div class="pd">One fully-connected layer: XW + b.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2_1" class="language-python">import numpy as np
+
+def dense_forward(X, W, b):
+    # TODO: X @ W + b
+    return np.asarray(X, float)
+
+print(dense_forward([[1, 1]], [[1], [2]], [0.5]).tolist())</code></pre></div><template class="ho-check">assert dense_forward([[1, 1]], [[1], [2]], [0.5]).tolist() == [[3.5]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parameter Count</div><div class="pd">Total parameters given layer shapes.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2_2" class="language-python">import numpy as np
+
+def param_count(shapes):
+    # TODO: sum of the product of each shape
+    return 0
+
+print(param_count([(3, 4), (4,)]))</code></pre></div><template class="ho-check">assert param_count([(3, 4), (4,)]) == 16
+assert param_count([(2, 2)]) == 4
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dropout Mask</div><div class="pd">Keep-mask for dropout probability p.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2_3" class="language-python">import numpy as np
+
+def dropout_mask(p, size, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: 1.0 where rng.random(size) &gt;= p, else 0.0
+    return np.ones(size)
+
+print(dropout_mask(0.0, 5).tolist())</code></pre></div><template class="ho-check">assert dropout_mask(0.0, 5).tolist() == [1, 1, 1, 1, 1], &quot;p=0 keeps everything&quot;
+assert dropout_mask(1.0, 5).tolist() == [0, 0, 0, 0, 0], &quot;p=1 drops everything&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch Norm</div><div class="pd">Normalize activations to mean 0, unit variance.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p2_4" class="language-python">import numpy as np
+
+def batchnorm(x, eps=1e-5):
+    x = np.asarray(x, float)
+    # TODO: (x - mean) / sqrt(var + eps)
+    return x
+
+print(batchnorm([1, 2, 3]).round(4).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert abs(batchnorm([1, 2, 3]).mean()) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 3-layer MLP with nn.Sequential using Linear, ReLU, and Dropout layers</label></li>
 <li><label><input type="checkbox"> Count trainable parameters in a model using sum(p.numel() for p in model.parameters())</label></li>
 <li><label><input type="checkbox"> Add BatchNorm1d between every Linear and ReLU layer and observe training stability</label></li>
@@ -855,7 +958,7 @@ for epoch in range(1, 6):
         optimizer.step()
         total_loss += loss.item()
     print(f&#x27;Epoch {epoch}: loss={total_loss/len(dl):.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Train/Val Loop with Early Stopping</div><div class="pd">Train a 2-layer MLP on make_classification(n_samples=1000) data. Implement train/val split, track both losses per epoch, add early stopping (patience=5). Run for max 50 epochs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Train/Val Loop with Early Stopping</div><div class="pd">Train a 2-layer MLP on make_classification(n_samples=1000) data. Implement train/val split, track both losses per epoch, add early stopping (patience=5). Run for max 50 epochs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_0" class="language-python">import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.datasets import make_classification
@@ -894,7 +997,50 @@ for epoch in range(1, 51):
     # else: wait += 1
     # if wait &gt;= patience: print(&#x27;Early stop&#x27;); break
 
-    pass  # remove once implemented</code></pre></div></div>
+    pass  # remove once implemented</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MSE Loss</div><div class="pd">Mean squared error.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_1" class="language-python">import numpy as np
+
+def mse_loss(y, yh):
+    y = np.asarray(y, float); yh = np.asarray(yh, float)
+    # TODO: mean of squared differences
+    return 0.0
+
+print(mse_loss([1, 2], [1, 2]))</code></pre></div><template class="ho-check">assert mse_loss([1, 2], [1, 2]) == 0.0
+assert abs(mse_loss([0, 0], [1, 1]) - 1.0) &lt; 1e-12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Train Linear Model</div><div class="pd">Full gradient-descent training loop.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_2" class="language-python">import numpy as np
+
+def train_linear(X, y, epochs=200, lr=0.1):
+    X = np.asarray(X, float); y = np.asarray(y, float)
+    w = np.zeros(X.shape[1])
+    for _ in range(epochs):
+        # TODO: w -= lr * (X.T @ (X @ w - y) / len(y))
+        pass
+    return w
+
+print(train_linear([[1, 0], [0, 1], [1, 1]], [1, 2, 3]).round(3).tolist())</code></pre></div><template class="ho-check">import numpy as np
+w = train_linear([[1, 0], [0, 1], [1, 1]], [1, 2, 3])
+assert np.allclose(w, [1, 2], atol=1e-2), &quot;recovers the true weights&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Epoch Loss Curve</div><div class="pd">A decreasing 1/(i+1) loss curve.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_3" class="language-python">def epoch_losses(n):
+    # TODO: [1/(i+1) for i in range(n)]
+    return []
+
+print(epoch_losses(3))</code></pre></div><template class="ho-check">assert epoch_losses(3) == [1.0, 0.5, 1/3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Early Stopping</div><div class="pd">Index where training stops after `patience` bad epochs.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_4" class="language-python">def early_stop(losses, patience=2):
+    best = float(&quot;inf&quot;); bad = 0
+    for i, l in enumerate(losses):
+        if l &lt; best:
+            best = l; bad = 0
+        else:
+            bad += 1
+            # TODO: return i once bad reaches patience
+            pass
+    return len(losses) - 1
+
+print(early_stop([1.0, 0.5, 0.6, 0.7]))</code></pre></div><template class="ho-check">assert early_stop([1.0, 0.5, 0.6, 0.7]) == 3, &quot;two consecutive non-improvements&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a full training loop: optimizer.zero_grad(), loss.backward(), optimizer.step()</label></li>
 <li><label><input type="checkbox"> Add a validation loop using model.eval() and torch.no_grad() for memory efficiency</label></li>
 <li><label><input type="checkbox"> Track train and val loss per epoch and print them side by side</label></li>
@@ -1100,7 +1246,7 @@ for epoch in range(1, 4):
         optimizer.step()
         total += loss.item()
     print(f&#x27;Epoch {epoch}: loss={total/len(train_dl):.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CNN Forward Pass with Shape Tracking</div><div class="pd">Build a CNN for MNIST-like data (1x28x28 input, 10 classes) with 2 conv layers, maxpool, and 2 FC layers. Use synthetic data (batch=8). Print output shape after each layer.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p4" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CNN Forward Pass with Shape Tracking</div><div class="pd">Build a CNN for MNIST-like data (1x28x28 input, 10 classes) with 2 conv layers, maxpool, and 2 FC layers. Use synthetic data (batch=8). Print output shape after each layer.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p4_0" class="language-python">import torch
 import torch.nn as nn
 
 torch.manual_seed(42)
@@ -1332,7 +1478,7 @@ for epoch in range(1, 4):
         optimizer.step()
         total += loss.item()
     print(f&#x27;Epoch {epoch}: loss={total/len(dl):.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ResNet18 for 5-Class with Frozen Backbone</div><div class="pd">Replace ResNet18&#x27;s final FC layer for 5 classes, freeze all layers except the new head, count trainable vs frozen parameters, and run one forward pass with 4 random (3x224x224) images.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p5" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ResNet18 for 5-Class with Frozen Backbone</div><div class="pd">Replace ResNet18&#x27;s final FC layer for 5 classes, freeze all layers except the new head, count trainable vs frozen parameters, and run one forward pass with 4 random (3x224x224) images.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p5_0" class="language-python">import torch
 import torch.nn as nn
 import torchvision.models as models
 
@@ -1538,7 +1684,7 @@ dl = DataLoader(ds, batch_size=2, shuffle=True)
 for xb, yb in dl:
     print(&#x27;Token batch:&#x27;, xb.shape, &#x27;| Labels:&#x27;, yb)
     break</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TabularDataset with Train/Val DataLoaders</div><div class="pd">Build a TabularDataset wrapping a numpy array. Add __len__ and __getitem__. Create 80/20 train/val DataLoaders, iterate one batch and print shapes. Add a simple normalize transform.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p6" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: TabularDataset with Train/Val DataLoaders</div><div class="pd">Build a TabularDataset wrapping a numpy array. Add __len__ and __getitem__. Create 80/20 train/val DataLoaders, iterate one batch and print shapes. Add a simple normalize transform.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p6_0" class="language-python">import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 
@@ -1799,7 +1945,7 @@ with torch.no_grad():
     y_v = torch.tensor(y_val, dtype=torch.long)
     acc = (model(X_v).argmax(1) == y_v).float().mean()
     print(f&#x27;Val accuracy: {acc.item():.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Regularized vs Unregularized Networks</div><div class="pd">Train two identical networks on noisy regression data (make_regression, noise=30, n_samples=500): one with dropout + weight_decay, one without. Train both 30 epochs. Compare validation MSE.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Regularized vs Unregularized Networks</div><div class="pd">Train two identical networks on noisy regression data (make_regression, noise=30, n_samples=500): one with dropout + weight_decay, one without. Train both 30 epochs. Compare validation MSE.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_0" class="language-python">import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.datasets import make_regression
@@ -1832,7 +1978,41 @@ torch.manual_seed(42)
 
 # TODO: Train both for 30 epochs and compare val MSE
 # For each model, track val_mse_list and print final val MSE
-pass</code></pre></div></div>
+pass</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Argmax Predictions</div><div class="pd">Predicted class per row of logits.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_1" class="language-python">import numpy as np
+
+def argmax_preds(logits):
+    # TODO: argmax along axis=1 as a list
+    return []
+
+print(argmax_preds([[1, 5], [7, 2]]))</code></pre></div><template class="ho-check">assert argmax_preds([[1, 5], [7, 2]]) == [1, 0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top-K Classes</div><div class="pd">Indices of the k largest logits, highest first.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_2" class="language-python">import numpy as np
+
+def top_k(logits, k):
+    # TODO: sort indices descending by value, take k
+    return []
+
+print(top_k([1, 9, 5], 2))</code></pre></div><template class="ho-check">assert top_k([1, 9, 5], 2) == [1, 2]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Binary Confusion</div><div class="pd">Return (tn, fp, fn, tp) without sklearn.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_3" class="language-python">import numpy as np
+
+def confusion_binary(y, p):
+    y = np.asarray(y); p = np.asarray(p)
+    # TODO: count the four combinations as ints
+    return (0, 0, 0, 0)
+
+print(confusion_binary([1, 1, 0, 0], [1, 0, 0, 0]))</code></pre></div><template class="ho-check">assert confusion_binary([1, 1, 0, 0], [1, 0, 0, 0]) == (2, 0, 1, 1)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch Accuracy</div><div class="pd">Accuracy of argmax predictions against labels.
+(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_4" class="language-python">import numpy as np
+
+def batch_accuracy(logits, labels):
+    # TODO: mean of (argmax(logits, axis=1) == labels)
+    return 0.0
+
+print(batch_accuracy([[1, 5], [7, 2]], [1, 0]))</code></pre></div><template class="ho-check">assert batch_accuracy([[1, 5], [7, 2]], [1, 0]) == 1.0
+assert batch_accuracy([[1, 5], [7, 2]], [0, 0]) == 0.5
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add Dropout(p=0.3) after each hidden layer and verify it&#x27;s disabled during model.eval()</label></li>
 <li><label><input type="checkbox"> Add BatchNorm1d before each ReLU and observe how it affects training stability</label></li>
 <li><label><input type="checkbox"> Add weight_decay=1e-4 to the Adam optimizer and compare val loss with and without it</label></li>
@@ -2036,7 +2216,7 @@ for epoch in range(1, 16):
         ckpt = os.path.join(tmp, f&#x27;ckpt_epoch{epoch}.pth&#x27;)
         torch.save({&#x27;epoch&#x27;: epoch, &#x27;model&#x27;: model.state_dict(), &#x27;loss&#x27;: avg_loss}, ckpt)
         print(f&#x27;Epoch {epoch:2d}: loss={avg_loss:.4f} [checkpoint saved]&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Save, Load &amp; Verify Identical Predictions</div><div class="pd">Build a small MLP, train 5 epochs on synthetic data, save state_dict to &#x27;model.pth&#x27;, load into a new instance, and verify predictions are identical before and after loading. Then export as TorchScript.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p8" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Save, Load &amp; Verify Identical Predictions</div><div class="pd">Build a small MLP, train 5 epochs on synthetic data, save state_dict to &#x27;model.pth&#x27;, load into a new instance, and verify predictions are identical before and after loading. Then export as TorchScript.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p8_0" class="language-python">import torch
 import torch.nn as nn
 import os, tempfile
 
@@ -2268,7 +2448,7 @@ with torch.no_grad():
 threshold = errors.mean() + 3 * errors.std()
 detected = (errors &gt; threshold).sum()
 print(f&#x27;Anomalies detected: {detected.item()} (threshold={threshold.item():.4f})&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LSTM Sequence Classification — Shape Tracking</div><div class="pd">Build an LSTM for sequence classification (seq_len=20, input_size=10, hidden=32, 2 classes). Create a batch of 8 random sequences, run forward pass, compute loss, backprop. Print shapes at each step.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p9" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LSTM Sequence Classification — Shape Tracking</div><div class="pd">Build an LSTM for sequence classification (seq_len=20, input_size=10, hidden=32, 2 classes). Create a batch of 8 random sequences, run forward pass, compute loss, backprop. Print shapes at each step.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p9_0" class="language-python">import torch
 import torch.nn as nn
 
 torch.manual_seed(42)
@@ -2471,7 +2651,7 @@ print(&#x27;Token attention weights from [CLS]-like position (row 0):&#x27;)
 for tok, w in zip(tokens, weights[0, 0]):
     bar = &#x27;|&#x27; * int(w * 100)
     print(f&#x27;{tok:12s}: {w:.4f} {bar}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement Scaled Dot-Product Attention</div><div class="pd">Without using any DL framework, implement scaled dot-product attention that supports (1) batch dimensions, (2) an optional causal mask, (3) dropout on attention weights (randomly zero out weights with probability p). Test with batch=2, seq=8, d_k=16. Print attention weight shape and verify rows sum to 1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p10" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement Scaled Dot-Product Attention</div><div class="pd">Without using any DL framework, implement scaled dot-product attention that supports (1) batch dimensions, (2) an optional causal mask, (3) dropout on attention weights (randomly zero out weights with probability p). Test with batch=2, seq=8, d_k=16. Print attention weight shape and verify rows sum to 1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p10_0" class="language-python">import numpy as np
 
 def softmax(x, axis=-1):
     x = x - x.max(axis=axis, keepdims=True)
@@ -2713,7 +2893,7 @@ synth  = X_fake * sigma + mu  # de-normalize
 print(&#x27;Real data stats:&#x27;); print(f&#x27;  Amount: mean={real_data[:,0].mean():.1f}, std={real_data[:,0].std():.1f}&#x27;)
 print(&#x27;Synthetic stats:&#x27;); print(f&#x27;  Amount: mean={synth[:,0].mean():.1f}, std={synth[:,0].std():.1f}&#x27;)
 print(f&#x27;KL divergence (latent): {(-0.5*(1+Z_logvar-Z_mu**2-np.exp(Z_logvar)).mean()):.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: VAE Loss Components</div><div class="pd">Implement the complete VAE training step (forward pass only): (1) encode input to mu and log_var, (2) sample z using reparameterization, (3) decode z to reconstruction, (4) compute ELBO = reconstruction_loss + beta * KL. Use MSE for reconstruction. Test with batch=16, input_dim=32, latent_dim=4. Print each loss component.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p11" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: VAE Loss Components</div><div class="pd">Implement the complete VAE training step (forward pass only): (1) encode input to mu and log_var, (2) sample z using reparameterization, (3) decode z to reconstruction, (4) compute ELBO = reconstruction_loss + beta * KL. Use MSE for reconstruction. Test with batch=16, input_dim=32, latent_dim=4. Print each loss component.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p11_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 batch, input_dim, latent_dim, hidden = 16, 32, 4, 16
@@ -2908,7 +3088,7 @@ for idx in rejected:
     print(f&#x27;  Sample {idx}: P(approve)={pred:.2%}&#x27;)
     for f, imp_val in top3:
         print(f&#x27;    {f}: importance={imp_val:.4f}&#x27;)</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Attribution Pipeline</div><div class="pd">Train a GradientBoosting classifier on make_classification (15 features). Compute: (1) built-in feature_importances_, (2) permutation importance (sklearn), (3) LIME-style local explanation for the 5 samples with lowest prediction probability. Compare which features rank consistently across all 3 methods.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p12" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Attribution Pipeline</div><div class="pd">Train a GradientBoosting classifier on make_classification (15 features). Compute: (1) built-in feature_importances_, (2) permutation importance (sklearn), (3) LIME-style local explanation for the 5 samples with lowest prediction probability. Compare which features rank consistently across all 3 methods.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p12_0" class="language-python">import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.datasets import make_classification
@@ -3141,7 +3321,7 @@ for epoch in range(3):
         val_acc = (val_pred == y_va).float().mean()
     print(f&quot;Epoch {epoch+1}: loss={tr_loss/len(tr_loader):.4f}, val_acc={val_acc:.4f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CIFAR-10 Style CNN</div><div class="pd">Build a CNN for 10-class image classification on 1000 simulated 32x32 RGB images. Include at least 3 conv layers with BatchNorm, one residual connection, and Dropout. Train for 5 epochs. Compare 1e-3 vs 1e-4 learning rates and report train loss + val accuracy.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p13" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CIFAR-10 Style CNN</div><div class="pd">Build a CNN for 10-class image classification on 1000 simulated 32x32 RGB images. Include at least 3 conv layers with BatchNorm, one residual connection, and Dropout. Train for 5 epochs. Compare 1e-3 vs 1e-4 learning rates and report train loss + val accuracy.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p13_0" class="language-python">import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
@@ -3321,7 +3501,7 @@ for epoch in range(5):
         val_acc = (model(X_val).argmax(1) == y_val).float().mean()
     print(f&quot;Epoch {epoch+1}: loss={tr_loss/len(loader):.4f}, val_acc={val_acc:.4f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Category Transformer</div><div class="pd">Build a 3-layer Transformer encoder with sinusoidal positional encoding for 4-class news categorization. Use AdamW with cosine LR scheduling. Train for 8 epochs on 500 simulated sequences (length 50, vocab 1000) with padding. Report val accuracy and param count.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p14" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: News Category Transformer</div><div class="pd">Build a 3-layer Transformer encoder with sinusoidal positional encoding for 4-class news categorization. Use AdamW with cosine LR scheduling. Train for 8 epochs on 500 simulated sequences (length 50, vocab 1000) with padding. Report val accuracy and param count.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p14_0" class="language-python">import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
@@ -3539,7 +3719,7 @@ precision = (pred * true_labels).sum() / pred.sum()
 recall    = (pred * true_labels).sum() / true_labels.sum()
 print(f&quot;Precision: {precision:.3f}, Recall: {recall:.3f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Anomaly Detection VAE</div><div class="pd">Train a VAE (bottleneck=3) on 700 samples from a 10-feature dataset where 80% are normal and 20% are anomalies (3x variance). Use reconstruction error as anomaly score. Choose threshold = mean + 2*std of training errors. Report precision, recall, and F1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p15" class="language-python">import torch
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Anomaly Detection VAE</div><div class="pd">Train a VAE (bottleneck=3) on 700 samples from a 10-feature dataset where 80% are normal and 20% are anomalies (3x variance). Use reconstruction error as anomaly score. Choose threshold = mean + 2*std of training errors. Report precision, recall, and F1.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p15_0" class="language-python">import torch
 import torch.nn as nn
 import numpy as np
 
@@ -3757,7 +3937,7 @@ for cell, RNN in [(&#x27;LSTM&#x27;, nn.LSTM), (&#x27;GRU&#x27;, nn.GRU)]:
         acc = ((model(X_te)&gt;0.5).float()==y_te).float().mean().item()
     print(f&quot;{cell}: val_acc={acc:.4f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sequence Direction Predictor</div><div class="pd">Build a GRU model with 30-day windows for direction prediction. Compare bidirectional vs unidirectional GRU and report validation accuracy.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p16" class="language-python">import torch, torch.nn as nn, numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sequence Direction Predictor</div><div class="pd">Build a GRU model with 30-day windows for direction prediction. Compare bidirectional vs unidirectional GRU and report validation accuracy.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p16_0" class="language-python">import torch, torch.nn as nn, numpy as np
 torch.manual_seed(42); np.random.seed(42)
 # 1. Generate 400-day synthetic price series (random walk)
 # 2. Create 30-day windows with direction labels (up=1, down=0)
@@ -3968,7 +4148,7 @@ for phase, lr_enc, lr_head, unfreeze in [
     model.train()
     print(f&quot;{phase}: val_acc={va:.4f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Two-Phase Transfer Learning</div><div class="pd">Implement transfer learning on a pretrained encoder: Phase 1 trains only the new head, Phase 2 unfreezes all layers with layer-wise LRs (1e-5 for encoder, 1e-3 for head).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p17" class="language-python">import torch, torch.nn as nn
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Two-Phase Transfer Learning</div><div class="pd">Implement transfer learning on a pretrained encoder: Phase 1 trains only the new head, Phase 2 unfreezes all layers with layer-wise LRs (1e-5 for encoder, 1e-3 for head).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p17_0" class="language-python">import torch, torch.nn as nn
 torch.manual_seed(42)
 # 1. Build PretrainedEncoder (freeze all layers)
 # 2. Add new classification head
@@ -4145,7 +4325,7 @@ for epoch in range(50):
         acc = (model(X).argmax(1)==y).float().mean().item()
         print(f&quot;Epoch {epoch+1}: loss={loss.item():.4f}, acc={acc:.4f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-Attention from Scratch</div><div class="pd">Implement scaled dot-product attention and test with batch_size=4, seq_len=8, d_model=16. Verify attention weights sum to 1 along the last dimension.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p18" class="language-python">import torch, torch.nn as nn
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Self-Attention from Scratch</div><div class="pd">Implement scaled dot-product attention and test with batch_size=4, seq_len=8, d_model=16. Verify attention weights sum to 1 along the last dimension.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p18_0" class="language-python">import torch, torch.nn as nn
 
 def sdp_attention(Q, K, V, mask=None):
     # 1. Compute attention scores: Q @ K.T / sqrt(d_k)
@@ -4333,7 +4513,7 @@ for name, model, wd in [(&quot;Unstable&quot;, UnstableNet(), 0), (&quot;Stable&
     valid = [l for l in losses if l==l]
     print(f&quot;{name}: final={valid[-1]:.4f}, epochs={len(valid)}, diverged={len(valid)&lt;50}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regularized Classifier</div><div class="pd">Build a 3-layer MLP with BatchNorm + Dropout (p=0.3) for binary classification. Compare train vs val accuracy with and without regularization.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p19" class="language-python">import torch, torch.nn as nn
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regularized Classifier</div><div class="pd">Build a 3-layer MLP with BatchNorm + Dropout (p=0.3) for binary classification. Compare train vs val accuracy with and without regularization.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p19_0" class="language-python">import torch, torch.nn as nn
 torch.manual_seed(42)
 X_tr = torch.randn(100, 20); y_tr = (X_tr[:,0]&gt;0).float()
 X_va = torch.randn(300, 20); y_va = (X_va[:,0]&gt;0).float()
@@ -4503,7 +4683,7 @@ for step in range(5001):
     if step % 1000 == 0:
         print(f&quot;Step {step}: fixed_lr={l1.item():.4f}, warmup_cosine={l2.item():.4f}, lr={lr_fn(step):.6f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Warmup + Cosine LR Scheduler</div><div class="pd">Implement a warmup+cosine LR scheduler from scratch. Apply it to a regression model and print LR at steps [0, 50, 100, 200, 500].</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p20" class="language-python">import torch, torch.nn as nn, math
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Warmup + Cosine LR Scheduler</div><div class="pd">Implement a warmup+cosine LR scheduler from scratch. Apply it to a regression model and print LR at steps [0, 50, 100, 200, 500].</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p20_0" class="language-python">import torch, torch.nn as nn, math
 
 def get_lr(step, warmup=100, total=500, base_lr=1e-3):
     # Phase 1: linear warmup
@@ -4709,7 +4889,7 @@ for epoch in range(100):
     if (epoch+1)%20==0: print(f&quot;Epoch {epoch+1}: train={l.item():.4f}, val={vl:.4f}&quot;)
     if sys.step(epoch, l.item(), vl): break
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Early Stopping Implementation</div><div class="pd">Write an EarlyStopping class with patience=10 and min_delta=1e-3 that restores best weights on trigger. Verify it stops training and the loaded model has the best val_loss.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p21" class="language-python">import torch, torch.nn as nn, copy
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Early Stopping Implementation</div><div class="pd">Write an EarlyStopping class with patience=10 and min_delta=1e-3 that restores best weights on trigger. Verify it stops training and the loaded model has the best val_loss.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p21_0" class="language-python">import torch, torch.nn as nn, copy
 
 class EarlyStopping:
     def __init__(self, patience=10, min_delta=1e-3):
@@ -4898,7 +5078,7 @@ for epoch in range(30):
     if (epoch+1) % 10 == 0:
         print(f&quot;Epoch {epoch+1}: loss={loss.item():.4f}, grad={gn_before.item():.3f}-&gt;{gn_after.item():.3f}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Gradient Clipping + Monitoring</div><div class="pd">Train a 3-layer RNN and clip gradients with max_norm=1.0. Print gradient norm before and after clipping every 10 epochs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p22" class="language-python">import torch, torch.nn as nn
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Gradient Clipping + Monitoring</div><div class="pd">Train a 3-layer RNN and clip gradients with max_norm=1.0. Print gradient norm before and after clipping every 10 epochs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p22_0" class="language-python">import torch, torch.nn as nn
 
 model = nn.RNN(10, 64, 3, batch_first=True)
 fc = nn.Linear(64, 1)
@@ -5098,7 +5278,7 @@ print(f&quot;TorchScript match: {torch.allclose(orig_out, ts_out, atol=1e-5)}&qu
 print(f&quot;ONNX size: {os.path.getsize(&#x27;/tmp/multi.onnx&#x27;)/1024:.1f} KB&quot;)
 print(f&quot;Predictions: {orig_out[:3].numpy().round(4)}&quot;)
 </code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export and Verify a Model</div><div class="pd">Train a simple classifier, export it via TorchScript (script), save to disk, reload, and verify predictions match with torch.allclose.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p23" class="language-python">import torch, torch.nn as nn
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export and Verify a Model</div><div class="pd">Train a simple classifier, export it via TorchScript (script), save to disk, reload, and verify predictions match with torch.allclose.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p23_0" class="language-python">import torch, torch.nn as nn
 
 class Net(nn.Module):
     def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
@@ -5181,7 +5361,7 @@ for _ in range(300):
     grad = X.T @ (X @ w - y) / len(y)            # gradient of MSE
     w -= 0.1 * grad
 print(&quot;recovered weights:&quot;, w.round(2).tolist())</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ReLU &amp; Softmax</div><div class="pd">Implement relu(x) and a numerically stable softmax(x) (each row summing to 1). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p24" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ReLU &amp; Softmax</div><div class="pd">Implement relu(x) and a numerically stable softmax(x) (each row summing to 1). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p24_0" class="language-python">import numpy as np
 
 def relu(x):
     # TODO: return max(0, x) elementwise
@@ -5244,7 +5424,7 @@ y = np.array([1.0, 0.0, 1.0, 0.0])
 p = np.array([0.8, 0.3, 0.6, 0.2])
 loss = -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
 print(&quot;cross-entropy:&quot;, round(float(loss), 4))</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sigmoid &amp; BCE</div><div class="pd">Implement sigmoid(z) and bce(y, p) (binary cross-entropy, clipped for stability). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p25" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sigmoid &amp; BCE</div><div class="pd">Implement sigmoid(z) and bce(y, p) (binary cross-entropy, clipped for stability). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p25_0" class="language-python">import numpy as np
 
 def sigmoid(z):
     # TODO: 1 / (1 + e^-z), elementwise
@@ -5308,7 +5488,7 @@ w = np.zeros(2)
 for _ in range(300):
     w -= 0.1 * (X.T @ (X @ w - y) / len(y))
 print(&quot;recovered:&quot;, w.round(2).tolist())</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MSE &amp; Gradient</div><div class="pd">Implement mse(y, yhat) and mse_grad(X, y, w) (the gradient of MSE for a linear model). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p26" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MSE &amp; Gradient</div><div class="pd">Implement mse(y, yhat) and mse_grad(X, y, w) (the gradient of MSE for a linear model). Fill in the functions, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p26_0" class="language-python">import numpy as np
 
 def mse(y, yhat):
     y = np.asarray(y, float); yhat = np.asarray(yhat, float)
@@ -5367,7 +5547,7 @@ def one_hot(labels, n):
     return (labels[:, None] == np.arange(n)[None, :]).astype(float)
 
 print(one_hot([0, 1, 2, 1], 3).tolist())</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Hot Encode</div><div class="pd">Implement one_hot(labels, n): return a (len(labels), n) one-hot matrix. Fill in the function, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p27" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Hot Encode</div><div class="pd">Implement one_hot(labels, n): return a (len(labels), n) one-hot matrix. Fill in the function, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p27_0" class="language-python">import numpy as np
 
 def one_hot(labels, n):
     labels = np.asarray(labels)
@@ -5420,7 +5600,7 @@ def accuracy(logits, labels):
 logits = np.array([[3.0, 1], [0, 2], [1, 0], [0, 5]])
 labels = np.array([0, 1, 0, 1])
 print(&quot;accuracy:&quot;, accuracy(logits, labels))</code></pre></div></div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy</div><div class="pd">Implement accuracy(logits, labels): predict with argmax over classes and return the fraction correct. Fill in the function, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p28" class="language-python">import numpy as np
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy</div><div class="pd">Implement accuracy(logits, labels): predict with argmax over classes and return the fraction correct. Fill in the function, press Run, then press Check.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p28_0" class="language-python">import numpy as np
 
 def accuracy(logits, labels):
     logits = np.asarray(logits); labels = np.asarray(labels)

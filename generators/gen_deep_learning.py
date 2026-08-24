@@ -12,6 +12,32 @@ def esc(s):
 SECTIONS = [
     {
         "title": "Setup & Tensors",
+"practices": [
+{
+"title": 'Array Shape',
+"desc": 'Shape of an array.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef shape_of(a):\n    # TODO: return np.asarray(a).shape\n    return ()\n\nprint(shape_of([[1, 2, 3]]))',
+"check": 'assert shape_of([[1, 2, 3]]) == (1, 3)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Reshape',
+"desc": 'Reshape a flat array into r x c.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef reshape_to(a, r, c):\n    # TODO: np.asarray(a).reshape(r, c)\n    return np.asarray(a)\n\nprint(reshape_to([1, 2, 3, 4], 2, 2).tolist())',
+"check": 'assert reshape_to([1, 2, 3, 4], 2, 2).tolist() == [[1, 2], [3, 4]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Matrix Multiply',
+"desc": 'Matrix product of two arrays.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef matmul(a, b):\n    # TODO: a @ b (as float arrays)\n    return np.asarray(a, float)\n\nprint(matmul([[1, 2]], [[3], [4]]).tolist())',
+"check": 'assert matmul([[1, 2]], [[3], [4]]).tolist() == [[11.0]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Broadcast Add',
+"desc": 'Add a row vector to every row of a matrix.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef broadcast_add(m, v):\n    # TODO: m + v, letting broadcasting align the shapes\n    return np.asarray(m, float)\n\nprint(broadcast_add([[1, 2], [3, 4]], [10, 20]).tolist())',
+"check": 'assert broadcast_add([[1, 2], [3, 4]], [10, 20]).tolist() == [[11, 22], [13, 24]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "PyTorch tensors are the foundation — multi-dimensional arrays with GPU support and autograd.",
         "code1_title": "Creating & Manipulating Tensors",
         "code1": (
@@ -161,6 +187,32 @@ SECTIONS = [
     },
     {
         "title": "Autograd & Gradients",
+"practices": [
+{
+"title": 'Numeric Gradient',
+"desc": 'Central-difference derivative of f at x.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'def numeric_grad(f, x, h=1e-6):\n    # TODO: (f(x+h) - f(x-h)) / (2h)\n    return 0.0\n\nprint(round(numeric_grad(lambda v: v*v, 3), 4))',
+"check": 'assert abs(numeric_grad(lambda v: v*v, 3) - 6) < 1e-4, "d/dx x^2 = 2x"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Gradient Step',
+"desc": 'One gradient-descent update.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'def grad_descent_step(x, grad, lr):\n    # TODO: x - lr * grad\n    return x\n\nprint(grad_descent_step(1.0, 2.0, 0.1))',
+"check": 'assert abs(grad_descent_step(1.0, 2.0, 0.1) - 0.8) < 1e-12\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Partial Derivatives',
+"desc": 'Numerical gradient vector of a multivariate f.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef partials(f, p, h=1e-6):\n    p = np.asarray(p, float); g = np.zeros_like(p)\n    for i in range(len(p)):\n        e = np.zeros_like(p); e[i] = h\n        # TODO: g[i] = central difference along dimension i\n        g[i] = 0.0\n    return g\n\nprint(partials(lambda v: v[0]**2 + 3*v[1], [2.0, 1.0]).round(4).tolist())',
+"check": 'import numpy as np\nassert np.allclose(partials(lambda v: v[0]**2 + 3*v[1], [2.0, 1.0]), [4, 3], atol=1e-4)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Minimize Quadratic',
+"desc": 'Gradient descent on f(x) = x^2.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'def minimize_quadratic(steps, lr=0.1, x0=5.0):\n    x = x0\n    for _ in range(steps):\n        # TODO: x = x - lr * derivative of x^2 (which is 2x)\n        pass\n    return x\n\nprint(round(minimize_quadratic(100), 8))',
+"check": 'assert abs(minimize_quadratic(100)) < 1e-6, "converges to the minimum at 0"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "PyTorch's autograd engine automatically computes gradients for backpropagation.",
         "code1_title": "requires_grad & backward()",
         "code1": (
@@ -323,6 +375,32 @@ SECTIONS = [
     },
     {
         "title": "Building Neural Networks (nn.Module)",
+"practices": [
+{
+"title": 'Dense Forward',
+"desc": 'One fully-connected layer: XW + b.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef dense_forward(X, W, b):\n    # TODO: X @ W + b\n    return np.asarray(X, float)\n\nprint(dense_forward([[1, 1]], [[1], [2]], [0.5]).tolist())',
+"check": 'assert dense_forward([[1, 1]], [[1], [2]], [0.5]).tolist() == [[3.5]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Parameter Count',
+"desc": 'Total parameters given layer shapes.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef param_count(shapes):\n    # TODO: sum of the product of each shape\n    return 0\n\nprint(param_count([(3, 4), (4,)]))',
+"check": 'assert param_count([(3, 4), (4,)]) == 16\nassert param_count([(2, 2)]) == 4\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Dropout Mask',
+"desc": 'Keep-mask for dropout probability p.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef dropout_mask(p, size, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: 1.0 where rng.random(size) >= p, else 0.0\n    return np.ones(size)\n\nprint(dropout_mask(0.0, 5).tolist())',
+"check": 'assert dropout_mask(0.0, 5).tolist() == [1, 1, 1, 1, 1], "p=0 keeps everything"\nassert dropout_mask(1.0, 5).tolist() == [0, 0, 0, 0, 0], "p=1 drops everything"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Batch Norm',
+"desc": 'Normalize activations to mean 0, unit variance.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef batchnorm(x, eps=1e-5):\n    x = np.asarray(x, float)\n    # TODO: (x - mean) / sqrt(var + eps)\n    return x\n\nprint(batchnorm([1, 2, 3]).round(4).tolist())',
+"check": 'import numpy as np\nassert abs(batchnorm([1, 2, 3]).mean()) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Define models by subclassing nn.Module. Stack layers, define forward(), and let PyTorch handle the rest.",
         "code1_title": "Fully Connected Network",
         "code1": (
@@ -518,6 +596,32 @@ SECTIONS = [
     },
     {
         "title": "Training Loop",
+"practices": [
+{
+"title": 'MSE Loss',
+"desc": 'Mean squared error.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef mse_loss(y, yh):\n    y = np.asarray(y, float); yh = np.asarray(yh, float)\n    # TODO: mean of squared differences\n    return 0.0\n\nprint(mse_loss([1, 2], [1, 2]))',
+"check": 'assert mse_loss([1, 2], [1, 2]) == 0.0\nassert abs(mse_loss([0, 0], [1, 1]) - 1.0) < 1e-12\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Train Linear Model',
+"desc": 'Full gradient-descent training loop.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef train_linear(X, y, epochs=200, lr=0.1):\n    X = np.asarray(X, float); y = np.asarray(y, float)\n    w = np.zeros(X.shape[1])\n    for _ in range(epochs):\n        # TODO: w -= lr * (X.T @ (X @ w - y) / len(y))\n        pass\n    return w\n\nprint(train_linear([[1, 0], [0, 1], [1, 1]], [1, 2, 3]).round(3).tolist())',
+"check": 'import numpy as np\nw = train_linear([[1, 0], [0, 1], [1, 1]], [1, 2, 3])\nassert np.allclose(w, [1, 2], atol=1e-2), "recovers the true weights"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Epoch Loss Curve',
+"desc": 'A decreasing 1/(i+1) loss curve.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'def epoch_losses(n):\n    # TODO: [1/(i+1) for i in range(n)]\n    return []\n\nprint(epoch_losses(3))',
+"check": 'assert epoch_losses(3) == [1.0, 0.5, 1/3]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Early Stopping',
+"desc": 'Index where training stops after `patience` bad epochs.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'def early_stop(losses, patience=2):\n    best = float("inf"); bad = 0\n    for i, l in enumerate(losses):\n        if l < best:\n            best = l; bad = 0\n        else:\n            bad += 1\n            # TODO: return i once bad reaches patience\n            pass\n    return len(losses) - 1\n\nprint(early_stop([1.0, 0.5, 0.6, 0.7]))',
+"check": 'assert early_stop([1.0, 0.5, 0.6, 0.7]) == 3, "two consecutive non-improvements"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "The complete training loop: forward pass, loss, backward, optimizer step, and validation.",
         "code1_title": "Full Training Loop",
         "code1": (
@@ -1383,6 +1487,32 @@ SECTIONS = [
     },
     {
         "title": "Regularization Techniques",
+"practices": [
+{
+"title": 'Argmax Predictions',
+"desc": 'Predicted class per row of logits.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef argmax_preds(logits):\n    # TODO: argmax along axis=1 as a list\n    return []\n\nprint(argmax_preds([[1, 5], [7, 2]]))',
+"check": 'assert argmax_preds([[1, 5], [7, 2]]) == [1, 0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Top-K Classes',
+"desc": 'Indices of the k largest logits, highest first.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef top_k(logits, k):\n    # TODO: sort indices descending by value, take k\n    return []\n\nprint(top_k([1, 9, 5], 2))',
+"check": 'assert top_k([1, 9, 5], 2) == [1, 2]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Binary Confusion',
+"desc": 'Return (tn, fp, fn, tp) without sklearn.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef confusion_binary(y, p):\n    y = np.asarray(y); p = np.asarray(p)\n    # TODO: count the four combinations as ints\n    return (0, 0, 0, 0)\n\nprint(confusion_binary([1, 1, 0, 0], [1, 0, 0, 0]))',
+"check": 'assert confusion_binary([1, 1, 0, 0], [1, 0, 0, 0]) == (2, 0, 1, 1)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Batch Accuracy',
+"desc": 'Accuracy of argmax predictions against labels.\n(NumPy version so it runs in the browser - PyTorch is not available in Pyodide.)',
+"starter": 'import numpy as np\n\ndef batch_accuracy(logits, labels):\n    # TODO: mean of (argmax(logits, axis=1) == labels)\n    return 0.0\n\nprint(batch_accuracy([[1, 5], [7, 2]], [1, 0]))',
+"check": 'assert batch_accuracy([[1, 5], [7, 2]], [1, 0]) == 1.0\nassert batch_accuracy([[1, 5], [7, 2]], [0, 0]) == 0.5\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Prevent overfitting with Dropout, Batch Normalization, Weight Decay, and Early Stopping.",
         "code1_title": "Dropout & Batch Normalization",
         "code1": (
@@ -5185,13 +5315,15 @@ def make_html(sections):
             )
 
         # Practice block
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for _k, practice in enumerate(practices):
+            pid = f"p{i}_{_k}"
             check_html = (f'<template class="ho-check">{esc(practice["check"])}</template>'
                           if practice.get("check") else "")
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -5324,8 +5456,10 @@ def make_nb(sections):
         cells.append(md_cell(f"### Real-World Use Case\n\n**Scenario:** {s['rw_scenario']}"))
         cells.append(code_cell(s["rw_code"]))
 
-        practice = s.get("practice")
-        if practice:
+        nb_practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            nb_practices = [s["practice"]] + nb_practices
+        for practice in nb_practices:
             cells.append(md_cell(
                 f"### Practice: {practice['title']}\n\n{practice['desc']}"
             ))
