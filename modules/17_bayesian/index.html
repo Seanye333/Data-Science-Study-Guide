@@ -302,7 +302,7 @@ if result[&quot;prob_b_better&quot;] &gt; 0.95:
 elif result[&quot;prob_b_better&quot;] &lt; 0.05:
     print(&quot;\nDecision: KEEP A (B is worse)&quot;)
 else:
-    print(&quot;\nDecision: CONTINUE TESTING (inconclusive)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Coin Classifier</div><div class="pd">Write a function that takes a sequence of coin flips and computes the posterior probability distribution over possible bias values (0.0 to 1.0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import numpy as np
+    print(&quot;\nDecision: CONTINUE TESTING (inconclusive)&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayesian Coin Classifier</div><div class="pd">Write a function that takes a sequence of coin flips and computes the posterior probability distribution over possible bias values (0.0 to 1.0).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import numpy as np
 
 def bayesian_coin_analysis(flips, n_hypotheses=101):
     &quot;&quot;&quot;Compute posterior over possible coin biases.
@@ -331,7 +331,29 @@ biases, posteriors = bayesian_coin_analysis(&quot;HHHHHTHH&quot;)
 # Find MAP estimate
 map_bias = biases[np.argmax(posteriors)]
 print(f&quot;MAP estimate of bias: {map_bias:.2f}&quot;)
-print(f&quot;Expected bias: {np.sum(biases * posteriors):.4f}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Manually compute P(disease|positive test) for 1%, 5%, and 10% disease prevalence</label></li>
+print(f&quot;Expected bias: {np.sum(biases * posteriors):.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior (Binary Test)</div><div class="pd">Compute P(disease | positive) from prior, sensitivity and specificity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">def posterior_binary(prior, sens, spec):
+    fp = 1 - spec
+    # TODO: (sens*prior) / (sens*prior + fp*(1-prior))
+    return 0.0
+
+print(round(posterior_binary(0.01, 0.99, 0.95), 4))</code></pre></div><template class="ho-check">assert abs(posterior_binary(0.01, 0.99, 0.95) - 0.99*0.01/(0.99*0.01+0.05*0.99)) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: To Odds</div><div class="pd">Convert a probability to odds p/(1-p).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">def to_odds(p):
+    # TODO: p / (1 - p)
+    return 0.0
+
+print(to_odds(0.5))</code></pre></div><template class="ho-check">assert to_odds(0.5) == 1.0
+assert abs(to_odds(0.8) - 4.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bayes Factor</div><div class="pd">Ratio of likelihoods P(E|H) / P(E|not H).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">def bayes_factor(p_e_h, p_e_nh):
+    # TODO: ratio of the two likelihoods
+    return 0.0
+
+print(bayes_factor(0.8, 0.2))</code></pre></div><template class="ho-check">assert bayes_factor(0.8, 0.2) == 4.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Update Odds</div><div class="pd">Posterior odds = prior odds x Bayes factor.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">def update_odds(prior_odds, bf):
+    # TODO: multiply the prior odds by the Bayes factor
+    return 0.0
+
+print(update_odds(1.0, 4.0))</code></pre></div><template class="ho-check">assert update_odds(1.0, 4.0) == 4.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Manually compute P(disease|positive test) for 1%, 5%, and 10% disease prevalence</label></li>
 <li><label><input type="checkbox"> Update a prior belief sequentially with 5 coin flips — plot posterior after each</label></li>
 <li><label><input type="checkbox"> Implement Bayes&#x27; theorem for 3 hypotheses and verify posteriors sum to 1</label></li>
 <li><label><input type="checkbox"> Calculate how many observations are needed to overcome a strong prior</label></li>
@@ -455,7 +477,38 @@ for day, (shown, clicks) in enumerate(daily_data, 1):
     print(f&quot;{day:&gt;4} {shown:&gt;6} {clicks:&gt;7} {post.mean():&gt;10.4f} ({ci[0]:.4f}, {ci[1]:.4f})&quot;)
 
 print(f&quot;\nFinal estimate: CTR = {stats.beta(alpha, beta).mean():.4f}&quot;)
-print(f&quot;Compare to raw: {sum(c for _,c in daily_data)/sum(s for s,_ in daily_data):.4f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create Beta(1,1), Beta(5,5), and Beta(2,8) distributions — print their means and 95% credible intervals</label></li>
+print(f&quot;Compare to raw: {sum(c for _,c in daily_data)/sum(s for s,_ in daily_data):.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Mean</div><div class="pd">Mean of a Beta(a, b) prior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">def beta_mean(a, b):
+    # TODO: a / (a + b)
+    return 0.0
+
+print(beta_mean(2, 2))</code></pre></div><template class="ho-check">assert beta_mean(2, 2) == 0.5
+assert beta_mean(8, 4) == 8/12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Variance</div><div class="pd">Variance of a Beta(a, b).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">def beta_var(a, b):
+    # TODO: a*b / ((a+b)**2 * (a+b+1))
+    return 0.0
+
+print(round(beta_var(2, 2), 4))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(beta_var(2, 2) - stats.beta(2, 2).var()) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normal CDF</div><div class="pd">P(X &lt;= x) for a Normal(mu, sigma).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import numpy as np
+from scipy import stats
+
+def normal_cdf(x, mu, sigma):
+    # TODO: stats.norm.cdf(x, mu, sigma)
+    return 0.0
+
+print(round(normal_cdf(0, 0, 1), 4))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(normal_cdf(0, 0, 1) - 0.5) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Exponential Mean</div><div class="pd">Mean of an Exponential(rate) prior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">def exp_mean(rate):
+    # TODO: 1 / rate
+    return 0.0
+
+print(exp_mean(2))</code></pre></div><template class="ho-check">assert exp_mean(2) == 0.5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Uniform Density</div><div class="pd">Density height of a Uniform(a, b).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">def uniform_pdf_height(a, b):
+    # TODO: 1 / (b - a)
+    return 0.0
+
+print(uniform_pdf_height(0, 4))</code></pre></div><template class="ho-check">assert uniform_pdf_height(0, 4) == 0.25
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create Beta(1,1), Beta(5,5), and Beta(2,8) distributions — print their means and 95% credible intervals</label></li>
 <li><label><input type="checkbox"> Show that with 100 observations, a strong prior Beta(50,50) and a weak prior Beta(1,1) converge</label></li>
 <li><label><input type="checkbox"> Update a Beta prior sequentially with daily conversion data — print the posterior mean each day</label></li>
 <li><label><input type="checkbox"> Use the Beta conjugate update rule to compute the posterior after 15 successes in 80 trials</label></li>
@@ -621,7 +674,47 @@ data = {
 }
 
 analyzer = ABTestAnalyzer(revenue_per_conversion=75)
-analyzer.analyze(data)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a Bayesian A/B test where B has 120/1000 vs A&#x27;s 100/1000 — compute P(B &gt; A) and expected lift</label></li>
+analyzer.analyze(data)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Posterior</div><div class="pd">Update a Beta prior with successes out of trials.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">def beta_posterior(prior_a, prior_b, successes, trials):
+    # TODO: (prior_a + successes, prior_b + trials - successes)
+    return (prior_a, prior_b)
+
+print(beta_posterior(1, 1, 7, 10))</code></pre></div><template class="ho-check">assert beta_posterior(1, 1, 7, 10) == (8, 4)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior Mean (A/B)</div><div class="pd">Posterior mean conversion rate after observing data.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">def beta_posterior(prior_a, prior_b, successes, trials):
+    return (prior_a + successes, prior_b + trials - successes)
+
+def posterior_mean_ab(prior_a, prior_b, s, n):
+    a, b = beta_posterior(prior_a, prior_b, s, n)
+    # TODO: a / (a + b)
+    return 0.0
+
+print(round(posterior_mean_ab(1, 1, 7, 10), 4))</code></pre></div><template class="ho-check">assert posterior_mean_ab(1, 1, 7, 10) == 8/12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: P(B beats A)</div><div class="pd">Monte-Carlo probability that variant B beats A.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">import numpy as np
+
+def prob_b_better(a_s, a_n, b_s, b_n, seed=0, draws=20000):
+    rng = np.random.default_rng(seed)
+    a = rng.beta(1 + a_s, 1 + a_n - a_s, draws)
+    b = rng.beta(1 + b_s, 1 + b_n - b_s, draws)
+    # TODO: fraction of draws where b &gt; a
+    return 0.0
+
+print(round(prob_b_better(50, 100, 70, 100), 3))</code></pre></div><template class="ho-check">assert prob_b_better(50, 100, 70, 100) &gt; 0.9, &quot;B is clearly better here&quot;
+assert prob_b_better(50, 100, 50, 100) &lt; 0.6, &quot;a tie lands near 0.5&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Credible Interval</div><div class="pd">Central credible interval of a Beta posterior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import numpy as np
+from scipy import stats
+
+def credible_interval(a, b, conf=0.95):
+    d = stats.beta(a, b)
+    # TODO: return (float(lo), float(hi)) from d.interval(conf)
+    return (0.0, 1.0)
+
+print([round(x, 3) for x in credible_interval(8, 4)])</code></pre></div><template class="ho-check">lo, hi = credible_interval(8, 4)
+assert lo &lt; 8/12 &lt; hi, &quot;the interval brackets the posterior mean&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Relative Lift</div><div class="pd">Relative improvement (pb - pa) / pa.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">def lift(pa, pb):
+    # TODO: (pb - pa) / pa
+    return 0.0
+
+print(round(lift(0.5, 0.6), 4))</code></pre></div><template class="ho-check">assert abs(lift(0.5, 0.6) - 0.2) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a Bayesian A/B test where B has 120/1000 vs A&#x27;s 100/1000 — compute P(B &gt; A) and expected lift</label></li>
 <li><label><input type="checkbox"> Extend the test to 4 variants (A/B/C/D) and compute the probability each variant is the best</label></li>
 <li><label><input type="checkbox"> Simulate a 30-day test with a 2pp lift — track when the expected loss drops below 0.001</label></li>
 <li><label><input type="checkbox"> Change the prior from Beta(1,1) to Beta(10,10) and observe how it slows down the posterior update</label></li>
@@ -741,7 +834,7 @@ print(f&quot;Std Dev:       ${np.std(annual_revenue):&gt;12,.0f}&quot;)
 print(f&quot;5th pctile:    ${np.percentile(annual_revenue, 5):&gt;12,.0f}&quot;)
 print(f&quot;95th pctile:   ${np.percentile(annual_revenue, 95):&gt;12,.0f}&quot;)
 print(f&quot;P(rev &gt; $1M):  {np.mean(annual_revenue &gt; 1_000_000):&gt;12.1%}&quot;)
-print(f&quot;P(rev &gt; $2M):  {np.mean(annual_revenue &gt; 2_000_000):&gt;12.1%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monte Carlo Portfolio Simulator</div><div class="pd">Simulate a stock portfolio&#x27;s performance over 1 year. Model daily returns as normally distributed, compute the probability of different outcomes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+print(f&quot;P(rev &gt; $2M):  {np.mean(annual_revenue &gt; 2_000_000):&gt;12.1%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monte Carlo Portfolio Simulator</div><div class="pd">Simulate a stock portfolio&#x27;s performance over 1 year. Model daily returns as normally distributed, compute the probability of different outcomes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import numpy as np
 
 def simulate_portfolio(initial_value, mean_daily_return, daily_volatility,
                        n_days=252, n_simulations=10000):
@@ -763,7 +856,41 @@ results = simulate_portfolio(
 # - P(gain &gt; 10%)
 # - P(loss &gt; 10%)
 # - Value at Risk (5th percentile)
-# - Best and worst case (1st and 99th percentile)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate the birthday problem for group sizes 10 to 50 and verify the 23-person crossover at ~50%</label></li>
+# - Best and worst case (1st and 99th percentile)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Estimate Pi</div><div class="pd">Estimate pi by sampling points in the unit square.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import numpy as np
+
+def estimate_pi(n, seed=0):
+    rng = np.random.default_rng(seed)
+    x = rng.random(n); y = rng.random(n)
+    # TODO: 4 * fraction of points with x^2 + y^2 &lt;= 1
+    return 0.0
+
+print(round(estimate_pi(100000), 3))</code></pre></div><template class="ho-check">assert abs(estimate_pi(100000) - 3.14159) &lt; 0.05
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MC Mean</div><div class="pd">Monte-Carlo estimate of a standard-normal mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import numpy as np
+
+def mc_mean(n, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: mean of n standard normal draws
+    return 0.0
+
+print(round(mc_mean(100000), 4))</code></pre></div><template class="ho-check">assert abs(mc_mean(100000)) &lt; 0.02, &quot;should sit near 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MC Integral</div><div class="pd">Estimate the integral of x^2 over [0, 1].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import numpy as np
+
+def mc_integral(n, seed=0):
+    rng = np.random.default_rng(seed)
+    x = rng.random(n)
+    # TODO: mean of x^2 estimates the integral over [0,1]
+    return 0.0
+
+print(round(mc_integral(100000), 4))</code></pre></div><template class="ho-check">assert abs(mc_integral(100000) - 1/3) &lt; 0.01, &quot;the integral of x^2 on [0,1] is 1/3&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Coin Flip Rate</div><div class="pd">Simulate the fraction of heads for a fair coin.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import numpy as np
+
+def coin_flip_prob(n, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: fraction of rng.random(n) draws below 0.5
+    return 0.0
+
+print(round(coin_flip_prob(100000), 4))</code></pre></div><template class="ho-check">assert abs(coin_flip_prob(100000) - 0.5) &lt; 0.02
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate the birthday problem for group sizes 10 to 50 and verify the 23-person crossover at ~50%</label></li>
 <li><label><input type="checkbox"> Estimate pi using Monte Carlo with 10k, 100k, and 1M samples — observe how error shrinks</label></li>
 <li><label><input type="checkbox"> Compute bootstrap 95% CI for the median of a skewed distribution with n=50 samples</label></li>
 <li><label><input type="checkbox"> Run a Monte Carlo revenue forecast with at least 3 uncertain inputs and compute P(revenue &gt; target)</label></li>
@@ -871,7 +998,50 @@ for w, m, s in zip(future_weeks, means, stds):
     low = m - 1.645 * s
     high = m + 1.645 * s
     safety = 1.645 * s  # extra stock to cover 95% of demand scenarios
-    print(f&quot;{w:&gt;5} {m:&gt;10.0f} {low:&gt;10.0f} {high:&gt;10.0f} {safety:&gt;13.0f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Bayesian linear regression from scratch and compare slope/intercept to OLS on the same data</label></li>
+    print(f&quot;{w:&gt;5} {m:&gt;10.0f} {low:&gt;10.0f} {high:&gt;10.0f} {safety:&gt;13.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Design Matrix</div><div class="pd">Add a bias column of ones to x.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import numpy as np
+
+def design_matrix(x):
+    x = np.asarray(x, float)
+    # TODO: column-stack a ones column and x
+    return x
+
+print(design_matrix([1, 2]).tolist())</code></pre></div><template class="ho-check">assert design_matrix([1, 2]).tolist() == [[1, 1], [1, 2]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ridge Weights</div><div class="pd">Solve (XtX + aI) w = Xt y for the weights.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import numpy as np
+
+def ridge_weights(X, y, alpha):
+    X = np.asarray(X, float); y = np.asarray(y, float)
+    # TODO: np.linalg.solve(X.T@X + alpha*np.eye(X.shape[1]), X.T@y)
+    return np.zeros(X.shape[1])
+
+X = np.column_stack([np.ones(3), [0, 1, 2]]); y = np.array([1.0, 3, 5])
+print(ridge_weights(X, y, 1e-9).round(3).tolist())</code></pre></div><template class="ho-check">import numpy as np
+X = np.column_stack([np.ones(3), [0, 1, 2]]); y = np.array([1.0, 3, 5])
+assert np.allclose(ridge_weights(X, y, 1e-9), [1, 2], atol=1e-4), &quot;recovers y = 2x + 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Predict</div><div class="pd">Linear prediction X @ w.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import numpy as np
+
+def predict_lin(X, w):
+    # TODO: X @ w
+    return np.zeros(len(X))
+
+print(predict_lin([[1, 0], [1, 1]], [1, 2]).tolist())</code></pre></div><template class="ho-check">assert predict_lin([[1, 0], [1, 1]], [1, 2]).tolist() == [1, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: RMSE</div><div class="pd">Root mean squared error.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import numpy as np
+
+def rmse(y, yh):
+    y = np.asarray(y, float); yh = np.asarray(yh, float)
+    # TODO: sqrt(mean((y - yh)^2))
+    return 0.0
+
+print(rmse([1, 2, 3], [1, 2, 3]))</code></pre></div><template class="ho-check">assert abs(rmse([1, 2, 3], [1, 2, 3])) &lt; 1e-12
+assert abs(rmse([0, 0], [1, 1]) - 1.0) &lt; 1e-12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior Precision</div><div class="pd">alpha*I + beta*XtX.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import numpy as np
+
+def posterior_precision(X, alpha, beta):
+    X = np.asarray(X, float)
+    # TODO: alpha*np.eye(n_features) + beta*(X.T @ X)
+    return X
+
+print(posterior_precision([[1, 0], [0, 1]], 1, 1).tolist())</code></pre></div><template class="ho-check">assert posterior_precision([[1, 0], [0, 1]], 1, 1).tolist() == [[2, 0], [0, 2]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Bayesian linear regression from scratch and compare slope/intercept to OLS on the same data</label></li>
 <li><label><input type="checkbox"> Vary the prior sigma from 0.1 to 100 and observe how much the posterior slope changes</label></li>
 <li><label><input type="checkbox"> Compute the predictive distribution at x=0 vs x=20 and compare uncertainty widths</label></li>
 <li><label><input type="checkbox"> Show that with 200 data points, a strong informative prior has little effect on the posterior</label></li>
@@ -1344,7 +1514,7 @@ post = stats.beta(a0 + heads, b0 + (n - heads))
 
 print(&quot;posterior mean:&quot;, round(post.mean(), 4))
 ci = post.interval(0.95)
-print(&quot;95% credible interval:&quot;, [round(float(x), 3) for x in ci])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Posterior Update</div><div class="pd">Implement update_beta(prior_a, prior_b, heads, tails) returning the updated (a, b), and posterior_mean(a, b) returning a / (a + b). Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">def update_beta(prior_a, prior_b, heads, tails):
+print(&quot;95% credible interval:&quot;, [round(float(x), 3) for x in ci])</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Posterior Update</div><div class="pd">Implement update_beta(prior_a, prior_b, heads, tails) returning the updated (a, b), and posterior_mean(a, b) returning a / (a + b). Fill in the functions, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">def update_beta(prior_a, prior_b, heads, tails):
     # TODO: a conjugate Beta prior updates by adding heads to a and tails to b
     return (prior_a, prior_b)
 
@@ -1363,7 +1533,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 weights = np.array([1, 1, 2], float)
 probs = weights / weights.sum()
-print(&quot;probs:&quot;, probs.tolist(), &quot;sum:&quot;, probs.sum())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize</div><div class="pd">Implement normalize(weights): return probabilities proportional to the weights that sum to 1. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+print(&quot;probs:&quot;, probs.tolist(), &quot;sum:&quot;, probs.sum())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize</div><div class="pd">Implement normalize(weights): return probabilities proportional to the weights that sum to 1. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import numpy as np
 
 def normalize(weights):
     w = np.asarray(weights, float)
@@ -1381,7 +1551,7 @@ prior = np.array([0.5, 0.5])
 likelihood = np.array([0.8, 0.4])
 unnorm = prior * likelihood
 posterior = unnorm / unnorm.sum()
-print(&quot;posterior:&quot;, posterior.round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior from Prior and Likelihood</div><div class="pd">Implement bayes_update(priors, likelihoods): return the normalized posterior proportional to priors * likelihoods. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+print(&quot;posterior:&quot;, posterior.round(3).tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior from Prior and Likelihood</div><div class="pd">Implement bayes_update(priors, likelihoods): return the normalized posterior proportional to priors * likelihoods. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np
 
 def bayes_update(priors, likelihoods):
     p = np.asarray(priors, float)
@@ -1400,7 +1570,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 values = np.array([1, 2, 3])
 probs = np.array([0.2, 0.3, 0.5])
-print(&quot;E[X]:&quot;, float(values @ probs))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Value</div><div class="pd">Implement expected_value(values, probs): return the expected value of a discrete distribution. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+print(&quot;E[X]:&quot;, float(values @ probs))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Value</div><div class="pd">Implement expected_value(values, probs): return the expected value of a discrete distribution. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np
 
 def expected_value(values, probs):
     # TODO: probability-weighted sum of the values
@@ -1412,7 +1582,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 <li><label><input type="checkbox"> A dot product does this in one step</label></li></ul></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>Challenge: Log-Odds</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Log-odds (the logit) maps a probability to the real line — the link function behind logistic regression. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Probability to logit</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import numpy as np
 
 for p in [0.25, 0.5, 0.75]:
-    print(p, &quot;-&gt;&quot;, round(float(np.log(p / (1 - p))), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Logit</div><div class="pd">Implement log_odds(p): return the natural log of the odds p / (1 - p). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import numpy as np
+    print(p, &quot;-&gt;&quot;, round(float(np.log(p / (1 - p))), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Logit</div><div class="pd">Implement log_odds(p): return the natural log of the odds p / (1 - p). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import numpy as np
 
 def log_odds(p):
     p = float(p)

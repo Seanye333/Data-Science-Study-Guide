@@ -35,15 +35,17 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -127,8 +129,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
+        for practice in practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -293,6 +297,32 @@ for words, desc in emails:
 
 {
 "title": "2. Bayes' Theorem — The Foundation",
+"practices": [
+{
+"title": 'Posterior (Binary Test)',
+"desc": 'Compute P(disease | positive) from prior, sensitivity and specificity.',
+"starter": 'def posterior_binary(prior, sens, spec):\n    fp = 1 - spec\n    # TODO: (sens*prior) / (sens*prior + fp*(1-prior))\n    return 0.0\n\nprint(round(posterior_binary(0.01, 0.99, 0.95), 4))',
+"check": 'assert abs(posterior_binary(0.01, 0.99, 0.95) - 0.99*0.01/(0.99*0.01+0.05*0.99)) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'To Odds',
+"desc": 'Convert a probability to odds p/(1-p).',
+"starter": 'def to_odds(p):\n    # TODO: p / (1 - p)\n    return 0.0\n\nprint(to_odds(0.5))',
+"check": 'assert to_odds(0.5) == 1.0\nassert abs(to_odds(0.8) - 4.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Bayes Factor',
+"desc": 'Ratio of likelihoods P(E|H) / P(E|not H).',
+"starter": 'def bayes_factor(p_e_h, p_e_nh):\n    # TODO: ratio of the two likelihoods\n    return 0.0\n\nprint(bayes_factor(0.8, 0.2))',
+"check": 'assert bayes_factor(0.8, 0.2) == 4.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Update Odds',
+"desc": 'Posterior odds = prior odds x Bayes factor.',
+"starter": 'def update_odds(prior_odds, bf):\n    # TODO: multiply the prior odds by the Bayes factor\n    return 0.0\n\nprint(update_odds(1.0, 4.0))',
+"check": 'assert update_odds(1.0, 4.0) == 4.0\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Bayes' theorem is the mathematical framework for updating beliefs with evidence. It's the bridge from 'what we knew before' (prior) to 'what we know now' (posterior).",
 "examples": [
 {"label": "Bayes' theorem step by step", "code":
@@ -496,6 +526,38 @@ print(f"Expected bias: {np.sum(biases * posteriors):.4f}")"""
 
 {
 "title": "3. Prior Distributions — Encoding Beliefs",
+"practices": [
+{
+"title": 'Beta Mean',
+"desc": 'Mean of a Beta(a, b) prior.',
+"starter": 'def beta_mean(a, b):\n    # TODO: a / (a + b)\n    return 0.0\n\nprint(beta_mean(2, 2))',
+"check": 'assert beta_mean(2, 2) == 0.5\nassert beta_mean(8, 4) == 8/12\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Beta Variance',
+"desc": 'Variance of a Beta(a, b).',
+"starter": 'def beta_var(a, b):\n    # TODO: a*b / ((a+b)**2 * (a+b+1))\n    return 0.0\n\nprint(round(beta_var(2, 2), 4))',
+"check": 'from scipy import stats\nassert abs(beta_var(2, 2) - stats.beta(2, 2).var()) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Normal CDF',
+"desc": 'P(X <= x) for a Normal(mu, sigma).',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef normal_cdf(x, mu, sigma):\n    # TODO: stats.norm.cdf(x, mu, sigma)\n    return 0.0\n\nprint(round(normal_cdf(0, 0, 1), 4))',
+"check": 'from scipy import stats\nassert abs(normal_cdf(0, 0, 1) - 0.5) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Exponential Mean',
+"desc": 'Mean of an Exponential(rate) prior.',
+"starter": 'def exp_mean(rate):\n    # TODO: 1 / rate\n    return 0.0\n\nprint(exp_mean(2))',
+"check": 'assert exp_mean(2) == 0.5\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Uniform Density',
+"desc": 'Density height of a Uniform(a, b).',
+"starter": 'def uniform_pdf_height(a, b):\n    # TODO: 1 / (b - a)\n    return 0.0\n\nprint(uniform_pdf_height(0, 4))',
+"check": 'assert uniform_pdf_height(0, 4) == 0.25\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "The prior distribution represents what you believe before seeing data. Choosing the right prior is part art, part science — it encodes domain knowledge and assumptions.",
 "examples": [
 {"label": "Common prior distributions", "code":
@@ -642,6 +704,38 @@ print(f"Compare to raw: {sum(c for _,c in daily_data)/sum(s for s,_ in daily_dat
 
 {
 "title": "4. Bayesian A/B Testing",
+"practices": [
+{
+"title": 'Beta Posterior',
+"desc": 'Update a Beta prior with successes out of trials.',
+"starter": 'def beta_posterior(prior_a, prior_b, successes, trials):\n    # TODO: (prior_a + successes, prior_b + trials - successes)\n    return (prior_a, prior_b)\n\nprint(beta_posterior(1, 1, 7, 10))',
+"check": 'assert beta_posterior(1, 1, 7, 10) == (8, 4)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Posterior Mean (A/B)',
+"desc": 'Posterior mean conversion rate after observing data.',
+"starter": 'def beta_posterior(prior_a, prior_b, successes, trials):\n    return (prior_a + successes, prior_b + trials - successes)\n\ndef posterior_mean_ab(prior_a, prior_b, s, n):\n    a, b = beta_posterior(prior_a, prior_b, s, n)\n    # TODO: a / (a + b)\n    return 0.0\n\nprint(round(posterior_mean_ab(1, 1, 7, 10), 4))',
+"check": 'assert posterior_mean_ab(1, 1, 7, 10) == 8/12\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'P(B beats A)',
+"desc": 'Monte-Carlo probability that variant B beats A.',
+"starter": 'import numpy as np\n\ndef prob_b_better(a_s, a_n, b_s, b_n, seed=0, draws=20000):\n    rng = np.random.default_rng(seed)\n    a = rng.beta(1 + a_s, 1 + a_n - a_s, draws)\n    b = rng.beta(1 + b_s, 1 + b_n - b_s, draws)\n    # TODO: fraction of draws where b > a\n    return 0.0\n\nprint(round(prob_b_better(50, 100, 70, 100), 3))',
+"check": 'assert prob_b_better(50, 100, 70, 100) > 0.9, "B is clearly better here"\nassert prob_b_better(50, 100, 50, 100) < 0.6, "a tie lands near 0.5"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Credible Interval',
+"desc": 'Central credible interval of a Beta posterior.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef credible_interval(a, b, conf=0.95):\n    d = stats.beta(a, b)\n    # TODO: return (float(lo), float(hi)) from d.interval(conf)\n    return (0.0, 1.0)\n\nprint([round(x, 3) for x in credible_interval(8, 4)])',
+"check": 'lo, hi = credible_interval(8, 4)\nassert lo < 8/12 < hi, "the interval brackets the posterior mean"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Relative Lift',
+"desc": 'Relative improvement (pb - pa) / pa.',
+"starter": 'def lift(pa, pb):\n    # TODO: (pb - pa) / pa\n    return 0.0\n\nprint(round(lift(0.5, 0.6), 4))',
+"check": 'assert abs(lift(0.5, 0.6) - 0.2) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Bayesian A/B testing gives you what you actually want: 'What's the probability that B is better than A?' — not a confusing p-value. It's intuitive, flexible, and allows early stopping.",
 "examples": [
 {"label": "Full Bayesian A/B test", "code":
@@ -830,6 +924,32 @@ analyzer.analyze(data)"""
 
 {
 "title": "5. Monte Carlo Simulation",
+"practices": [
+{
+"title": 'Estimate Pi',
+"desc": 'Estimate pi by sampling points in the unit square.',
+"starter": 'import numpy as np\n\ndef estimate_pi(n, seed=0):\n    rng = np.random.default_rng(seed)\n    x = rng.random(n); y = rng.random(n)\n    # TODO: 4 * fraction of points with x^2 + y^2 <= 1\n    return 0.0\n\nprint(round(estimate_pi(100000), 3))',
+"check": 'assert abs(estimate_pi(100000) - 3.14159) < 0.05\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'MC Mean',
+"desc": 'Monte-Carlo estimate of a standard-normal mean.',
+"starter": 'import numpy as np\n\ndef mc_mean(n, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: mean of n standard normal draws\n    return 0.0\n\nprint(round(mc_mean(100000), 4))',
+"check": 'assert abs(mc_mean(100000)) < 0.02, "should sit near 0"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'MC Integral',
+"desc": 'Estimate the integral of x^2 over [0, 1].',
+"starter": 'import numpy as np\n\ndef mc_integral(n, seed=0):\n    rng = np.random.default_rng(seed)\n    x = rng.random(n)\n    # TODO: mean of x^2 estimates the integral over [0,1]\n    return 0.0\n\nprint(round(mc_integral(100000), 4))',
+"check": 'assert abs(mc_integral(100000) - 1/3) < 0.01, "the integral of x^2 on [0,1] is 1/3"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Coin Flip Rate',
+"desc": 'Simulate the fraction of heads for a fair coin.',
+"starter": 'import numpy as np\n\ndef coin_flip_prob(n, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: fraction of rng.random(n) draws below 0.5\n    return 0.0\n\nprint(round(coin_flip_prob(100000), 4))',
+"check": 'assert abs(coin_flip_prob(100000) - 0.5) < 0.02\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "When math gets hard, simulate! Monte Carlo methods use random sampling to approximate complex probabilities, integrals, and distributions.",
 "examples": [
 {"label": "Estimating probabilities by simulation", "code":
@@ -1000,6 +1120,38 @@ results = simulate_portfolio(
 
 {
 "title": "6. Bayesian Linear Regression",
+"practices": [
+{
+"title": 'Design Matrix',
+"desc": 'Add a bias column of ones to x.',
+"starter": 'import numpy as np\n\ndef design_matrix(x):\n    x = np.asarray(x, float)\n    # TODO: column-stack a ones column and x\n    return x\n\nprint(design_matrix([1, 2]).tolist())',
+"check": 'assert design_matrix([1, 2]).tolist() == [[1, 1], [1, 2]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Ridge Weights',
+"desc": 'Solve (XtX + aI) w = Xt y for the weights.',
+"starter": 'import numpy as np\n\ndef ridge_weights(X, y, alpha):\n    X = np.asarray(X, float); y = np.asarray(y, float)\n    # TODO: np.linalg.solve(X.T@X + alpha*np.eye(X.shape[1]), X.T@y)\n    return np.zeros(X.shape[1])\n\nX = np.column_stack([np.ones(3), [0, 1, 2]]); y = np.array([1.0, 3, 5])\nprint(ridge_weights(X, y, 1e-9).round(3).tolist())',
+"check": 'import numpy as np\nX = np.column_stack([np.ones(3), [0, 1, 2]]); y = np.array([1.0, 3, 5])\nassert np.allclose(ridge_weights(X, y, 1e-9), [1, 2], atol=1e-4), "recovers y = 2x + 1"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Predict',
+"desc": 'Linear prediction X @ w.',
+"starter": 'import numpy as np\n\ndef predict_lin(X, w):\n    # TODO: X @ w\n    return np.zeros(len(X))\n\nprint(predict_lin([[1, 0], [1, 1]], [1, 2]).tolist())',
+"check": 'assert predict_lin([[1, 0], [1, 1]], [1, 2]).tolist() == [1, 3]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'RMSE',
+"desc": 'Root mean squared error.',
+"starter": 'import numpy as np\n\ndef rmse(y, yh):\n    y = np.asarray(y, float); yh = np.asarray(yh, float)\n    # TODO: sqrt(mean((y - yh)^2))\n    return 0.0\n\nprint(rmse([1, 2, 3], [1, 2, 3]))',
+"check": 'assert abs(rmse([1, 2, 3], [1, 2, 3])) < 1e-12\nassert abs(rmse([0, 0], [1, 1]) - 1.0) < 1e-12\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Posterior Precision',
+"desc": 'alpha*I + beta*XtX.',
+"starter": 'import numpy as np\n\ndef posterior_precision(X, alpha, beta):\n    X = np.asarray(X, float)\n    # TODO: alpha*np.eye(n_features) + beta*(X.T @ X)\n    return X\n\nprint(posterior_precision([[1, 0], [0, 1]], 1, 1).tolist())',
+"check": 'assert posterior_precision([[1, 0], [0, 1]], 1, 1).tolist() == [[2, 0], [0, 2]]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Instead of single point estimates for coefficients, Bayesian regression gives you full distributions — capturing uncertainty in your model parameters.",
 "examples": [
 {"label": "Bayesian regression from scratch", "code":
