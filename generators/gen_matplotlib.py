@@ -26,15 +26,17 @@ def make_html(sections):
         rw_html = (f'<div class="rw"><div class="rh">&#x1F4BC; Real-World: {esc(rw["title"])}</div>'
                    f'<div class="rd">{esc(rw["scenario"])}</div>'
                    f'<pre><code class="language-python">{esc(rw["code"])}</code></pre></div>') if rw else ""
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -101,8 +103,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        nb_practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            nb_practices = [s["practice"]] + nb_practices
+        for practice in nb_practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
             for ex in practice.get("examples", []):
@@ -115,6 +119,32 @@ SECTIONS = [
 
 {
 "title": "1. Line Plot",
+"practices": [
+{
+"title": 'Series Points',
+"desc": 'Build x = 0..n-1 and y = x squared, then plot the curve.',
+"starter": 'import matplotlib.pyplot as plt\nimport numpy as np\n\ndef series_points(n):\n    # TODO: return (list(range(n)), [i*i for i in range(n)])\n    return ([], [])\n\nx, y = series_points(5)\nplt.figure(figsize=(5,3)); plt.plot(x, y, marker="o"); plt.title("y = x^2"); plt.show()\nprint(x, y)',
+"check": 'assert series_points(3) == ([0, 1, 2], [0, 1, 4])\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Slope Between',
+"desc": 'Slope of the line through two points.',
+"starter": 'def slope_between(p1, p2):\n    # TODO: (y2 - y1) / (x2 - x1)\n    return 0.0\n\nprint(slope_between((0, 0), (2, 4)))',
+"check": 'assert slope_between((0, 0), (2, 4)) == 2.0\nassert slope_between((1, 1), (3, 2)) == 0.5\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Moving Average Line',
+"desc": 'Smooth a series with a w-point moving average.',
+"starter": 'import matplotlib.pyplot as plt\nimport numpy as np\n\ndef moving_avg(v, w):\n    # TODO: np.convolve(v, np.ones(w)/w, mode="valid")\n    return np.asarray(v, float)\n\nsm = moving_avg([1, 2, 3, 4], 2)\nplt.figure(figsize=(5,3)); plt.plot(sm, marker="o"); plt.title("smoothed"); plt.show()\nprint(sm.tolist())',
+"check": 'assert moving_avg([1, 2, 3, 4], 2).tolist() == [1.5, 2.5, 3.5]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Y Range',
+"desc": 'Return (min, max) to set axis limits.',
+"starter": 'import numpy as np\n\ndef y_range(v):\n    v = np.asarray(v, float)\n    # TODO: return (float min, float max)\n    return (0.0, 0.0)\n\nprint(y_range([3, 1, 4]))',
+"check": 'assert y_range([3, 1, 4]) == (1.0, 4.0)\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Plot sin(x) and cos(x) on the same axes with different colors and linestyles",
     "Add a fill_between() confidence band around a noisy signal",
@@ -294,6 +324,32 @@ print('Saved traffic_trend.png')"""}
 
 {
 "title": "2. Bar Chart",
+"practices": [
+{
+"title": 'Bar Totals',
+"desc": 'Values ordered by sorted category name.',
+"starter": 'import matplotlib.pyplot as plt\nimport numpy as np\n\ndef bar_totals(d):\n    # TODO: [d[k] for k in sorted(d)]\n    return []\n\nd = {"b": 2, "a": 1, "c": 5}\nv = bar_totals(d)\nplt.figure(figsize=(5,3)); plt.bar(sorted(d), v); plt.show()\nprint(v)',
+"check": 'assert bar_totals({"b": 2, "a": 1}) == [1, 2]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Percent Of Total',
+"desc": 'Convert bar values to percentages of the total.',
+"starter": 'import numpy as np\n\ndef pct_of_total(v):\n    v = np.asarray(v, float)\n    # TODO: v / v.sum() * 100\n    return v\n\nprint(pct_of_total([1, 3]).tolist())',
+"check": 'import numpy as np\nassert np.allclose(pct_of_total([1, 3]), [25, 75])\nassert abs(pct_of_total([2, 2, 4]).sum() - 100) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Top N Bars',
+"desc": 'Top n (name, value) pairs, ties broken alphabetically.',
+"starter": 'def top_n_bars(d, n):\n    # TODO: sort by -value then name, take n\n    return []\n\nprint(top_n_bars({"a": 1, "b": 5, "c": 3}, 2))',
+"check": 'assert top_n_bars({"a": 1, "b": 5, "c": 3}, 2) == [("b", 5), ("c", 3)]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Stacked Totals',
+"desc": 'Sum two stacked bar series elementwise.',
+"starter": 'import numpy as np\n\ndef stacked_totals(a, b):\n    # TODO: elementwise sum as a list\n    return []\n\nprint(stacked_totals([1, 2], [3, 4]))',
+"check": 'assert stacked_totals([1, 2], [3, 4]) == [4.0, 6.0]\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create a vertical bar chart with value labels above each bar",
     "Build a grouped bar chart for 3 products across 4 quarters",
@@ -501,6 +557,32 @@ print('Saved bar_region.png')"""}
 
 {
 "title": "3. Scatter Plot",
+"practices": [
+{
+"title": 'Correlation',
+"desc": 'Correlation between the x and y of a scatter.',
+"starter": 'import numpy as np\n\ndef corr_xy(x, y):\n    # TODO: np.corrcoef(x, y)[0, 1]\n    return 0.0\n\nprint(round(corr_xy([1, 2, 3], [2, 4, 6]), 4))',
+"check": 'assert abs(corr_xy([1, 2, 3], [2, 4, 6]) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Point Sizes',
+"desc": 'Scale a value column into marker sizes.',
+"starter": 'import numpy as np\n\ndef point_sizes(v, scale=10):\n    # TODO: v * scale as a list\n    return []\n\nprint(point_sizes([1, 2]))',
+"check": 'assert point_sizes([1, 2]) == [10.0, 20.0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Fit Line',
+"desc": 'Least-squares [slope, intercept] for a scatter.',
+"starter": 'import numpy as np\n\ndef fit_line(x, y):\n    # TODO: np.polyfit(x, y, 1) as a list\n    return [0.0, 0.0]\n\nprint([round(c, 3) for c in fit_line([0, 1, 2], [1, 3, 5])])',
+"check": 'm, b = fit_line([0, 1, 2], [1, 3, 5])\nassert abs(m - 2) < 1e-9 and abs(b - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Count Quadrant',
+"desc": 'Count points in the positive-positive quadrant.',
+"starter": 'import numpy as np\n\ndef count_quadrant(x, y):\n    x = np.asarray(x); y = np.asarray(y)\n    # TODO: count points where x > 0 and y > 0\n    return 0\n\nprint(count_quadrant([1, -1, 2], [1, 1, -2]))',
+"check": 'assert count_quadrant([1, -1, 2], [1, 1, -2]) == 1\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create a scatter plot of 200 points with color mapped to a third numeric variable",
     "Add a least-squares regression line using np.polyfit() and np.polyval()",
@@ -696,6 +778,32 @@ print('Saved scatter_housing.png')"""}
 
 {
 "title": "4. Histogram",
+"practices": [
+{
+"title": 'Histogram Counts',
+"desc": 'Counts per bin for given edges.',
+"starter": 'import numpy as np\n\ndef hist_counts(d, bins):\n    # TODO: np.histogram(d, bins=bins)[0] as a list\n    return []\n\nprint(hist_counts([1, 1, 2, 5], [0, 2, 4, 6]))',
+"check": 'assert hist_counts([1, 1, 2, 5], [0, 2, 4, 6]) == [2, 1, 1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Bin Width',
+"desc": 'Width of each bin given a range and count.',
+"starter": 'def bin_width(a, b, n):\n    # TODO: (b - a) / n\n    return 0.0\n\nprint(bin_width(0, 10, 5))',
+"check": 'assert bin_width(0, 10, 5) == 2.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Frequency Density',
+"desc": 'Normalize counts so they sum to 1.',
+"starter": 'import numpy as np\n\ndef freq_density(counts):\n    c = np.asarray(counts, float)\n    # TODO: c / c.sum() as a list\n    return []\n\nprint(freq_density([1, 3]))',
+"check": 'assert freq_density([1, 3]) == [0.25, 0.75]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mode Bin',
+"desc": 'Index of the tallest histogram bar.',
+"starter": 'import numpy as np\n\ndef mode_bin(counts):\n    # TODO: index of the maximum count\n    return 0\n\nprint(mode_bin([1, 5, 2]))',
+"check": 'assert mode_bin([1, 5, 2]) == 1\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Plot a histogram with density=True and overlay the manually computed normal PDF",
     "Compare two overlapping histograms using alpha=0.6 and different colors",
@@ -990,6 +1098,32 @@ print('Saved hist_credit.png')"""}
 
 {
 "title": "5. Subplots",
+"practices": [
+{
+"title": 'Grid Shape',
+"desc": 'Rows x cols needed for n panels at a fixed column count.',
+"starter": 'def grid_shape(n, cols):\n    # TODO: return (ceil(n/cols), cols) using integer math\n    return (0, cols)\n\nprint(grid_shape(5, 2))',
+"check": 'assert grid_shape(5, 2) == (3, 2)\nassert grid_shape(4, 2) == (2, 2)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Flat Index',
+"desc": 'Flat axes index for a (row, col) cell.',
+"starter": 'def flat_index(r, c, cols):\n    # TODO: r * cols + c\n    return 0\n\nprint(flat_index(1, 1, 3))',
+"check": 'assert flat_index(1, 1, 3) == 4\nassert flat_index(0, 2, 3) == 2\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Split For Panels',
+"desc": 'Deal a list round-robin into k panel series.',
+"starter": 'def split_chunks(v, k):\n    v = list(v)\n    # TODO: [v[i::k] for i in range(k)]\n    return []\n\nprint(split_chunks([1, 2, 3, 4], 2))',
+"check": 'assert split_chunks([1, 2, 3, 4], 2) == [[1, 3], [2, 4]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Padded Limits',
+"desc": 'Axis limits with 10% padding on each side.',
+"starter": 'import numpy as np\n\ndef axis_limits(vals, pad=0.1):\n    v = np.asarray(vals, float)\n    lo, hi = v.min(), v.max()\n    d = (hi - lo) * pad\n    # TODO: return (float(lo - d), float(hi + d))\n    return (float(lo), float(hi))\n\nprint(axis_limits([0, 10]))',
+"check": 'assert axis_limits([0, 10]) == (-1.0, 11.0)\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create a 2x2 subplot grid with four different chart types and a global suptitle",
     "Share x-axis across two vertically stacked subplots using sharex=True",

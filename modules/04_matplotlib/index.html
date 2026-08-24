@@ -165,7 +165,7 @@ ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig(&#x27;traffic_trend.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved traffic_trend.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Lines with Different Styles</div><div class="pd">Plot sin(x), sin(2x), and sin(3x) on the same axes over [0, 2π]. Each line should use a different color, linestyle, and marker. Add a legend, axis labels, title, and a horizontal dashed line at y=0. Save the figure as &#x27;practice_lines.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import matplotlib
+print(&#x27;Saved traffic_trend.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Lines with Different Styles</div><div class="pd">Plot sin(x), sin(2x), and sin(3x) on the same axes over [0, 2π]. Each line should use a different color, linestyle, and marker. Add a legend, axis labels, title, and a horizontal dashed line at y=0. Save the figure as &#x27;practice_lines.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -196,7 +196,41 @@ ax.set_ylabel(&#x27;y&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_lines.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot sin(x) and cos(x) on the same axes with different colors and linestyles</label></li>
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Series Points</div><div class="pd">Build x = 0..n-1 and y = x squared, then plot the curve.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def series_points(n):
+    # TODO: return (list(range(n)), [i*i for i in range(n)])
+    return ([], [])
+
+x, y = series_points(5)
+plt.figure(figsize=(5,3)); plt.plot(x, y, marker=&quot;o&quot;); plt.title(&quot;y = x^2&quot;); plt.show()
+print(x, y)</code></pre></div><template class="ho-check">assert series_points(3) == ([0, 1, 2], [0, 1, 4])
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Slope Between</div><div class="pd">Slope of the line through two points.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">def slope_between(p1, p2):
+    # TODO: (y2 - y1) / (x2 - x1)
+    return 0.0
+
+print(slope_between((0, 0), (2, 4)))</code></pre></div><template class="ho-check">assert slope_between((0, 0), (2, 4)) == 2.0
+assert slope_between((1, 1), (3, 2)) == 0.5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Moving Average Line</div><div class="pd">Smooth a series with a w-point moving average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def moving_avg(v, w):
+    # TODO: np.convolve(v, np.ones(w)/w, mode=&quot;valid&quot;)
+    return np.asarray(v, float)
+
+sm = moving_avg([1, 2, 3, 4], 2)
+plt.figure(figsize=(5,3)); plt.plot(sm, marker=&quot;o&quot;); plt.title(&quot;smoothed&quot;); plt.show()
+print(sm.tolist())</code></pre></div><template class="ho-check">assert moving_avg([1, 2, 3, 4], 2).tolist() == [1.5, 2.5, 3.5]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Y Range</div><div class="pd">Return (min, max) to set axis limits.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">import numpy as np
+
+def y_range(v):
+    v = np.asarray(v, float)
+    # TODO: return (float min, float max)
+    return (0.0, 0.0)
+
+print(y_range([3, 1, 4]))</code></pre></div><template class="ho-check">assert y_range([3, 1, 4]) == (1.0, 4.0)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot sin(x) and cos(x) on the same axes with different colors and linestyles</label></li>
 <li><label><input type="checkbox"> Add a fill_between() confidence band around a noisy signal</label></li>
 <li><label><input type="checkbox"> Use errorbar() to show mean ± std for 6 data points</label></li>
 <li><label><input type="checkbox"> Apply a 7-point moving average to a random walk and overlay both lines</label></li>
@@ -340,7 +374,7 @@ ax.set_xlim(0, 8)
 plt.tight_layout()
 plt.savefig(&#x27;bar_region.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved bar_region.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar Chart</div><div class="pd">Create a grouped bar chart comparing sales of 3 products (A, B, C) across 4 quarters (Q1-Q4). Use distinct colors per product, offset the bars within each group, add value labels on top, and include a legend. Save as &#x27;practice_grouped_bar.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import matplotlib
+print(&#x27;Saved bar_region.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar Chart</div><div class="pd">Create a grouped bar chart comparing sales of 3 products (A, B, C) across 4 quarters (Q1-Q4). Use distinct colors per product, offset the bars within each group, add value labels on top, and include a legend. Save as &#x27;practice_grouped_bar.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -374,7 +408,40 @@ ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_grouped_bar.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a vertical bar chart with value labels above each bar</label></li>
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bar Totals</div><div class="pd">Values ordered by sorted category name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+def bar_totals(d):
+    # TODO: [d[k] for k in sorted(d)]
+    return []
+
+d = {&quot;b&quot;: 2, &quot;a&quot;: 1, &quot;c&quot;: 5}
+v = bar_totals(d)
+plt.figure(figsize=(5,3)); plt.bar(sorted(d), v); plt.show()
+print(v)</code></pre></div><template class="ho-check">assert bar_totals({&quot;b&quot;: 2, &quot;a&quot;: 1}) == [1, 2]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent Of Total</div><div class="pd">Convert bar values to percentages of the total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import numpy as np
+
+def pct_of_total(v):
+    v = np.asarray(v, float)
+    # TODO: v / v.sum() * 100
+    return v
+
+print(pct_of_total([1, 3]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(pct_of_total([1, 3]), [25, 75])
+assert abs(pct_of_total([2, 2, 4]).sum() - 100) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top N Bars</div><div class="pd">Top n (name, value) pairs, ties broken alphabetically.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">def top_n_bars(d, n):
+    # TODO: sort by -value then name, take n
+    return []
+
+print(top_n_bars({&quot;a&quot;: 1, &quot;b&quot;: 5, &quot;c&quot;: 3}, 2))</code></pre></div><template class="ho-check">assert top_n_bars({&quot;a&quot;: 1, &quot;b&quot;: 5, &quot;c&quot;: 3}, 2) == [(&quot;b&quot;, 5), (&quot;c&quot;, 3)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stacked Totals</div><div class="pd">Sum two stacked bar series elementwise.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import numpy as np
+
+def stacked_totals(a, b):
+    # TODO: elementwise sum as a list
+    return []
+
+print(stacked_totals([1, 2], [3, 4]))</code></pre></div><template class="ho-check">assert stacked_totals([1, 2], [3, 4]) == [4.0, 6.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a vertical bar chart with value labels above each bar</label></li>
 <li><label><input type="checkbox"> Build a grouped bar chart for 3 products across 4 quarters</label></li>
 <li><label><input type="checkbox"> Make a horizontal bar chart sorted by value (largest at top)</label></li>
 <li><label><input type="checkbox"> Add error bars to each bar using yerr= with random standard deviations</label></li>
@@ -510,7 +577,7 @@ ax.legend(); ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig(&#x27;scatter_housing.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved scatter_housing.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color-Mapped Scatter with Colorbar</div><div class="pd">Generate 300 random (x, y) points where y = 0.5*x + noise. Color each point by its distance from the origin (sqrt(x²+y²)) using the &#x27;plasma&#x27; colormap. Add a colorbar labeled &#x27;Distance from origin&#x27;, a regression line, axis labels, and a title. Save as &#x27;practice_scatter.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import matplotlib
+print(&#x27;Saved scatter_housing.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color-Mapped Scatter with Colorbar</div><div class="pd">Generate 300 random (x, y) points where y = 0.5*x + noise. Color each point by its distance from the origin (sqrt(x²+y²)) using the &#x27;plasma&#x27; colormap. Add a colorbar labeled &#x27;Distance from origin&#x27;, a regression line, axis labels, and a title. Save as &#x27;practice_scatter.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -540,7 +607,37 @@ ax.set_ylabel(&#x27;Y&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_scatter.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot of 200 points with color mapped to a third numeric variable</label></li>
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation</div><div class="pd">Correlation between the x and y of a scatter.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import numpy as np
+
+def corr_xy(x, y):
+    # TODO: np.corrcoef(x, y)[0, 1]
+    return 0.0
+
+print(round(corr_xy([1, 2, 3], [2, 4, 6]), 4))</code></pre></div><template class="ho-check">assert abs(corr_xy([1, 2, 3], [2, 4, 6]) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Point Sizes</div><div class="pd">Scale a value column into marker sizes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import numpy as np
+
+def point_sizes(v, scale=10):
+    # TODO: v * scale as a list
+    return []
+
+print(point_sizes([1, 2]))</code></pre></div><template class="ho-check">assert point_sizes([1, 2]) == [10.0, 20.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fit Line</div><div class="pd">Least-squares [slope, intercept] for a scatter.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import numpy as np
+
+def fit_line(x, y):
+    # TODO: np.polyfit(x, y, 1) as a list
+    return [0.0, 0.0]
+
+print([round(c, 3) for c in fit_line([0, 1, 2], [1, 3, 5])])</code></pre></div><template class="ho-check">m, b = fit_line([0, 1, 2], [1, 3, 5])
+assert abs(m - 2) &lt; 1e-9 and abs(b - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Quadrant</div><div class="pd">Count points in the positive-positive quadrant.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import numpy as np
+
+def count_quadrant(x, y):
+    x = np.asarray(x); y = np.asarray(y)
+    # TODO: count points where x &gt; 0 and y &gt; 0
+    return 0
+
+print(count_quadrant([1, -1, 2], [1, 1, -2]))</code></pre></div><template class="ho-check">assert count_quadrant([1, -1, 2], [1, 1, -2]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot of 200 points with color mapped to a third numeric variable</label></li>
 <li><label><input type="checkbox"> Add a least-squares regression line using np.polyfit() and np.polyval()</label></li>
 <li><label><input type="checkbox"> Build a bubble chart where marker size encodes a fourth variable</label></li>
 <li><label><input type="checkbox"> Use hexbin() to handle overplotting for 5,000 points and add a colorbar</label></li>
@@ -692,7 +789,7 @@ ax.annotate(&#x27;Low risk zone&#x27;,  xy=(720, 60), fontsize=9, color=&#x27;#2
 plt.tight_layout()
 plt.savefig(&#x27;hist_credit.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved hist_credit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram with Density Curve</div><div class="pd">Generate 1000 samples from a normal distribution (mean=50, std=12). Plot a histogram with density=True (30 bins, steelblue). Overlay a manually computed normal PDF curve (no scipy). Add vertical lines for mean and ±1 std. Label axes, add title and legend. Save as &#x27;practice_hist.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import matplotlib
+print(&#x27;Saved hist_credit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram with Density Curve</div><div class="pd">Generate 1000 samples from a normal distribution (mean=50, std=12). Plot a histogram with density=True (30 bins, steelblue). Overlay a manually computed normal PDF curve (no scipy). Add vertical lines for mean and ±1 std. Label axes, add title and legend. Save as &#x27;practice_hist.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -723,7 +820,34 @@ ax.set_ylabel(&#x27;Density&#x27;)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_hist.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram with density=True and overlay the manually computed normal PDF</label></li>
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram Counts</div><div class="pd">Counts per bin for given edges.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import numpy as np
+
+def hist_counts(d, bins):
+    # TODO: np.histogram(d, bins=bins)[0] as a list
+    return []
+
+print(hist_counts([1, 1, 2, 5], [0, 2, 4, 6]))</code></pre></div><template class="ho-check">assert hist_counts([1, 1, 2, 5], [0, 2, 4, 6]) == [2, 1, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bin Width</div><div class="pd">Width of each bin given a range and count.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">def bin_width(a, b, n):
+    # TODO: (b - a) / n
+    return 0.0
+
+print(bin_width(0, 10, 5))</code></pre></div><template class="ho-check">assert bin_width(0, 10, 5) == 2.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Frequency Density</div><div class="pd">Normalize counts so they sum to 1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import numpy as np
+
+def freq_density(counts):
+    c = np.asarray(counts, float)
+    # TODO: c / c.sum() as a list
+    return []
+
+print(freq_density([1, 3]))</code></pre></div><template class="ho-check">assert freq_density([1, 3]) == [0.25, 0.75]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mode Bin</div><div class="pd">Index of the tallest histogram bar.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">import numpy as np
+
+def mode_bin(counts):
+    # TODO: index of the maximum count
+    return 0
+
+print(mode_bin([1, 5, 2]))</code></pre></div><template class="ho-check">assert mode_bin([1, 5, 2]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram with density=True and overlay the manually computed normal PDF</label></li>
 <li><label><input type="checkbox"> Compare two overlapping histograms using alpha=0.6 and different colors</label></li>
 <li><label><input type="checkbox"> Switch histtype between &#x27;bar&#x27;, &#x27;step&#x27;, and &#x27;stepfilled&#x27; — observe the differences</label></li>
 <li><label><input type="checkbox"> Plot a cumulative histogram and overlay the theoretical CDF for exponential data</label></li>
@@ -890,7 +1014,7 @@ fig.suptitle(&#x27;Model Evaluation Dashboard&#x27;, fontweight=&#x27;bold&#x27;
 plt.tight_layout()
 plt.savefig(&#x27;subplots_ml_dashboard.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved subplots_ml_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x2 Subplot Grid</div><div class="pd">Create a 2x2 subplot figure. Top-left: line plot of cos(x) over [0, 4π]. Top-right: scatter of 100 random points colored by angle. Bottom-left: bar chart of 5 random categories. Bottom-right: histogram of 500 standard normal samples. Add individual titles, a global suptitle, and save as &#x27;practice_subplots.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import matplotlib
+print(&#x27;Saved subplots_ml_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x2 Subplot Grid</div><div class="pd">Create a 2x2 subplot figure. Top-left: line plot of cos(x) over [0, 4π]. Top-right: scatter of 100 random points colored by angle. Bottom-left: bar chart of 5 random categories. Bottom-right: histogram of 500 standard normal samples. Add individual titles, a global suptitle, and save as &#x27;practice_subplots.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -925,7 +1049,35 @@ data = np.random.randn(500)
 plt.tight_layout()
 # TODO: plt.savefig(&#x27;practice_subplots.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Done&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 2x2 subplot grid with four different chart types and a global suptitle</label></li>
+print(&#x27;Done&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grid Shape</div><div class="pd">Rows x cols needed for n panels at a fixed column count.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">def grid_shape(n, cols):
+    # TODO: return (ceil(n/cols), cols) using integer math
+    return (0, cols)
+
+print(grid_shape(5, 2))</code></pre></div><template class="ho-check">assert grid_shape(5, 2) == (3, 2)
+assert grid_shape(4, 2) == (2, 2)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Flat Index</div><div class="pd">Flat axes index for a (row, col) cell.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">def flat_index(r, c, cols):
+    # TODO: r * cols + c
+    return 0
+
+print(flat_index(1, 1, 3))</code></pre></div><template class="ho-check">assert flat_index(1, 1, 3) == 4
+assert flat_index(0, 2, 3) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Split For Panels</div><div class="pd">Deal a list round-robin into k panel series.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">def split_chunks(v, k):
+    v = list(v)
+    # TODO: [v[i::k] for i in range(k)]
+    return []
+
+print(split_chunks([1, 2, 3, 4], 2))</code></pre></div><template class="ho-check">assert split_chunks([1, 2, 3, 4], 2) == [[1, 3], [2, 4]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Padded Limits</div><div class="pd">Axis limits with 10% padding on each side.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import numpy as np
+
+def axis_limits(vals, pad=0.1):
+    v = np.asarray(vals, float)
+    lo, hi = v.min(), v.max()
+    d = (hi - lo) * pad
+    # TODO: return (float(lo - d), float(hi + d))
+    return (float(lo), float(hi))
+
+print(axis_limits([0, 10]))</code></pre></div><template class="ho-check">assert axis_limits([0, 10]) == (-1.0, 11.0)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 2x2 subplot grid with four different chart types and a global suptitle</label></li>
 <li><label><input type="checkbox"> Share x-axis across two vertically stacked subplots using sharex=True</label></li>
 <li><label><input type="checkbox"> Use GridSpec to make one wide panel spanning the top row and three below</label></li>
 <li><label><input type="checkbox"> Adjust spacing between subplots using plt.tight_layout() and subplots_adjust(hspace=)</label></li>
@@ -1052,7 +1204,7 @@ ax.legend(frameon=False, loc=&#x27;upper left&#x27;); ax.grid(True, axis=&#x27;y
 plt.tight_layout()
 plt.savefig(&#x27;custom_kpi.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved custom_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Full Professional Chart</div><div class="pd">Plot monthly sales data for two products over 12 months. Customize: remove top/right spines, use circle and square markers with white fill, format y-axis as dollars (e.g. &#x27;$42K&#x27;), rotate x-tick labels, add an annotation arrow pointing to the peak month, and a shaded region between the two lines. Save as &#x27;practice_custom.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import matplotlib
+print(&#x27;Saved custom_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Full Professional Chart</div><div class="pd">Plot monthly sales data for two products over 12 months. Customize: remove top/right spines, use circle and square markers with white fill, format y-axis as dollars (e.g. &#x27;$42K&#x27;), rotate x-tick labels, add an annotation arrow pointing to the peak month, and a shaded region between the two lines. Save as &#x27;practice_custom.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
@@ -1226,7 +1378,7 @@ ax.set_title(&#x27;FY2024 Budget Allocation by Department&#x27;,
 plt.tight_layout()
 plt.savefig(&#x27;pie_budget.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved pie_budget.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Donut Chart</div><div class="pd">Create a donut chart (width=0.45) showing 5 product categories: Electronics 35%, Clothing 25%, Food 20%, Books 12%, Other 8%. Use a custom color palette, display percentages inside the wedges, add a center label showing &#x27;Sales\n2024&#x27;, and a title. Save as &#x27;practice_donut.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import matplotlib
+print(&#x27;Saved pie_budget.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Donut Chart</div><div class="pd">Create a donut chart (width=0.45) showing 5 product categories: Electronics 35%, Clothing 25%, Food 20%, Books 12%, Other 8%. Use a custom color palette, display percentages inside the wedges, add a center label showing &#x27;Sales\n2024&#x27;, and a title. Save as &#x27;practice_donut.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 
@@ -1409,7 +1561,7 @@ ax.set_xlabel(f&#x27;Predicted    (Accuracy: {acc:.1%})&#x27;, fontsize=10)
 plt.tight_layout()
 plt.savefig(&#x27;heatmap_confusion.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved heatmap_confusion.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix Heatmap</div><div class="pd">Generate a (200, 6) random dataset with manually introduced correlations between columns. Compute the 6x6 correlation matrix, display it as a heatmap using imshow with the &#x27;coolwarm&#x27; colormap (vmin=-1, vmax=1), annotate each cell with its correlation value (2 decimal places), and rotate x-tick labels 45 degrees. Save as &#x27;practice_heatmap.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import matplotlib
+print(&#x27;Saved heatmap_confusion.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix Heatmap</div><div class="pd">Generate a (200, 6) random dataset with manually introduced correlations between columns. Compute the 6x6 correlation matrix, display it as a heatmap using imshow with the &#x27;coolwarm&#x27; colormap (vmin=-1, vmax=1), annotate each cell with its correlation value (2 decimal places), and rotate x-tick labels 45 degrees. Save as &#x27;practice_heatmap.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1612,7 +1764,7 @@ ax2.legend(loc=&#x27;upper right&#x27;, frameon=False)
 plt.tight_layout()
 plt.savefig(&#x27;twin_ecommerce.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved twin_ecommerce.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dual-Axis Sales &amp; Growth Rate Chart</div><div class="pd">Create a dual-axis chart for 12 months of data: bar chart of monthly revenue on the left y-axis (steelblue bars), and a line of month-over-month growth rate (%) on the right y-axis (tomato line with markers). Color-code the left y-axis label steelblue and right y-axis label tomato. Add legends for both axes. Save as &#x27;practice_twin.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import matplotlib
+print(&#x27;Saved twin_ecommerce.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dual-Axis Sales &amp; Growth Rate Chart</div><div class="pd">Create a dual-axis chart for 12 months of data: bar chart of monthly revenue on the left y-axis (steelblue bars), and a line of month-over-month growth rate (%) on the right y-axis (tomato line with markers). Color-code the left y-axis label steelblue and right y-axis label tomato. Add legends for both axes. Save as &#x27;practice_twin.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1817,7 +1969,7 @@ save_kpi_chart(&#x27;Monthly Revenue&#x27;, rev, months, &#x27;revenue_report.pn
 
 if os.path.exists(&#x27;revenue_report.png&#x27;):
     os.remove(&#x27;revenue_report.png&#x27;)
-    print(&#x27;Cleaned up.&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Saving to PNG and SVG</div><div class="pd">Create a figure with two subplots side-by-side: (left) a line plot of sin(x) styled with &#x27;seaborn-v0_8-whitegrid&#x27;, and (right) a bar chart of 5 categories. Apply rcParams to set font.size=11. Save the figure as both &#x27;practice_output.png&#x27; (dpi=150) and &#x27;practice_output.svg&#x27;. Print the file sizes. Then clean up both files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import matplotlib
+    print(&#x27;Cleaned up.&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Saving to PNG and SVG</div><div class="pd">Create a figure with two subplots side-by-side: (left) a line plot of sin(x) styled with &#x27;seaborn-v0_8-whitegrid&#x27;, and (right) a bar chart of 5 categories. Apply rcParams to set font.size=11. Save the figure as both &#x27;practice_output.png&#x27; (dpi=150) and &#x27;practice_output.svg&#x27;. Print the file sizes. Then clean up both files.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1935,7 +2087,7 @@ ax.set_xlabel(&#x27;X&#x27;); ax.set_ylabel(&#x27;Y&#x27;); ax.set_zlabel(&#x27;
 ax.set_title(&#x27;3D Helix Trajectory&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;helix3d.png&#x27;, dpi=80); plt.close()
-print(&#x27;Saved helix3d.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rosenbrock Surface</div><div class="pd">Plot the Rosenbrock function f(x,y)=(1-x)^2 + 100(y-x^2)^2 as a 3D surface (clipped at 2500). Overlay a contour at z=0. Mark the global minimum at (1,1,0) with a red dot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import matplotlib
+print(&#x27;Saved helix3d.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rosenbrock Surface</div><div class="pd">Plot the Rosenbrock function f(x,y)=(1-x)^2 + 100(y-x^2)^2 as a 3D surface (clipped at 2500). Overlay a contour at z=0. Mark the global minimum at (1,1,0) with a red dot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -2041,7 +2193,7 @@ with pub_style() as (fig, ax):
     ax.set_title(&#x27;Publication-Ready Figure&#x27;); ax.legend()
     fig.savefig(&#x27;publication.png&#x27;, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved publication.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Themed Dashboard</div><div class="pd">Create a 2x2 subplot figure with a dark background. Include: scatter (colored by magnitude), multi-line chart, bar chart, and histogram. Use a consistent 4-color palette.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import matplotlib
+print(&#x27;Saved publication.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Themed Dashboard</div><div class="pd">Create a 2x2 subplot figure with a dark background. Include: scatter (colored by magnitude), multi-line chart, bar chart, and histogram. Use a consistent 4-color palette.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2154,7 +2306,7 @@ ax.annotate(r&#x27;$\mu = 0$&#x27;, xy=(0, y.max()), xytext=(1.2, y.max()*0.9),
 ax.legend(fontsize=11)
 plt.tight_layout()
 plt.savefig(&#x27;latex_plot.png&#x27;, dpi=80); plt.close()
-print(&#x27;Saved latex_plot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Confidence Interval</div><div class="pd">Plot a regression line y=2x+1 with noise. Add shaded 95% confidence band, annotate the slope with an arrow and LaTeX label, and shade the extrapolation region (x&gt;8) in red.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import matplotlib
+print(&#x27;Saved latex_plot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Confidence Interval</div><div class="pd">Plot a regression line y=2x+1 with noise. Add shaded 95% confidence band, annotate the slope with an arrow and LaTeX label, and shade the extrapolation region (x&gt;8) in red.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2269,7 +2421,7 @@ try:
     print(&#x27;Saved hist_anim.gif&#x27;)
 except:
     print(&#x27;ArtistAnimation built (pillow needed to save)&#x27;)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bouncing Ball Animation</div><div class="pd">Animate a ball under gravity (g=9.8). Start at y=5, vy=0. Update position each frame with dt=0.05. Reverse vy on bounce at y=0. Save 100 frames to &#x27;bounce.gif&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bouncing Ball Animation</div><div class="pd">Animate a ball under gravity (g=9.8). Start at y=5, vy=0. Update position each frame with dt=0.05. Reverse vy on bounce at y=0. Save 100 frames to &#x27;bounce.gif&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -2358,7 +2510,7 @@ ax.spines[[&#x27;top&#x27;,&#x27;right&#x27;]].set_visible(False)
 fig.tight_layout()
 fig.savefig(&#x27;publication_fig.png&#x27;, dpi=300, bbox_inches=&#x27;tight&#x27;)
 print(&#x27;Saved publication_fig.png at 300 DPI&#x27;)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2-Panel with Inset Zoom</div><div class="pd">Plot y = e^{-0.1t}*sin(2t) on linear and log scales. Add an inset zoom on t=[0,2] in the linear panel. Use seaborn-v0_8-paper style, serif fonts, and export at 300 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2-Panel with Inset Zoom</div><div class="pd">Plot y = e^{-0.1t}*sin(2t) on linear and log scales. Add an inset zoom on t=[0,2] in the linear panel. Use seaborn-v0_8-paper style, serif fonts, and export at 300 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
@@ -2448,7 +2600,7 @@ fig.suptitle(&#x27;Perceptually Uniform Colormaps&#x27;, fontsize=12)
 fig.tight_layout()
 fig.savefig(&#x27;perceptual_cmaps.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 print(&#x27;Saved perceptual_cmaps.png&#x27;)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Terrain Colormap</div><div class="pd">Create a colormap: blue → green → yellow → brown → white. Apply to a sin(X)*cos(Y) surface. Add a colorbar with 5 ticks labeled: Sea, Lowland, Hills, Mountain, Snow.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Terrain Colormap</div><div class="pd">Create a colormap: blue → green → yellow → brown → white. Apply to a sin(X)*cos(Y) surface. Add a colorbar with 5 ticks labeled: Sea, Lowland, Hills, Mountain, Snow.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -2588,7 +2740,7 @@ for xi, m, h in zip(x[1:], means[1:], high[1:]):
 fig.tight_layout()
 fig.savefig(&#x27;clinical_trial.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved clinical_trial.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Error Bar Practice</div><div class="pd">Generate 6 groups with random means (2-8) and errors. Plot horizontal error bars (ax.errorbar with fmt=&#x27;o&#x27;, xerr=...) with capsize=5. Color bars by quartile (low=green, mid=orange, high=red). Add a vertical reference line at x=5.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import matplotlib
+print(&#x27;Saved clinical_trial.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Error Bar Practice</div><div class="pd">Generate 6 groups with random means (2-8) and errors. Plot horizontal error bars (ax.errorbar with fmt=&#x27;o&#x27;, xerr=...) with capsize=5. Color bars by quartile (low=green, mid=orange, high=red). Add a vertical reference line at x=5.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2747,7 +2899,7 @@ ax.grid(True, axis=&#x27;y&#x27;, alpha=0.3)
 fig.tight_layout()
 fig.savefig(&#x27;qc_boxplot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved qc_boxplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Practice</div><div class="pd">Create 4 groups of data: bimodal (two Gaussians mixed), right-skewed (exponential), uniform, and heavy-tailed (Student-t df=2). Plot violin plots in a 2x2 subplot grid. Add the mean as a diamond marker and IQR as a vertical line on each.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import matplotlib
+print(&#x27;Saved qc_boxplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Practice</div><div class="pd">Create 4 groups of data: bimodal (two Gaussians mixed), right-skewed (exponential), uniform, and heavy-tailed (Student-t df=2). Plot violin plots in a 2x2 subplot grid. Add the mean as a diamond marker and IQR as a vertical line on each.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -2907,7 +3059,7 @@ ax.legend(facecolor=&#x27;#222&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;loss_landscape.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved loss_landscape.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Contour Practice</div><div class="pd">Create Z = cos(sqrt(X^2 + Y^2)) for X,Y in [-6,6]. Plot: (1) filled contour with &#x27;plasma&#x27; colormap, (2) white contour lines at 10 levels, (3) colorbar labeled &#x27;Amplitude&#x27;. Add a red star marker at (0,0) where the function is maximum.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import matplotlib
+print(&#x27;Saved loss_landscape.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Contour Practice</div><div class="pd">Create Z = cos(sqrt(X^2 + Y^2)) for X,Y in [-6,6]. Plot: (1) filled contour with &#x27;plasma&#x27; colormap, (2) white contour lines at 10 levels, (3) colorbar labeled &#x27;Amplitude&#x27;. Add a red star marker at (0,0) where the function is maximum.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3045,7 +3197,7 @@ fig.colorbar(sm, ax=ax, label=&#x27;Sales Volume&#x27;, pad=0.1)
 fig.tight_layout()
 fig.savefig(&#x27;sales_polar.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved sales_polar.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Polar Plot Practice</div><div class="pd">Create a radar chart with 8 categories (Communication, Analysis, Design, Coding, Testing, DevOps, Leadership, Creativity). Plot two engineers&#x27; scores (randomly generated 1-10). Close the polygon, fill with alpha=0.2, and add a legend. Save as &#x27;skills_radar.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import matplotlib
+print(&#x27;Saved sales_polar.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Polar Plot Practice</div><div class="pd">Create a radar chart with 8 categories (Communication, Analysis, Design, Coding, Testing, DevOps, Leadership, Creativity). Plot two engineers&#x27; scores (randomly generated 1-10). Close the polygon, fill with alpha=0.2, and add a legend. Save as &#x27;skills_radar.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3203,7 +3355,7 @@ ax.legend(loc=&#x27;lower right&#x27;, ncol=5, fontsize=8)
 fig.tight_layout()
 fig.savefig(&#x27;energy_mix.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved energy_mix.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stacked Chart Practice</div><div class="pd">Create weekly budget allocation data for 5 weeks across categories: Rent, Food, Transport, Entertainment, Savings (make up reasonable values). Plot a stacked bar chart and below it a 100% stacked bar showing the proportion. Use a shared x-axis in a 2x1 subplot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import matplotlib
+print(&#x27;Saved energy_mix.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stacked Chart Practice</div><div class="pd">Create weekly budget allocation data for 5 weeks across categories: Rent, Food, Transport, Entertainment, Savings (make up reasonable values). Plot a stacked bar chart and below it a 100% stacked bar showing the proportion. Use a shared x-axis in a 2x1 subplot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3336,7 +3488,7 @@ ax.grid(True, axis=&#x27;x&#x27;, alpha=0.3)
 fig.tight_layout()
 fig.savefig(&#x27;event_log.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved event_log.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Step Plot Practice</div><div class="pd">Simulate a 3-state machine (IDLE=0, RUNNING=1, ERROR=2) over 80 time steps using random transitions. Plot it with step(where=&#x27;post&#x27;) and fill_between for each state using different colors. Add a legend for the three states.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import matplotlib
+print(&#x27;Saved event_log.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Step Plot Practice</div><div class="pd">Simulate a 3-state machine (IDLE=0, RUNNING=1, ERROR=2) over 80 time steps using random transitions. Plot it with step(where=&#x27;post&#x27;) and fill_between for each state using different colors. Add a legend for the three states.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3486,7 +3638,7 @@ fig.suptitle(&#x27;Server Response Time Distribution&#x27;, fontweight=&#x27;bol
 fig.tight_layout()
 fig.savefig(&#x27;response_time.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved response_time.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Scale Practice</div><div class="pd">Generate data: y = 3 * x^(-1.5) for x in [1, 10000] with lognormal noise. Plot on: (1) linear scale, (2) log-log scale with a fitted power-law line, (3) symlog scale. Arrange in a 1x3 figure. Use np.polyfit on log-transformed data to get the exponent.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import matplotlib
+print(&#x27;Saved response_time.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log Scale Practice</div><div class="pd">Generate data: y = 3 * x^(-1.5) for x in [1, 10000] with lognormal noise. Plot on: (1) linear scale, (2) log-log scale with a fitted power-law line, (3) symlog scale. Arrange in a 1x3 figure. Use np.polyfit on log-transformed data to get the exponent.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3657,7 +3809,7 @@ ax_roc.set_title(&#x27;ROC Curve&#x27;, fontsize=9); ax_roc.legend(fontsize=8)
 fig.suptitle(&#x27;ML Model Comparison Dashboard&#x27;, fontweight=&#x27;bold&#x27;)
 fig.savefig(&#x27;ml_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved ml_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: GridSpec Practice</div><div class="pd">Create a 3x3 GridSpec layout where: cell (0,0) spans 2 columns (title/text placeholder), row 1 has 3 equal plots (sin, cos, tan clipped), and row 2 spans all 3 columns as a wide bar chart. Use fig.add_subplot() with appropriate slicing.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import matplotlib
+print(&#x27;Saved ml_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: GridSpec Practice</div><div class="pd">Create a 3x3 GridSpec layout where: cell (0,0) spans 2 columns (title/text placeholder), row 1 has 3 equal plots (sin, cos, tan clipped), and row 2 spans all 3 columns as a wide bar chart. Use fig.add_subplot() with appropriate slicing.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -3814,7 +3966,7 @@ ax.annotate(&#x27;Peak density&#x27;, xy=(5, 200), xytext=(12, 500),
 ax_top.set_title(&#x27;Customer Purchase Patterns&#x27;, fontweight=&#x27;bold&#x27;)
 fig.savefig(&#x27;purchase_density.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved purchase_density.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Density Plot Practice</div><div class="pd">Generate 3000 points from a mixture of 3 bivariate Gaussians at (0,0), (3,3), (-2,3). Plot using hexbin (gridsize=30, cmap=&#x27;plasma&#x27;). Overlay contour lines from a KDE. Add a colorbar and axis labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import matplotlib
+print(&#x27;Saved purchase_density.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Density Plot Practice</div><div class="pd">Generate 3000 points from a mixture of 3 bivariate Gaussians at (0,0), (3,3), (-2,3). Plot using hexbin (gridsize=30, cmap=&#x27;plasma&#x27;). Overlay contour lines from a KDE. Add a colorbar and axis labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4014,7 +4166,7 @@ ax.set_title(&#x27;3-Tier Architecture Diagram&#x27;, fontsize=13, fontweight=&#
 fig.tight_layout()
 fig.savefig(&#x27;architecture.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved architecture.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Shape Practice</div><div class="pd">Draw a Venn diagram of 3 overlapping circles with labels A, B, C and intersection labels (A∩B, B∩C, A∩C, A∩B∩C). Use Circle patches with alpha=0.4 and contrasting colors. Place text annotations in each region.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import matplotlib
+print(&#x27;Saved architecture.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Shape Practice</div><div class="pd">Draw a Venn diagram of 3 overlapping circles with labels A, B, C and intersection labels (A∩B, B∩C, A∩C, A∩B∩C). Use Circle patches with alpha=0.4 and contrasting colors. Place text annotations in each region.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4180,7 +4332,7 @@ ax.legend(loc=&#x27;upper left&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;ocean_current.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved ocean_current.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vector Field Practice</div><div class="pd">Create a saddle-point vector field: U = X, V = -Y for X,Y in [-2,2]. Plot (1) quiver and (2) streamplot side by side. Color arrows/lines by speed. Mark the equilibrium point at (0,0) with a star. What type of fixed point is this?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import matplotlib
+print(&#x27;Saved ocean_current.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vector Field Practice</div><div class="pd">Create a saddle-point vector field: U = X, V = -Y for X,Y in [-2,2]. Plot (1) quiver and (2) streamplot side by side. Color arrows/lines by speed. Mark the equilibrium point at (0,0) with a star. What type of fixed point is this?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4369,7 +4521,7 @@ ax_bot.set_xlabel(&#x27;Day&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;stock_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved stock_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dual Axis Practice</div><div class="pd">Simulate monthly website users (in thousands, growing from 10 to 80 over 12 months) and server costs (in $, growing from 500 to 2000). Plot users as a filled area (fill_between) on left axis and costs as a step line on right axis (twinx). Use contrasting colors and add a legend.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import matplotlib
+print(&#x27;Saved stock_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dual Axis Practice</div><div class="pd">Simulate monthly website users (in thousands, growing from 10 to 80 over 12 months) and server costs (in $, growing from 500 to 2000). Plot users as a filled area (fill_between) on left axis and costs as a step line on right axis (twinx). Use contrasting colors and add a legend.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4528,7 +4680,7 @@ fig.suptitle(&#x27;MRI Analysis Dashboard&#x27;, fontweight=&#x27;bold&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;mri_dashboard.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved mri_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Processing Practice</div><div class="pd">Create a 50x50 checkerboard pattern (alternating 0 and 1 in 5x5 blocks). Display it in a 1x3 subplot: (1) original with &#x27;gray&#x27; cmap, (2) with &#x27;hot&#x27; cmap and colorbar, (3) with a Gaussian blur applied (use np.convolve or loop-based blur). Add titles.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import matplotlib
+print(&#x27;Saved mri_dashboard.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Processing Practice</div><div class="pd">Create a 50x50 checkerboard pattern (alternating 0 and 1 in 5x5 blocks). Display it in a 1x3 subplot: (1) original with &#x27;gray&#x27; cmap, (2) with &#x27;hot&#x27; cmap and colorbar, (3) with a Gaussian blur applied (use np.convolve or loop-based blur). Add titles.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4718,7 +4870,7 @@ fig.suptitle(&#x27;Regression Diagnostic Panel&#x27;, fontweight=&#x27;bold&#x27
 fig.tight_layout()
 fig.savefig(&#x27;regression_diagnostics.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved regression_diagnostics.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Statistical Plots Practice</div><div class="pd">Generate 5 groups of 50 samples each from distributions with means [1,2,3,4,5] and std=1. Create a 1x2 figure: (1) box plot of all 5 groups with mean markers (diamond), (2) violin plot overlaid with individual jitter points (alpha=0.3, s=15). Use matching colors across panels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import matplotlib
+print(&#x27;Saved regression_diagnostics.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Statistical Plots Practice</div><div class="pd">Generate 5 groups of 50 samples each from distributions with means [1,2,3,4,5] and std=1. Create a 1x2 figure: (1) box plot of all 5 groups with mean markers (diamond), (2) violin plot overlaid with individual jitter points (alpha=0.3, s=15). Use matching colors across panels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_0')">Copy</button></div><pre><code id="p29_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -4913,7 +5065,7 @@ Quarterly Report&#x27;, ha=&#x27;center&#x27;, va=&#x27;center&#x27;,
     ax.set_title(&#x27;Regional Revenue Summary&#x27;, fontweight=&#x27;bold&#x27;, pad=20)
     fig.tight_layout(); pdf.savefig(fig); plt.close()
 
-print(&#x27;Saved automated_report.pdf (4 pages)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export Practice</div><div class="pd">Create a figure with 3 subplots (line, bar, scatter). Save it as: (1) PNG at 72 DPI, (2) PNG at 300 DPI, (3) SVG vector. Then use PdfPages to save it as a 2-page PDF where page 1 is the 3-panel figure and page 2 is just the scatter zoomed in with a title overlay.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import matplotlib
+print(&#x27;Saved automated_report.pdf (4 pages)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export Practice</div><div class="pd">Create a figure with 3 subplots (line, bar, scatter). Save it as: (1) PNG at 72 DPI, (2) PNG at 300 DPI, (3) SVG vector. Then use PdfPages to save it as a 2-page PDF where page 1 is the 3-panel figure and page 2 is just the scatter zoomed in with a title overlay.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_0')">Copy</button></div><pre><code id="p30_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5236,7 +5388,7 @@ ax_tbl.set_title(&#x27;Summary&#x27;, fontweight=&#x27;bold&#x27;, pad=15)
 fig.savefig(&#x27;executive_deck.png&#x27;, dpi=200, bbox_inches=&#x27;tight&#x27;,
             facecolor=fig.get_facecolor())
 plt.close()
-print(&#x27;Saved executive_deck.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Practice</div><div class="pd">Build your own 3-panel dashboard on a topic of your choice (e.g., fitness tracking, stock portfolio, weather). Requirements: (1) use GridSpec with at least one spanning panel, (2) include a dual-axis twinx or broken axis, (3) use at least 3 different chart types, (4) add a title banner, (5) save at 150 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import matplotlib
+print(&#x27;Saved executive_deck.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Practice</div><div class="pd">Build your own 3-panel dashboard on a topic of your choice (e.g., fitness tracking, stock portfolio, weather). Requirements: (1) use GridSpec with at least one spanning panel, (2) include a dual-axis twinx or broken axis, (3) use at least 3 different chart types, (4) add a title banner, (5) save at 150 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_0')">Copy</button></div><pre><code id="p31_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5275,7 +5427,7 @@ values = [23, 17, 35, 29]
 fig, ax = plt.subplots(figsize=(5, 3))
 bars = ax.bar(labels, values, color=&quot;#58a6ff&quot;)
 ax.bar_label(bars); ax.set_title(&quot;Category counts&quot;)
-plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram Bin Counts</div><div class="pd">Implement bin_counts(data, bins) returning the histogram counts for the given bin edges, then bar-plot them. Fill in the function, press Run to see the chart, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import matplotlib.pyplot as plt
+plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Histogram Bin Counts</div><div class="pd">Implement bin_counts(data, bins) returning the histogram counts for the given bin edges, then bar-plot them. Fill in the function, press Run to see the chart, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_0')">Copy</button></div><pre><code id="p32_0" class="language-python">import matplotlib.pyplot as plt
 import numpy as np
 
 def bin_counts(data, bins):
@@ -5301,7 +5453,7 @@ cum = np.cumsum(counts)
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.plot(range(1, len(cum) + 1), cum, marker=&quot;o&quot;)
 ax.set_title(&quot;Cumulative total&quot;); plt.show()
-print(&quot;cumulative:&quot;, cum.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Total</div><div class="pd">Implement cumulative(counts): return the running total, then line-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import matplotlib.pyplot as plt
+print(&quot;cumulative:&quot;, cum.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Total</div><div class="pd">Implement cumulative(counts): return the running total, then line-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_0')">Copy</button></div><pre><code id="p33_0" class="language-python">import matplotlib.pyplot as plt
 import numpy as np
 
 def cumulative(counts):
@@ -5325,7 +5477,7 @@ pct = values / values.sum() * 100
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.bar([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], pct, color=&quot;#58a6ff&quot;); ax.set_ylabel(&quot;%&quot;)
 plt.show()
-print(pct.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent of Total</div><div class="pd">Implement to_percent(values): return each value as a percentage of the total, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import matplotlib.pyplot as plt
+print(pct.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent of Total</div><div class="pd">Implement to_percent(values): return each value as a percentage of the total, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34_0')">Copy</button></div><pre><code id="p34_0" class="language-python">import matplotlib.pyplot as plt
 import numpy as np
 
 def to_percent(values):
@@ -5349,7 +5501,7 @@ v = np.array([10, 20, 30, 40], float)
 n = (v - v.min()) / (v.max() - v.min())
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.plot(n, marker=&quot;o&quot;); ax.set_title(&quot;Normalized&quot;); plt.show()
-print(n.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize 0-1</div><div class="pd">Implement normalize01(values): scale to the range [0, 1], then plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import matplotlib.pyplot as plt
+print(n.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize 0-1</div><div class="pd">Implement normalize01(values): scale to the range [0, 1], then plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35_0')">Copy</button></div><pre><code id="p35_0" class="language-python">import matplotlib.pyplot as plt
 import numpy as np
 
 def normalize01(values):
@@ -5367,7 +5519,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 edges = np.array([0, 2, 4, 6], float)
 mids = (edges[:-1] + edges[1:]) / 2
-print(mids.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bin Midpoints</div><div class="pd">Implement bin_midpoints(edges): return the center of each bin given its edges, then scatter-plot them. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import matplotlib.pyplot as plt
+print(mids.tolist())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bin Midpoints</div><div class="pd">Implement bin_midpoints(edges): return the center of each bin given its edges, then scatter-plot them. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36_0')">Copy</button></div><pre><code id="p36_0" class="language-python">import matplotlib.pyplot as plt
 import numpy as np
 
 def bin_midpoints(edges):

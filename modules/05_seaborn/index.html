@@ -179,7 +179,7 @@ plt.title(&#x27;Revenue by Quarter &amp; Region&#x27;)
 plt.ylabel(&#x27;Revenue ($K)&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_setup_themes.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Switch Themes and Build a Custom Palette</div><div class="pd">1) Apply three different Seaborn styles (&#x27;darkgrid&#x27;, &#x27;white&#x27;, &#x27;ticks&#x27;) to the same bar chart of [3,7,5,9,4] and save each. 2) Create a custom 5-color palette using hex codes of your choice and pass it to a barplot. 3) Use sns.set_theme with rc overrides to remove top/right spines and set figure size to (8, 3).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Switch Themes and Build a Custom Palette</div><div class="pd">1) Apply three different Seaborn styles (&#x27;darkgrid&#x27;, &#x27;white&#x27;, &#x27;ticks&#x27;) to the same bar chart of [3,7,5,9,4] and save each. 2) Create a custom 5-color palette using hex codes of your choice and pass it to a barplot. 3) Use sns.set_theme with rc overrides to remove top/right spines and set figure size to (8, 3).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -364,7 +364,7 @@ ax.set_xlabel(&#x27;Monthly Spend ($)&#x27;)
 ax.set_title(&#x27;Customer Spend Distribution by Segment&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_dist_spend.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Overlaid KDE for Two Groups</div><div class="pd">Load the &#x27;tips&#x27; dataset. 1) Plot overlaid KDE curves for &#x27;total_bill&#x27; split by &#x27;smoker&#x27; (fill=True, alpha=0.35). 2) Add vertical lines at each group&#x27;s median. 3) In a second axes, plot an ECDF of &#x27;tip&#x27; split by &#x27;day&#x27;. Save both as a single figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Overlaid KDE for Two Groups</div><div class="pd">Load the &#x27;tips&#x27; dataset. 1) Plot overlaid KDE curves for &#x27;total_bill&#x27; split by &#x27;smoker&#x27; (fill=True, alpha=0.35). 2) Add vertical lines at each group&#x27;s median. 3) In a second axes, plot an ECDF of &#x27;tip&#x27; split by &#x27;day&#x27;. Save both as a single figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -394,7 +394,40 @@ for smoker_val, color in [(&#x27;Yes&#x27;, &#x27;#e74c3c&#x27;), (&#x27;No&#x27
 plt.tight_layout()
 plt.savefig(&#x27;practice_dist.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_dist.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram of a normally distributed sample and overlay a KDE curve</label></li>
+print(&quot;Saved practice_dist.png&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Peak Bin Center</div><div class="pd">Center of the tallest histogram bin.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import pandas as pd, numpy as np
+
+def kde_peak_bin(d, bins=10):
+    c, e = np.histogram(d, bins=bins)
+    i = int(np.argmax(c))
+    # TODO: return the center of bin i -&gt; (e[i] + e[i+1]) / 2
+    return 0.0
+
+print(round(kde_peak_bin([1, 1, 1, 5]), 3))</code></pre></div><template class="ho-check">assert kde_peak_bin([1, 1, 1, 5]) &lt; 3, &quot;mass concentrated near 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Skew Sign</div><div class="pd">+1 for right-skewed, -1 for left, 0 for symmetric.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">import pandas as pd, numpy as np
+
+def skew_sign(d):
+    s = pd.Series(d, dtype=float).skew()
+    # TODO: int(np.sign(s))
+    return 0
+
+print(skew_sign([1, 1, 1, 10]))</code></pre></div><template class="ho-check">assert skew_sign([1, 1, 1, 10]) == 1, &quot;long right tail&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quartiles</div><div class="pd">Return [Q1, median, Q3].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import pandas as pd, numpy as np
+
+def quartiles(d):
+    s = pd.Series(d, dtype=float)
+    # TODO: [q25, q50, q75] as floats
+    return []
+
+print(quartiles([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">assert quartiles([1, 2, 3, 4, 5]) == [2.0, 3.0, 4.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR Value</div><div class="pd">Q3 minus Q1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import pandas as pd, numpy as np
+
+def iqr_val(d):
+    s = pd.Series(d, dtype=float)
+    # TODO: q75 - q25
+    return 0.0
+
+print(iqr_val([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">assert iqr_val([1, 2, 3, 4, 5]) == 2.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a histogram of a normally distributed sample and overlay a KDE curve</label></li>
 <li><label><input type="checkbox"> Compare distributions of smokers vs non-smokers using sns.histplot with hue=&#x27;smoker&#x27;</label></li>
 <li><label><input type="checkbox"> Create a violin plot and interpret what the thick bar in the middle represents</label></li>
 <li><label><input type="checkbox"> Use sns.ecdfplot to compare cumulative distributions of total_bill by day</label></li>
@@ -558,7 +591,7 @@ ax.set_xlabel(&#x27;&#x27;); ax.set_title(&#x27;Product Return Rate by Category 
 ax.legend(); plt.xticks(rotation=20, ha=&#x27;right&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_cat_returns.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar with Error Bars</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create a grouped barplot of mean &#x27;total_bill&#x27; by &#x27;day&#x27; with &#x27;time&#x27; as hue (Lunch vs Dinner), using capsize=0.1 to show confidence intervals. 2) Sort the x-axis days in calendar order (Thur, Fri, Sat, Sun). 3) Add a horizontal dashed line at the overall mean. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar with Error Bars</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create a grouped barplot of mean &#x27;total_bill&#x27; by &#x27;day&#x27; with &#x27;time&#x27; as hue (Lunch vs Dinner), using capsize=0.1 to show confidence intervals. 2) Sort the x-axis days in calendar order (Thur, Fri, Sat, Sun). 3) Add a horizontal dashed line at the overall mean. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -586,7 +619,40 @@ overall_mean = tips[&#x27;total_bill&#x27;].mean()
 plt.tight_layout()
 plt.savefig(&#x27;practice_bar.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_bar.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a grouped barplot of mean tip by day, colored by sex, with capsize=0.1</label></li>
+print(&quot;Saved practice_bar.png&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Category Counts</div><div class="pd">Counts per category as a dict, sorted by category.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+import pandas as pd, numpy as np
+
+def category_counts(s):
+    # TODO: value_counts().sort_index().to_dict()
+    return {}
+
+c = category_counts([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;])
+plt.figure(figsize=(5,3)); sns.barplot(x=list(c), y=list(c.values())); plt.show()
+print(c)</code></pre></div><template class="ho-check">assert category_counts([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;]) == {&quot;a&quot;: 2, &quot;b&quot;: 1}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean By Category</div><div class="pd">Mean of a value column per category.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">import pandas as pd, numpy as np
+
+def mean_by_cat(df, cat, val):
+    # TODO: groupby(cat)[val].mean().to_dict()
+    return {}
+
+df = pd.DataFrame({&quot;c&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 3, 5]})
+print(mean_by_cat(df, &quot;c&quot;, &quot;v&quot;))</code></pre></div><template class="ho-check">import pandas as pd
+assert mean_by_cat(pd.DataFrame({&quot;c&quot;:[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;],&quot;v&quot;:[1.0,3,5]}), &quot;c&quot;, &quot;v&quot;) == {&quot;a&quot;: 2.0, &quot;b&quot;: 5.0}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Largest Category</div><div class="pd">The most frequent category label.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">import pandas as pd, numpy as np
+
+def largest_category(s):
+    # TODO: value_counts().idxmax()
+    return None
+
+print(largest_category([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;]))</code></pre></div><template class="ho-check">assert largest_category([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;]) == &quot;a&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalized Counts</div><div class="pd">Category shares rounded to 3 decimals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">import pandas as pd, numpy as np
+
+def normalize_counts(s):
+    # TODO: value_counts(normalize=True).sort_index().round(3).to_dict()
+    return {}
+
+print(normalize_counts([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;]))</code></pre></div><template class="ho-check">assert normalize_counts([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;]) == {&quot;a&quot;: 0.5, &quot;b&quot;: 0.5}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a grouped barplot of mean tip by day, colored by sex, with capsize=0.1</label></li>
 <li><label><input type="checkbox"> Sort bars by value using the order= parameter to show highest to lowest</label></li>
 <li><label><input type="checkbox"> Add value labels on top of each bar by iterating over ax.patches</label></li>
 <li><label><input type="checkbox"> Use sns.countplot to show the frequency of meals per day, colored by time of day</label></li>
@@ -742,7 +808,7 @@ ax.set_title(&#x27;Salary Distribution by Department&#x27;)
 plt.xticks(rotation=15, ha=&#x27;right&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_cat_salary.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Side-by-Side Violin Plots</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create side-by-side violin plots of &#x27;total_bill&#x27; for each &#x27;day&#x27;, split by &#x27;sex&#x27; (use split=True and hue=&#x27;sex&#x27;). 2) Set inner=&#x27;quartile&#x27; to show quartile lines inside the violins. 3) In a second subplot, overlay a boxplot (width=0.15) and stripplot on the violin. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Side-by-Side Violin Plots</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create side-by-side violin plots of &#x27;total_bill&#x27; for each &#x27;day&#x27;, split by &#x27;sex&#x27; (use split=True and hue=&#x27;sex&#x27;). 2) Set inner=&#x27;quartile&#x27; to show quartile lines inside the violins. 3) In a second subplot, overlay a boxplot (width=0.15) and stripplot on the violin. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -771,7 +837,49 @@ fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 plt.tight_layout()
 plt.savefig(&#x27;practice_violin.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_violin.png&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create side-by-side box plots of total_bill by day using the tips dataset</label></li>
+print(&quot;Saved practice_violin.png&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Box Stats</div><div class="pd">The five-number summary of a box plot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import pandas as pd, numpy as np
+
+def box_stats(d):
+    s = pd.Series(d, dtype=float)
+    # TODO: dict with min, q1, med, q3, max as floats
+    return {}
+
+print(box_stats([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">b = box_stats([1, 2, 3, 4, 5])
+assert b[&quot;med&quot;] == 3.0 and b[&quot;q1&quot;] == 2.0 and b[&quot;q3&quot;] == 4.0
+assert b[&quot;min&quot;] == 1.0 and b[&quot;max&quot;] == 5.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Whisker Bounds</div><div class="pd">The 1.5 x IQR whisker limits.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_2')">Copy</button></div><pre><code id="p3_2" class="language-python">import pandas as pd, numpy as np
+
+def whisker_bounds(d):
+    s = pd.Series(d, dtype=float)
+    q1, q3 = s.quantile(0.25), s.quantile(0.75)
+    i = q3 - q1
+    # TODO: return (float(q1 - 1.5*i), float(q3 + 1.5*i))
+    return (float(q1), float(q3))
+
+print(whisker_bounds([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">lo, hi = whisker_bounds([1, 2, 3, 4, 5])
+assert lo &lt; 1 and hi &gt; 5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Outliers Beyond Whiskers</div><div class="pd">Count points outside the whiskers.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_3')">Copy</button></div><pre><code id="p3_3" class="language-python">import pandas as pd, numpy as np
+
+def whisker_bounds(d):
+    s = pd.Series(d, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); i = q3 - q1
+    return (float(q1 - 1.5*i), float(q3 + 1.5*i))
+
+def outliers_beyond(d):
+    lo, hi = whisker_bounds(d); s = pd.Series(d, dtype=float)
+    # TODO: count values below lo or above hi
+    return 0
+
+print(outliers_beyond([1, 2, 3, 4, 100]))</code></pre></div><template class="ho-check">assert outliers_beyond([1, 2, 3, 4, 100]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Median By Group</div><div class="pd">Median per group (robust box-plot center).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_4')">Copy</button></div><pre><code id="p3_4" class="language-python">import pandas as pd, numpy as np
+
+def median_by_group(df, g, v):
+    # TODO: groupby(g)[v].median().to_dict()
+    return {}
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 3, 5]})
+print(median_by_group(df, &quot;g&quot;, &quot;v&quot;))</code></pre></div><template class="ho-check">import pandas as pd
+assert median_by_group(pd.DataFrame({&quot;g&quot;:[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;],&quot;v&quot;:[1.0,3,5]}), &quot;g&quot;, &quot;v&quot;) == {&quot;a&quot;: 2.0, &quot;b&quot;: 5.0}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create side-by-side box plots of total_bill by day using the tips dataset</label></li>
 <li><label><input type="checkbox"> Set inner=&#x27;quartile&#x27; on a violin plot to show quartile lines inside the violin</label></li>
 <li><label><input type="checkbox"> Overlay a narrow boxplot (width=0.12) on top of a violin plot for dual insight</label></li>
 <li><label><input type="checkbox"> Add a stripplot layer on top of a boxenplot to show all individual data points</label></li>
@@ -943,7 +1051,7 @@ for ch in channels:
     print(f&quot;  {ch:8s}: {roi:.2f}x&quot;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_scatter_ads.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Scatter with hue, size, and style</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create a scatterplot of &#x27;total_bill&#x27; vs &#x27;tip&#x27; using hue=&#x27;day&#x27;, size=&#x27;size&#x27; (sizes=(30,200)), and style=&#x27;smoker&#x27;. 2) In a second subplot, add a regression line using regplot for smokers vs non-smokers separately (two calls). 3) Label axes clearly. Save as a single wide figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Scatter with hue, size, and style</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Create a scatterplot of &#x27;total_bill&#x27; vs &#x27;tip&#x27; using hue=&#x27;day&#x27;, size=&#x27;size&#x27; (sizes=(30,200)), and style=&#x27;smoker&#x27;. 2) In a second subplot, add a regression line using regplot for smokers vs non-smokers separately (two calls). 3) Label axes clearly. Save as a single wide figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -974,7 +1082,39 @@ for smoker_val, color in [(&#x27;Yes&#x27;, &#x27;#e74c3c&#x27;), (&#x27;No&#x27
 plt.tight_layout()
 plt.savefig(&#x27;practice_scatter.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_scatter.png&quot;)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Heatmap</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">sns.heatmap renders a matrix as color intensities. Ideal for correlation matrices, confusion matrices, and pivot table results.</p><div class="code-block"><div class="ch"><span>Correlation heatmap with annotations</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import matplotlib
+print(&quot;Saved practice_scatter.png&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regression Slope</div><div class="pd">Slope of the fitted regression line.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import pandas as pd, numpy as np
+
+def reg_slope(x, y):
+    # TODO: np.polyfit(x, y, 1)[0]
+    return 0.0
+
+print(round(reg_slope([0, 1, 2], [1, 3, 5]), 4))</code></pre></div><template class="ho-check">assert abs(reg_slope([0, 1, 2], [1, 3, 5]) - 2) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Residuals</div><div class="pd">Vertical distances from the fitted line.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import pandas as pd, numpy as np
+
+def residuals(x, y):
+    m, b = np.polyfit(np.asarray(x, float), np.asarray(y, float), 1)
+    # TODO: y - (m*x + b), rounded to 6 dp, as a list
+    return []
+
+print(residuals([0, 1, 2], [1, 3, 5]))</code></pre></div><template class="ho-check">r = residuals([0, 1, 2], [1, 3, 5])
+assert max(abs(v) for v in r) &lt; 1e-6, &quot;perfect fit -&gt; residuals ~ 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: R-squared (scatter)</div><div class="pd">Squared correlation of x and y.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import pandas as pd, numpy as np
+
+def r2(x, y):
+    r = np.corrcoef(x, y)[0, 1]
+    # TODO: return r squared as a float
+    return 0.0
+
+print(round(r2([1, 2, 3], [2, 4, 6]), 4))</code></pre></div><template class="ho-check">assert abs(r2([1, 2, 3], [2, 4, 6]) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Predict At X</div><div class="pd">Value of the regression line at x0.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import pandas as pd, numpy as np
+
+def predict_at(x, y, x0):
+    m, b = np.polyfit(np.asarray(x, float), np.asarray(y, float), 1)
+    # TODO: m*x0 + b
+    return 0.0
+
+print(round(predict_at([0, 1, 2], [1, 3, 5], 3), 4))</code></pre></div><template class="ho-check">assert abs(predict_at([0, 1, 2], [1, 3, 5], 3) - 7) &lt; 1e-6
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Heatmap</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">sns.heatmap renders a matrix as color intensities. Ideal for correlation matrices, confusion matrices, and pivot table results.</p><div class="code-block"><div class="ch"><span>Correlation heatmap with annotations</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1144,7 +1284,7 @@ sns.heatmap(
 ax.set_title(&#x27;Customer Feature Correlation (churn focus)&#x27;, pad=12)
 plt.tight_layout()
 plt.savefig(&#x27;rw_heatmap_churn.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Correlation Heatmap</div><div class="pd">Load the &#x27;iris&#x27; dataset. 1) Compute the Pearson correlation matrix for all 4 numeric columns. 2) Plot a heatmap with annotations (fmt=&#x27;.2f&#x27;), cmap=&#x27;coolwarm&#x27;, vmin=-1, vmax=1, and square=True. 3) Mask the upper triangle so only the lower triangle and diagonal are shown. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotated Correlation Heatmap</div><div class="pd">Load the &#x27;iris&#x27; dataset. 1) Compute the Pearson correlation matrix for all 4 numeric columns. 2) Plot a heatmap with annotations (fmt=&#x27;.2f&#x27;), cmap=&#x27;coolwarm&#x27;, vmin=-1, vmax=1, and square=True. 3) Mask the upper triangle so only the lower triangle and diagonal are shown. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1170,7 +1310,41 @@ fig, ax = plt.subplots(figsize=(6, 5))
 plt.tight_layout()
 plt.savefig(&#x27;practice_heatmap.png&#x27;, dpi=80)
 plt.close()
-print(&quot;Saved practice_heatmap.png&quot;)</code></pre></div></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pair Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">pairplot creates a grid of scatter plots and distributions for all numeric column pairs — fast exploratory data analysis.</p><div class="code-block"><div class="ch"><span>Basic pairplot with hue</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import matplotlib
+print(&quot;Saved practice_heatmap.png&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Grid</div><div class="pd">Correlation matrix as a nested list.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import pandas as pd, numpy as np
+
+def corr_grid(df):
+    # TODO: df.corr(numeric_only=True).round(3).values.tolist()
+    return []
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3], &quot;b&quot;: [2, 4, 6]})
+print(corr_grid(df))</code></pre></div><template class="ho-check">import pandas as pd
+g = corr_grid(pd.DataFrame({&quot;a&quot;:[1,2,3],&quot;b&quot;:[2,4,6]}))
+assert g[0][1] == 1.0, &quot;a and b move together&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pivot Grid</div><div class="pd">Pivot to a grid of means, missing cells as 0.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">import pandas as pd, numpy as np
+
+def pivot_grid(df, i, c, v):
+    # TODO: pivot_table(index=i, columns=c, values=v, aggfunc=&quot;mean&quot;).fillna(0).values.tolist()
+    return []
+
+df = pd.DataFrame({&quot;r&quot;: [&quot;a&quot;, &quot;a&quot;], &quot;c&quot;: [&quot;x&quot;, &quot;y&quot;], &quot;v&quot;: [1.0, 3]})
+print(pivot_grid(df, &quot;r&quot;, &quot;c&quot;, &quot;v&quot;))</code></pre></div><template class="ho-check">import pandas as pd
+assert pivot_grid(pd.DataFrame({&quot;r&quot;:[&quot;a&quot;,&quot;a&quot;],&quot;c&quot;:[&quot;x&quot;,&quot;y&quot;],&quot;v&quot;:[1.0,3]}), &quot;r&quot;, &quot;c&quot;, &quot;v&quot;) == [[1.0, 3.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hottest Cell</div><div class="pd">(row, col) of the largest heatmap value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">import pandas as pd, numpy as np
+
+def max_cell(grid):
+    a = np.asarray(grid, float)
+    # TODO: np.unravel_index(np.argmax(a), a.shape) as ints
+    return (0, 0)
+
+print(max_cell([[1, 2], [9, 3]]))</code></pre></div><template class="ho-check">assert max_cell([[1, 2], [9, 3]]) == (1, 0)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Totals</div><div class="pd">Sum across each heatmap row.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import pandas as pd, numpy as np
+
+def row_totals(grid):
+    # TODO: sum along axis=1 as a list
+    return []
+
+print(row_totals([[1, 2], [3, 4]]))</code></pre></div><template class="ho-check">assert row_totals([[1, 2], [3, 4]]) == [3.0, 7.0]
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pair Plot</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">pairplot creates a grid of scatter plots and distributions for all numeric column pairs — fast exploratory data analysis.</p><div class="code-block"><div class="ch"><span>Basic pairplot with hue</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1311,7 +1485,7 @@ g = sns.pairplot(
 g.figure.suptitle(&#x27;Financial Metrics — Pairplot by Sector&#x27;, y=1.02)
 plt.tight_layout()
 plt.savefig(&#x27;rw_pairplot_finance.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairplot with hue and custom diagonal</div><div class="pd">Load the &#x27;penguins&#x27; dataset (sns.load_dataset(&#x27;penguins&#x27;)). Drop NaN rows. 1) Create a pairplot of bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g with hue=&#x27;species&#x27;, diag_kind=&#x27;kde&#x27;, kind=&#x27;scatter&#x27;. 2) Then create a second PairGrid where the upper triangle shows scatterplots and the lower triangle shows KDE contours. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairplot with hue and custom diagonal</div><div class="pd">Load the &#x27;penguins&#x27; dataset (sns.load_dataset(&#x27;penguins&#x27;)). Drop NaN rows. 1) Create a pairplot of bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g with hue=&#x27;species&#x27;, diag_kind=&#x27;kde&#x27;, kind=&#x27;scatter&#x27;. 2) Then create a second PairGrid where the upper triangle shows scatterplots and the lower triangle shows KDE contours. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1493,7 +1667,7 @@ g.set_titles(&#x27;{col_name} Region&#x27;)
 g.figure.suptitle(&#x27;Spend vs Margin by Region &amp; Category&#x27;, y=1.03)
 plt.tight_layout()
 plt.savefig(&#x27;rw_facet_sales.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Faceted Scatter Plots</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Build a FacetGrid with col=&#x27;day&#x27; (4 panels) and map a scatterplot of &#x27;total_bill&#x27; vs &#x27;tip&#x27;, colored by &#x27;sex&#x27;. 2) Add a regression line to each panel using map_dataframe with sns.regplot (scatter=False). 3) Use sharey=True and set consistent axis labels. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Faceted Scatter Plots</div><div class="pd">Using the &#x27;tips&#x27; dataset: 1) Build a FacetGrid with col=&#x27;day&#x27; (4 panels) and map a scatterplot of &#x27;total_bill&#x27; vs &#x27;tip&#x27;, colored by &#x27;sex&#x27;. 2) Add a regression line to each panel using map_dataframe with sns.regplot (scatter=False). 3) Use sharey=True and set consistent axis labels. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1707,7 +1881,7 @@ for ax in axes:
 
 plt.tight_layout()
 plt.savefig(&#x27;rw_line_servers.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Line Time Series with Annotations</div><div class="pd">Create a synthetic dataset of 4 products over 24 months of revenue. 1) Plot all 4 as line series with markers on a single axes using sns.lineplot with hue=&#x27;product&#x27;. 2) Shade a recession period (months 10-14) with axvspan. 3) Annotate the single highest revenue point with an arrow. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Line Time Series with Annotations</div><div class="pd">Create a synthetic dataset of 4 products over 24 months of revenue. 1) Plot all 4 as line series with markers on a single axes using sns.lineplot with hue=&#x27;product&#x27;. 2) Shade a recession period (months 10-14) with axvspan. 3) Annotate the single highest revenue point with an arrow. Save the figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -1943,7 +2117,7 @@ axes[1].set_title(&#x27;Mean Revenue ± 95% CI&#x27;); axes[1].set_ylabel(&#x27;
 fig.suptitle(&#x27;A/B Test Results — Revenue&#x27;, fontsize=13, fontweight=&#x27;bold&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;rw_custom_ab_test.png&#x27;, dpi=80)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Switch Themes and Build a Custom Publication Plot</div><div class="pd">1) Apply sns.set_theme with style=&#x27;ticks&#x27; and a custom rc dict that removes top/right spines and sets font_scale=1.1. 2) Plot a violin+strip chart of the &#x27;iris&#x27; petal_length by species. 3) Add y-axis gridlines only (ax.yaxis.grid(True)), format the y-axis as cm, and add a bold title. 4) Try swapping to a &#x27;husl&#x27; palette with 3 colors. Save the final figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import matplotlib
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Switch Themes and Build a Custom Publication Plot</div><div class="pd">1) Apply sns.set_theme with style=&#x27;ticks&#x27; and a custom rc dict that removes top/right spines and sets font_scale=1.1. 2) Plot a violin+strip chart of the &#x27;iris&#x27; petal_length by species. 3) Add y-axis gridlines only (ax.yaxis.grid(True)), format the y-axis as cm, and add a bold title. 4) Try swapping to a &#x27;husl&#x27; palette with 3 colors. Save the final figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -2024,7 +2198,7 @@ g = sns.relplot(data=fmri, x=&#x27;timepoint&#x27;, y=&#x27;signal&#x27;,
 g.set_titles(col_template=&#x27;Region: {col_name}&#x27;)
 g.figure.suptitle(&#x27;fMRI Signal by Region and Event&#x27;, y=1.02)
 plt.savefig(&#x27;relplot_fmri.png&#x27;, dpi=80, bbox_inches=&#x27;tight&#x27;); plt.close()
-print(&#x27;Saved relplot_fmri.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Segment Time Series</div><div class="pd">Load the &#x27;flights&#x27; dataset. Use relplot to create a FacetGrid with col=&#x27;month&#x27; showing passenger count over years, hued by whether month is in summer (Jun-Aug) or not.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import seaborn as sns
+print(&#x27;Saved relplot_fmri.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Segment Time Series</div><div class="pd">Load the &#x27;flights&#x27; dataset. Use relplot to create a FacetGrid with col=&#x27;month&#x27; showing passenger count over years, hued by whether month is in summer (Jun-Aug) or not.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2115,7 +2289,7 @@ for i, (g1, g2) in enumerate(pairs):
 ax.set_title(&#x27;Multi-Group Significance Test&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;multi_sig.png&#x27;, dpi=80); plt.close()
-print(&#x27;Saved multi_sig.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Visualization</div><div class="pd">Given two groups of purchase amounts (A: mean=$45, B: mean=$52), create a barplot with 95% CI. Run a t-test and add a significance star above the bars if p&lt;0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import seaborn as sns
+print(&#x27;Saved multi_sig.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Visualization</div><div class="pd">Given two groups of purchase amounts (A: mean=$45, B: mean=$52), create a barplot with 95% CI. Run a t-test and add a significance star above the bars if p&lt;0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2195,7 +2369,7 @@ axes[1].set_title(&#x27;ECDF of Total Bill by Day&#x27;)
 axes[1].legend(); axes[1].set_xlabel(&#x27;Total Bill ($)&#x27;)
 plt.tight_layout()
 plt.savefig(&#x27;regplot_ecdf.png&#x27;, dpi=80); plt.close()
-print(&#x27;Saved regplot_ecdf.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MPG Regression Analysis</div><div class="pd">Using the mpg dataset: (1) create an lmplot of horsepower vs mpg grouped by origin with 90% CI. (2) Plot residuals. (3) Use jointplot(kind=&#x27;kde&#x27;) to show the joint distribution.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import seaborn as sns
+print(&#x27;Saved regplot_ecdf.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MPG Regression Analysis</div><div class="pd">Using the mpg dataset: (1) create an lmplot of horsepower vs mpg grouped by origin with 90% CI. (2) Plot residuals. (3) Use jointplot(kind=&#x27;kde&#x27;) to show the joint distribution.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2262,7 +2436,7 @@ g.map(scatter_means, &#x27;x&#x27;, &#x27;y&#x27;)
 g.figure.suptitle(&#x27;Scatter with Group Means&#x27;, y=1.02)
 g.savefig(&#x27;facetgrid_custom.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 print(&#x27;Saved facetgrid_custom.png&#x27;)
-plt.close(&#x27;all&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Titanic FacetGrid</div><div class="pd">Load titanic. Create a FacetGrid with pclass as columns (3 panels). Show age histplot, colored by survived. Add legend and suptitle. Save to titanic_facet.png.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import seaborn as sns
+plt.close(&#x27;all&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Titanic FacetGrid</div><div class="pd">Load titanic. Create a FacetGrid with pclass as columns (3 panels). Show age histplot, colored by survived. Add legend and suptitle. Save to titanic_facet.png.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2347,7 +2521,7 @@ ax.text(0.5, y_max+0.1, &#x27;***&#x27;, ha=&#x27;center&#x27;, fontsize=14)
 ax.set_title(&#x27;Drug Effect with Significance Bracket&#x27;)
 fig.savefig(&#x27;boxplot_sig.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 print(&#x27;Saved boxplot_sig.png&#x27;)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Stat Figure</div><div class="pd">Create 3-panel figure: (1) stripplot of scores by group with means, (2) ECDF for 3 groups, (3) residual plot from regressing score on study_hours. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import seaborn as sns
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Stat Figure</div><div class="pd">Create 3-panel figure: (1) stripplot of scores by group with means, (2) ECDF for 3 groups, (3) residual plot from regressing score on study_hours. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2431,7 +2605,7 @@ with sns.axes_style(&#x27;whitegrid&#x27;):
 fig.tight_layout()
 fig.savefig(&#x27;despine_styles.png&#x27;, dpi=100, bbox_inches=&#x27;tight&#x27;)
 print(&#x27;Saved despine_styles.png&#x27;)
-plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Night Mode Report</div><div class="pd">Create a dark-themed 3-panel figure (histogram, scatter, bar). Use set_theme with dark facecolor and bright palette. Add suptitle and save at 150 DPI. Reset theme at the end.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import seaborn as sns
+plt.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Night Mode Report</div><div class="pd">Create a dark-themed 3-panel figure (histogram, scatter, bar). Use set_theme with dark facecolor and bright palette. Add suptitle and save at 150 DPI. Reset theme at the end.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import seaborn as sns
 import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import matplotlib.pyplot as plt
@@ -2563,7 +2737,7 @@ ax.legend(handles[:2], labels[:2], title=&#x27;Gender&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;salary_audit.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved salary_audit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strip/Swarm Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a 1x2 subplot: (1) swarmplot of body_mass_g by species with hue=sex, (2) stripplot of flipper_length_mm by island with box overlay. Use palette=&#x27;colorblind&#x27; and whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import matplotlib
+print(&#x27;Saved salary_audit.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strip/Swarm Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a 1x2 subplot: (1) swarmplot of body_mass_g by species with hue=sex, (2) stripplot of flipper_length_mm by island with box overlay. Use palette=&#x27;colorblind&#x27; and whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -2741,7 +2915,7 @@ ax2.legend(title=&#x27;Subject&#x27;, bbox_to_anchor=(1,1))
 fig.tight_layout()
 fig.savefig(&#x27;student_performance.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved student_performance.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Point/Line Plot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset from seaborn. Plot a lineplot of signal by timepoint, with hue=event and style=region. Add a pointplot below it showing mean signal per region. Use a 2x1 subplot with shared x-axis.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import matplotlib
+print(&#x27;Saved student_performance.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Point/Line Plot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset from seaborn. Plot a lineplot of signal by timepoint, with hue=event and style=region. Add a pointplot below it showing mean signal per region. Use a 2x1 subplot with shared x-axis.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -2898,7 +3072,7 @@ ax2.set_xlabel(&#x27;Order Value ($)&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;ab_distribution.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved ab_distribution.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Practice</div><div class="pd">Load the &#x27;titanic&#x27; dataset. Create a 1x3 figure: (1) ecdfplot of &#x27;fare&#x27; by &#x27;class&#x27;, (2) kdeplot of &#x27;age&#x27; by &#x27;survived&#x27; (use hue), (3) histplot of &#x27;fare&#x27; with log_scale=True, hue=&#x27;class&#x27;. Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import matplotlib
+print(&#x27;Saved ab_distribution.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distribution Comparison Practice</div><div class="pd">Load the &#x27;titanic&#x27; dataset. Create a 1x3 figure: (1) ecdfplot of &#x27;fare&#x27; by &#x27;class&#x27;, (2) kdeplot of &#x27;age&#x27; by &#x27;survived&#x27; (use hue), (3) histplot of &#x27;fare&#x27; with log_scale=True, hue=&#x27;class&#x27;. Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3055,7 +3229,7 @@ g = sns.clustermap(pd.DataFrame(matrix, columns=features),
 g.ax_heatmap.set_title(&#x27;Customer Segment Behavioral Clustermap&#x27;, pad=50, fontsize=12)
 plt.savefig(&#x27;customer_clustermap.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved customer_clustermap.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clustermap Practice</div><div class="pd">Generate a 12x8 random matrix with 3 obvious block clusters (add +2 to block (0:4, 0:3), +(-2) to block (4:8, 3:6)). Plot a clustermap with method=&#x27;ward&#x27;, cmap=&#x27;RdBu_r&#x27;, and z_score=0. Annotate the values with fmt=&#x27;.1f&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import matplotlib
+print(&#x27;Saved customer_clustermap.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clustermap Practice</div><div class="pd">Generate a 12x8 random matrix with 3 obvious block clusters (add +2 to block (0:4, 0:3), +(-2) to block (4:8, 3:6)). Plot a clustermap with method=&#x27;ward&#x27;, cmap=&#x27;RdBu_r&#x27;, and z_score=0. Annotate the values with fmt=&#x27;.1f&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3193,7 +3367,7 @@ g.ax_joint.set_xlabel(&#x27;Height (cm)&#x27;); g.ax_joint.set_ylabel(&#x27;Weig
 g.fig.suptitle(&#x27;Height-Weight Joint Distribution by Gender&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;height_weight_joint.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved height_weight_joint.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Plot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a JointGrid for bill_length_mm vs bill_depth_mm: (1) scatter in the joint with hue=species and s=30, (2) boxplot in the marginals (ax_marg_x and ax_marg_y). Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import matplotlib
+print(&#x27;Saved height_weight_joint.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Plot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Create a JointGrid for bill_length_mm vs bill_depth_mm: (1) scatter in the joint with hue=species and s=30, (2) boxplot in the marginals (ax_marg_x and ax_marg_y). Drop NaN rows first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3321,7 +3495,7 @@ g.set_titles(&#x27;{col_name}&#x27;)
 g.fig.suptitle(&#x27;Product NPS by Category &amp; Segment&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;nps_catplot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved nps_catplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: catplot Practice</div><div class="pd">Load the &#x27;exercise&#x27; dataset from seaborn. Use catplot with x=&#x27;time&#x27;, y=&#x27;pulse&#x27;, hue=&#x27;kind&#x27;, col=&#x27;diet&#x27;, kind=&#x27;point&#x27;. Then create a second catplot with kind=&#x27;box&#x27;. Add appropriate titles and labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import matplotlib
+print(&#x27;Saved nps_catplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: catplot Practice</div><div class="pd">Load the &#x27;exercise&#x27; dataset from seaborn. Use catplot with x=&#x27;time&#x27;, y=&#x27;pulse&#x27;, hue=&#x27;kind&#x27;, col=&#x27;diet&#x27;, kind=&#x27;point&#x27;. Then create a second catplot with kind=&#x27;box&#x27;. Add appropriate titles and labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3455,7 +3629,7 @@ g.set_titles(col_template=&#x27;{col_name}&#x27;)
 g.fig.suptitle(&#x27;Model Accuracy Distribution by Experiment &amp; Dataset&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;experiment_displot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved experiment_displot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: displot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Use displot to create: (1) hist kind with col=species, x=body_mass_g, hue=sex — set kde=True, (2) ecdf kind with same grouping on a new figure. Save both as separate PNGs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import matplotlib
+print(&#x27;Saved experiment_displot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: displot Practice</div><div class="pd">Load the &#x27;penguins&#x27; dataset. Use displot to create: (1) hist kind with col=species, x=body_mass_g, hue=sex — set kde=True, (2) ecdf kind with same grouping on a new figure. Save both as separate PNGs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3608,7 +3782,7 @@ g.set_titles(col_template=&#x27;{col_name}&#x27;)
 g.fig.suptitle(&#x27;Campaign CTR vs Spend by Channel&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;campaign_relplot.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved campaign_relplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: relplot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset. Use relplot with kind=&#x27;line&#x27;, x=&#x27;timepoint&#x27;, y=&#x27;signal&#x27;, hue=&#x27;event&#x27;, col=&#x27;region&#x27;. Then create a second relplot kind=&#x27;scatter&#x27; with the same groupings and size=0.5. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import matplotlib
+print(&#x27;Saved campaign_relplot.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: relplot Practice</div><div class="pd">Load the &#x27;fmri&#x27; dataset. Use relplot with kind=&#x27;line&#x27;, x=&#x27;timepoint&#x27;, y=&#x27;signal&#x27;, hue=&#x27;event&#x27;, col=&#x27;region&#x27;. Then create a second relplot kind=&#x27;scatter&#x27; with the same groupings and size=0.5. Save both.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3762,7 +3936,7 @@ ax.set_xlabel(&#x27;Predicted&#x27;); ax.set_ylabel(&#x27;True&#x27;)
 fig.tight_layout()
 fig.savefig(&#x27;confusion_matrix.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved confusion_matrix.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Heatmap Practice</div><div class="pd">Generate a 10x6 DataFrame of monthly sales by region (random integers 100-500). Create: (1) a standard heatmap with annot=True and YlGn cmap, (2) the same data as a diverging heatmap centered on the mean (RdYlGn), side by side in a 1x2 figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import matplotlib
+print(&#x27;Saved confusion_matrix.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Heatmap Practice</div><div class="pd">Generate a 10x6 DataFrame of monthly sales by region (random integers 100-500). Create: (1) a standard heatmap with annot=True and YlGn cmap, (2) the same data as a diverging heatmap centered on the mean (RdYlGn), side by side in a 1x2 figure.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -3906,7 +4080,7 @@ g.add_legend(title=&#x27;Species&#x27;)
 g.fig.suptitle(&#x27;Penguins PairGrid EDA&#x27;, y=1.01, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;penguins_pairgrid.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved penguins_pairgrid.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: PairGrid Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a PairGrid with vars=[&#x27;mpg&#x27;,&#x27;horsepower&#x27;,&#x27;weight&#x27;,&#x27;acceleration&#x27;], hue=&#x27;origin&#x27;. Map: diagonal=histplot, upper=scatterplot, lower=regplot. Add legend and a suptitle.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import matplotlib
+print(&#x27;Saved penguins_pairgrid.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: PairGrid Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a PairGrid with vars=[&#x27;mpg&#x27;,&#x27;horsepower&#x27;,&#x27;weight&#x27;,&#x27;acceleration&#x27;], hue=&#x27;origin&#x27;. Map: diagonal=histplot, upper=scatterplot, lower=regplot. Add legend and a suptitle.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -4048,7 +4222,7 @@ g.set_titles(col_template=&#x27;{col_name}&#x27;)
 g.fig.suptitle(&#x27;Housing Price Regression by Neighborhood&#x27;, y=1.02, fontweight=&#x27;bold&#x27;)
 g.fig.savefig(&#x27;housing_regression.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close(g.fig)
-print(&#x27;Saved housing_regression.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regression Diagnostics Practice</div><div class="pd">Generate 100 data points: x = linspace(0,10), y = sin(x) + noise. Use a 1x3 panel: (1) regplot order=1, (2) regplot order=3, (3) residplot for the order=3 fit. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import matplotlib
+print(&#x27;Saved housing_regression.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Regression Diagnostics Practice</div><div class="pd">Generate 100 data points: x = linspace(0,10), y = sin(x) + noise. Use a 1x3 panel: (1) regplot order=1, (2) regplot order=3, (3) residplot for the order=3 fit. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -4241,7 +4415,7 @@ ax1.set_title(&#x27;Marketing KPI: Revenue vs Conversion Rate&#x27;, fontweight=
 fig.tight_layout()
 fig.savefig(&#x27;marketing_kpi.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved marketing_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mixed Plot Practice</div><div class="pd">Create a seaborn violinplot of exam scores by subject (4 subjects). Overlay a horizontal line at the passing grade (60), a shaded band for distinction (85-100), and annotate the subject with highest median. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import matplotlib
+print(&#x27;Saved marketing_kpi.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mixed Plot Practice</div><div class="pd">Create a seaborn violinplot of exam scores by subject (4 subjects). Overlay a horizontal line at the passing grade (60), a shaded band for distinction (85-100), and annotate the subject with highest median. Use whitegrid style.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -4436,7 +4610,7 @@ fig.suptitle(&#x27;Diamond Price Analysis — Complete Story&#x27;, fontweight=&
 fig.tight_layout()
 fig.savefig(&#x27;diamond_story.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved diamond_story.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real Dataset EDA Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a 2x2 EDA dashboard: (1) lmplot of mpg vs weight by origin, (2) pairplot of [mpg, horsepower, weight] with hue=origin (quick version), (3) boxplot of mpg by cylinders, (4) lineplot of mean mpg by model_year. Drop NaN first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import matplotlib
+print(&#x27;Saved diamond_story.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Real Dataset EDA Practice</div><div class="pd">Load the &#x27;mpg&#x27; dataset. Create a 2x2 EDA dashboard: (1) lmplot of mpg vs weight by origin, (2) pairplot of [mpg, horsepower, weight] with hue=origin (quick version), (3) boxplot of mpg by cylinders, (4) lineplot of mean mpg by model_year. Drop NaN first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -4562,7 +4736,7 @@ p2 = (
            title=&#x27;Body Mass by Species &amp; Sex&#x27;)
 )
 p2.save(&#x27;so_penguin_bar.png&#x27;, dpi=120, bbox_inches=&#x27;tight&#x27;)
-print(&#x27;Saved so_penguin_scatter.png and so_penguin_bar.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Objects API Practice</div><div class="pd">Using the seaborn objects API (so.Plot), recreate a regression scatter of tips total_bill vs tip, color by day, with a PolyFit(order=1) line. Facet by time (col=&#x27;time&#x27;). Save as &#x27;so_practice.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29')">Copy</button></div><pre><code id="p29" class="language-python">import matplotlib
+print(&#x27;Saved so_penguin_scatter.png and so_penguin_bar.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Objects API Practice</div><div class="pd">Using the seaborn objects API (so.Plot), recreate a regression scatter of tips total_bill vs tip, color by day, with a PolyFit(order=1) line. Facet by time (col=&#x27;time&#x27;). Save as &#x27;so_practice.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_0')">Copy</button></div><pre><code id="p29_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -4742,7 +4916,7 @@ fig.suptitle(&#x27;Accessible Dashboard — Colorblind-Safe Design&#x27;, fontwe
 fig.tight_layout()
 fig.savefig(&#x27;accessible_seaborn.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;)
 plt.close()
-print(&#x27;Saved accessible_seaborn.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color Accessibility Practice</div><div class="pd">Create a 4-group comparison plot (your choice of data). First plot with the red/green palette (unsafe). Then create a duplicate using the &#x27;colorblind&#x27; palette with different markers per group. Save both as &#x27;color_bad.png&#x27; and &#x27;color_good.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30')">Copy</button></div><pre><code id="p30" class="language-python">import matplotlib
+print(&#x27;Saved accessible_seaborn.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color Accessibility Practice</div><div class="pd">Create a 4-group comparison plot (your choice of data). First plot with the red/green palette (unsafe). Then create a duplicate using the &#x27;colorblind&#x27; palette with different markers per group. Save both as &#x27;color_bad.png&#x27; and &#x27;color_good.png&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_0')">Copy</button></div><pre><code id="p30_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5006,7 +5180,7 @@ fig.suptitle(&#x27;Diamond Market Analysis&#x27;, fontsize=15, fontweight=&#x27;
 fig.savefig(&#x27;diamonds_report.png&#x27;, dpi=150, bbox_inches=&#x27;tight&#x27;,
             facecolor=fig.get_facecolor())
 plt.close()
-print(&#x27;Saved diamonds_report.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Practice</div><div class="pd">Build your own 4-panel seaborn dashboard using any dataset you prefer (tips, penguins, titanic, mpg, etc.). Requirements: (1) GridSpec layout with at least one spanning panel, (2) 4 different plot types, (3) consistent palette and theme, (4) suptitle banner, (5) save at 150 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31')">Copy</button></div><pre><code id="p31" class="language-python">import matplotlib
+print(&#x27;Saved diamonds_report.png&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Practice</div><div class="pd">Build your own 4-panel seaborn dashboard using any dataset you prefer (tips, penguins, titanic, mpg, etc.). Requirements: (1) GridSpec layout with at least one spanning panel, (2) 4 different plot types, (3) consistent palette and theme, (4) suptitle banner, (5) save at 150 DPI.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_0')">Copy</button></div><pre><code id="p31_0" class="language-python">import matplotlib
 matplotlib.use(&#x27;Agg&#x27;)
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -5047,7 +5221,7 @@ data = rng.normal(50, 8, 500)
 fig, ax = plt.subplots(figsize=(6, 3))
 sns.histplot(data, kde=True, ax=ax, color=&quot;#a78bfa&quot;)
 ax.set_title(&quot;Distribution&quot;)
-plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Means</div><div class="pd">Implement group_means(df, by, col) returning the mean of `col` for each level of `by`, then bar-plot the result. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32')">Copy</button></div><pre><code id="p32" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+plt.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Means</div><div class="pd">Implement group_means(df, by, col) returning the mean of `col` for each level of `by`, then bar-plot the result. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_0')">Copy</button></div><pre><code id="p32_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
 import numpy as np, pandas as pd
 
 def group_means(df, by, col):
@@ -5074,7 +5248,7 @@ corr = df.corr()
 fig, ax = plt.subplots(figsize=(4, 3))
 sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;, ax=ax)
 plt.show()
-print(corr.round(2).to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix</div><div class="pd">Implement corr_matrix(df): return the pairwise correlation matrix of the numeric columns, then draw it as a heatmap. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33')">Copy</button></div><pre><code id="p33" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+print(corr.round(2).to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Matrix</div><div class="pd">Implement corr_matrix(df): return the pairwise correlation matrix of the numeric columns, then draw it as a heatmap. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_0')">Copy</button></div><pre><code id="p33_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
 import pandas as pd
 
 def corr_matrix(df):
@@ -5095,7 +5269,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 
 df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;h&quot;: [&quot;p&quot;, &quot;q&quot;, &quot;p&quot;, &quot;q&quot;], &quot;v&quot;: [1.0, 3.0, 5.0, 7.0]})
 table = df.pivot_table(index=&quot;g&quot;, columns=&quot;h&quot;, values=&quot;v&quot;, aggfunc=&quot;mean&quot;)
-print(table)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pivot Means</div><div class="pd">Implement pivot_means(df, index, col, val): return a pivot table of the mean of `val` for each (index, col) combination. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34')">Copy</button></div><pre><code id="p34" class="language-python">import pandas as pd
+print(table)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pivot Means</div><div class="pd">Implement pivot_means(df, index, col, val): return a pivot table of the mean of `val` for each (index, col) combination. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p34_0')">Copy</button></div><pre><code id="p34_0" class="language-python">import pandas as pd
 
 def pivot_means(df, index, col, val):
     # TODO: pivot_table of the mean of `val` over index x col
@@ -5117,7 +5291,7 @@ vc = s.value_counts().sort_index()
 fig, ax = plt.subplots(figsize=(5, 3))
 sns.barplot(x=vc.index, y=vc.values, ax=ax); ax.set_title(&quot;Counts&quot;)
 plt.show()
-print(vc.to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sorted Value Counts</div><div class="pd">Implement value_counts_sorted(s): return the category counts sorted by category, then bar-plot them. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35')">Copy</button></div><pre><code id="p35" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+print(vc.to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sorted Value Counts</div><div class="pd">Implement value_counts_sorted(s): return the category counts sorted by category, then bar-plot them. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p35_0')">Copy</button></div><pre><code id="p35_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
 import pandas as pd
 
 def value_counts_sorted(s):
@@ -5135,7 +5309,7 @@ print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-lis
 <li><label><input type="checkbox"> sort_index() puts categories in a stable order</label></li></ul></div></div></div><div class="topic" id="s36"><div class="th" onclick="tog(this)"><span>Challenge: Group Medians</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The median is a robust group summary — less swayed by outliers than the mean. The Check grades the data. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Median per group</span><button onclick="cp('c36_0')">Copy</button></div><pre><code id="c36_0" class="language-python">import pandas as pd
 
 df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2.0, 100.0, 5.0]})
-print(df.groupby(&quot;g&quot;)[&quot;v&quot;].median().to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Median</div><div class="pd">Implement group_median(df, by, col): return the median of `col` for each group in `by`, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36')">Copy</button></div><pre><code id="p36" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
+print(df.groupby(&quot;g&quot;)[&quot;v&quot;].median().to_dict())</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Median</div><div class="pd">Implement group_median(df, by, col): return the median of `col` for each group in `by`, then bar-plot it. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p36_0')">Copy</button></div><pre><code id="p36_0" class="language-python">import seaborn as sns, matplotlib.pyplot as plt
 import pandas as pd
 
 def group_median(df, by, col):

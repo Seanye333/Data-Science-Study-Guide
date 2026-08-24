@@ -26,15 +26,17 @@ def make_html(sections):
         rw_html = (f'<div class="rw"><div class="rh">&#x1F4BC; Real-World: {esc(rw["title"])}</div>'
                    f'<div class="rd">{esc(rw["scenario"])}</div>'
                    f'<pre><code class="language-python">{esc(rw["code"])}</code></pre></div>') if rw else ""
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -101,8 +103,10 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        nb_practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            nb_practices = [s["practice"]] + nb_practices
+        for practice in nb_practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"nbformat":4,"nbformat_minor":5}
@@ -310,6 +314,32 @@ my_colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
 
 {
 "title": "2. Distribution Plots",
+"practices": [
+{
+"title": 'Peak Bin Center',
+"desc": 'Center of the tallest histogram bin.',
+"starter": 'import pandas as pd, numpy as np\n\ndef kde_peak_bin(d, bins=10):\n    c, e = np.histogram(d, bins=bins)\n    i = int(np.argmax(c))\n    # TODO: return the center of bin i -> (e[i] + e[i+1]) / 2\n    return 0.0\n\nprint(round(kde_peak_bin([1, 1, 1, 5]), 3))',
+"check": 'assert kde_peak_bin([1, 1, 1, 5]) < 3, "mass concentrated near 1"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Skew Sign',
+"desc": '+1 for right-skewed, -1 for left, 0 for symmetric.',
+"starter": 'import pandas as pd, numpy as np\n\ndef skew_sign(d):\n    s = pd.Series(d, dtype=float).skew()\n    # TODO: int(np.sign(s))\n    return 0\n\nprint(skew_sign([1, 1, 1, 10]))',
+"check": 'assert skew_sign([1, 1, 1, 10]) == 1, "long right tail"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Quartiles',
+"desc": 'Return [Q1, median, Q3].',
+"starter": 'import pandas as pd, numpy as np\n\ndef quartiles(d):\n    s = pd.Series(d, dtype=float)\n    # TODO: [q25, q50, q75] as floats\n    return []\n\nprint(quartiles([1, 2, 3, 4, 5]))',
+"check": 'assert quartiles([1, 2, 3, 4, 5]) == [2.0, 3.0, 4.0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'IQR Value',
+"desc": 'Q3 minus Q1.',
+"starter": 'import pandas as pd, numpy as np\n\ndef iqr_val(d):\n    s = pd.Series(d, dtype=float)\n    # TODO: q75 - q25\n    return 0.0\n\nprint(iqr_val([1, 2, 3, 4, 5]))',
+"check": 'assert iqr_val([1, 2, 3, 4, 5]) == 2.0\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Plot a histogram of a normally distributed sample and overlay a KDE curve",
     "Compare distributions of smokers vs non-smokers using sns.histplot with hue='smoker'",
@@ -522,6 +552,32 @@ print("Saved practice_dist.png")"""
 
 {
 "title": "3. Categorical Plots — Bar & Count",
+"practices": [
+{
+"title": 'Category Counts',
+"desc": 'Counts per category as a dict, sorted by category.',
+"starter": 'import seaborn as sns, matplotlib.pyplot as plt\nimport pandas as pd, numpy as np\n\ndef category_counts(s):\n    # TODO: value_counts().sort_index().to_dict()\n    return {}\n\nc = category_counts(["a", "b", "a"])\nplt.figure(figsize=(5,3)); sns.barplot(x=list(c), y=list(c.values())); plt.show()\nprint(c)',
+"check": 'assert category_counts(["a", "b", "a"]) == {"a": 2, "b": 1}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mean By Category',
+"desc": 'Mean of a value column per category.',
+"starter": 'import pandas as pd, numpy as np\n\ndef mean_by_cat(df, cat, val):\n    # TODO: groupby(cat)[val].mean().to_dict()\n    return {}\n\ndf = pd.DataFrame({"c": ["a", "a", "b"], "v": [1.0, 3, 5]})\nprint(mean_by_cat(df, "c", "v"))',
+"check": 'import pandas as pd\nassert mean_by_cat(pd.DataFrame({"c":["a","a","b"],"v":[1.0,3,5]}), "c", "v") == {"a": 2.0, "b": 5.0}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Largest Category',
+"desc": 'The most frequent category label.',
+"starter": 'import pandas as pd, numpy as np\n\ndef largest_category(s):\n    # TODO: value_counts().idxmax()\n    return None\n\nprint(largest_category(["a", "b", "a"]))',
+"check": 'assert largest_category(["a", "b", "a"]) == "a"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Normalized Counts',
+"desc": 'Category shares rounded to 3 decimals.',
+"starter": 'import pandas as pd, numpy as np\n\ndef normalize_counts(s):\n    # TODO: value_counts(normalize=True).sort_index().round(3).to_dict()\n    return {}\n\nprint(normalize_counts(["a", "a", "b", "b"]))',
+"check": 'assert normalize_counts(["a", "a", "b", "b"]) == {"a": 0.5, "b": 0.5}\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create a grouped barplot of mean tip by day, colored by sex, with capsize=0.1",
     "Sort bars by value using the order= parameter to show highest to lowest",
@@ -745,6 +801,32 @@ print("Saved practice_bar.png")"""
 
 {
 "title": "4. Box Plot & Violin Plot",
+"practices": [
+{
+"title": 'Box Stats',
+"desc": 'The five-number summary of a box plot.',
+"starter": 'import pandas as pd, numpy as np\n\ndef box_stats(d):\n    s = pd.Series(d, dtype=float)\n    # TODO: dict with min, q1, med, q3, max as floats\n    return {}\n\nprint(box_stats([1, 2, 3, 4, 5]))',
+"check": 'b = box_stats([1, 2, 3, 4, 5])\nassert b["med"] == 3.0 and b["q1"] == 2.0 and b["q3"] == 4.0\nassert b["min"] == 1.0 and b["max"] == 5.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Whisker Bounds',
+"desc": 'The 1.5 x IQR whisker limits.',
+"starter": 'import pandas as pd, numpy as np\n\ndef whisker_bounds(d):\n    s = pd.Series(d, dtype=float)\n    q1, q3 = s.quantile(0.25), s.quantile(0.75)\n    i = q3 - q1\n    # TODO: return (float(q1 - 1.5*i), float(q3 + 1.5*i))\n    return (float(q1), float(q3))\n\nprint(whisker_bounds([1, 2, 3, 4, 5]))',
+"check": 'lo, hi = whisker_bounds([1, 2, 3, 4, 5])\nassert lo < 1 and hi > 5\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Outliers Beyond Whiskers',
+"desc": 'Count points outside the whiskers.',
+"starter": 'import pandas as pd, numpy as np\n\ndef whisker_bounds(d):\n    s = pd.Series(d, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); i = q3 - q1\n    return (float(q1 - 1.5*i), float(q3 + 1.5*i))\n\ndef outliers_beyond(d):\n    lo, hi = whisker_bounds(d); s = pd.Series(d, dtype=float)\n    # TODO: count values below lo or above hi\n    return 0\n\nprint(outliers_beyond([1, 2, 3, 4, 100]))',
+"check": 'assert outliers_beyond([1, 2, 3, 4, 100]) == 1\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Median By Group',
+"desc": 'Median per group (robust box-plot center).',
+"starter": 'import pandas as pd, numpy as np\n\ndef median_by_group(df, g, v):\n    # TODO: groupby(g)[v].median().to_dict()\n    return {}\n\ndf = pd.DataFrame({"g": ["a", "a", "b"], "v": [1.0, 3, 5]})\nprint(median_by_group(df, "g", "v"))',
+"check": 'import pandas as pd\nassert median_by_group(pd.DataFrame({"g":["a","a","b"],"v":[1.0,3,5]}), "g", "v") == {"a": 2.0, "b": 5.0}\nprint("All checks passed \\u2713")',
+},
+],
 "todos": [
     "Create side-by-side box plots of total_bill by day using the tips dataset",
     "Set inner='quartile' on a violin plot to show quartile lines inside the violin",
@@ -961,6 +1043,32 @@ print("Saved practice_violin.png")"""
 
 {
 "title": "5. Scatter & Regression Plots",
+"practices": [
+{
+"title": 'Regression Slope',
+"desc": 'Slope of the fitted regression line.',
+"starter": 'import pandas as pd, numpy as np\n\ndef reg_slope(x, y):\n    # TODO: np.polyfit(x, y, 1)[0]\n    return 0.0\n\nprint(round(reg_slope([0, 1, 2], [1, 3, 5]), 4))',
+"check": 'assert abs(reg_slope([0, 1, 2], [1, 3, 5]) - 2) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Residuals',
+"desc": 'Vertical distances from the fitted line.',
+"starter": 'import pandas as pd, numpy as np\n\ndef residuals(x, y):\n    m, b = np.polyfit(np.asarray(x, float), np.asarray(y, float), 1)\n    # TODO: y - (m*x + b), rounded to 6 dp, as a list\n    return []\n\nprint(residuals([0, 1, 2], [1, 3, 5]))',
+"check": 'r = residuals([0, 1, 2], [1, 3, 5])\nassert max(abs(v) for v in r) < 1e-6, "perfect fit -> residuals ~ 0"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'R-squared (scatter)',
+"desc": 'Squared correlation of x and y.',
+"starter": 'import pandas as pd, numpy as np\n\ndef r2(x, y):\n    r = np.corrcoef(x, y)[0, 1]\n    # TODO: return r squared as a float\n    return 0.0\n\nprint(round(r2([1, 2, 3], [2, 4, 6]), 4))',
+"check": 'assert abs(r2([1, 2, 3], [2, 4, 6]) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Predict At X',
+"desc": 'Value of the regression line at x0.',
+"starter": 'import pandas as pd, numpy as np\n\ndef predict_at(x, y, x0):\n    m, b = np.polyfit(np.asarray(x, float), np.asarray(y, float), 1)\n    # TODO: m*x0 + b\n    return 0.0\n\nprint(round(predict_at([0, 1, 2], [1, 3, 5], 3), 4))',
+"check": 'assert abs(predict_at([0, 1, 2], [1, 3, 5], 3) - 7) < 1e-6\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "scatterplot visualizes two numeric variables. regplot / lmplot adds a regression line with confidence interval automatically.",
 "examples": [
 {"label": "scatterplot with hue and size", "code":
@@ -1188,6 +1296,32 @@ print("Saved practice_scatter.png")"""
 
 {
 "title": "6. Heatmap",
+"practices": [
+{
+"title": 'Correlation Grid',
+"desc": 'Correlation matrix as a nested list.',
+"starter": 'import pandas as pd, numpy as np\n\ndef corr_grid(df):\n    # TODO: df.corr(numeric_only=True).round(3).values.tolist()\n    return []\n\ndf = pd.DataFrame({"a": [1, 2, 3], "b": [2, 4, 6]})\nprint(corr_grid(df))',
+"check": 'import pandas as pd\ng = corr_grid(pd.DataFrame({"a":[1,2,3],"b":[2,4,6]}))\nassert g[0][1] == 1.0, "a and b move together"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Pivot Grid',
+"desc": 'Pivot to a grid of means, missing cells as 0.',
+"starter": 'import pandas as pd, numpy as np\n\ndef pivot_grid(df, i, c, v):\n    # TODO: pivot_table(index=i, columns=c, values=v, aggfunc="mean").fillna(0).values.tolist()\n    return []\n\ndf = pd.DataFrame({"r": ["a", "a"], "c": ["x", "y"], "v": [1.0, 3]})\nprint(pivot_grid(df, "r", "c", "v"))',
+"check": 'import pandas as pd\nassert pivot_grid(pd.DataFrame({"r":["a","a"],"c":["x","y"],"v":[1.0,3]}), "r", "c", "v") == [[1.0, 3.0]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Hottest Cell',
+"desc": '(row, col) of the largest heatmap value.',
+"starter": 'import pandas as pd, numpy as np\n\ndef max_cell(grid):\n    a = np.asarray(grid, float)\n    # TODO: np.unravel_index(np.argmax(a), a.shape) as ints\n    return (0, 0)\n\nprint(max_cell([[1, 2], [9, 3]]))',
+"check": 'assert max_cell([[1, 2], [9, 3]]) == (1, 0)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Row Totals',
+"desc": 'Sum across each heatmap row.',
+"starter": 'import pandas as pd, numpy as np\n\ndef row_totals(grid):\n    # TODO: sum along axis=1 as a list\n    return []\n\nprint(row_totals([[1, 2], [3, 4]]))',
+"check": 'assert row_totals([[1, 2], [3, 4]]) == [3.0, 7.0]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "sns.heatmap renders a matrix as color intensities. Ideal for correlation matrices, confusion matrices, and pivot table results.",
 "examples": [
 {"label": "Correlation heatmap with annotations", "code":
