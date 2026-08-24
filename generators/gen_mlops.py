@@ -32,15 +32,17 @@ def make_html(sections):
                        f'<div class="code-block"><div class="ch"><span>Real-World Code</span>'
                        f'<button onclick="cp(\'{rwid}\')">Copy</button></div>'
                        f'<pre><code id="{rwid}" class="language-python">{esc(rw_code)}</code></pre></div></div>')
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -98,8 +100,7 @@ def make_nb(sections):
         if s.get("rw_scenario"):
             md(f"### Real-World Scenario\n\n{s['rw_scenario']}")
             code(s["rw_code"])
-        if s.get("practice"):
-            p = s["practice"]
+        for p in ([s["practice"]] if s.get("practice") else []) + list(s.get("practices") or []):
             md(f"### Practice: {p['title']}\n\n{p['desc']}")
             code(p["starter"])
     return {"nbformat":4,"nbformat_minor":5,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"cells":cells}
@@ -107,6 +108,32 @@ def make_nb(sections):
 SECTIONS = [
     {
         "title": "1. Saving & Loading Models",
+"practices": [
+{
+"title": 'Deterministic JSON',
+"desc": 'Serialize a dict with sorted keys so artifacts are reproducible.',
+"starter": 'import json\n\ndef to_json_str(d):\n    # TODO: json.dumps with sort_keys=True\n    return ""\n\nprint(to_json_str({"b": 1, "a": 2}))',
+"check": 'assert to_json_str({"b": 1, "a": 2}) == \'{"a": 2, "b": 1}\'\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Load Metadata',
+"desc": 'Parse a JSON metadata string back to a dict.',
+"starter": 'import json\n\ndef from_json_str(s):\n    # TODO: json.loads\n    return {}\n\nprint(from_json_str(\'{"a": 1}\'))',
+"check": 'assert from_json_str(\'{"a": 1}\') == {"a": 1}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Model Fingerprint',
+"desc": 'Short stable hash of a model config (for cache keys).',
+"starter": 'import json, hashlib\n\ndef model_fingerprint(d):\n    # TODO: sha256 of the sorted-key JSON, first 8 hex chars\n    return ""\n\nprint(model_fingerprint({"a": 1}))',
+"check": 'f = model_fingerprint({"a": 1})\nassert len(f) == 8, "8 hex characters"\nassert f == model_fingerprint({"a": 1}), "stable for the same config"\nassert f != model_fingerprint({"a": 2}), "changes with the config"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Bump Patch Version',
+"desc": 'Increment the patch number of a semver string.',
+"starter": 'def bump_version(v):\n    a, b, c = (int(x) for x in v.split("."))\n    # TODO: return the version with the patch incremented\n    return v\n\nprint(bump_version("1.2.3"))',
+"check": 'assert bump_version("1.2.3") == "1.2.4"\nassert bump_version("0.0.9") == "0.0.10"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Persist trained models to disk for reuse, versioning, and deployment. Covers pickle, joblib, and framework-native formats.",
         "examples": [
             {
@@ -264,6 +291,32 @@ SECTIONS = [
     },
     {
         "title": "2. FastAPI Model Serving",
+"practices": [
+{
+"title": 'P95 Latency',
+"desc": '95th-percentile latency of a request batch.',
+"starter": 'import numpy as np\n\ndef p95(lat):\n    # TODO: 95th percentile of the latencies\n    return 0.0\n\nprint(round(p95([1, 2, 3, 4, 100]), 3))',
+"check": 'assert p95([1, 2, 3, 4, 100]) > 4, "the tail dominates p95"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Throughput',
+"desc": 'Requests per second.',
+"starter": 'def throughput(n_requests, seconds):\n    # TODO: requests divided by seconds\n    return 0.0\n\nprint(throughput(100, 2))',
+"check": 'assert throughput(100, 2) == 50.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Error Rate',
+"desc": 'Fraction of responses that are 5xx.',
+"starter": 'import numpy as np\n\ndef error_rate(statuses):\n    s = np.asarray(statuses)\n    # TODO: fraction of statuses that are 500 or above\n    return 0.0\n\nprint(error_rate([200, 200, 500, 503]))',
+"check": 'assert error_rate([200, 200, 500, 503]) == 0.5\nassert error_rate([200, 200]) == 0.0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Batch Count',
+"desc": 'How many batches to serve n requests.',
+"starter": 'def batch_count(n, batch):\n    # TODO: ceiling division of n by batch\n    return 0\n\nprint(batch_count(10, 3))',
+"check": 'assert batch_count(10, 3) == 4\nassert batch_count(9, 3) == 3\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Wrap ML models in REST APIs using FastAPI. Serve predictions, handle requests, add input validation with Pydantic, and test endpoints.",
         "examples": [
             {
@@ -786,6 +839,32 @@ SECTIONS = [
     },
     {
         "title": "5. Model Monitoring & Data Drift",
+"practices": [
+{
+"title": 'PSI (drift)',
+"desc": 'Population Stability Index between two samples.',
+"starter": 'import numpy as np\n\ndef psi(expected, actual, bins=10):\n    e = np.asarray(expected, float); a = np.asarray(actual, float)\n    edges = np.linspace(min(e.min(), a.min()), max(e.max(), a.max()), bins + 1)\n    ep = np.histogram(e, edges)[0] / len(e) + 1e-6\n    ap = np.histogram(a, edges)[0] / len(a) + 1e-6\n    # TODO: sum((ap - ep) * log(ap / ep))\n    return 0.0\n\nrng = np.random.default_rng(0)\nprint(round(psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000)), 4))',
+"check": 'import numpy as np\nrng = np.random.default_rng(0)\nsame = psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000))\ndrift = psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000))\nassert same < 0.1 and drift > 0.2 and drift > same\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mean Shift',
+"desc": 'How far the current mean moved from the reference.',
+"starter": 'import numpy as np\n\ndef mean_shift(ref, cur):\n    # TODO: mean(cur) - mean(ref)\n    return 0.0\n\nprint(mean_shift([1, 2, 3], [2, 3, 4]))',
+"check": 'assert abs(mean_shift([1, 2, 3], [2, 3, 4]) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Drift Alarm',
+"desc": 'Flag drift when PSI passes the threshold.',
+"starter": 'def drift_flag(psi_value, thresh=0.25):\n    # TODO: True when psi_value exceeds thresh\n    return False\n\nprint(drift_flag(0.4), drift_flag(0.1))',
+"check": 'assert drift_flag(0.4) is True\nassert drift_flag(0.1) is False\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Missing Rate',
+"desc": 'Fraction of NaN values in a feature.',
+"starter": 'import numpy as np\n\ndef missing_rate(vals):\n    a = np.asarray(vals, dtype=float)\n    # TODO: fraction of entries that are NaN (np.isnan)\n    return 0.0\n\nprint(missing_rate([1, float("nan"), 3, float("nan")]))',
+"check": 'assert missing_rate([1, float("nan"), 3, float("nan")]) == 0.5\nassert missing_rate([1, 2]) == 0.0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Monitor deployed models for performance degradation and data drift. Detect distribution shifts between training and production data.",
         "examples": [
             {
@@ -1317,6 +1396,32 @@ SECTIONS = [
     },
     {
         "title": "8. A/B Testing for ML Models",
+"practices": [
+{
+"title": 'Conversion Rate',
+"desc": 'Conversions divided by total.',
+"starter": 'def conversion_rate(conv, total):\n    # TODO: conv / total\n    return 0.0\n\nprint(conversion_rate(20, 100))',
+"check": 'assert conversion_rate(20, 100) == 0.2\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Relative Lift (models)',
+"desc": 'Relative improvement of model B over A.',
+"starter": 'def relative_lift(a, b):\n    # TODO: (b - a) / a\n    return 0.0\n\nprint(round(relative_lift(0.2, 0.25), 4))',
+"check": 'assert abs(relative_lift(0.2, 0.25) - 0.25) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Sample Size Reached',
+"desc": 'Has the experiment collected enough samples?',
+"starter": 'def sample_size_reached(n, required):\n    # TODO: True when n is at least required\n    return False\n\nprint(sample_size_reached(1000, 500))',
+"check": 'assert sample_size_reached(1000, 500) is True\nassert sample_size_reached(100, 500) is False\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Pick Winner',
+"desc": 'Choose a, b, or tie using a minimum-lift rule.',
+"starter": 'def pick_winner(rate_a, rate_b, min_lift=0.05):\n    if rate_a == 0:\n        return "b" if rate_b > 0 else "tie"\n    lift = (rate_b - rate_a) / rate_a\n    # TODO: "b" if lift >= min_lift, "a" if lift <= -min_lift, else "tie"\n    return "tie"\n\nprint(pick_winner(0.2, 0.25), pick_winner(0.2, 0.2))',
+"check": 'assert pick_winner(0.2, 0.25) == "b"\nassert pick_winner(0.2, 0.2) == "tie"\nassert pick_winner(0.25, 0.2) == "a"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Safely roll out new models by running controlled experiments. Compare champion vs challenger using statistical tests to decide which to promote.",
         "examples": [
             {
@@ -1832,6 +1937,32 @@ SECTIONS = [
     },
     {
         "title": "11. Model Compression & Optimization",
+"practices": [
+{
+"title": 'Size Reduction',
+"desc": 'Fraction of size saved after compression.',
+"starter": 'def size_reduction(before, after):\n    # TODO: (before - after) / before\n    return 0.0\n\nprint(size_reduction(100, 25))',
+"check": 'assert abs(size_reduction(100, 25) - 0.75) < 1e-9\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Quantize to int8',
+"desc": 'Scale weights into the int8 range.',
+"starter": 'import numpy as np\n\ndef quantize_int8(w):\n    w = np.asarray(w, float)\n    scale = np.abs(w).max() / 127.0\n    # TODO: round(w / scale) cast to np.int8\n    return w\n\nprint(quantize_int8([-1.0, 0.0, 1.0]).tolist())',
+"check": 'assert quantize_int8([-1.0, 0.0, 1.0]).tolist() == [-127, 0, 127]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Dequantize',
+"desc": 'Recover approximate float weights.',
+"starter": 'import numpy as np\n\ndef dequantize(q, scale):\n    # TODO: q * scale as floats\n    return np.asarray(q, float)\n\nprint(dequantize([2], 0.5).tolist())',
+"check": 'assert dequantize([2], 0.5).tolist() == [1.0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Compression Ratio',
+"desc": 'How many times smaller the new precision is.',
+"starter": 'def compression_ratio(orig_bits, new_bits):\n    # TODO: orig_bits / new_bits\n    return 0.0\n\nprint(compression_ratio(32, 8))',
+"check": 'assert compression_ratio(32, 8) == 4.0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Reduce model size and latency through quantization, pruning, knowledge distillation, and ONNX export for production deployment.",
         "examples": [
             {

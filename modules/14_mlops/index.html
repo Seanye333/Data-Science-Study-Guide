@@ -148,7 +148,7 @@ X, y = make_classification(n_samples=500, random_state=42)
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X, y)
 meta = save_model_version(model, &#x27;v1.0&#x27;, {&#x27;train_acc&#x27;: model.score(X, y)})
-print(json.dumps(meta, indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Model Registry</div><div class="pd">Create a ModelRegistry class that tracks saved model versions, can list all versions, load a specific version, and return the best-performing one by accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import joblib, json, pathlib
+print(json.dumps(meta, indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Model Registry</div><div class="pd">Create a ModelRegistry class that tracks saved model versions, can list all versions, load a specific version, and return the best-performing one by accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import joblib, json, pathlib
 
 class ModelRegistry:
     def __init__(self, registry_dir=&#x27;registry&#x27;):
@@ -178,7 +178,38 @@ X, y = load_iris(return_X_y=True)
 reg = ModelRegistry()
 m = LogisticRegression(max_iter=200).fit(X, y)
 reg.save(m, &#x27;v1&#x27;, m.score(X, y))
-print(reg.list_versions())</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a trained model with joblib and reload it to verify predictions match.</label></li>
+print(reg.list_versions())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Deterministic JSON</div><div class="pd">Serialize a dict with sorted keys so artifacts are reproducible.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import json
+
+def to_json_str(d):
+    # TODO: json.dumps with sort_keys=True
+    return &quot;&quot;
+
+print(to_json_str({&quot;b&quot;: 1, &quot;a&quot;: 2}))</code></pre></div><template class="ho-check">assert to_json_str({&quot;b&quot;: 1, &quot;a&quot;: 2}) == &#x27;{&quot;a&quot;: 2, &quot;b&quot;: 1}&#x27;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Load Metadata</div><div class="pd">Parse a JSON metadata string back to a dict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">import json
+
+def from_json_str(s):
+    # TODO: json.loads
+    return {}
+
+print(from_json_str(&#x27;{&quot;a&quot;: 1}&#x27;))</code></pre></div><template class="ho-check">assert from_json_str(&#x27;{&quot;a&quot;: 1}&#x27;) == {&quot;a&quot;: 1}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Model Fingerprint</div><div class="pd">Short stable hash of a model config (for cache keys).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">import json, hashlib
+
+def model_fingerprint(d):
+    # TODO: sha256 of the sorted-key JSON, first 8 hex chars
+    return &quot;&quot;
+
+print(model_fingerprint({&quot;a&quot;: 1}))</code></pre></div><template class="ho-check">f = model_fingerprint({&quot;a&quot;: 1})
+assert len(f) == 8, &quot;8 hex characters&quot;
+assert f == model_fingerprint({&quot;a&quot;: 1}), &quot;stable for the same config&quot;
+assert f != model_fingerprint({&quot;a&quot;: 2}), &quot;changes with the config&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bump Patch Version</div><div class="pd">Increment the patch number of a semver string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">def bump_version(v):
+    a, b, c = (int(x) for x in v.split(&quot;.&quot;))
+    # TODO: return the version with the patch incremented
+    return v
+
+print(bump_version(&quot;1.2.3&quot;))</code></pre></div><template class="ho-check">assert bump_version(&quot;1.2.3&quot;) == &quot;1.2.4&quot;
+assert bump_version(&quot;0.0.9&quot;) == &quot;0.0.10&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a trained model with joblib and reload it to verify predictions match.</label></li>
 <li><label><input type="checkbox"> Create a versioned model registry that stores model files and metadata JSON side-by-side.</label></li>
 <li><label><input type="checkbox"> Compare joblib, pickle, and PyTorch state_dict formats for size and load speed.</label></li>
 <li><label><input type="checkbox"> Add a checksum field to your metadata so you can detect corrupted model files.</label></li></ul></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. FastAPI Model Serving</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Wrap ML models in REST APIs using FastAPI. Serve predictions, handle requests, add input validation with Pydantic, and test endpoints.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI prediction endpoint</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python"># Save this as app.py and run: uvicorn app:app --reload
@@ -314,7 +345,7 @@ def predict_churn(customer: CustomerFeatures):
         &#x27;risk_level&#x27;: &#x27;HIGH&#x27; if churn_prob &gt; 0.7 else &#x27;MEDIUM&#x27; if churn_prob &gt; 0.4 else &#x27;LOW&#x27;
     }
 &#x27;&#x27;&#x27;
-print(CHURN_API)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment API</div><div class="pd">Write a complete FastAPI app that accepts a text string and returns its VADER sentiment label and compound score. Include a /health endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python"># Save as sentiment_api.py
+print(CHURN_API)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sentiment API</div><div class="pd">Write a complete FastAPI app that accepts a text string and returns its VADER sentiment label and compound score. Include a /health endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python"># Save as sentiment_api.py
 # Run: uvicorn sentiment_api:app --reload
 
 SENTIMENT_API = &#x27;&#x27;&#x27;
@@ -333,7 +364,34 @@ class TextRequest(BaseModel):
 # TODO: POST /analyze -&gt; return label + compound score
 # TODO: GET /health -&gt; return {&#x27;status&#x27;: &#x27;ok&#x27;}
 &#x27;&#x27;&#x27;
-print(SENTIMENT_API)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a POST /predict endpoint that accepts JSON and returns a prediction.</label></li>
+print(SENTIMENT_API)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: P95 Latency</div><div class="pd">95th-percentile latency of a request batch.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import numpy as np
+
+def p95(lat):
+    # TODO: 95th percentile of the latencies
+    return 0.0
+
+print(round(p95([1, 2, 3, 4, 100]), 3))</code></pre></div><template class="ho-check">assert p95([1, 2, 3, 4, 100]) &gt; 4, &quot;the tail dominates p95&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Throughput</div><div class="pd">Requests per second.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">def throughput(n_requests, seconds):
+    # TODO: requests divided by seconds
+    return 0.0
+
+print(throughput(100, 2))</code></pre></div><template class="ho-check">assert throughput(100, 2) == 50.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Error Rate</div><div class="pd">Fraction of responses that are 5xx.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import numpy as np
+
+def error_rate(statuses):
+    s = np.asarray(statuses)
+    # TODO: fraction of statuses that are 500 or above
+    return 0.0
+
+print(error_rate([200, 200, 500, 503]))</code></pre></div><template class="ho-check">assert error_rate([200, 200, 500, 503]) == 0.5
+assert error_rate([200, 200]) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch Count</div><div class="pd">How many batches to serve n requests.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">def batch_count(n, batch):
+    # TODO: ceiling division of n by batch
+    return 0
+
+print(batch_count(10, 3))</code></pre></div><template class="ho-check">assert batch_count(10, 3) == 4
+assert batch_count(9, 3) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a POST /predict endpoint that accepts JSON and returns a prediction.</label></li>
 <li><label><input type="checkbox"> Add Pydantic field validators to reject out-of-range input values.</label></li>
 <li><label><input type="checkbox"> Test your endpoint using the requests library or curl with sample payloads.</label></li>
 <li><label><input type="checkbox"> Add a try/except block that returns a 422 error with a descriptive message on bad input.</label></li></ul></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Experiment Tracking with MLflow</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Track experiments, log parameters and metrics, compare runs, and register models for deployment using MLflow.</p><div class="code-block"><div class="ch"><span>Log a training run with MLflow</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">try:
@@ -466,7 +524,7 @@ except ImportError:
 
     print(f&#x27;Best AUC: {best_auc:.4f} | Run: {best_run_id}&#x27;)
 except ImportError:
-    print(&#x27;pip install mlflow scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hyperparameter Sweep Logger</div><div class="pd">Run a grid search over n_estimators=[10,50,100] and max_depth=[3,5] for a RandomForest on the iris dataset, log each run to MLflow, then print the best run_id and accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">try:
+    print(&#x27;pip install mlflow scikit-learn&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hyperparameter Sweep Logger</div><div class="pd">Run a grid search over n_estimators=[10,50,100] and max_depth=[3,5] for a RandomForest on the iris dataset, log each run to MLflow, then print the best run_id and accuracy.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">try:
     import mlflow
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.datasets import load_iris
@@ -634,7 +692,7 @@ proj = pathlib.Path(&#x27;ml_docker_project&#x27;)
 proj.mkdir(exist_ok=True)
 for fname, content in files.items():
     (proj / fname).write_text(content.strip())
-    print(f&#x27;Created: {proj / fname}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dockerfile Generator</div><div class="pd">Write a Python function that generates a Dockerfile string given a list of pip packages, a Python version, and an entrypoint command.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">def generate_dockerfile(packages: list, python_version: str = &#x27;3.11&#x27;, entrypoint: str = &#x27;python app.py&#x27;) -&gt; str:
+    print(f&#x27;Created: {proj / fname}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dockerfile Generator</div><div class="pd">Write a Python function that generates a Dockerfile string given a list of pip packages, a Python version, and an entrypoint command.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">def generate_dockerfile(packages: list, python_version: str = &#x27;3.11&#x27;, entrypoint: str = &#x27;python app.py&#x27;) -&gt; str:
     # TODO: generate FROM, WORKDIR, COPY requirements.txt, RUN pip install, COPY ., CMD
     pass
 
@@ -771,7 +829,7 @@ current   = {&#x27;credit_score&#x27;: np.random.normal(630, 90, 300),   # drift
 monitor = MLMonitor(reference)
 for report in monitor.check_drift(current):
     status = &#x27;DRIFT&#x27; if report.drifted else &#x27;OK&#x27;
-    print(f&#x27;{report.feature}: KS={report.ks_stat}, p={report.p_value} -&gt; {status}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drift Dashboard</div><div class="pd">Compute PSI for 3 features between training and production data, print a table with PSI values and stability labels (stable/warning/critical).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import numpy as np
+    print(f&#x27;{report.feature}: KS={report.ks_stat}, p={report.p_value} -&gt; {status}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drift Dashboard</div><div class="pd">Compute PSI for 3 features between training and production data, print a table with PSI values and stability labels (stable/warning/critical).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import numpy as np
 
 def psi(expected, actual, bins=10):
     breakpoints = np.unique(np.percentile(expected, np.linspace(0, 100, bins + 1)))
@@ -790,7 +848,45 @@ prod  = {&#x27;age&#x27;: np.random.normal(45, 12, 500),   # drifted
          &#x27;score&#x27;: np.random.beta(5, 2, 500)}      # drifted
 
 # TODO: compute PSI for each feature
-# TODO: print table: feature | PSI | stability label</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Calculate PSI and KS-test drift scores for at least three simulated features.</label></li>
+# TODO: print table: feature | PSI | stability label</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: PSI (drift)</div><div class="pd">Population Stability Index between two samples.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import numpy as np
+
+def psi(expected, actual, bins=10):
+    e = np.asarray(expected, float); a = np.asarray(actual, float)
+    edges = np.linspace(min(e.min(), a.min()), max(e.max(), a.max()), bins + 1)
+    ep = np.histogram(e, edges)[0] / len(e) + 1e-6
+    ap = np.histogram(a, edges)[0] / len(a) + 1e-6
+    # TODO: sum((ap - ep) * log(ap / ep))
+    return 0.0
+
+rng = np.random.default_rng(0)
+print(round(psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000)), 4))</code></pre></div><template class="ho-check">import numpy as np
+rng = np.random.default_rng(0)
+same = psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000))
+drift = psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000))
+assert same &lt; 0.1 and drift &gt; 0.2 and drift &gt; same
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean Shift</div><div class="pd">How far the current mean moved from the reference.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">import numpy as np
+
+def mean_shift(ref, cur):
+    # TODO: mean(cur) - mean(ref)
+    return 0.0
+
+print(mean_shift([1, 2, 3], [2, 3, 4]))</code></pre></div><template class="ho-check">assert abs(mean_shift([1, 2, 3], [2, 3, 4]) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drift Alarm</div><div class="pd">Flag drift when PSI passes the threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">def drift_flag(psi_value, thresh=0.25):
+    # TODO: True when psi_value exceeds thresh
+    return False
+
+print(drift_flag(0.4), drift_flag(0.1))</code></pre></div><template class="ho-check">assert drift_flag(0.4) is True
+assert drift_flag(0.1) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Missing Rate</div><div class="pd">Fraction of NaN values in a feature.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">import numpy as np
+
+def missing_rate(vals):
+    a = np.asarray(vals, dtype=float)
+    # TODO: fraction of entries that are NaN (np.isnan)
+    return 0.0
+
+print(missing_rate([1, float(&quot;nan&quot;), 3, float(&quot;nan&quot;)]))</code></pre></div><template class="ho-check">assert missing_rate([1, float(&quot;nan&quot;), 3, float(&quot;nan&quot;)]) == 0.5
+assert missing_rate([1, 2]) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Calculate PSI and KS-test drift scores for at least three simulated features.</label></li>
 <li><label><input type="checkbox"> Set up threshold-based alerting that prints a warning when PSI exceeds 0.25.</label></li>
 <li><label><input type="checkbox"> Track weekly prediction score distributions and plot the drift over time.</label></li>
 <li><label><input type="checkbox"> Build a simple drift dashboard that shows a pass/fail table for each feature.</label></li></ul></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. CI/CD for ML Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Automate model training, testing, and deployment with CI/CD. Learn to write GitHub Actions workflows and automated model validation.</p><div class="code-block"><div class="ch"><span>Automated model validation script</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">from sklearn.ensemble import RandomForestClassifier
@@ -941,7 +1037,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = train(X_train, y_train)
 validated_model = gate_check(model, X_test, y_test)
 joblib.dump(validated_model, &#x27;validated_model.joblib&#x27;)
-print(&#x27;Model saved — ready for deployment.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quality Gate Script</div><div class="pd">Write a validate.py script that loads a saved model, evaluates it against a test set, and exits with code 1 if accuracy &lt; 0.92 or precision &lt; 0.90.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import joblib, sys
+print(&#x27;Model saved — ready for deployment.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quality Gate Script</div><div class="pd">Write a validate.py script that loads a saved model, evaluates it against a test set, and exits with code 1 if accuracy &lt; 0.92 or precision &lt; 0.90.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import joblib, sys
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score
@@ -1104,7 +1200,7 @@ full_pipe.fit(X_train, y_train)
 
 print(f&#x27;Test accuracy: {full_pipe.score(X_test, y_test):.4f}&#x27;)
 joblib.dump(full_pipe, &#x27;insurance_pipeline.joblib&#x27;)
-print(&#x27;Pipeline saved.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reusable Preprocessing Pipeline</div><div class="pd">Build a ColumnTransformer pipeline for a dataset with numeric columns (impute median + scale) and categorical columns (impute mode + one-hot encode), then save and reload it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import pandas as pd, numpy as np, joblib
+print(&#x27;Pipeline saved.&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reusable Preprocessing Pipeline</div><div class="pd">Build a ColumnTransformer pipeline for a dataset with numeric columns (impute median + scale) and categorical columns (impute mode + one-hot encode), then save and reload it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import pandas as pd, numpy as np, joblib
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -1254,7 +1350,7 @@ for _ in range(10000):
     exp.log(reward)
 
 import json
-print(json.dumps(exp.report(), indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Analyzer</div><div class="pd">Given two lists of binary outcomes (0=failure, 1=success) for model A and model B, compute conversion rates, run a chi-squared test, and print whether to promote model B.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import numpy as np
+print(json.dumps(exp.report(), indent=2))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: A/B Test Analyzer</div><div class="pd">Given two lists of binary outcomes (0=failure, 1=success) for model A and model B, compute conversion rates, run a chi-squared test, and print whether to promote model B.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -1267,7 +1363,33 @@ def analyze_ab_test(a_outcomes, b_outcomes, alpha=0.05):
     # TODO: print results and promote/keep decision
     pass
 
-analyze_ab_test(model_a, model_b)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a traffic split that routes 10% of requests to a challenger model.</label></li>
+analyze_ab_test(model_a, model_b)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conversion Rate</div><div class="pd">Conversions divided by total.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">def conversion_rate(conv, total):
+    # TODO: conv / total
+    return 0.0
+
+print(conversion_rate(20, 100))</code></pre></div><template class="ho-check">assert conversion_rate(20, 100) == 0.2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Relative Lift (models)</div><div class="pd">Relative improvement of model B over A.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_2')">Copy</button></div><pre><code id="p7_2" class="language-python">def relative_lift(a, b):
+    # TODO: (b - a) / a
+    return 0.0
+
+print(round(relative_lift(0.2, 0.25), 4))</code></pre></div><template class="ho-check">assert abs(relative_lift(0.2, 0.25) - 0.25) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sample Size Reached</div><div class="pd">Has the experiment collected enough samples?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_3')">Copy</button></div><pre><code id="p7_3" class="language-python">def sample_size_reached(n, required):
+    # TODO: True when n is at least required
+    return False
+
+print(sample_size_reached(1000, 500))</code></pre></div><template class="ho-check">assert sample_size_reached(1000, 500) is True
+assert sample_size_reached(100, 500) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pick Winner</div><div class="pd">Choose a, b, or tie using a minimum-lift rule.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_4')">Copy</button></div><pre><code id="p7_4" class="language-python">def pick_winner(rate_a, rate_b, min_lift=0.05):
+    if rate_a == 0:
+        return &quot;b&quot; if rate_b &gt; 0 else &quot;tie&quot;
+    lift = (rate_b - rate_a) / rate_a
+    # TODO: &quot;b&quot; if lift &gt;= min_lift, &quot;a&quot; if lift &lt;= -min_lift, else &quot;tie&quot;
+    return &quot;tie&quot;
+
+print(pick_winner(0.2, 0.25), pick_winner(0.2, 0.2))</code></pre></div><template class="ho-check">assert pick_winner(0.2, 0.25) == &quot;b&quot;
+assert pick_winner(0.2, 0.2) == &quot;tie&quot;
+assert pick_winner(0.25, 0.2) == &quot;a&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a traffic split that routes 10% of requests to a challenger model.</label></li>
 <li><label><input type="checkbox"> Track conversion rates for both model variants and store them per time window.</label></li>
 <li><label><input type="checkbox"> Run a chi-squared or t-test to determine if the difference is statistically significant.</label></li>
 <li><label><input type="checkbox"> Implement a rollback mechanism that switches all traffic back to the champion model.</label></li></ul></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Model Explainability</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Make black-box models interpretable. Use SHAP values, permutation importance, and LIME to explain individual predictions and global feature importance.</p><div class="code-block"><div class="ch"><span>Permutation feature importance</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import numpy as np
@@ -1397,7 +1519,7 @@ print(f&#x27;Feature 1: {data.feature_names[1]}&#x27;)</code></pre></div><div cl
             print(f&#x27;  {feat} {direction} approval chance by {abs(val):.4f}&#x27;)
         print()
 except ImportError:
-    print(&#x27;pip install shap&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Importance Report</div><div class="pd">Train a GradientBoostingClassifier on the iris dataset, compute permutation importance, and print a ranked table of features with their mean importance ± std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+    print(&#x27;pip install shap&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Feature Importance Report</div><div class="pd">Train a GradientBoostingClassifier on the iris dataset, compute permutation importance, and print a ranked table of features with their mean importance ± std.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -1561,7 +1683,7 @@ def scaffold_ml_project(name: str):
         indent = &#x27;  &#x27; * (len(p.relative_to(root).parts) - 1)
         print(f&#x27;{indent}{p.name}{&quot;&quot; if p.is_file() else &quot;/&quot;}&#x27;)
 
-scaffold_ml_project(&#x27;my_ml_project&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Project Scaffolder</div><div class="pd">Extend the scaffold_ml_project function to also generate a Dockerfile, a Makefile with install/train/test/serve targets, and a src/evaluate.py stub.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import pathlib
+scaffold_ml_project(&#x27;my_ml_project&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Project Scaffolder</div><div class="pd">Extend the scaffold_ml_project function to also generate a Dockerfile, a Makefile with install/train/test/serve targets, and a src/evaluate.py stub.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import pathlib
 
 def scaffold_ml_project(name: str):
     root = pathlib.Path(name)
@@ -1721,7 +1843,7 @@ t_student = (time.perf_counter() - t0) * 1000
 
 print(f&#x27;Teacher AUC: {roc_auc_score(y_te, teacher_proba):.4f} | Time: {t_teacher:.1f}ms&#x27;)
 print(f&#x27;Student AUC: {roc_auc_score(y_te, student_proba):.4f} | Time: {t_student:.1f}ms&#x27;)
-print(f&#x27;Speed-up: {t_teacher/max(t_student,0.001):.1f}x&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Quantization Trade-offs</div><div class="pd">Implement int4 quantization (4-bit) and int8 quantization for a random 256x256 weight matrix. For each, compute: compression ratio, mean absolute reconstruction error, and max error. Plot a bar chart comparing compression ratios. Discuss which is better for accuracy-sensitive vs memory-sensitive deployments.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import numpy as np
+print(f&#x27;Speed-up: {t_teacher/max(t_student,0.001):.1f}x&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benchmark Quantization Trade-offs</div><div class="pd">Implement int4 quantization (4-bit) and int8 quantization for a random 256x256 weight matrix. For each, compute: compression ratio, mean absolute reconstruction error, and max error. Plot a bar chart comparing compression ratios. Discuss which is better for accuracy-sensitive vs memory-sensitive deployments.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import numpy as np
 
 np.random.seed(42)
 W = np.random.randn(256, 256).astype(np.float32)
@@ -1736,7 +1858,33 @@ for bits in [4, 8, 16]:
     recovered, compression = quantize(W, bits)
     # TODO: print bits, compression ratio, MAE, max error
     pass
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Quantize a float32 weight matrix to int8 and measure the mean absolute reconstruction error.</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Size Reduction</div><div class="pd">Fraction of size saved after compression.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def size_reduction(before, after):
+    # TODO: (before - after) / before
+    return 0.0
+
+print(size_reduction(100, 25))</code></pre></div><template class="ho-check">assert abs(size_reduction(100, 25) - 0.75) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quantize to int8</div><div class="pd">Scale weights into the int8 range.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_2')">Copy</button></div><pre><code id="p10_2" class="language-python">import numpy as np
+
+def quantize_int8(w):
+    w = np.asarray(w, float)
+    scale = np.abs(w).max() / 127.0
+    # TODO: round(w / scale) cast to np.int8
+    return w
+
+print(quantize_int8([-1.0, 0.0, 1.0]).tolist())</code></pre></div><template class="ho-check">assert quantize_int8([-1.0, 0.0, 1.0]).tolist() == [-127, 0, 127]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dequantize</div><div class="pd">Recover approximate float weights.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_3')">Copy</button></div><pre><code id="p10_3" class="language-python">import numpy as np
+
+def dequantize(q, scale):
+    # TODO: q * scale as floats
+    return np.asarray(q, float)
+
+print(dequantize([2], 0.5).tolist())</code></pre></div><template class="ho-check">assert dequantize([2], 0.5).tolist() == [1.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compression Ratio</div><div class="pd">How many times smaller the new precision is.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_4')">Copy</button></div><pre><code id="p10_4" class="language-python">def compression_ratio(orig_bits, new_bits):
+    # TODO: orig_bits / new_bits
+    return 0.0
+
+print(compression_ratio(32, 8))</code></pre></div><template class="ho-check">assert compression_ratio(32, 8) == 4.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Quantize a float32 weight matrix to int8 and measure the mean absolute reconstruction error.</label></li>
 <li><label><input type="checkbox"> Benchmark inference speed before and after quantization on a 256x256 matrix.</label></li>
 <li><label><input type="checkbox"> Compare model accuracy vs compressed size at 4-bit, 8-bit, and 16-bit quantization.</label></li>
 <li><label><input type="checkbox"> Implement knowledge distillation: train a small student model on the teacher&#x27;s soft labels.</label></li></ul></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Feature Stores &amp; Data Pipelines</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Design and implement feature stores, data versioning, and reproducible pipelines for consistent feature serving between training and inference.</p><div class="code-block"><div class="ch"><span>In-memory feature store implementation</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import pandas as pd
@@ -1916,7 +2064,7 @@ for feat, vals in [(&#x27;age&#x27;, pd.Series(np.random.normal(35,10,1000))),
 prod_age    = pd.Series(np.random.normal(35, 10, 200))
 prod_income = pd.Series(np.random.lognormal(10.8, 0.5, 200))  # drifted
 print(&#x27;age validation:   &#x27;, reg.validate(&#x27;age&#x27;, prod_age))
-print(&#x27;income validation:&#x27;, reg.validate(&#x27;income&#x27;, prod_income))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Pipeline with Drift Monitoring</div><div class="pd">Create a FeatureStore class that: (1) stores training feature distributions (mean, std, min, max), (2) at serve time detects distribution drift using Z-score on mean (threshold: |z| &gt; 2), (3) logs a warning for drifted features. Test with 3 features where one has significant drift.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import numpy as np
+print(&#x27;income validation:&#x27;, reg.validate(&#x27;income&#x27;, prod_income))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Feature Pipeline with Drift Monitoring</div><div class="pd">Create a FeatureStore class that: (1) stores training feature distributions (mean, std, min, max), (2) at serve time detects distribution drift using Z-score on mean (threshold: |z| &gt; 2), (3) logs a warning for drifted features. Test with 3 features where one has significant drift.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import numpy as np
 import pandas as pd
 
 class MonitoredFeatureStore:
@@ -2094,7 +2242,7 @@ for trial in range(30):
         best_score, best_config = score, cfg
 
 print(f&#x27;Best AUC: {best_score:.4f}&#x27;)
-print(f&#x27;Best config: {best_config}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: AutoML Model Selection with Optuna</div><div class="pd">Using make_classification (1000 samples, 15 features), implement a 20-trial Optuna study that searches over: (1) model type (RF or GBM), (2) n_estimators (50-200), (3) max_depth (2-8), (4) learning_rate for GBM (0.01-0.3 log scale). Maximize 3-fold CV ROC-AUC. Report best trial and params.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import numpy as np
+print(f&#x27;Best config: {best_config}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: AutoML Model Selection with Optuna</div><div class="pd">Using make_classification (1000 samples, 15 features), implement a 20-trial Optuna study that searches over: (1) model type (RF or GBM), (2) n_estimators (50-200), (3) max_depth (2-8), (4) learning_rate for GBM (0.01-0.3 log scale). Maximize 3-fold CV ROC-AUC. Report best trial and params.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
@@ -2199,7 +2347,7 @@ for week, drift in enumerate(weeks_drift, 1):
     max_psi_feat = max(results, key=results.get)
     max_psi = results[max_psi_feat]
     status = &quot;ALERT&quot; if max_psi &gt; 0.25 else (&quot;WARN&quot; if max_psi &gt; 0.10 else &quot;OK&quot;)
-    print(f&quot;Week {week}: {max_psi_feat:&lt;12} PSI={max_psi:.3f}  [{status}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Feature Drift Dashboard</div><div class="pd">For a churn prediction model with 6 features (age, tenure, monthly_spend, num_products, is_active, region_encoded), simulate 8 weekly production batches where drift gradually increases in tenure and monthly_spend starting at week 4. Compute PSI and KS-test for each feature each week. Build a summary table and flag weeks where total PSI &gt; 0.5.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import numpy as np
+    print(f&quot;Week {week}: {max_psi_feat:&lt;12} PSI={max_psi:.3f}  [{status}]&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Feature Drift Dashboard</div><div class="pd">For a churn prediction model with 6 features (age, tenure, monthly_spend, num_products, is_active, region_encoded), simulate 8 weekly production batches where drift gradually increases in tenure and monthly_spend starting at week 4. Compute PSI and KS-test for each feature each week. Build a summary table and flag weeks where total PSI &gt; 0.5.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import numpy as np
 from scipy import stats
 def psi(ref, curr, n_bins=10):
     bins = np.percentile(ref, np.linspace(0, 100, n_bins+1))
@@ -2346,7 +2494,7 @@ print(&quot;Feature vectors for serving:&quot;)
 for uid in [1, 2]:
     for iid in [1, 2, 3]:
         fv = fs.get_feature_vector(uid, iid)
-        print(f&quot;  user={uid}, item={iid}: {fv}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ETL Pipeline with Schema Validation</div><div class="pd">Build a data pipeline that: (1) generates synthetic raw customer data with intentional quality issues (nulls, wrong types, out-of-range values), (2) validates schema using pandas dtype checks and range assertions, (3) cleans and transforms, (4) logs each step with row counts, (5) outputs a data quality report with pass/fail for each check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import pandas as pd
+        print(f&quot;  user={uid}, item={iid}: {fv}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ETL Pipeline with Schema Validation</div><div class="pd">Build a data pipeline that: (1) generates synthetic raw customer data with intentional quality issues (nulls, wrong types, out-of-range values), (2) validates schema using pandas dtype checks and range assertions, (3) cleans and transforms, (4) logs each step with row counts, (5) outputs a data quality report with pass/fail for each check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import pandas as pd
 import numpy as np
 np.random.seed(33)
 # Generate raw data with issues
@@ -2470,7 +2618,7 @@ for i in range(3000):
     if i % 500 == 499:
         p = exp.check_significance()
         print(f&quot;t={i+1}: control=${np.mean(exp.control_revenues):.2f}, &quot;
-              f&quot;canary=${np.mean(exp.canary_revenues):.2f}, p={p:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Online Experiment Platform</div><div class="pd">Build a complete A/B testing framework that: (1) assigns users to control/treatment with hash-based deterministic routing, (2) collects metrics (conversion, revenue) per variant, (3) computes p-values and confidence intervals daily, (4) auto-declares a winner when p&lt;0.05 and min_sample=500/arm, (5) logs results to a DataFrame. Simulate 10,000 user sessions over 14 days.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import numpy as np
+              f&quot;canary=${np.mean(exp.canary_revenues):.2f}, p={p:.4f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Online Experiment Platform</div><div class="pd">Build a complete A/B testing framework that: (1) assigns users to control/treatment with hash-based deterministic routing, (2) collects metrics (conversion, revenue) per variant, (3) computes p-values and confidence intervals daily, (4) auto-declares a winner when p&lt;0.05 and min_sample=500/arm, (5) logs results to a DataFrame. Simulate 10,000 user sessions over 14 days.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import numpy as np
 import pandas as pd
 from scipy import stats
 np.random.seed(55)
@@ -2569,7 +2717,7 @@ for C in [0.1, 1.0, 10.0]:
 
 best = mlflow.search_runs(order_by=[&quot;metrics.cv_mean DESC&quot;]).iloc[0]
 print(f&quot;Best run: {best[&#x27;run_id&#x27;]}, CV={best[&#x27;metrics.cv_mean&#x27;]:.4f}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log experiment parameters and metrics</div><div class="pd">Use mlflow.start_run() to log params, metrics, and models for multiple hyperparameter combinations.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import mlflow
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Log experiment parameters and metrics</div><div class="pd">Use mlflow.start_run() to log params, metrics, and models for multiple hyperparameter combinations.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import mlflow
 mlflow.set_experiment(&quot;practice&quot;)
 with mlflow.start_run():
     mlflow.log_param(&quot;learning_rate&quot;, 0.01)
@@ -2699,7 +2847,7 @@ pipeline_state = {
     &quot;accuracy&quot;: round(acc, 4)
 }
 print(json.dumps(pipeline_state, indent=2))
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create reproducible data pipeline</div><div class="pd">Track dataset hash, preprocessing steps, and metrics together to ensure pipeline reproducibility.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import hashlib, pandas as pd, numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create reproducible data pipeline</div><div class="pd">Track dataset hash, preprocessing steps, and metrics together to ensure pipeline reproducibility.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import hashlib, pandas as pd, numpy as np
 df = pd.DataFrame({&quot;x&quot;: np.random.randn(100), &quot;y&quot;: np.random.randint(0,2,100)})
 h = hashlib.md5(pd.util.hash_pandas_object(df).values).hexdigest()
 print(f&quot;Dataset hash: {h}, rows: {len(df)}&quot;)
@@ -2801,7 +2949,7 @@ client = MlflowClient()
 versions = client.search_model_versions(f&quot;name=&#x27;{model_name}&#x27;&quot;)
 for v in versions:
     print(f&quot;Version {v.version}: {v.current_stage}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Register and stage a model version</div><div class="pd">Log a model with mlflow.sklearn.log_model using registered_model_name, then use MlflowClient to transition its stage.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import mlflow, mlflow.sklearn
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Register and stage a model version</div><div class="pd">Log a model with mlflow.sklearn.log_model using registered_model_name, then use MlflowClient to transition its stage.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import mlflow, mlflow.sklearn
 from sklearn.dummy import DummyClassifier
 from sklearn.datasets import load_iris
 X, y = load_iris(return_X_y=True)
@@ -2919,7 +3067,7 @@ def health_check(model_pkl_path):
     return {&quot;status&quot;: &quot;healthy&quot;, &quot;test_prediction&quot;: int(pred[0])}
 
 print(&quot;Health check:&quot;, health_check(model_path))
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create a deployment manifest for a model</div><div class="pd">Save a trained model and generate a JSON manifest with model metadata and deployment configuration.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import pickle, json
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create a deployment manifest for a model</div><div class="pd">Save a trained model and generate a JSON manifest with model metadata and deployment configuration.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import pickle, json
 from sklearn.dummy import DummyClassifier
 from sklearn.datasets import load_iris
 X, y = load_iris(return_X_y=True)
@@ -3052,7 +3200,7 @@ total_ms = (time.time() - start) * 1000
 print(f&quot;Batch of {len(batch)}: {total_ms:.2f}ms total&quot;)
 for i, r in enumerate(batch_results):
     print(f&quot;  [{i}] pred={r[&#x27;prediction&#x27;]}, prob_max={max(r[&#x27;probability&#x27;]):.4f}&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a prediction function that validates input</div><div class="pd">Create a function that checks input length, runs prediction, and returns prediction + probabilities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a prediction function that validates input</div><div class="pd">Create a function that checks input length, runs prediction, and returns prediction + probabilities.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import numpy as np
 from sklearn.dummy import DummyClassifier
 from sklearn.datasets import load_iris
 X, y = load_iris(return_X_y=True)
@@ -3179,7 +3327,7 @@ for month in range(1, months + 1):
     results.append({&quot;month&quot;: month, &quot;f1&quot;: round(f1, 4), &quot;drifted_features&quot;: drift_counts})
     alert = &quot;ALERT&quot; if f1 &lt; baseline_f1 * 0.9 or drift_counts &gt;= 2 else &quot;OK&quot;
     print(f&quot;Month {month}: F1={f1:.4f}, drift_features={drift_counts} [{alert}]&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement KS drift detection</div><div class="pd">Compare training and production data distributions using KS test and flag features with p-value &lt; 0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement KS drift detection</div><div class="pd">Compare training and production data distributions using KS test and flag features with p-value &lt; 0.05.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import numpy as np
 from scipy import stats
 ref = np.random.normal(0, 1, 1000)
 prod = np.random.normal(0.5, 1, 1000)  # drifted
@@ -3289,7 +3437,7 @@ for model, name in [
 ]:
     result = ci_pipeline(model, name)
     print(json.dumps(result, indent=2))
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement a model quality gate</div><div class="pd">Write a function that evaluates a model against metric thresholds and returns pass/fail.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">from sklearn.dummy import DummyClassifier
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement a model quality gate</div><div class="pd">Write a function that evaluates a model against metric thresholds and returns pass/fail.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">from sklearn.dummy import DummyClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 X, y = load_iris(return_X_y=True)
@@ -3476,7 +3624,7 @@ customer = np.array([[24, 95.0, 2500.0, 3, 45.0]])
 pred = pipeline.predict(customer)
 prob = pipeline.predict_proba(customer)
 print(f&quot;Customer churn prediction: {&#x27;CHURN&#x27; if pred[0] else &#x27;RETAIN&#x27;} (prob={prob[0][1]:.4f})&quot;)
-</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a feature engineering pipeline</div><div class="pd">Use sklearn Pipeline with FunctionTransformer for feature engineering to prevent training-serving skew.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a feature engineering pipeline</div><div class="pd">Use sklearn Pipeline with FunctionTransformer for feature engineering to prevent training-serving skew.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, StandardScaler
 from sklearn.dummy import DummyClassifier
@@ -3518,7 +3666,7 @@ def predict(f: Features):
     pred = model.predict([f.values])[0]
     return {&quot;prediction&quot;: int(pred)}
 
-# Run with:  uvicorn serve:app --host 0.0.0.0 --port 8000</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Prediction Service</div><div class="pd">Complete a minimal prediction service: load the model once at startup, validate inputs, and return a prediction. Run it locally with uvicorn and test with curl or httpie.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import joblib
+# Run with:  uvicorn serve:app --host 0.0.0.0 --port 8000</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Prediction Service</div><div class="pd">Complete a minimal prediction service: load the model once at startup, validate inputs, and return a prediction. Run it locally with uvicorn and test with curl or httpie.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -3547,7 +3695,7 @@ def psi(expected, actual, bins=10):
 
 rng = np.random.default_rng(0)
 print(&quot;no drift:&quot;, round(psi(rng.normal(0, 1, 1000), rng.normal(0, 1, 1000)), 3))
-print(&quot;drifted: &quot;, round(psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000)), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Stability Index</div><div class="pd">Implement psi(expected, actual, bins=10) returning the PSI between two samples. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">import numpy as np
+print(&quot;drifted: &quot;, round(psi(rng.normal(0, 1, 1000), rng.normal(1, 1, 1000)), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Stability Index</div><div class="pd">Implement psi(expected, actual, bins=10) returning the PSI between two samples. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">import numpy as np
 
 def psi(expected, actual, bins=10):
     e = np.asarray(expected, float); a = np.asarray(actual, float)
@@ -3574,7 +3722,7 @@ def save_model(model, path, version, metrics):
     joblib.dump(bundle, path)
     return path
 
-# save_model(clf, &quot;model_v2.joblib&quot;, &quot;2.0.0&quot;, {&quot;accuracy&quot;: 0.93})</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Versioned Save/Load</div><div class="pd">Write save_model(model, path, version, metrics) and load_model(path) that round-trip a model plus its version and metrics. Run locally and confirm the loaded version matches.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import joblib, time
+# save_model(clf, &quot;model_v2.joblib&quot;, &quot;2.0.0&quot;, {&quot;accuracy&quot;: 0.93})</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Versioned Save/Load</div><div class="pd">Write save_model(model, path, version, metrics) and load_model(path) that round-trip a model plus its version and metrics. Run locally and confirm the loaded version matches.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import joblib, time
 
 def save_model(model, path, version, metrics):
     # TODO: dump a dict with the model, version, metrics, and a timestamp
@@ -3589,7 +3737,7 @@ def load_model(path):
         return 0.0
     return 2 * precision * recall / (precision + recall)
 
-print(&quot;f1(0.6, 0.9):&quot;, round(f1(0.6, 0.9), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: F1 from Precision/Recall</div><div class="pd">Implement f1(precision, recall): return the F1 score (0 when both are 0). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">def f1(precision, recall):
+print(&quot;f1(0.6, 0.9):&quot;, round(f1(0.6, 0.9), 3))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: F1 from Precision/Recall</div><div class="pd">Implement f1(precision, recall): return the F1 score (0 when both are 0). Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">def f1(precision, recall):
     # TODO: harmonic mean 2PR/(P+R); return 0.0 if P+R == 0
     return 0.0
 
@@ -3598,7 +3746,7 @@ assert f1(0.0, 0.0) == 0.0, &quot;guard the zero case&quot;
 assert abs(f1(1.0, 0.5) - 2/3) &lt; 1e-9, &quot;harmonic mean is below the arithmetic mean&quot;
 print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> F1 = 2*P*R / (P+R)</label></li>
 <li><label><input type="checkbox"> Guard the P+R == 0 case to avoid dividing by zero</label></li></ul></div></div></div><div class="topic" id="s28"><div class="th" onclick="tog(this)"><span>Challenge: Accuracy from Confusion Matrix</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Monitoring jobs often track raw counts (tp, tn, fp, fn); accuracy is (tp+tn)/total. Press Run, then solve and press Check.</p><div class="code-block"><div class="ch"><span>Counts to accuracy</span><button onclick="cp('c28_0')">Copy</button></div><pre><code id="c28_0" class="language-python">tp, tn, fp, fn = 50, 30, 10, 10
-print(&quot;accuracy:&quot;, (tp + tn) / (tp + tn + fp + fn))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy from Counts</div><div class="pd">Implement accuracy_from_confusion(tp, tn, fp, fn): return accuracy, or 0.0 when there are no samples. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">def accuracy_from_confusion(tp, tn, fp, fn):
+print(&quot;accuracy:&quot;, (tp + tn) / (tp + tn + fp + fn))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accuracy from Counts</div><div class="pd">Implement accuracy_from_confusion(tp, tn, fp, fn): return accuracy, or 0.0 when there are no samples. Fill in the function, press Run, then press Check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">def accuracy_from_confusion(tp, tn, fp, fn):
     total = tp + tn + fp + fn
     # TODO: return (tp + tn) / total, or 0.0 if total == 0
     return 0.0
