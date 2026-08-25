@@ -470,7 +470,94 @@ print(f"\nTotal revenue managed: ${sarahs['revenue'].sum():,}")
 print(f"Contracts expiring soon: {sarahs['renew_soon'].sum()}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Select Columns</div>
+        <div class="pd">Return only the named columns of a DataFrame.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def select_cols(df, cols):
+    # TODO: return df[cols]
+    return df
+
+print(select_cols(df, [&quot;a&quot;, &quot;c&quot;]))</code></pre></div>
+        <template class="ho-check">assert list(select_cols(df, [&quot;a&quot;, &quot;c&quot;]).columns) == [&quot;a&quot;, &quot;c&quot;]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Row By Position</div>
+        <div class="pd">Return a row by integer position with iloc.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def row_by_pos(df, i):
+    # TODO: positional lookup with .iloc
+    return None
+
+print(row_by_pos(df, 1))</code></pre></div>
+        <template class="ho-check">assert row_by_pos(df, 1)[&quot;b&quot;] == &quot;x&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Cell By Label</div>
+        <div class="pd">Return a single cell with .loc.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def cell_by_label(df, row, col):
+    # TODO: label lookup with .loc[row, col]
+    return None
+
+print(cell_by_label(df, 2, &quot;b&quot;))</code></pre></div>
+        <template class="ho-check">assert cell_by_label(df, 2, &quot;b&quot;) == &quot;y&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Slice Rows</div>
+        <div class="pd">Return rows [start, end) by position.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def slice_rows(df, start, end):
+    # TODO: df.iloc[start:end]
+    return df
+
+print(slice_rows(df, 1, 3))</code></pre></div>
+        <template class="ho-check">assert len(slice_rows(df, 1, 3)) == 2
+assert slice_rows(df, 1, 3).iloc[0][&quot;b&quot;] == &quot;x&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Index</div>
+        <div class="pd">Promote a column to be the index.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def set_index_col(df, col):
+    # TODO: df.set_index(col)
+    return df
+
+print(set_index_col(df, &quot;b&quot;))</code></pre></div>
+        <template class="ho-check">assert set_index_col(df, &quot;b&quot;).index.name == &quot;b&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 7 ─────────────────────────── -->
@@ -534,7 +621,93 @@ print(f"\nAt-risk monthly revenue  : ${at_risk['monthly_spend'].sum():,}")
 print(f"At-risk annualised revenue: ${at_risk['monthly_spend'].sum()*12:,}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Greater Than</div>
+        <div class="pd">Keep rows where a column exceeds a value.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def filter_gt(df, col, v):
+    # TODO: boolean mask df[col] &gt; v
+    return df
+
+print(filter_gt(df, &quot;a&quot;, 2))</code></pre></div>
+        <template class="ho-check">assert len(filter_gt(df, &quot;a&quot;, 2)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Is In</div>
+        <div class="pd">Keep rows whose value is in a list.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def filter_isin(df, col, vals):
+    # TODO: use Series.isin
+    return df
+
+print(filter_isin(df, &quot;b&quot;, [&quot;w&quot;, &quot;z&quot;]))</code></pre></div>
+        <template class="ho-check">assert len(filter_isin(df, &quot;b&quot;, [&quot;w&quot;, &quot;z&quot;])) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Two Conditions</div>
+        <div class="pd">Combine masks with &amp; (parenthesise each side).</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def filter_and(df):
+    # TODO: rows where a is above 1 AND c is below 40
+    return df
+
+print(filter_and(df))</code></pre></div>
+        <template class="ho-check">assert len(filter_and(df)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Query</div>
+        <div class="pd">Filter with a query string.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def query_expr(df, expr):
+    # TODO: df.query(expr)
+    return df
+
+print(query_expr(df, &quot;a &gt;= 3&quot;))</code></pre></div>
+        <template class="ho-check">assert len(query_expr(df, &quot;a &gt;= 3&quot;)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Between</div>
+        <div class="pd">Keep rows inside an inclusive range.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def filter_between(df, col, lo, hi):
+    # TODO: use Series.between(lo, hi)
+    return df
+
+print(filter_between(df, &quot;a&quot;, 2, 3))</code></pre></div>
+        <template class="ho-check">assert len(filter_between(df, &quot;a&quot;, 2, 3)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 8 ─────────────────────────── -->
@@ -660,7 +833,93 @@ print("\nCleaned survey:\n", survey)
 print(f"\nCompany satisfaction avg: {survey['satisfaction'].mean():.1f}/10")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Nulls</div>
+        <div class="pd">Missing values per column, as a dict.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.DataFrame({&quot;a&quot;: [1.0, np.nan, 3], &quot;b&quot;: [np.nan, np.nan, 6.0]})
+
+def count_nulls(df):
+    # TODO: df.isna().sum().to_dict()
+    return {}
+
+print(count_nulls(df))</code></pre></div>
+        <template class="ho-check">assert count_nulls(df) == {&quot;a&quot;: 1, &quot;b&quot;: 2}
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Drop Null Rows</div>
+        <div class="pd">Drop rows containing any missing value.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.DataFrame({&quot;a&quot;: [1.0, np.nan, 3], &quot;b&quot;: [np.nan, np.nan, 6.0]})
+
+def drop_null_rows(df):
+    # TODO: df.dropna()
+    return df
+
+print(drop_null_rows(df))</code></pre></div>
+        <template class="ho-check">assert len(drop_null_rows(df)) == 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Fill With Zero</div>
+        <div class="pd">Replace every missing value with 0.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.DataFrame({&quot;a&quot;: [1.0, np.nan, 3], &quot;b&quot;: [np.nan, np.nan, 6.0]})
+
+def fill_zero(df):
+    # TODO: df.fillna(0)
+    return df
+
+print(fill_zero(df))</code></pre></div>
+        <template class="ho-check">assert fill_zero(df).iloc[0][&quot;b&quot;] == 0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Fill Column Mean</div>
+        <div class="pd">Impute one column with its own mean.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.DataFrame({&quot;a&quot;: [1.0, np.nan, 3], &quot;b&quot;: [np.nan, np.nan, 6.0]})
+
+def fill_col_mean(df, col):
+    # TODO: df[col].fillna(df[col].mean())
+    return df[col]
+
+print(fill_col_mean(df, &quot;a&quot;).tolist())</code></pre></div>
+        <template class="ho-check">assert fill_col_mean(df, &quot;a&quot;).iloc[1] == 2.0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Null Fraction</div>
+        <div class="pd">Share of all cells that are missing.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.DataFrame({&quot;a&quot;: [1.0, np.nan, 3], &quot;b&quot;: [np.nan, np.nan, 6.0]})
+
+def null_fraction(df):
+    # TODO: total NaNs divided by df.size
+    return 0.0
+
+print(null_fraction(df))</code></pre></div>
+        <template class="ho-check">assert abs(null_fraction(df) - 0.5) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 10 ─────────────────────────── -->
@@ -862,7 +1121,94 @@ print(summary.to_string())
 print(f"\nTotal company revenue: ${orders['revenue'].sum():,}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Sum</div>
+        <div class="pd">Sum one column per group, as a dict.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2, 3, 4], &quot;w&quot;: [10.0, 20, 30, 40]})
+
+def group_sum(df, by, col):
+    # TODO: df.groupby(by)[col].sum().to_dict()
+    return {}
+
+print(group_sum(df, &quot;g&quot;, &quot;v&quot;))</code></pre></div>
+        <template class="ho-check">assert group_sum(df, &quot;g&quot;, &quot;v&quot;) == {&quot;a&quot;: 3.0, &quot;b&quot;: 7.0}
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Aggregates</div>
+        <div class="pd">Sum and mean of one column per group.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2, 3, 4], &quot;w&quot;: [10.0, 20, 30, 40]})
+
+def group_multi_agg(df):
+    # TODO: groupby(&quot;g&quot;)[&quot;v&quot;].agg([&quot;sum&quot;, &quot;mean&quot;]).round(2).to_dict()
+    return {}
+
+print(group_multi_agg(df))</code></pre></div>
+        <template class="ho-check">r = group_multi_agg(df)
+assert r[&quot;sum&quot;][&quot;a&quot;] == 3.0 and r[&quot;mean&quot;][&quot;b&quot;] == 3.5
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Size</div>
+        <div class="pd">Row count per group.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2, 3, 4], &quot;w&quot;: [10.0, 20, 30, 40]})
+
+def group_size(df, by):
+    # TODO: df.groupby(by).size().to_dict()
+    return {}
+
+print(group_size(df, &quot;g&quot;))</code></pre></div>
+        <template class="ho-check">assert group_size(df, &quot;g&quot;) == {&quot;a&quot;: 2, &quot;b&quot;: 2}
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Transform</div>
+        <div class="pd">Broadcast the group mean back to every row.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2, 3, 4], &quot;w&quot;: [10.0, 20, 30, 40]})
+
+def group_transform(df):
+    # TODO: groupby(&quot;g&quot;)[&quot;v&quot;].transform(&quot;mean&quot;) as a list
+    return []
+
+print(group_transform(df))</code></pre></div>
+        <template class="ho-check">assert group_transform(df) == [1.5, 1.5, 3.5, 3.5]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Top Group</div>
+        <div class="pd">Which group has the largest total?</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;], &quot;v&quot;: [1.0, 2, 3, 4], &quot;w&quot;: [10.0, 20, 30, 40]})
+
+def top_group(df, by, col):
+    # TODO: groupby(by)[col].sum().idxmax()
+    return None
+
+print(top_group(df, &quot;g&quot;, &quot;v&quot;))</code></pre></div>
+        <template class="ho-check">assert top_group(df, &quot;g&quot;, &quot;v&quot;) == &quot;b&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 13 ─────────────────────────── -->
@@ -934,7 +1280,100 @@ full["days_since_purchase"] = (today - full["last_order"]).dt.days
 print(full[["name","segment","total_spend","order_count","avg_order_value","days_since_purchase"]])</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Inner Join</div>
+        <div class="pd">Keep only rows matched on both sides.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+left = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;v&quot;: [10, 20, 30]})
+right = pd.DataFrame({&quot;id&quot;: [1, 2], &quot;name&quot;: [&quot;x&quot;, &quot;y&quot;]})
+
+def inner_join(l, r, on):
+    # TODO: l.merge(r, on=on, how=&quot;inner&quot;)
+    return l
+
+print(inner_join(left, right, &quot;id&quot;))</code></pre></div>
+        <template class="ho-check">assert len(inner_join(left, right, &quot;id&quot;)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Left Join</div>
+        <div class="pd">Keep every left row, filling misses with NaN.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+left = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;v&quot;: [10, 20, 30]})
+right = pd.DataFrame({&quot;id&quot;: [1, 2], &quot;name&quot;: [&quot;x&quot;, &quot;y&quot;]})
+
+def left_join(l, r, on):
+    # TODO: l.merge(r, on=on, how=&quot;left&quot;)
+    return l
+
+print(left_join(left, right, &quot;id&quot;))</code></pre></div>
+        <template class="ho-check">assert len(left_join(left, right, &quot;id&quot;)) == 3
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Concat Rows</div>
+        <div class="pd">Stack two frames vertically, renumbering the index.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+left = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;v&quot;: [10, 20, 30]})
+right = pd.DataFrame({&quot;id&quot;: [1, 2], &quot;name&quot;: [&quot;x&quot;, &quot;y&quot;]})
+
+def concat_rows(a, b):
+    # TODO: pd.concat([a, b], ignore_index=True)
+    return a
+
+print(concat_rows(left, left))</code></pre></div>
+        <template class="ho-check">assert len(concat_rows(left, left)) == 6
+assert list(concat_rows(left, left).index) == list(range(6))
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Unmatched Ids</div>
+        <div class="pd">Which left keys had no match on the right?</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+left = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;v&quot;: [10, 20, 30]})
+right = pd.DataFrame({&quot;id&quot;: [1, 2], &quot;name&quot;: [&quot;x&quot;, &quot;y&quot;]})
+
+def unmatched_ids(l, r, on):
+    m = l.merge(r, on=on, how=&quot;left&quot;, indicator=True)
+    # TODO: keep rows where _merge is &quot;left_only&quot; and return their key column as a list
+    return []
+
+print(unmatched_ids(left, right, &quot;id&quot;))</code></pre></div>
+        <template class="ho-check">assert unmatched_ids(left, right, &quot;id&quot;) == [3]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Join Then Aggregate</div>
+        <div class="pd">Total of a column after an inner join.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+left = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;v&quot;: [10, 20, 30]})
+right = pd.DataFrame({&quot;id&quot;: [1, 2], &quot;name&quot;: [&quot;x&quot;, &quot;y&quot;]})
+
+def join_then_agg(l, r, on, col):
+    # TODO: merge inner, then sum the column as a float
+    return 0.0
+
+print(join_then_agg(left, right, &quot;id&quot;, &quot;v&quot;))</code></pre></div>
+        <template class="ho-check">assert join_then_agg(left, right, &quot;id&quot;, &quot;v&quot;) == 30.0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 14 ─────────────────────────── -->
