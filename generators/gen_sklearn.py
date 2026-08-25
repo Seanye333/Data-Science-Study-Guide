@@ -688,6 +688,14 @@ SECTIONS = [
     },
     {
         "title": "K-Nearest Neighbors & Naive Bayes",
+"practices": [
+{
+"title": 'Naive Bayes CV',
+"desc": 'Cross-validated accuracy of GaussianNB.',
+"starter": 'from sklearn.naive_bayes import GaussianNB\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef nb_accuracy(X, y):\n    # TODO: mean of cross_val_score(GaussianNB(), X, y, cv=5)\n    return 0.0\n\nprint(round(nb_accuracy(X, y), 3))',
+"check": "a = nb_accuracy(X, y)\nassert 0 < a <= 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "KNN classifies by majority vote of k neighbors. Naive Bayes uses Bayes' theorem with feature independence assumption.",
         "code1_title": "K-Nearest Neighbors",
         "code1": (
@@ -855,6 +863,14 @@ SECTIONS = [
     },
     {
         "title": "Clustering: KMeans & DBSCAN",
+"practices": [
+{
+"title": 'KMeans Inertia',
+"desc": 'Within-cluster sum of squares.',
+"starter": 'from sklearn.cluster import KMeans\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef kmeans_inertia(X, k):\n    # TODO: fit KMeans(n_clusters=k, n_init=10, random_state=0) and return its inertia_\n    return 0.0\n\nprint(round(kmeans_inertia(X, 3), 2))',
+"check": "a = kmeans_inertia(X, 3)\nassert a > 0\nassert kmeans_inertia(X, 5) < a, 'more clusters lowers inertia'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Unsupervised learning: group similar data points without labels.",
         "code1_title": "KMeans Clustering",
         "code1": (
@@ -1183,6 +1199,14 @@ SECTIONS = [
     },
     {
         "title": "Pipelines & Preprocessing",
+"practices": [
+{
+"title": 'Pipeline Step Names',
+"desc": 'Default step names of make_pipeline.',
+"starter": 'from sklearn.pipeline import make_pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\n\ndef pipeline_steps_names():\n    p = make_pipeline(StandardScaler(), LogisticRegression())\n    # TODO: the name of each step, in order\n    return []\n\nprint(pipeline_steps_names())',
+"check": "assert pipeline_steps_names() == ['standardscaler', 'logisticregression']\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Chain preprocessing + model into a single Pipeline. Prevent data leakage and simplify deployment.",
         "code1_title": "Building a Pipeline",
         "code1": (
@@ -1363,6 +1387,14 @@ SECTIONS = [
     },
     {
         "title": "Hyperparameter Tuning",
+"practices": [
+{
+"title": 'Best C',
+"desc": 'Grid-search the regularization strength.',
+"starter": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import GridSearchCV\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef grid_best_param(X, y):\n    g = GridSearchCV(LogisticRegression(max_iter=500), {'C': [0.1, 1]}, cv=3).fit(X, y)\n    # TODO: return the chosen value of C\n    return None\n\nprint(grid_best_param(X, y))",
+"check": "assert grid_best_param(X, y) in (0.1, 1)\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Find the best model parameters using GridSearchCV and RandomizedSearchCV.",
         "code1_title": "GridSearchCV",
         "code1": (
@@ -1535,6 +1567,14 @@ SECTIONS = [
     },
     {
         "title": "Dimensionality Reduction: PCA & t-SNE",
+"practices": [
+{
+"title": 'PCA Component Shape',
+"desc": 'Shape of the fitted components matrix.',
+"starter": 'from sklearn.decomposition import PCA\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef pca_components(X, k):\n    # TODO: fit PCA(n_components=k, random_state=0) and return components_.shape\n    return ()\n\nprint(pca_components(X, 2))',
+"check": "assert pca_components(X, 2) == (2, 6)\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Reduce high-dimensional data for visualization, noise reduction, and speeding up training.",
         "code1_title": "PCA — Principal Component Analysis",
         "code1": (
@@ -1693,6 +1733,14 @@ SECTIONS = [
     },
     {
         "title": "Imbalanced Data Handling",
+"practices": [
+{
+"title": 'Balanced Class Weights',
+"desc": 'Inverse-frequency weight per class.',
+"starter": 'from sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef class_weights(y):\n    u, c = np.unique(y, return_counts=True)\n    # TODO: {class: len(y) / (n_classes * count)} rounded to 3\n    return {}\n\nprint(class_weights(y))',
+"check": "w = class_weights(y)\nassert len(w) == 2 and all(v > 0 for v in w.values())\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Handle class imbalance using resampling (oversampling minority, undersampling majority), class weights, and threshold tuning to improve recall on rare classes.",
         "code1_title": "Class Weights & Threshold Tuning",
         "code1": (
@@ -1857,6 +1905,14 @@ SECTIONS = [
     },
     {
         "title": "Custom Estimators",
+"practices": [
+{
+"title": 'Custom Estimator',
+"desc": 'An estimator that always predicts 1.',
+"starter": 'from sklearn.base import BaseEstimator, ClassifierMixin\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\nclass AlwaysOne(BaseEstimator, ClassifierMixin):\n    def fit(self, X, y):\n        self.classes_ = np.unique(y)\n        return self\n    def predict(self, X):\n        # TODO: return an array of ones, one per row of X\n        return np.zeros(len(X), dtype=int)\n\ndef custom_est_score(X, y):\n    return float(AlwaysOne().fit(X, y).predict(X).mean())\n\nprint(custom_est_score(X, y))',
+"check": "assert custom_est_score(X, y) == 1.0\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Build sklearn-compatible custom transformers and estimators using BaseEstimator, TransformerMixin, and ClassifierMixin to integrate into pipelines.",
         "code1_title": "Custom Transformer with TransformerMixin",
         "code1": (
@@ -2056,6 +2112,14 @@ SECTIONS = [
     },
     {
         "title": "Model Calibration",
+"practices": [
+{
+"title": 'Calibrated Probabilities',
+"desc": 'Range of calibrated probabilities.',
+"starter": 'from sklearn.calibration import CalibratedClassifierCV\nfrom sklearn.naive_bayes import GaussianNB\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef calibrated_proba_range(X, y):\n    c = CalibratedClassifierCV(GaussianNB(), cv=3).fit(X, y)\n    p = c.predict_proba(X)[:, 1]\n    # TODO: return (float min, float max) of p\n    return (0.0, 0.0)\n\nprint([round(v, 3) for v in calibrated_proba_range(X, y)])',
+"check": "lo, hi = calibrated_proba_range(X, y)\nassert 0 <= lo <= hi <= 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Calibrate classifier probabilities so that a predicted 0.7 means 70% of samples are positive. Use Platt scaling and isotonic regression with reliability diagrams.",
         "code1_title": "Calibration Curve (Reliability Diagram)",
         "code1": (
@@ -2227,6 +2291,14 @@ SECTIONS = [
     },
     {
         "title": "14. Ensemble Methods: Stacking & Blending",
+"practices": [
+{
+"title": 'Stacking Score',
+"desc": 'Cross-validated accuracy of a stacked ensemble.',
+"starter": "from sklearn.ensemble import StackingClassifier\nfrom sklearn.naive_bayes import GaussianNB\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef stacking_score(X, y):\n    s = StackingClassifier([('nb', GaussianNB()), ('lr', LogisticRegression(max_iter=500))],\n                           final_estimator=LogisticRegression(max_iter=500))\n    # TODO: mean of cross_val_score(s, X, y, cv=3)\n    return 0.0\n\nprint(round(stacking_score(X, y), 3))",
+"check": "a = stacking_score(X, y)\nassert 0 < a <= 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Combine multiple base learners to build a stronger meta-model. Stacking uses out-of-fold predictions as features for a meta-learner; blending uses a single held-out set. Both reduce variance and capture complementary model strengths.",
         "code1_title": "Stacking with OOF Predictions",
         "code1": (
@@ -2390,6 +2462,14 @@ SECTIONS = [
     },
     {
         "title": "15. Time-Based Cross-Validation & Walk-Forward Validation",
+"practices": [
+{
+"title": 'Expanding Train Sizes',
+"desc": 'Training-set size of each split.',
+"starter": 'from sklearn.model_selection import TimeSeriesSplit\nimport numpy as np\n\ndef ts_split_sizes(n, n_splits):\n    # TODO: len(train) for each split of TimeSeriesSplit(n_splits=n_splits)\n    return []\n\nprint(ts_split_sizes(10, 3))',
+"check": "r = ts_split_sizes(10, 3)\nassert len(r) == 3 and r == sorted(r), 'training windows grow'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Use TimeSeriesSplit for realistic CV that respects temporal ordering. Expanding-window and sliding-window strategies prevent future data leakage and simulate production deployment conditions.",
         "code1_title": "Expanding Window CV from Scratch",
         "code1": (
@@ -2551,6 +2631,14 @@ SECTIONS = [
     },
     {
         "title": "16. Interpretable ML: SHAP Values",
+"practices": [
+{
+"title": 'Importance Ranking',
+"desc": 'Feature indices ordered by importance.',
+"starter": 'from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef feature_importance_order(X, y):\n    m = RandomForestClassifier(n_estimators=30, random_state=0).fit(X, y)\n    # TODO: indices sorted by importance, most important first\n    return []\n\nprint(feature_importance_order(X, y))',
+"check": "r = feature_importance_order(X, y)\nassert sorted(r) == list(range(6))\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "SHAP (SHapley Additive exPlanations) provides consistent, theoretically grounded feature attributions for any model. Use TreeExplainer for tree-based models for fast exact SHAP values.",
         "code1_title": "Global Feature Importance with SHAP",
         "code1": (
@@ -2678,6 +2766,14 @@ SECTIONS = [
 
     {
         "title": "17. Feature Engineering",
+"practices": [
+{
+"title": 'Polynomial Feature Count',
+"desc": 'Features made by a degree-2 expansion.',
+"starter": 'from sklearn.preprocessing import PolynomialFeatures\nimport numpy as np\n\ndef poly_feature_count(n_features, degree):\n    p = PolynomialFeatures(degree=degree, include_bias=False).fit(np.zeros((1, n_features)))\n    # TODO: return int(p.n_output_features_)\n    return 0\n\nprint(poly_feature_count(2, 2))',
+"check": "assert poly_feature_count(2, 2) == 5\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Transform raw features into richer representations. PolynomialFeatures adds interactions and powers; FunctionTransformer applies any callable; custom transformers plug into Pipelines.",
         "code1_title": "PolynomialFeatures and interaction terms",
         "code1": (
@@ -2928,6 +3024,14 @@ SECTIONS = [
     },
     {
         "title": "18. ROC Curves & Advanced Metrics",
+"practices": [
+{
+"title": 'ROC AUC',
+"desc": 'Area under the ROC curve.',
+"starter": 'from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import roc_auc_score\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef roc_auc(X, y):\n    m = LogisticRegression(max_iter=500).fit(X, y)\n    # TODO: roc_auc_score against the positive-class probabilities\n    return 0.0\n\nprint(round(roc_auc(X, y), 4))',
+"check": "a = roc_auc(X, y)\nassert 0.5 <= a <= 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "ROC-AUC and Precision-Recall curves reveal classifier performance beyond accuracy. Use them to select thresholds, compare models, and diagnose class imbalance issues.",
         "code1_title": "ROC curve and AUC with multiple models",
         "code1": (
@@ -3117,6 +3221,14 @@ SECTIONS = [
     },
     {
         "title": "19. Gradient Boosting",
+"practices": [
+{
+"title": 'Boosting Score',
+"desc": 'Cross-validated accuracy of gradient boosting.',
+"starter": 'from sklearn.ensemble import GradientBoostingClassifier\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef gb_score(X, y):\n    # TODO: mean of cross_val_score(GradientBoostingClassifier(random_state=0), X, y, cv=3)\n    return 0.0\n\nprint(round(gb_score(X, y), 3))',
+"check": "a = gb_score(X, y)\nassert 0 < a <= 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Gradient Boosting sequentially trains shallow trees, each correcting prior errors. sklearn offers GradientBoostingClassifier and the faster HistGradientBoosting (native categorical support, faster on large data).",
         "code1_title": "GradientBoostingClassifier with learning rate tuning",
         "code1": (
@@ -3321,6 +3433,14 @@ SECTIONS = [
     },
     {
         "title": "20. Regularized Regression",
+"practices": [
+{
+"title": 'Ridge vs Lasso Sparsity',
+"desc": 'How many coefficients each keeps non-zero.',
+"starter": 'from sklearn.datasets import make_regression\nfrom sklearn.linear_model import Ridge, Lasso\nimport numpy as np\n\nXr, yr = make_regression(n_samples=100, n_features=10, n_informative=3, noise=5, random_state=0)\n\ndef ridge_vs_lasso(Xr, yr):\n    # TODO: (non-zero coefs of Ridge(alpha=1.0), non-zero coefs of Lasso(alpha=1.0)) as ints\n    return (0, 0)\n\nprint(ridge_vs_lasso(Xr, yr))',
+"check": "r, l = ridge_vs_lasso(Xr, yr)\nassert r >= l, 'lasso zeroes out more coefficients'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Ridge (L2), Lasso (L1), and ElasticNet combine least squares with regularization penalties. Lasso performs feature selection by zeroing coefficients; Ridge shrinks them. Use CV variants to auto-select alpha.",
         "code1_title": "Ridge vs Lasso vs ElasticNet comparison",
         "code1": (
@@ -3531,6 +3651,14 @@ SECTIONS = [
     },
     {
         "title": "21. Model Persistence & Deployment",
+"practices": [
+{
+"title": 'Save and Reload',
+"desc": 'Round-trip a fitted model through joblib.',
+"starter": 'import io, joblib\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef persist_roundtrip(X, y):\n    m = LogisticRegression(max_iter=500).fit(X, y)\n    buf = io.BytesIO()\n    # TODO: joblib.dump into buf, rewind, load it back, then score accuracy on X\n    return 0.0\n\nprint(round(persist_roundtrip(X, y), 3))',
+"check": "assert persist_roundtrip(X, y) > 0.5\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Save trained models with joblib (recommended) or pickle. Version models with metadata, validate loaded models before serving, and use pipelines to ensure preprocessing is saved too.",
         "code1_title": "joblib save/load and pipeline persistence",
         "code1": (
@@ -3757,6 +3885,14 @@ SECTIONS = [
     },
     {
         "title": "22. Text Classification Pipeline",
+"practices": [
+{
+"title": 'Vectorizer Vocabulary',
+"desc": 'Sorted vocabulary learned from documents.',
+"starter": "from sklearn.feature_extraction.text import CountVectorizer\n\ndef text_pipeline_vocab(docs):\n    # TODO: fit a CountVectorizer and return its sorted vocabulary keys\n    return []\n\nprint(text_pipeline_vocab(['cat dog', 'dog fox']))",
+"check": "assert text_pipeline_vocab(['cat dog', 'dog fox']) == ['cat', 'dog', 'fox']\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "sklearn's TfidfVectorizer and CountVectorizer convert text to numerical features. Combine them in a Pipeline with classifiers to build spam detectors, sentiment analyzers, and topic classifiers.",
         "code1_title": "TF-IDF + Logistic Regression for text classification",
         "code1": (
@@ -3968,6 +4104,14 @@ SECTIONS = [
     },
     {
         "title": "23. Anomaly Detection",
+"practices": [
+{
+"title": 'Isolation Forest Count',
+"desc": 'How many points are flagged as anomalies.',
+"starter": 'from sklearn.ensemble import IsolationForest\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef anomaly_count(X):\n    # TODO: fit_predict with IsolationForest(random_state=0, contamination=0.1) and count the -1 labels\n    return 0\n\nprint(anomaly_count(X))',
+"check": "n = anomaly_count(X)\nassert 0 < n < len(X)\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Anomaly detection finds outliers without labeled examples. IsolationForest uses random splits; LocalOutlierFactor compares density to neighbors; OneClassSVM learns a boundary around normal data.",
         "code1_title": "IsolationForest for fraud detection",
         "code1": (
@@ -4165,6 +4309,14 @@ SECTIONS = [
     },
     {
         "title": "24. Advanced Clustering",
+"practices": [
+{
+"title": 'Agglomerative Labels',
+"desc": 'How many distinct clusters come back.',
+"starter": 'from sklearn.cluster import AgglomerativeClustering\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\nX, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)\n\ndef agglomerative_labels(X, k):\n    # TODO: fit_predict AgglomerativeClustering(n_clusters=k) and count the distinct labels\n    return 0\n\nprint(agglomerative_labels(X, 3))',
+"check": "assert agglomerative_labels(X, 3) == 3\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Beyond KMeans: AgglomerativeClustering builds hierarchies (no k needed upfront); GaussianMixture models soft assignments with probabilistic clusters; silhouette and Calinski-Harabasz scores evaluate cluster quality.",
         "code1_title": "AgglomerativeClustering with linkage strategies",
         "code1": (

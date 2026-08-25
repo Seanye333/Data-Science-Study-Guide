@@ -1135,6 +1135,24 @@ for metric in metrics:
 #     knn = KNeighborsClassifier(n_neighbors=k, metric=best_metric)
 #     s = cross_val_score(knn, X_s, y, cv=5).mean()
 #     print(f'  k={k:2d}: {s:.4f}')</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Naive Bayes CV</div>
+      <div class="pd">Cross-validated accuracy of GaussianNB.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s4-1" class="language-python">from sklearn.naive_bayes import GaussianNB
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def nb_accuracy(X, y):
+    # TODO: mean of cross_val_score(GaussianNB(), X, y, cv=5)
+    return 0.0
+
+print(round(nb_accuracy(X, y), 3))</code></pre></div><template class="ho-check">a = nb_accuracy(X, y)
+assert 0 &lt; a &lt;= 1
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a KNeighborsClassifier on the iris dataset and vary n_neighbors from 1 to 20</label></li>
 <li><label><input type="checkbox"> Compare KNN with euclidean vs manhattan distance metrics</label></li>
@@ -1286,6 +1304,25 @@ for k in range(2, 11):
 
 # TODO: best_k = range(2, 11)[np.argmax(sil_scores)]
 # print(f'Best k by silhouette: {best_k}')</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: KMeans Inertia</div>
+      <div class="pd">Within-cluster sum of squares.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s5-1" class="language-python">from sklearn.cluster import KMeans
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def kmeans_inertia(X, k):
+    # TODO: fit KMeans(n_clusters=k, n_init=10, random_state=0) and return its inertia_
+    return 0.0
+
+print(round(kmeans_inertia(X, 3), 2))</code></pre></div><template class="ho-check">a = kmeans_inertia(X, 3)
+assert a &gt; 0
+assert kmeans_inertia(X, 5) &lt; a, &#x27;more clusters lowers inertia&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run KMeans with k=3 on iris features and compare cluster labels to true labels</label></li>
 <li><label><input type="checkbox"> Use the elbow method (inertia vs k) to find the optimal number of clusters</label></li>
@@ -1726,6 +1763,21 @@ pipe = None
 # TODO: Run cross_val_score and print mean accuracy
 # scores = cross_val_score(pipe, df, y, cv=5)
 # print('CV Accuracy:', scores.mean().round(4))</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Pipeline Step Names</div>
+      <div class="pd">Default step names of make_pipeline.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s7-1" class="language-python">from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+def pipeline_steps_names():
+    p = make_pipeline(StandardScaler(), LogisticRegression())
+    # TODO: the name of each step, in order
+    return []
+
+print(pipeline_steps_names())</code></pre></div><template class="ho-check">assert pipeline_steps_names() == [&#x27;standardscaler&#x27;, &#x27;logisticregression&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a Pipeline with StandardScaler and LogisticRegression and call fit/predict</label></li>
 <li><label><input type="checkbox"> Add a ColumnTransformer to handle numeric and categorical columns differently</label></li>
@@ -1914,6 +1966,25 @@ param_grid = {}
 # rscv = RandomizedSearchCV(pipe, param_dist, n_iter=10, cv=5, random_state=42)
 # rscv.fit(X_train, y_train)
 # print('RandomizedSearch best:', rscv.best_params_)</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Best C</div>
+      <div class="pd">Grid-search the regularization strength.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s8-1" class="language-python">from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def grid_best_param(X, y):
+    g = GridSearchCV(LogisticRegression(max_iter=500), {'C': [0.1, 1]}, cv=3).fit(X, y)
+    # TODO: return the chosen value of C
+    return None
+
+print(grid_best_param(X, y))</code></pre></div><template class="ho-check">assert grid_best_param(X, y) in (0.1, 1)
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run GridSearchCV on a RandomForestClassifier with param_grid for n_estimators and max_depth</label></li>
 <li><label><input type="checkbox"> Use RandomizedSearchCV instead of GridSearchCV and compare search time vs accuracy</label></li>
@@ -2090,6 +2161,23 @@ print('Original shape:', X.shape)  # (1797, 64)
 # for cls in range(10):
 #     center = X_2d[y == cls].mean(axis=0)
 #     print(f'Digit {cls} center: ({center[0]:.2f}, {center[1]:.2f})')</code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: PCA Component Shape</div>
+      <div class="pd">Shape of the fitted components matrix.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s9-1" class="language-python">from sklearn.decomposition import PCA
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def pca_components(X, k):
+    # TODO: fit PCA(n_components=k, random_state=0) and return components_.shape
+    return ()
+
+print(pca_components(X, 2))</code></pre></div><template class="ho-check">assert pca_components(X, 2) == (2, 6)
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit PCA on the iris dataset and print the explained_variance_ratio_ per component</label></li>
 <li><label><input type="checkbox"> Find how many PCA components are needed to explain 95% of the variance</label></li>
@@ -2273,6 +2361,24 @@ X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y, rando
 # TODO: (3) LR + random oversampling - same metrics
 # TODO: For balanced LR, find threshold maximizing minority F1
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Balanced Class Weights</div>
+      <div class="pd">Inverse-frequency weight per class.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s10-1" class="language-python">from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def class_weights(y):
+    u, c = np.unique(y, return_counts=True)
+    # TODO: {class: len(y) / (n_classes * count)} rounded to 3
+    return {}
+
+print(class_weights(y))</code></pre></div><template class="ho-check">w = class_weights(y)
+assert len(w) == 2 and all(v &gt; 0 for v in w.values())
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an imbalanced dataset with class_weight={0:1,1:10} and compare to no class weight</label></li>
 <li><label><input type="checkbox"> Use SMOTE from imbalanced-learn to oversample the minority class and check new counts</label></li>
@@ -2499,6 +2605,30 @@ pipe = Pipeline([('clip', ClipTransformer()), ('lr', LogisticRegression(max_iter
 # TODO: GridSearchCV over clip__k in [1.5, 2.0, 2.5, 3.0]
 # TODO: Print best k and best CV score
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Estimator</div>
+      <div class="pd">An estimator that always predicts 1.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s11-1" class="language-python">from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+class AlwaysOne(BaseEstimator, ClassifierMixin):
+    def fit(self, X, y):
+        self.classes_ = np.unique(y)
+        return self
+    def predict(self, X):
+        # TODO: return an array of ones, one per row of X
+        return np.zeros(len(X), dtype=int)
+
+def custom_est_score(X, y):
+    return float(AlwaysOne().fit(X, y).predict(X).mean())
+
+print(custom_est_score(X, y))</code></pre></div><template class="ho-check">assert custom_est_score(X, y) == 1.0
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a custom transformer that inherits BaseEstimator and TransformerMixin</label></li>
 <li><label><input type="checkbox"> Implement fit() that computes statistics and transform() that applies them</label></li>
@@ -2694,6 +2824,27 @@ X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y, rando
 # TODO: Calibrate with 'isotonic'
 # TODO: For each, compute Brier score and print calibration curve values
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Calibrated Probabilities</div>
+      <div class="pd">Range of calibrated probabilities.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s12-1" class="language-python">from sklearn.calibration import CalibratedClassifierCV
+from sklearn.naive_bayes import GaussianNB
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def calibrated_proba_range(X, y):
+    c = CalibratedClassifierCV(GaussianNB(), cv=3).fit(X, y)
+    p = c.predict_proba(X)[:, 1]
+    # TODO: return (float min, float max) of p
+    return (0.0, 0.0)
+
+print([round(v, 3) for v in calibrated_proba_range(X, y)])</code></pre></div><template class="ho-check">lo, hi = calibrated_proba_range(X, y)
+assert 0 &lt;= lo &lt;= hi &lt;= 1
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a RandomForestClassifier and use CalibratedClassifierCV to calibrate its probabilities</label></li>
 <li><label><input type="checkbox"> Compare predict_proba histograms before and after calibration</label></li>
@@ -2863,6 +3014,28 @@ X, y = load_breast_cancer(return_X_y=True)
 # TODO: Add feature passthrough=True and compare again
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Stacking Score</div>
+      <div class="pd">Cross-validated accuracy of a stacked ensemble.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s13-1" class="language-python">from sklearn.ensemble import StackingClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def stacking_score(X, y):
+    s = StackingClassifier([('nb', GaussianNB()), ('lr', LogisticRegression(max_iter=500))],
+                           final_estimator=LogisticRegression(max_iter=500))
+    # TODO: mean of cross_val_score(s, X, y, cv=3)
+    return 0.0
+
+print(round(stacking_score(X, y), 3))</code></pre></div><template class="ho-check">a = stacking_score(X, y)
+assert 0 &lt; a &lt;= 1
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a StackingClassifier with 3 base estimators and LogisticRegression as the meta-learner</label></li>
 <li><label><input type="checkbox"> Compare stacked model AUC vs each individual base model on a holdout set</label></li>
@@ -3031,6 +3204,20 @@ demand = (100 + 0.1*t + 20*np.sin(2*np.pi*t/7) +
 # TODO: Report per-fold RMSE and total mean RMSE for each model
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Expanding Train Sizes</div>
+      <div class="pd">Training-set size of each split.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s14-1" class="language-python">from sklearn.model_selection import TimeSeriesSplit
+import numpy as np
+
+def ts_split_sizes(n, n_splits):
+    # TODO: len(train) for each split of TimeSeriesSplit(n_splits=n_splits)
+    return []
+
+print(ts_split_sizes(10, 3))</code></pre></div><template class="ho-check">r = ts_split_sizes(10, 3)
+assert len(r) == 3 and r == sorted(r), &#x27;training windows grow&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use TimeSeriesSplit(n_splits=5) and print the size of each train/test fold</label></li>
 <li><label><input type="checkbox"> Run cross_val_score with TimeSeriesSplit instead of StratifiedKFold on time-ordered data</label></li>
@@ -3164,6 +3351,25 @@ model.fit(X_tr, y_tr)
 # TODO: Check if SHAP values sum to model output - expected value (verify additivity)
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Importance Ranking</div>
+      <div class="pd">Feature indices ordered by importance.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s15-1" class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def feature_importance_order(X, y):
+    m = RandomForestClassifier(n_estimators=30, random_state=0).fit(X, y)
+    # TODO: indices sorted by importance, most important first
+    return []
+
+print(feature_importance_order(X, y))</code></pre></div><template class="ho-check">r = feature_importance_order(X, y)
+assert sorted(r) == list(range(6))
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install shap and compute shap.TreeExplainer on a RandomForestClassifier</label></li>
 <li><label><input type="checkbox"> Print the SHAP values for the first 5 test samples and identify the top feature</label></li>
@@ -3420,6 +3626,20 @@ cat_features = ['neighborhood']
 # TODO: cross_val_score with cv=5, scoring='r2'
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Polynomial Feature Count</div>
+      <div class="pd">Features made by a degree-2 expansion.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s16-1" class="language-python">from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+
+def poly_feature_count(n_features, degree):
+    p = PolynomialFeatures(degree=degree, include_bias=False).fit(np.zeros((1, n_features)))
+    # TODO: return int(p.n_output_features_)
+    return 0
+
+print(poly_feature_count(2, 2))</code></pre></div><template class="ho-check">assert poly_feature_count(2, 2) == 5
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply np.log1p to a skewed feature and compare the distribution before and after</label></li>
 <li><label><input type="checkbox"> Use PolynomialFeatures(degree=2) and check how many new features are created</label></li>
@@ -3615,6 +3835,26 @@ precision, recall, thresholds = precision_recall_curve(y_te, proba)
 # TODO: print confusion matrix at that threshold
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: ROC AUC</div>
+      <div class="pd">Area under the ROC curve.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s17-1" class="language-python">from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def roc_auc(X, y):
+    m = LogisticRegression(max_iter=500).fit(X, y)
+    # TODO: roc_auc_score against the positive-class probabilities
+    return 0.0
+
+print(round(roc_auc(X, y), 4))</code></pre></div><template class="ho-check">a = roc_auc(X, y)
+assert 0.5 &lt;= a &lt;= 1
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot the ROC curve and compute AUC using roc_curve and auc from sklearn</label></li>
 <li><label><input type="checkbox"> Plot the Precision-Recall curve using precision_recall_curve and compute average precision</label></li>
@@ -3825,6 +4065,24 @@ param_grid = {
 # TODO: print top 5 parameter combinations from cv_results_
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Boosting Score</div>
+      <div class="pd">Cross-validated accuracy of gradient boosting.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s18-1" class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def gb_score(X, y):
+    # TODO: mean of cross_val_score(GradientBoostingClassifier(random_state=0), X, y, cv=3)
+    return 0.0
+
+print(round(gb_score(X, y), 3))</code></pre></div><template class="ho-check">a = gb_score(X, y)
+assert 0 &lt; a &lt;= 1
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train a GradientBoostingClassifier and print feature_importances_ sorted by value</label></li>
 <li><label><input type="checkbox"> Compare GradientBoostingClassifier vs RandomForestClassifier accuracy on the same data</label></li>
@@ -4041,6 +4299,23 @@ for alpha in alphas:
     pass
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Ridge vs Lasso Sparsity</div>
+      <div class="pd">How many coefficients each keeps non-zero.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s19-1" class="language-python">from sklearn.datasets import make_regression
+from sklearn.linear_model import Ridge, Lasso
+import numpy as np
+
+Xr, yr = make_regression(n_samples=100, n_features=10, n_informative=3, noise=5, random_state=0)
+
+def ridge_vs_lasso(Xr, yr):
+    # TODO: (non-zero coefs of Ridge(alpha=1.0), non-zero coefs of Lasso(alpha=1.0)) as ints
+    return (0, 0)
+
+print(ridge_vs_lasso(Xr, yr))</code></pre></div><template class="ho-check">r, l = ridge_vs_lasso(Xr, yr)
+assert r &gt;= l, &#x27;lasso zeroes out more coefficients&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train Ridge, Lasso, and ElasticNet on make_regression and compare R2 scores</label></li>
 <li><label><input type="checkbox"> Count how many coefficients Lasso sets to zero at alpha=1.0</label></li>
@@ -4274,6 +4549,27 @@ def compare_models(directory):
 compare_models(models_dir)
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Save and Reload</div>
+      <div class="pd">Round-trip a fitted model through joblib.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s20-1" class="language-python">import io, joblib
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def persist_roundtrip(X, y):
+    m = LogisticRegression(max_iter=500).fit(X, y)
+    buf = io.BytesIO()
+    # TODO: joblib.dump into buf, rewind, load it back, then score accuracy on X
+    return 0.0
+
+print(round(persist_roundtrip(X, y), 3))</code></pre></div><template class="ho-check">assert persist_roundtrip(X, y) &gt; 0.5
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a trained model to disk using joblib.dump and reload it with joblib.load</label></li>
 <li><label><input type="checkbox"> Verify the reloaded model produces identical predictions to the original</label></li>
@@ -4492,6 +4788,18 @@ pipe = Pipeline([
 # TODO: for each class, find top-5 words (largest coef_ values)
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorizer Vocabulary</div>
+      <div class="pd">Sorted vocabulary learned from documents.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s21-1" class="language-python">from sklearn.feature_extraction.text import CountVectorizer
+
+def text_pipeline_vocab(docs):
+    # TODO: fit a CountVectorizer and return its sorted vocabulary keys
+    return []
+
+print(text_pipeline_vocab(['cat dog', 'dog fox']))</code></pre></div><template class="ho-check">assert text_pipeline_vocab([&#x27;cat dog&#x27;, &#x27;dog fox&#x27;]) == [&#x27;cat&#x27;, &#x27;dog&#x27;, &#x27;fox&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use TfidfVectorizer to convert a list of text strings into a numeric feature matrix</label></li>
 <li><label><input type="checkbox"> Train a LogisticRegression on TF-IDF features and print the classification report</label></li>
@@ -4696,6 +5004,24 @@ n_normal, n_intrusion = 800, 20
 # LocalOutlierFactor.fit_predict on full X
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Isolation Forest Count</div>
+      <div class="pd">How many points are flagged as anomalies.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s22-1" class="language-python">from sklearn.ensemble import IsolationForest
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def anomaly_count(X):
+    # TODO: fit_predict with IsolationForest(random_state=0, contamination=0.1) and count the -1 labels
+    return 0
+
+print(anomaly_count(X))</code></pre></div><template class="ho-check">n = anomaly_count(X)
+assert 0 &lt; n &lt; len(X)
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Train IsolationForest and use predict() to label outliers as -1 and inliers as 1</label></li>
 <li><label><input type="checkbox"> Compare IsolationForest vs LocalOutlierFactor anomaly detection on the same data</label></li>
@@ -4918,6 +5244,23 @@ models = {
 # TODO: for each model, fit, predict, print ARI and silhouette
 
 </code></pre></div>
+    </div><div class="practice">
+      <div class="ph">&#x1F3CB;&#xFE0F; Practice: Agglomerative Labels</div>
+      <div class="pd">How many distinct clusters come back.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><code id="prac-s23-1" class="language-python">from sklearn.cluster import AgglomerativeClustering
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+X, y = make_classification(n_samples=200, n_features=6, n_informative=4, random_state=0)
+
+def agglomerative_labels(X, k):
+    # TODO: fit_predict AgglomerativeClustering(n_clusters=k) and count the distinct labels
+    return 0
+
+print(agglomerative_labels(X, 3))</code></pre></div><template class="ho-check">assert agglomerative_labels(X, 3) == 3
+print(&#x27;All checks passed \u2713&#x27;)</template>
     </div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run AgglomerativeClustering with linkage='ward' and compare to KMeans on the same data</label></li>
 <li><label><input type="checkbox"> Train a GaussianMixture(n_components=3) and print predict_proba for 5 samples</label></li>
