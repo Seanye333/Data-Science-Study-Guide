@@ -150,6 +150,20 @@ SECTIONS = [
 
 {
 "title": "1. Exploratory Data Profiling",
+"practices": [
+{
+"title": 'Unique Counts',
+"desc": 'Distinct values per column.',
+"starter": 'import pandas as pd\n\ndef unique_counts(df):\n    # TODO: {column: number of distinct values}\n    return {}\n\nprint(unique_counts(pd.DataFrame({"a": [1, 1, 2]})))',
+"check": 'import pandas as pd\nassert unique_counts(pd.DataFrame({"a":[1,1,2]})) == {"a": 2}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Profile Summary',
+"desc": 'Rows, columns and total nulls of a frame.',
+"starter": 'import pandas as pd\n\ndef profile_summary(df):\n    # TODO: {"rows": len(df), "cols": number of columns, "nulls": total NaNs}\n    return {}\n\nprint(profile_summary(pd.DataFrame({"a": [1, None]})))',
+"check": 'import pandas as pd\nassert profile_summary(pd.DataFrame({"a":[1,None]})) == {"rows": 2, "cols": 1, "nulls": 1}\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Before cleaning, you need to understand your data. Profiling reveals data types, missing values, distributions, and anomalies — the roadmap for your entire cleaning pipeline.",
 "examples": [
 {"label": "Quick dataset overview", "code":
@@ -517,6 +531,20 @@ print(result)"""
 
 {
 "title": "3. Handling Duplicates & Inconsistencies",
+"practices": [
+{
+"title": 'Normalize Spacing',
+"desc": 'Lowercase, collapse inner whitespace, trim.',
+"starter": 'import pandas as pd\n\ndef normalize_case_map(s):\n    # TODO: lowercase, replace runs of whitespace with one space, then strip\n    return pd.Series(s)\n\nprint(normalize_case_map(["A  B "]).tolist())',
+"check": 'assert normalize_case_map(["A  B "]).tolist() == ["a b"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Standardize Text',
+"desc": 'Trim whitespace and lowercase a text column.',
+"starter": 'import pandas as pd\n\ndef standardize_text(s):\n    # TODO: strip then lowercase via the .str accessor\n    return pd.Series(s)\n\nprint(standardize_text([" A "]).tolist())',
+"check": 'assert standardize_text([" A "]).tolist() == ["a"]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Duplicate records and inconsistent formatting are silent data quality killers. A single city spelled three different ways will break your groupby analysis.",
 "examples": [
 {"label": "Finding and removing duplicates", "code":
@@ -1355,6 +1383,20 @@ df = pd.DataFrame({
 
 {
 "title": "8. Polynomial & Interaction Features",
+"practices": [
+{
+"title": 'Degree-2 Features',
+"desc": 'Stack x and x squared.',
+"starter": 'import numpy as np\n\ndef poly_degree2(x):\n    x = np.asarray(x, float)\n    # TODO: column-stack x and x**2, as a nested list\n    return []\n\nprint(poly_degree2([2, 3]))',
+"check": 'assert poly_degree2([2]) == [[2.0, 4.0]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Interaction Term',
+"desc": 'Elementwise product of two features.',
+"starter": 'import numpy as np\n\ndef poly_interactions(a, b):\n    # TODO: a * b elementwise, as a list\n    return []\n\nprint(poly_interactions([1, 2], [3, 4]))',
+"check": 'assert poly_interactions([1, 2], [3, 4]) == [3.0, 8.0]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Polynomial features capture non-linear relationships, while interaction features capture how two variables together affect the target differently than each alone.",
 "examples": [
 {"label": "Creating polynomial features", "code":
@@ -1424,6 +1466,20 @@ for d in [2, 3, 4, 5]:
 
 {
 "title": "9. Handling Imbalanced Data",
+"practices": [
+{
+"title": 'Oversampled Size',
+"desc": 'Total rows after oversampling to the majority count.',
+"starter": 'import pandas as pd, numpy as np\n\ndef oversample_index(y, seed=0):\n    s = pd.Series(y); big = s.value_counts().max()\n    # TODO: total rows once every class is padded up to `big`\n    return 0\n\nprint(oversample_index([0, 0, 1]))',
+"check": 'assert oversample_index([0, 0, 1]) == 4, "two classes at 2 each"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Class Balance',
+"desc": 'Share of each class, rounded to 3.',
+"starter": 'import pandas as pd\n\ndef class_balance(y):\n    s = pd.Series(y)\n    # TODO: value_counts(normalize=True).sort_index().round(3).to_dict()\n    return {}\n\nprint(class_balance([0, 0, 1]))',
+"check": 'assert class_balance([0, 0, 1]) == {0: 0.667, 1: 0.333}\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "When one class dominates (e.g., 99% non-fraud, 1% fraud), models tend to predict the majority class. Resampling and weighting techniques fix this.",
 "examples": [
 {"label": "Understanding imbalance", "code":
@@ -1551,6 +1607,20 @@ print(classification_report(y_test, y_pred, target_names=["Legitimate", "Fraud"]
 
 {
 "title": "10. Feature Selection",
+"practices": [
+{
+"title": 'Top-K By Score',
+"desc": 'Indices of the k highest-scoring features.',
+"starter": 'import numpy as np\n\ndef top_k_by_score(scores, k):\n    # TODO: indices of the k largest scores, best first\n    return []\n\nprint(top_k_by_score([0.1, 0.9, 0.5], 2))',
+"check": 'assert top_k_by_score([0.1, 0.9, 0.5], 2) == [1, 2]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Variance Threshold',
+"desc": 'Indices of columns whose variance exceeds a threshold.',
+"starter": 'import numpy as np\n\ndef select_by_variance(X, thresh):\n    X = np.asarray(X, float)\n    # TODO: indices where the column variance is above thresh\n    return []\n\nprint(select_by_variance([[1, 5], [1, 9]], 0.5))',
+"check": 'assert select_by_variance([[1, 5], [1, 9]], 0.5) == [1], "the constant column is dropped"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Not all features help your model. Feature selection removes irrelevant or redundant features, improving model performance, interpretability, and training speed.",
 "examples": [
 {"label": "Filter methods: correlation and variance", "code":
@@ -1666,6 +1736,20 @@ for name, features in [("All 50", list(range(50))), ("MI top 10", top_mi),
 
 {
 "title": "11. Preventing Data Leakage",
+"practices": [
+{
+"title": 'Split Before Fitting',
+"desc": 'Chronological split indices, test held out at the end.',
+"starter": 'def split_before_fit(n, test_frac):\n    k = int(n * (1 - test_frac))\n    # TODO: return (list(range(k)), list(range(k, n)))\n    return ([], [])\n\ntr, te = split_before_fit(10, 0.3)\nprint(len(tr), len(te))',
+"check": 'tr, te = split_before_fit(10, 0.3)\nassert len(tr) == 7 and len(te) == 3\nassert max(tr) < min(te), "the test window comes after training"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Leakage Check',
+"desc": 'Is the target accidentally among the features?',
+"starter": 'def leakage_check(train_cols, target):\n    # TODO: True when target appears in train_cols\n    return False\n\nprint(leakage_check(["a", "y"], "y"), leakage_check(["a"], "y"))',
+"check": 'assert leakage_check(["a", "y"], "y") is True\nassert leakage_check(["a"], "y") is False\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Data leakage is when information from the test set or the future leaks into training, giving unrealistically good results that fail in production. It's the #1 mistake in ML projects.",
 "examples": [
 {"label": "Common leakage sources", "code":
@@ -1807,6 +1891,14 @@ print("\\nRule: If dev performance >> production performance = LEAKAGE")"""
 
 {
 "title": "12. Building Complete Preprocessing Pipelines",
+"practices": [
+{
+"title": 'Name Pipeline Steps',
+"desc": 'Pair each step name with its lowercase key.',
+"starter": 'def pipeline_steps(names):\n    # TODO: [(name, name.lower()) for each name]\n    return []\n\nprint(pipeline_steps(["Scaler", "Encoder"]))',
+"check": 'assert pipeline_steps(["Scaler"]) == [("Scaler", "scaler")]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Combine all cleaning and feature engineering steps into a single reproducible sklearn Pipeline. This ensures consistent preprocessing in training and production.",
 "examples": [
 {"label": "Full preprocessing pipeline", "code":

@@ -394,6 +394,14 @@ SECTIONS = [
     },
     {
         "title": "3. Stemming & Lemmatization",
+"practices": [
+{
+"title": 'Suffix Stemmer',
+"desc": 'Strip a common suffix when the stem stays long enough.',
+"starter": 'def simple_stem(w):\n    for suf in ("ing", "ed", "s"):\n        # TODO: when w ends with suf and the stem keeps at least 3 chars, drop the suffix\n        pass\n    return w\n\nprint(simple_stem("running"), simple_stem("cats"))',
+"check": 'assert simple_stem("running") == "runn" and simple_stem("cats") == "cat"\nassert simple_stem("is") == "is", "too short to strip"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Reduce words to their base forms. Stemming is fast but crude (running→run). Lemmatization is linguistically accurate (better→good).",
         "examples": [
             {
@@ -517,6 +525,14 @@ SECTIONS = [
     },
     {
         "title": "4. Named Entity Recognition (NER)",
+"practices": [
+{
+"title": 'Capitalized Entities',
+"desc": 'Find capitalized name spans.',
+"starter": 'import re\n\ndef find_entities(text):\n    # TODO: re.findall for one or more capitalized words in a row\n    return []\n\nprint(find_entities("Alice met Bob Smith"))',
+"check": 'assert find_entities("Alice met Bob Smith") == ["Alice", "Bob Smith"]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "NER identifies and classifies named entities (persons, organizations, locations, dates) in text — essential for information extraction.",
         "examples": [
             {
@@ -647,6 +663,14 @@ SECTIONS = [
     },
     {
         "title": "5. Sentiment Analysis",
+"practices": [
+{
+"title": 'Lexicon Sentiment',
+"desc": 'Positive words minus negative words.',
+"starter": 'def lexicon_sentiment(tokens, pos, neg):\n    # TODO: count of pos words minus count of neg words\n    return 0\n\nprint(lexicon_sentiment(["good", "bad", "good"], ["good"], ["bad"]))',
+"check": 'assert lexicon_sentiment(["good", "bad", "good"], ["good"], ["bad"]) == 1\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Determine whether text expresses positive, negative, or neutral sentiment. Learn rule-based (VADER), ML-based, and transformer approaches.",
         "examples": [
             {
@@ -961,6 +985,14 @@ SECTIONS = [
     },
     {
         "title": "7. Topic Modeling",
+"practices": [
+{
+"title": 'Term-Document Matrix',
+"desc": 'Counts of each vocab word per document.',
+"starter": 'from collections import Counter\n\ndef term_doc_matrix(docs, vocab):\n    # TODO: one row per doc with the count of each vocab word\n    return []\n\nprint(term_doc_matrix([["a", "a"], ["b"]], ["a", "b"]))',
+"check": 'assert term_doc_matrix([["a", "a"], ["b"]], ["a", "b"]) == [[2, 0], [0, 1]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Discover hidden thematic structure in document collections. Learn Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF).",
         "examples": [
             {
@@ -1304,6 +1336,14 @@ SECTIONS = [
     },
     {
         "title": "9. Language Models & Transformers",
+"practices": [
+{
+"title": 'Next-Token Probabilities',
+"desc": 'Bigram continuation probabilities.',
+"starter": 'from collections import Counter\n\ndef next_token_probs(bigrams, word):\n    c = Counter(b for a, b in bigrams if a == word); tot = sum(c.values())\n    # TODO: {token: rounded probability} sorted by token, or {} when tot is 0\n    return {}\n\nprint(next_token_probs([("a", "b"), ("a", "c")], "a"))',
+"check": 'assert next_token_probs([("a","b"), ("a","c")], "a") == {"b": 0.5, "c": 0.5}\nassert next_token_probs([], "a") == {}\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Understand transformer architecture, use pre-trained BERT/GPT models for embeddings, question answering, and text generation.",
         "examples": [
             {
@@ -1459,6 +1499,14 @@ SECTIONS = [
     },
     {
         "title": "10. NLP Pipeline & Production",
+"practices": [
+{
+"title": 'Apply a Pipeline',
+"desc": 'Run text through a list of transformations.',
+"starter": 'def pipeline_apply(text, steps):\n    # TODO: apply each step in order to text\n    return text\n\nprint(repr(pipeline_apply(" Hi ", [str.strip, str.lower])))',
+"check": 'assert pipeline_apply(" Hi ", [str.strip, str.lower]) == "hi"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Combine NLP components into production-ready pipelines. Learn batching, caching, serving NLP models via API, and evaluation metrics.",
         "examples": [
             {
@@ -1711,6 +1759,14 @@ SECTIONS = [
     },
     {
         "title": "12. Machine Translation & Seq2Seq",
+"practices": [
+{
+"title": 'Dictionary Translate',
+"desc": 'Map tokens through a bilingual lexicon.',
+"starter": 'def translate_tokens(tokens, lexicon):\n    # TODO: look each token up, leaving unknown tokens unchanged\n    return tokens\n\nprint(translate_tokens(["cat", "x"], {"cat": "gato"}))',
+"check": 'assert translate_tokens(["cat", "x"], {"cat": "gato"}) == ["gato", "x"]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Understand encoder-decoder architectures, attention mechanisms, and BLEU scoring. Implement simple character-level and word-level translation concepts.",
         "examples": [
             {
@@ -1764,6 +1820,14 @@ SECTIONS = [
     },
     {
         "title": "13. Document Search & RAG",
+"practices": [
+{
+"title": 'Retrieve Top-K',
+"desc": 'Rank documents by cosine similarity to a query.',
+"starter": 'import numpy as np\n\ndef retrieve_top_k(q, D, k=1):\n    q = np.asarray(q, float); D = np.asarray(D, float)\n    s = D @ q / (np.linalg.norm(D, axis=1) * np.linalg.norm(q) + 1e-12)\n    # TODO: indices of the k highest similarities, best first\n    return []\n\nprint(retrieve_top_k([1, 0], [[1, 0], [0, 1]], 1))',
+"check": 'assert retrieve_top_k([1, 0], [[1, 0], [0, 1]], 1) == [0]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Build retrieval systems using TF-IDF, BM25, and dense vector search. Implement a basic Retrieval-Augmented Generation pipeline combining a retriever with a language model.",
         "examples": [
             {
@@ -1815,6 +1879,14 @@ SECTIONS = [
     },
     {
         "title": "14. Transformer Models & Pre-trained Pipelines",
+"practices": [
+{
+"title": 'Pad to Max Length',
+"desc": 'Tokenize and pad to a fixed length.',
+"starter": 'def tokenize_for_model(text, max_len):\n    t = text.lower().split()[:max_len]\n    # TODO: pad with "<pad>" up to max_len\n    return t\n\nprint(tokenize_for_model("a b", 3))',
+"check": 'assert tokenize_for_model("a b", 3) == ["a", "b", "<pad>"]\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Tokenization & Subword Encoding with HuggingFace",
@@ -1846,6 +1918,14 @@ SECTIONS = [
     },
     {
         "title": "15. Named Entity Recognition & Information Extraction",
+"practices": [
+{
+"title": 'Key-Value Pairs',
+"desc": 'Extract key=value pairs from text.',
+"starter": 'import re\n\ndef extract_pairs(text):\n    # TODO: re.findall for word=word pairs, as tuples\n    return []\n\nprint(extract_pairs("a=1 b=2"))',
+"check": 'assert extract_pairs("a=1 b=2") == [("a", "1"), ("b", "2")]\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "spaCy NER Pipeline",
@@ -1877,6 +1957,14 @@ SECTIONS = [
     },
     {
         "title": "16. Text Generation, Summarization & Prompt Engineering",
+"practices": [
+{
+"title": 'Prompt Template',
+"desc": 'Format a task instruction plus the input.',
+"starter": 'def prompt_template(task, text):\n    # TODO: "<task>:" then a newline then the text\n    return ""\n\nprint(repr(prompt_template("Summarize", "hi")))',
+"check": 'assert prompt_template("Summarize", "hi") == "Summarize:\\nhi"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Text Generation with GPT-2",
@@ -1907,6 +1995,14 @@ SECTIONS = [
         ],
     },{
         "title": "17. Named Entity Recognition (NER)",
+"practices": [
+{
+"title": 'Label Spans',
+"desc": 'Character offsets of known words.',
+"starter": 'def label_spans(text, words):\n    # TODO: (word, index) for each word found in text\n    return []\n\nprint(label_spans("hi bob", ["bob"]))',
+"check": 'assert label_spans("hi bob", ["bob"]) == [("bob", 3)]\nassert label_spans("hi", ["zzz"]) == []\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "NER identifies and classifies named entities (persons, organizations, locations, dates) in text using spaCy or Transformers.",
         "examples": [
             {
@@ -1929,6 +2025,14 @@ SECTIONS = [
 
     {
         "title": "18. Sentence Embeddings & Semantic Search",
+"practices": [
+{
+"title": 'Cosine Similarity',
+"desc": 'Similarity between two embedding vectors.',
+"starter": 'import numpy as np\n\ndef cosine_sim_vecs(a, b):\n    a = np.asarray(a, float); b = np.asarray(b, float)\n    # TODO: dot product over the product of the norms\n    return 0.0\n\nprint(cosine_sim_vecs([1, 0], [1, 0]))',
+"check": 'assert abs(cosine_sim_vecs([1, 0], [1, 0]) - 1) < 1e-9\nassert abs(cosine_sim_vecs([1, 0], [0, 1])) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Sentence embeddings convert text to dense vectors capturing semantic meaning, enabling similarity search beyond keyword matching.",
         "examples": [
             {
@@ -1951,6 +2055,14 @@ SECTIONS = [
 
     {
         "title": "19. Hugging Face Transformers",
+"practices": [
+{
+"title": 'Batch Texts',
+"desc": 'Split inputs into fixed-size batches.',
+"starter": 'def batch_texts(texts, size):\n    # TODO: consecutive slices of length size\n    return []\n\nprint(batch_texts(["a", "b", "c"], 2))',
+"check": 'assert batch_texts(["a", "b", "c"], 2) == [["a", "b"], ["c"]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Hugging Face Transformers provides thousands of pretrained models for text classification, generation, Q&A, and more via a unified API.",
         "examples": [
             {
@@ -1973,6 +2085,14 @@ SECTIONS = [
 
     {
         "title": "20. Topic Modeling with LDA",
+"practices": [
+{
+"title": 'Top Terms Per Topic',
+"desc": 'Highest-weight words of each topic.',
+"starter": 'import numpy as np\n\ndef top_terms_per_topic(M, vocab, k=1):\n    M = np.asarray(M, float)\n    # TODO: for each row, the vocab words with the k largest weights\n    return []\n\nprint(top_terms_per_topic([[0.1, 0.9]], ["a", "b"]))',
+"check": 'assert top_terms_per_topic([[0.1, 0.9]], ["a", "b"]) == [["b"]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Latent Dirichlet Allocation (LDA) discovers hidden topics in a text corpus by modeling documents as mixtures of topics.",
         "examples": [
             {
@@ -1995,6 +2115,14 @@ SECTIONS = [
 
     {
         "title": "21. Text Summarization",
+"practices": [
+{
+"title": 'Extractive Summary',
+"desc": 'Keep the k highest-scoring sentences, in order.',
+"starter": 'import numpy as np\n\ndef extractive_summary(sents, scores, k=1):\n    # TODO: indices of the k best scores, then return those sentences in original order\n    return []\n\nprint(extractive_summary(["a", "b"], [0.1, 0.9]))',
+"check": 'assert extractive_summary(["a", "b"], [0.1, 0.9]) == ["b"]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Text summarization condenses long documents into shorter summaries, using extractive (key sentence selection) or abstractive (generation) approaches.",
         "examples": [
             {
@@ -2017,6 +2145,14 @@ SECTIONS = [
 
     {
         "title": "22. Question Answering",
+"practices": [
+{
+"title": 'Answer Span',
+"desc": 'First sentence containing every question word.',
+"starter": 'def answer_span(context, qwords):\n    for s in context.split("."):\n        # TODO: return the stripped sentence when it contains every question word\n        pass\n    return ""\n\nprint(answer_span("Paris is in France. Berlin is in Germany.", ["Paris"]))',
+"check": 'assert answer_span("Paris is in France. Berlin is in Germany.", ["Paris"]) == "Paris is in France"\nassert answer_span("a. b.", ["zzz"]) == ""\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "QA systems find answers to questions within a context passage using span extraction, retrieval-augmented generation (RAG), or knowledge bases.",
         "examples": [
             {
@@ -2039,6 +2175,14 @@ SECTIONS = [
 
     {
         "title": "23. Text Generation & Language Models",
+"practices": [
+{
+"title": 'Greedy Decode',
+"desc": 'Pick the most likely token at each step.',
+"starter": 'import numpy as np\n\ndef greedy_decode(probs, vocab):\n    # TODO: for each step, the vocab entry with the largest probability\n    return []\n\nprint(greedy_decode([[0.1, 0.9]], ["a", "b"]))',
+"check": 'assert greedy_decode([[0.1, 0.9]], ["a", "b"]) == ["b"]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Text generation produces fluent text continuations, completions, or creative content using n-gram models, Markov chains, or pretrained LLMs.",
         "examples": [
             {
@@ -2061,6 +2205,14 @@ SECTIONS = [
 
     {
         "title": "24. NLP Pipeline & Production Deployment",
+"practices": [
+{
+"title": 'Deploy Config',
+"desc": 'Assemble a serving configuration dict.',
+"starter": 'def deploy_config(name, version, batch):\n    # TODO: {"model": name, "version": version, "batch_size": batch}\n    return {}\n\nprint(deploy_config("m", "1", 8))',
+"check": 'assert deploy_config("m", "1", 8) == {"model": "m", "version": "1", "batch_size": 8}\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "A production NLP pipeline integrates preprocessing, vectorization, modeling, and post-processing into a reliable, scalable system.",
         "examples": [
             {

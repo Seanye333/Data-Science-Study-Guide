@@ -161,7 +161,23 @@ df = pd.DataFrame({
     &quot;category&quot;: np.random.choice([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], 100),
     &quot;value&quot;: np.where(np.random.random(100) &gt; 0.85, np.nan, np.random.exponential(50, 100)),
 })
-data_quality_report(df, &quot;sample_data&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a missing_report() function that shows count, percent, and dtype for every column with NaNs</label></li>
+data_quality_report(df, &quot;sample_data&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unique Counts</div><div class="pd">Distinct values per column.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import pandas as pd
+
+def unique_counts(df):
+    # TODO: {column: number of distinct values}
+    return {}
+
+print(unique_counts(pd.DataFrame({&quot;a&quot;: [1, 1, 2]})))</code></pre></div><template class="ho-check">import pandas as pd
+assert unique_counts(pd.DataFrame({&quot;a&quot;:[1,1,2]})) == {&quot;a&quot;: 2}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Profile Summary</div><div class="pd">Rows, columns and total nulls of a frame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import pandas as pd
+
+def profile_summary(df):
+    # TODO: {&quot;rows&quot;: len(df), &quot;cols&quot;: number of columns, &quot;nulls&quot;: total NaNs}
+    return {}
+
+print(profile_summary(pd.DataFrame({&quot;a&quot;: [1, None]})))</code></pre></div><template class="ho-check">import pandas as pd
+assert profile_summary(pd.DataFrame({&quot;a&quot;:[1,None]})) == {&quot;rows&quot;: 2, &quot;cols&quot;: 1, &quot;nulls&quot;: 1}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a missing_report() function that shows count, percent, and dtype for every column with NaNs</label></li>
 <li><label><input type="checkbox"> Load a real CSV and run df.describe() — identify at least 2 suspicious values from the output</label></li>
 <li><label><input type="checkbox"> Check cardinality of every column — find any that look like IDs (nearly all unique values)</label></li>
 <li><label><input type="checkbox"> Compute IQR bounds for a numeric column and print all rows that fall outside the range</label></li>
@@ -472,7 +488,21 @@ def clean_customer_data(df):
 
 result = clean_customer_data(df)
 print(result)
-print(f&quot;\nReduced from {len(df)} to {len(result)} rows&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a DataFrame with city names spelled 4 different ways, then use .replace() to standardize them</label></li>
+print(f&quot;\nReduced from {len(df)} to {len(result)} rows&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize Spacing</div><div class="pd">Lowercase, collapse inner whitespace, trim.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import pandas as pd
+
+def normalize_case_map(s):
+    # TODO: lowercase, replace runs of whitespace with one space, then strip
+    return pd.Series(s)
+
+print(normalize_case_map([&quot;A  B &quot;]).tolist())</code></pre></div><template class="ho-check">assert normalize_case_map([&quot;A  B &quot;]).tolist() == [&quot;a b&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Standardize Text</div><div class="pd">Trim whitespace and lowercase a text column.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import pandas as pd
+
+def standardize_text(s):
+    # TODO: strip then lowercase via the .str accessor
+    return pd.Series(s)
+
+print(standardize_text([&quot; A &quot;]).tolist())</code></pre></div><template class="ho-check">assert standardize_text([&quot; A &quot;]).tolist() == [&quot;a&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a DataFrame with city names spelled 4 different ways, then use .replace() to standardize them</label></li>
 <li><label><input type="checkbox"> Find duplicate rows in a dataset using df.duplicated() and print only the rows that appear more than once</label></li>
 <li><label><input type="checkbox"> Clean a &#x27;price&#x27; column with &#x27;$&#x27; signs and commas using str.replace and pd.to_numeric(errors=&#x27;coerce&#x27;)</label></li>
 <li><label><input type="checkbox"> Parse a column with 3 different date formats into a single datetime column using pd.to_datetime</label></li>
@@ -1172,7 +1202,22 @@ print(f&quot;Poly(3) R2: {r2_score(y, lr_poly3.predict(X_poly3)):.4f}&quot;)
 # WARNING: too many features with high degree
 for d in [2, 3, 4, 5]:
     poly = PolynomialFeatures(degree=d, include_bias=False)
-    print(f&quot;Degree {d}: {poly.fit_transform(np.zeros((1, 5))).shape[1]} features from 5 inputs&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply PolynomialFeatures(degree=2) to a 2-column dataset and list all generated feature names</label></li>
+    print(f&quot;Degree {d}: {poly.fit_transform(np.zeros((1, 5))).shape[1]} features from 5 inputs&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Degree-2 Features</div><div class="pd">Stack x and x squared.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
+
+def poly_degree2(x):
+    x = np.asarray(x, float)
+    # TODO: column-stack x and x**2, as a nested list
+    return []
+
+print(poly_degree2([2, 3]))</code></pre></div><template class="ho-check">assert poly_degree2([2]) == [[2.0, 4.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interaction Term</div><div class="pd">Elementwise product of two features.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import numpy as np
+
+def poly_interactions(a, b):
+    # TODO: a * b elementwise, as a list
+    return []
+
+print(poly_interactions([1, 2], [3, 4]))</code></pre></div><template class="ho-check">assert poly_interactions([1, 2], [3, 4]) == [3.0, 8.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply PolynomialFeatures(degree=2) to a 2-column dataset and list all generated feature names</label></li>
 <li><label><input type="checkbox"> Fit a linear model on raw features vs degree-2 polynomial features — compare R2 scores</label></li>
 <li><label><input type="checkbox"> Use interaction_only=True to create only interaction terms and check the feature count difference</label></li>
 <li><label><input type="checkbox"> Show how feature count explodes with high degree — print feature counts for degrees 2 through 6</label></li>
@@ -1277,7 +1322,23 @@ pipeline.fit(X_train, y_train)
 y_pred = pipeline.predict(X_test)
 
 print(&quot;Fraud Detection Results:&quot;)
-print(classification_report(y_test, y_pred, target_names=[&quot;Legitimate&quot;, &quot;Fraud&quot;]))</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 95/5 imbalanced dataset and show that a naive model achieves high accuracy but zero recall</label></li>
+print(classification_report(y_test, y_pred, target_names=[&quot;Legitimate&quot;, &quot;Fraud&quot;]))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Oversampled Size</div><div class="pd">Total rows after oversampling to the majority count.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import pandas as pd, numpy as np
+
+def oversample_index(y, seed=0):
+    s = pd.Series(y); big = s.value_counts().max()
+    # TODO: total rows once every class is padded up to `big`
+    return 0
+
+print(oversample_index([0, 0, 1]))</code></pre></div><template class="ho-check">assert oversample_index([0, 0, 1]) == 4, &quot;two classes at 2 each&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Class Balance</div><div class="pd">Share of each class, rounded to 3.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">import pandas as pd
+
+def class_balance(y):
+    s = pd.Series(y)
+    # TODO: value_counts(normalize=True).sort_index().round(3).to_dict()
+    return {}
+
+print(class_balance([0, 0, 1]))</code></pre></div><template class="ho-check">assert class_balance([0, 0, 1]) == {0: 0.667, 1: 0.333}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 95/5 imbalanced dataset and show that a naive model achieves high accuracy but zero recall</label></li>
 <li><label><input type="checkbox"> Apply SMOTE and print the class distribution before and after — confirm minority class is upsampled</label></li>
 <li><label><input type="checkbox"> Train a LogisticRegression with class_weight=&#x27;balanced&#x27; and compare F1 to the default version</label></li>
 <li><label><input type="checkbox"> Use stratify=y in train_test_split to preserve class ratios and verify the test set distribution</label></li>
@@ -1372,7 +1433,22 @@ print(f&quot;\nConsensus features: {sorted(consensus)}&quot;)
 for name, features in [(&quot;All 50&quot;, list(range(50))), (&quot;MI top 10&quot;, top_mi),
                         (&quot;RF top 10&quot;, top_rf), (&quot;Consensus&quot;, list(consensus))]:
     scores = cross_val_score(rf, X[:, features], y, cv=5, scoring=&quot;accuracy&quot;)
-    print(f&quot;  {name:15s}: {scores.mean():.4f} (+/- {scores.std():.4f})&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use VarianceThreshold to remove constant and near-constant columns from a dataset</label></li>
+    print(f&quot;  {name:15s}: {scores.mean():.4f} (+/- {scores.std():.4f})&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top-K By Score</div><div class="pd">Indices of the k highest-scoring features.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import numpy as np
+
+def top_k_by_score(scores, k):
+    # TODO: indices of the k largest scores, best first
+    return []
+
+print(top_k_by_score([0.1, 0.9, 0.5], 2))</code></pre></div><template class="ho-check">assert top_k_by_score([0.1, 0.9, 0.5], 2) == [1, 2]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Variance Threshold</div><div class="pd">Indices of columns whose variance exceeds a threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import numpy as np
+
+def select_by_variance(X, thresh):
+    X = np.asarray(X, float)
+    # TODO: indices where the column variance is above thresh
+    return []
+
+print(select_by_variance([[1, 5], [1, 9]], 0.5))</code></pre></div><template class="ho-check">assert select_by_variance([[1, 5], [1, 9]], 0.5) == [1], &quot;the constant column is dropped&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use VarianceThreshold to remove constant and near-constant columns from a dataset</label></li>
 <li><label><input type="checkbox"> Build a correlation matrix and drop one feature from each pair with correlation &gt; 0.9</label></li>
 <li><label><input type="checkbox"> Run RFE with n_features_to_select=5 and print the ranking of all remaining features</label></li>
 <li><label><input type="checkbox"> Compare mutual_info_classif rankings vs RandomForest feature_importances_ — how much do they agree?</label></li>
@@ -1491,7 +1567,22 @@ leakage_audit(&quot;example pipeline&quot;)
 # Key rule of thumb:
 # If your model performs MUCH better in dev than production,
 # you probably have data leakage somewhere.
-print(&quot;\nRule: If dev performance &gt;&gt; production performance = LEAKAGE&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Deliberately scale data before splitting, then after splitting — compare test set accuracy both ways</label></li>
+print(&quot;\nRule: If dev performance &gt;&gt; production performance = LEAKAGE&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Split Before Fitting</div><div class="pd">Chronological split indices, test held out at the end.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">def split_before_fit(n, test_frac):
+    k = int(n * (1 - test_frac))
+    # TODO: return (list(range(k)), list(range(k, n)))
+    return ([], [])
+
+tr, te = split_before_fit(10, 0.3)
+print(len(tr), len(te))</code></pre></div><template class="ho-check">tr, te = split_before_fit(10, 0.3)
+assert len(tr) == 7 and len(te) == 3
+assert max(tr) &lt; min(te), &quot;the test window comes after training&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Leakage Check</div><div class="pd">Is the target accidentally among the features?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def leakage_check(train_cols, target):
+    # TODO: True when target appears in train_cols
+    return False
+
+print(leakage_check([&quot;a&quot;, &quot;y&quot;], &quot;y&quot;), leakage_check([&quot;a&quot;], &quot;y&quot;))</code></pre></div><template class="ho-check">assert leakage_check([&quot;a&quot;, &quot;y&quot;], &quot;y&quot;) is True
+assert leakage_check([&quot;a&quot;], &quot;y&quot;) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Deliberately scale data before splitting, then after splitting — compare test set accuracy both ways</label></li>
 <li><label><input type="checkbox"> Show that fitting a SelectKBest selector on the full dataset inflates CV accuracy vs using a Pipeline</label></li>
 <li><label><input type="checkbox"> Add a target encoding step outside vs inside a Pipeline and observe the accuracy difference</label></li>
 <li><label><input type="checkbox"> Use TimeSeriesSplit on a time-indexed dataset and confirm test folds are always in the future</label></li>
@@ -1651,7 +1742,12 @@ df = pd.DataFrame({
 # TODO: Build full pipeline with preprocessor + model
 # TODO: Evaluate with cross_val_score
 # TODO: Print results
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a ColumnTransformer that applies KNNImputer + StandardScaler to numeric cols and OHE to cat cols</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Name Pipeline Steps</div><div class="pd">Pair each step name with its lowercase key.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">def pipeline_steps(names):
+    # TODO: [(name, name.lower()) for each name]
+    return []
+
+print(pipeline_steps([&quot;Scaler&quot;, &quot;Encoder&quot;]))</code></pre></div><template class="ho-check">assert pipeline_steps([&quot;Scaler&quot;]) == [(&quot;Scaler&quot;, &quot;scaler&quot;)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a ColumnTransformer that applies KNNImputer + StandardScaler to numeric cols and OHE to cat cols</label></li>
 <li><label><input type="checkbox"> Wrap the ColumnTransformer and a classifier into a single Pipeline and run cross_val_score</label></li>
 <li><label><input type="checkbox"> Save the trained pipeline with joblib.dump and reload it — confirm predictions are identical</label></li>
 <li><label><input type="checkbox"> Write a custom BaseEstimator transformer (e.g., OutlierCapper) and insert it into a Pipeline step</label></li>

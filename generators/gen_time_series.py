@@ -593,6 +593,14 @@ idx = pd.date_range('2024-01-01', periods=60, freq='B')
 
 {
 "title": "4. Time Series Visualization",
+"practices": [
+{
+"title": 'Axis Bounds',
+"desc": 'Min and max for the y-axis.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef plot_series_bounds(v):\n    v = np.asarray(v, float)\n    # TODO: return (float min, float max)\n    return (0.0, 0.0)\n\nprint(plot_series_bounds([1, 5]))',
+"check": 'assert plot_series_bounds([1, 5]) == (1.0, 5.0)\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Visualizing time series reveals trends, seasonality, and anomalies. Key plots include line charts, seasonal decomposition, ACF/PACF correlograms, and lag plots.",
 "examples": [
 {"label": "Basic time series plot with annotations", "code":
@@ -782,6 +790,14 @@ print('Saved practice_ts.png')"""},
 
 {
 "title": "5. Trend & Seasonality Decomposition",
+"practices": [
+{
+"title": 'Detrend',
+"desc": 'Remove a fitted linear trend.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef detrend(v):\n    v = np.asarray(v, float); t = np.arange(len(v))\n    c = np.polyfit(t, v, 1)\n    # TODO: subtract np.polyval(c, t) from v, rounded to 6, as a list\n    return []\n\nprint(detrend([1, 2, 3]))',
+"check": 'r = detrend([1, 2, 3])\nassert max(abs(x) for x in r) < 1e-6, "a pure line detrends to zero"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Decomposition separates a time series into trend, seasonal, and residual components. Additive decomposition (Y = T + S + R) works for constant amplitude seasonality; multiplicative (Y = T × S × R) for growing amplitude.",
 "examples": [
 {"label": "Classical decomposition with statsmodels", "code":
@@ -1155,6 +1171,14 @@ except ImportError:
 
 {
 "title": "7. ARIMA Modeling",
+"practices": [
+{
+"title": 'AR(1) Coefficient',
+"desc": 'Fit y_t on y_{t-1} to get the AR coefficient.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef ar1_coef(v):\n    v = np.asarray(v, float); x = v[:-1]; y = v[1:]\n    # TODO: slope of the least-squares fit of y on x\n    return 0.0\n\nprint(round(ar1_coef([1, 2, 4, 8]), 4))',
+"check": 'assert abs(ar1_coef([1, 2, 4, 8]) - 2) < 1e-6, "each value doubles"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "ARIMA(p,d,q) combines AutoRegression (p lags), Integration (d differences for stationarity), and Moving Average (q lagged forecast errors). SARIMA extends this with seasonal components.",
 "examples": [
 {"label": "Fitting ARIMA with statsmodels", "code":
@@ -1329,6 +1353,14 @@ except ImportError:
 
 {
 "title": "8. Exponential Smoothing",
+"practices": [
+{
+"title": 'Simple Exponential Smoothing',
+"desc": 'Recursive level update.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef ses(v, alpha):\n    v = np.asarray(v, float); out = [v[0]]\n    for x in v[1:]:\n        # TODO: append alpha*x + (1-alpha)*previous level\n        pass\n    return [round(float(x), 4) for x in out]\n\nprint(ses([1, 2], 0.5))',
+"check": 'assert ses([1, 2], 0.5) == [1.0, 1.5]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt's adds trend; Holt-Winters adds seasonality. These are fast, interpretable, and competitive with ARIMA.",
 "examples": [
 {"label": "Simple Exponential Smoothing", "code":
@@ -1711,6 +1743,14 @@ idx = pd.date_range('2024-01-01', periods=168, freq='h')
 
 {
 "title": "10. Forecasting Evaluation",
+"practices": [
+{
+"title": 'MAPE',
+"desc": 'Mean absolute percentage error.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef mape(y, yh):\n    y = np.asarray(y, float); yh = np.asarray(yh, float)\n    # TODO: mean of |(y - yh) / y| times 100\n    return 0.0\n\nprint(round(mape([100, 200], [110, 180]), 4))',
+"check": 'assert abs(mape([100, 200], [110, 180]) - 10) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Proper evaluation of time series forecasts requires time-ordered splits (no leakage), multiple metrics (MAE, RMSE, MAPE), and ideally walk-forward validation to simulate real deployment.",
 "examples": [
 {"label": "MAE, RMSE, MAPE, and SMAPE", "code":
@@ -1901,6 +1941,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 },
 {
     "title": "11. Prophet Forecasting",
+"practices": [
+{
+"title": 'Trend Plus Seasonality',
+"desc": 'Build a synthetic trend + seasonal signal.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef trend_plus_season(t, slope, period, amp):\n    t = np.asarray(t, float)\n    # TODO: slope*t + amp*sin(2*pi*t/period), rounded to 6\n    return t\n\nprint(trend_plus_season([0, 1, 2], 1, 4, 1).tolist())',
+"check": 'import numpy as np\nr = trend_plus_season([0, 1, 2], 1, 4, 1)\nassert len(r) == 3 and abs(r[0]) < 1e-9, "at t=0 both parts are zero"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Use Facebook Prophet for additive time series forecasting with automatic trend, seasonality, and holiday effects. Handle changepoints and produce uncertainty intervals.",
     "examples": [
         {
@@ -1937,6 +1985,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 },
 {
     "title": "12. Anomaly Detection in Time Series",
+"practices": [
+{
+"title": 'Z-Score Anomalies',
+"desc": 'Indices whose z-score exceeds a threshold.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef zscore_anomalies(v, thresh=2.0):\n    v = np.asarray(v, float); z = (v - v.mean()) / v.std(ddof=0)\n    # TODO: indices where |z| is above thresh\n    return []\n\nprint(zscore_anomalies([1, 1, 1, 1, 20], 1.5))',
+"check": 'assert zscore_anomalies([1, 1, 1, 1, 20], 1.5) == [4]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Detect outliers and anomalies in sequential data using statistical thresholds, isolation forests, and autoencoder-style reconstruction errors.",
     "examples": [
         {
@@ -1973,6 +2029,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 },
 {
     "title": "13. Neural Forecasting Fundamentals",
+"practices": [
+{
+"title": 'Supervised Windows',
+"desc": 'Turn a series into (X, y) training windows.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef make_supervised(v, lag):\n    v = np.asarray(v, float)\n    # TODO: X = windows of length lag, y = the next value after each window\n    return ([], [])\n\nX, y = make_supervised([1, 2, 3, 4], 2)\nprint(X, y)',
+"check": 'X, y = make_supervised([1, 2, 3, 4], 2)\nassert X == [[1, 2], [2, 3]] and y == [3.0, 4.0]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Apply LSTM, Temporal Convolutional Networks (TCN), and N-BEATS-style architectures using PyTorch or Keras for sequence forecasting tasks.",
     "examples": [
         {
@@ -2010,6 +2074,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
     {
         "title": "14. Wavelet Analysis for Time Series",
+"practices": [
+{
+"title": 'Haar Step',
+"desc": 'One level of the Haar transform.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef haar_step(v):\n    v = np.asarray(v, float)\n    # TODO: averages (a) and differences (d) of adjacent pairs, each halved\n    return ([], [])\n\nprint(haar_step([1, 3]))',
+"check": 'a, d = haar_step([1, 3])\nassert a == [2.0] and d == [-1.0]\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Discrete Wavelet Transform (DWT)",
@@ -2041,6 +2113,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     },
     {
         "title": "15. Multivariate Time Series & VAR Models",
+"practices": [
+{
+"title": 'Lag Matrix',
+"desc": 'Lagged design matrix for a VAR.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import pandas as pd\n\ndef lag_matrix(cols, lag):\n    df = pd.DataFrame(cols)\n    # TODO: shift by lag, drop NaN rows, return .values.tolist()\n    return []\n\nprint(lag_matrix({"a": [1, 2, 3]}, 1))',
+"check": 'assert lag_matrix({"a": [1, 2, 3]}, 1) == [[1.0], [2.0]]\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Vector Autoregression (VAR)",
@@ -2072,6 +2152,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     },
     {
         "title": "16. Real-Time Streaming & Online Learning",
+"practices": [
+{
+"title": 'Online Mean',
+"desc": 'Update a running mean with one new value.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'def online_mean(prev_mean, n, x):\n    # TODO: prev_mean + (x - prev_mean) / (n + 1)\n    return prev_mean\n\nprint(online_mean(2.0, 2, 5))',
+"check": 'assert online_mean(2.0, 2, 5) == 3.0\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Online Learning with River",
@@ -2103,6 +2191,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
     },
 {
 "title": "17. Seasonal Decomposition & STL",
+"practices": [
+{
+"title": 'Moving-Average Detrend',
+"desc": 'Subtract a centered moving average.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import pandas as pd\n\ndef moving_avg_detrend(v, w):\n    s = pd.Series(v, dtype=float)\n    # TODO: s minus its centered rolling mean, NaNs dropped, rounded to 4, as a list\n    return []\n\nprint(moving_avg_detrend([1, 2, 3, 4, 5], 3))',
+"check": 'assert len(moving_avg_detrend([1, 2, 3, 4, 5], 3)) == 3\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Time series decompose into Trend, Seasonality, and Residual components. STL (Seasonal-Trend decomposition using LOESS) is robust to outliers and handles arbitrary seasonality. Use it before forecasting to understand your signal.",
 "examples": [
         {"label": "Classical decomposition with statsmodels", "code": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\nnp.random.seed(42)\nperiods = 120\ndates = pd.date_range(\'2015-01\', periods=periods, freq=\'MS\')\ntrend = np.linspace(100, 160, periods)\nseasonal = 15 * np.sin(2 * np.pi * np.arange(periods) / 12)\nnoise = np.random.normal(0, 5, periods)\nts = pd.Series(trend + seasonal + noise, index=dates)\n\nresult = seasonal_decompose(ts, model=\'additive\', period=12)\n\nprint(\"Decomposition components:\")\nprint(f\"  Trend range:    [{result.trend.dropna().min():.1f}, {result.trend.dropna().max():.1f}]\")\nprint(f\"  Seasonal range: [{result.seasonal.min():.2f}, {result.seasonal.max():.2f}]\")\nprint(f\"  Residual std:   {result.resid.dropna().std():.3f}\")\n\n# Seasonal indices\nseasonal_idx = result.seasonal[:12]\nfor month, val in zip(range(1, 13), seasonal_idx):\n    print(f\"  Month {month:2d}: {val:+.2f}\")"},
@@ -2127,6 +2223,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "18. Stationarity Testing & ARIMA Preparation",
+"practices": [
+{
+"title": 'Stationarity Gap',
+"desc": 'Difference in mean between the two halves.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef stationarity_gap(v):\n    v = np.asarray(v, float); h = len(v) // 2\n    # TODO: absolute difference between the first-half and second-half means\n    return 0.0\n\nprint(stationarity_gap([1, 1, 9, 9]))',
+"check": 'assert stationarity_gap([1, 1, 1, 1]) == 0.0, "a constant series is stationary"\nassert stationarity_gap([1, 1, 9, 9]) == 8.0\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "ARIMA requires a stationary series (constant mean/variance). ADF and KPSS tests check stationarity. Differencing and log transforms achieve it. ACF/PACF plots reveal AR and MA orders.",
 "examples": [
         {"label": "ADF and KPSS stationarity tests", "code": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.stattools import adfuller, kpss\n\nnp.random.seed(42)\nn = 200\nt = np.arange(n)\n\nseries = {\n    \'Random Walk\':    np.cumsum(np.random.randn(n)),            # non-stationary\n    \'Stationary AR1\': np.zeros(n),                              # stationary\n    \'Trend + Noise\':  2 + 0.05*t + np.random.randn(n),         # non-stationary (trend)\n}\nfor i in range(1, n):\n    series[\'Stationary AR1\'][i] = 0.7*series[\'Stationary AR1\'][i-1] + np.random.randn()\n\nprint(f\"{\'Series\':16s}  {\'ADF p\':>8s}  {\'ADF stat\':>9s}  {\'KPSS p\':>8s}  {\'Stationary?\'}\")\nprint(\'-\' * 60)\nfor name, data in series.items():\n    adf_stat, adf_p, *_ = adfuller(data, autolag=\'AIC\')\n    try:\n        kpss_stat, kpss_p, *_ = kpss(data, regression=\'c\', nlags=\'auto\')\n    except Exception:\n        kpss_p = 0.01\n    # Stationary: ADF rejects H0 (p<0.05) AND KPSS fails to reject H0 (p>0.05)\n    is_stat = (adf_p < 0.05) and (kpss_p > 0.05)\n    print(f\"{name:16s}  {adf_p:8.4f}  {adf_stat:9.4f}  {kpss_p:8.4f}  {is_stat}\")"},
@@ -2151,6 +2255,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "19. ARIMA & SARIMA Modeling",
+"practices": [
+{
+"title": 'SARIMA Order',
+"desc": 'Package the (p,d,q) and seasonal orders.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'def sarima_order(p, d, q, P, D, Q, s):\n    # TODO: return ((p, d, q), (P, D, Q, s))\n    return ((), ())\n\nprint(sarima_order(1, 1, 1, 0, 1, 1, 12))',
+"check": 'assert sarima_order(1, 1, 1, 0, 1, 1, 12) == ((1, 1, 1), (0, 1, 1, 12))\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "ARIMA(p,d,q) models a stationary process as AutoRegressive + Integrated + Moving Average. SARIMA adds seasonal components (P,D,Q,m). Use AIC/BIC for order selection and residual diagnostics to validate.",
 "examples": [
         {"label": "Fitting ARIMA and forecasting", "code": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.arima.model import ARIMA\n\nnp.random.seed(42)\nn = 120\ndates = pd.date_range(\'2014-01\', periods=n, freq=\'MS\')\ntrend = np.linspace(100, 150, n)\nnoise = np.cumsum(np.random.normal(0, 2, n))  # AR component\nts = pd.Series(trend + noise, index=dates)\n\n# Fit ARIMA(1,1,1)\nmodel = ARIMA(ts, order=(1, 1, 1))\nfitted = model.fit()\nprint(fitted.summary().tables[1])\n\n# Forecast 12 months ahead\nforecast = fitted.get_forecast(steps=12)\npred_mean = forecast.predicted_mean\npred_ci   = forecast.conf_int(alpha=0.05)\n\nprint(f\"\\n12-month forecast:\")\nfor date, val, lo, hi in zip(pred_mean.index[:3], pred_mean[:3],\n                              pred_ci.iloc[:3,0], pred_ci.iloc[:3,1]):\n    print(f\"  {date.strftime(\'%Y-%m\')}: {val:.1f} [{lo:.1f}, {hi:.1f}]\")\nprint(f\"  ...\")\n\n# In-sample fit metrics\nfrom sklearn.metrics import mean_squared_error\nresiduals = fitted.resid\nprint(f\"\\nIn-sample RMSE: {np.sqrt((residuals**2).mean()):.3f}\")\nprint(f\"AIC: {fitted.aic:.2f}, BIC: {fitted.bic:.2f}\")"},
@@ -2175,6 +2287,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "20. Exponential Smoothing (ETS / Holt-Winters)",
+"practices": [
+{
+"title": 'Holt Level and Trend',
+"desc": 'Holt linear-trend recursion.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef holt_trend(v, alpha, beta):\n    v = np.asarray(v, float); l = v[0]; b = v[1] - v[0]\n    for x in v[1:]:\n        lp = l\n        # TODO: l = alpha*x + (1-alpha)*(l+b); then b = beta*(l-lp) + (1-beta)*b\n        pass\n    return (round(float(l), 4), round(float(b), 4))\n\nprint(holt_trend([1, 2, 3], 0.5, 0.5))',
+"check": 'l, b = holt_trend([1, 2, 3], 0.5, 0.5)\nassert isinstance(l, float) and isinstance(b, float)\nassert b > 0, "an increasing series has a positive trend"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Exponential smoothing methods weight recent observations more heavily. Simple ES handles level; Holt\'s double ES adds trend; Holt-Winters triple ES adds seasonality. The ETS framework unifies them with Error-Trend-Seasonality states.",
 "examples": [
         {"label": "Simple, Holt\'s double, and Holt-Winters", "code": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.holtwinters import SimpleExpSmoothing, Holt, ExponentialSmoothing\nimport warnings; warnings.filterwarnings(\'ignore\')\n\nnp.random.seed(42)\nn = 60\ndates = pd.date_range(\'2019-01\', periods=n, freq=\'MS\')\ntrend    = np.linspace(100, 160, n)\nseasonal = 20 * np.sin(2*np.pi*np.arange(n)/12)\nnoise    = np.random.normal(0, 5, n)\nts = pd.Series(trend + seasonal + noise, index=dates)\n\ntrain, test = ts[:-12], ts[-12:]\n\n# Simple Exponential Smoothing (level only)\nses = SimpleExpSmoothing(train, initialization_method=\'estimated\').fit()\nses_fc = ses.forecast(12)\n\n# Holt\'s (trend)\nholt = Holt(train, initialization_method=\'estimated\').fit(\n    optimized=True, smoothing_level=0.3, smoothing_trend=0.1)\nholt_fc = holt.forecast(12)\n\n# Holt-Winters (trend + seasonality)\nhw = ExponentialSmoothing(train, trend=\'add\', seasonal=\'add\',\n                           seasonal_periods=12,\n                           initialization_method=\'estimated\').fit(optimized=True)\nhw_fc = hw.forecast(12)\n\nfrom sklearn.metrics import mean_squared_error\nfor name, fc in [(\'SES\', ses_fc), (\"Holt\'s\", holt_fc), (\'Holt-Winters\', hw_fc)]:\n    rmse = np.sqrt(mean_squared_error(test, fc))\n    print(f\"{name:15s}: RMSE={rmse:.2f},  alpha={getattr(getattr(ses if name==\'SES\' else holt if \'Holt\' in name and name!=\'Holt-Winters\' else hw,\'model\',None),\'params\',{}).get(\'smoothing_level\',\'N/A\')}\")"},
@@ -2199,6 +2319,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "21. ML Approach: Lag Features & Sklearn",
+"practices": [
+{
+"title": 'Lag Feature Matrix',
+"desc": 'Build sklearn-ready lag features.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import pandas as pd\n\ndef sklearn_lag_features(v, lags):\n    s = pd.Series(v, dtype=float)\n    # TODO: concat s.shift(l) for each lag along axis=1, drop NaNs, .values.tolist()\n    return []\n\nprint(sklearn_lag_features([1, 2, 3], [1]))',
+"check": 'assert sklearn_lag_features([1, 2, 3], [1]) == [[1.0], [2.0]]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Transform any time series into a supervised ML problem by creating lag features, rolling statistics, and calendar features. This lets you use any sklearn regressor for forecasting.",
 "examples": [
         {"label": "Creating lag and rolling features", "code": "import numpy as np, pandas as pd\n\nnp.random.seed(42)\nn = 200\nts = pd.Series(\n    100 + np.cumsum(np.random.normal(0.3, 2, n)) +\n    15 * np.sin(2*np.pi*np.arange(n)/12),\n    index=pd.date_range(\'2007-01\', periods=n, freq=\'MS\'),\n    name=\'sales\')\n\ndef make_features(ts, lags=6, windows=[3, 6, 12]):\n    df = pd.DataFrame({\'y\': ts})\n    # Lag features\n    for lag in range(1, lags+1):\n        df[f\'lag_{lag}\'] = ts.shift(lag)\n    # Rolling statistics\n    for w in windows:\n        df[f\'roll_mean_{w}\']  = ts.shift(1).rolling(w).mean()\n        df[f\'roll_std_{w}\']   = ts.shift(1).rolling(w).std()\n        df[f\'roll_min_{w}\']   = ts.shift(1).rolling(w).min()\n    # Calendar features\n    df[\'month\']     = ts.index.month\n    df[\'month_sin\'] = np.sin(2*np.pi*ts.index.month/12)\n    df[\'month_cos\'] = np.cos(2*np.pi*ts.index.month/12)\n    df[\'trend\']     = np.arange(len(ts))\n    return df.dropna()\n\nfeatures = make_features(ts)\nprint(f\"Feature matrix: {features.shape}\")\nprint(f\"Features: {list(features.columns)}\")\nprint(f\"\\nSample row:\\n{features.iloc[0].round(3)}\")"},
@@ -2223,6 +2351,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "22. Time Series Anomaly Detection",
+"practices": [
+{
+"title": 'IQR Anomalies',
+"desc": 'Indices outside the Tukey fences.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import pandas as pd\n\ndef iqr_anomalies(v):\n    s = pd.Series(v, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); i = q3 - q1\n    # TODO: indices whose value falls outside [q1-1.5i, q3+1.5i]\n    return []\n\nprint(iqr_anomalies([1, 2, 3, 4, 100]))',
+"check": 'assert iqr_anomalies([1, 2, 3, 4, 100]) == [4]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Detect anomalous time points using statistical control limits, rolling z-scores, STL residuals, and IsolationForest. Different methods suit different anomaly types: spikes, level shifts, or trend changes.",
 "examples": [
         {"label": "Rolling z-score and IQR fences", "code": "import numpy as np, pandas as pd\n\nnp.random.seed(42)\nn = 200\nts = pd.Series(\n    50 + np.cumsum(np.random.normal(0.1, 1, n)),\n    index=pd.date_range(\'2020-01-01\', periods=n, freq=\'D\'))\n\n# Inject anomalies\nanomaly_idx = [40, 90, 140, 170]\nts.iloc[anomaly_idx] += np.array([25, -30, 20, -25])\n\n# Method 1: Rolling z-score\nwindow = 20\nroll_mean = ts.rolling(window, min_periods=1).mean()\nroll_std  = ts.rolling(window, min_periods=1).std().fillna(1)\nz_scores  = (ts - roll_mean) / roll_std\n\nanomalies_z = ts[abs(z_scores) > 3]\nprint(f\"Rolling z-score (|z|>3): {len(anomalies_z)} anomalies detected\")\nprint(f\"  True: {anomaly_idx}\")\nprint(f\"  Detected: {list(anomalies_z.index.strftime(\'%Y-%m-%d\')[:5])}\")\n\n# Method 2: IQR fences on rolling window\nq1 = ts.rolling(30).quantile(0.25)\nq3 = ts.rolling(30).quantile(0.75)\niqr = q3 - q1\nlower = q1 - 1.5 * iqr\nupper = q3 + 1.5 * iqr\nanomalies_iqr = ts[(ts < lower) | (ts > upper)]\nprint(f\"IQR fences: {len(anomalies_iqr)} anomalies detected\")"},
@@ -2247,6 +2383,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "23. Forecast Evaluation & Backtesting",
+"practices": [
+{
+"title": 'Expanding Splits',
+"desc": 'Walk-forward train/test index splits.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'def expanding_splits(n, min_train):\n    # TODO: for each k from min_train to n-1: (list(range(k)), [k])\n    return []\n\nprint(expanding_splits(4, 2))',
+"check": 'assert expanding_splits(4, 2) == [([0, 1], [2]), ([0, 1, 2], [3])]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "RMSE and MAPE are standard forecast metrics but have blind spots. SMAPE handles zeros; MASE benchmarks against naive. Walk-forward backtesting gives realistic performance estimates and detects overfitting to a single test window.",
 "examples": [
         {"label": "RMSE, MAPE, MASE, SMAPE", "code": "import numpy as np\n\ndef rmse(y_true, y_pred):\n    return np.sqrt(np.mean((y_true - y_pred)**2))\n\ndef mape(y_true, y_pred):\n    mask = y_true != 0\n    return np.mean(np.abs((y_true[mask] - y_pred[mask]) / y_true[mask])) * 100\n\ndef smape(y_true, y_pred):\n    denom = (np.abs(y_true) + np.abs(y_pred)) / 2\n    mask  = denom > 0\n    return np.mean(np.abs(y_true[mask] - y_pred[mask]) / denom[mask]) * 100\n\ndef mase(y_true, y_pred, y_train, m=1):\n    # Mean Absolute Scaled Error: normalized by naive seasonal forecast error\n    naive_err = np.mean(np.abs(np.diff(y_train, n=m)))\n    return np.mean(np.abs(y_true - y_pred)) / naive_err\n\nnp.random.seed(42)\ny_true  = np.array([100, 150, 130, 200, 175, 220, 195, 210])\ny_pred  = y_true + np.random.randn(len(y_true)) * 15\ny_train = np.array([80, 90, 110, 95, 105, 120, 115, 130, 140] + list(y_true[:4]))\n\nprint(f\"RMSE:  {rmse(y_true, y_pred):.3f}\")\nprint(f\"MAPE:  {mape(y_true, y_pred):.2f}%\")\nprint(f\"SMAPE: {smape(y_true, y_pred):.2f}%\")\nprint(f\"MASE:  {mase(y_true, y_pred, np.array(y_train)):.3f}  (< 1 = better than naive)\")\n\n# Bias and directional accuracy\nbias = np.mean(y_pred - y_true)\nda   = np.mean(np.sign(np.diff(y_true)) == np.sign(np.diff(y_pred))) * 100\nprint(f\"Bias:  {bias:.3f} (positive = over-forecast)\")\nprint(f\"Directional accuracy: {da:.1f}%\")"},
@@ -2271,6 +2415,14 @@ idx = pd.date_range('2024-01-01', periods=180, freq='D')
 
 {
 "title": "24. Multivariate Time Series & Prophet",
+"practices": [
+{
+"title": 'Cross Correlation',
+"desc": 'Correlation between two series.\n(Written with NumPy/pandas so it runs in the browser.)',
+"starter": 'import numpy as np\n\ndef cross_corr(a, b):\n    # TODO: np.corrcoef(a, b)[0, 1] as a float\n    return 0.0\n\nprint(round(cross_corr([1, 2, 3], [2, 4, 6]), 4))',
+"check": 'assert abs(cross_corr([1, 2, 3], [2, 4, 6]) - 1) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "VAR models multiple related time series jointly. Granger causality tests whether one series predicts another. Facebook Prophet is a user-friendly forecaster for business time series with holidays and change points.",
 "examples": [
         {"label": "Vector Autoregression (VAR)", "code": "import numpy as np, pandas as pd\nfrom statsmodels.tsa.vector_ar.var_model import VAR\nfrom statsmodels.tsa.stattools import adfuller\n\nnp.random.seed(42)\nn = 120\n# Two co-moving series: temperature and ice cream sales\ntemp  = pd.Series(20 + 10*np.sin(2*np.pi*np.arange(n)/12) + np.random.randn(n)*2)\nsales = 0.8*temp.shift(1).fillna(0) + np.random.randn(n)*5 + 50\n\ndf = pd.DataFrame({\'temp\': temp, \'sales\': sales})\n# Difference to achieve stationarity\ndf_diff = df.diff().dropna()\n\nmodel = VAR(df_diff)\nresult = model.fit(maxlags=4, ic=\'aic\')\nprint(f\"VAR({result.k_ar}) fitted. AIC={result.aic:.2f}\")\nprint(f\"\\nGranger causality test (temp -> sales):\")\n\nlag_order = result.k_ar\ntest = result.test_causality(\'sales\', \'temp\', kind=\'f\')\nprint(f\"  F-stat={test.test_statistic:.3f}, p={test.pvalue:.4f}\")\nprint(f\"  Temp Granger-causes sales? {test.pvalue < 0.05}\")\n\nfc = result.forecast(df_diff.values[-lag_order:], steps=6)\nprint(f\"\\n6-step forecast (differences):\\n{pd.DataFrame(fc, columns=[\'temp_d\',\'sales_d\']).round(2)}\")"},

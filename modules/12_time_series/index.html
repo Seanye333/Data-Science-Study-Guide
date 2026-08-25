@@ -619,7 +619,16 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=52, freq=&#x27;W&#x27;)
 
 plt.savefig(&#x27;practice_ts.png&#x27;, dpi=100)
 plt.close()
-print(&#x27;Saved practice_ts.png&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a time series with a 30-day moving average overlay on the same axes</label></li>
+print(&#x27;Saved practice_ts.png&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Axis Bounds</div><div class="pd">Min and max for the y-axis.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import numpy as np
+
+def plot_series_bounds(v):
+    v = np.asarray(v, float)
+    # TODO: return (float min, float max)
+    return (0.0, 0.0)
+
+print(plot_series_bounds([1, 5]))</code></pre></div><template class="ho-check">assert plot_series_bounds([1, 5]) == (1.0, 5.0)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Plot a time series with a 30-day moving average overlay on the same axes</label></li>
 <li><label><input type="checkbox"> Create a seasonal subseries plot showing average value for each month across years</label></li>
 <li><label><input type="checkbox"> Plot ACF and PACF side-by-side for an AR(1) series and interpret the cutoffs</label></li>
 <li><label><input type="checkbox"> Create a lag scatter plot (ts[t] vs ts[t-1]) and describe what the pattern reveals</label></li>
@@ -764,7 +773,18 @@ idx = pd.date_range(&#x27;2022-01-01&#x27;, periods=36, freq=&#x27;ME&#x27;)
 # TODO: decompose
 
 # TODO: print seasonal indices by month
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run seasonal_decompose on monthly data with period=12 and inspect the trend component</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Detrend</div><div class="pd">Remove a fitted linear trend.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">import numpy as np
+
+def detrend(v):
+    v = np.asarray(v, float); t = np.arange(len(v))
+    c = np.polyfit(t, v, 1)
+    # TODO: subtract np.polyval(c, t) from v, rounded to 6, as a list
+    return []
+
+print(detrend([1, 2, 3]))</code></pre></div><template class="ho-check">r = detrend([1, 2, 3])
+assert max(abs(x) for x in r) &lt; 1e-6, &quot;a pure line detrends to zero&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run seasonal_decompose on monthly data with period=12 and inspect the trend component</label></li>
 <li><label><input type="checkbox"> Compare additive vs multiplicative decomposition on the same series with growing amplitude</label></li>
 <li><label><input type="checkbox"> Use STL with robust=True and observe how it handles injected outliers vs classical decompose</label></li>
 <li><label><input type="checkbox"> Extract the deseasonalized series by subtracting the seasonal component from the original</label></li>
@@ -1094,7 +1114,16 @@ try:
 
     # TODO: forecast and compute MAE
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on a random-walk series and print the AIC and BIC values</label></li>
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: AR(1) Coefficient</div><div class="pd">Fit y_t on y_{t-1} to get the AR coefficient.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">import numpy as np
+
+def ar1_coef(v):
+    v = np.asarray(v, float); x = v[:-1]; y = v[1:]
+    # TODO: slope of the least-squares fit of y on x
+    return 0.0
+
+print(round(ar1_coef([1, 2, 4, 8]), 4))</code></pre></div><template class="ho-check">assert abs(ar1_coef([1, 2, 4, 8]) - 2) &lt; 1e-6, &quot;each value doubles&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on a random-walk series and print the AIC and BIC values</label></li>
 <li><label><input type="checkbox"> Loop over p in range(3) and q in range(3) to find the ARIMA order with the lowest AIC</label></li>
 <li><label><input type="checkbox"> Use model.get_forecast(steps=12) and extract the 95% confidence intervals</label></li>
 <li><label><input type="checkbox"> Fit SARIMA(1,1,1)(1,1,0,12) on monthly data and compare RMSE to plain ARIMA(1,1,1)</label></li>
@@ -1244,7 +1273,18 @@ try:
 
     # TODO: compare RMSE
 except ImportError:
-    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing with alpha=0.1 and alpha=0.9 — compare how quickly each adapts</label></li>
+    print(&#x27;pip install statsmodels&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Simple Exponential Smoothing</div><div class="pd">Recursive level update.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import numpy as np
+
+def ses(v, alpha):
+    v = np.asarray(v, float); out = [v[0]]
+    for x in v[1:]:
+        # TODO: append alpha*x + (1-alpha)*previous level
+        pass
+    return [round(float(x), 4) for x in out]
+
+print(ses([1, 2], 0.5))</code></pre></div><template class="ho-check">assert ses([1, 2], 0.5) == [1.0, 1.5]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing with alpha=0.1 and alpha=0.9 — compare how quickly each adapts</label></li>
 <li><label><input type="checkbox"> Use Holt&#x27;s double exponential smoothing on a trending series and check the slope parameter</label></li>
 <li><label><input type="checkbox"> Fit Holt-Winters with seasonal_periods=12 and print the 12 seasonal indices</label></li>
 <li><label><input type="checkbox"> Compare SES, Holt, and Holt-Winters RMSE on a test set to see which captures most signal</label></li>
@@ -1599,7 +1639,16 @@ idx = pd.date_range(&#x27;2024-01-01&#x27;, periods=180, freq=&#x27;D&#x27;)
 # TODO: create feature matrix
 
 # TODO: cross-validate all three models
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, and MAPE on a 20-point test set and note which metric penalizes big errors more</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: MAPE</div><div class="pd">Mean absolute percentage error.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import numpy as np
+
+def mape(y, yh):
+    y = np.asarray(y, float); yh = np.asarray(yh, float)
+    # TODO: mean of |(y - yh) / y| times 100
+    return 0.0
+
+print(round(mape([100, 200], [110, 180]), 4))</code></pre></div><template class="ho-check">assert abs(mape([100, 200], [110, 180]) - 10) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, and MAPE on a 20-point test set and note which metric penalizes big errors more</label></li>
 <li><label><input type="checkbox"> Implement walk-forward validation manually with an expanding training window</label></li>
 <li><label><input type="checkbox"> Use sklearn TimeSeriesSplit with n_splits=5 and print the train/test sizes for each fold</label></li>
 <li><label><input type="checkbox"> Compare walk-forward RMSE to a naive seasonal benchmark (last year&#x27;s same period)</label></li>
@@ -1777,7 +1826,18 @@ df = pd.DataFrame({&#x27;ds&#x27;: weeks, &#x27;revenue&#x27;: y})
 # TODO: Create features (t index, month dummies, lag-1)
 # TODO: Walk-forward cross-validation with 4-week horizon
 # TODO: Report average RMSE and 80% PI width
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format a time series DataFrame in Prophet&#x27;s required ds/y column format</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Trend Plus Seasonality</div><div class="pd">Build a synthetic trend + seasonal signal.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">import numpy as np
+
+def trend_plus_season(t, slope, period, amp):
+    t = np.asarray(t, float)
+    # TODO: slope*t + amp*sin(2*pi*t/period), rounded to 6
+    return t
+
+print(trend_plus_season([0, 1, 2], 1, 4, 1).tolist())</code></pre></div><template class="ho-check">import numpy as np
+r = trend_plus_season([0, 1, 2], 1, 4, 1)
+assert len(r) == 3 and abs(r[0]) &lt; 1e-9, &quot;at t=0 both parts are zero&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format a time series DataFrame in Prophet&#x27;s required ds/y column format</label></li>
 <li><label><input type="checkbox"> Fit a Prophet model and call make_future_dataframe(periods=30) for a 30-day forecast</label></li>
 <li><label><input type="checkbox"> Add a custom holiday effect to Prophet and observe its impact on the forecast</label></li>
 <li><label><input type="checkbox"> Tune changepoint_prior_scale between 0.001 and 0.5 and compare forecast flexibility</label></li>
@@ -1946,7 +2006,16 @@ df = pd.DataFrame({&#x27;time&#x27;: hours, &#x27;orders&#x27;: orders})
 # TODO: Rolling z-score anomaly detection (window=24, thresh=3)
 # TODO: Isolation Forest on (orders, hour, dayofweek)
 # TODO: Compare detected anomaly counts and false positive rates
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a rolling z-score detector with window=14 and flag points where |z| &gt; 3</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z-Score Anomalies</div><div class="pd">Indices whose z-score exceeds a threshold.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">import numpy as np
+
+def zscore_anomalies(v, thresh=2.0):
+    v = np.asarray(v, float); z = (v - v.mean()) / v.std(ddof=0)
+    # TODO: indices where |z| is above thresh
+    return []
+
+print(zscore_anomalies([1, 1, 1, 1, 20], 1.5))</code></pre></div><template class="ho-check">assert zscore_anomalies([1, 1, 1, 1, 20], 1.5) == [4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a rolling z-score detector with window=14 and flag points where |z| &gt; 3</label></li>
 <li><label><input type="checkbox"> Apply IsolationForest with contamination=0.05 on a multivariate time series</label></li>
 <li><label><input type="checkbox"> Use STL residuals with a 3*MAD threshold and compare it to rolling z-score precision</label></li>
 <li><label><input type="checkbox"> Inject 3 anomalies into a known series and check which detection method finds them all</label></li>
@@ -2128,7 +2197,18 @@ LB, H = 48, 12
 # TODO: Train GBM MultiOutputRegressor
 # TODO: Report RMSE for steps 1-4 vs steps 9-12
 # TODO: Compute attention weights via per-lag correlation
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a sliding-window dataset with lookback=20 and compare Ridge vs GBM on RMSE</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Supervised Windows</div><div class="pd">Turn a series into (X, y) training windows.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">import numpy as np
+
+def make_supervised(v, lag):
+    v = np.asarray(v, float)
+    # TODO: X = windows of length lag, y = the next value after each window
+    return ([], [])
+
+X, y = make_supervised([1, 2, 3, 4], 2)
+print(X, y)</code></pre></div><template class="ho-check">X, y = make_supervised([1, 2, 3, 4], 2)
+assert X == [[1, 2], [2, 3]] and y == [3.0, 4.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a sliding-window dataset with lookback=20 and compare Ridge vs GBM on RMSE</label></li>
 <li><label><input type="checkbox"> Implement a multi-step seq2seq forecast with MultiOutputRegressor and 7-step horizon</label></li>
 <li><label><input type="checkbox"> Compute per-lag correlations with the target to identify which lags matter most</label></li>
 <li><label><input type="checkbox"> Compare the RMSE of step-1 forecast vs step-7 forecast to see how accuracy degrades</label></li>
@@ -2215,7 +2295,17 @@ eeg[spike_start:spike_start+13] += 3.0
 # TODO: Identify which detail levels correspond to each EEG band
 # TODO: Compute relative band powers
 # TODO: Detect spike using reconstruction error
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run pywt.wavedec on a sine wave with &#x27;db4&#x27; wavelet and inspect each coefficient array</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Haar Step</div><div class="pd">One level of the Haar transform.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">import numpy as np
+
+def haar_step(v):
+    v = np.asarray(v, float)
+    # TODO: averages (a) and differences (d) of adjacent pairs, each halved
+    return ([], [])
+
+print(haar_step([1, 3]))</code></pre></div><template class="ho-check">a, d = haar_step([1, 3])
+assert a == [2.0] and d == [-1.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run pywt.wavedec on a sine wave with &#x27;db4&#x27; wavelet and inspect each coefficient array</label></li>
 <li><label><input type="checkbox"> Denoise a noisy signal by zeroing out small wavelet coefficients and reconstruct it</label></li>
 <li><label><input type="checkbox"> Compute the energy at each wavelet level and identify which level dominates the signal</label></li>
 <li><label><input type="checkbox"> Apply CWT and find the dominant frequency at the start vs end of a chirp signal</label></li>
@@ -2300,7 +2390,16 @@ price_b = 0.9*common + np.random.normal(0, 0.5, n) + 45
 # TODO: Z-score of spread
 # TODO: Generate trading signals (long A-short B when z&lt;-2, vice versa)
 # TODO: Compute daily P&amp;L, Sharpe ratio, max drawdown
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit a VAR(2) model on two correlated series and print the coefficient matrices</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lag Matrix</div><div class="pd">Lagged design matrix for a VAR.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">import pandas as pd
+
+def lag_matrix(cols, lag):
+    df = pd.DataFrame(cols)
+    # TODO: shift by lag, drop NaN rows, return .values.tolist()
+    return []
+
+print(lag_matrix({&quot;a&quot;: [1, 2, 3]}, 1))</code></pre></div><template class="ho-check">assert lag_matrix({&quot;a&quot;: [1, 2, 3]}, 1) == [[1.0], [2.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit a VAR(2) model on two correlated series and print the coefficient matrices</label></li>
 <li><label><input type="checkbox"> Run a Granger causality test and interpret whether the p-value supports causation</label></li>
 <li><label><input type="checkbox"> Test two random-walk series for cointegration with statsmodels.tsa.stattools.coint</label></li>
 <li><label><input type="checkbox"> Forecast 6 steps ahead with VAR and compare to individual ARIMA forecasts</label></li>
@@ -2398,7 +2497,13 @@ y = np.array([
 # TODO: Online logistic regression with River
 # TODO: ADWIN drift detection on binary prediction errors
 # TODO: Report AUC in windows before drift, at drift, after adaptation
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a StreamStats class with a sliding window of size 50 tracking mean and std</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Online Mean</div><div class="pd">Update a running mean with one new value.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">def online_mean(prev_mean, n, x):
+    # TODO: prev_mean + (x - prev_mean) / (n + 1)
+    return prev_mean
+
+print(online_mean(2.0, 2, 5))</code></pre></div><template class="ho-check">assert online_mean(2.0, 2, 5) == 3.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a StreamStats class with a sliding window of size 50 tracking mean and std</label></li>
 <li><label><input type="checkbox"> Simulate a stream where the mean shifts at step 500 and detect it with ADWIN</label></li>
 <li><label><input type="checkbox"> Implement online learning with River&#x27;s LinearRegression and print RMSE every 100 steps</label></li>
 <li><label><input type="checkbox"> Compare the accuracy of an online model at t=100 vs t=900 to see how it improves</label></li>
@@ -2518,7 +2623,16 @@ res = stl.fit()
 # (3) variance decomposition
 total_var = ts.var()
 # TODO: compute each component&#x27;s share
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run STL with robust=True on a series with outliers — compare to classical decomposition</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Moving-Average Detrend</div><div class="pd">Subtract a centered moving average.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">import pandas as pd
+
+def moving_avg_detrend(v, w):
+    s = pd.Series(v, dtype=float)
+    # TODO: s minus its centered rolling mean, NaNs dropped, rounded to 4, as a list
+    return []
+
+print(moving_avg_detrend([1, 2, 3, 4, 5], 3))</code></pre></div><template class="ho-check">assert len(moving_avg_detrend([1, 2, 3, 4, 5], 3)) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run STL with robust=True on a series with outliers — compare to classical decomposition</label></li>
 <li><label><input type="checkbox"> Extract seasonal indices and identify the month or week with the strongest seasonal effect</label></li>
 <li><label><input type="checkbox"> Compute the variance explained by trend, seasonal, and residual from an STL decomposition</label></li>
 <li><label><input type="checkbox"> Deseasonalize your series by subtracting the seasonal component and plot the result</label></li>
@@ -2652,7 +2766,17 @@ ts_stat   = pd.Series(np.random.randn(100))
 for name, ts in [(&#x27;Random Walk&#x27;, ts_rw), (&#x27;Exponential Trend&#x27;, ts_exp), (&#x27;Stationary&#x27;, ts_stat)]:
     out, d, log = make_stationary(ts)
     print(f&quot;{name}: diffs={d}, log={log}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and confirm non-stationarity (p &gt; 0.05)</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stationarity Gap</div><div class="pd">Difference in mean between the two halves.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">import numpy as np
+
+def stationarity_gap(v):
+    v = np.asarray(v, float); h = len(v) // 2
+    # TODO: absolute difference between the first-half and second-half means
+    return 0.0
+
+print(stationarity_gap([1, 1, 9, 9]))</code></pre></div><template class="ho-check">assert stationarity_gap([1, 1, 1, 1]) == 0.0, &quot;a constant series is stationary&quot;
+assert stationarity_gap([1, 1, 9, 9]) == 8.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run adfuller() on a random walk and confirm non-stationarity (p &gt; 0.05)</label></li>
 <li><label><input type="checkbox"> Plot ACF for 20 lags on a non-differenced vs once-differenced series — describe the difference</label></li>
 <li><label><input type="checkbox"> Apply log transform then first difference to financial prices and verify stationarity with ADF</label></li>
 <li><label><input type="checkbox"> Use pacf() to identify the AR order and acf() to identify the MA order for your series</label></li>
@@ -2802,7 +2926,13 @@ def select_arima_order(ts, max_p=3, max_q=3, d=1):
 # TODO: call select_arima_order on train set (first 48 months)
 # TODO: forecast last 12 months with best order
 # TODO: compare RMSE to naive persistence (repeat last observed value)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on monthly data and print the coefficient summary table</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: SARIMA Order</div><div class="pd">Package the (p,d,q) and seasonal orders.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">def sarima_order(p, d, q, P, D, Q, s):
+    # TODO: return ((p, d, q), (P, D, Q, s))
+    return ((), ())
+
+print(sarima_order(1, 1, 1, 0, 1, 1, 12))</code></pre></div><template class="ho-check">assert sarima_order(1, 1, 1, 0, 1, 1, 12) == ((1, 1, 1), (0, 1, 1, 12))
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit ARIMA(1,1,1) on monthly data and print the coefficient summary table</label></li>
 <li><label><input type="checkbox"> Grid-search ARIMA orders (p 0-2, q 0-2) and rank them by AIC — note the winner</label></li>
 <li><label><input type="checkbox"> Fit SARIMA(1,1,1)(1,1,1,12) and compare its RMSE to plain ARIMA on seasonal data</label></li>
 <li><label><input type="checkbox"> Run Ljung-Box test on ARIMA residuals and confirm white noise (p &gt; 0.05 is good)</label></li>
@@ -2946,7 +3076,21 @@ def grid_search_ets(train, test, h=12):
     return pd.DataFrame(results)
 
 print(grid_search_ets(train, test).head(5))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing and manually vary alpha from 0.1 to 0.9 — observe smoothing effect</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Holt Level and Trend</div><div class="pd">Holt linear-trend recursion.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">import numpy as np
+
+def holt_trend(v, alpha, beta):
+    v = np.asarray(v, float); l = v[0]; b = v[1] - v[0]
+    for x in v[1:]:
+        lp = l
+        # TODO: l = alpha*x + (1-alpha)*(l+b); then b = beta*(l-lp) + (1-beta)*b
+        pass
+    return (round(float(l), 4), round(float(b), 4))
+
+print(holt_trend([1, 2, 3], 0.5, 0.5))</code></pre></div><template class="ho-check">l, b = holt_trend([1, 2, 3], 0.5, 0.5)
+assert isinstance(l, float) and isinstance(b, float)
+assert b &gt; 0, &quot;an increasing series has a positive trend&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit SimpleExpSmoothing and manually vary alpha from 0.1 to 0.9 — observe smoothing effect</label></li>
 <li><label><input type="checkbox"> Use Holt&#x27;s double ES on a trending series and extract the final level and slope</label></li>
 <li><label><input type="checkbox"> Fit Holt-Winters with trend=&#x27;add&#x27;, seasonal=&#x27;add&#x27;, seasonal_periods=12 and compare to &#x27;mul&#x27;</label></li>
 <li><label><input type="checkbox"> Run grid_search_ets with all model combos and sort by test RMSE to find the best config</label></li>
@@ -3115,7 +3259,16 @@ ts = pd.Series(
 # TODO: train RandomForest
 # TODO: report RMSE and MAPE
 # TODO: print actual vs predicted for test
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_8 for a weekly series and check correlations with the target</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lag Feature Matrix</div><div class="pd">Build sklearn-ready lag features.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">import pandas as pd
+
+def sklearn_lag_features(v, lags):
+    s = pd.Series(v, dtype=float)
+    # TODO: concat s.shift(l) for each lag along axis=1, drop NaNs, .values.tolist()
+    return []
+
+print(sklearn_lag_features([1, 2, 3], [1]))</code></pre></div><template class="ho-check">assert sklearn_lag_features([1, 2, 3], [1]) == [[1.0], [2.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create lag_1 through lag_8 for a weekly series and check correlations with the target</label></li>
 <li><label><input type="checkbox"> Add rolling mean and std at 4 and 8 weeks — always shift by 1 to prevent data leakage</label></li>
 <li><label><input type="checkbox"> Encode week-of-year as sin/cos cyclical features and verify the encoding wraps correctly</label></li>
 <li><label><input type="checkbox"> Train a RandomForestRegressor and print the top 5 most important features</label></li>
@@ -3267,7 +3420,16 @@ for day, delta in zip(anom_days, deltas):
 
 # TODO: implement 3 anomaly detectors
 # TODO: print TP matrix for each injected anomaly
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a rolling z-score detector and tune the threshold to balance precision and recall</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: IQR Anomalies</div><div class="pd">Indices outside the Tukey fences.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">import pandas as pd
+
+def iqr_anomalies(v):
+    s = pd.Series(v, dtype=float); q1, q3 = s.quantile(0.25), s.quantile(0.75); i = q3 - q1
+    # TODO: indices whose value falls outside [q1-1.5i, q3+1.5i]
+    return []
+
+print(iqr_anomalies([1, 2, 3, 4, 100]))</code></pre></div><template class="ho-check">assert iqr_anomalies([1, 2, 3, 4, 100]) == [4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a rolling z-score detector and tune the threshold to balance precision and recall</label></li>
 <li><label><input type="checkbox"> Apply IsolationForest with windowed features (value, rolling_mean, rolling_std, z_score)</label></li>
 <li><label><input type="checkbox"> Use STL residuals + 3*MAD threshold — compare its detection rate to the z-score method</label></li>
 <li><label><input type="checkbox"> Create a TP matrix showing which detector caught which injected anomaly</label></li>
@@ -3427,7 +3589,13 @@ ts = pd.Series(
 
 results = forecast_tournament(ts, h=6, n_folds=4)
 print(results)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, MAPE, and SMAPE on a test set and explain when each metric is preferred</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expanding Splits</div><div class="pd">Walk-forward train/test index splits.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">def expanding_splits(n, min_train):
+    # TODO: for each k from min_train to n-1: (list(range(k)), [k])
+    return []
+
+print(expanding_splits(4, 2))</code></pre></div><template class="ho-check">assert expanding_splits(4, 2) == [([0, 1], [2]), ([0, 1, 2], [3])]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute MAE, RMSE, MAPE, and SMAPE on a test set and explain when each metric is preferred</label></li>
 <li><label><input type="checkbox"> Implement a naive seasonal benchmark (last year same period) and compute its RMSE</label></li>
 <li><label><input type="checkbox"> Run walk-forward CV with 4 folds and print RMSE per fold to see how variance behaves</label></li>
 <li><label><input type="checkbox"> Compare MASE &lt; 1 vs &gt;= 1 to determine whether your model beats the naive baseline</label></li>
@@ -3551,7 +3719,15 @@ df = pd.DataFrame({&#x27;temp&#x27;:temp, &#x27;humidity&#x27;:humidity, &#x27;e
 # (2) Fit VAR with lag selection
 # (3) Granger causality
 # (4) Forecast and RMSE
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format two related series as a DataFrame and fit VAR with maxlags=4, ic=&#x27;aic&#x27;</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross Correlation</div><div class="pd">Correlation between two series.
+(Written with NumPy/pandas so it runs in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">import numpy as np
+
+def cross_corr(a, b):
+    # TODO: np.corrcoef(a, b)[0, 1] as a float
+    return 0.0
+
+print(round(cross_corr([1, 2, 3], [2, 4, 6]), 4))</code></pre></div><template class="ho-check">assert abs(cross_corr([1, 2, 3], [2, 4, 6]) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format two related series as a DataFrame and fit VAR with maxlags=4, ic=&#x27;aic&#x27;</label></li>
 <li><label><input type="checkbox"> Run VAR.test_causality() and interpret whether one series Granger-causes another</label></li>
 <li><label><input type="checkbox"> Use Prophet by creating a ds/y DataFrame and calling m.fit() + m.predict(future)</label></li>
 <li><label><input type="checkbox"> Add Prophet changepoints and compare forecast quality with vs without them</label></li>
