@@ -867,6 +867,14 @@ SECTIONS = [
     },
     {
         "title": "Convolutional Neural Networks",
+"practices": [
+{
+"title": 'Conv Output Size',
+"desc": 'Output width of a convolution.',
+"starter": 'def conv_out_size(n, k, s=1, p=0):\n    # TODO: (n - k + 2p) // s + 1\n    return 0\n\nprint(conv_out_size(5, 3))',
+"check": 'assert conv_out_size(5, 3) == 3 and conv_out_size(5, 3, 1, 1) == 5\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "CNNs learn spatial features from images using convolutional filters, pooling, and fully connected heads.",
         "code1_title": "Building a CNN",
         "code1": (
@@ -1087,6 +1095,14 @@ SECTIONS = [
     },
     {
         "title": "Transfer Learning",
+"practices": [
+{
+"title": 'Frozen Parameters',
+"desc": 'How many parameters stay frozen.',
+"starter": 'def freeze_count(total, trainable):\n    # TODO: total minus trainable\n    return 0\n\nprint(freeze_count(10, 3))',
+"check": 'assert freeze_count(10, 3) == 7\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Reuse pretrained models (ResNet, ViT, BERT) — fine-tune on your small dataset for state-of-the-art results.",
         "code1_title": "Fine-tuning ResNet18",
         "code1": (
@@ -1284,6 +1300,14 @@ SECTIONS = [
     },
     {
         "title": "Custom Datasets & DataLoaders",
+"practices": [
+{
+"title": 'Batch Indices',
+"desc": 'Index batches for a DataLoader.',
+"starter": 'def batch_indices(n, bs):\n    # TODO: consecutive index lists of length bs (last may be shorter)\n    return []\n\nprint(batch_indices(5, 2))',
+"check": 'assert batch_indices(5, 2) == [[0, 1], [2, 3], [4]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Build custom Dataset classes to load any data efficiently with batching, shuffling, and augmentation.",
         "code1_title": "Custom Dataset Class",
         "code1": (
@@ -1754,6 +1778,14 @@ SECTIONS = [
     },
     {
         "title": "Saving, Loading & ONNX Export",
+"practices": [
+{
+"title": 'State Dict Keys',
+"desc": 'Sorted parameter names of a checkpoint.',
+"starter": 'def state_dict_keys(d):\n    # TODO: sorted keys of the dict\n    return []\n\nprint(state_dict_keys({"b": 1, "a": 2}))',
+"check": 'assert state_dict_keys({"b": 1, "a": 2}) == ["a", "b"]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Persist trained models with state_dict, checkpoint training progress, and export for deployment.",
         "code1_title": "Save & Load state_dict",
         "code1": (
@@ -1975,6 +2007,14 @@ SECTIONS = [
     },
     {
         "title": "RNNs, LSTMs & Sequence Models",
+"practices": [
+{
+"title": 'RNN Step',
+"desc": 'One recurrent step: tanh(xWx + hWh).',
+"starter": 'import numpy as np\n\ndef rnn_step(x, h, Wx, Wh):\n    # TODO: tanh(x @ Wx + h @ Wh)\n    return np.asarray(x, float)\n\nprint(rnn_step([[1.0]], [[0.0]], [[0.0]], [[0.0]]).tolist())',
+"check": 'assert rnn_step([[1.0]], [[0.0]], [[0.0]], [[0.0]]).tolist() == [[0.0]]\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Process sequential data — time series, text, signals — with RNNs, LSTMs, and GRUs.",
         "code1_title": "LSTM for Sequence Classification",
         "code1": (
@@ -2187,6 +2227,14 @@ SECTIONS = [
     },
     {
         "title": "Attention Mechanisms",
+"practices": [
+{
+"title": 'Attention Weights',
+"desc": 'Softmax over attention scores.',
+"starter": 'import numpy as np\n\ndef attention_weights(scores):\n    s = np.asarray(scores, float); e = np.exp(s - s.max())\n    # TODO: normalize e so the weights sum to 1, rounded to 4, as a list\n    return []\n\nprint(attention_weights([1, 1]))',
+"check": 'assert abs(sum(attention_weights([1, 1])) - 1.0) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Implement scaled dot-product attention, multi-head attention, and self-attention from scratch. Understand how transformers use attention to model long-range dependencies.",
         "code1_title": "Scaled Dot-Product Attention",
         "code1": (
@@ -2365,6 +2413,14 @@ SECTIONS = [
     },
     {
         "title": "Generative Models",
+"practices": [
+{
+"title": 'KL Divergence',
+"desc": 'KL of a diagonal Gaussian against a standard normal.',
+"starter": 'import numpy as np\n\ndef kl_normal(mu, logvar):\n    mu = np.asarray(mu, float); logvar = np.asarray(logvar, float)\n    # TODO: -0.5 * sum(1 + logvar - mu**2 - exp(logvar))\n    return 0.0\n\nprint(kl_normal([0.0], [0.0]))',
+"check": 'assert kl_normal([0.0], [0.0]) == 0.0, "the standard normal has zero KL against itself"\nassert kl_normal([2.0], [0.0]) > 0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Implement Variational Autoencoders (VAE) and Generative Adversarial Networks (GAN) concepts. Understand reparameterization trick, ELBO loss, and adversarial training.",
         "code1_title": "Autoencoder from Scratch (NumPy)",
         "code1": (
@@ -2571,6 +2627,14 @@ SECTIONS = [
     },
     {
         "title": "Model Interpretability",
+"practices": [
+{
+"title": 'Most Salient Input',
+"desc": 'Index of the largest absolute gradient.',
+"starter": 'import numpy as np\n\ndef saliency(g):\n    # TODO: index of the maximum absolute gradient\n    return 0\n\nprint(saliency([0.1, -0.9]))',
+"check": 'assert saliency([0.1, -0.9]) == 1\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Explain black-box model predictions using SHAP values, integrated gradients, LIME, and attention visualization. Make models auditable and trustworthy.",
         "code1_title": "SHAP Values with TreeExplainer",
         "code1": (
@@ -2749,6 +2813,14 @@ SECTIONS = [
     },
     {
         "title": "14. Convolutional Neural Networks (CNNs)",
+"practices": [
+{
+"title": 'Pool Output Size',
+"desc": 'Output width after pooling.',
+"starter": 'def pool_out_size(n, k, s):\n    # TODO: (n - k) // s + 1\n    return 0\n\nprint(pool_out_size(4, 2, 2))',
+"check": 'assert pool_out_size(4, 2, 2) == 2\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "CNNs use learnable filters to detect spatial patterns in images. Conv layers extract local features, pooling reduces dimensionality, and residual connections enable training very deep networks by solving the vanishing gradient problem.",
         "code1_title": "Simple CNN Classifier",
         "code1": (
@@ -2986,6 +3058,14 @@ SECTIONS = [
     },
     {
         "title": "15. Transformer Architecture & Attention Mechanisms",
+"practices": [
+{
+"title": 'Positional Encoding',
+"desc": 'Sine term of the positional encoding.',
+"starter": 'import numpy as np\n\ndef positional_encoding(pos, i, d):\n    # TODO: sin(pos / 10000**(2i/d)) as a float\n    return 0.0\n\nprint(positional_encoding(0, 0, 4))',
+"check": 'assert abs(positional_encoding(0, 0, 4)) < 1e-12, "position 0 has sine 0"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Transformers use self-attention to relate every position to every other position in a sequence. Multi-head attention, positional encoding, and residual connections make them the foundation of modern NLP and vision models.",
         "code1_title": "Transformer Block with Multi-Head Attention",
         "code1": (
@@ -3172,6 +3252,14 @@ SECTIONS = [
     },
     {
         "title": "16. Generative Models: VAE & GAN",
+"practices": [
+{
+"title": 'Reparameterization',
+"desc": 'Sample as mu + std * eps.',
+"starter": 'def reparameterize(mu, std, eps):\n    # TODO: mu + std * eps\n    return 0.0\n\nprint(reparameterize(1.0, 2.0, 0.5))',
+"check": 'assert reparameterize(1.0, 2.0, 0.5) == 2.0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Variational Autoencoders learn a compressed latent distribution and can generate new samples. GANs pit a generator against a discriminator in an adversarial game. Both are used for data augmentation, anomaly detection, and synthetic data generation.",
         "code1_title": "Variational Autoencoder (VAE)",
         "code1": (
@@ -3394,6 +3482,14 @@ SECTIONS = [
     },
     {
         "title": "17. LSTM & GRU for Sequence Modeling",
+"practices": [
+{
+"title": 'Gate Activation',
+"desc": 'Sigmoid of a gate pre-activation.',
+"starter": 'import numpy as np\n\ndef gate_sigmoid(z):\n    # TODO: 1 / (1 + exp(-z)) as a float\n    return 0.0\n\nprint(gate_sigmoid(0))',
+"check": 'assert abs(gate_sigmoid(0) - 0.5) < 1e-12\nassert gate_sigmoid(10) > 0.99\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "LSTMs and GRUs solve the vanishing gradient problem for long sequences using gating mechanisms. LSTMs have separate cell/hidden states; GRUs merge them into a single hidden state for fewer parameters.",
         "code1_title": "LSTM Time Series Forecasting",
         "code1": (
@@ -3601,6 +3697,14 @@ SECTIONS = [
     },
     {
         "title": "18. Transfer Learning & Fine-tuning",
+"practices": [
+{
+"title": 'Layer-wise Learning Rate',
+"desc": 'Decay the learning rate by depth.',
+"starter": 'def finetune_lr(base, depth, decay=0.9):\n    # TODO: base * decay**depth\n    return 0.0\n\nprint(round(finetune_lr(0.1, 1), 4))',
+"check": 'assert abs(finetune_lr(0.1, 1) - 0.09) < 1e-12\nassert finetune_lr(0.1, 0) == 0.1\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Transfer learning reuses pretrained model weights, dramatically reducing training time and data requirements. Strategies include feature extraction (frozen backbone), gradual unfreezing, and layer-wise learning rates.",
         "code1_title": "Feature Extraction with Frozen Backbone",
         "code1": (
@@ -3816,6 +3920,14 @@ SECTIONS = [
     },
     {
         "title": "19. Attention Mechanisms",
+"practices": [
+{
+"title": 'Scaled Dot Product',
+"desc": 'Dot product divided by sqrt(d).',
+"starter": 'import numpy as np\n\ndef scaled_dot_attention(q, k):\n    q = np.asarray(q, float); k = np.asarray(k, float)\n    # TODO: q dot k divided by sqrt(dimension)\n    return 0.0\n\nprint(round(scaled_dot_attention([1, 0], [1, 0]), 4))',
+"check": 'import numpy as np\nassert abs(scaled_dot_attention([1, 0], [1, 0]) - 1/np.sqrt(2)) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Attention allows models to focus on relevant parts of input. Scaled dot-product attention computes query-key similarity, softmax-normalizes scores, then aggregates values. Multi-head attention runs this in parallel across multiple representation subspaces.",
         "code1_title": "Scaled Dot-Product Attention",
         "code1": (
@@ -4001,6 +4113,14 @@ SECTIONS = [
     },
     {
         "title": "20. Batch Normalization & Regularization",
+"practices": [
+{
+"title": 'Batch Statistics',
+"desc": 'Mean and variance used by batch norm.',
+"starter": 'import numpy as np\n\ndef batchnorm_stats(x):\n    x = np.asarray(x, float)\n    # TODO: return (float mean, float variance)\n    return (0.0, 0.0)\n\nprint(batchnorm_stats([1, 3]))',
+"check": 'm, v = batchnorm_stats([1, 3])\nassert m == 2.0 and v == 1.0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "BatchNorm stabilizes training by normalizing layer inputs per batch. Dropout randomly zeroes activations during training. Weight decay (L2) penalizes large weights. LayerNorm is preferred in Transformers.",
         "code1_title": "BatchNorm, Dropout & Weight Decay Comparison",
         "code1": (
@@ -4187,6 +4307,14 @@ SECTIONS = [
     },
     {
         "title": "21. Learning Rate Scheduling",
+"practices": [
+{
+"title": 'Step Decay',
+"desc": 'Learning rate after step decay.',
+"starter": 'def step_lr(base, epoch, step=2, gamma=0.5):\n    # TODO: base * gamma**(epoch // step)\n    return 0.0\n\nprint(step_lr(1.0, 2))',
+"check": 'assert step_lr(1.0, 2) == 0.5 and step_lr(1.0, 0) == 1.0\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Learning rate schedules adapt LR during training. Step decay, cosine annealing, and warmup+cosine are common strategies. ReduceLROnPlateau automatically reduces LR when validation metrics stagnate.",
         "code1_title": "Common LR Schedulers",
         "code1": (
@@ -4363,6 +4491,14 @@ SECTIONS = [
     },
     {
         "title": "22. Model Checkpointing & Early Stopping",
+"practices": [
+{
+"title": 'Should Checkpoint?',
+"desc": 'Save only when the metric improves.',
+"starter": 'def should_checkpoint(best, cur):\n    # TODO: True when cur is better (lower) than best\n    return False\n\nprint(should_checkpoint(1.0, 0.5), should_checkpoint(0.5, 1.0))',
+"check": 'assert should_checkpoint(1.0, 0.5) is True\nassert should_checkpoint(0.5, 1.0) is False\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Checkpointing saves model state during training to recover from crashes and resume. Early stopping halts training when validation loss stops improving, preventing overfitting automatically.",
         "code1_title": "Model Checkpointing",
         "code1": (
@@ -4578,6 +4714,14 @@ SECTIONS = [
     },
     {
         "title": "23. Gradient Clipping & Mixed Precision",
+"practices": [
+{
+"title": 'Clip by Norm',
+"desc": 'Rescale a gradient that exceeds max_norm.',
+"starter": 'import numpy as np\n\ndef clip_grad(g, max_norm):\n    g = np.asarray(g, float); n = np.linalg.norm(g)\n    # TODO: scale g down to max_norm when n exceeds it, otherwise leave it; return a list\n    return g.tolist()\n\nprint([round(v, 3) for v in clip_grad([3, 4], 1.0)])',
+"check": 'import numpy as np\nassert abs(np.linalg.norm(clip_grad([3, 4], 1.0)) - 1.0) < 1e-9\nassert clip_grad([0.1, 0.0], 1.0) == [0.1, 0.0], "small gradients pass through"\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Gradient clipping prevents exploding gradients in deep RNNs and Transformers. Mixed precision (FP16/BF16) training halves memory usage and speeds up training on modern GPUs using GradScaler.",
         "code1_title": "Gradient Clipping",
         "code1": (
@@ -4766,6 +4910,14 @@ SECTIONS = [
     },
     {
         "title": "24. Model Export & Deployment",
+"practices": [
+{
+"title": 'Export Shape',
+"desc": 'Batched input shape for export.',
+"starter": 'def export_shapes(shape, batch):\n    # TODO: (batch,) followed by the input shape\n    return ()\n\nprint(export_shapes((3, 32, 32), 8))',
+"check": 'assert export_shapes((3, 32, 32), 8) == (8, 3, 32, 32)\nprint("All checks passed \\u2713")',
+},
+],
         "desc": "Export PyTorch models via TorchScript for language-agnostic C++/mobile deployment, ONNX for cross-framework serving, or pickle for sklearn models. Production deployment requires consistent preprocessing and health checks.",
         "code1_title": "TorchScript Export",
         "code1": (

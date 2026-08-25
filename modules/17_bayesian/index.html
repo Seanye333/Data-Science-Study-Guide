@@ -156,7 +156,12 @@ emails = [
 for words, desc in emails:
     prob = classify_email(words, word_probs, P_spam)
     label = &quot;SPAM&quot; if prob &gt; 0.5 else &quot;HAM&quot;
-    print(f&quot;  {desc:15s} words={words} → P(spam)={prob:.4f} [{label}]&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute P(A union B) and P(A intersection B) for two events using the addition rule — verify with simulation</label></li>
+    print(f&quot;  {desc:15s} words={words} → P(spam)={prob:.4f} [{label}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Probability</div><div class="pd">P(A and B) from P(A) and P(B|A).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">def joint_prob(pa, pb_given_a):
+    # TODO: multiply the two probabilities
+    return 0.0
+
+print(joint_prob(0.5, 0.4))</code></pre></div><template class="ho-check">assert joint_prob(0.5, 0.4) == 0.2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute P(A union B) and P(A intersection B) for two events using the addition rule — verify with simulation</label></li>
 <li><label><input type="checkbox"> Calculate P(disease | positive test) for disease prevalences of 0.1%, 1%, 5%, and 10%</label></li>
 <li><label><input type="checkbox"> Verify independence of two coin flips by checking P(H1 and H2) == P(H1) * P(H2) via simulation</label></li>
 <li><label><input type="checkbox"> Implement a simple Naive Bayes classifier from scratch for 3 email categories</label></li>
@@ -1177,7 +1182,15 @@ print(&quot;MCMC A/B Test Results&quot;)
 print(f&quot;theta_A: {np.mean(sa):.4f} ({np.percentile(sa, 2.5):.4f}, {np.percentile(sa, 97.5):.4f})&quot;)
 print(f&quot;theta_B: {np.mean(sb):.4f} ({np.percentile(sb, 2.5):.4f}, {np.percentile(sb, 97.5):.4f})&quot;)
 print(f&quot;diff:    {np.mean(diff):.4f} ({np.percentile(diff, 2.5):.4f}, {np.percentile(diff, 97.5):.4f})&quot;)
-print(f&quot;P(B&gt;A):  {np.mean(diff &gt; 0):.4f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Metropolis-Hastings from scratch to sample from a Normal posterior — check acceptance rate</label></li>
+print(f&quot;P(B&gt;A):  {np.mean(diff &gt; 0):.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Acceptance Ratio</div><div class="pd">Metropolis acceptance probability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import numpy as np
+
+def mcmc_acceptance(cur, prop, logp):
+    # TODO: min(1, exp(logp(prop) - logp(cur))) as a float
+    return 0.0
+
+print(mcmc_acceptance(0.0, 0.0, lambda x: -x*x))</code></pre></div><template class="ho-check">assert abs(mcmc_acceptance(0.0, 0.0, lambda x: -x*x) - 1.0) &lt; 1e-12, &quot;equal density always accepts&quot;
+assert mcmc_acceptance(0.0, 5.0, lambda x: -x*x) &lt; 1e-6, &quot;much worse proposals are rejected&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement Metropolis-Hastings from scratch to sample from a Normal posterior — check acceptance rate</label></li>
 <li><label><input type="checkbox"> Run 4 chains from different starting points and compute R-hat — verify it is below 1.01</label></li>
 <li><label><input type="checkbox"> Vary the proposal standard deviation (0.01 vs 1.0 vs 5.0) and compare acceptance rates</label></li>
 <li><label><input type="checkbox"> Discard burn-in of 100, 500, and 2000 samples — see how much the posterior mean changes</label></li>
@@ -1311,7 +1324,15 @@ print(f&quot;\nFor 1000 customers:&quot;)
 total_clv = clv_samples * 1000
 print(f&quot;  Expected: ${np.mean(total_clv):&gt;12,.0f}&quot;)
 print(f&quot;  Worst 5%%: ${np.percentile(total_clv, 5):&gt;12,.0f}&quot;)
-print(f&quot;  Best 95%%: ${np.percentile(total_clv, 95):&gt;12,.0f}&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write out a PyMC model definition (as a comment/string) for a simple Normal likelihood problem</label></li>
+print(f&quot;  Best 95%%: ${np.percentile(total_clv, 95):&gt;12,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior Mean After Burn-in</div><div class="pd">Average the trace after discarding burn-in.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
+
+def trace_mean(samples, burn):
+    s = np.asarray(samples, float)
+    # TODO: mean of the samples after the first burn entries
+    return 0.0
+
+print(trace_mean([100, 1, 1, 1], 1))</code></pre></div><template class="ho-check">assert trace_mean([100, 1, 1, 1], 1) == 1.0, &quot;the burn-in sample is discarded&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write out a PyMC model definition (as a comment/string) for a simple Normal likelihood problem</label></li>
 <li><label><input type="checkbox"> Implement the analytical Normal-Normal posterior update and compare it to a Metropolis-Hastings estimate</label></li>
 <li><label><input type="checkbox"> Compute a Bayesian CLV estimate from monthly churn data — report mean, 5th, and 95th percentile</label></li>
 <li><label><input type="checkbox"> Model Bayesian logistic regression weights manually using MCMC and compare to sklearn&#x27;s coefficients</label></li>
@@ -1378,7 +1399,13 @@ comparison = pd.DataFrame({
     &quot;Bayesian&quot;: [&quot;Degree of belief&quot;, &quot;Random variables&quot;, &quot;Fixed (observed)&quot;,
                  &quot;Credible intervals&quot;, &quot;Yes&quot;, &quot;Works with small N&quot;, &quot;Can be slow&quot;],
 })
-print(comparison.to_string(index=False))</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a frequentist 95% CI and a Bayesian 95% credible interval on the same dataset — explain the difference</label></li>
+print(comparison.to_string(index=False))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interpretation</div><div class="pd">Which quantity each interval describes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">def credible_vs_confidence(kind):
+    # TODO: &quot;probability&quot; for a credible interval, &quot;coverage&quot; otherwise
+    return &quot;&quot;
+
+print(credible_vs_confidence(&quot;credible&quot;), credible_vs_confidence(&quot;confidence&quot;))</code></pre></div><template class="ho-check">assert credible_vs_confidence(&quot;credible&quot;) == &quot;probability&quot;
+assert credible_vs_confidence(&quot;confidence&quot;) == &quot;coverage&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a frequentist 95% CI and a Bayesian 95% credible interval on the same dataset — explain the difference</label></li>
 <li><label><input type="checkbox"> Run a t-test and a Bayesian test on the same data — compare the p-value to P(mu &gt; 0)</label></li>
 <li><label><input type="checkbox"> Show that with n=5 samples, a strong prior substantially changes the posterior mean vs MLE</label></li>
 <li><label><input type="checkbox"> Identify 3 real problems from your work where Bayesian thinking would be more appropriate than p-values</label></li>
@@ -1494,7 +1521,19 @@ for name, model in configs:
 
 best = max(results, key=lambda x: x[1])
 print(f&quot;\nBest: {best[0]} with accuracy {best[1]:.4f}&quot;)
-print(&quot;\nWith Optuna, this search is automated and more efficient!&quot;)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a simple random search vs a greedy exploit-and-explore search on a 1D objective function</label></li>
+print(&quot;\nWith Optuna, this search is automated and more efficient!&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Improvement</div><div class="pd">EI acquisition value at a candidate point.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import numpy as np
+from scipy import stats
+
+def expected_improvement(best, mu, sigma):
+    if sigma &lt;= 0:
+        return 0.0
+    z = (mu - best) / sigma
+    # TODO: (mu - best)*norm.cdf(z) + sigma*norm.pdf(z)
+    return 0.0
+
+print(round(expected_improvement(1.0, 1.5, 1.0), 4))</code></pre></div><template class="ho-check">assert expected_improvement(1.0, 1.5, 1.0) &gt; 0, &quot;a promising point has positive EI&quot;
+assert expected_improvement(1.0, 1.5, 0.0) == 0.0, &quot;no uncertainty, no improvement&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a simple random search vs a greedy exploit-and-explore search on a 1D objective function</label></li>
 <li><label><input type="checkbox"> Install Optuna and run a 20-trial study on a RandomForest — print best params and accuracy</label></li>
 <li><label><input type="checkbox"> Compare 50-trial random search vs 50-trial Optuna TPE on the same model — which finds better params?</label></li>
 <li><label><input type="checkbox"> Add early pruning to an Optuna study using a pruner and observe how it skips bad trials</label></li>

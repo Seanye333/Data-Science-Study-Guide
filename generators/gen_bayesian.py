@@ -150,6 +150,14 @@ SECTIONS = [
 
 {
 "title": "1. Probability Foundations Refresher",
+"practices": [
+{
+"title": 'Joint Probability',
+"desc": 'P(A and B) from P(A) and P(B|A).',
+"starter": 'def joint_prob(pa, pb_given_a):\n    # TODO: multiply the two probabilities\n    return 0.0\n\nprint(joint_prob(0.5, 0.4))',
+"check": 'assert joint_prob(0.5, 0.4) == 0.2\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "A quick refresher on core probability concepts: sample spaces, events, axioms, and the rules that everything else builds on.",
 "examples": [
 {"label": "Basic probability rules", "code":
@@ -1280,6 +1288,14 @@ for w, m, s in zip(future_weeks, means, stds):
 
 {
 "title": "7. Markov Chain Monte Carlo (MCMC)",
+"practices": [
+{
+"title": 'Acceptance Ratio',
+"desc": 'Metropolis acceptance probability.',
+"starter": 'import numpy as np\n\ndef mcmc_acceptance(cur, prop, logp):\n    # TODO: min(1, exp(logp(prop) - logp(cur))) as a float\n    return 0.0\n\nprint(mcmc_acceptance(0.0, 0.0, lambda x: -x*x))',
+"check": 'assert abs(mcmc_acceptance(0.0, 0.0, lambda x: -x*x) - 1.0) < 1e-12, "equal density always accepts"\nassert mcmc_acceptance(0.0, 5.0, lambda x: -x*x) < 1e-6, "much worse proposals are rejected"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "When posterior distributions don't have closed-form solutions, MCMC algorithms draw samples from the posterior by constructing a Markov chain. This enables Bayesian inference for complex models.",
 "examples": [
 {"label": "Metropolis-Hastings from scratch", "code":
@@ -1436,6 +1452,14 @@ print(f"P(B>A):  {np.mean(diff > 0):.4f}")"""
 
 {
 "title": "8. Probabilistic Programming with PyMC",
+"practices": [
+{
+"title": 'Posterior Mean After Burn-in',
+"desc": 'Average the trace after discarding burn-in.',
+"starter": 'import numpy as np\n\ndef trace_mean(samples, burn):\n    s = np.asarray(samples, float)\n    # TODO: mean of the samples after the first burn entries\n    return 0.0\n\nprint(trace_mean([100, 1, 1, 1], 1))',
+"check": 'assert trace_mean([100, 1, 1, 1], 1) == 1.0, "the burn-in sample is discarded"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "PyMC (formerly PyMC3) lets you define Bayesian models in Python and automatically runs MCMC inference. It handles the hard sampling algorithms so you can focus on modeling.",
 "examples": [
 {"label": "Getting started with PyMC", "code":
@@ -1590,6 +1614,14 @@ print(f"  Best 95%%: ${np.percentile(total_clv, 95):>12,.0f}")"""
 
 {
 "title": "9. Bayesian vs Frequentist — When to Use Which",
+"practices": [
+{
+"title": 'Interpretation',
+"desc": 'Which quantity each interval describes.',
+"starter": 'def credible_vs_confidence(kind):\n    # TODO: "probability" for a credible interval, "coverage" otherwise\n    return ""\n\nprint(credible_vs_confidence("credible"), credible_vs_confidence("confidence"))',
+"check": 'assert credible_vs_confidence("credible") == "probability"\nassert credible_vs_confidence("confidence") == "coverage"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Both approaches have strengths. Understanding the differences helps you choose the right tool for each problem.",
 "examples": [
 {"label": "Side-by-side comparison", "code":
@@ -1671,6 +1703,14 @@ print(comparison.to_string(index=False))"""},
 
 {
 "title": "10. Bayesian Optimization for Hyperparameter Tuning",
+"practices": [
+{
+"title": 'Expected Improvement',
+"desc": 'EI acquisition value at a candidate point.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef expected_improvement(best, mu, sigma):\n    if sigma <= 0:\n        return 0.0\n    z = (mu - best) / sigma\n    # TODO: (mu - best)*norm.cdf(z) + sigma*norm.pdf(z)\n    return 0.0\n\nprint(round(expected_improvement(1.0, 1.5, 1.0), 4))',
+"check": 'assert expected_improvement(1.0, 1.5, 1.0) > 0, "a promising point has positive EI"\nassert expected_improvement(1.0, 1.5, 0.0) == 0.0, "no uncertainty, no improvement"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Bayesian optimization uses a probabilistic model to smartly search hyperparameter space — much more efficient than grid or random search.",
 "examples": [
 {"label": "Bayesian optimization concept", "code":

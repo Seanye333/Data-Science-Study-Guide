@@ -1278,7 +1278,12 @@ class MnistCNN(nn.Module):
 # labels = torch.randint(0, 10, (8,))
 # loss = nn.CrossEntropyLoss()(out, labels)
 # loss.backward()
-# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div>
+# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conv Output Size</div><div class="pd">Output width of a convolution.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p4_1" class="language-python">def conv_out_size(n, k, s=1, p=0):
+    # TODO: (n - k + 2p) // s + 1
+    return 0
+
+print(conv_out_size(5, 3))</code></pre></div><template class="ho-check">assert conv_out_size(5, 3) == 3 and conv_out_size(5, 3, 1, 1) == 5
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a CNN with two Conv2d layers, MaxPool2d, and a fully-connected head for 10 classes</label></li>
 <li><label><input type="checkbox"> Print output shape after each Conv and Pool layer to track spatial dimensions</label></li>
 <li><label><input type="checkbox"> Add BatchNorm2d after each Conv2d layer and verify training is more stable</label></li>
@@ -1502,7 +1507,12 @@ torch.manual_seed(42)
 # TODO: Run one forward pass with 4 random (3x224x224) images
 # x = torch.randn(4, 3, 224, 224)
 # out = model(x)
-# print(&#x27;Output shape:&#x27;, out.shape)  # should be (4, 5)</code></pre></div></div>
+# print(&#x27;Output shape:&#x27;, out.shape)  # should be (4, 5)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Frozen Parameters</div><div class="pd">How many parameters stay frozen.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p5_1" class="language-python">def freeze_count(total, trainable):
+    # TODO: total minus trainable
+    return 0
+
+print(freeze_count(10, 3))</code></pre></div><template class="ho-check">assert freeze_count(10, 3) == 7
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a pretrained ResNet18 and freeze all its parameters with requires_grad=False</label></li>
 <li><label><input type="checkbox"> Replace the model&#x27;s final FC layer with a new one for your number of classes</label></li>
 <li><label><input type="checkbox"> Count trainable vs frozen parameters and print the ratio</label></li>
@@ -1723,7 +1733,12 @@ class TabularDataset(Dataset):
 
 # TODO: Print one batch shapes
 # xb, yb = next(iter(train_dl))
-# print(&#x27;X batch:&#x27;, xb.shape, &#x27;| y batch:&#x27;, yb.shape)</code></pre></div></div>
+# print(&#x27;X batch:&#x27;, xb.shape, &#x27;| y batch:&#x27;, yb.shape)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch Indices</div><div class="pd">Index batches for a DataLoader.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p6_1" class="language-python">def batch_indices(n, bs):
+    # TODO: consecutive index lists of length bs (last may be shorter)
+    return []
+
+print(batch_indices(5, 2))</code></pre></div><template class="ho-check">assert batch_indices(5, 2) == [[0, 1], [2, 3], [4]]
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a custom Dataset class with __len__ and __getitem__ for a NumPy array</label></li>
 <li><label><input type="checkbox"> Add a normalization transform that standardizes X inside __getitem__</label></li>
 <li><label><input type="checkbox"> Create train and val DataLoaders with 80/20 split and shuffle=True for train</label></li>
@@ -2250,7 +2265,12 @@ torch.manual_seed(42)
 # TODO: Export as TorchScript
 # scripted = torch.jit.script(model)
 # scripted.save(os.path.join(tempfile.gettempdir(), &#x27;model_scripted.pt&#x27;))
-# print(&#x27;TorchScript saved&#x27;)</code></pre></div></div>
+# print(&#x27;TorchScript saved&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: State Dict Keys</div><div class="pd">Sorted parameter names of a checkpoint.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p8_1" class="language-python">def state_dict_keys(d):
+    # TODO: sorted keys of the dict
+    return []
+
+print(state_dict_keys({&quot;b&quot;: 1, &quot;a&quot;: 2}))</code></pre></div><template class="ho-check">assert state_dict_keys({&quot;b&quot;: 1, &quot;a&quot;: 2}) == [&quot;a&quot;, &quot;b&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a model&#x27;s state_dict with torch.save() and load it into a fresh model instance</label></li>
 <li><label><input type="checkbox"> Verify predictions are identical before and after loading with torch.allclose()</label></li>
 <li><label><input type="checkbox"> Save a full training checkpoint: model state, optimizer state, epoch, and loss</label></li>
@@ -2482,7 +2502,14 @@ num_classes = 2
 # labels = torch.randint(0, num_classes, (batch_size,))
 # loss = nn.CrossEntropyLoss()(logits, labels)
 # loss.backward()
-# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div>
+# print(&#x27;Loss:&#x27;, loss.item())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: RNN Step</div><div class="pd">One recurrent step: tanh(xWx + hWh).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p9_1" class="language-python">import numpy as np
+
+def rnn_step(x, h, Wx, Wh):
+    # TODO: tanh(x @ Wx + h @ Wh)
+    return np.asarray(x, float)
+
+print(rnn_step([[1.0]], [[0.0]], [[0.0]], [[0.0]]).tolist())</code></pre></div><template class="ho-check">assert rnn_step([[1.0]], [[0.0]], [[0.0]], [[0.0]]).tolist() == [[0.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an LSTM layer with nn.LSTM(input_size, hidden, batch_first=True) and run a forward pass</label></li>
 <li><label><input type="checkbox"> Print shapes of the LSTM output, h_n, and c_n tensors for a batch of sequences</label></li>
 <li><label><input type="checkbox"> Take the last timestep hidden state (out[:, -1, :]) and pass it through a linear classifier</label></li>
@@ -2679,7 +2706,15 @@ out, w = attention(Q, K, V)
 mask = np.tril(np.ones((L, L))).astype(bool)
 out_c, w_c = attention(Q, K, V, mask=mask)
 # print(&#x27;Causal upper triangle is 0:&#x27;, (w_c[0] * np.triu(np.ones((L,L)),1) &lt; 1e-9).all())
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Attention Weights</div><div class="pd">Softmax over attention scores.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p10_1" class="language-python">import numpy as np
+
+def attention_weights(scores):
+    s = np.asarray(scores, float); e = np.exp(s - s.max())
+    # TODO: normalize e so the weights sum to 1, rounded to 4, as a list
+    return []
+
+print(attention_weights([1, 1]))</code></pre></div><template class="ho-check">assert abs(sum(attention_weights([1, 1])) - 1.0) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement scaled dot-product attention: Q @ K.T / sqrt(d_k), softmax, then matmul with V</label></li>
 <li><label><input type="checkbox"> Verify attention weights sum to 1 along the last dimension (rows of softmax output)</label></li>
 <li><label><input type="checkbox"> Apply a causal (upper-triangular) mask and check the masked positions are ~zero</label></li>
@@ -2912,7 +2947,16 @@ X = np.random.rand(batch, input_dim)  # input data in [0,1]
 # TODO: (3) Decode: h2 = relu(z @ W_dec1), x_rec = sigmoid(h2 @ W_dec2)
 # TODO: (4) Compute MSE recon loss, KL divergence, total ELBO (beta=0.5)
 # TODO: Print each component
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: KL Divergence</div><div class="pd">KL of a diagonal Gaussian against a standard normal.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p11_1" class="language-python">import numpy as np
+
+def kl_normal(mu, logvar):
+    mu = np.asarray(mu, float); logvar = np.asarray(logvar, float)
+    # TODO: -0.5 * sum(1 + logvar - mu**2 - exp(logvar))
+    return 0.0
+
+print(kl_normal([0.0], [0.0]))</code></pre></div><template class="ho-check">assert kl_normal([0.0], [0.0]) == 0.0, &quot;the standard normal has zero KL against itself&quot;
+assert kl_normal([2.0], [0.0]) &gt; 0
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement the VAE encoder that outputs mu and log_var from an input batch</label></li>
 <li><label><input type="checkbox"> Apply the reparameterization trick: z = mu + exp(0.5*log_var) * epsilon</label></li>
 <li><label><input type="checkbox"> Compute the reconstruction loss (MSE or BCE) between input x and decoded x_hat</label></li>
@@ -3105,7 +3149,14 @@ model = GradientBoostingClassifier(n_estimators=50, random_state=0).fit(X_tr, y_
 # TODO: (2) Compute permutation importance on test set
 # TODO: (3) Find 5 samples with lowest predict_proba, explain with simple local Ridge
 # TODO: Compare top-5 features across all methods
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Most Salient Input</div><div class="pd">Index of the largest absolute gradient.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p12_1" class="language-python">import numpy as np
+
+def saliency(g):
+    # TODO: index of the maximum absolute gradient
+    return 0
+
+print(saliency([0.1, -0.9]))</code></pre></div><template class="ho-check">assert saliency([0.1, -0.9]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Extract built-in feature_importances_ from a GradientBoosting model and rank them</label></li>
 <li><label><input type="checkbox"> Compute permutation importance on the test set and compare ranking with built-in importances</label></li>
 <li><label><input type="checkbox"> Find the 5 samples with the lowest predicted probability and explain them with a local model</label></li>
@@ -3338,7 +3389,12 @@ y_val = torch.randint(0, 10, (200,))
 # TODO: Report param count (frozen vs trainable)
 # TODO: Try learning rate 1e-3 vs 1e-4 and compare convergence
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pool Output Size</div><div class="pd">Output width after pooling.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p13_1" class="language-python">def pool_out_size(n, k, s):
+    # TODO: (n - k) // s + 1
+    return 0
+
+print(pool_out_size(4, 2, 2))</code></pre></div><template class="ho-check">assert pool_out_size(4, 2, 2) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a CNN with 3 conv layers, BatchNorm2d after each, and a Dropout before the head</label></li>
 <li><label><input type="checkbox"> Add a residual (skip) connection around one conv block and verify gradient flows correctly</label></li>
 <li><label><input type="checkbox"> Train for 5 epochs on synthetic 32x32 images and log train loss and val accuracy per epoch</label></li>
@@ -3521,7 +3577,14 @@ X_tr,  y_tr  = X[100:], y[100:]
 # TODO: Report train loss and val accuracy each epoch
 # TODO: Print total parameter count
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Positional Encoding</div><div class="pd">Sine term of the positional encoding.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p14_1" class="language-python">import numpy as np
+
+def positional_encoding(pos, i, d):
+    # TODO: sin(pos / 10000**(2i/d)) as a float
+    return 0.0
+
+print(positional_encoding(0, 0, 4))</code></pre></div><template class="ho-check">assert abs(positional_encoding(0, 0, 4)) &lt; 1e-12, &quot;position 0 has sine 0&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a single Transformer encoder block with nn.MultiheadAttention and a feedforward sublayer</label></li>
 <li><label><input type="checkbox"> Add sinusoidal positional encoding to the input embeddings and verify shape is unchanged</label></li>
 <li><label><input type="checkbox"> Stack 3 encoder blocks and run a forward pass with (batch=4, seq=50, d_model=64) input</label></li>
@@ -3740,7 +3803,12 @@ X_tr = X_all[:700]  # train on mostly normal (won&#x27;t know ground truth)
 # TODO: Choose threshold as mean + 2*std of training errors
 # TODO: Report precision, recall, F1 for anomaly detection
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reparameterization</div><div class="pd">Sample as mu + std * eps.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p15_1" class="language-python">def reparameterize(mu, std, eps):
+    # TODO: mu + std * eps
+    return 0.0
+
+print(reparameterize(1.0, 2.0, 0.5))</code></pre></div><template class="ho-check">assert reparameterize(1.0, 2.0, 0.5) == 2.0
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a VAE encoder that outputs mu and log_var from an input tensor</label></li>
 <li><label><input type="checkbox"> Implement the reparameterization trick and verify the latent z has the correct shape</label></li>
 <li><label><input type="checkbox"> Train the VAE and compute reconstruction error on all samples after training</label></li>
@@ -3944,7 +4012,15 @@ torch.manual_seed(42); np.random.seed(42)
 # 3. Build bidirectional GRU classifier
 # 4. Build standard GRU classifier
 # 5. Train both 50 epochs, compare val_acc
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Gate Activation</div><div class="pd">Sigmoid of a gate pre-activation.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p16_1" class="language-python">import numpy as np
+
+def gate_sigmoid(z):
+    # TODO: 1 / (1 + exp(-z)) as a float
+    return 0.0
+
+print(gate_sigmoid(0))</code></pre></div><template class="ho-check">assert abs(gate_sigmoid(0) - 0.5) &lt; 1e-12
+assert gate_sigmoid(10) &gt; 0.99
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create 30-day sliding windows from a 400-day price series to build (X, y) training pairs</label></li>
 <li><label><input type="checkbox"> Build a GRU classifier that takes (batch, 30, 1) input and outputs a binary direction prediction</label></li>
 <li><label><input type="checkbox"> Build a bidirectional GRU by setting bidirectional=True and adjust the linear head accordingly</label></li>
@@ -4156,7 +4232,13 @@ torch.manual_seed(42)
 # 4. Phase 2: unfreeze encoder, use lr=1e-5 for encoder, lr=1e-3 for head
 # 5. Report val_acc after each phase
 X = torch.randn(100, 32); y = torch.randint(0, 3, (100,))
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Layer-wise Learning Rate</div><div class="pd">Decay the learning rate by depth.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p17_1" class="language-python">def finetune_lr(base, depth, decay=0.9):
+    # TODO: base * decay**depth
+    return 0.0
+
+print(round(finetune_lr(0.1, 1), 4))</code></pre></div><template class="ho-check">assert abs(finetune_lr(0.1, 1) - 0.09) &lt; 1e-12
+assert finetune_lr(0.1, 0) == 0.1
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a pretrained model, freeze all parameters, and train only a new classification head</label></li>
 <li><label><input type="checkbox"> Phase 2: unfreeze the backbone and set a 10x smaller LR for it vs the head</label></li>
 <li><label><input type="checkbox"> Compare val accuracy after Phase 1 (head only) vs Phase 2 (full fine-tune)</label></li>
@@ -4338,7 +4420,16 @@ B, T, D = 4, 8, 16
 x = torch.randn(B, T, D)
 out, weights = sdp_attention(x, x, x)
 # Assert: weights.sum(dim=-1).allclose(torch.ones(B, T))
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Scaled Dot Product</div><div class="pd">Dot product divided by sqrt(d).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p18_1" class="language-python">import numpy as np
+
+def scaled_dot_attention(q, k):
+    q = np.asarray(q, float); k = np.asarray(k, float)
+    # TODO: q dot k divided by sqrt(dimension)
+    return 0.0
+
+print(round(scaled_dot_attention([1, 0], [1, 0]), 4))</code></pre></div><template class="ho-check">import numpy as np
+assert abs(scaled_dot_attention([1, 0], [1, 0]) - 1/np.sqrt(2)) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement sdp_attention: compute Q @ K.T / sqrt(d_k), apply softmax, return weights @ V</label></li>
 <li><label><input type="checkbox"> Verify attention weights sum to 1 along last dim with weights.sum(dim=-1).allclose(ones)</label></li>
 <li><label><input type="checkbox"> Apply a causal mask (upper-triangular) and check masked positions have ~zero weight</label></li>
@@ -4521,7 +4612,16 @@ X_va = torch.randn(300, 20); y_va = (X_va[:,0]&gt;0).float()
 # 2. Build RegularizedNet (3 layers, BN + Dropout p=0.3)
 # 3. Train both 100 epochs with Adam, BCEWithLogitsLoss
 # 4. Print train_acc and val_acc for both
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch Statistics</div><div class="pd">Mean and variance used by batch norm.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p19_1" class="language-python">import numpy as np
+
+def batchnorm_stats(x):
+    x = np.asarray(x, float)
+    # TODO: return (float mean, float variance)
+    return (0.0, 0.0)
+
+print(batchnorm_stats([1, 3]))</code></pre></div><template class="ho-check">m, v = batchnorm_stats([1, 3])
+assert m == 2.0 and v == 1.0
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a regularized MLP with BatchNorm1d + Dropout(0.3) after each hidden layer</label></li>
 <li><label><input type="checkbox"> Build an identical unregularized MLP (no BN, no Dropout) for comparison</label></li>
 <li><label><input type="checkbox"> Train both 100 epochs and print train_acc and val_acc every 10 epochs</label></li>
@@ -4694,7 +4794,12 @@ model = nn.Linear(10, 1)
 opt = torch.optim.Adam(model.parameters(), lr=1e-3)
 X = torch.randn(100, 10); y = torch.randn(100, 1)
 # Apply scheduler over 500 steps, print LR at key checkpoints
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Step Decay</div><div class="pd">Learning rate after step decay.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p20_1" class="language-python">def step_lr(base, epoch, step=2, gamma=0.5):
+    # TODO: base * gamma**(epoch // step)
+    return 0.0
+
+print(step_lr(1.0, 2))</code></pre></div><template class="ho-check">assert step_lr(1.0, 2) == 0.5 and step_lr(1.0, 0) == 1.0
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a warmup+cosine LR function and print LR at steps [0, 50, 100, 200, 500]</label></li>
 <li><label><input type="checkbox"> Apply the scheduler with torch.optim.LambdaLR and verify LR values match your function</label></li>
 <li><label><input type="checkbox"> Compare convergence of fixed LR vs warmup+cosine on a simple regression task</label></li>
@@ -4906,7 +5011,13 @@ model = nn.Sequential(nn.Linear(10,32), nn.ReLU(), nn.Linear(32,1))
 opt = torch.optim.Adam(model.parameters(), lr=1e-2)
 X = torch.randn(100,10); y = X[:,0:1]
 Xv = torch.randn(50,10); yv = Xv[:,0:1]
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Should Checkpoint?</div><div class="pd">Save only when the metric improves.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p21_1" class="language-python">def should_checkpoint(best, cur):
+    # TODO: True when cur is better (lower) than best
+    return False
+
+print(should_checkpoint(1.0, 0.5), should_checkpoint(0.5, 1.0))</code></pre></div><template class="ho-check">assert should_checkpoint(1.0, 0.5) is True
+assert should_checkpoint(0.5, 1.0) is False
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement EarlyStopping with patience=10 that saves best model weights via copy.deepcopy</label></li>
 <li><label><input type="checkbox"> After early stopping triggers, restore best weights and verify val_loss matches the saved best</label></li>
 <li><label><input type="checkbox"> Save a full training checkpoint every 5 epochs: epoch, model state, optimizer state, val_loss</label></li>
@@ -5091,7 +5202,17 @@ X = torch.randn(16, 30, 10); y = torch.randn(16)
 # 4. Apply clip_grad_norm_ max_norm=1.0
 # 5. Print grad norm AFTER
 # 6. optimizer.step()
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clip by Norm</div><div class="pd">Rescale a gradient that exceeds max_norm.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p22_1" class="language-python">import numpy as np
+
+def clip_grad(g, max_norm):
+    g = np.asarray(g, float); n = np.linalg.norm(g)
+    # TODO: scale g down to max_norm when n exceeds it, otherwise leave it; return a list
+    return g.tolist()
+
+print([round(v, 3) for v in clip_grad([3, 4], 1.0)])</code></pre></div><template class="ho-check">import numpy as np
+assert abs(np.linalg.norm(clip_grad([3, 4], 1.0)) - 1.0) &lt; 1e-9
+assert clip_grad([0.1, 0.0], 1.0) == [0.1, 0.0], &quot;small gradients pass through&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute gradient norm before clipping using torch.nn.utils.clip_grad_norm_() and print it</label></li>
 <li><label><input type="checkbox"> Apply clip_grad_norm_(max_norm=1.0) and print the norm after clipping to verify the cap</label></li>
 <li><label><input type="checkbox"> Train a deep RNN for 10 epochs and monitor whether gradients explode without clipping</label></li>
@@ -5291,7 +5412,12 @@ model = Net(); model.eval()
 # 3. loaded = torch.jit.load(&quot;/tmp/net.pt&quot;)
 # 4. x = torch.randn(4, 10)
 # 5. Assert torch.allclose(model(x), loaded(x))
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export Shape</div><div class="pd">Batched input shape for export.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p23_1" class="language-python">def export_shapes(shape, batch):
+    # TODO: (batch,) followed by the input shape
+    return ()
+
+print(export_shapes((3, 32, 32), 8))</code></pre></div><template class="ho-check">assert export_shapes((3, 32, 32), 8) == (8, 3, 32, 32)
+print(&quot;All checks passed \u2713&quot;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Export a trained model with torch.jit.script() and save it to disk</label></li>
 <li><label><input type="checkbox"> Reload the TorchScript model with torch.jit.load() and verify predictions match with torch.allclose()</label></li>
 <li><label><input type="checkbox"> Export to ONNX with torch.onnx.export() and verify the file is created successfully</label></li>
