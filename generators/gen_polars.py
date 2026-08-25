@@ -545,6 +545,14 @@ SECTIONS = [
     },
     {
         "title": "GroupBy & Aggregations",
+"practices": [
+{
+"title": 'Group and Aggregate',
+"desc": 'group_by().agg() collapses rows per key; do the same reduction by hand.',
+"starter": "def group_sum(rows, key, value):\n    # TODO: {key value: sum of value} over the row dicts\n    return {}\n\nprint(group_sum([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v'))",
+"check": "assert group_sum([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v') == {'a': 3, 'b': 5}\nassert group_sum([], 'g', 'v') == {}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Aggregate data by groups using Polars' expressive and parallel groupby engine.",
         "code1_title": "group_by().agg()",
         "code1": (
@@ -713,6 +721,14 @@ SECTIONS = [
     },
     {
         "title": "Joins",
+"practices": [
+{
+"title": 'Join Semantics',
+"desc": 'Inner, left and anti joins keep different rows; predict the row counts.',
+"starter": "def join_keys(left, right, how):\n    # TODO: sorted keys kept by 'inner', 'left' and 'anti' (left rows with no match)\n    return []\n\nprint(join_keys([1, 2, 3], [2, 3, 4], 'inner'), join_keys([1, 2, 3], [2, 3, 4], 'anti'))",
+"check": "assert join_keys([1, 2, 3], [2, 3, 4], 'inner') == [2, 3]\nassert join_keys([1, 2, 3], [2, 3, 4], 'left') == [1, 2, 3]\nassert join_keys([1, 2, 3], [2, 3, 4], 'anti') == [1]\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Combine DataFrames with inner, left, outer, cross, and anti joins — all in parallel.",
         "code1_title": "inner, left & outer joins",
         "code1": (
@@ -887,6 +903,14 @@ SECTIONS = [
     },
     {
         "title": "String & Date Operations",
+"practices": [
+{
+"title": 'Extract the Domain',
+"desc": 'str.split and str.to_lowercase are expressions; here is the same logic in Python.',
+"starter": "def domains(emails):\n    # TODO: the lowercased part after '@' for each address\n    return []\n\nprint(domains(['A@Example.com', 'b@x.io']))",
+"check": "assert domains(['A@Example.com', 'b@x.io']) == ['example.com', 'x.io']\nassert domains([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars has a rich .str and .dt namespace for vectorized string and datetime manipulations.",
         "code1_title": "String Operations (.str)",
         "code1": (
@@ -1074,6 +1098,14 @@ SECTIONS = [
     },
     {
         "title": "Lazy API & Query Optimization",
+"practices": [
+{
+"title": 'Predicate Pushdown',
+"desc": 'The optimizer moves filters as early as possible; reorder the plan the same way.',
+"starter": "def optimize(plan):\n    # TODO: move every 'filter' step ahead of the others, keeping relative order within each group\n    return []\n\nprint(optimize(['select', 'filter', 'join']))",
+"check": "assert optimize(['select', 'filter', 'join']) == ['filter', 'select', 'join']\nassert optimize(['filter', 'filter']) == ['filter', 'filter']\nassert optimize([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Use LazyFrame to build a query plan that Polars optimizes and executes in parallel — essential for large data.",
         "code1_title": "LazyFrame Basics",
         "code1": (
@@ -1279,6 +1311,14 @@ SECTIONS = [
     },
     {
         "title": "Reading & Writing Files",
+"practices": [
+{
+"title": 'Choose the Reader',
+"desc": 'Polars picks scan_csv, scan_parquet or read_json from the file suffix.',
+"starter": "def reader_for(path):\n    # TODO: '.csv'->'scan_csv', '.parquet'->'scan_parquet', '.json'->'read_json', else 'unsupported'\n    return 'unsupported'\n\nprint(reader_for('a.parquet'), reader_for('a.txt'))",
+"check": "assert reader_for('a.csv') == 'scan_csv'\nassert reader_for('a.parquet') == 'scan_parquet'\nassert reader_for('a.json') == 'read_json'\nassert reader_for('a.txt') == 'unsupported'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars natively reads/writes CSV, JSON, Parquet, and Arrow — Parquet is the recommended format.",
         "code1_title": "CSV & JSON",
         "code1": (
@@ -1464,6 +1504,14 @@ SECTIONS = [
     },
     {
         "title": "Window Functions",
+"practices": [
+{
+"title": 'Rank Within Group',
+"desc": 'over() ranks rows inside each partition; reproduce the dense rank.',
+"starter": "def rank_in_group(rows, key, value):\n    # TODO: add 'rank' to each row: 1 for the largest value in its group, 2 for the next, ...\n    return rows\n\nprint(rank_in_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 9}], 'g', 'v'))",
+"check": "out = rank_in_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 9}], 'g', 'v')\nassert [r['rank'] for r in out] == [2, 1]\nassert rank_in_group([], 'g', 'v') == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Compute rolling statistics, cumulative sums, and rank within groups using Polars window expressions.",
         "code1_title": "Rolling & Cumulative",
         "code1": (
@@ -1615,6 +1663,14 @@ SECTIONS = [
     },
     {
         "title": "Polars vs Pandas Migration",
+"practices": [
+{
+"title": 'Translate the Call',
+"desc": 'Map the pandas method onto its Polars equivalent.',
+"starter": "def to_polars(pandas_call):\n    # TODO: head->head, groupby->group_by, sort_values->sort, assign->with_columns, else None\n    return None\n\nprint(to_polars('groupby'), to_polars('assign'))",
+"check": "assert to_polars('groupby') == 'group_by'\nassert to_polars('sort_values') == 'sort'\nassert to_polars('assign') == 'with_columns'\nassert to_polars('head') == 'head'\nassert to_polars('pivot_table') is None\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Key differences and equivalents between Polars and Pandas — migrate your workflows efficiently.",
         "code1_title": "Side-by-Side Comparison",
         "code1": (
@@ -1818,6 +1874,14 @@ SECTIONS = [
     },
     {
         "title": "Lazy Evaluation & Streaming",
+"practices": [
+{
+"title": 'Stream in Chunks',
+"desc": 'Streaming processes a file in batches instead of loading it whole.',
+"starter": 'def chunk_bounds(n_rows, chunk):\n    # TODO: (start, end) row offsets, end exclusive\n    return []\n\nprint(chunk_bounds(5, 2))',
+"check": "assert chunk_bounds(5, 2) == [(0, 2), (2, 4), (4, 5)]\nassert chunk_bounds(0, 10) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Use Polars LazyFrame to build query plans that are optimized before execution. Process datasets larger than RAM with streaming mode.",
         "code1_title": "LazyFrame vs DataFrame",
         "code1": (
@@ -2002,6 +2066,14 @@ SECTIONS = [
     },
     {
         "title": "Window Functions",
+"practices": [
+{
+"title": 'Lag and Difference',
+"desc": 'shift() inside over() compares each row with the previous one in its partition.',
+"starter": 'def lag_diff(v):\n    # TODO: v[i] - v[i-1] for every row after the first; the first row has no predecessor\n    return []\n\nprint(lag_diff([10, 13, 12]))',
+"check": "assert lag_diff([10, 13, 12]) == [3, -1]\nassert lag_diff([5]) == []\nassert lag_diff([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Compute rolling statistics, cumulative aggregates, rank-based features, and temporal calculations within groups using Polars window expressions.",
         "code1_title": "Rolling & Expanding Windows",
         "code1": (
@@ -2146,6 +2218,14 @@ SECTIONS = [
     },
     {
         "title": "Performance Tuning",
+"practices": [
+{
+"title": 'Cost of a Plan',
+"desc": 'A rough cost model: filters shrink the row count, joins multiply it.',
+"starter": "def estimated_rows(n, steps):\n    # TODO: 'filter' halves n (integer division), 'join' doubles it, anything else leaves it\n    return n\n\nprint(estimated_rows(100, ['filter', 'join']))",
+"check": "assert estimated_rows(100, ['filter', 'join']) == 100\nassert estimated_rows(100, ['filter']) == 50\nassert estimated_rows(10, []) == 10\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Maximize Polars performance through parallelism settings, predicate pushdown, schema optimization, and benchmarking against pandas.",
         "code1_title": "Polars vs Pandas Benchmark",
         "code1": (
@@ -2332,6 +2412,14 @@ SECTIONS = [
     },
     {
         "title": "14. Polars LazyFrame & Streaming Optimization",
+"practices": [
+{
+"title": 'Prune the Columns',
+"desc": 'Projection pushdown reads only the columns the query actually uses.',
+"starter": "def needed_columns(select, filters, group_by):\n    # TODO: the sorted union of the three column lists\n    return []\n\nprint(needed_columns(['a'], ['b'], ['a', 'c']))",
+"check": "assert needed_columns(['a'], ['b'], ['a', 'c']) == ['a', 'b', 'c']\nassert needed_columns([], [], []) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "LazyFrame enables query optimization through predicate pushdown, projection pushdown, and streaming execution. Build full pipelines before calling .collect() to let Polars optimize the execution plan.",
         "code1_title": "LazyFrame with Query Plan Inspection",
         "code1": (
@@ -2494,6 +2582,14 @@ SECTIONS = [
     },
     {
         "title": "15. Time Series Operations in Polars",
+"practices": [
+{
+"title": 'Rolling Mean',
+"desc": 'rolling_mean over a window, computed by hand.',
+"starter": 'def rolling_mean(v, window):\n    # TODO: the mean of each full window, rounded to 4; fewer values than the window yields []\n    return []\n\nprint(rolling_mean([1, 2, 3, 4], 2))',
+"check": "assert rolling_mean([1, 2, 3, 4], 2) == [1.5, 2.5, 3.5]\nassert rolling_mean([1], 3) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars provides high-performance time series operations: rolling aggregations, resampling with group_by_dynamic, and lag/shift features. Temporal operations run significantly faster than pandas for large datasets.",
         "code1_title": "Rolling Statistics & Time Features",
         "code1": (
@@ -2648,6 +2744,14 @@ SECTIONS = [
     },
     {
         "title": "16. Polars with Apache Arrow & Parquet",
+"practices": [
+{
+"title": 'Partition Path',
+"desc": 'Hive-style partitioning encodes column values in the directory names.',
+"starter": "def partition_path(root, parts):\n    # TODO: 'root/year=2024/month=01' with the keys sorted\n    return ''\n\nprint(partition_path('data', {'month': '01', 'year': '2024'}))",
+"check": "assert partition_path('data', {'month': '01', 'year': '2024'}) == 'data/month=01/year=2024'\nassert partition_path('data', {}) == 'data'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars is built on Apache Arrow, enabling zero-copy interop with PyArrow, DuckDB, and other Arrow-native tools. Write partitioned Parquet files for efficient partial reads in production data pipelines.",
         "code1_title": "Polars <-> PyArrow Interoperability",
         "code1": (
@@ -2812,6 +2916,14 @@ SECTIONS = [
 
     {
         "title": "17. LazyFrames & Query Optimization",
+"practices": [
+{
+"title": 'Fuse the Filters',
+"desc": 'Consecutive filters collapse into a single conjunction.',
+"starter": "def fuse_filters(plan):\n    # TODO: collapse runs of 'filter' into one 'filter', keeping other steps in place\n    return []\n\nprint(fuse_filters(['filter', 'filter', 'select', 'filter']))",
+"check": "assert fuse_filters(['filter', 'filter', 'select', 'filter']) == ['filter', 'select', 'filter']\nassert fuse_filters([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars LazyFrames build a query plan without executing it. Calling .collect() triggers optimized execution with predicate pushdown, projection pushdown, and parallel execution.",
         "code1_title": "LazyFrame Basics",
         "code1": (
@@ -3441,6 +3553,14 @@ SECTIONS = [
     },
     {
         "title": "20. String & Regex Operations",
+"practices": [
+{
+"title": 'Normalize the Text',
+"desc": 'A cleaning expression trims, lowercases and collapses inner whitespace.',
+"starter": "import re\n\ndef normalize(s):\n    # TODO: strip, lowercase, and squeeze runs of whitespace into single spaces\n    return s\n\nprint(repr(normalize('  Hello   World  ')))",
+"check": "assert normalize('  Hello   World  ') == 'hello world'\nassert normalize('A') == 'a'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars string operations are vectorized and run in parallel. The .str namespace provides split, replace, extract, slice, strip, and regex operations optimized for large text columns.",
         "code1_title": "String Manipulation",
         "code1": (
@@ -3635,6 +3755,14 @@ SECTIONS = [
     },
     {
         "title": "21. Date/Time Processing",
+"practices": [
+{
+"title": 'Business Day Offsets',
+"desc": 'Resampling by business day skips weekends.',
+"starter": 'def business_days(weekday_start, n_days):\n    # TODO: how many of the next n_days are weekdays, starting on weekday_start (0=Mon)\n    return 0\n\nprint(business_days(0, 7), business_days(5, 2))',
+"check": "assert business_days(0, 7) == 5\nassert business_days(5, 2) == 0\nassert business_days(0, 1) == 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars .dt namespace provides fast datetime operations: extraction, arithmetic, truncation, and timezone handling. All operations are vectorized and work on Series natively.",
         "code1_title": "Date Extraction & Arithmetic",
         "code1": (
@@ -3837,6 +3965,14 @@ SECTIONS = [
     },
     {
         "title": "22. Window Functions & Expressions",
+"practices": [
+{
+"title": 'Cumulative Sum Per Group',
+"desc": 'cum_sum().over(group) restarts the running total at each partition.',
+"starter": "def cumsum_by_group(rows, key, value):\n    # TODO: add 'cum' to each row: the running total of value within its group\n    return rows\n\nprint(cumsum_by_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v'))",
+"check": "out = cumsum_by_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v')\nassert [r['cum'] for r in out] == [1, 3, 5]\nassert cumsum_by_group([], 'g', 'v') == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars window functions apply expressions over groups without collapsing rows. They enable rankings, cumulative sums, lag/lead features, and partition-based calculations in a single pass.",
         "code1_title": "Ranking & Cumulative Window Functions",
         "code1": (
@@ -4041,6 +4177,14 @@ SECTIONS = [
     },
     {
         "title": "23. Performance: Polars vs Pandas",
+"practices": [
+{
+"title": 'Speedup Factor',
+"desc": 'Report a benchmark as the factor by which the faster engine wins.',
+"starter": 'def speedup(pandas_s, polars_s):\n    # TODO: pandas time divided by polars time, rounded to 2\n    return 0.0\n\nprint(speedup(4.0, 0.5))',
+"check": "assert speedup(4.0, 0.5) == 8.0\nassert speedup(1.0, 1.0) == 1.0\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Polars consistently outperforms pandas 5-100x due to Rust implementation, SIMD operations, parallel query execution, and memory-efficient Apache Arrow format.",
         "code1_title": "Benchmark: GroupBy & Aggregation",
         "code1": (
@@ -4269,6 +4413,14 @@ SECTIONS = [
     },
     {
         "title": "24. Polars Production Patterns",
+"practices": [
+{
+"title": 'Validate the Schema',
+"desc": 'A production pipeline fails fast when the incoming schema drifts.',
+"starter": "def schema_errors(actual, expected):\n    # TODO: sorted 'name: expected X got Y' for mismatches and 'name: missing' for absent columns\n    return []\n\nprint(schema_errors({'a': 'Int64'}, {'a': 'Float64', 'b': 'Utf8'}))",
+"check": "assert schema_errors({'a': 'Int64'}, {'a': 'Float64', 'b': 'Utf8'}) == ['a: expected Float64 got Int64', 'b: missing']\nassert schema_errors({'a': 'Int64'}, {'a': 'Int64'}) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Production Polars patterns include reading/writing Parquet, Arrow IPC, and cloud storage, integrating with ML pipelines, and building robust ETL pipelines with error handling.",
         "code1_title": "Reading & Writing Parquet/Arrow",
         "code1": (
@@ -4789,12 +4941,17 @@ def make_html(sections):
         practice_html = ""
         for _k, practice in enumerate(practices):
             pid = f"p{i}_{_k}"
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
             practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {practice["title"]}</div>'
                 f'<div class="pd">{practice["desc"]}</div>'
                 f'<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button>'
                 f'<pre><code id="{pid}" class="language-python">{practice["starter"]}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])

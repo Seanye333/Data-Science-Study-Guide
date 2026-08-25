@@ -437,7 +437,13 @@ st.set_page_config(page_title=&#x27;DS Cheat Sheet&#x27;, layout=&#x27;wide&#x27
 # st.info(&#x27;Use vectorized operations — avoid Python loops on DataFrames.&#x27;)
 # st.warning(&#x27;???&#x27;)
 # st.error(&#x27;???&#x27;)
-# st.success(&#x27;???&#x27;)</code></pre></div></div>
+# st.success(&#x27;???&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Markdown Heading Levels</div><div class="pd">st.markdown renders &#x27;#&#x27; prefixes as headings; read the level back out.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p1_1" class="language-python">def heading_levels(lines):
+    # TODO: the number of leading &#x27;#&#x27; for each heading line, skipping non-headings
+    return []
+
+print(heading_levels([&#x27;# A&#x27;, &#x27;## B&#x27;, &#x27;text&#x27;]))</code></pre></div><template class="ho-check">assert heading_levels([&#x27;# A&#x27;, &#x27;## B&#x27;, &#x27;text&#x27;]) == [1, 2]
+assert heading_levels([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use st.write() to display a string, a number, a dict, and a DataFrame</label></li>
 <li><label><input type="checkbox"> Render a markdown table of 4 pandas functions using st.markdown()</label></li>
 <li><label><input type="checkbox"> Display a Python code snippet with syntax highlighting using st.code()</label></li>
@@ -862,7 +868,13 @@ st.title(&#x27;Sales Dashboard Table&#x27;)
 #         &#x27;Revenue&#x27;: st.column_config.NumberColumn(&#x27;Revenue ($)&#x27;, format=&#x27;$%d&#x27;),
 #         &#x27;Growth&#x27;: st.column_config.ProgressColumn(&#x27;Growth (%)&#x27;, min_value=0, max_value=100, format=&#x27;%.1f%%&#x27;),
 #     }
-# )</code></pre></div></div>
+# )</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Paginate the Table</div><div class="pd">st.dataframe pages large tables; slice out the rows for one page.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p3_1" class="language-python">def page_rows(rows, page, size):
+    # TODO: the rows on the given 0-indexed page
+    return []
+
+print(page_rows([1, 2, 3, 4, 5], 1, 2))</code></pre></div><template class="ho-check">assert page_rows([1, 2, 3, 4, 5], 1, 2) == [3, 4]
+assert page_rows([1, 2], 5, 2) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Display a pandas DataFrame with st.dataframe and enable column sorting</label></li>
 <li><label><input type="checkbox"> Show three st.metric cards with delta values for revenue, users, and churn</label></li>
 <li><label><input type="checkbox"> Add a static st.table alongside the interactive st.dataframe to compare both</label></li>
@@ -1061,7 +1073,15 @@ st.title(&#x27;Stock Price Simulator&#x27;)
 #     c1, c2, c3 = st.columns(3)
 #     c1.metric(&#x27;Min Price&#x27;, f&#x27;${prices.min():.2f}&#x27;)
 #     c2.metric(&#x27;Max Price&#x27;, f&#x27;${prices.max():.2f}&#x27;)
-#     c3.metric(&#x27;Final Price&#x27;, f&#x27;${prices[-1]:.2f}&#x27;)</code></pre></div></div>
+#     c3.metric(&#x27;Final Price&#x27;, f&#x27;${prices[-1]:.2f}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pick the Chart</div><div class="pd">Choose the chart type that fits the pair of column kinds.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p4_1" class="language-python">def chart_for(x_kind, y_kind):
+    # TODO: numeric+numeric-&gt;&#x27;scatter&#x27;, category+numeric-&gt;&#x27;bar&#x27;, time+numeric-&gt;&#x27;line&#x27;, else &#x27;table&#x27;
+    return &#x27;table&#x27;
+
+print(chart_for(&#x27;numeric&#x27;, &#x27;numeric&#x27;), chart_for(&#x27;category&#x27;, &#x27;numeric&#x27;))</code></pre></div><template class="ho-check">assert chart_for(&#x27;numeric&#x27;, &#x27;numeric&#x27;) == &#x27;scatter&#x27;
+assert chart_for(&#x27;category&#x27;, &#x27;numeric&#x27;) == &#x27;bar&#x27;
+assert chart_for(&#x27;time&#x27;, &#x27;numeric&#x27;) == &#x27;line&#x27;
+assert chart_for(&#x27;category&#x27;, &#x27;category&#x27;) == &#x27;table&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a st.line_chart from a pandas DataFrame with a date index</label></li>
 <li><label><input type="checkbox"> Render a st.bar_chart grouped by category</label></li>
 <li><label><input type="checkbox"> Embed a matplotlib figure using st.pyplot(fig)</label></li>
@@ -1264,7 +1284,13 @@ clothing = [
 #             if st.button(&#x27;Add to Cart&#x27;, key=product[&#x27;name&#x27;]):
 #                 st.toast(f&quot;{product[&#x27;name&#x27;]} added to cart!&quot;)
 
-# TODO: Repeat for tab2 with the clothing list</code></pre></div></div>
+# TODO: Repeat for tab2 with the clothing list</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Column Widths</div><div class="pd">st.columns takes relative weights; convert them to fractions of the row.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p5_1" class="language-python">def column_fractions(weights):
+    # TODO: each weight divided by the total, rounded to 4
+    return []
+
+print(column_fractions([1, 3]))</code></pre></div><template class="ho-check">assert column_fractions([1, 3]) == [0.25, 0.75]
+assert column_fractions([2, 2, 2, 2]) == [0.25, 0.25, 0.25, 0.25]
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a two-column layout with st.columns([2, 1]) and place a chart in the wide column</label></li>
 <li><label><input type="checkbox"> Add three st.tabs and put different content (chart, table, form) in each tab</label></li>
 <li><label><input type="checkbox"> Wrap a code snippet in st.expander so it is collapsed by default</label></li>
@@ -1482,7 +1508,13 @@ st.title(&#x27;Streamlit Quiz&#x27;)
 #         st.session_state.q_index = 0
 #         st.session_state.score = 0
 #         st.session_state.finished = False
-#         st.rerun()</code></pre></div></div>
+#         st.rerun()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Initialise Session State</div><div class="pd">Streamlit&#x27;s session state keeps existing values and fills in only what is missing.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p6_1" class="language-python">def init_state(state, defaults):
+    # TODO: add each default the state does not already have, without overwriting
+    return {}
+
+print(init_state({&#x27;count&#x27;: 5}, {&#x27;count&#x27;: 0, &#x27;name&#x27;: &#x27;&#x27;}))</code></pre></div><template class="ho-check">assert init_state({&#x27;count&#x27;: 5}, {&#x27;count&#x27;: 0, &#x27;name&#x27;: &#x27;&#x27;}) == {&#x27;count&#x27;: 5, &#x27;name&#x27;: &#x27;&#x27;}
+assert init_state({}, {&#x27;a&#x27;: 1}) == {&#x27;a&#x27;: 1}
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a sidebar with st.radio for page navigation between &#x27;Home&#x27; and &#x27;Settings&#x27;</label></li>
 <li><label><input type="checkbox"> Initialize a counter in st.session_state and add increment/decrement buttons</label></li>
 <li><label><input type="checkbox"> Build a theme switcher using session_state that changes page background color</label></li>
@@ -1719,7 +1751,14 @@ st.title(&#x27;CSV Analyzer&#x27;)
 #     st.dataframe(desc)
 
 #     # TODO: Add a download button for the describe() output as CSV
-#     st.download_button(&#x27;Download Stats as CSV&#x27;, desc.to_csv(), &#x27;stats.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div>
+#     st.download_button(&#x27;Download Stats as CSV&#x27;, desc.to_csv(), &#x27;stats.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Accept the Upload</div><div class="pd">An uploader restricts by extension and by size.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p7_1" class="language-python">def upload_ok(filename, size_mb, allowed, max_mb):
+    # TODO: True when the extension is in allowed (case-insensitive) and size is within max_mb
+    return False
+
+print(upload_ok(&#x27;data.CSV&#x27;, 2, [&#x27;csv&#x27;], 10), upload_ok(&#x27;a.exe&#x27;, 1, [&#x27;csv&#x27;], 10))</code></pre></div><template class="ho-check">assert upload_ok(&#x27;data.CSV&#x27;, 2, [&#x27;csv&#x27;], 10) is True
+assert upload_ok(&#x27;a.exe&#x27;, 1, [&#x27;csv&#x27;], 10) is False
+assert upload_ok(&#x27;big.csv&#x27;, 50, [&#x27;csv&#x27;], 10) is False
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a CSV uploader that shows row count, column names, and missing value counts</label></li>
 <li><label><input type="checkbox"> Add a download button that exports a filtered version of an uploaded dataframe</label></li>
 <li><label><input type="checkbox"> Create an image uploader that displays the image and its dimensions</label></li>
@@ -1940,7 +1979,13 @@ st.title(&#x27;Data Fetcher with Cache &amp; Form&#x27;)
 #     filtered = df[(df[&#x27;date&#x27;] &gt;= start) &amp; (df[&#x27;date&#x27;] &lt;= end) &amp; (df[&#x27;category&#x27;].isin(cats))]
 #     st.write(f&#x27;{len(filtered)} rows match&#x27;)
 #     st.dataframe(filtered.head(20))
-#     st.download_button(&#x27;Download filtered CSV&#x27;, filtered.to_csv(index=False), &#x27;filtered.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div>
+#     st.download_button(&#x27;Download filtered CSV&#x27;, filtered.to_csv(index=False), &#x27;filtered.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Key From Arguments</div><div class="pd">st.cache_data keys an entry on the call&#x27;s arguments.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p8_1" class="language-python">def cache_key(fn_name, args, kwargs):
+    # TODO: &#x27;fn(a,b|k=v)&#x27; with positional args comma-joined and kwargs sorted by name
+    return &#x27;&#x27;
+
+print(cache_key(&#x27;load&#x27;, (1, 2), {&#x27;sep&#x27;: &#x27;,&#x27;}))</code></pre></div><template class="ho-check">assert cache_key(&#x27;load&#x27;, (1, 2), {&#x27;sep&#x27;: &#x27;,&#x27;}) == &#x27;load(1,2|sep=,)&#x27;
+assert cache_key(&#x27;f&#x27;, (), {}) == &#x27;f(|)&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a form with at least 4 input types and validate all required fields on submit</label></li>
 <li><label><input type="checkbox"> Add @st.cache_data to a function that loads a CSV and verify it only loads once</label></li>
 <li><label><input type="checkbox"> Benchmark a function with and without @st.cache_data using time.perf_counter()</label></li>
@@ -2187,7 +2232,13 @@ st.set_page_config(page_title=&#x27;My Multi-Page App&#x27;, layout=&#x27;wide&#
 #     theme = st.selectbox(&#x27;Theme&#x27;, [&#x27;Light&#x27;, &#x27;Dark&#x27;, &#x27;Auto&#x27;])
 #     notifs = st.toggle(&#x27;Enable notifications&#x27;, value=True)
 #     if st.form_submit_button(&#x27;Save&#x27;):
-#         st.success(f&#x27;Saved: {username}, {theme}, notifications={notifs}&#x27;)</code></pre></div></div>
+#         st.success(f&#x27;Saved: {username}, {theme}, notifications={notifs}&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Page Registry</div><div class="pd">Files under pages/ become routes; derive the labels Streamlit shows.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p9_1" class="language-python">def page_labels(filenames):
+    # TODO: &#x27;1_Data_Loader.py&#x27; -&gt; &#x27;Data Loader&#x27;, sorted by the numeric prefix
+    return []
+
+print(page_labels([&#x27;2_Model.py&#x27;, &#x27;1_Data_Loader.py&#x27;]))</code></pre></div><template class="ho-check">assert page_labels([&#x27;2_Model.py&#x27;, &#x27;1_Data_Loader.py&#x27;]) == [&#x27;Data Loader&#x27;, &#x27;Model&#x27;]
+assert page_labels([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3-page app with Home, Analytics, and Settings pages using the pages/ folder</label></li>
 <li><label><input type="checkbox"> Add custom sidebar navigation with st.page_link() and icons on each page</label></li>
 <li><label><input type="checkbox"> Configure app secrets in .streamlit/secrets.toml and access them with st.secrets</label></li>
@@ -2409,7 +2460,14 @@ USERS = {
 # TODO: Show viewer dashboard (a line chart) for all logged-in users
 # TODO: Show admin panel (a settings form) only for role=&#x27;admin&#x27;
 # TODO: Add a Logout button that clears session_state and reruns
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Session Expiry</div><div class="pd">A login expires once it is older than the session timeout.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p10_1" class="language-python">def session_valid(login_ts, now_ts, timeout_s):
+    # TODO: True while now - login is strictly less than the timeout
+    return False
+
+print(session_valid(0, 100, 3600), session_valid(0, 4000, 3600))</code></pre></div><template class="ho-check">assert session_valid(0, 100, 3600) is True
+assert session_valid(0, 4000, 3600) is False
+assert session_valid(0, 3600, 3600) is False
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a login form that checks username/password and stores user in session_state</label></li>
 <li><label><input type="checkbox"> Add role-based access control: show an admin panel only when role == &#x27;admin&#x27;</label></li>
 <li><label><input type="checkbox"> Implement a logout button that clears all session_state keys and reruns the app</label></li>
@@ -2618,7 +2676,15 @@ import numpy as np
 # TODO: st.metric for total revenue, order count, avg revenue
 # TODO: st.bar_chart for revenue by product
 # TODO: &#x27;Clear cache&#x27; button that calls st.cache_data.clear()
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Query Parameters</div><div class="pd">Never interpolate user input; build a parameterised statement instead.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p11_1" class="language-python">def build_query(table, filters):
+    # TODO: (&#x27;SELECT * FROM t WHERE a = ? AND b = ?&#x27;, [values]) with filter names sorted
+    return (&#x27;&#x27;, [])
+
+print(build_query(&#x27;users&#x27;, {&#x27;city&#x27;: &#x27;NY&#x27;, &#x27;age&#x27;: 30}))</code></pre></div><template class="ho-check">sql, params = build_query(&#x27;users&#x27;, {&#x27;city&#x27;: &#x27;NY&#x27;, &#x27;age&#x27;: 30})
+assert sql == &#x27;SELECT * FROM users WHERE age = ? AND city = ?&#x27;
+assert params == [30, &#x27;NY&#x27;]
+assert build_query(&#x27;t&#x27;, {}) == (&#x27;SELECT * FROM t&#x27;, [])
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Connect to an in-memory SQLite database and display query results as a dataframe</label></li>
 <li><label><input type="checkbox"> Add @st.cache_data(ttl=300) to a database query function and verify caching works</label></li>
 <li><label><input type="checkbox"> Add filter widgets (selectbox, date inputs) that pass parameters to the cached query</label></li>
@@ -2830,7 +2896,13 @@ kpis = [
     (&#x27;Avg Session&#x27;, &#x27;4m32s&#x27;, &#x27;-12s&#x27;),
 ]
 # TODO: render cards
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Inline Style String</div><div class="pd">Custom components take a CSS string built from a property dict.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p12_1" class="language-python">def style_string(props):
+    # TODO: &#x27;color:red;font-size:14px&#x27; with properties sorted by name
+    return &#x27;&#x27;
+
+print(style_string({&#x27;font-size&#x27;: &#x27;14px&#x27;, &#x27;color&#x27;: &#x27;red&#x27;}))</code></pre></div><template class="ho-check">assert style_string({&#x27;font-size&#x27;: &#x27;14px&#x27;, &#x27;color&#x27;: &#x27;red&#x27;}) == &#x27;color:red;font-size:14px&#x27;
+assert style_string({}) == &#x27;&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inject custom CSS with st.markdown() to change card colors and font styles</label></li>
 <li><label><input type="checkbox"> Create a reusable kpi_card() function that generates styled HTML and renders with st.markdown()</label></li>
 <li><label><input type="checkbox"> Build a dark/light theme toggle in the sidebar that applies different CSS classes</label></li>
@@ -3014,7 +3086,13 @@ st.title(&quot;Customer Analytics Dashboard&quot;)
 # TODO: Filterable data table with search
 # TODO: Add a session state counter for &quot;number of queries run&quot;
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter the Rows</div><div class="pd">A dashboard applies every active filter at once.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p13_1" class="language-python">def apply_filters(rows, filters):
+    # TODO: rows matching every key/value in filters
+    return []
+
+print(apply_filters([{&#x27;c&#x27;: &#x27;NY&#x27;, &#x27;v&#x27;: 1}, {&#x27;c&#x27;: &#x27;SF&#x27;, &#x27;v&#x27;: 2}], {&#x27;c&#x27;: &#x27;NY&#x27;}))</code></pre></div><template class="ho-check">assert apply_filters([{&#x27;c&#x27;: &#x27;NY&#x27;, &#x27;v&#x27;: 1}, {&#x27;c&#x27;: &#x27;SF&#x27;, &#x27;v&#x27;: 2}], {&#x27;c&#x27;: &#x27;NY&#x27;}) == [{&#x27;c&#x27;: &#x27;NY&#x27;, &#x27;v&#x27;: 1}]
+assert len(apply_filters([{&#x27;a&#x27;: 1}], {})) == 1
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a dashboard with sidebar filters (date range, category) that update all charts simultaneously</label></li>
 <li><label><input type="checkbox"> Add 4 KPI metric cards that recalculate based on sidebar filter selections</label></li>
 <li><label><input type="checkbox"> Implement a sortable, filterable data table with a search box using st.dataframe</label></li>
@@ -3197,7 +3275,14 @@ import io
 # TODO: Download button for results CSV
 # TODO: Bar chart of feature importances
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Label the Prediction</div><div class="pd">Turn a probability into the label and confidence a user sees.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p14_1" class="language-python">def label_prediction(prob, threshold=0.5):
+    # TODO: {&#x27;label&#x27;: &#x27;positive&#x27;/&#x27;negative&#x27;, &#x27;confidence&#x27;: distance from the threshold side, rounded to 4}
+    return {}
+
+print(label_prediction(0.8))</code></pre></div><template class="ho-check">r = label_prediction(0.8)
+assert r == {&#x27;label&#x27;: &#x27;positive&#x27;, &#x27;confidence&#x27;: 0.8}
+assert label_prediction(0.2) == {&#x27;label&#x27;: &#x27;negative&#x27;, &#x27;confidence&#x27;: 0.8}
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -3382,7 +3467,14 @@ st.set_page_config(layout=&quot;wide&quot;)
 # TODO: Download button for filtered data as CSV
 # TODO: Experiment logger form using st.form + session state (track 5 experiments max)
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rerun Guard</div><div class="pd">Streamlit reruns the whole script; skip expensive work when inputs are unchanged.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p15_1" class="language-python">def needs_recompute(prev_inputs, new_inputs):
+    # TODO: True when the two input dicts differ in any way
+    return True
+
+print(needs_recompute({&#x27;n&#x27;: 1}, {&#x27;n&#x27;: 1}), needs_recompute({&#x27;n&#x27;: 1}, {&#x27;n&#x27;: 2}))</code></pre></div><template class="ho-check">assert needs_recompute({&#x27;n&#x27;: 1}, {&#x27;n&#x27;: 1}) is False
+assert needs_recompute({&#x27;n&#x27;: 1}, {&#x27;n&#x27;: 2}) is True
+assert needs_recompute({}, {&#x27;n&#x27;: 1}) is True
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -3632,7 +3724,14 @@ st.title(&quot;My Chart App&quot;)
 # 3. Filter df by selected categories
 # 4. Create plotly figure based on chart type
 # 5. st.plotly_chart(fig, use_container_width=True)
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Long Form for Altair</div><div class="pd">Altair wants long-form data; melt a wide row set into it.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p16_1" class="language-python">def melt(rows, id_col):
+    # TODO: {&#x27;id&#x27;: ..., &#x27;variable&#x27;: col, &#x27;value&#x27;: v} for every non-id column, row by row
+    return []
+
+print(melt([{&#x27;g&#x27;: &#x27;a&#x27;, &#x27;x&#x27;: 1, &#x27;y&#x27;: 2}], &#x27;g&#x27;))</code></pre></div><template class="ho-check">out = melt([{&#x27;g&#x27;: &#x27;a&#x27;, &#x27;x&#x27;: 1, &#x27;y&#x27;: 2}], &#x27;g&#x27;)
+assert out == [{&#x27;id&#x27;: &#x27;a&#x27;, &#x27;variable&#x27;: &#x27;x&#x27;, &#x27;value&#x27;: 1}, {&#x27;id&#x27;: &#x27;a&#x27;, &#x27;variable&#x27;: &#x27;y&#x27;, &#x27;value&#x27;: 2}]
+assert melt([], &#x27;g&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -4429,7 +4528,13 @@ if submitted:
     # 2. Validate email with regex r&#x27;^[\w.]+@[\w]+\.[a-z]{2,}$&#x27;
     # 3. Validate age is 18-120
     # 4. Show errors or st.success(&quot;Welcome!&quot;)
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validate the Form</div><div class="pd">Collect every problem at once so the user fixes them in one pass.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p19_1" class="language-python">def validate(form):
+    # TODO: sorted messages: &#x27;name is required&#x27; when blank, &#x27;age must be positive&#x27; when age &lt;= 0
+    return []
+
+print(validate({&#x27;name&#x27;: &#x27;&#x27;, &#x27;age&#x27;: 0}))</code></pre></div><template class="ho-check">assert validate({&#x27;name&#x27;: &#x27;&#x27;, &#x27;age&#x27;: 0}) == [&#x27;age must be positive&#x27;, &#x27;name is required&#x27;]
+assert validate({&#x27;name&#x27;: &#x27;a&#x27;, &#x27;age&#x27;: 5}) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -4966,7 +5071,13 @@ else:
     # 5. Show title &quot;Page 3: Analysis&quot;
     # 6. Show chart using st.session_state.shared_value
     pass
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Breadcrumb Trail</div><div class="pd">Turn a page path into the breadcrumb the header shows.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p21_1" class="language-python">def breadcrumbs(path):
+    # TODO: &#x27;reports/monthly/sales&#x27; -&gt; [&#x27;reports&#x27;, &#x27;monthly&#x27;, &#x27;sales&#x27;], ignoring empty segments
+    return []
+
+print(breadcrumbs(&#x27;/reports//monthly/sales&#x27;))</code></pre></div><template class="ho-check">assert breadcrumbs(&#x27;/reports//monthly/sales&#x27;) == [&#x27;reports&#x27;, &#x27;monthly&#x27;, &#x27;sales&#x27;]
+assert breadcrumbs(&#x27;/&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -5255,7 +5366,13 @@ st.title(&quot;Custom Styled Components&quot;)
 
 metrics = [(&quot;Accuracy&quot;, 92), (&quot;F1 Score&quot;, 87), (&quot;AUC&quot;, 95)]
 statuses = [(&quot;Active&quot;, &quot;green&quot;), (&quot;Inactive&quot;, &quot;red&quot;), (&quot;Pending&quot;, &quot;yellow&quot;)]
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Theme Contrast</div><div class="pd">Pick readable text for a background using its relative luminance.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p22_1" class="language-python">def text_color(rgb):
+    # TODO: &#x27;#000000&#x27; when 0.299r + 0.587g + 0.114b &gt; 150, else &#x27;#ffffff&#x27;
+    return &#x27;#ffffff&#x27;
+
+print(text_color((255, 255, 255)), text_color((0, 0, 0)))</code></pre></div><template class="ho-check">assert text_color((255, 255, 255)) == &#x27;#000000&#x27;
+assert text_color((0, 0, 0)) == &#x27;#ffffff&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     
   </div>
 </div>
@@ -5607,7 +5724,13 @@ st.title(&quot;Production App&quot;)
 # 3. try/except wrapper around main app logic
 # 4. Sidebar with &quot;Health Check&quot; button that shows:
 #    {&quot;status&quot;: &quot;healthy&quot;, &quot;data_rows&quot;: len(df), &quot;model&quot;: type(model).__name__}
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pin the Requirements</div><div class="pd">A deployable app pins every dependency to an exact version.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code</span></div><pre><code id="p23_1" class="language-python">def unpinned(requirements):
+    # TODO: requirement lines with no &#x27;==&#x27;, ignoring blanks and &#x27;#&#x27; comments
+    return []
+
+print(unpinned([&#x27;streamlit==1.31.0&#x27;, &#x27;pandas&#x27;, &#x27;# comment&#x27;, &#x27;&#x27;]))</code></pre></div><template class="ho-check">assert unpinned([&#x27;streamlit==1.31.0&#x27;, &#x27;pandas&#x27;, &#x27;# comment&#x27;, &#x27;&#x27;]) == [&#x27;pandas&#x27;]
+assert unpinned([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Load a scikit-learn model with @st.cache_resource and display a prediction form</label></li>
 <li><label><input type="checkbox"> Add batch prediction via CSV upload: show results table and download button</label></li>
 <li><label><input type="checkbox"> Display model performance metrics (accuracy, confusion matrix) with st.metric and st.json</label></li>

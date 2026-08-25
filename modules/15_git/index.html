@@ -133,7 +133,13 @@ git log --oneline</code></pre></div><div class="practice"><div class="ph">&#x1F3
 #   - .env
 # TODO: Create a README.md with a project title
 # TODO: Stage and commit everything
-# TODO: Run git log to verify</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git config --list and verify your name and email are set correctly</label></li>
+# TODO: Run git log to verify</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Walk the Commit History</div><div class="pd">A commit points at its parent; follow the chain back to the root.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def history(commits, head):
+    # TODO: [head, parent, grandparent, ...] using the {sha: parent_sha} map; the root&#x27;s parent is None
+    return []
+
+print(history({&#x27;c&#x27;: &#x27;b&#x27;, &#x27;b&#x27;: &#x27;a&#x27;, &#x27;a&#x27;: None}, &#x27;c&#x27;))</code></pre></div><template class="ho-check">assert history({&#x27;c&#x27;: &#x27;b&#x27;, &#x27;b&#x27;: &#x27;a&#x27;, &#x27;a&#x27;: None}, &#x27;c&#x27;) == [&#x27;c&#x27;, &#x27;b&#x27;, &#x27;a&#x27;]
+assert history({&#x27;a&#x27;: None}, &#x27;a&#x27;) == [&#x27;a&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git config --list and verify your name and email are set correctly</label></li>
 <li><label><input type="checkbox"> Create a brand new directory, run git init, and confirm the .git folder was created</label></li>
 <li><label><input type="checkbox"> Create a README.md, stage it, and commit it — then inspect git log --oneline</label></li>
 <li><label><input type="checkbox"> Add a second file, check git status, then use git restore to discard it</label></li>
@@ -492,7 +498,13 @@ git push -u origin main
 # TODO: Merge dev-alice into main (should work cleanly)
 # TODO: Try to merge dev-bob into main (conflict!)
 # TODO: Resolve the conflict, commit the merge
-# TODO: git log --oneline --graph to see the result</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Clone a public GitHub repo locally and inspect git remote -v</label></li>
+# TODO: git log --oneline --graph to see the result</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ahead and Behind</div><div class="pd">`git status` reports how far your branch has diverged from its upstream.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">def ahead_behind(local, remote):
+    # TODO: (commits only in local, commits only in remote) as counts
+    return (0, 0)
+
+print(ahead_behind([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;d&#x27;, &#x27;e&#x27;]))</code></pre></div><template class="ho-check">assert ahead_behind([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;d&#x27;, &#x27;e&#x27;]) == (1, 2)
+assert ahead_behind([&#x27;a&#x27;], [&#x27;a&#x27;]) == (0, 0)
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Clone a public GitHub repo locally and inspect git remote -v</label></li>
 <li><label><input type="checkbox"> Add a second remote called &#x27;backup&#x27; pointing to a different URL, then remove it</label></li>
 <li><label><input type="checkbox"> Use git fetch followed by git log origin/main --oneline -5 to preview remote changes</label></li>
 <li><label><input type="checkbox"> Practice git pull --rebase and confirm your local commits sit on top of remote ones</label></li>
@@ -593,7 +605,19 @@ gh pr create --title &quot;feat: add k-fold cross-validation&quot; \
 | Accuracy | 0.94 | 0.96 ± 0.02 |&quot;
 
 # 6. After review and approval
-gh pr merge --squash</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install GitHub CLI (gh) and authenticate with gh auth login</label></li>
+gh pr merge --squash</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Coverage</div><div class="pd">A PR is ready when every changed file has at least one review comment.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">def unreviewed(changed_files, comments):
+    # TODO: changed files with no comment, in the order given
+    return []
+
+print(unreviewed([&#x27;a.py&#x27;, &#x27;b.py&#x27;], [{&#x27;file&#x27;: &#x27;a.py&#x27;, &#x27;line&#x27;: 3}]))</code></pre></div><template class="ho-check">assert unreviewed([&#x27;a.py&#x27;, &#x27;b.py&#x27;], [{&#x27;file&#x27;: &#x27;a.py&#x27;, &#x27;line&#x27;: 3}]) == [&#x27;b.py&#x27;]
+assert unreviewed([], []) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Diff Stat</div><div class="pd">`git diff --stat` totals the added and removed lines of a patch.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">def diff_stat(patch_lines):
+    # TODO: (additions, deletions); &#x27;+&#x27; adds, &#x27;-&#x27; removes, but ignore &#x27;+++&#x27; and &#x27;---&#x27; headers
+    return (0, 0)
+
+print(diff_stat([&#x27;--- a/x&#x27;, &#x27;+++ b/x&#x27;, &#x27;+new&#x27;, &#x27;-old&#x27;, &#x27; same&#x27;]))</code></pre></div><template class="ho-check">assert diff_stat([&#x27;--- a/x&#x27;, &#x27;+++ b/x&#x27;, &#x27;+new&#x27;, &#x27;-old&#x27;, &#x27; same&#x27;]) == (1, 1)
+assert diff_stat([]) == (0, 0)
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install GitHub CLI (gh) and authenticate with gh auth login</label></li>
 <li><label><input type="checkbox"> Create a feature branch, push it, and open a PR using gh pr create</label></li>
 <li><label><input type="checkbox"> Use gh pr checkout to check out a teammate&#x27;s PR locally and run the tests</label></li>
 <li><label><input type="checkbox"> Write a PR description that includes: what changed, why, and model metrics</label></li>
@@ -885,7 +909,20 @@ gh release create model-v2.1.0 \
 
 # Later: need to roll back to v2.0.0
 git checkout model-v2.0.0 -- src/model.py configs/model_config.yaml
-# This restores just the model files from the v2.0.0 tag</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an annotated tag on your current commit with version, model metrics, and a short description</label></li>
+# This restores just the model files from the v2.0.0 tag</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bump the Version</div><div class="pd">Semantic versioning decides which part of the tag moves.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">def bump(version, part):
+    # TODO: &#x27;major&#x27; -&gt; x+1.0.0, &#x27;minor&#x27; -&gt; x.y+1.0, &#x27;patch&#x27; -&gt; x.y.z+1
+    return version
+
+print(bump(&#x27;1.4.2&#x27;, &#x27;minor&#x27;))</code></pre></div><template class="ho-check">assert bump(&#x27;1.4.2&#x27;, &#x27;minor&#x27;) == &#x27;1.5.0&#x27;
+assert bump(&#x27;1.4.2&#x27;, &#x27;major&#x27;) == &#x27;2.0.0&#x27;
+assert bump(&#x27;1.4.2&#x27;, &#x27;patch&#x27;) == &#x27;1.4.3&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Latest Release</div><div class="pd">Tags sort by version number, not alphabetically.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">def latest_tag(tags):
+    # TODO: the highest &#x27;vX.Y.Z&#x27; tag, compared numerically
+    return None
+
+print(latest_tag([&#x27;v1.10.0&#x27;, &#x27;v1.9.0&#x27;, &#x27;v1.2.3&#x27;]))</code></pre></div><template class="ho-check">assert latest_tag([&#x27;v1.10.0&#x27;, &#x27;v1.9.0&#x27;, &#x27;v1.2.3&#x27;]) == &#x27;v1.10.0&#x27;
+assert latest_tag([&#x27;v0.1.0&#x27;]) == &#x27;v0.1.0&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an annotated tag on your current commit with version, model metrics, and a short description</label></li>
 <li><label><input type="checkbox"> Push your tag to a remote and verify it appears under Releases on GitHub</label></li>
 <li><label><input type="checkbox"> Use git tag -l &#x27;v*&#x27; to list all version tags and git show to inspect one</label></li>
 <li><label><input type="checkbox"> Delete a local tag with git tag -d, recreate it on a different commit, then push --tags</label></li>
@@ -1067,7 +1104,14 @@ git commit -m &quot;feat: add EDA notebook with correlation analysis&quot;
 #   nb = json.load(sys.stdin)
 #   outputs = sum(len(c.get(&#x27;outputs&#x27;,[])) for c in nb[&#x27;cells&#x27;])
 #   print(f&#x27;Outputs in committed notebook: {outputs}&#x27;)
-#   &quot; </code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install nbstripout, run nbstripout --install in a repo, then commit a notebook and verify outputs are gone</label></li>
+#   &quot; </code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strip the Outputs</div><div class="pd">nbstripout clears execution state so notebook diffs stay readable.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">def strip_outputs(nb):
+    # TODO: set every code cell&#x27;s &#x27;outputs&#x27; to [] and &#x27;execution_count&#x27; to None
+    return nb
+
+print(strip_outputs({&#x27;cells&#x27;: [{&#x27;cell_type&#x27;: &#x27;code&#x27;, &#x27;outputs&#x27;: [1], &#x27;execution_count&#x27;: 3}]}))</code></pre></div><template class="ho-check">nb = strip_outputs({&#x27;cells&#x27;: [{&#x27;cell_type&#x27;: &#x27;code&#x27;, &#x27;outputs&#x27;: [1], &#x27;execution_count&#x27;: 3}]})
+assert nb[&#x27;cells&#x27;][0][&#x27;outputs&#x27;] == [] and nb[&#x27;cells&#x27;][0][&#x27;execution_count&#x27;] is None
+assert strip_outputs({&#x27;cells&#x27;: []})[&#x27;cells&#x27;] == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install nbstripout, run nbstripout --install in a repo, then commit a notebook and verify outputs are gone</label></li>
 <li><label><input type="checkbox"> Install jupytext and convert a notebook to a .py:percent script — commit both and compare diffs</label></li>
 <li><label><input type="checkbox"> Run nbdime config-git --enable then use git diff on a changed notebook to see the readable output</label></li>
 <li><label><input type="checkbox"> Deliberately commit a notebook with outputs, then use git rm --cached to untrack and strip it</label></li>
@@ -1176,7 +1220,22 @@ pre-commit install
 pre-commit run --all-files
 
 # Now every commit is automatically checked!
-# Team members just need to run: pre-commit install</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install pre-commit, create a .pre-commit-config.yaml with black, and run pre-commit install</label></li>
+# Team members just need to run: pre-commit install</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hook Exit Code</div><div class="pd">A pre-commit hook blocks the commit by exiting non-zero.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">def pre_commit(files):
+    # TODO: 0 when no filename ends in &#x27;.ipynb_checkpoints&#x27; or &#x27;.env&#x27;, else 1
+    return 0
+
+print(pre_commit([&#x27;train.py&#x27;]), pre_commit([&#x27;.env&#x27;]))</code></pre></div><template class="ho-check">assert pre_commit([&#x27;train.py&#x27;]) == 0
+assert pre_commit([&#x27;secrets/.env&#x27;]) == 1
+assert pre_commit([]) == 0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Commit Message Policy</div><div class="pd">A commit-msg hook enforces the Conventional Commits prefix.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def valid_message(msg):
+    # TODO: True when msg starts with feat:/fix:/docs:/test:/chore: followed by a space and text
+    return False
+
+print(valid_message(&#x27;feat: add loader&#x27;), valid_message(&#x27;stuff&#x27;))</code></pre></div><template class="ho-check">assert valid_message(&#x27;feat: add loader&#x27;) is True
+assert valid_message(&#x27;fix: off-by-one&#x27;) is True
+assert valid_message(&#x27;stuff&#x27;) is False
+assert valid_message(&#x27;feat:&#x27;) is False
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install pre-commit, create a .pre-commit-config.yaml with black, and run pre-commit install</label></li>
 <li><label><input type="checkbox"> Run pre-commit run --all-files on a project and fix any formatting issues it reports</label></li>
 <li><label><input type="checkbox"> Write a custom .git/hooks/pre-commit shell script that rejects commits with &#x27;TODO&#x27; in staged files</label></li>
 <li><label><input type="checkbox"> Add the check-added-large-files hook and verify it blocks a file larger than your threshold</label></li>
@@ -1244,7 +1303,19 @@ ls -la models/  # model file is there via LFS
 
 # Check LFS storage
 git lfs ls-files --size
-# models/churn_model.pkl (245 MB)</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git lfs install, track *.pkl files, commit .gitattributes, and add a dummy pkl file</label></li>
+# models/churn_model.pkl (245 MB)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pick the LFS Candidates</div><div class="pd">LFS is for files above a size threshold, tracked by extension.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">def lfs_candidates(files, min_mb):
+    # TODO: names from {&#x27;name&#x27;: ..., &#x27;mb&#x27;: ...} rows at or above min_mb, sorted by name
+    return []
+
+print(lfs_candidates([{&#x27;name&#x27;: &#x27;model.pkl&#x27;, &#x27;mb&#x27;: 200}, {&#x27;name&#x27;: &#x27;a.py&#x27;, &#x27;mb&#x27;: 0.01}], 100))</code></pre></div><template class="ho-check">assert lfs_candidates([{&#x27;name&#x27;: &#x27;model.pkl&#x27;, &#x27;mb&#x27;: 200}, {&#x27;name&#x27;: &#x27;a.py&#x27;, &#x27;mb&#x27;: 0.01}], 100) == [&#x27;model.pkl&#x27;]
+assert lfs_candidates([], 10) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Track Patterns</div><div class="pd">`git lfs track` stores glob patterns; derive them from the file list.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">def track_patterns(files):
+    # TODO: sorted unique &#x27;*.ext&#x27; patterns for files that have an extension
+    return []
+
+print(track_patterns([&#x27;a.pkl&#x27;, &#x27;b.pkl&#x27;, &#x27;c.h5&#x27;, &#x27;README&#x27;]))</code></pre></div><template class="ho-check">assert track_patterns([&#x27;a.pkl&#x27;, &#x27;b.pkl&#x27;, &#x27;c.h5&#x27;, &#x27;README&#x27;]) == [&#x27;*.h5&#x27;, &#x27;*.pkl&#x27;]
+assert track_patterns([&#x27;README&#x27;]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run git lfs install, track *.pkl files, commit .gitattributes, and add a dummy pkl file</label></li>
 <li><label><input type="checkbox"> Use git lfs ls-files to confirm which files are stored via LFS in your repo</label></li>
 <li><label><input type="checkbox"> Clone a repo using GIT_LFS_SKIP_SMUDGE=1 and verify LFS files are only pointers</label></li>
 <li><label><input type="checkbox"> Use git lfs pull --include=&#x27;data/train*&#x27; to selectively download only the files you need</label></li>
@@ -1333,7 +1404,22 @@ git bisect run ./test_accuracy.sh      # automated testing!
 
 # Found it! The scaling change caused the regression
 git bisect reset
-rm test_accuracy.sh</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use git cherry-pick to copy a single bug-fix commit from one branch to another</label></li>
+rm test_accuracy.sh</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bisect Steps</div><div class="pd">Bisect halves the suspect range each step; count the checkouts needed.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import math
+
+def bisect_steps(n_commits):
+    # TODO: ceil(log2(n)) checkouts to isolate one bad commit among n
+    return 0
+
+print(bisect_steps(8), bisect_steps(1000))</code></pre></div><template class="ho-check">assert bisect_steps(8) == 3
+assert bisect_steps(1) == 0
+assert bisect_steps(1000) == 10
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cherry-pick Selection</div><div class="pd">Cherry-pick moves only the commits that are not already on the target.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">def to_cherry_pick(source, target):
+    # TODO: source commits missing from target, keeping source order
+    return []
+
+print(to_cherry_pick([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;c&#x27;]))</code></pre></div><template class="ho-check">assert to_cherry_pick([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;c&#x27;]) == [&#x27;b&#x27;]
+assert to_cherry_pick([&#x27;a&#x27;], [&#x27;a&#x27;]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use git cherry-pick to copy a single bug-fix commit from one branch to another</label></li>
 <li><label><input type="checkbox"> Run git bisect manually on a small repo — mark bad and good commits until Git finds the culprit</label></li>
 <li><label><input type="checkbox"> Automate git bisect with a test script using git bisect run python -m pytest</label></li>
 <li><label><input type="checkbox"> Accidentally delete a branch, then recover it using git reflog and git branch</label></li>
@@ -1426,7 +1512,19 @@ echo &quot;  ✓ Simple to learn&quot;
 echo &quot;  ✓ Works well with PRs&quot;
 echo &quot;  ✓ main is always deployable&quot;
 echo &quot;  ✓ Low overhead for small teams&quot;
-echo &quot;  ✓ GitHub/GitLab built around this workflow&quot; </code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a full GitHub Flow cycle: branch → commit → PR → merge → delete branch</label></li>
+echo &quot;  ✓ GitHub/GitLab built around this workflow&quot; </code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branch Naming</div><div class="pd">A team convention maps a work type and ticket onto a branch name.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">def branch_name(kind, ticket, slug):
+    # TODO: &#x27;kind/TICKET-slug&#x27; with the slug lowercased and spaces turned into hyphens
+    return &#x27;&#x27;
+
+print(branch_name(&#x27;feature&#x27;, &#x27;DS-42&#x27;, &#x27;Add Churn Model&#x27;))</code></pre></div><template class="ho-check">assert branch_name(&#x27;feature&#x27;, &#x27;DS-42&#x27;, &#x27;Add Churn Model&#x27;) == &#x27;feature/DS-42-add-churn-model&#x27;
+assert branch_name(&#x27;fix&#x27;, &#x27;X-1&#x27;, &#x27;typo&#x27;) == &#x27;fix/X-1-typo&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Merge Base</div><div class="pd">Two branches diverge at their most recent shared commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">def merge_base(branch_a, branch_b):
+    # TODO: the last commit shared by both histories (each listed oldest first), else None
+    return None
+
+print(merge_base([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;d&#x27;]))</code></pre></div><template class="ho-check">assert merge_base([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;d&#x27;]) == &#x27;b&#x27;
+assert merge_base([&#x27;a&#x27;], [&#x27;x&#x27;]) is None
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a full GitHub Flow cycle: branch → commit → PR → merge → delete branch</label></li>
 <li><label><input type="checkbox"> Set up a develop branch and practice the Git Flow feature branch → develop merge</label></li>
 <li><label><input type="checkbox"> Create a hotfix branch from main, fix a bug, merge it to both main and develop</label></li>
 <li><label><input type="checkbox"> Write down your team&#x27;s current workflow and identify one improvement it could make</label></li>
@@ -1570,7 +1668,20 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: &#x27;## Model Metrics\n```\n&#x27; + metrics + &#x27;\n```&#x27;
-            })</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .github/workflows/ci.yml that installs dependencies and runs pytest on every push</label></li>
+            })</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build the Job Matrix</div><div class="pd">A matrix strategy expands into one job per combination.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">def job_matrix(matrix):
+    # TODO: every combination as a dict, varying the last key fastest
+    return []
+
+print(job_matrix({&#x27;os&#x27;: [&#x27;linux&#x27;], &#x27;py&#x27;: [&#x27;3.10&#x27;, &#x27;3.11&#x27;]}))</code></pre></div><template class="ho-check">m = job_matrix({&#x27;os&#x27;: [&#x27;linux&#x27;], &#x27;py&#x27;: [&#x27;3.10&#x27;, &#x27;3.11&#x27;]})
+assert m == [{&#x27;os&#x27;: &#x27;linux&#x27;, &#x27;py&#x27;: &#x27;3.10&#x27;}, {&#x27;os&#x27;: &#x27;linux&#x27;, &#x27;py&#x27;: &#x27;3.11&#x27;}]
+assert job_matrix({}) == [{}]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Key</div><div class="pd">A cache key combines the runner, a prefix and a lockfile hash.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">def cache_key(os_name, prefix, lock_hash):
+    # TODO: &#x27;os-prefix-hash&#x27;, all lowercased
+    return &#x27;&#x27;
+
+print(cache_key(&#x27;Linux&#x27;, &#x27;pip&#x27;, &#x27;ABC123&#x27;))</code></pre></div><template class="ho-check">assert cache_key(&#x27;Linux&#x27;, &#x27;pip&#x27;, &#x27;ABC123&#x27;) == &#x27;linux-pip-abc123&#x27;
+assert cache_key(&#x27;macOS&#x27;, &#x27;npm&#x27;, &#x27;DEF&#x27;) == &#x27;macos-npm-def&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .github/workflows/ci.yml that installs dependencies and runs pytest on every push</label></li>
 <li><label><input type="checkbox"> Add a flake8 linting step to your CI workflow and make it fail on style violations</label></li>
 <li><label><input type="checkbox"> Set up a workflow that only triggers on changes to src/model/ using the paths filter</label></li>
 <li><label><input type="checkbox"> Store a fake API key as a GitHub Actions secret and reference it in a workflow as ${{ secrets.MY_KEY }}</label></li>
@@ -1659,7 +1770,20 @@ git config --global alias.wip &quot;commit -am &#x27;WIP: work in progress&#x27;
 # │ Revert commit        │ git revert &lt;hash&gt;                  │
 # │ Recover lost work    │ git reflog                         │
 # └─────────────────────┴────────────────────────────────────┘
-echo &quot;Bookmark this cheat sheet!&quot; </code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up at least 5 git aliases (e.g., lg, st, undo, wip, amend) and use them for a day</label></li>
+echo &quot;Bookmark this cheat sheet!&quot; </code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Atomic Commit Check</div><div class="pd">A commit is atomic when it touches one logical area.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">def is_atomic(paths):
+    # TODO: True when every path shares the same top-level directory
+    return False
+
+print(is_atomic([&#x27;src/a.py&#x27;, &#x27;src/b.py&#x27;]), is_atomic([&#x27;src/a.py&#x27;, &#x27;docs/x.md&#x27;]))</code></pre></div><template class="ho-check">assert is_atomic([&#x27;src/a.py&#x27;, &#x27;src/b.py&#x27;]) is True
+assert is_atomic([&#x27;src/a.py&#x27;, &#x27;docs/x.md&#x27;]) is False
+assert is_atomic([&#x27;a.py&#x27;]) is True
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Summarize the Log</div><div class="pd">Group a commit log by its Conventional Commits type for a changelog.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">def changelog(messages):
+    # TODO: {type: [description, ...]} from &#x27;type: description&#x27; lines, ignoring lines without a colon
+    return {}
+
+print(changelog([&#x27;feat: loader&#x27;, &#x27;fix: bug&#x27;, &#x27;feat: cache&#x27;]))</code></pre></div><template class="ho-check">assert changelog([&#x27;feat: loader&#x27;, &#x27;fix: bug&#x27;, &#x27;feat: cache&#x27;]) == {&#x27;feat&#x27;: [&#x27;loader&#x27;, &#x27;cache&#x27;], &#x27;fix&#x27;: [&#x27;bug&#x27;]}
+assert changelog([&#x27;nope&#x27;]) == {}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up at least 5 git aliases (e.g., lg, st, undo, wip, amend) and use them for a day</label></li>
 <li><label><input type="checkbox"> Deliberately commit to the wrong branch, then cherry-pick it to the correct branch and reset the wrong one</label></li>
 <li><label><input type="checkbox"> Practice git commit --amend to add a forgotten file to your last commit without making a new commit</label></li>
 <li><label><input type="checkbox"> Use git revert to safely undo a pushed commit and verify the history still contains the original commit</label></li>

@@ -190,6 +190,14 @@ SECTIONS = [
     },
     {
         "title": "Text & Markdown Elements",
+"practices": [
+{
+"title": 'Markdown Heading Levels',
+"desc": "st.markdown renders '#' prefixes as headings; read the level back out.",
+"starter": "def heading_levels(lines):\n    # TODO: the number of leading '#' for each heading line, skipping non-headings\n    return []\n\nprint(heading_levels(['# A', '## B', 'text']))",
+"check": "assert heading_levels(['# A', '## B', 'text']) == [1, 2]\nassert heading_levels([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Display text, markdown, LaTeX equations, and formatted content in your app.",
         "code1_title": "Text Display Functions",
         "code1": (
@@ -555,6 +563,14 @@ SECTIONS = [
     },
     {
         "title": "Data Display",
+"practices": [
+{
+"title": 'Paginate the Table',
+"desc": 'st.dataframe pages large tables; slice out the rows for one page.',
+"starter": 'def page_rows(rows, page, size):\n    # TODO: the rows on the given 0-indexed page\n    return []\n\nprint(page_rows([1, 2, 3, 4, 5], 1, 2))',
+"check": "assert page_rows([1, 2, 3, 4, 5], 1, 2) == [3, 4]\nassert page_rows([1, 2], 5, 2) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Show DataFrames, tables, metrics, and JSON with built-in Streamlit display components.",
         "code1_title": "DataFrame & Table Display",
         "code1": (
@@ -749,6 +765,14 @@ SECTIONS = [
     },
     {
         "title": "Charts & Visualization",
+"practices": [
+{
+"title": 'Pick the Chart',
+"desc": 'Choose the chart type that fits the pair of column kinds.',
+"starter": "def chart_for(x_kind, y_kind):\n    # TODO: numeric+numeric->'scatter', category+numeric->'bar', time+numeric->'line', else 'table'\n    return 'table'\n\nprint(chart_for('numeric', 'numeric'), chart_for('category', 'numeric'))",
+"check": "assert chart_for('numeric', 'numeric') == 'scatter'\nassert chart_for('category', 'numeric') == 'bar'\nassert chart_for('time', 'numeric') == 'line'\nassert chart_for('category', 'category') == 'table'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Embed Matplotlib, Plotly, Altair charts and use Streamlit's built-in chart functions.",
         "code1_title": "Built-in Charts",
         "code1": (
@@ -938,6 +962,14 @@ SECTIONS = [
     },
     {
         "title": "Layout: Columns, Tabs & Expanders",
+"practices": [
+{
+"title": 'Column Widths',
+"desc": 'st.columns takes relative weights; convert them to fractions of the row.',
+"starter": 'def column_fractions(weights):\n    # TODO: each weight divided by the total, rounded to 4\n    return []\n\nprint(column_fractions([1, 3]))',
+"check": "assert column_fractions([1, 3]) == [0.25, 0.75]\nassert column_fractions([2, 2, 2, 2]) == [0.25, 0.25, 0.25, 0.25]\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Organize your app with columns for side-by-side content, tabs for navigation, and expanders for collapsible sections.",
         "code1_title": "Columns & Expanders",
         "code1": (
@@ -1126,6 +1158,14 @@ SECTIONS = [
     },
     {
         "title": "Sidebar & Session State",
+"practices": [
+{
+"title": 'Initialise Session State',
+"desc": "Streamlit's session state keeps existing values and fills in only what is missing.",
+"starter": "def init_state(state, defaults):\n    # TODO: add each default the state does not already have, without overwriting\n    return {}\n\nprint(init_state({'count': 5}, {'count': 0, 'name': ''}))",
+"check": "assert init_state({'count': 5}, {'count': 0, 'name': ''}) == {'count': 5, 'name': ''}\nassert init_state({}, {'a': 1}) == {'a': 1}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Use the sidebar for filters/navigation and session_state to persist data across reruns.",
         "code1_title": "Sidebar Navigation",
         "code1": (
@@ -1330,6 +1370,14 @@ SECTIONS = [
     },
     {
         "title": "File Upload & Download",
+"practices": [
+{
+"title": 'Accept the Upload',
+"desc": 'An uploader restricts by extension and by size.',
+"starter": "def upload_ok(filename, size_mb, allowed, max_mb):\n    # TODO: True when the extension is in allowed (case-insensitive) and size is within max_mb\n    return False\n\nprint(upload_ok('data.CSV', 2, ['csv'], 10), upload_ok('a.exe', 1, ['csv'], 10))",
+"check": "assert upload_ok('data.CSV', 2, ['csv'], 10) is True\nassert upload_ok('a.exe', 1, ['csv'], 10) is False\nassert upload_ok('big.csv', 50, ['csv'], 10) is False\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Let users upload CSV/images and offer processed results as downloadable files.",
         "code1_title": "File Upload",
         "code1": (
@@ -1548,6 +1596,14 @@ SECTIONS = [
     },
     {
         "title": "Forms & Caching",
+"practices": [
+{
+"title": 'Cache Key From Arguments',
+"desc": "st.cache_data keys an entry on the call's arguments.",
+"starter": "def cache_key(fn_name, args, kwargs):\n    # TODO: 'fn(a,b|k=v)' with positional args comma-joined and kwargs sorted by name\n    return ''\n\nprint(cache_key('load', (1, 2), {'sep': ','}))",
+"check": "assert cache_key('load', (1, 2), {'sep': ','}) == 'load(1,2|sep=,)'\nassert cache_key('f', (), {}) == 'f(|)'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Use forms to batch inputs and st.cache_data / st.cache_resource to speed up expensive operations.",
         "code1_title": "Forms",
         "code1": (
@@ -1758,6 +1814,14 @@ SECTIONS = [
     },
     {
         "title": "Multi-Page Apps & Deployment",
+"practices": [
+{
+"title": 'Page Registry',
+"desc": 'Files under pages/ become routes; derive the labels Streamlit shows.',
+"starter": "def page_labels(filenames):\n    # TODO: '1_Data_Loader.py' -> 'Data Loader', sorted by the numeric prefix\n    return []\n\nprint(page_labels(['2_Model.py', '1_Data_Loader.py']))",
+"check": "assert page_labels(['2_Model.py', '1_Data_Loader.py']) == ['Data Loader', 'Model']\nassert page_labels([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Structure larger apps with multiple pages and deploy to Streamlit Community Cloud for free.",
         "code1_title": "Multi-Page App Structure",
         "code1": (
@@ -1985,6 +2049,14 @@ SECTIONS = [
     },
     {
         "title": "Authentication & Session State",
+"practices": [
+{
+"title": 'Session Expiry',
+"desc": 'A login expires once it is older than the session timeout.',
+"starter": 'def session_valid(login_ts, now_ts, timeout_s):\n    # TODO: True while now - login is strictly less than the timeout\n    return False\n\nprint(session_valid(0, 100, 3600), session_valid(0, 4000, 3600))',
+"check": "assert session_valid(0, 100, 3600) is True\nassert session_valid(0, 4000, 3600) is False\nassert session_valid(0, 3600, 3600) is False\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Implement login/logout flows with session state, user role management, and per-user data isolation in Streamlit applications.",
         "code1_title": "Basic Login with Session State",
         "code1": (
@@ -2183,6 +2255,14 @@ SECTIONS = [
     },
     {
         "title": "Database Connections",
+"practices": [
+{
+"title": 'Safe Query Parameters',
+"desc": 'Never interpolate user input; build a parameterised statement instead.',
+"starter": "def build_query(table, filters):\n    # TODO: ('SELECT * FROM t WHERE a = ? AND b = ?', [values]) with filter names sorted\n    return ('', [])\n\nprint(build_query('users', {'city': 'NY', 'age': 30}))",
+"check": "sql, params = build_query('users', {'city': 'NY', 'age': 30})\nassert sql == 'SELECT * FROM users WHERE age = ? AND city = ?'\nassert params == [30, 'NY']\nassert build_query('t', {}) == ('SELECT * FROM t', [])\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Connect Streamlit apps to SQLite, PostgreSQL, and other databases using st.connection, SQLAlchemy, and efficient caching with st.cache_data.",
         "code1_title": "SQLite with st.cache_data",
         "code1": (
@@ -2356,6 +2436,14 @@ SECTIONS = [
     },
     {
         "title": "Custom Components & Styling",
+"practices": [
+{
+"title": 'Inline Style String',
+"desc": 'Custom components take a CSS string built from a property dict.',
+"starter": "def style_string(props):\n    # TODO: 'color:red;font-size:14px' with properties sorted by name\n    return ''\n\nprint(style_string({'font-size': '14px', 'color': 'red'}))",
+"check": "assert style_string({'font-size': '14px', 'color': 'red'}) == 'color:red;font-size:14px'\nassert style_string({}) == ''\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Inject custom HTML/CSS/JavaScript into Streamlit apps, build custom chart components, and create polished UIs with themes and markdown styling.",
         "code1_title": "Custom HTML with st.markdown & st.components.v1",
         "code1": (
@@ -2540,6 +2628,14 @@ SECTIONS = [
     },
     {
         "title": "14. Dashboards & Interactive Widgets",
+"practices": [
+{
+"title": 'Filter the Rows',
+"desc": 'A dashboard applies every active filter at once.',
+"starter": "def apply_filters(rows, filters):\n    # TODO: rows matching every key/value in filters\n    return []\n\nprint(apply_filters([{'c': 'NY', 'v': 1}, {'c': 'SF', 'v': 2}], {'c': 'NY'}))",
+"check": "assert apply_filters([{'c': 'NY', 'v': 1}, {'c': 'SF', 'v': 2}], {'c': 'NY'}) == [{'c': 'NY', 'v': 1}]\nassert len(apply_filters([{'a': 1}], {})) == 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Streamlit makes it easy to build interactive dashboards with sliders, dropdowns, file uploaders, and multi-column layouts. Session state preserves data between user interactions. All Python, no JavaScript needed.",
         "code1_title": "Interactive Data Explorer with Sidebar",
         "code1": (
@@ -2722,6 +2818,14 @@ SECTIONS = [
     },
     {
         "title": "15. ML Model Deployment with Streamlit",
+"practices": [
+{
+"title": 'Label the Prediction',
+"desc": 'Turn a probability into the label and confidence a user sees.',
+"starter": "def label_prediction(prob, threshold=0.5):\n    # TODO: {'label': 'positive'/'negative', 'confidence': distance from the threshold side, rounded to 4}\n    return {}\n\nprint(label_prediction(0.8))",
+"check": "r = label_prediction(0.8)\nassert r == {'label': 'positive', 'confidence': 0.8}\nassert label_prediction(0.2) == {'label': 'negative', 'confidence': 0.8}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Deploy ML models as interactive web apps with real-time predictions, batch file upload, and downloadable results. Use @st.cache_resource to load models once. st.empty enables live streaming updates.",
         "code1_title": "Real-Time Loan Approval Predictor",
         "code1": (
@@ -2897,6 +3001,14 @@ SECTIONS = [
     },
     {
         "title": "16. Advanced Streamlit: Plotly, Forms & Production Patterns",
+"practices": [
+{
+"title": 'Rerun Guard',
+"desc": 'Streamlit reruns the whole script; skip expensive work when inputs are unchanged.',
+"starter": "def needs_recompute(prev_inputs, new_inputs):\n    # TODO: True when the two input dicts differ in any way\n    return True\n\nprint(needs_recompute({'n': 1}, {'n': 1}), needs_recompute({'n': 1}, {'n': 2}))",
+"check": "assert needs_recompute({'n': 1}, {'n': 1}) is False\nassert needs_recompute({'n': 1}, {'n': 2}) is True\nassert needs_recompute({}, {'n': 1}) is True\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Combine Plotly charts with Streamlit for pixel-perfect interactive visualizations. Use st.form for atomic multi-input submissions, st.cache_data with TTL for refreshable data sources, and st.tabs for clean multi-view layouts.",
         "code1_title": "Plotly Charts in Tabs",
         "code1": (
@@ -3078,6 +3190,14 @@ SECTIONS = [
 
     {
         "title": "17. Plotly & Altair Integration",
+"practices": [
+{
+"title": 'Long Form for Altair',
+"desc": 'Altair wants long-form data; melt a wide row set into it.',
+"starter": "def melt(rows, id_col):\n    # TODO: {'id': ..., 'variable': col, 'value': v} for every non-id column, row by row\n    return []\n\nprint(melt([{'g': 'a', 'x': 1, 'y': 2}], 'g'))",
+"check": "out = melt([{'g': 'a', 'x': 1, 'y': 2}], 'g')\nassert out == [{'id': 'a', 'variable': 'x', 'value': 1}, {'id': 'a', 'variable': 'y', 'value': 2}]\nassert melt([], 'g') == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Streamlit natively supports Plotly, Altair, Matplotlib, and Bokeh charts. st.plotly_chart() and st.altair_chart() render interactive visualizations with hover, zoom, and click events.",
         "code1_title": "Interactive Plotly Charts",
         "code1": (
@@ -3869,6 +3989,14 @@ SECTIONS = [
     },
     {
         "title": "20. Forms & Input Validation",
+"practices": [
+{
+"title": 'Validate the Form',
+"desc": 'Collect every problem at once so the user fixes them in one pass.',
+"starter": "def validate(form):\n    # TODO: sorted messages: 'name is required' when blank, 'age must be positive' when age <= 0\n    return []\n\nprint(validate({'name': '', 'age': 0}))",
+"check": "assert validate({'name': '', 'age': 0}) == ['age must be positive', 'name is required']\nassert validate({'name': 'a', 'age': 5}) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "st.form() groups widgets and defers Streamlit reruns until the form is submitted. This prevents partial state updates and improves UX for multi-field inputs like search or settings panels.",
         "code1_title": "st.form() Basics",
         "code1": (
@@ -4400,6 +4528,14 @@ SECTIONS = [
     },
     {
         "title": "22. Multi-page Apps",
+"practices": [
+{
+"title": 'Breadcrumb Trail',
+"desc": 'Turn a page path into the breadcrumb the header shows.',
+"starter": "def breadcrumbs(path):\n    # TODO: 'reports/monthly/sales' -> ['reports', 'monthly', 'sales'], ignoring empty segments\n    return []\n\nprint(breadcrumbs('/reports//monthly/sales'))",
+"check": "assert breadcrumbs('/reports//monthly/sales') == ['reports', 'monthly', 'sales']\nassert breadcrumbs('/') == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Streamlit natively supports multi-page apps using the pages/ folder structure. st.navigation() (new API) or the legacy pages/ directory enables organized, scalable applications.",
         "code1_title": "pages/ Directory Structure",
         "code1": (
@@ -4646,6 +4782,14 @@ SECTIONS = [
     },
     {
         "title": "23. Custom CSS & Theming",
+"practices": [
+{
+"title": 'Theme Contrast',
+"desc": 'Pick readable text for a background using its relative luminance.',
+"starter": "def text_color(rgb):\n    # TODO: '#000000' when 0.299r + 0.587g + 0.114b > 150, else '#ffffff'\n    return '#ffffff'\n\nprint(text_color((255, 255, 255)), text_color((0, 0, 0)))",
+"check": "assert text_color((255, 255, 255)) == '#000000'\nassert text_color((0, 0, 0)) == '#ffffff'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Streamlit supports custom CSS via st.markdown() with unsafe_allow_html=True, config.toml themes, and custom components for advanced UI needs.",
         "code1_title": "Custom CSS with st.markdown()",
         "code1": (
@@ -4930,6 +5074,14 @@ SECTIONS = [
     },
     {
         "title": "24. Deployment: Cloud, Docker & CI/CD",
+"practices": [
+{
+"title": 'Pin the Requirements',
+"desc": 'A deployable app pins every dependency to an exact version.',
+"starter": "def unpinned(requirements):\n    # TODO: requirement lines with no '==', ignoring blanks and '#' comments\n    return []\n\nprint(unpinned(['streamlit==1.31.0', 'pandas', '# comment', '']))",
+"check": "assert unpinned(['streamlit==1.31.0', 'pandas', '# comment', '']) == ['pandas']\nassert unpinned([]) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Deploy Streamlit apps to Streamlit Cloud (free), Docker containers, AWS/GCP, or Heroku. Production deployments need proper secret management, health checks, and logging.",
         "code1_title": "Streamlit Cloud Deployment",
         "code1": (
@@ -5608,14 +5760,23 @@ def make_html(sections):
         practice_html = ""
         for _k, practice in enumerate(practices):
             pid = f"p{i}_{_k}"
+            # Exercises that ship a check run and grade in the browser, so they
+            # must not be labelled as something you save and run with streamlit.
+            check_html = (
+                f'<template class="ho-check">{esc(practice["check"])}</template>'
+                if practice.get("check") else ""
+            )
+            label = ("Starter Code" if practice.get("check")
+                     else "Starter Code \u2014 save as app.py and run: streamlit run app.py")
             practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
                 f'<div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px">'
                 f'<div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e">'
-                f'<span>Starter Code — save as app.py and run: streamlit run app.py</span></div>'
+                f'<span>{label}</span></div>'
                 f'<pre><code id="{pid}" class="language-python">{esc(practice["starter"])}</code></pre></div>'
+                f'{check_html}'
                 f'</div>'
             )
         todos = s.get("todos", [])

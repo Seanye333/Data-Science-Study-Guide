@@ -151,6 +151,15 @@ SECTIONS = [
 
 {
 "title": "1. What is Git & Why It Matters",
+"practices": [
+{
+"title": 'Walk the Commit History',
+"desc": 'A commit points at its parent; follow the chain back to the root.',
+"starter": "def history(commits, head):\n    # TODO: [head, parent, grandparent, ...] using the {sha: parent_sha} map; the root's parent is None\n    return []\n\nprint(history({'c': 'b', 'b': 'a', 'a': None}, 'c'))",
+"check": "assert history({'c': 'b', 'b': 'a', 'a': None}, 'c') == ['c', 'b', 'a']\nassert history({'a': None}, 'a') == ['a']\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Git is a distributed version control system that tracks changes to files. Every data scientist needs Git to version code, collaborate with teams, reproduce experiments, and never lose work.",
 "examples": [
 {"label": "Installing and configuring Git", "code":
@@ -605,6 +614,15 @@ git log --oneline --graph -10"""
 
 {
 "title": "4. Remote Repositories — GitHub, GitLab, Bitbucket",
+"practices": [
+{
+"title": 'Ahead and Behind',
+"desc": '`git status` reports how far your branch has diverged from its upstream.',
+"starter": "def ahead_behind(local, remote):\n    # TODO: (commits only in local, commits only in remote) as counts\n    return (0, 0)\n\nprint(ahead_behind(['a', 'b', 'c'], ['a', 'b', 'd', 'e']))",
+"check": "assert ahead_behind(['a', 'b', 'c'], ['a', 'b', 'd', 'e']) == (1, 2)\nassert ahead_behind(['a'], ['a']) == (0, 0)\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Remote repos host your code in the cloud for backup, collaboration, and deployment. GitHub is the most popular platform for data science projects.",
 "examples": [
 {"label": "Connecting to a remote", "code":
@@ -744,6 +762,22 @@ git push -u origin main
 
 {
 "title": "5. Pull Requests & Code Review",
+"practices": [
+{
+"title": 'Review Coverage',
+"desc": 'A PR is ready when every changed file has at least one review comment.',
+"starter": "def unreviewed(changed_files, comments):\n    # TODO: changed files with no comment, in the order given\n    return []\n\nprint(unreviewed(['a.py', 'b.py'], [{'file': 'a.py', 'line': 3}]))",
+"check": "assert unreviewed(['a.py', 'b.py'], [{'file': 'a.py', 'line': 3}]) == ['b.py']\nassert unreviewed([], []) == []\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Diff Stat',
+"desc": '`git diff --stat` totals the added and removed lines of a patch.',
+"starter": "def diff_stat(patch_lines):\n    # TODO: (additions, deletions); '+' adds, '-' removes, but ignore '+++' and '---' headers\n    return (0, 0)\n\nprint(diff_stat(['--- a/x', '+++ b/x', '+new', '-old', ' same']))",
+"check": "assert diff_stat(['--- a/x', '+++ b/x', '+new', '-old', ' same']) == (1, 1)\nassert diff_stat([]) == (0, 0)\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Pull requests (PRs) are how teams review and discuss code changes before merging. They're essential for quality, knowledge sharing, and catching bugs early.",
 "examples": [
 {"label": "Creating a pull request with GitHub CLI", "code":
@@ -1172,6 +1206,22 @@ git status"""
 
 {
 "title": "8. Tags & Releases",
+"practices": [
+{
+"title": 'Bump the Version',
+"desc": 'Semantic versioning decides which part of the tag moves.',
+"starter": "def bump(version, part):\n    # TODO: 'major' -> x+1.0.0, 'minor' -> x.y+1.0, 'patch' -> x.y.z+1\n    return version\n\nprint(bump('1.4.2', 'minor'))",
+"check": "assert bump('1.4.2', 'minor') == '1.5.0'\nassert bump('1.4.2', 'major') == '2.0.0'\nassert bump('1.4.2', 'patch') == '1.4.3'\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Latest Release',
+"desc": 'Tags sort by version number, not alphabetically.',
+"starter": "def latest_tag(tags):\n    # TODO: the highest 'vX.Y.Z' tag, compared numerically\n    return None\n\nprint(latest_tag(['v1.10.0', 'v1.9.0', 'v1.2.3']))",
+"check": "assert latest_tag(['v1.10.0', 'v1.9.0', 'v1.2.3']) == 'v1.10.0'\nassert latest_tag(['v0.1.0']) == 'v0.1.0'\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Tags mark specific points in history — typically used for version releases, model checkpoints, and experiment milestones. They create permanent bookmarks in your Git history.",
 "examples": [
 {"label": "Creating and managing tags", "code":
@@ -1395,6 +1445,15 @@ git push origin feature/ml-pipeline
 
 {
 "title": "10. Git for Jupyter Notebooks",
+"practices": [
+{
+"title": 'Strip the Outputs',
+"desc": 'nbstripout clears execution state so notebook diffs stay readable.',
+"starter": "def strip_outputs(nb):\n    # TODO: set every code cell's 'outputs' to [] and 'execution_count' to None\n    return nb\n\nprint(strip_outputs({'cells': [{'cell_type': 'code', 'outputs': [1], 'execution_count': 3}]}))",
+"check": "nb = strip_outputs({'cells': [{'cell_type': 'code', 'outputs': [1], 'execution_count': 3}]})\nassert nb['cells'][0]['outputs'] == [] and nb['cells'][0]['execution_count'] is None\nassert strip_outputs({'cells': []})['cells'] == []\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Notebooks are JSON files with embedded outputs, making them hard to diff and version. These techniques keep notebooks manageable in Git.",
 "examples": [
 {"label": "The notebook problem and solutions", "code":
@@ -1515,6 +1574,22 @@ git commit -m "feat: add EDA notebook with correlation analysis"
 
 {
 "title": "11. Git Hooks & Automation",
+"practices": [
+{
+"title": 'Hook Exit Code',
+"desc": 'A pre-commit hook blocks the commit by exiting non-zero.',
+"starter": "def pre_commit(files):\n    # TODO: 0 when no filename ends in '.ipynb_checkpoints' or '.env', else 1\n    return 0\n\nprint(pre_commit(['train.py']), pre_commit(['.env']))",
+"check": "assert pre_commit(['train.py']) == 0\nassert pre_commit(['secrets/.env']) == 1\nassert pre_commit([]) == 0\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Commit Message Policy',
+"desc": 'A commit-msg hook enforces the Conventional Commits prefix.',
+"starter": "def valid_message(msg):\n    # TODO: True when msg starts with feat:/fix:/docs:/test:/chore: followed by a space and text\n    return False\n\nprint(valid_message('feat: add loader'), valid_message('stuff'))",
+"check": "assert valid_message('feat: add loader') is True\nassert valid_message('fix: off-by-one') is True\nassert valid_message('stuff') is False\nassert valid_message('feat:') is False\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Git hooks are scripts that run automatically at specific points in the Git workflow — before commits, before pushes, etc. They automate code quality checks.",
 "examples": [
 {"label": "Common hooks for data science", "code":
@@ -1644,6 +1719,22 @@ pre-commit run --all-files
 
 {
 "title": "12. Git LFS — Large File Storage",
+"practices": [
+{
+"title": 'Pick the LFS Candidates',
+"desc": 'LFS is for files above a size threshold, tracked by extension.',
+"starter": "def lfs_candidates(files, min_mb):\n    # TODO: names from {'name': ..., 'mb': ...} rows at or above min_mb, sorted by name\n    return []\n\nprint(lfs_candidates([{'name': 'model.pkl', 'mb': 200}, {'name': 'a.py', 'mb': 0.01}], 100))",
+"check": "assert lfs_candidates([{'name': 'model.pkl', 'mb': 200}, {'name': 'a.py', 'mb': 0.01}], 100) == ['model.pkl']\nassert lfs_candidates([], 10) == []\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Track Patterns',
+"desc": '`git lfs track` stores glob patterns; derive them from the file list.',
+"starter": "def track_patterns(files):\n    # TODO: sorted unique '*.ext' patterns for files that have an extension\n    return []\n\nprint(track_patterns(['a.pkl', 'b.pkl', 'c.h5', 'README']))",
+"check": "assert track_patterns(['a.pkl', 'b.pkl', 'c.h5', 'README']) == ['*.h5', '*.pkl']\nassert track_patterns(['README']) == []\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Git LFS stores large files (datasets, model weights, images) outside the Git repo while keeping references in your history. Essential for ML projects with large artifacts.",
 "examples": [
 {"label": "Setting up Git LFS", "code":
@@ -1732,6 +1823,22 @@ git lfs ls-files --size
 
 {
 "title": "13. Advanced Git — cherry-pick, bisect, reflog",
+"practices": [
+{
+"title": 'Bisect Steps',
+"desc": 'Bisect halves the suspect range each step; count the checkouts needed.',
+"starter": 'import math\n\ndef bisect_steps(n_commits):\n    # TODO: ceil(log2(n)) checkouts to isolate one bad commit among n\n    return 0\n\nprint(bisect_steps(8), bisect_steps(1000))',
+"check": "assert bisect_steps(8) == 3\nassert bisect_steps(1) == 0\nassert bisect_steps(1000) == 10\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Cherry-pick Selection',
+"desc": 'Cherry-pick moves only the commits that are not already on the target.',
+"starter": "def to_cherry_pick(source, target):\n    # TODO: source commits missing from target, keeping source order\n    return []\n\nprint(to_cherry_pick(['a', 'b', 'c'], ['a', 'c']))",
+"check": "assert to_cherry_pick(['a', 'b', 'c'], ['a', 'c']) == ['b']\nassert to_cherry_pick(['a'], ['a']) == []\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Power-user Git commands for specific situations: applying individual commits across branches, finding which commit introduced a bug, and recovering lost work.",
 "examples": [
 {"label": "Cherry-pick — apply specific commits", "code":
@@ -1843,6 +1950,22 @@ rm test_accuracy.sh"""
 
 {
 "title": "14. Git Workflows for Teams",
+"practices": [
+{
+"title": 'Branch Naming',
+"desc": 'A team convention maps a work type and ticket onto a branch name.',
+"starter": "def branch_name(kind, ticket, slug):\n    # TODO: 'kind/TICKET-slug' with the slug lowercased and spaces turned into hyphens\n    return ''\n\nprint(branch_name('feature', 'DS-42', 'Add Churn Model'))",
+"check": "assert branch_name('feature', 'DS-42', 'Add Churn Model') == 'feature/DS-42-add-churn-model'\nassert branch_name('fix', 'X-1', 'typo') == 'fix/X-1-typo'\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Merge Base',
+"desc": 'Two branches diverge at their most recent shared commit.',
+"starter": "def merge_base(branch_a, branch_b):\n    # TODO: the last commit shared by both histories (each listed oldest first), else None\n    return None\n\nprint(merge_base(['a', 'b', 'c'], ['a', 'b', 'd']))",
+"check": "assert merge_base(['a', 'b', 'c'], ['a', 'b', 'd']) == 'b'\nassert merge_base(['a'], ['x']) is None\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Different teams use different branching strategies. Understanding these workflows helps you adapt to any team's Git practices.",
 "examples": [
 {"label": "GitHub Flow (simple, recommended for most teams)", "code":
@@ -1957,6 +2080,22 @@ echo "  ✓ GitHub/GitLab built around this workflow" """},
 
 {
 "title": "15. GitHub Actions for Data Science",
+"practices": [
+{
+"title": 'Build the Job Matrix',
+"desc": 'A matrix strategy expands into one job per combination.',
+"starter": "def job_matrix(matrix):\n    # TODO: every combination as a dict, varying the last key fastest\n    return []\n\nprint(job_matrix({'os': ['linux'], 'py': ['3.10', '3.11']}))",
+"check": "m = job_matrix({'os': ['linux'], 'py': ['3.10', '3.11']})\nassert m == [{'os': 'linux', 'py': '3.10'}, {'os': 'linux', 'py': '3.11'}]\nassert job_matrix({}) == [{}]\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Cache Key',
+"desc": 'A cache key combines the runner, a prefix and a lockfile hash.',
+"starter": "def cache_key(os_name, prefix, lock_hash):\n    # TODO: 'os-prefix-hash', all lowercased\n    return ''\n\nprint(cache_key('Linux', 'pip', 'ABC123'))",
+"check": "assert cache_key('Linux', 'pip', 'ABC123') == 'linux-pip-abc123'\nassert cache_key('macOS', 'npm', 'DEF') == 'macos-npm-def'\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "Automate testing, linting, model validation, and deployment with GitHub Actions. CI/CD ensures your code always works and your models are validated before deployment.",
 "examples": [
 {"label": "Basic CI pipeline for a DS project", "code":
@@ -2122,6 +2261,22 @@ jobs:
 
 {
 "title": "16. Git Best Practices Cheat Sheet",
+"practices": [
+{
+"title": 'Atomic Commit Check',
+"desc": 'A commit is atomic when it touches one logical area.',
+"starter": "def is_atomic(paths):\n    # TODO: True when every path shares the same top-level directory\n    return False\n\nprint(is_atomic(['src/a.py', 'src/b.py']), is_atomic(['src/a.py', 'docs/x.md']))",
+"check": "assert is_atomic(['src/a.py', 'src/b.py']) is True\nassert is_atomic(['src/a.py', 'docs/x.md']) is False\nassert is_atomic(['a.py']) is True\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+{
+"title": 'Summarize the Log',
+"desc": 'Group a commit log by its Conventional Commits type for a changelog.',
+"starter": "def changelog(messages):\n    # TODO: {type: [description, ...]} from 'type: description' lines, ignoring lines without a colon\n    return {}\n\nprint(changelog(['feat: loader', 'fix: bug', 'feat: cache']))",
+"check": "assert changelog(['feat: loader', 'fix: bug', 'feat: cache']) == {'feat': ['loader', 'cache'], 'fix': ['bug']}\nassert changelog(['nope']) == {}\nprint('All checks passed \\u2713')",
+"lang": 'python',
+},
+],
 "desc": "A collection of Git best practices, common pitfalls, and quick reference commands for daily use.",
 "examples": [
 {"label": "Daily workflow cheat sheet", "code":

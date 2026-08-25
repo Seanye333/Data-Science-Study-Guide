@@ -788,7 +788,13 @@ df = pl.DataFrame({
 # TODO: filtered = summary.filter(
 #     (pl.col('count') >= 5) & (pl.col('avg_amount') > 500)
 # )
-# print('Qualifying groups:', filtered)</code></pre></div></div>
+# print('Qualifying groups:', filtered)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group and Aggregate</div><div class="pd">group_by().agg() collapses rows per key; do the same reduction by hand.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p3_1" class="language-python">def group_sum(rows, key, value):
+    # TODO: {key value: sum of value} over the row dicts
+    return {}
+
+print(group_sum([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v'))</code></pre></div><template class="ho-check">assert group_sum([{&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 1}, {&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 2}, {&#x27;g&#x27;: &#x27;b&#x27;, &#x27;v&#x27;: 5}], &#x27;g&#x27;, &#x27;v&#x27;) == {&#x27;a&#x27;: 3, &#x27;b&#x27;: 5}
+assert group_sum([], &#x27;g&#x27;, &#x27;v&#x27;) == {}
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Group a DataFrame by one column and compute count, mean, and max with .agg()</label></li>
 <li><label><input type="checkbox"> Group by two columns and add a weighted sum aggregation using pl.col() expressions</label></li>
 <li><label><input type="checkbox"> Filter groups after aggregation: keep only groups where count &gt; 5</label></li>
@@ -974,7 +980,14 @@ enrollments = pl.DataFrame({
 # 4. Cross join: each student x each available course
 courses = pl.DataFrame({'available_course': ['Math', 'Science', 'Art']})
 # TODO: assignments = students.select('name').join(courses, how='cross')
-# TODO: print(f'All assignments ({len(assignments)} rows):', assignments)</code></pre></div></div>
+# TODO: print(f'All assignments ({len(assignments)} rows):', assignments)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Join Semantics</div><div class="pd">Inner, left and anti joins keep different rows; predict the row counts.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p4_1" class="language-python">def join_keys(left, right, how):
+    # TODO: sorted keys kept by 'inner', 'left' and 'anti' (left rows with no match)
+    return []
+
+print(join_keys([1, 2, 3], [2, 3, 4], 'inner'), join_keys([1, 2, 3], [2, 3, 4], 'anti'))</code></pre></div><template class="ho-check">assert join_keys([1, 2, 3], [2, 3, 4], &#x27;inner&#x27;) == [2, 3]
+assert join_keys([1, 2, 3], [2, 3, 4], &#x27;left&#x27;) == [1, 2, 3]
+assert join_keys([1, 2, 3], [2, 3, 4], &#x27;anti&#x27;) == [1]
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform an inner join on two DataFrames and verify the resulting row count is correct</label></li>
 <li><label><input type="checkbox"> Do a left join and count how many rows have null in the joined column (unmatched)</label></li>
 <li><label><input type="checkbox"> Use an anti-join to find rows in the left table that have no match in the right table</label></li>
@@ -1169,7 +1182,13 @@ today = date(2025, 1, 1)
 # TODO: df = df.with_columns(
 #     (pl.lit(today) - pl.col('date')).dt.total_days().alias('days_since_signup')
 # )
-# TODO: print(df)</code></pre></div></div>
+# TODO: print(df)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract the Domain</div><div class="pd">str.split and str.to_lowercase are expressions; here is the same logic in Python.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p5_1" class="language-python">def domains(emails):
+    # TODO: the lowercased part after '@' for each address
+    return []
+
+print(domains(['A@Example.com', 'b@x.io']))</code></pre></div><template class="ho-check">assert domains([&#x27;A@Example.com&#x27;, &#x27;b@x.io&#x27;]) == [&#x27;example.com&#x27;, &#x27;x.io&#x27;]
+assert domains([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Extract domain from an email column using .str.split(&#x27;@&#x27;).list.get(1)</label></li>
 <li><label><input type="checkbox"> Parse a date string column with str.to_date(&#x27;%Y-%m-%d&#x27;) and extract year and month</label></li>
 <li><label><input type="checkbox"> Use .str.contains() with a regex pattern to flag rows matching a condition</label></li>
@@ -1379,7 +1398,14 @@ df = pl.DataFrame({
 # Print query plan and execute
 # TODO: print(lazy.explain())
 # TODO: result = lazy.collect()
-# TODO: print(result)</code></pre></div></div>
+# TODO: print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Predicate Pushdown</div><div class="pd">The optimizer moves filters as early as possible; reorder the plan the same way.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p6_1" class="language-python">def optimize(plan):
+    # TODO: move every 'filter' step ahead of the others, keeping relative order within each group
+    return []
+
+print(optimize(['select', 'filter', 'join']))</code></pre></div><template class="ho-check">assert optimize([&#x27;select&#x27;, &#x27;filter&#x27;, &#x27;join&#x27;]) == [&#x27;filter&#x27;, &#x27;select&#x27;, &#x27;join&#x27;]
+assert optimize([&#x27;filter&#x27;, &#x27;filter&#x27;]) == [&#x27;filter&#x27;, &#x27;filter&#x27;]
+assert optimize([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert an eager DataFrame to a LazyFrame with .lazy() and call .explain() to view the plan</label></li>
 <li><label><input type="checkbox"> Build a lazy pipeline with .filter(), .select(), .group_by() and collect() at the end</label></li>
 <li><label><input type="checkbox"> Use scan_csv() on a file and apply predicate pushdown — check the query plan</label></li>
@@ -1578,7 +1604,15 @@ tmp = tempfile.gettempdir()
 # and select only ['order_id', 'customer', 'amount']
 # result = pl.scan_parquet(pq_path).filter(???).select(???).collect()
 # print('North orders:', result.shape)
-# print('North revenue: ${:.2f}'.format(result['amount'].sum()))</code></pre></div></div>
+# print('North revenue: ${:.2f}'.format(result['amount'].sum()))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Choose the Reader</div><div class="pd">Polars picks scan_csv, scan_parquet or read_json from the file suffix.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p7_1" class="language-python">def reader_for(path):
+    # TODO: '.csv'->'scan_csv', '.parquet'->'scan_parquet', '.json'->'read_json', else 'unsupported'
+    return 'unsupported'
+
+print(reader_for('a.parquet'), reader_for('a.txt'))</code></pre></div><template class="ho-check">assert reader_for(&#x27;a.csv&#x27;) == &#x27;scan_csv&#x27;
+assert reader_for(&#x27;a.parquet&#x27;) == &#x27;scan_parquet&#x27;
+assert reader_for(&#x27;a.json&#x27;) == &#x27;read_json&#x27;
+assert reader_for(&#x27;a.txt&#x27;) == &#x27;unsupported&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a DataFrame to Parquet with &#x27;zstd&#x27; compression and read it back — compare sizes</label></li>
 <li><label><input type="checkbox"> Use scan_parquet() with .filter() and .select() before .collect() to test predicate pushdown</label></li>
 <li><label><input type="checkbox"> Write to CSV with write_csv(), read it with read_csv(), and verify shape and dtypes match</label></li>
@@ -1732,7 +1766,14 @@ result = df  # TODO: replace
 
 # TODO: Filter product_rank <= 3 and print top days per product
 # top3 = result.filter(pl.col('product_rank') <= 3).sort(['product', 'product_rank'])
-# print(top3)</code></pre></div></div>
+# print(top3)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rank Within Group</div><div class="pd">over() ranks rows inside each partition; reproduce the dense rank.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p8_1" class="language-python">def rank_in_group(rows, key, value):
+    # TODO: add 'rank' to each row: 1 for the largest value in its group, 2 for the next, ...
+    return rows
+
+print(rank_in_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 9}], 'g', 'v'))</code></pre></div><template class="ho-check">out = rank_in_group([{&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 1}, {&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 9}], &#x27;g&#x27;, &#x27;v&#x27;)
+assert [r[&#x27;rank&#x27;] for r in out] == [2, 1]
+assert rank_in_group([], &#x27;g&#x27;, &#x27;v&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a 7-day rolling mean to a sorted daily time series using rolling_mean(window_size=7)</label></li>
 <li><label><input type="checkbox"> Compute cumulative sum of a revenue column and plot the running total</label></li>
 <li><label><input type="checkbox"> Rank rows within each product group by revenue descending using .rank().over(&#x27;group&#x27;)</label></li>
@@ -1946,7 +1987,16 @@ pl_result = (
     # TODO: .sort('sum', descending=True)
 )
 print('\nPolars result:')
-# print(pl_result)</code></pre></div></div>
+# print(pl_result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Translate the Call</div><div class="pd">Map the pandas method onto its Polars equivalent.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p9_1" class="language-python">def to_polars(pandas_call):
+    # TODO: head->head, groupby->group_by, sort_values->sort, assign->with_columns, else None
+    return None
+
+print(to_polars('groupby'), to_polars('assign'))</code></pre></div><template class="ho-check">assert to_polars(&#x27;groupby&#x27;) == &#x27;group_by&#x27;
+assert to_polars(&#x27;sort_values&#x27;) == &#x27;sort&#x27;
+assert to_polars(&#x27;assign&#x27;) == &#x27;with_columns&#x27;
+assert to_polars(&#x27;head&#x27;) == &#x27;head&#x27;
+assert to_polars(&#x27;pivot_table&#x27;) is None
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert a Pandas filter (df[df[&#x27;col&#x27;]&gt;x]) to Polars .filter(pl.col(&#x27;col&#x27;)&gt;x) and compare</label></li>
 <li><label><input type="checkbox"> Rewrite a Pandas groupby().agg() pipeline in Polars with .group_by().agg()</label></li>
 <li><label><input type="checkbox"> Replace pd.merge() with Polars .join() and verify the outputs match row-for-row</label></li>
@@ -2149,7 +2199,13 @@ df = pl.DataFrame({
 # TODO: (2) Top 3 categories per country by revenue
 # TODO: Compare eager vs lazy execution time
 # TODO: print the query plan with .explain()
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stream in Chunks</div><div class="pd">Streaming processes a file in batches instead of loading it whole.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p10_1" class="language-python">def chunk_bounds(n_rows, chunk):
+    # TODO: (start, end) row offsets, end exclusive
+    return []
+
+print(chunk_bounds(5, 2))</code></pre></div><template class="ho-check">assert chunk_bounds(5, 2) == [(0, 2), (2, 4), (4, 5)]
+assert chunk_bounds(0, 10) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a LazyFrame pipeline and call .explain() to see predicate pushdown in the plan</label></li>
 <li><label><input type="checkbox"> Run the same query eagerly and lazily — measure and compare execution times</label></li>
 <li><label><input type="checkbox"> Use collect(streaming=True) on a LazyFrame and verify the result matches non-streaming</label></li>
@@ -2306,7 +2362,14 @@ df = pl.concat(frames).sort(['product','date'])
 # TODO: Add cumulative sales per product
 # TODO: Add weekly rank within each week per product
 # TODO: Print peak day and best rank for each product
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lag and Difference</div><div class="pd">shift() inside over() compares each row with the previous one in its partition.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p11_1" class="language-python">def lag_diff(v):
+    # TODO: v[i] - v[i-1] for every row after the first; the first row has no predecessor
+    return []
+
+print(lag_diff([10, 13, 12]))</code></pre></div><template class="ho-check">assert lag_diff([10, 13, 12]) == [3, -1]
+assert lag_diff([5]) == []
+assert lag_diff([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute 7-day and 30-day rolling means per product group using .over(&#x27;product&#x27;)</label></li>
 <li><label><input type="checkbox"> Add week-over-week growth rate with (col - col.shift(7)) / col.shift(7) per group</label></li>
 <li><label><input type="checkbox"> Compute cumulative sales per product using .cum_sum().over(&#x27;product&#x27;)</label></li>
@@ -2513,7 +2576,14 @@ raw = pl.DataFrame({
 # TODO: (2) Lazy version with schema optimization
 # TODO: Benchmark both with time.perf_counter()
 # TODO: Print speedup ratio
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cost of a Plan</div><div class="pd">A rough cost model: filters shrink the row count, joins multiply it.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p12_1" class="language-python">def estimated_rows(n, steps):
+    # TODO: 'filter' halves n (integer division), 'join' doubles it, anything else leaves it
+    return n
+
+print(estimated_rows(100, ['filter', 'join']))</code></pre></div><template class="ho-check">assert estimated_rows(100, [&#x27;filter&#x27;, &#x27;join&#x27;]) == 100
+assert estimated_rows(100, [&#x27;filter&#x27;]) == 50
+assert estimated_rows(10, []) == 10
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Cast string columns to Categorical dtype and re-run a groupby to measure the speedup</label></li>
 <li><label><input type="checkbox"> Cast float64 columns to float32 where precision allows and compare memory usage</label></li>
 <li><label><input type="checkbox"> Benchmark eager vs lazy on a 1M-row groupby and record the speedup ratio</label></li>
@@ -2675,7 +2745,13 @@ df = pl.DataFrame({
 # TODO: Compare timing: eager vs lazy with collect(streaming=True)
 # TODO: Save result to parquet, reload with scan_parquet and verify row count
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Prune the Columns</div><div class="pd">Projection pushdown reads only the columns the query actually uses.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p13_1" class="language-python">def needed_columns(select, filters, group_by):
+    # TODO: the sorted union of the three column lists
+    return []
+
+print(needed_columns(['a'], ['b'], ['a', 'c']))</code></pre></div><template class="ho-check">assert needed_columns([&#x27;a&#x27;], [&#x27;b&#x27;], [&#x27;a&#x27;, &#x27;c&#x27;]) == [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]
+assert needed_columns([], [], []) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a LazyFrame pipeline that filters, groups, and aggregates — call .explain() before collecting</label></li>
 <li><label><input type="checkbox"> Use collect(streaming=True) and verify result matches a non-streaming collect</label></li>
 <li><label><input type="checkbox"> Save the collected result to Parquet and reload it with scan_parquet to verify row count</label></li>
@@ -2829,7 +2905,13 @@ df = pl.DataFrame({
 # TODO: Add 52-week high/low and % distance from 52w high
 # TODO: Monthly summary: avg return and volatility per stock
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Mean</div><div class="pd">rolling_mean over a window, computed by hand.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p14_1" class="language-python">def rolling_mean(v, window):
+    # TODO: the mean of each full window, rounded to 4; fewer values than the window yields []
+    return []
+
+print(rolling_mean([1, 2, 3, 4], 2))</code></pre></div><template class="ho-check">assert rolling_mean([1, 2, 3, 4], 2) == [1.5, 2.5, 3.5]
+assert rolling_mean([1], 3) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add 20-day and 50-day rolling moving averages to a stock price Series</label></li>
 <li><label><input type="checkbox"> Compute daily returns as (price - price.shift(1)) / price.shift(1) per ticker</label></li>
 <li><label><input type="checkbox"> Use group_by_dynamic with every=&#x27;1w&#x27; to resample daily data to weekly OHLC</label></li>
@@ -2992,7 +3074,13 @@ df = pl.DataFrame({
 # TODO: Benchmark: read whole parquet vs partitioned scan for single partition
 # TODO: Convert to Arrow table and compute gross_margin with pyarrow.compute
 
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Partition Path</div><div class="pd">Hive-style partitioning encodes column values in the directory names.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p15_1" class="language-python">def partition_path(root, parts):
+    # TODO: 'root/year=2024/month=01' with the keys sorted
+    return ''
+
+print(partition_path('data', {'month': '01', 'year': '2024'}))</code></pre></div><template class="ho-check">assert partition_path(&#x27;data&#x27;, {&#x27;month&#x27;: &#x27;01&#x27;, &#x27;year&#x27;: &#x27;2024&#x27;}) == &#x27;data/month=01/year=2024&#x27;
+assert partition_path(&#x27;data&#x27;, {}) == &#x27;data&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert a Polars DataFrame to PyArrow with .to_arrow() and back with pl.from_arrow()</label></li>
 <li><label><input type="checkbox"> Write a DataFrame to Parquet partitioned by a date column using pyarrow.parquet.write_to_dataset</label></li>
 <li><label><input type="checkbox"> Use pl.scan_parquet() to read only one partition and verify row count vs full file</label></li>
@@ -3192,7 +3280,13 @@ df = pl.DataFrame({
 # 3. .with_columns((pl.col("x") * pl.col("y")).alias("xy"))
 # 4. .group_by("category").agg(...)
 # 5. print .explain() before .collect()
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fuse the Filters</div><div class="pd">Consecutive filters collapse into a single conjunction.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p16_1" class="language-python">def fuse_filters(plan):
+    # TODO: collapse runs of 'filter' into one 'filter', keeping other steps in place
+    return []
+
+print(fuse_filters(['filter', 'filter', 'select', 'filter']))</code></pre></div><template class="ho-check">assert fuse_filters([&#x27;filter&#x27;, &#x27;filter&#x27;, &#x27;select&#x27;, &#x27;filter&#x27;]) == [&#x27;filter&#x27;, &#x27;select&#x27;, &#x27;filter&#x27;]
+assert fuse_filters([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Call .lazy() on a DataFrame and chain filter + select + with_columns before .collect()</label></li>
 <li><label><input type="checkbox"> Print .explain() on a lazy pipeline and identify which steps show predicate pushdown</label></li>
 <li><label><input type="checkbox"> Compare the query plan before and after adding an early .filter() in the pipeline</label></li>
@@ -3815,7 +3909,15 @@ logs = pl.DataFrame({"line": [
 # 2. Extract level with r"(ERROR|WARN|INFO)"
 # 3. Extract message (everything after level)
 # 4. Print result without original column
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize the Text</div><div class="pd">A cleaning expression trims, lowercases and collapses inner whitespace.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p19_1" class="language-python">import re
+
+def normalize(s):
+    # TODO: strip, lowercase, and squeeze runs of whitespace into single spaces
+    return s
+
+print(repr(normalize('  Hello   World  ')))</code></pre></div><template class="ho-check">assert normalize(&#x27;  Hello   World  &#x27;) == &#x27;hello world&#x27;
+assert normalize(&#x27;A&#x27;) == &#x27;a&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Extract domain from an email column with .str.split(&#x27;@&#x27;).list.get(1)</label></li>
 <li><label><input type="checkbox"> Use .str.extract(r&#x27;(ERROR|WARN|INFO)&#x27;) to pull log severity from a text column</label></li>
 <li><label><input type="checkbox"> Normalize an email column: strip whitespace, lowercase, and validate with str.contains</label></li>
@@ -4017,7 +4119,14 @@ df = pl.DataFrame({
 # 1. Extract day: pl.col("ts").dt.date()
 # 2. Group by day, compute mean/min/max
 # 3. Add year, month, weekday columns
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Business Day Offsets</div><div class="pd">Resampling by business day skips weekends.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p20_1" class="language-python">def business_days(weekday_start, n_days):
+    # TODO: how many of the next n_days are weekdays, starting on weekday_start (0=Mon)
+    return 0
+
+print(business_days(0, 7), business_days(5, 2))</code></pre></div><template class="ho-check">assert business_days(0, 7) == 5
+assert business_days(5, 2) == 0
+assert business_days(0, 1) == 1
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Parse a string date column with .str.to_date(&#x27;%Y-%m-%d&#x27;) and verify the dtype is Date</label></li>
 <li><label><input type="checkbox"> Extract year, month, and weekday from a Date column using .dt.year(), .dt.month(), .dt.weekday()</label></li>
 <li><label><input type="checkbox"> Compute the number of days between two date columns using date subtraction and .dt.total_days()</label></li>
@@ -4221,7 +4330,14 @@ df = pl.DataFrame({
 # 3. Add cumsum: pl.col("value").cum_sum().over("group")
 # 4. Add lag1: pl.col("value").shift(1).over("group")
 # 5. Assert len(result) == len(df)
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Sum Per Group</div><div class="pd">cum_sum().over(group) restarts the running total at each partition.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p21_1" class="language-python">def cumsum_by_group(rows, key, value):
+    # TODO: add 'cum' to each row: the running total of value within its group
+    return rows
+
+print(cumsum_by_group([{'g': 'a', 'v': 1}, {'g': 'a', 'v': 2}, {'g': 'b', 'v': 5}], 'g', 'v'))</code></pre></div><template class="ho-check">out = cumsum_by_group([{&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 1}, {&#x27;g&#x27;: &#x27;a&#x27;, &#x27;v&#x27;: 2}, {&#x27;g&#x27;: &#x27;b&#x27;, &#x27;v&#x27;: 5}], &#x27;g&#x27;, &#x27;v&#x27;)
+assert [r[&#x27;cum&#x27;] for r in out] == [1, 3, 5]
+assert cumsum_by_group([], &#x27;g&#x27;, &#x27;v&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a dense rank within each group using .rank(&#x27;dense&#x27;, descending=True).over(&#x27;group&#x27;)</label></li>
 <li><label><input type="checkbox"> Compute cumulative sum within each group with .cum_sum().over(&#x27;group&#x27;)</label></li>
 <li><label><input type="checkbox"> Add a lag-1 feature using .shift(1).over(&#x27;group&#x27;) and verify nulls appear at group starts</label></li>
@@ -4449,7 +4565,13 @@ df_pl = pl.DataFrame(data)
 
 # TODO: Write the equivalent Polars version using .filter() and .group_by()
 # Time both and print speedup
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Speedup Factor</div><div class="pd">Report a benchmark as the factor by which the faster engine wins.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p22_1" class="language-python">def speedup(pandas_s, polars_s):
+    # TODO: pandas time divided by polars time, rounded to 2
+    return 0.0
+
+print(speedup(4.0, 0.5))</code></pre></div><template class="ho-check">assert speedup(4.0, 0.5) == 8.0
+assert speedup(1.0, 1.0) == 1.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Benchmark a Pandas groupby vs Polars group_by on 500k rows and print the speedup factor</label></li>
 <li><label><input type="checkbox"> Cast string columns to Categorical in both libraries and compare memory footprint</label></li>
 <li><label><input type="checkbox"> Rewrite a Pandas chained-indexing operation in Polars and verify identical output</label></li>
@@ -4714,7 +4836,13 @@ def etl(df, lookup_df):
     pass
 
 print(etl(raw, lookup))
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validate the Schema</div><div class="pd">A production pipeline fails fast when the incoming schema drifts.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p23_1" class="language-python">def schema_errors(actual, expected):
+    # TODO: sorted 'name: expected X got Y' for mismatches and 'name: missing' for absent columns
+    return []
+
+print(schema_errors({'a': 'Int64'}, {'a': 'Float64', 'b': 'Utf8'}))</code></pre></div><template class="ho-check">assert schema_errors({&#x27;a&#x27;: &#x27;Int64&#x27;}, {&#x27;a&#x27;: &#x27;Float64&#x27;, &#x27;b&#x27;: &#x27;Utf8&#x27;}) == [&#x27;a: expected Float64 got Int64&#x27;, &#x27;b: missing&#x27;]
+assert schema_errors({&#x27;a&#x27;: &#x27;Int64&#x27;}, {&#x27;a&#x27;: &#x27;Int64&#x27;}) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write an ETL function that drops nulls, normalizes a string column, and joins with a lookup table</label></li>
 <li><label><input type="checkbox"> Add data validation: assert no nulls remain after cleaning and that all keys matched</label></li>
 <li><label><input type="checkbox"> Write the ETL output to Parquet and re-read it to verify schema and row count</label></li>
