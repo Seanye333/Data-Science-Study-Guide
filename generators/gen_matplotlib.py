@@ -1460,6 +1460,14 @@ print('Saved subplots_ml_dashboard.png')"""}
 
 {
 "title": "6. Figure Customization",
+"practices": [
+{
+"title": 'Scale Figure Size',
+"desc": 'Multiply a figsize tuple by a factor.',
+"starter": 'def scale_figsize(fs, k):\n    # TODO: return (fs[0]*k, fs[1]*k)\n    return fs\n\nprint(scale_figsize((4, 3), 2))',
+"check": "assert scale_figsize((4, 3), 2) == (8, 6)\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Remove the top and right spines from a line plot for a cleaner look",
     "Format the y-axis as currency (e.g., '$42K') using matplotlib.ticker.FuncFormatter",
@@ -1697,6 +1705,14 @@ print('Saved custom_kpi.png')"""}
 
 {
 "title": "7. Pie & Donut Chart",
+"practices": [
+{
+"title": 'Slice Percentages',
+"desc": 'Convert values to pie percentages.',
+"starter": 'import numpy as np\n\ndef pie_percents(v):\n    # TODO: v / v.sum() * 100, rounded to 2, as a list\n    v = np.asarray(v, float); return []\n\nprint(pie_percents([1, 3]))',
+"check": "assert pie_percents([1, 3]) == [25.0, 75.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create a pie chart with 5 slices, explode the largest slice by 0.08",
     "Convert the pie to a donut by setting wedgeprops=dict(width=0.5)",
@@ -1889,6 +1905,14 @@ print('Saved pie_budget.png')"""}
 
 {
 "title": "8. Heatmap with imshow/pcolor",
+"practices": [
+{
+"title": 'Heat Matrix',
+"desc": 'Build a rows x cols matrix of 0..n-1.',
+"starter": 'import numpy as np\n\ndef heat_matrix(rows, cols):\n    # TODO: np.arange(rows*cols).reshape(rows, cols) as a nested list\n    return []\n\nprint(heat_matrix(2, 2))',
+"check": "assert heat_matrix(2, 2) == [[0, 1], [2, 3]]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create a correlation heatmap using imshow with the 'coolwarm' colormap",
     "Annotate each cell with its value using ax.text() in a nested loop",
@@ -2112,6 +2136,14 @@ print('Saved heatmap_confusion.png')"""}
 
 {
 "title": "9. Twin Axes & Secondary Y-Axis",
+"practices": [
+{
+"title": 'Rescale For Twin Axis',
+"desc": 'Scale a series for the secondary axis.',
+"starter": 'import numpy as np\n\ndef twin_scale(v, factor):\n    # TODO: multiply each value by factor, as a list\n    return []\n\nprint(twin_scale([1, 2], 10))',
+"check": "assert twin_scale([1, 2], 10) == [10.0, 20.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create a dual-axis plot: bar chart for revenue on the left, line for margin% on the right",
     "Color each y-axis label to match its corresponding data series",
@@ -2335,6 +2367,14 @@ print('Saved twin_ecommerce.png')"""}
 
 {
 "title": "10. Saving Figures & Style Sheets",
+"practices": [
+{
+"title": 'Pixel Size',
+"desc": 'Pixel dimensions from figsize and dpi.',
+"starter": 'def dpi_pixels(fs, dpi):\n    # TODO: (int(width*dpi), int(height*dpi))\n    return (0, 0)\n\nprint(dpi_pixels((4, 3), 100))',
+"check": "assert dpi_pixels((4, 3), 100) == (400, 300)\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Save a figure as PNG at 72, 150, and 300 DPI and compare file sizes",
     "Use plt.style.context('seaborn-v0_8-whitegrid') to apply a style to one figure only",
@@ -2579,6 +2619,14 @@ if os.path.exists('revenue_report.png'):
 ,
 {
     "title": "11. 3D Plotting",
+"practices": [
+{
+"title": 'Arc Points',
+"desc": 'Points along a half circle for a 3D path.',
+"starter": 'import numpy as np\n\ndef sphere_points(n):\n    # TODO: t = linspace(0, pi, n); return column_stack([sin(t), cos(t)]) rounded to 4 as a list\n    return []\n\nprint(sphere_points(3))',
+"check": "r = sphere_points(3)\nassert len(r) == 3 and len(r[0]) == 2\nprint('All checks passed \\u2713')",
+},
+],
     "todos": [
         "Create a 3D scatter plot of 100 random points with color mapped to the z-axis",
         "Plot the surface Z = sin(sqrt(X^2 + Y^2)) using plot_surface with a 'viridis' colormap",
@@ -2615,6 +2663,14 @@ if os.path.exists('revenue_report.png'):
 },
 {
     "title": "12. Custom Styles & Themes",
+"practices": [
+{
+"title": 'Theme Keys',
+"desc": 'Sorted keys of a style dict.',
+"starter": "def theme_keys(d):\n    # TODO: sorted keys\n    return []\n\nprint(theme_keys({'b': 1, 'a': 2}))",
+"check": "assert theme_keys({'b': 1, 'a': 2}) == ['a', 'b']\nprint('All checks passed \\u2713')",
+},
+],
     "todos": [
         "Apply three different built-in style sheets to the same chart and compare visually",
         "Define a custom dark theme by updating plt.rcParams with a dark background color",
@@ -2651,6 +2707,14 @@ if os.path.exists('revenue_report.png'):
 },
 {
     "title": "13. Annotations & Text Elements",
+"practices": [
+{
+"title": 'Annotation Points',
+"desc": 'Pair x and y into annotation positions.',
+"starter": 'def annotate_positions(xs, ys):\n    # TODO: zip the two lists into (x, y) tuples\n    return []\n\nprint(annotate_positions([1], [2]))',
+"check": "assert annotate_positions([1], [2]) == [(1, 2)]\nprint('All checks passed \\u2713')",
+},
+],
     "todos": [
         "Annotate the maximum point on a curve with an arrow using ax.annotate()",
         "Add a text box with a 'round' boxstyle and custom facecolor using ax.text(bbox=...)",
@@ -2688,6 +2752,14 @@ if os.path.exists('revenue_report.png'):
 
     {
         "title": "14. Animations & GIF Export",
+"practices": [
+{
+"title": 'Frame Values',
+"desc": 'Sine value for each animation frame.',
+"starter": 'import numpy as np\n\ndef frame_values(n):\n    # TODO: [sin(2*pi*i/n) rounded to 4 for i in range(n)]\n    return []\n\nprint(frame_values(4))',
+"check": "r = frame_values(4)\nassert len(r) == 4 and abs(r[0]) < 1e-9\nprint('All checks passed \\u2713')",
+},
+],
         "todos": [
             "Create a FuncAnimation that updates a sine wave by shifting the phase each frame",
             "Animate 20 random-walk particles and save to a GIF using writer='pillow'",
@@ -2857,6 +2929,14 @@ if os.path.exists('revenue_report.png'):
     },
     {
         "title": "15. Publication-Quality Figures",
+"practices": [
+{
+"title": 'Points to Inches',
+"desc": 'Convert typographic points to inches.',
+"starter": 'def points_to_inches(pt):\n    # TODO: divide by 72\n    return 0.0\n\nprint(points_to_inches(72))',
+"check": "assert points_to_inches(72) == 1.0\nprint('All checks passed \\u2713')",
+},
+],
         "todos": [
             "Apply 'seaborn-v0_8-paper' style and export the figure at 300 DPI",
             "Use LaTeX math notation in axis labels and titles with r'$...$' strings",
@@ -3009,6 +3089,14 @@ if os.path.exists('revenue_report.png'):
     },
     {
         "title": "16. Custom Colormaps & Color Science",
+"practices": [
+{
+"title": 'Colormap Samples',
+"desc": 'Evenly spaced positions in [0, 1].',
+"starter": 'import numpy as np\n\ndef colormap_sample(n):\n    # TODO: np.linspace(0, 1, n) rounded to 4 as a list\n    return []\n\nprint(colormap_sample(3))',
+"check": "assert colormap_sample(3) == [0.0, 0.5, 1.0]\nprint('All checks passed \\u2713')",
+},
+],
         "todos": [
             "Create a custom 4-color LinearSegmentedColormap and apply it to a heatmap",
             "Use TwoSlopeNorm to center a diverging colormap on zero with asymmetric bounds",
@@ -3167,6 +3255,14 @@ if os.path.exists('revenue_report.png'):
     },
 {
 "title": "17. Error Bars & Confidence Intervals",
+"practices": [
+{
+"title": 'Error Bounds',
+"desc": 'Lower and upper error-bar bounds.',
+"starter": 'def error_bounds(mean, err):\n    # TODO: return (lower list, upper list)\n    return ([], [])\n\nprint(error_bounds([10], [1]))',
+"check": "lo, hi = error_bounds([10], [1])\nassert lo == [9] and hi == [11]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Plot symmetric error bars using ax.errorbar() with capsize=5 and elinewidth=2",
     "Add asymmetric error bars using yerr=[lower_array, upper_array]",
@@ -3195,6 +3291,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "18. Box Plots & Violin Plots",
+"practices": [
+{
+"title": 'Five-Number Summary',
+"desc": 'min, Q1, median, Q3, max.',
+"starter": 'import pandas as pd, numpy as np\n\ndef box_five(v):\n    # TODO: the five numbers as floats, in order\n    s = pd.Series(v, dtype=float); return []\n\nprint(box_five([1, 2, 3, 4, 5]))',
+"check": "assert box_five([1, 2, 3, 4, 5]) == [1.0, 2.0, 3.0, 4.0, 5.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create notched box plots for 5 groups using patch_artist=True and custom colors",
     "Overlay a violin plot and a narrow box plot on the same axes for comparison",
@@ -3223,6 +3327,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "19. Contour Plots",
+"practices": [
+{
+"title": 'Contour Levels',
+"desc": 'Evenly spaced contour levels.',
+"starter": 'import numpy as np\n\ndef contour_levels(zmin, zmax, n):\n    # TODO: np.linspace(zmin, zmax, n) rounded to 4 as a list\n    return []\n\nprint(contour_levels(0, 1, 3))',
+"check": "assert contour_levels(0, 1, 3) == [0.0, 0.5, 1.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Plot a filled contour of Z = sin(X)*cos(Y) using contourf with 20 levels and a colorbar",
     "Add labeled contour lines on top of a filled contour using clabel(inline=True)",
@@ -3251,6 +3363,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "20. Polar Plots",
+"practices": [
+{
+"title": 'Polar to Cartesian',
+"desc": 'Convert (r, degrees) to (x, y).',
+"starter": 'import numpy as np\n\ndef polar_coords(r, theta_deg):\n    # TODO: x = r*cos(theta), y = r*sin(theta) with theta in radians, rounded to 4\n    return (0.0, 0.0)\n\nprint(polar_coords(1, 0))',
+"check": "assert polar_coords(1, 0) == (1.0, 0.0)\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Plot a rose curve r = 1 + 0.5*cos(3theta) on a polar axis and fill with alpha=0.2",
     "Create a wind rose bar chart with 16 directions and color bars by magnitude",
@@ -3279,6 +3399,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "21. Stacked Bar & Area Charts",
+"practices": [
+{
+"title": 'Stack Cumulative',
+"desc": 'Running totals for stacked layers.',
+"starter": 'import numpy as np\n\ndef stack_cumulative(series):\n    # TODO: cumulative sum down the list of series, as a nested list\n    return []\n\nprint(stack_cumulative([[1, 1], [2, 2]]))',
+"check": "assert stack_cumulative([[1, 1], [2, 2]]) == [[1.0, 1.0], [3.0, 3.0]]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create a stacked bar chart for 4 quarters with 3 products using ax.bar() with bottom=",
     "Build a stacked area chart using ax.stackplot() with a custom color list",
@@ -3307,6 +3435,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "22. Step Plots & Eventplot",
+"practices": [
+{
+"title": 'Step Points',
+"desc": 'Duplicate values to draw a step line.',
+"starter": 'import numpy as np\n\ndef step_points(v):\n    # TODO: np.repeat(v, 2)[:-1] as a list\n    return []\n\nprint(step_points([1, 2]))',
+"check": "assert step_points([1, 2]) == [1.0, 1.0, 2.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Plot a step function with where='mid', 'pre', and 'post' side-by-side",
     "Use ax.eventplot() to visualize spike trains for 3 neuron channels",
@@ -3335,6 +3471,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "23. Log Scale & Symlog",
+"practices": [
+{
+"title": 'Log Ticks',
+"desc": 'Decade tick positions.',
+"starter": 'def log_ticks(a, b):\n    # TODO: [10**i for i in range(a, b+1)]\n    return []\n\nprint(log_ticks(0, 2))',
+"check": "assert log_ticks(0, 2) == [1, 10, 100]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Switch a plot to log scale using ax.set_yscale('log') and observe axis behavior",
     "Use log-log scale on a scatter plot to reveal a power-law relationship",
@@ -3363,6 +3507,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "24. GridSpec & Complex Layouts",
+"practices": [
+{
+"title": 'Grid Cells',
+"desc": 'All (row, col) cells of a grid.',
+"starter": 'def gridspec_cells(r, c):\n    # TODO: every (i, j) pair, row by row\n    return []\n\nprint(gridspec_cells(1, 2))',
+"check": "assert gridspec_cells(1, 2) == [(0, 0), (0, 1)]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Use GridSpec(2, 3) to create a wide top panel spanning all 3 columns",
     "Specify height_ratios=[3, 1] for a main chart and a smaller indicator below",
@@ -3391,6 +3543,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "25. Hexbin & 2D Density Plots",
+"practices": [
+{
+"title": '2D Histogram',
+"desc": 'Counts in a 2-D bin grid.',
+"starter": 'import numpy as np\n\ndef hexbin_counts(x, y, bins):\n    # TODO: np.histogram2d(x, y, bins=bins)[0] as ints in a nested list\n    return []\n\nprint(hexbin_counts([1, 2], [1, 2], 2))',
+"check": "assert sum(sum(r) for r in hexbin_counts([1, 2], [1, 2], 2)) == 2\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Create a hexbin plot of 5,000 points with gridsize=40 and a 'YlOrRd' colormap",
     "Set mincnt=1 to hide empty hexagons in sparse regions",
@@ -3419,6 +3579,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "26. Patch Artists & Custom Shapes",
+"practices": [
+{
+"title": 'Rectangle Area',
+"desc": 'Area of a rectangle patch.',
+"starter": 'def rect_area(w, h):\n    # TODO: width times height\n    return 0\n\nprint(rect_area(2, 3))',
+"check": "assert rect_area(2, 3) == 6\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Draw a Rectangle patch at (2, 3) with width=4, height=2, and a custom facecolor",
     "Add a Circle patch centered at (0, 0) with radius=1.5 to mark a region of interest",
@@ -3447,6 +3615,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "27. Quiver & Streamplot",
+"practices": [
+{
+"title": 'Vector Magnitude',
+"desc": 'Length of each (u, v) arrow.',
+"starter": 'import numpy as np\n\ndef quiver_magnitude(u, v):\n    # TODO: np.hypot(u, v) rounded to 4 as a list\n    return []\n\nprint(quiver_magnitude([3], [4]))',
+"check": "assert quiver_magnitude([3], [4]) == [5.0]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Plot a 2D vector field using ax.quiver() over a meshgrid of X, Y",
     "Color quiver arrows by vector magnitude using c=np.sqrt(U**2+V**2)",
@@ -3475,6 +3651,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "28. Broken Axis & Dual Axis",
+"practices": [
+{
+"title": 'Axis Segments',
+"desc": 'The two ranges either side of a break.',
+"starter": 'def axis_break_ranges(lo, hi, gap):\n    # TODO: [(lo, gap[0]), (gap[1], hi)]\n    return []\n\nprint(axis_break_ranges(0, 10, (4, 6)))',
+"check": "assert axis_break_ranges(0, 10, (4, 6)) == [(0, 4), (6, 10)]\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Simulate a broken y-axis using two stacked subplots and hiding the shared spines",
     "Add diagonal break marks (/ /) to signal the broken axis region",
@@ -3503,6 +3687,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "29. Image Processing with imshow",
+"practices": [
+{
+"title": 'Channel Count',
+"desc": 'How many colour channels an image has.',
+"starter": 'import numpy as np\n\ndef image_channels(img):\n    # TODO: the size of the last axis, as an int\n    return 0\n\nprint(image_channels(np.zeros((2, 2, 3))))',
+"check": "import numpy as np\nassert image_channels(np.zeros((2, 2, 3))) == 3\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Display a grayscale image using ax.imshow(data, cmap='gray')",
     "Show an RGB image and annotate it with text at a specific pixel coordinate",
@@ -3531,6 +3723,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "30. Statistical Plots",
+"practices": [
+{
+"title": 'Summary Stats',
+"desc": 'Mean and standard deviation.',
+"starter": "import numpy as np\n\ndef stat_summary(v):\n    # TODO: {'mean': ..., 'std': ...} as floats\n    a = np.asarray(v, float); return {}\n\nprint(stat_summary([1, 3]))",
+"check": "assert stat_summary([1, 3])['mean'] == 2.0\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Draw a vertical violin plot for 4 groups and add strip points on top",
     "Create a Q-Q plot using scipy.stats.probplot to assess normality",
@@ -3559,6 +3759,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "31. Multi-Figure Export & Backends",
+"practices": [
+{
+"title": 'Export Filenames',
+"desc": 'Numbered output filenames.',
+"starter": "def export_names(base, n):\n    # TODO: ['base_0.png', 'base_1.png', ...]\n    return []\n\nprint(export_names('fig', 2))",
+"check": "assert export_names('fig', 2) == ['fig_0.png', 'fig_1.png']\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Save three different charts to a single multi-page PDF using PdfPages",
     "Export a figure at 72, 150, and 300 DPI and print each file size",
@@ -3587,6 +3795,14 @@ if os.path.exists('revenue_report.png'):
 
 {
 "title": "32. Dashboard Composition",
+"practices": [
+{
+"title": 'Panel Count',
+"desc": 'How many panels a grid holds.',
+"starter": 'def dashboard_slots(rows, cols):\n    # TODO: rows times cols\n    return 0\n\nprint(dashboard_slots(2, 3))',
+"check": "assert dashboard_slots(2, 3) == 6\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Use GridSpec to compose a dashboard with at least one spanning panel",
     "Add KPI 'tiles' as small colored axes with large text using ax.axis('off')",

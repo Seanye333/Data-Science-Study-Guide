@@ -116,6 +116,14 @@ SECTIONS = [
 
 {
 "title": "1. Setup & Themes",
+"practices": [
+{
+"title": 'Theme Parameters',
+"desc": 'Build a theme settings dict.',
+"starter": "def theme_params(style):\n    # TODO: {'style': style, 'context': 'notebook'}\n    return {}\n\nprint(theme_params('dark'))",
+"check": "assert theme_params('dark') == {'style': 'dark', 'context': 'notebook'}\nprint('All checks passed \\u2713')",
+},
+],
 "todos": [
     "Call sns.set_theme() with style='darkgrid' and palette='colorblind' at the top of a notebook",
     "Try all 5 style options ('darkgrid','whitegrid','dark','white','ticks') on the same bar chart",
@@ -1546,6 +1554,14 @@ print("Saved practice_heatmap.png")"""
 
 {
 "title": "7. Pair Plot",
+"practices": [
+{
+"title": 'Numeric Columns',
+"desc": 'Which columns a pair plot would use.',
+"starter": "import pandas as pd, numpy as np\n\ndef pair_columns(df):\n    # TODO: column names whose dtype is numeric\n    return []\n\nprint(pair_columns(pd.DataFrame({'a': [1], 'b': ['x']})))",
+"check": "import pandas as pd\nassert pair_columns(pd.DataFrame({'a': [1], 'b': ['x']})) == ['a']\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "pairplot creates a grid of scatter plots and distributions for all numeric column pairs — fast exploratory data analysis.",
 "examples": [
 {"label": "Basic pairplot with hue", "code":
@@ -1743,6 +1759,14 @@ print("Practice pairplot complete")"""
 
 {
 "title": "8. FacetGrid",
+"practices": [
+{
+"title": 'Facet Groups',
+"desc": 'Sorted distinct values of the facet column.',
+"starter": "import pandas as pd, numpy as np\n\ndef facet_groups(df, col):\n    # TODO: sorted unique values as a list\n    return []\n\nprint(facet_groups(pd.DataFrame({'g': ['b', 'a']}), 'g'))",
+"check": "import pandas as pd\nassert facet_groups(pd.DataFrame({'g': ['b', 'a']}), 'g') == ['a', 'b']\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "FacetGrid tiles the same plot across subsets of data defined by row, col, and hue — the most powerful Seaborn layout tool.",
 "examples": [
 {"label": "FacetGrid with map", "code":
@@ -1948,6 +1972,14 @@ print("Saved practice_facet.png")"""
 
 {
 "title": "9. Time Series & Line Plot",
+"practices": [
+{
+"title": 'Line Confidence Band',
+"desc": 'z-interval around the mean.',
+"starter": 'import numpy as np\n\ndef line_ci(v, z=1.96):\n    # TODO: mean +/- z * (std(ddof=1)/sqrt(n)), rounded to 4\n    return (0.0, 0.0)\n\nprint(line_ci([1, 2, 3]))',
+"check": "lo, hi = line_ci([1, 2, 3])\nassert lo < 2 < hi\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "sns.lineplot handles time series naturally — it aggregates multiple observations per x-value and draws confidence intervals.",
 "examples": [
 {"label": "lineplot with hue and CI", "code":
@@ -2208,6 +2240,14 @@ print("Saved practice_lineplot.png")"""
 
 {
 "title": "10. Customization & Matplotlib Integration",
+"practices": [
+{
+"title": 'Merge rcParams',
+"desc": 'Combine two settings dicts.',
+"starter": "def merge_rc(a, b):\n    # TODO: merge with b winning\n    return {}\n\nprint(merge_rc({'x': 1}, {'y': 2}))",
+"check": "assert merge_rc({'x': 1}, {'y': 2}) == {'x': 1, 'y': 2}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Seaborn returns Axes objects you can modify with any Matplotlib method. Combine both libraries for full control.",
 "examples": [
 {"label": "Accessing and modifying the Axes", "code":
@@ -2460,6 +2500,14 @@ print("Saved practice_custom.png")"""
 ,
 {
     "title": "11. FacetGrid & Multi-Plot Grids",
+"practices": [
+{
+"title": 'Grid Shape',
+"desc": 'Rows and columns for n facets.',
+"starter": 'def grid_shape_for(n, cols):\n    # TODO: (ceil(n/cols), cols) with integer maths\n    return (0, cols)\n\nprint(grid_shape_for(5, 2))',
+"check": "assert grid_shape_for(5, 2) == (3, 2)\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Create small multiples — the same visualization across data subsets — with FacetGrid, PairGrid, catplot, and relplot.",
     "examples": [
         {
@@ -2489,6 +2537,14 @@ print("Saved practice_custom.png")"""
 },
 {
     "title": "12. Statistical Annotations",
+"practices": [
+{
+"title": 'Significance Stars',
+"desc": 'Convert a p-value to stars.',
+"starter": "def annotate_stat(p):\n    # TODO: '***' below .001, '**' below .01, '*' below .05, else 'ns'\n    return 'ns'\n\nprint(annotate_stat(0.0001), annotate_stat(0.5))",
+"check": "assert annotate_stat(0.0001) == '***' and annotate_stat(0.5) == 'ns'\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Add significance stars, confidence intervals, and comparison markers to seaborn plots for publication-ready statistical charts.",
     "examples": [
         {
@@ -2518,6 +2574,14 @@ print("Saved practice_custom.png")"""
 },
 {
     "title": "13. Regression & Distribution Plots",
+"practices": [
+{
+"title": 'Regression Line',
+"desc": 'Slope and intercept of the fit.',
+"starter": 'import numpy as np\n\ndef regress_line(x, y):\n    # TODO: np.polyfit(x, y, 1) as (slope, intercept) rounded to 4\n    return (0.0, 0.0)\n\nprint(regress_line([0, 1], [1, 3]))',
+"check": "assert regress_line([0, 1], [1, 3]) == (2.0, 1.0)\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Visualize statistical relationships and distributions with lmplot, residplot, jointplot, and ecdfplot for thorough exploratory analysis.",
     "examples": [
         {
@@ -2548,6 +2612,14 @@ print("Saved practice_custom.png")"""
 
     {
         "title": "14. FacetGrid & PairGrid",
+"practices": [
+{
+"title": 'Column Pairs',
+"desc": 'Unique off-diagonal column pairs.',
+"starter": "def pairgrid_pairs(cols):\n    # TODO: each unordered pair of distinct columns\n    return []\n\nprint(pairgrid_pairs(['a', 'b']))",
+"check": "assert pairgrid_pairs(['a', 'b']) == [('a', 'b')]\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "FacetGrid histogram per group",
@@ -2576,6 +2648,14 @@ print("Saved practice_custom.png")"""
     },
     {
         "title": "15. Statistical Visualization Deep Dive",
+"practices": [
+{
+"title": 'Describe Subset',
+"desc": 'Mean and std from describe().',
+"starter": "import pandas as pd, numpy as np\n\ndef describe_stats(v):\n    # TODO: describe()[['mean','std']] rounded to 4 as a dict\n    return {}\n\nprint(describe_stats([1, 3]))",
+"check": "assert describe_stats([1, 3])['mean'] == 2.0\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Violin + swarmplot overlay",
@@ -2604,6 +2684,14 @@ print("Saved practice_custom.png")"""
     },
     {
         "title": "16. Custom Seaborn Themes & Styling",
+"practices": [
+{
+"title": 'Grey Palette',
+"desc": 'n evenly spaced grey hex colours.',
+"starter": "def palette_hexes(n):\n    # TODO: build n '#rrggbb' greys spaced across 0..255\n    return []\n\nprint(palette_hexes(3))",
+"check": "r = palette_hexes(3)\nassert len(r) == 3 and all(c.startswith('#') for c in r)\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Context comparison (paper/talk/poster)",
@@ -2632,6 +2720,14 @@ print("Saved practice_custom.png")"""
     },
 {
 "title": "17. Strip Plot & Swarm Plot",
+"practices": [
+{
+"title": 'Add Jitter',
+"desc": 'Offset points slightly so they do not overlap.',
+"starter": 'import numpy as np\n\ndef jitter(v, seed=0):\n    # TODO: add rng.uniform(-0.1, 0.1, len(v)) to the values, rounded to 4\n    rng = np.random.default_rng(seed); return []\n\nprint(jitter([1, 2]))',
+"check": "r = jitter([1, 2])\nassert len(r) == 2 and abs(r[0] - 1) < 0.2\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use stripplot() to show individual data points by category and swarmplot() to avoid overplotting by spacing points. Layer them over box or violin plots for richer displays.",
 "examples": [
         {"label": "Basic strip and swarm comparison", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5))\nsns.stripplot(data=tips, x=\'day\', y=\'total_bill\', ax=ax1,\n              palette=\'Set2\', jitter=True, alpha=0.7, size=5)\nax1.set_title(\'Strip Plot (jitter)\')\n\nsns.swarmplot(data=tips, x=\'day\', y=\'total_bill\', ax=ax2,\n              palette=\'Set2\', size=4)\nax2.set_title(\'Swarm Plot (no overlap)\')\n\nfor ax in (ax1, ax2):\n    ax.set_xlabel(\'Day\'); ax.set_ylabel(\'Total Bill ($)\')\nfig.tight_layout()\nfig.savefig(\'strip_swarm.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved strip_swarm.png\')"},
@@ -2653,6 +2749,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "18. Point Plot & Statistical Line Plots",
+"practices": [
+{
+"title": 'Point Estimates',
+"desc": 'Group means for a point plot.',
+"starter": "import pandas as pd, numpy as np\n\ndef point_estimates(df, by, col):\n    # TODO: groupby(by)[col].mean() rounded to 4 as a dict\n    return {}\n\nprint(point_estimates(pd.DataFrame({'g': ['a', 'a'], 'v': [1.0, 3]}), 'g', 'v'))",
+"check": "import pandas as pd\nassert point_estimates(pd.DataFrame({'g': ['a','a'], 'v': [1.0, 3]}), 'g', 'v') == {'a': 2.0}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use pointplot() to display means with confidence intervals for categorical variables. Use lineplot() with hue for multi-group time series with automatic CI shading.",
 "examples": [
         {"label": "pointplot: means with CI by category", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5))\nsns.pointplot(data=tips, x=\'day\', y=\'total_bill\', ax=ax1,\n              palette=\'Set2\', capsize=0.1, errwidth=2,\n              markers=\'o\', linestyles=\'-\')\nax1.set_title(\'Point Plot: Mean Bill by Day\')\n\nsns.pointplot(data=tips, x=\'day\', y=\'total_bill\', hue=\'sex\',\n              ax=ax2, palette=\'Set1\', dodge=True,\n              capsize=0.08, errwidth=1.5)\nax2.set_title(\'Point Plot: By Day and Sex\')\n\nfor ax in (ax1, ax2):\n    ax.set_xlabel(\'Day\'); ax.set_ylabel(\'Mean Total Bill ($)\')\nfig.tight_layout()\nfig.savefig(\'pointplot.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved pointplot.png\')"},
@@ -2674,6 +2778,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "19. ECDF & Distribution Comparison",
+"practices": [
+{
+"title": 'Empirical CDF',
+"desc": 'Sorted values and their cumulative proportions.',
+"starter": 'import numpy as np\n\ndef ecdf(v):\n    # TODO: (sorted values, (1..n)/n rounded to 4) as two lists\n    return ([], [])\n\nprint(ecdf([2, 1]))',
+"check": "x, y = ecdf([2, 1])\nassert x == [1.0, 2.0] and y == [0.5, 1.0]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use ecdfplot() for empirical CDFs, histplot() with multiple groups, and kdeplot() to compare distributions across categories without assuming a parametric form.",
 "examples": [
         {"label": "ECDF plot for group comparison", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\nnp.random.seed(0)\ndf = pd.DataFrame({\n    \'value\': np.concatenate([\n        np.random.normal(5, 1.5, 200),\n        np.random.normal(7, 1.0, 200),\n        np.random.exponential(2, 200) + 3,\n    ]),\n    \'group\': np.repeat([\'Normal(5,1.5)\', \'Normal(7,1)\', \'Exp+3\'], 200)\n})\n\nfig, ax = plt.subplots(figsize=(9, 5))\nsns.ecdfplot(data=df, x=\'value\', hue=\'group\', palette=\'Set2\', linewidth=2)\nax.axhline(0.5, color=\'gray\', linestyle=\'--\', linewidth=1, label=\'Median\')\nax.set_title(\'ECDF: Distribution Comparison\')\nax.set_xlabel(\'Value\'); ax.set_ylabel(\'Cumulative Proportion\')\nax.legend(title=\'Group\')\nfig.tight_layout()\nfig.savefig(\'ecdf.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved ecdf.png\')"},
@@ -2695,6 +2807,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "20. Cluster Map",
+"practices": [
+{
+"title": 'Row Order',
+"desc": 'Order rows by total, largest first.',
+"starter": 'import numpy as np\n\ndef cluster_order(M):\n    # TODO: indices sorted by row sum, descending\n    M = np.asarray(M, float); return []\n\nprint(cluster_order([[1, 1], [5, 5]]))',
+"check": "assert cluster_order([[1, 1], [5, 5]]) == [1, 0]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use clustermap() to apply hierarchical clustering to rows and columns of a matrix, revealing natural groupings in correlation matrices, gene expression, or feature similarity data.",
 "examples": [
         {"label": "Basic clustermap on iris correlation", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'white\')\niris = sns.load_dataset(\'iris\')\ncorr = iris.drop(\'species\', axis=1).corr()\n\ng = sns.clustermap(corr, cmap=\'RdBu_r\', vmin=-1, vmax=1,\n                   annot=True, fmt=\'.2f\', figsize=(7, 7),\n                   linewidths=0.5)\ng.ax_heatmap.set_title(\'Iris Feature Correlation Clustermap\', pad=50)\nplt.savefig(\'clustermap_iris.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved clustermap_iris.png\')"},
@@ -2716,6 +2836,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "21. Joint Plot Advanced",
+"practices": [
+{
+"title": 'Marginal Means',
+"desc": 'Mean of each axis for the marginals.',
+"starter": 'import numpy as np\n\ndef joint_marginals(x, y):\n    # TODO: (mean of x, mean of y) as floats\n    return (0.0, 0.0)\n\nprint(joint_marginals([1, 3], [2, 4]))',
+"check": "assert joint_marginals([1, 3], [2, 4]) == (2.0, 3.0)\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use jointplot() to show the bivariate relationship alongside marginal univariate distributions. Explore kind=\'hex\', \'kde\', \'reg\', and custom marginal plots with JointGrid.",
 "examples": [
         {"label": "jointplot: hex, kde, reg, scatter kinds", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\nkinds = [\'scatter\', \'hex\', \'kde\', \'reg\']\nfor kind in kinds:\n    g = sns.jointplot(data=tips, x=\'total_bill\', y=\'tip\',\n                      kind=kind, palette=\'Set2\', height=5,\n                      marginal_kws=dict(bins=25))\n    g.fig.suptitle(f\"kind=\'{kind}\'\", y=1.02)\n    g.fig.savefig(f\'joint_{kind}.png\', dpi=100, bbox_inches=\'tight\')\n    plt.close(g.fig)\nprint(\'Saved joint_scatter/hex/kde/reg.png\')"},
@@ -2737,6 +2865,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "22. catplot — Figure-Level Categorical",
+"practices": [
+{
+"title": 'Category Counts',
+"desc": 'Counts per category, sorted by category.',
+"starter": "import pandas as pd, numpy as np\n\ndef catplot_counts(s):\n    # TODO: value_counts().sort_index().to_dict()\n    return {}\n\nprint(catplot_counts(['a', 'a', 'b']))",
+"check": "assert catplot_counts(['a', 'a', 'b']) == {'a': 2, 'b': 1}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use catplot() as a unified interface for all categorical plots. Control kind=\'strip\'|\'swarm\'|\'box\'|\'violin\'|\'bar\'|\'count\'|\'point\' and use col/row to create FacetGrid-powered small multiples.",
 "examples": [
         {"label": "catplot with col splitting", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\ng = sns.catplot(data=tips, x=\'day\', y=\'total_bill\',\n                hue=\'sex\', col=\'time\',\n                kind=\'box\', palette=\'Set2\',\n                height=5, aspect=0.85,\n                order=[\'Thur\',\'Fri\',\'Sat\',\'Sun\'])\ng.set_axis_labels(\'Day\', \'Total Bill ($)\')\ng.set_titles(\'{col_name}\')\ng.fig.suptitle(\'Bill by Day, Sex, and Time (catplot col)\', y=1.02, fontweight=\'bold\')\ng.fig.savefig(\'catplot_col.png\', dpi=120, bbox_inches=\'tight\')\nplt.close(g.fig)\nprint(\'Saved catplot_col.png\')"},
@@ -2758,6 +2894,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "23. displot — Figure-Level Distributions",
+"practices": [
+{
+"title": 'Histogram Bins',
+"desc": 'Counts per bin for a distribution plot.',
+"starter": 'import numpy as np\n\ndef displot_bins(v, bins):\n    # TODO: np.histogram(v, bins=bins)[0] as a list\n    return []\n\nprint(displot_bins([1, 2, 3], 3))',
+"check": "assert sum(displot_bins([1, 2, 3], 3)) == 3\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use displot() as the figure-level interface for histplot, kdeplot, and ecdfplot. Add col/row faceting for small-multiple distribution comparisons.",
 "examples": [
         {"label": "displot: hist, kde, ecdf kinds", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\nnp.random.seed(0)\ndf = pd.DataFrame({\n    \'value\': np.concatenate([np.random.normal(0,1,300), np.random.normal(4,1.5,300)]),\n    \'group\': np.repeat([\'A\',\'B\'], 300)\n})\n\nfor kind in [\'hist\',\'kde\',\'ecdf\']:\n    g = sns.displot(data=df, x=\'value\', hue=\'group\',\n                    kind=kind, height=4, aspect=1.5, palette=\'Set2\',\n                    fill=(kind != \'ecdf\'), alpha=0.5, linewidth=2)\n    g.fig.suptitle(f\"displot kind=\'{kind}\'\", y=1.02)\n    g.fig.savefig(f\'displot_{kind}.png\', dpi=100, bbox_inches=\'tight\')\n    plt.close(g.fig)\nprint(\'Saved displot_hist/kde/ecdf.png\')"},
@@ -2779,6 +2923,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "24. relplot — Figure-Level Relational",
+"practices": [
+{
+"title": 'Hue Levels',
+"desc": 'Distinct hue values, sorted.',
+"starter": "import pandas as pd, numpy as np\n\ndef relplot_series(df, x, y, hue):\n    # TODO: sorted unique values of the hue column\n    return []\n\nprint(relplot_series(pd.DataFrame({'h': ['b', 'a']}), 'x', 'y', 'h'))",
+"check": "import pandas as pd\nassert relplot_series(pd.DataFrame({'h': ['b','a']}), 'x', 'y', 'h') == ['a', 'b']\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use relplot() as the figure-level interface for scatterplot and lineplot. Use col, row, and hue to create multi-panel relational grids with consistent scaling.",
 "examples": [
         {"label": "relplot scatter with col and hue", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\ng = sns.relplot(data=tips, x=\'total_bill\', y=\'tip\',\n                hue=\'sex\', col=\'time\', style=\'sex\',\n                palette=\'Set1\', s=60, alpha=0.7,\n                height=4, aspect=1.0)\ng.set_axis_labels(\'Total Bill ($)\', \'Tip ($)\')\ng.set_titles(col_template=\'{col_name}\')\ng.fig.suptitle(\'Tips: Scatter by Time and Sex (relplot)\', y=1.02, fontweight=\'bold\')\ng.fig.savefig(\'relplot_scatter.png\', dpi=120, bbox_inches=\'tight\')\nplt.close(g.fig)\nprint(\'Saved relplot_scatter.png\')"},
@@ -2800,6 +2952,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "25. Heatmap Advanced",
+"practices": [
+{
+"title": 'Annotation Values',
+"desc": 'Round the matrix for cell labels.',
+"starter": 'import numpy as np\n\ndef heat_annot(M):\n    # TODO: round to 2 decimals, as a nested list\n    return []\n\nprint(heat_annot([[1.234]]))',
+"check": "assert heat_annot([[1.234]]) == [[1.23]]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Go beyond basic heatmaps: annotate with custom formats, apply diverging colormaps for signed values, mask upper triangles, and combine with matplotlib for multi-panel layouts.",
 "examples": [
         {"label": "Masked upper-triangle correlation heatmap", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'white\')\nnp.random.seed(0)\nn = 8\nlabels = [f\'Var_{i}\' for i in range(1, n+1)]\ndata = np.random.randn(200, n)\nfor i in range(n):\n    for j in range(i):\n        data[:, j] += data[:, i] * np.random.uniform(-0.5, 0.8)\ncorr = np.corrcoef(data.T)\ndf_corr = pd.DataFrame(corr, index=labels, columns=labels)\n\nmask = np.triu(np.ones_like(corr, dtype=bool), k=1)  # mask upper\n\nfig, ax = plt.subplots(figsize=(8, 7))\nsns.heatmap(df_corr, mask=mask, cmap=\'RdBu_r\', vmin=-1, vmax=1,\n            annot=True, fmt=\'.2f\', linewidths=0.5,\n            ax=ax, square=True, cbar_kws={\'label\': \'Pearson r\'})\nax.set_title(\'Lower-Triangle Correlation Matrix\', fontweight=\'bold\')\nfig.tight_layout()\nfig.savefig(\'corr_heatmap.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved corr_heatmap.png\')"},
@@ -2821,6 +2981,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "26. PairGrid Advanced",
+"practices": [
+{
+"title": 'Diagonal Cells',
+"desc": 'The (col, col) diagonal pairs.',
+"starter": "def pairgrid_diag(cols):\n    # TODO: [(c, c) for each column]\n    return []\n\nprint(pairgrid_diag(['a']))",
+"check": "assert pairgrid_diag(['a']) == [('a', 'a')]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use PairGrid for full control over diagonal, upper, and lower triangle plots. Map different plot types per region and use hue for group-aware multi-variable comparison.",
 "examples": [
         {"label": "PairGrid: hist diagonal, scatter off-diag", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\niris = sns.load_dataset(\'iris\')\n\ng = sns.PairGrid(iris, hue=\'species\', palette=\'Set2\',\n                 vars=[\'sepal_length\',\'sepal_width\',\'petal_length\',\'petal_width\'])\ng.map_diag(sns.histplot, kde=True, alpha=0.6)\ng.map_offdiag(sns.scatterplot, s=25, alpha=0.6)\ng.add_legend(title=\'Species\')\ng.fig.suptitle(\'PairGrid: Histogram Diagonal + Scatter\', y=1.01, fontweight=\'bold\')\ng.fig.savefig(\'pairgrid_hist.png\', dpi=100, bbox_inches=\'tight\')\nplt.close(g.fig)\nprint(\'Saved pairgrid_hist.png\')"},
@@ -2842,6 +3010,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "27. Residual & Regression Diagnostics",
+"practices": [
+{
+"title": 'Residuals',
+"desc": 'Distances from the fitted line.',
+"starter": 'import numpy as np\n\ndef residuals_of(x, y):\n    # TODO: y - (m*x + b) using np.polyfit, rounded to 6, as a list\n    return []\n\nprint(residuals_of([0, 1, 2], [1, 3, 5]))',
+"check": "r = residuals_of([0, 1, 2], [1, 3, 5])\nassert max(abs(v) for v in r) < 1e-6\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use residplot() for visual residual checks, lmplot() for grouped regression, and regplot() with custom order for polynomial fits. Combine with matplotlib for full diagnostic panels.",
 "examples": [
         {"label": "residplot: detect non-linearity", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\nnp.random.seed(0)\nn = 150\nx = np.linspace(0, 10, n)\ny_linear  = 2*x + 1 + np.random.randn(n)*2\ny_nonlin  = 2*x + 0.3*x**2 + np.random.randn(n)*3\n\ndf = pd.DataFrame({\'x\':x,\'y_linear\':y_linear,\'y_nonlin\':y_nonlin})\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))\nsns.residplot(data=df, x=\'x\', y=\'y_linear\', lowess=True,\n              scatter_kws=dict(alpha=0.5, s=20),\n              line_kws=dict(color=\'red\', linewidth=2), ax=ax1)\nax1.set_title(\'Residuals: Linear Data (good fit)\')\nax1.axhline(0, color=\'gray\', linestyle=\'--\', linewidth=1)\n\nsns.residplot(data=df, x=\'x\', y=\'y_nonlin\', lowess=True,\n              scatter_kws=dict(alpha=0.5, s=20),\n              line_kws=dict(color=\'red\', linewidth=2), ax=ax2)\nax2.set_title(\'Residuals: Nonlinear Data (pattern visible)\')\nax2.axhline(0, color=\'gray\', linestyle=\'--\', linewidth=1)\n\nfig.suptitle(\'residplot — Lowess Smoother\', fontweight=\'bold\')\nfig.tight_layout()\nfig.savefig(\'residplot.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved residplot.png\')"},
@@ -2863,6 +3039,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "28. Mixed Seaborn + Matplotlib",
+"practices": [
+{
+"title": 'Axes Indices',
+"desc": 'Index each axis of a combined figure.',
+"starter": 'def combined_axes(n):\n    # TODO: list(range(n))\n    return []\n\nprint(combined_axes(2))',
+"check": "assert combined_axes(2) == [0, 1]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Combine Seaborn plots with raw matplotlib artists: add reference lines, spans, custom patches, secondary axes, and annotations on top of seaborn outputs.",
 "examples": [
         {"label": "Add reference line and span to seaborn plot", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\nnp.random.seed(0)\ndf = pd.DataFrame({\n    \'score\': np.random.normal(72, 15, 200),\n    \'group\': np.random.choice([\'A\',\'B\',\'C\',\'D\'], 200)\n})\n\nfig, ax = plt.subplots(figsize=(9, 5))\nsns.boxplot(data=df, x=\'group\', y=\'score\', palette=\'Set2\', ax=ax)\n\n# Matplotlib overlays\nax.axhline(70, color=\'red\', linestyle=\'--\', linewidth=2, label=\'Target\')\nax.axhspan(0, 60, color=\'red\', alpha=0.07, label=\'Fail zone\')\nax.axhspan(90, 100, color=\'green\', alpha=0.07, label=\'Excellent\')\nax.set_title(\'Test Scores by Group with Reference Lines\', fontweight=\'bold\')\nax.legend()\nax.set_ylim(20, 110)\nfig.tight_layout()\nfig.savefig(\'sns_mpl_lines.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved sns_mpl_lines.png\')"},
@@ -2884,6 +3068,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "29. Seaborn with Real Datasets",
+"practices": [
+{
+"title": 'Dataset Shape',
+"desc": 'Rows and columns of a dataset.',
+"starter": "import pandas as pd, numpy as np\n\ndef dataset_shape(df):\n    # TODO: df.shape\n    return ()\n\nprint(dataset_shape(pd.DataFrame({'a': [1, 2]})))",
+"check": "import pandas as pd\nassert dataset_shape(pd.DataFrame({'a': [1, 2]})) == (2, 1)\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Practice EDA workflows on seaborn\'s built-in datasets: titanic, penguins, diamonds, mpg, and fmri. Apply multiple plot types to reveal patterns, relationships, and anomalies.",
 "examples": [
         {"label": "Titanic survival EDA", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\ntitanic = sns.load_dataset(\'titanic\')\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 9))\n# Survival by class\nsns.barplot(data=titanic, x=\'class\', y=\'survived\', hue=\'sex\',\n            palette=\'Set1\', capsize=0.08, ax=axes[0,0])\naxes[0,0].set_title(\'Survival Rate by Class & Sex\')\naxes[0,0].set_ylim(0,1)\n\n# Age distribution by survival\nsns.kdeplot(data=titanic.dropna(subset=[\'age\']), x=\'age\', hue=\'survived\',\n            fill=True, alpha=0.4, palette=\'Set2\', ax=axes[0,1])\naxes[0,1].set_title(\'Age Distribution by Survival\')\n\n# Fare vs survival (box)\nsns.boxplot(data=titanic, x=\'class\', y=\'fare\', hue=\'survived\',\n            palette=\'pastel\', ax=axes[1,0])\naxes[1,0].set_title(\'Fare Distribution by Class & Survival\')\n\n# Count by embarkation port\nsns.countplot(data=titanic, x=\'embarked\', hue=\'survived\',\n              palette=\'Set2\', ax=axes[1,1])\naxes[1,1].set_title(\'Counts by Port of Embarkation\')\n\nfig.suptitle(\'Titanic Dataset — EDA Dashboard\', fontweight=\'bold\', fontsize=13)\nfig.tight_layout()\nfig.savefig(\'titanic_eda.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved titanic_eda.png\')"},
@@ -2905,6 +3097,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "30. Object-Oriented Seaborn",
+"practices": [
+{
+"title": 'Plot Spec',
+"desc": 'Describe a plot declaratively.',
+"starter": "def plot_spec(kind, x, y):\n    # TODO: {'kind': kind, 'x': x, 'y': y}\n    return {}\n\nprint(plot_spec('bar', 'a', 'b'))",
+"check": "assert plot_spec('bar', 'a', 'b') == {'kind': 'bar', 'x': 'a', 'y': 'b'}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Use the modern Seaborn Figure API: create a Figure object, add Subplots with share axes, and chain .plot() calls. Use Figure.save() and Figure.show(). Available in Seaborn 0.12+.",
 "examples": [
         {"label": "Seaborn objects API: basic scatter", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nimport seaborn.objects as so\nsns.set_theme(style=\'whitegrid\')\ntips = sns.load_dataset(\'tips\')\n\np = (\n    so.Plot(tips, x=\'total_bill\', y=\'tip\', color=\'sex\')\n    .add(so.Dot(alpha=0.6, pointsize=5))\n    .add(so.Line(), so.PolyFit(order=1))\n    .label(x=\'Total Bill ($)\', y=\'Tip ($)\', color=\'Sex\',\n           title=\'Tips: Scatter + Regression (objects API)\')\n)\np.save(\'so_scatter.png\', dpi=120, bbox_inches=\'tight\')\nprint(\'Saved so_scatter.png\')"},
@@ -2926,6 +3126,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "31. Color Systems & Accessibility",
+"practices": [
+{
+"title": 'Contrast Ratio',
+"desc": 'WCAG contrast ratio of two luminances.',
+"starter": 'def contrast_ratio(l1, l2):\n    # TODO: (lighter + 0.05) / (darker + 0.05), rounded to 3\n    return 0.0\n\nprint(contrast_ratio(1.0, 0.0))',
+"check": "assert contrast_ratio(1.0, 0.0) == 21.0\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Choose colorblind-safe palettes, use perceptually uniform colormaps, distinguish sequential vs. diverging vs. qualitative palettes, and apply Seaborn color_palette utilities.",
 "examples": [
         {"label": "Qualitative palettes for categorical data", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nsns.set_theme(style=\'whitegrid\')\nnp.random.seed(0)\ndf = pd.DataFrame({\n    \'value\': np.random.randn(200),\n    \'group\': np.random.choice(list(\'ABCDE\'), 200)\n})\n\nqual_palettes = [\'Set1\',\'Set2\',\'Set3\',\'tab10\',\'colorblind\',\'deep\']\nfig, axes = plt.subplots(2, 3, figsize=(14, 8))\nfor ax, pal in zip(axes.flat, qual_palettes):\n    sns.boxplot(data=df, x=\'group\', y=\'value\', palette=pal, ax=ax)\n    ax.set_title(f\'palette=\"{pal}\"\')\nfig.suptitle(\'Qualitative Palettes Comparison\', fontweight=\'bold\', fontsize=13)\nfig.tight_layout()\nfig.savefig(\'qual_palettes.png\', dpi=120, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved qual_palettes.png\')"},
@@ -2947,6 +3155,14 @@ print("Saved practice_custom.png")"""
 
 {
 "title": "32. Seaborn Dashboard Composition",
+"practices": [
+{
+"title": 'Panel Positions',
+"desc": '(row, col) of each panel in reading order.',
+"starter": 'def dashboard_grid(n, cols):\n    # TODO: [(i//cols, i%cols) for i in range(n)]\n    return []\n\nprint(dashboard_grid(3, 2))',
+"check": "assert dashboard_grid(3, 2) == [(0, 0), (0, 1), (1, 0)]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Combine multiple seaborn plot types, matplotlib GridSpec, annotation overlays, and consistent theming to produce publication-quality, multi-panel analytical dashboards.",
 "examples": [
         {"label": "4-panel EDA dashboard", "code": "import matplotlib\nmatplotlib.use(\'Agg\')\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nfrom matplotlib.gridspec import GridSpec\n\nsns.set_theme(style=\'whitegrid\', palette=\'Set2\', font_scale=0.95)\nnp.random.seed(42)\ndf = pd.DataFrame({\n    \'revenue\': np.random.lognormal(5, 0.5, 300),\n    \'spend\':   np.random.uniform(1000, 10000, 300),\n    \'channel\': np.random.choice([\'Search\',\'Social\',\'Email\',\'Direct\'], 300),\n    \'month\':   np.random.choice(range(1,13), 300)\n})\ndf[\'revenue\'] = df[\'spend\'] * np.random.uniform(0.1, 0.5, 300) + np.random.randn(300)*50\n\nfig = plt.figure(figsize=(14, 9))\ngs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.35)\n\nax1 = fig.add_subplot(gs[0, :2])\nax2 = fig.add_subplot(gs[0, 2])\nax3 = fig.add_subplot(gs[1, :])\n\nsns.scatterplot(data=df, x=\'spend\', y=\'revenue\', hue=\'channel\',\n                style=\'channel\', s=50, alpha=0.6, ax=ax1)\nax1.set_title(\'Revenue vs Spend by Channel\', fontweight=\'bold\')\n\nsns.violinplot(data=df, x=\'channel\', y=\'revenue\', palette=\'Set2\',\n               inner=\'quartile\', ax=ax2)\nax2.set_title(\'Revenue Distribution\', fontweight=\'bold\')\nax2.set_xticklabels(ax2.get_xticklabels(), rotation=20, ha=\'right\', fontsize=8)\n\nmonth_agg = df.groupby([\'month\',\'channel\'])[\'revenue\'].mean().reset_index()\nsns.lineplot(data=month_agg, x=\'month\', y=\'revenue\', hue=\'channel\',\n             palette=\'Set2\', linewidth=2, markers=True, ax=ax3)\nax3.set_title(\'Monthly Average Revenue by Channel\', fontweight=\'bold\')\nax3.set_xlabel(\'Month\')\n\nfig.suptitle(\'Marketing Revenue Dashboard\', fontsize=14, fontweight=\'bold\')\nfig.savefig(\'sns_dashboard.png\', dpi=150, bbox_inches=\'tight\')\nplt.close()\nprint(\'Saved sns_dashboard.png\')"},
