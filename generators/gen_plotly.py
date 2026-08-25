@@ -622,6 +622,14 @@ fig.show()"""}
 
 {
 "title": "3. Histogram & Box Plot",
+"practices": [
+{
+"title": 'Bin Edges',
+"desc": 'px.histogram picks bin edges; compute the same edges yourself.',
+"starter": 'import numpy as np\n\ndef bin_edges(v, nbins):\n    # TODO: np.linspace(min, max, nbins+1) rounded to 4 as a list\n    return []\n\nprint(bin_edges([0, 10], 2))',
+"check": "assert bin_edges([0, 10], 2) == [0.0, 5.0, 10.0]\nassert len(bin_edges([1, 2, 3], 4)) == 5\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "px.histogram and px.box create interactive distribution charts. Hover shows exact statistics; click legend to toggle groups.",
 "examples": [
 {"label": "px.histogram with marginal", "code":
@@ -865,6 +873,14 @@ fig.show()"""}
 
 {
 "title": "4. Heatmap & Scatter Matrix",
+"practices": [
+{
+"title": 'Correlation Cell',
+"desc": 'Every heatmap cell in a scatter matrix is one pairwise correlation.',
+"starter": 'import numpy as np\n\ndef corr_cell(x, y):\n    # TODO: Pearson correlation of x and y, rounded to 4\n    return 0.0\n\nprint(corr_cell([1, 2, 3], [2, 4, 6]))',
+"check": "assert corr_cell([1, 2, 3], [2, 4, 6]) == 1.0\nassert corr_cell([1, 2, 3], [3, 2, 1]) == -1.0\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "px.imshow renders 2D matrices as interactive heatmaps. px.scatter_matrix creates an interactive pairplot grid.",
 "examples": [
 {"label": "px.imshow — correlation heatmap", "code":
@@ -1741,6 +1757,14 @@ fig.show()"""}
 
 {
 "title": "7. Customizing Layout & Traces",
+"practices": [
+{
+"title": 'Layout Update',
+"desc": 'fig.update_layout merges a dict of settings into the existing layout.',
+"starter": "def update_layout(layout, changes):\n    # TODO: merge, with changes winning\n    return {}\n\nprint(update_layout({'title': 'a'}, {'width': 700}))",
+"check": "assert update_layout({'title': 'a'}, {'width': 700}) == {'title': 'a', 'width': 700}\nassert update_layout({'w': 1}, {'w': 2}) == {'w': 2}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "update_layout() controls the figure-level design. update_traces() modifies all traces at once. Both accept selector filtering.",
 "examples": [
 {"label": "update_layout — theme and fonts", "code":
@@ -1992,6 +2016,14 @@ fig.show()"""}
 
 {
 "title": "8. Animated Charts",
+"practices": [
+{
+"title": 'Animation Frames',
+"desc": 'An animated chart is a list of frames, one per value of the animation key.',
+"starter": "def frame_keys(rows, key):\n    # TODO: sorted unique values of row[key]\n    return []\n\nprint(frame_keys([{'year': 2021}, {'year': 2020}, {'year': 2021}], 'year'))",
+"check": "assert frame_keys([{'year': 2021}, {'year': 2020}, {'year': 2021}], 'year') == [2020, 2021]\nassert frame_keys([], 'year') == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "animation_frame adds a play button to animate over a variable (e.g. year, month). Great for showing trends over time.",
 "examples": [
 {"label": "Animated bubble chart", "code":
@@ -2446,6 +2478,14 @@ fig.show()"""}
 
 {
 "title": "10. Exporting & Sharing",
+"practices": [
+{
+"title": 'Export Format',
+"desc": 'write_html and write_image pick their writer from the file extension.',
+"starter": "def export_kind(filename):\n    # TODO: 'html' for .html, 'image' for .png/.jpg/.svg/.pdf, else 'unknown'\n    return 'unknown'\n\nprint(export_kind('fig.html'), export_kind('fig.png'), export_kind('fig.txt'))",
+"check": "assert export_kind('fig.html') == 'html'\nassert export_kind('fig.png') == 'image' and export_kind('a.svg') == 'image'\nassert export_kind('fig.txt') == 'unknown'\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Save charts as interactive HTML, static PNG/PDF/SVG (requires kaleido), or embed in web apps via fig.to_json().",
 "examples": [
 {"label": "Export to HTML and JSON", "code":
@@ -2673,6 +2713,14 @@ os.remove(out)"""}
 ,
 {
     "title": "11. 3D Charts",
+"practices": [
+{
+"title": 'Camera Distance',
+"desc": 'The 3D camera sits at a point; its distance from the origin sets the zoom.',
+"starter": 'import numpy as np\n\ndef camera_distance(eye):\n    # TODO: euclidean norm of (x, y, z), rounded to 4\n    return 0.0\n\nprint(camera_distance((1.25, 1.25, 1.25)))',
+"check": "assert camera_distance((3, 4, 0)) == 5.0\nassert camera_distance((0, 0, 0)) == 0.0\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Create interactive 3D visualizations — scatter plots, surface plots, and line trajectories — that users can rotate and zoom in the browser.",
     "examples": [
         {
@@ -2709,6 +2757,14 @@ os.remove(out)"""}
 },
 {
     "title": "12. Geographic Maps",
+"practices": [
+{
+"title": 'Map Bounding Box',
+"desc": 'Fitting a choropleth to its data means finding the bounds of the points.',
+"starter": 'def bounding_box(points):\n    # TODO: (min_lat, min_lon, max_lat, max_lon) over (lat, lon) pairs\n    return (0, 0, 0, 0)\n\nprint(bounding_box([(10, 20), (30, 5)]))',
+"check": "assert bounding_box([(10, 20), (30, 5)]) == (10, 5, 30, 20)\nassert bounding_box([(1, 1)]) == (1, 1, 1, 1)\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Visualize spatial data with choropleth maps, scatter geo, and mapbox — pinpoint patterns across countries, US states, and cities.",
     "examples": [
         {
@@ -2745,6 +2801,14 @@ os.remove(out)"""}
 },
 {
     "title": "13. Animations",
+"practices": [
+{
+"title": 'Interpolate a Frame',
+"desc": "Smooth transitions interpolate between two frames' values.",
+"starter": 'def tween(a, b, t):\n    # TODO: a + (b - a) * t for each pair, rounded to 4\n    return []\n\nprint(tween([0, 10], [10, 20], 0.5))',
+"check": "assert tween([0, 10], [10, 20], 0.5) == [5.0, 15.0]\nassert tween([1], [3], 0.0) == [1.0]\nprint('All checks passed \\u2713')",
+},
+],
     "desc": "Bring data to life with Plotly animations — animated scatter plots, bar chart races, and frame-by-frame time-lapse visualizations.",
     "examples": [
         {
@@ -2782,6 +2846,14 @@ os.remove(out)"""}
 
     {
         "title": "14. Plotly Dash Fundamentals",
+"practices": [
+{
+"title": 'Callback Signature',
+"desc": 'A Dash callback declares its outputs and inputs by component id and property.',
+"starter": "def callback_spec(outputs, inputs):\n    # TODO: {'outputs': ['id.prop', ...], 'inputs': ['id.prop', ...]} from (id, prop) pairs\n    return {}\n\nprint(callback_spec([('graph', 'figure')], [('slider', 'value')]))",
+"check": "s = callback_spec([('graph', 'figure')], [('slider', 'value')])\nassert s == {'outputs': ['graph.figure'], 'inputs': ['slider.value']}\nassert callback_spec([], []) == {'outputs': [], 'inputs': []}\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Dash app structure (code pattern)",
@@ -2817,6 +2889,14 @@ os.remove(out)"""}
     },
     {
         "title": "15. Map Visualizations",
+"practices": [
+{
+"title": 'Haversine Distance',
+"desc": 'Great-circle distance between two lat/lon points, in kilometres.',
+"starter": 'import numpy as np\n\ndef haversine_km(a, b):\n    # TODO: 6371 * 2 * arcsin(sqrt(sin(dlat/2)**2 + cos(lat1)*cos(lat2)*sin(dlon/2)**2)), rounded to 2\n    return 0.0\n\nprint(haversine_km((0, 0), (0, 1)))',
+"check": "assert abs(haversine_km((0, 0), (0, 1)) - 111.19) < 0.1\nassert haversine_km((10, 10), (10, 10)) == 0.0\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Choropleth world map",
@@ -2852,6 +2932,14 @@ os.remove(out)"""}
     },
     {
         "title": "16. 3D Plots & Surface Visualizations",
+"practices": [
+{
+"title": 'Surface Grid',
+"desc": 'go.Surface needs a Z matrix evaluated over a meshgrid.',
+"starter": 'import numpy as np\n\ndef surface_z(n):\n    # TODO: z[i][j] = i + j over an n by n grid, as a nested list of ints\n    return []\n\nprint(surface_z(2))',
+"check": "assert surface_z(2) == [[0, 1], [1, 2]]\nassert len(surface_z(3)) == 3\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "3D surface with contour projections",
@@ -2887,6 +2975,14 @@ os.remove(out)"""}
     },
 {
 "title": "17. Candlestick & Financial Charts",
+"practices": [
+{
+"title": 'Candle Direction',
+"desc": 'Each candle is green when it closes at or above its open, red otherwise.',
+"starter": "def candle_colors(opens, closes):\n    # TODO: 'green' when close >= open, else 'red'\n    return []\n\nprint(candle_colors([10, 10], [11, 9]))",
+"check": "assert candle_colors([10, 10], [11, 9]) == ['green', 'red']\nassert candle_colors([5], [5]) == ['green']\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Plotly\'s go.Candlestick and go.Ohlc render OHLC price data with interactive zoom, range slectors, and volume overlays — essential for financial dashboards.",
 "examples": [
         {"label": "Basic candlestick with volume overlay", "code": "import plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\ndates = pd.date_range(\'2024-01-01\', periods=60, freq=\'B\')\nclose = 100 + np.cumsum(np.random.randn(60) * 1.5)\nopen_ = close + np.random.randn(60) * 0.8\nhigh  = np.maximum(open_, close) + np.abs(np.random.randn(60) * 0.5)\nlow   = np.minimum(open_, close) - np.abs(np.random.randn(60) * 0.5)\nvolume = np.random.randint(1_000_000, 5_000_000, 60)\n\nfig = make_subplots(rows=2, cols=1, shared_xaxes=True,\n                    vertical_spacing=0.03, row_heights=[0.75, 0.25])\n\nfig.add_trace(go.Candlestick(x=dates, open=open_, high=high,\n                              low=low, close=close, name=\'OHLC\',\n                              increasing_line_color=\'#26a69a\',\n                              decreasing_line_color=\'#ef5350\'), row=1, col=1)\n\ncolors = [\'#26a69a\' if c >= o else \'#ef5350\' for c, o in zip(close, open_)]\nfig.add_trace(go.Bar(x=dates, y=volume, name=\'Volume\',\n                     marker_color=colors, opacity=0.7), row=2, col=1)\n\nfig.update_layout(title=\'OHLC Price + Volume\', xaxis_rangeslider_visible=False,\n                  template=\'plotly_dark\', height=500)\nfig.update_yaxes(title_text=\'Price ($)\', row=1)\nfig.update_yaxes(title_text=\'Volume\', row=2)\nfig.write_html(\'candlestick.html\')\nprint(\'Chart saved\')"},
@@ -2914,6 +3010,14 @@ os.remove(out)"""}
 
 {
 "title": "18. Treemap & Sunburst Charts",
+"practices": [
+{
+"title": 'Roll Up the Branches',
+"desc": "A treemap parent's value is the sum of its children.",
+"starter": "def rollup(rows):\n    # TODO: {parent: total value} over {'parent':..., 'value':...} rows\n    return {}\n\nprint(rollup([{'parent': 'a', 'value': 1}, {'parent': 'a', 'value': 2}]))",
+"check": "assert rollup([{'parent': 'a', 'value': 1}, {'parent': 'a', 'value': 2}]) == {'a': 3}\nassert rollup([]) == {}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Treemaps and sunbursts visualize hierarchical data where area/angle encodes value. Use them for budget breakdowns, file system sizes, market cap, and org charts.",
 "examples": [
         {"label": "Treemap from flat DataFrame", "code": "import plotly.express as px\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \'category\': [\'Electronics\',\'Electronics\',\'Electronics\',\n                 \'Clothing\',\'Clothing\',\'Food\',\'Food\',\'Food\',\'Food\'],\n    \'subcategory\': [\'Phones\',\'Laptops\',\'Tablets\',\n                    \'Shirts\',\'Pants\',\'Dairy\',\'Bakery\',\'Produce\',\'Frozen\'],\n    \'sales\': [4500, 3200, 1800, 2100, 1600, 900, 750, 1200, 680],\n    \'profit\': [900, 480, 270, 420, 240, 135, 112, 180, 102],\n})\n\nfig = px.treemap(df,\n    path=[\'category\', \'subcategory\'],\n    values=\'sales\',\n    color=\'profit\',\n    color_continuous_scale=\'RdYlGn\',\n    title=\'Sales Treemap by Category → Subcategory\',\n    hover_data={\'profit\': \':,.0f\'},\n)\nfig.update_traces(textinfo=\'label+value+percent root\')\nfig.write_html(\'treemap_sales.html\')\nprint(f\'Treemap saved — {len(df)} rows\')"},
@@ -2941,6 +3045,14 @@ os.remove(out)"""}
 
 {
 "title": "19. Violin & Strip Charts",
+"practices": [
+{
+"title": 'Violin Quartiles',
+"desc": "A violin's inner box marks Q1, the median and Q3.",
+"starter": 'import numpy as np\n\ndef violin_quartiles(v):\n    # TODO: (Q1, median, Q3) as floats, rounded to 4\n    return (0.0, 0.0, 0.0)\n\nprint(violin_quartiles([1, 2, 3, 4, 5]))',
+"check": "assert violin_quartiles([1, 2, 3, 4, 5]) == (2.0, 3.0, 4.0)\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Violin plots combine a KDE curve with a box plot to show distribution shape. Strip/jitter plots show individual data points — great for small-to-medium datasets.",
 "examples": [
         {"label": "Violin with box and points overlay", "code": "import plotly.express as px\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\ngroups = [\'Control\', \'Treatment A\', \'Treatment B\']\ndata = pd.concat([\n    pd.DataFrame({\'group\': g,\n                  \'score\': np.random.normal(loc, 12, 80)})\n    for g, loc in zip(groups, [50, 62, 71])\n])\n\nfig = px.violin(data, x=\'group\', y=\'score\', color=\'group\',\n                box=True, points=\'all\',\n                title=\'Score Distribution by Treatment Group\',\n                labels={\'score\': \'Test Score\', \'group\': \'Group\'},\n                color_discrete_sequence=px.colors.qualitative.Pastel)\n\nfig.update_traces(meanline_visible=True, jitter=0.3, pointpos=-1.8,\n                  marker=dict(size=4, opacity=0.5))\nfig.update_layout(showlegend=False, height=450)\nfig.write_html(\'violin_groups.html\')\nprint(\'Violin chart saved\')"},
@@ -2968,6 +3080,14 @@ os.remove(out)"""}
 
 {
 "title": "20. Parallel Coordinates & Categories",
+"practices": [
+{
+"title": 'Normalize the Axes',
+"desc": 'Parallel coordinates rescale every dimension onto 0..1.',
+"starter": 'import numpy as np\n\ndef minmax(v):\n    # TODO: (x - min) / (max - min), rounded to 4; all zeros when the range is 0\n    return []\n\nprint(minmax([10, 20, 30]))',
+"check": "assert minmax([10, 20, 30]) == [0.0, 0.5, 1.0]\nassert minmax([5, 5]) == [0.0, 0.0]\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Parallel coordinates show multi-dimensional continuous data on parallel axes — each line is one observation. Parallel categories (Sankey-style) show flows between categorical variables.",
 "examples": [
         {"label": "Parallel coordinates for ML feature analysis", "code": "import plotly.express as px\nfrom sklearn.datasets import load_iris\nimport pandas as pd\n\niris = load_iris()\ndf = pd.DataFrame(iris.data, columns=iris.feature_names)\ndf[\'species\'] = iris.target  # 0, 1, 2\n\nfig = px.parallel_coordinates(\n    df,\n    color=\'species\',\n    dimensions=iris.feature_names,\n    color_continuous_scale=px.colors.diverging.Tealrose,\n    color_continuous_midpoint=1,\n    title=\'Iris Dataset — Parallel Coordinates\',\n    labels={n: n.replace(\' (cm)\', \'\') for n in iris.feature_names},\n)\nfig.update_layout(height=430)\nfig.write_html(\'parallel_coords_iris.html\')\nprint(\'Drag axes to filter! Saved.\')"},
@@ -2995,6 +3115,14 @@ os.remove(out)"""}
 
 {
 "title": "21. Funnel & Waterfall Charts",
+"practices": [
+{
+"title": 'Funnel Conversion',
+"desc": 'Each funnel stage keeps a fraction of the stage above it.',
+"starter": 'def conversion_rates(counts):\n    # TODO: stage[i] / stage[i-1] as percentages rounded to 2, one per step after the first\n    return []\n\nprint(conversion_rates([1000, 500, 250]))',
+"check": "assert conversion_rates([1000, 500, 250]) == [50.0, 50.0]\nassert conversion_rates([10]) == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Funnel charts show sequential stage drop-off (sales pipelines, conversion funnels). Waterfall charts show cumulative effects of positive and negative values — perfect for P&L statements.",
 "examples": [
         {"label": "Sales funnel with conversion rates", "code": "import plotly.graph_objects as go\n\nstages = [\'Website Visits\', \'Product Views\', \'Add to Cart\',\n          \'Checkout Started\', \'Purchase Completed\']\ncounts = [10000, 5200, 2100, 980, 420]\n\nconversion = [f\'{counts[i]/counts[i-1]:.0%}\' if i > 0 else \'100%\'\n              for i in range(len(counts))]\n\nfig = go.Figure(go.Funnel(\n    y=stages,\n    x=counts,\n    textposition=\'inside\',\n    textinfo=\'value+percent previous\',\n    opacity=0.85,\n    marker=dict(\n        color=[\'#636EFA\',\'#EF553B\',\'#00CC96\',\'#AB63FA\',\'#FFA15A\'],\n        line=dict(width=2, color=\'white\'),\n    ),\n    connector=dict(line=dict(color=\'#888\', width=1)),\n))\nfig.update_layout(\n    title=\'E-Commerce Conversion Funnel\',\n    template=\'plotly_white\',\n    height=420,\n    margin=dict(l=200),\n)\nfig.write_html(\'sales_funnel.html\')\nprint(f\'Overall conversion: {counts[-1]/counts[0]:.1%}\')"},
@@ -3022,6 +3150,14 @@ os.remove(out)"""}
 
 {
 "title": "22. Indicator & Gauge Charts",
+"practices": [
+{
+"title": 'Gauge Delta',
+"desc": 'An indicator shows the change against its reference value.',
+"starter": "def gauge_delta(value, reference):\n    # TODO: {'absolute': value - reference, 'percent': change vs reference in %, rounded to 2}\n    return {}\n\nprint(gauge_delta(120, 100))",
+"check": "assert gauge_delta(120, 100) == {'absolute': 20, 'percent': 20.0}\nassert gauge_delta(90, 100)['percent'] == -10.0\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "go.Indicator renders KPI numbers, delta comparisons, and gauge/speedometer charts. Combine them in subplots to build executive dashboards without any extra libraries.",
 "examples": [
         {"label": "KPI indicators with delta", "code": "import plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\n\nfig = make_subplots(rows=1, cols=4,\n                    specs=[[{\'type\':\'indicator\'}]*4])\n\nkpis = [\n    (\'Revenue\',  \'1.24M\',  1_240_000, 1_100_000),\n    (\'Users\',    \'48.3K\',  48_300,    45_100),\n    (\'Churn %\',  \'2.1%\',   2.1,       2.8),\n    (\'NPS\',      \'67\',     67,        61),\n]\n\nfor col, (name, num_str, val, ref) in enumerate(kpis, 1):\n    better_if_lower = \'churn\' in name.lower()\n    fig.add_trace(go.Indicator(\n        mode=\'number+delta\',\n        value=val,\n        title=dict(text=name, font=dict(size=14)),\n        delta=dict(\n            reference=ref,\n            increasing=dict(color=\'red\' if better_if_lower else \'green\'),\n            decreasing=dict(color=\'green\' if better_if_lower else \'red\'),\n            valueformat=\'.1%\' if \'%\' in num_str else None,\n        ),\n        number=dict(\n            prefix=\'$\' if \'M\' in num_str else \'\',\n            suffix=\'%\' if \'%\' in num_str else \'\',\n        ),\n    ), row=1, col=col)\n\nfig.update_layout(title=\'Business KPI Dashboard\', height=200,\n                  template=\'plotly_dark\', margin=dict(t=50, b=20))\nfig.write_html(\'kpi_indicators.html\')\nprint(\'KPI dashboard saved\')"},
@@ -3049,6 +3185,14 @@ os.remove(out)"""}
 
 {
 "title": "23. Animated Bar Chart Race & Timelines",
+"practices": [
+{
+"title": 'Rank the Frame',
+"desc": 'A bar chart race re-ranks the bars in every frame.',
+"starter": "def rank_frame(values):\n    # TODO: names sorted by value, largest first, from a {name: value} dict\n    return []\n\nprint(rank_frame({'a': 1, 'b': 5}))",
+"check": "assert rank_frame({'a': 1, 'b': 5}) == ['b', 'a']\nassert rank_frame({}) == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Plotly animations use frames and sliders to animate data over time. Bar chart races, animated scatter plots, and timeline maps reveal how data evolves.",
 "examples": [
         {"label": "Bar chart race with animation frames", "code": "import plotly.graph_objects as go\nimport numpy as np, pandas as pd\n\nnp.random.seed(42)\ncompanies = [\'Alpha\',\'Beta\',\'Gamma\',\'Delta\',\'Epsilon\',\'Zeta\']\nyears = list(range(2015, 2025))\n\n# Generate cumulative revenue data\nrevenues = {c: np.cumsum(np.random.exponential(10, len(years))) * (1 + 0.1 * i)\n            for i, c in enumerate(companies)}\ndf = pd.DataFrame(revenues, index=years)\n\nframes = []\nfor year in years:\n    row = df.loc[year].sort_values(ascending=True)\n    frames.append(go.Frame(\n        data=[go.Bar(x=row.values, y=row.index,\n                     orientation=\'h\',\n                     marker_color=px_colors := [\n                         \'#636EFA\',\'#EF553B\',\'#00CC96\',\'#AB63FA\',\n                         \'#FFA15A\',\'#19D3F3\'][:len(row)],\n                     text=[f\'${v:.0f}B\' for v in row.values],\n                     textposition=\'outside\')],\n        name=str(year),\n        layout=go.Layout(title_text=f\'Company Revenue Race — {year}\')\n    ))\n\nfirst = df.loc[years[0]].sort_values(ascending=True)\nfig = go.Figure(\n    data=[go.Bar(x=first.values, y=first.index, orientation=\'h\',\n                 marker_color=[\'#636EFA\',\'#EF553B\',\'#00CC96\',\n                               \'#AB63FA\',\'#FFA15A\',\'#19D3F3\'][:len(first)],\n                 text=[f\'${v:.0f}B\' for v in first.values],\n                 textposition=\'outside\')],\n    frames=frames,\n    layout=go.Layout(\n        title=f\'Company Revenue Race — {years[0]}\',\n        xaxis=dict(range=[0, df.values.max()*1.15], title=\'Revenue ($B)\'),\n        updatemenus=[dict(type=\'buttons\', showactive=False,\n                          buttons=[dict(label=\'Play\',\n                                       method=\'animate\',\n                                       args=[None, dict(frame=dict(duration=600, redraw=True),\n                                                        fromcurrent=True)])])],\n        sliders=[dict(steps=[dict(method=\'animate\', args=[[str(y)]], label=str(y))\n                             for y in years],\n                      currentvalue=dict(prefix=\'Year: \'))],\n        height=450, template=\'plotly_dark\',\n    )\n)\nfig.write_html(\'bar_race.html\')\nprint(\'Bar chart race saved\')"},
@@ -3076,6 +3220,14 @@ os.remove(out)"""}
 
 {
 "title": "24. Custom Templates & Styling",
+"practices": [
+{
+"title": 'Compose Templates',
+"desc": 'Plotly layers a custom template over a base one.',
+"starter": "def compose_template(base, custom):\n    # TODO: merge base into custom, with custom winning\n    return {}\n\nprint(compose_template({'font': 'Arial', 'bg': 'white'}, {'bg': 'black'}))",
+"check": "assert compose_template({'font': 'Arial', 'bg': 'white'}, {'bg': 'black'}) == {'font': 'Arial', 'bg': 'black'}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Plotly templates define default colors, fonts, backgrounds, and axis styles. Create reusable brand templates with pio.templates and apply them globally or per-chart.",
 "examples": [
         {"label": "Creating and applying a custom template", "code": "import plotly.graph_objects as go\nimport plotly.io as pio\nimport plotly.express as px\n\n# Define a brand template\nbrand_template = go.layout.Template(\n    layout=go.Layout(\n        font=dict(family=\'Arial\', size=13, color=\'#2c2c2c\'),\n        paper_bgcolor=\'#f8f9fa\',\n        plot_bgcolor=\'#ffffff\',\n        colorway=[\'#005A9E\',\'#E63946\',\'#06D6A0\',\'#FFB703\',\'#8338EC\'],\n        title=dict(font=dict(size=18, color=\'#005A9E\', family=\'Arial Bold\')),\n        xaxis=dict(gridcolor=\'#e9ecef\', linecolor=\'#dee2e6\', zeroline=False),\n        yaxis=dict(gridcolor=\'#e9ecef\', linecolor=\'#dee2e6\', zeroline=False),\n        legend=dict(bgcolor=\'rgba(255,255,255,0.8)\',\n                    bordercolor=\'#dee2e6\', borderwidth=1),\n        hoverlabel=dict(bgcolor=\'white\', font_size=12,\n                        bordercolor=\'#dee2e6\'),\n    )\n)\n\n# Register the template\npio.templates[\'brand\'] = brand_template\npio.templates.default = \'brand\'   # set as global default\n\nimport numpy as np, pandas as pd\nnp.random.seed(42)\ndf = pd.DataFrame({\n    \'month\': pd.date_range(\'2024-01\', periods=12, freq=\'MS\'),\n    \'product_a\': np.cumsum(np.random.randn(12)*5) + 100,\n    \'product_b\': np.cumsum(np.random.randn(12)*4) + 80,\n})\n\nfig = px.line(df, x=\'month\', y=[\'product_a\',\'product_b\'],\n              title=\'Monthly Sales — Brand Template\',\n              labels={\'value\':\'Revenue ($K)\', \'variable\':\'Product\'})\nfig.write_html(\'brand_template.html\')\nprint(\'Brand template chart saved\')\n\n# Reset to default\npio.templates.default = \'plotly\'"},

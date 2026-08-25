@@ -492,6 +492,14 @@ SECTIONS = [
     },
     {
         "title": "3. Experiment Tracking with MLflow",
+"practices": [
+{
+"title": 'Best Run',
+"desc": 'Pick the winning run from a set of tracked metrics.',
+"starter": "def best_run(runs, metric, maximize=True):\n    # TODO: the run_id of the best run by runs[i][metric]\n    return None\n\nprint(best_run([{'run_id': 'a', 'auc': 0.8}, {'run_id': 'b', 'auc': 0.9}], 'auc'))",
+"check": "assert best_run([{'run_id': 'a', 'auc': 0.8}, {'run_id': 'b', 'auc': 0.9}], 'auc') == 'b'\nassert best_run([{'run_id': 'a', 'rmse': 2}, {'run_id': 'b', 'rmse': 1}], 'rmse', False) == 'b'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Track experiments, log parameters and metrics, compare runs, and register models for deployment using MLflow.",
         "examples": [
             {
@@ -662,6 +670,14 @@ SECTIONS = [
     },
     {
         "title": "4. Docker for ML Models",
+"practices": [
+{
+"title": 'Image Tag',
+"desc": 'Build the fully-qualified image reference a registry expects.',
+"starter": "def image_tag(registry, name, version):\n    # TODO: 'registry/name:version', or 'name:version' when registry is empty\n    return ''\n\nprint(image_tag('ghcr.io/acme', 'ranker', '1.2.0'))",
+"check": "assert image_tag('ghcr.io/acme', 'ranker', '1.2.0') == 'ghcr.io/acme/ranker:1.2.0'\nassert image_tag('', 'ranker', 'latest') == 'ranker:latest'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Package ML models and APIs in Docker containers for reproducible, portable deployment. Learn Dockerfiles, image building, and running containers.",
         "examples": [
             {
@@ -1035,6 +1051,14 @@ SECTIONS = [
     },
     {
         "title": "6. CI/CD for ML Pipelines",
+"practices": [
+{
+"title": 'Gate the Deploy',
+"desc": 'A pipeline promotes a model only when every gate passes.',
+"starter": "def should_deploy(gates):\n    # TODO: True only when every value in the dict is True\n    return False\n\nprint(should_deploy({'tests': True, 'metric': True}), should_deploy({'tests': False}))",
+"check": "assert should_deploy({'tests': True, 'metric': True}) is True\nassert should_deploy({'tests': True, 'metric': False}) is False\nassert should_deploy({}) is True\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Automate model training, testing, and deployment with CI/CD. Learn to write GitHub Actions workflows and automated model validation.",
         "examples": [
             {
@@ -1214,6 +1238,14 @@ SECTIONS = [
     },
     {
         "title": "7. Feature Stores & Pipelines",
+"practices": [
+{
+"title": 'Point-in-Time Lookup',
+"desc": 'A feature store returns the latest value at or before the event time.',
+"starter": "def as_of(history, ts):\n    # TODO: the value of the latest (timestamp, value) pair with timestamp <= ts, else None\n    return None\n\nprint(as_of([(1, 'a'), (5, 'b'), (9, 'c')], 6))",
+"check": "assert as_of([(1, 'a'), (5, 'b'), (9, 'c')], 6) == 'b'\nassert as_of([(5, 'b')], 1) is None\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Build reproducible feature engineering pipelines. Use sklearn Pipeline, ColumnTransformer, and custom transformers for production-ready preprocessing.",
         "examples": [
             {
@@ -1587,6 +1619,14 @@ SECTIONS = [
     },
     {
         "title": "9. Model Explainability",
+"practices": [
+{
+"title": 'Feature Attribution Share',
+"desc": 'SHAP values are usually reported as a share of total absolute attribution.',
+"starter": "def attribution_share(shap_values):\n    # TODO: {feature: |value| / total |values| * 100, rounded to 2}\n    return {}\n\nprint(attribution_share({'age': 3.0, 'income': -1.0}))",
+"check": "assert attribution_share({'age': 3.0, 'income': -1.0}) == {'age': 75.0, 'income': 25.0}\nassert attribution_share({'x': 0.0}) == {'x': 0.0}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Make black-box models interpretable. Use SHAP values, permutation importance, and LIME to explain individual predictions and global feature importance.",
         "examples": [
             {
@@ -1751,6 +1791,14 @@ SECTIONS = [
     },
     {
         "title": "10. End-to-End ML Project Structure",
+"practices": [
+{
+"title": 'Project Layout',
+"desc": 'Turn a project name into the standard directory layout.',
+"starter": "def project_dirs(root):\n    # TODO: ['root/data', 'root/models', 'root/notebooks', 'root/src', 'root/tests']\n    return []\n\nprint(project_dirs('churn'))",
+"check": "assert project_dirs('churn') == ['churn/data', 'churn/models', 'churn/notebooks', 'churn/src', 'churn/tests']\nassert len(project_dirs('a')) == 5\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Organize a full ML project with proper structure, configuration management, reproducible training scripts, and a deployment-ready layout.",
         "examples": [
             {
@@ -2011,6 +2059,14 @@ SECTIONS = [
     },
     {
         "title": "12. Feature Stores & Data Pipelines",
+"practices": [
+{
+"title": 'Freshness Check',
+"desc": 'A feature is stale when it has not been refreshed within its SLA.',
+"starter": "def stale_features(last_updated, now, sla_seconds):\n    # TODO: names whose age (now - last_updated) exceeds the SLA, sorted\n    return []\n\nprint(stale_features({'a': 0, 'b': 90}, 100, 50))",
+"check": "assert stale_features({'a': 0, 'b': 90}, 100, 50) == ['a']\nassert stale_features({'a': 100}, 100, 50) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Design and implement feature stores, data versioning, and reproducible pipelines for consistent feature serving between training and inference.",
         "examples": [
             {
@@ -2064,6 +2120,14 @@ SECTIONS = [
     },
     {
         "title": "13. AutoML & Hyperparameter Optimization",
+"practices": [
+{
+"title": 'Grid Size',
+"desc": 'A grid search evaluates every combination in the parameter space.',
+"starter": "def grid_size(space):\n    # TODO: the product of the number of options per parameter\n    return 0\n\nprint(grid_size({'lr': [0.1, 0.01], 'depth': [3, 5, 7]}))",
+"check": "assert grid_size({'lr': [0.1, 0.01], 'depth': [3, 5, 7]}) == 6\nassert grid_size({}) == 1\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Automate model selection and hyperparameter tuning using grid search, random search, Bayesian optimization (Optuna), and automated feature engineering.",
         "examples": [
             {
@@ -2119,6 +2183,14 @@ SECTIONS = [
     },
     {
         "title": "14. Model Monitoring & Data Drift Detection",
+"practices": [
+{
+"title": 'Population Stability Index',
+"desc": 'PSI compares an expected and an actual distribution bin by bin.',
+"starter": 'import numpy as np\n\ndef psi(expected, actual):\n    # TODO: sum((a - e) * log(a / e)) over the bin proportions, rounded to 4\n    return 0.0\n\nprint(psi([0.5, 0.5], [0.5, 0.5]))',
+"check": "assert psi([0.5, 0.5], [0.5, 0.5]) == 0.0\nassert psi([0.5, 0.5], [0.6, 0.4]) > 0\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Data Drift Detection with Population Stability Index",
@@ -2149,6 +2221,14 @@ SECTIONS = [
     },
     {
         "title": "15. Feature Stores & Data Engineering Pipelines",
+"practices": [
+{
+"title": 'Backfill Windows',
+"desc": 'Backfilling a feature means replaying it over fixed-size day windows.',
+"starter": 'def backfill_windows(total_days, window):\n    # TODO: (start, end) day offsets covering total_days, end exclusive\n    return []\n\nprint(backfill_windows(5, 2))',
+"check": "assert backfill_windows(5, 2) == [(0, 2), (2, 4), (4, 5)]\nassert backfill_windows(0, 3) == []\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "Feature Store Simulation with Feast-like API",
@@ -2179,6 +2259,14 @@ SECTIONS = [
     },
     {
         "title": "16. A/B Testing & Canary Deployments for ML",
+"practices": [
+{
+"title": 'Canary Split',
+"desc": 'A canary rollout sends a small share of traffic to the new model.',
+"starter": 'def canary_split(total, percent):\n    # TODO: (requests to canary, requests to baseline) using whole requests\n    return (0, 0)\n\nprint(canary_split(1000, 5))',
+"check": "assert canary_split(1000, 5) == (50, 950)\nassert canary_split(7, 0) == (0, 7)\nprint('All checks passed \\u2713')",
+},
+],
         "examples": [
             {
                 "label": "A/B Test Significance Calculator",
@@ -2208,6 +2296,14 @@ SECTIONS = [
         ]
     },{
         "title": "17. MLflow Experiment Tracking",
+"practices": [
+{
+"title": 'Flatten the Params',
+"desc": 'Nested config dicts are logged as dotted parameter names.',
+"starter": "def flatten_params(cfg, prefix=''):\n    # TODO: {'a.b': 1} style flat dict over nested dicts\n    return {}\n\nprint(flatten_params({'model': {'lr': 0.1}, 'seed': 0}))",
+"check": "assert flatten_params({'model': {'lr': 0.1}, 'seed': 0}) == {'model.lr': 0.1, 'seed': 0}\nassert flatten_params({}) == {}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "MLflow provides a unified platform to log parameters, metrics, and artifacts across ML experiments for reproducibility and comparison.",
         "examples": [
             {
@@ -2236,6 +2332,14 @@ SECTIONS = [
 
     {
         "title": "18. Data Versioning with DVC",
+"practices": [
+{
+"title": 'Content Hash',
+"desc": 'DVC addresses data by the hash of its contents, not its filename.',
+"starter": "import hashlib\n\ndef content_hash(data):\n    # TODO: the md5 hexdigest of the bytes\n    return ''\n\nprint(content_hash(b'abc'))",
+"check": "assert content_hash(b'abc') == '900150983cd24fb0d6963f7d28e17f72'\nassert content_hash(b'') == 'd41d8cd98f00b204e9800998ecf8427e'\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "DVC (Data Version Control) tracks datasets and model files alongside Git, enabling reproducible ML pipelines and dataset sharing.",
         "examples": [
             {
@@ -2264,6 +2368,14 @@ SECTIONS = [
 
     {
         "title": "19. Model Registry & Lifecycle Management",
+"practices": [
+{
+"title": 'Stage Transition',
+"desc": 'A registry allows only certain moves through the model lifecycle.',
+"starter": "def can_transition(src, dst):\n    # TODO: None->Staging, Staging->Production, Staging->Archived, Production->Archived\n    return False\n\nprint(can_transition('Staging', 'Production'), can_transition('None', 'Production'))",
+"check": "assert can_transition('None', 'Staging') is True\nassert can_transition('Staging', 'Production') is True\nassert can_transition('Production', 'Archived') is True\nassert can_transition('None', 'Production') is False\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "A model registry tracks model versions, manages stage transitions (Staging → Production), and provides a central hub for model governance.",
         "examples": [
             {
@@ -2292,6 +2404,14 @@ SECTIONS = [
 
     {
         "title": "20. Containerizing ML Models with Docker",
+"practices": [
+{
+"title": 'Layer Cache Hit',
+"desc": 'A rebuild reuses layers up to the first instruction that changed.',
+"starter": "def cached_layers(old, new):\n    # TODO: how many leading instructions are identical\n    return 0\n\nprint(cached_layers(['FROM py', 'COPY req', 'COPY src'], ['FROM py', 'COPY req', 'COPY app']))",
+"check": "assert cached_layers(['FROM py', 'COPY req', 'COPY src'], ['FROM py', 'COPY req', 'COPY app']) == 2\nassert cached_layers(['A'], ['B']) == 0\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Docker packages ML models with all dependencies into portable containers, ensuring consistent environments from development to production.",
         "examples": [
             {
@@ -2320,6 +2440,14 @@ SECTIONS = [
 
     {
         "title": "21. REST API Serving with FastAPI",
+"practices": [
+{
+"title": 'Batch the Predictions',
+"desc": 'Serving throughput improves when requests are batched up to a max size.',
+"starter": 'def batch_requests(items, max_batch):\n    # TODO: consecutive chunks of at most max_batch items\n    return []\n\nprint(batch_requests([1, 2, 3, 4, 5], 2))',
+"check": "assert batch_requests([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]\nassert batch_requests([], 4) == []\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "FastAPI provides a high-performance, async-ready framework for building ML model serving APIs with automatic validation and documentation.",
         "examples": [
             {
@@ -2348,6 +2476,14 @@ SECTIONS = [
 
     {
         "title": "22. Model Monitoring & Drift Detection",
+"practices": [
+{
+"title": 'Alert on Degradation',
+"desc": 'Trigger an alert when live accuracy falls a set margin below the baseline.',
+"starter": 'def degraded(baseline, live, tolerance):\n    # TODO: True when live is more than tolerance below baseline\n    return False\n\nprint(degraded(0.90, 0.85, 0.02), degraded(0.90, 0.89, 0.02))',
+"check": "assert degraded(0.90, 0.85, 0.02) is True\nassert degraded(0.90, 0.89, 0.02) is False\nassert degraded(0.90, 0.95, 0.02) is False\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Production ML models degrade over time due to data drift and concept drift. Monitoring detects these shifts before they cause silent failures.",
         "examples": [
             {
@@ -2376,6 +2512,14 @@ SECTIONS = [
 
     {
         "title": "23. CI/CD for ML Pipelines",
+"practices": [
+{
+"title": 'Pipeline Order',
+"desc": 'Stages run in dependency order; produce a valid ordering.',
+"starter": "def stage_order(deps):\n    # TODO: topological order of {stage: [prerequisites]}, ties broken alphabetically\n    return []\n\nprint(stage_order({'deploy': ['test'], 'test': ['build'], 'build': []}))",
+"check": "assert stage_order({'deploy': ['test'], 'test': ['build'], 'build': []}) == ['build', 'test', 'deploy']\nassert stage_order({'a': []}) == ['a']\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "CI/CD for ML automates testing, validation, and deployment of models, ensuring quality gates before any model reaches production.",
         "examples": [
             {
@@ -2404,6 +2548,14 @@ SECTIONS = [
 
     {
         "title": "24. Feature Stores & ML Platforms",
+"practices": [
+{
+"title": 'Training/Serving Skew',
+"desc": 'Compare the feature sets used at training time and at serving time.',
+"starter": "def skew(train_features, serve_features):\n    # TODO: {'missing_at_serving': sorted(...), 'extra_at_serving': sorted(...)}\n    return {}\n\nprint(skew(['a', 'b'], ['b', 'c']))",
+"check": "assert skew(['a', 'b'], ['b', 'c']) == {'missing_at_serving': ['a'], 'extra_at_serving': ['c']}\nassert skew(['a'], ['a']) == {'missing_at_serving': [], 'extra_at_serving': []}\nprint('All checks passed \\u2713')",
+},
+],
         "desc": "Feature stores centralize, version, and serve ML features consistently across training and serving, eliminating training-serving skew.",
         "examples": [
             {

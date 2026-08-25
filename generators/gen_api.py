@@ -147,6 +147,14 @@ SECTIONS = [
 
 {
 "title": "1. How the Web Works — HTTP Fundamentals",
+"practices": [
+{
+"title": 'Status Code Family',
+"desc": 'Group a status code into its HTTP class the way a client would.',
+"starter": "def status_family(code):\n    # TODO: 'success' 2xx, 'redirect' 3xx, 'client_error' 4xx, 'server_error' 5xx, else 'other'\n    return 'other'\n\nprint(status_family(200), status_family(404), status_family(503))",
+"check": "assert status_family(200) == 'success' and status_family(301) == 'redirect'\nassert status_family(404) == 'client_error' and status_family(503) == 'server_error'\nassert status_family(100) == 'other'\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Before consuming APIs you need to understand how HTTP works: requests, responses, methods, status codes, and headers. Every API call is just an HTTP request.",
 "examples": [
 {"label": "HTTP methods overview", "code":
@@ -621,6 +629,14 @@ for e in errors:
 
 {
 "title": "4. JSON to Pandas DataFrame",
+"practices": [
+{
+"title": 'Records to Columns',
+"desc": 'Turn a list of JSON records into the column-oriented form a DataFrame holds.',
+"starter": "def to_columns(records):\n    # TODO: {column: [value per record]} using the first record's key order\n    return {}\n\nprint(to_columns([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]))",
+"check": "assert to_columns([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]) == {'a': [1, 3], 'b': [2, 4]}\nassert to_columns([]) == {}\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "The bridge between APIs and data analysis. Learn to convert JSON responses into clean DataFrames ready for analysis, handling nested structures and missing data.",
 "examples": [
 {"label": "Simple JSON list → DataFrame", "code":
@@ -966,6 +982,20 @@ print(f"Config valid: {config.is_valid()}")"""
 
 {
 "title": "6. Sessions & Connection Pooling",
+"practices": [
+{
+"title": 'Merge Session Headers',
+"desc": "A session's default headers are merged with per-request headers, request wins.",
+"starter": "def effective_headers(session_headers, request_headers):\n    # TODO: merge, with request_headers winning on conflicts\n    return {}\n\nprint(effective_headers({'User-Agent': 'app'}, {'Accept': 'json'}))",
+"check": "assert effective_headers({'User-Agent': 'app'}, {'Accept': 'json'}) == {'User-Agent': 'app', 'Accept': 'json'}\nassert effective_headers({'A': 1}, {'A': 2}) == {'A': 2}\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Pool Reuse Count',
+"desc": 'A pool of fixed size serves n requests; count how many need a fresh connection.',
+"starter": 'def new_connections(n_requests, pool_size):\n    # TODO: the first pool_size requests open connections, the rest reuse them\n    return 0\n\nprint(new_connections(10, 4))',
+"check": "assert new_connections(10, 4) == 4\nassert new_connections(2, 5) == 2\nassert new_connections(0, 3) == 0\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "requests.Session reuses the underlying TCP connection across requests, making repeated calls to the same host significantly faster. It also persists headers, cookies, and auth.",
 "examples": [
 {"label": "Basic session usage", "code":
@@ -1305,6 +1335,20 @@ for batch in Paginator("https://jsonplaceholder.typicode.com/comments",
 
 {
 "title": "8. Rate Limiting & Throttling",
+"practices": [
+{
+"title": 'Minimum Spacing',
+"desc": 'To stay under a per-second rate, requests must be spaced apart in time.',
+"starter": 'def min_interval(rate_per_sec):\n    # TODO: seconds between requests, rounded to 4\n    return 0.0\n\nprint(min_interval(4))',
+"check": "assert min_interval(4) == 0.25\nassert min_interval(1) == 1.0\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Token Bucket',
+"desc": 'A token bucket refills over time but never exceeds its capacity.',
+"starter": 'def tokens_after(capacity, tokens, refill_rate, elapsed):\n    # TODO: min(capacity, tokens + refill_rate * elapsed), rounded to 4\n    return 0.0\n\nprint(tokens_after(10, 2, 1.0, 5))',
+"check": "assert tokens_after(10, 2, 1.0, 5) == 7.0\nassert tokens_after(10, 8, 1.0, 5) == 10.0\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "APIs enforce rate limits to prevent abuse. You need to respect these limits by reading response headers, implementing backoff strategies, and throttling your requests.",
 "examples": [
 {"label": "Reading rate limit headers", "code":
@@ -1660,6 +1704,14 @@ for url in urls:
 
 {
 "title": "10. Async API Calls with aiohttp",
+"practices": [
+{
+"title": 'Batch the URLs',
+"desc": 'Concurrency limits mean splitting a URL list into fixed-size batches.',
+"starter": "def batches(urls, size):\n    # TODO: consecutive chunks of at most `size` urls\n    return []\n\nprint(batches(['a', 'b', 'c'], 2))",
+"check": "assert batches(['a', 'b', 'c'], 2) == [['a', 'b'], ['c']]\nassert batches([], 3) == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "When you need to call many APIs concurrently, async IO is dramatically faster than sequential requests. aiohttp is the async equivalent of requests. Install: pip install aiohttp.",
 "examples": [
 {"label": "Basic async requests", "code":
@@ -1835,6 +1887,20 @@ asyncio.run(main())"""
 
 {
 "title": "11. Working with REST API Patterns",
+"practices": [
+{
+"title": 'Resource Path',
+"desc": 'Build a REST path from a collection name and an optional id.',
+"starter": "def resource_path(collection, rid=None):\n    # TODO: '/collection' or '/collection/id'\n    return ''\n\nprint(resource_path('users'), resource_path('users', 7))",
+"check": "assert resource_path('users') == '/users'\nassert resource_path('users', 7) == '/users/7'\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Method for Intent',
+"desc": 'Map a CRUD intent onto the HTTP verb REST reserves for it.',
+"starter": "def rest_method(action):\n    # TODO: create->POST, read->GET, update->PUT, delete->DELETE, else None\n    return None\n\nprint(rest_method('create'), rest_method('read'))",
+"check": "assert rest_method('create') == 'POST' and rest_method('read') == 'GET'\nassert rest_method('update') == 'PUT' and rest_method('delete') == 'DELETE'\nassert rest_method('patch') is None\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "REST (Representational State Transfer) APIs follow predictable URL patterns for CRUD operations. Understanding these patterns lets you work with any REST API quickly.",
 "examples": [
 {"label": "Standard REST CRUD pattern", "code":
@@ -1970,6 +2036,14 @@ print(f"User 1 experiments: {len(client.list_all(user_id=1))}")"""
 
 {
 "title": "12. Web Scraping with requests + BeautifulSoup",
+"practices": [
+{
+"title": 'Absolute Links',
+"desc": "Scraped hrefs are often relative; resolve them against the page's base URL.",
+"starter": "def absolutize(base, hrefs):\n    # TODO: leave http(s) links alone, otherwise base.rstrip('/') + '/' + href.lstrip('/')\n    return []\n\nprint(absolutize('https://x.com', ['/a', 'https://y.com/b']))",
+"check": "assert absolutize('https://x.com', ['/a', 'https://y.com/b']) == ['https://x.com/a', 'https://y.com/b']\nassert absolutize('https://x.com/', ['a']) == ['https://x.com/a']\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "When there's no API, you can extract data from web pages using requests to fetch HTML and BeautifulSoup to parse it. Install: pip install beautifulsoup4.",
 "examples": [
 {"label": "Fetching and parsing HTML", "code":
@@ -2125,6 +2199,20 @@ print(df)"""
 
 {
 "title": "13. Building APIs with FastAPI",
+"practices": [
+{
+"title": 'Validate the Payload',
+"desc": 'FastAPI rejects a body that is missing required fields; do the same check.',
+"starter": "def missing_fields(payload, required):\n    # TODO: required names absent from payload, in the order given\n    return []\n\nprint(missing_fields({'name': 'a'}, ['name', 'email']))",
+"check": "assert missing_fields({'name': 'a'}, ['name', 'email']) == ['email']\nassert missing_fields({'name': 'a'}, ['name']) == []\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Route Parameters',
+"desc": 'Pull the {placeholder} names out of a route template.',
+"starter": "def path_params(route):\n    # TODO: the names inside curly braces, in order\n    return []\n\nprint(path_params('/users/{uid}/posts/{pid}'))",
+"check": "assert path_params('/users/{uid}/posts/{pid}') == ['uid', 'pid']\nassert path_params('/health') == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "FastAPI lets you build production-ready APIs in Python. It's fast, generates auto-docs, and uses type hints for validation. Install: pip install fastapi uvicorn.",
 "examples": [
 {"label": "Minimal FastAPI application", "code":
@@ -2330,6 +2418,20 @@ print(predict_churn(sample))"""
 
 {
 "title": "14. Testing API Calls with unittest.mock",
+"practices": [
+{
+"title": 'Fake Response',
+"desc": 'A mock response object needs the same surface the real one has.',
+"starter": "def fake_response(status, payload):\n    # TODO: {'status_code': status, 'json': payload, 'ok': status < 400}\n    return {}\n\nprint(fake_response(200, {'a': 1}))",
+"check": "r = fake_response(200, {'a': 1})\nassert r == {'status_code': 200, 'json': {'a': 1}, 'ok': True}\nassert fake_response(500, {})['ok'] is False\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Call Recorder',
+"desc": 'Record every call a mock receives so a test can assert on them.',
+"starter": "def record_calls(calls):\n    # TODO: [(method, url) for each {'method':..., 'url':...} call]\n    return []\n\nprint(record_calls([{'method': 'GET', 'url': '/a'}]))",
+"check": "assert record_calls([{'method': 'GET', 'url': '/a'}]) == [('GET', '/a')]\nassert record_calls([]) == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Never hit real APIs in unit tests — they're slow, flaky, and may cost money. Use mocking to simulate API responses and test your code's logic in isolation.",
 "examples": [
 {"label": "Mocking requests.get with unittest.mock", "code":
@@ -2501,6 +2603,20 @@ with patch("requests.get") as mock_get:
 
 {
 "title": "15. Public APIs for Data Science Projects",
+"practices": [
+{
+"title": 'Pick an Open API',
+"desc": 'Filter a catalogue down to the endpoints that need no key.',
+"starter": "def keyless(apis):\n    # TODO: names of the entries whose 'auth' is None or ''\n    return []\n\nprint(keyless([{'name': 'open', 'auth': None}, {'name': 'paid', 'auth': 'key'}]))",
+"check": "assert keyless([{'name': 'open', 'auth': None}, {'name': 'paid', 'auth': 'key'}]) == ['open']\nassert keyless([{'name': 'x', 'auth': ''}]) == ['x']\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Quota Budget',
+"desc": 'Split a daily call quota evenly across the datasets you want to pull.',
+"starter": 'def calls_per_dataset(daily_quota, n_datasets):\n    # TODO: whole calls each, without exceeding the quota\n    return 0\n\nprint(calls_per_dataset(1000, 3))',
+"check": "assert calls_per_dataset(1000, 3) == 333\nassert calls_per_dataset(10, 10) == 1\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "A curated list of free APIs perfect for data science practice — no API key required for most. These are great for portfolio projects and learning.",
 "examples": [
 {"label": "JSONPlaceholder — fake REST API for testing", "code":
@@ -2621,6 +2737,14 @@ print(f"Windiest: {df.loc[df['wind_kmh'].idxmax(), 'city']}")"""
 
 {
 "title": "16. Data Collection Project — End-to-End Pipeline",
+"practices": [
+{
+"title": 'Deduplicate the Harvest',
+"desc": 'Repeated pages return overlapping records; keep the first of each id.',
+"starter": "def dedupe(records, key='id'):\n    # TODO: keep the first record per key value, preserving order\n    return []\n\nprint(dedupe([{'id': 1}, {'id': 1}, {'id': 2}]))",
+"check": "assert dedupe([{'id': 1}, {'id': 1}, {'id': 2}]) == [{'id': 1}, {'id': 2}]\nassert dedupe([]) == []\nprint('All checks passed \\u2713')",
+},
+],
 "desc": "Putting it all together: a complete data collection pipeline that fetches from APIs, handles errors, paginates, caches results, transforms data, and exports to multiple formats.",
 "examples": [
 {"label": "Complete pipeline architecture", "code":

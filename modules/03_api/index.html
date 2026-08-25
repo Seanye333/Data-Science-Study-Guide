@@ -129,7 +129,14 @@ def classify_urls(url_list):
 result, secure, insecure = classify_urls(urls)
 for host, links in result.items():
     print(f&quot;{host}: {len(links)} URLs&quot;)
-print(f&quot;Secure: {secure}, Insecure: {insecure}&quot;)</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Getting Started with requests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The requests library is the standard way to make HTTP calls in Python. It wraps urllib3 with a clean, human-friendly API. Install: pip install requests.</p><div class="code-block"><div class="ch"><span>Your first GET request</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import requests
+print(f&quot;Secure: {secure}, Insecure: {insecure}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Status Code Family</div><div class="pd">Group a status code into its HTTP class the way a client would.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def status_family(code):
+    # TODO: &#x27;success&#x27; 2xx, &#x27;redirect&#x27; 3xx, &#x27;client_error&#x27; 4xx, &#x27;server_error&#x27; 5xx, else &#x27;other&#x27;
+    return &#x27;other&#x27;
+
+print(status_family(200), status_family(404), status_family(503))</code></pre></div><template class="ho-check">assert status_family(200) == &#x27;success&#x27; and status_family(301) == &#x27;redirect&#x27;
+assert status_family(404) == &#x27;client_error&#x27; and status_family(503) == &#x27;server_error&#x27;
+assert status_family(100) == &#x27;other&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. Getting Started with requests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The requests library is the standard way to make HTTP calls in Python. It wraps urllib3 with a clean, human-friendly API. Install: pip install requests.</p><div class="code-block"><div class="ch"><span>Your first GET request</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import requests
 
 # Simple GET — fetch a resource
 resp = requests.get(&quot;https://httpbin.org/get&quot;)
@@ -551,7 +558,13 @@ import requests
 # TODO: Print top 3 users by average post length
 
 # Your code here:
-</code></pre></div></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Authentication — API Keys &amp; Tokens</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Most real APIs require authentication. The three most common methods are API keys (in headers or query params), Bearer tokens (OAuth), and Basic auth (username/password).</p><div class="code-block"><div class="ch"><span>API Key in headers</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import requests
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Records to Columns</div><div class="pd">Turn a list of JSON records into the column-oriented form a DataFrame holds.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">def to_columns(records):
+    # TODO: {column: [value per record]} using the first record&#x27;s key order
+    return {}
+
+print(to_columns([{&#x27;a&#x27;: 1, &#x27;b&#x27;: 2}, {&#x27;a&#x27;: 3, &#x27;b&#x27;: 4}]))</code></pre></div><template class="ho-check">assert to_columns([{&#x27;a&#x27;: 1, &#x27;b&#x27;: 2}, {&#x27;a&#x27;: 3, &#x27;b&#x27;: 4}]) == {&#x27;a&#x27;: [1, 3], &#x27;b&#x27;: [2, 4]}
+assert to_columns([]) == {}
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s4"><div class="th" onclick="tog(this)"><span>5. Authentication — API Keys &amp; Tokens</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Most real APIs require authentication. The three most common methods are API keys (in headers or query params), Bearer tokens (OAuth), and Basic auth (username/password).</p><div class="code-block"><div class="ch"><span>API Key in headers</span><button onclick="cp('c4_0')">Copy</button></div><pre><code id="c4_0" class="language-python">import requests
 
 # Method 1: API key in header (most common)
 headers = {&quot;X-API-Key&quot;: &quot;your-api-key-here&quot;}
@@ -793,7 +806,20 @@ class RobustClient:
 client = RobustClient(&quot;https://httpbin.org&quot;, &quot;demo-key&quot;)
 data = client.get(&quot;get&quot;, params={&quot;test&quot;: True})
 print(f&quot;Got response with {len(data)} keys&quot;)
-client.close()</code></pre></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pagination — Fetching All the Data</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">APIs rarely return all data at once. Pagination splits results across multiple requests. Common patterns: page/per_page, offset/limit, and cursor-based.</p><div class="code-block"><div class="ch"><span>Page-number pagination</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import requests
+client.close()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Merge Session Headers</div><div class="pd">A session&#x27;s default headers are merged with per-request headers, request wins.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">def effective_headers(session_headers, request_headers):
+    # TODO: merge, with request_headers winning on conflicts
+    return {}
+
+print(effective_headers({&#x27;User-Agent&#x27;: &#x27;app&#x27;}, {&#x27;Accept&#x27;: &#x27;json&#x27;}))</code></pre></div><template class="ho-check">assert effective_headers({&#x27;User-Agent&#x27;: &#x27;app&#x27;}, {&#x27;Accept&#x27;: &#x27;json&#x27;}) == {&#x27;User-Agent&#x27;: &#x27;app&#x27;, &#x27;Accept&#x27;: &#x27;json&#x27;}
+assert effective_headers({&#x27;A&#x27;: 1}, {&#x27;A&#x27;: 2}) == {&#x27;A&#x27;: 2}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pool Reuse Count</div><div class="pd">A pool of fixed size serves n requests; count how many need a fresh connection.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">def new_connections(n_requests, pool_size):
+    # TODO: the first pool_size requests open connections, the rest reuse them
+    return 0
+
+print(new_connections(10, 4))</code></pre></div><template class="ho-check">assert new_connections(10, 4) == 4
+assert new_connections(2, 5) == 2
+assert new_connections(0, 3) == 0
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s6"><div class="th" onclick="tog(this)"><span>7. Pagination — Fetching All the Data</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">APIs rarely return all data at once. Pagination splits results across multiple requests. Common patterns: page/per_page, offset/limit, and cursor-based.</p><div class="code-block"><div class="ch"><span>Page-number pagination</span><button onclick="cp('c6_0')">Copy</button></div><pre><code id="c6_0" class="language-python">import requests
 
 def fetch_all_page_number(base_url, per_page=10, max_pages=50):
     &quot;&quot;&quot;Standard page-number pagination (page=1, page=2, ...).&quot;&quot;&quot;
@@ -1101,7 +1127,19 @@ for i in range(6):
     resp = requests.get(&quot;https://httpbin.org/get&quot;, timeout=10)
     print(f&quot;  Request {i+1}: {resp.status_code} at t={time.time()-start:.2f}s&quot;)
 
-print(f&quot;\n{limiter.stats()}&quot;)</code></pre></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Error Handling &amp; Resilience</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Production API calls fail. Networks drop, servers error, responses are malformed. Robust code anticipates and handles every failure mode gracefully.</p><div class="code-block"><div class="ch"><span>Comprehensive error handling</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import requests
+print(f&quot;\n{limiter.stats()}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Minimum Spacing</div><div class="pd">To stay under a per-second rate, requests must be spaced apart in time.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">def min_interval(rate_per_sec):
+    # TODO: seconds between requests, rounded to 4
+    return 0.0
+
+print(min_interval(4))</code></pre></div><template class="ho-check">assert min_interval(4) == 0.25
+assert min_interval(1) == 1.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Token Bucket</div><div class="pd">A token bucket refills over time but never exceeds its capacity.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">def tokens_after(capacity, tokens, refill_rate, elapsed):
+    # TODO: min(capacity, tokens + refill_rate * elapsed), rounded to 4
+    return 0.0
+
+print(tokens_after(10, 2, 1.0, 5))</code></pre></div><template class="ho-check">assert tokens_after(10, 2, 1.0, 5) == 7.0
+assert tokens_after(10, 8, 1.0, 5) == 10.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. Error Handling &amp; Resilience</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Production API calls fail. Networks drop, servers error, responses are malformed. Robust code anticipates and handles every failure mode gracefully.</p><div class="code-block"><div class="ch"><span>Comprehensive error handling</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import requests
 
 def safe_api_call(url, params=None, timeout=10):
     &quot;&quot;&quot;Make an API call with comprehensive error handling.&quot;&quot;&quot;
@@ -1424,7 +1462,13 @@ async def main():
         # TODO: print formatted results
         pass
 
-asyncio.run(main())</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Working with REST API Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">REST (Representational State Transfer) APIs follow predictable URL patterns for CRUD operations. Understanding these patterns lets you work with any REST API quickly.</p><div class="code-block"><div class="ch"><span>Standard REST CRUD pattern</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import requests
+asyncio.run(main())</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Batch the URLs</div><div class="pd">Concurrency limits mean splitting a URL list into fixed-size batches.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">def batches(urls, size):
+    # TODO: consecutive chunks of at most `size` urls
+    return []
+
+print(batches([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], 2))</code></pre></div><template class="ho-check">assert batches([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], 2) == [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;c&#x27;]]
+assert batches([], 3) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Working with REST API Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">REST (Representational State Transfer) APIs follow predictable URL patterns for CRUD operations. Understanding these patterns lets you work with any REST API quickly.</p><div class="code-block"><div class="ch"><span>Standard REST CRUD pattern</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import requests
 
 BASE = &quot;https://jsonplaceholder.typicode.com&quot;
 
@@ -1533,7 +1577,20 @@ client = ExperimentClient()
 exp = client.create(&quot;XGBoost v2&quot;, &quot;accuracy=0.96, f1=0.94&quot;)
 print(f&quot;Created experiment: {exp[&#x27;id&#x27;]}&quot;)
 print(f&quot;Read back: {client.get(1)[&#x27;title&#x27;][:40]}&quot;)
-print(f&quot;User 1 experiments: {len(client.list_all(user_id=1))}&quot;)</code></pre></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Web Scraping with requests + BeautifulSoup</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When there&#x27;s no API, you can extract data from web pages using requests to fetch HTML and BeautifulSoup to parse it. Install: pip install beautifulsoup4.</p><div class="code-block"><div class="ch"><span>Fetching and parsing HTML</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import requests
+print(f&quot;User 1 experiments: {len(client.list_all(user_id=1))}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resource Path</div><div class="pd">Build a REST path from a collection name and an optional id.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">def resource_path(collection, rid=None):
+    # TODO: &#x27;/collection&#x27; or &#x27;/collection/id&#x27;
+    return &#x27;&#x27;
+
+print(resource_path(&#x27;users&#x27;), resource_path(&#x27;users&#x27;, 7))</code></pre></div><template class="ho-check">assert resource_path(&#x27;users&#x27;) == &#x27;/users&#x27;
+assert resource_path(&#x27;users&#x27;, 7) == &#x27;/users/7&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Method for Intent</div><div class="pd">Map a CRUD intent onto the HTTP verb REST reserves for it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def rest_method(action):
+    # TODO: create-&gt;POST, read-&gt;GET, update-&gt;PUT, delete-&gt;DELETE, else None
+    return None
+
+print(rest_method(&#x27;create&#x27;), rest_method(&#x27;read&#x27;))</code></pre></div><template class="ho-check">assert rest_method(&#x27;create&#x27;) == &#x27;POST&#x27; and rest_method(&#x27;read&#x27;) == &#x27;GET&#x27;
+assert rest_method(&#x27;update&#x27;) == &#x27;PUT&#x27; and rest_method(&#x27;delete&#x27;) == &#x27;DELETE&#x27;
+assert rest_method(&#x27;patch&#x27;) is None
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s11"><div class="th" onclick="tog(this)"><span>12. Web Scraping with requests + BeautifulSoup</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When there&#x27;s no API, you can extract data from web pages using requests to fetch HTML and BeautifulSoup to parse it. Install: pip install beautifulsoup4.</p><div class="code-block"><div class="ch"><span>Fetching and parsing HTML</span><button onclick="cp('c11_0')">Copy</button></div><pre><code id="c11_0" class="language-python">import requests
 from bs4 import BeautifulSoup
 
 # Fetch a page
@@ -1656,7 +1713,13 @@ test_html = &quot;&quot;&quot;
 &quot;&quot;&quot;
 
 df = scrape_and_clean(test_html)
-print(df)</code></pre></div></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Building APIs with FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">FastAPI lets you build production-ready APIs in Python. It&#x27;s fast, generates auto-docs, and uses type hints for validation. Install: pip install fastapi uvicorn.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI application</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">from fastapi import FastAPI
+print(df)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Absolute Links</div><div class="pd">Scraped hrefs are often relative; resolve them against the page&#x27;s base URL.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">def absolutize(base, hrefs):
+    # TODO: leave http(s) links alone, otherwise base.rstrip(&#x27;/&#x27;) + &#x27;/&#x27; + href.lstrip(&#x27;/&#x27;)
+    return []
+
+print(absolutize(&#x27;https://x.com&#x27;, [&#x27;/a&#x27;, &#x27;https://y.com/b&#x27;]))</code></pre></div><template class="ho-check">assert absolutize(&#x27;https://x.com&#x27;, [&#x27;/a&#x27;, &#x27;https://y.com/b&#x27;]) == [&#x27;https://x.com/a&#x27;, &#x27;https://y.com/b&#x27;]
+assert absolutize(&#x27;https://x.com/&#x27;, [&#x27;a&#x27;]) == [&#x27;https://x.com/a&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s12"><div class="th" onclick="tog(this)"><span>13. Building APIs with FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">FastAPI lets you build production-ready APIs in Python. It&#x27;s fast, generates auto-docs, and uses type hints for validation. Install: pip install fastapi uvicorn.</p><div class="code-block"><div class="ch"><span>Minimal FastAPI application</span><button onclick="cp('c12_0')">Copy</button></div><pre><code id="c12_0" class="language-python">from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI(title=&quot;ML Prediction API&quot;, version=&quot;1.0&quot;)
@@ -1835,7 +1898,19 @@ sample = CustomerFeatures(
     tenure_months=6, monthly_charges=89.99, total_charges=539.94,
     num_support_tickets=4, contract_type=&quot;month-to-month&quot;
 )
-print(predict_churn(sample))</code></pre></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Testing API Calls with unittest.mock</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Never hit real APIs in unit tests — they&#x27;re slow, flaky, and may cost money. Use mocking to simulate API responses and test your code&#x27;s logic in isolation.</p><div class="code-block"><div class="ch"><span>Mocking requests.get with unittest.mock</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">from unittest.mock import patch, MagicMock
+print(predict_churn(sample))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validate the Payload</div><div class="pd">FastAPI rejects a body that is missing required fields; do the same check.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">def missing_fields(payload, required):
+    # TODO: required names absent from payload, in the order given
+    return []
+
+print(missing_fields({&#x27;name&#x27;: &#x27;a&#x27;}, [&#x27;name&#x27;, &#x27;email&#x27;]))</code></pre></div><template class="ho-check">assert missing_fields({&#x27;name&#x27;: &#x27;a&#x27;}, [&#x27;name&#x27;, &#x27;email&#x27;]) == [&#x27;email&#x27;]
+assert missing_fields({&#x27;name&#x27;: &#x27;a&#x27;}, [&#x27;name&#x27;]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Route Parameters</div><div class="pd">Pull the {placeholder} names out of a route template.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">def path_params(route):
+    # TODO: the names inside curly braces, in order
+    return []
+
+print(path_params(&#x27;/users/{uid}/posts/{pid}&#x27;))</code></pre></div><template class="ho-check">assert path_params(&#x27;/users/{uid}/posts/{pid}&#x27;) == [&#x27;uid&#x27;, &#x27;pid&#x27;]
+assert path_params(&#x27;/health&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s13"><div class="th" onclick="tog(this)"><span>14. Testing API Calls with unittest.mock</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Never hit real APIs in unit tests — they&#x27;re slow, flaky, and may cost money. Use mocking to simulate API responses and test your code&#x27;s logic in isolation.</p><div class="code-block"><div class="ch"><span>Mocking requests.get with unittest.mock</span><button onclick="cp('c13_0')">Copy</button></div><pre><code id="c13_0" class="language-python">from unittest.mock import patch, MagicMock
 import requests
 
 def get_user_name(user_id):
@@ -1980,7 +2055,20 @@ with patch(&quot;requests.get&quot;) as mock_get:
     assert result[&quot;names&quot;] == [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;]
     assert result[&quot;total_value&quot;] == 525
     print(f&quot;All assertions passed!&quot;)
-    print(f&quot;Result: {result}&quot;)</code></pre></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Public APIs for Data Science Projects</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A curated list of free APIs perfect for data science practice — no API key required for most. These are great for portfolio projects and learning.</p><div class="code-block"><div class="ch"><span>JSONPlaceholder — fake REST API for testing</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import requests
+    print(f&quot;Result: {result}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fake Response</div><div class="pd">A mock response object needs the same surface the real one has.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">def fake_response(status, payload):
+    # TODO: {&#x27;status_code&#x27;: status, &#x27;json&#x27;: payload, &#x27;ok&#x27;: status &lt; 400}
+    return {}
+
+print(fake_response(200, {&#x27;a&#x27;: 1}))</code></pre></div><template class="ho-check">r = fake_response(200, {&#x27;a&#x27;: 1})
+assert r == {&#x27;status_code&#x27;: 200, &#x27;json&#x27;: {&#x27;a&#x27;: 1}, &#x27;ok&#x27;: True}
+assert fake_response(500, {})[&#x27;ok&#x27;] is False
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Call Recorder</div><div class="pd">Record every call a mock receives so a test can assert on them.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">def record_calls(calls):
+    # TODO: [(method, url) for each {&#x27;method&#x27;:..., &#x27;url&#x27;:...} call]
+    return []
+
+print(record_calls([{&#x27;method&#x27;: &#x27;GET&#x27;, &#x27;url&#x27;: &#x27;/a&#x27;}]))</code></pre></div><template class="ho-check">assert record_calls([{&#x27;method&#x27;: &#x27;GET&#x27;, &#x27;url&#x27;: &#x27;/a&#x27;}]) == [(&#x27;GET&#x27;, &#x27;/a&#x27;)]
+assert record_calls([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s14"><div class="th" onclick="tog(this)"><span>15. Public APIs for Data Science Projects</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">A curated list of free APIs perfect for data science practice — no API key required for most. These are great for portfolio projects and learning.</p><div class="code-block"><div class="ch"><span>JSONPlaceholder — fake REST API for testing</span><button onclick="cp('c14_0')">Copy</button></div><pre><code id="c14_0" class="language-python">import requests
 import pandas as pd
 
 # https://jsonplaceholder.typicode.com
@@ -2074,7 +2162,19 @@ def build_city_dataset():
 df = build_city_dataset()
 print(df.to_string(index=False))
 print(f&quot;\nWarmest: {df.loc[df[&#x27;temp_c&#x27;].idxmax(), &#x27;city&#x27;]}&quot;)
-print(f&quot;Windiest: {df.loc[df[&#x27;wind_kmh&#x27;].idxmax(), &#x27;city&#x27;]}&quot;)</code></pre></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Data Collection Project — End-to-End Pipeline</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Putting it all together: a complete data collection pipeline that fetches from APIs, handles errors, paginates, caches results, transforms data, and exports to multiple formats.</p><div class="code-block"><div class="ch"><span>Complete pipeline architecture</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import requests
+print(f&quot;Windiest: {df.loc[df[&#x27;wind_kmh&#x27;].idxmax(), &#x27;city&#x27;]}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pick an Open API</div><div class="pd">Filter a catalogue down to the endpoints that need no key.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">def keyless(apis):
+    # TODO: names of the entries whose &#x27;auth&#x27; is None or &#x27;&#x27;
+    return []
+
+print(keyless([{&#x27;name&#x27;: &#x27;open&#x27;, &#x27;auth&#x27;: None}, {&#x27;name&#x27;: &#x27;paid&#x27;, &#x27;auth&#x27;: &#x27;key&#x27;}]))</code></pre></div><template class="ho-check">assert keyless([{&#x27;name&#x27;: &#x27;open&#x27;, &#x27;auth&#x27;: None}, {&#x27;name&#x27;: &#x27;paid&#x27;, &#x27;auth&#x27;: &#x27;key&#x27;}]) == [&#x27;open&#x27;]
+assert keyless([{&#x27;name&#x27;: &#x27;x&#x27;, &#x27;auth&#x27;: &#x27;&#x27;}]) == [&#x27;x&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quota Budget</div><div class="pd">Split a daily call quota evenly across the datasets you want to pull.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">def calls_per_dataset(daily_quota, n_datasets):
+    # TODO: whole calls each, without exceeding the quota
+    return 0
+
+print(calls_per_dataset(1000, 3))</code></pre></div><template class="ho-check">assert calls_per_dataset(1000, 3) == 333
+assert calls_per_dataset(10, 10) == 1
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s15"><div class="th" onclick="tog(this)"><span>16. Data Collection Project — End-to-End Pipeline</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Putting it all together: a complete data collection pipeline that fetches from APIs, handles errors, paginates, caches results, transforms data, and exports to multiple formats.</p><div class="code-block"><div class="ch"><span>Complete pipeline architecture</span><button onclick="cp('c15_0')">Copy</button></div><pre><code id="c15_0" class="language-python">import requests
 import pandas as pd
 import json
 import time
@@ -2287,7 +2387,13 @@ class MyPipeline:
         return df
 
 pipeline = MyPipeline()
-result = pipeline.run()</code></pre></div></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>Practice Lab: Requests &amp; FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on REST patterns. These depend on the network and web frameworks, so run them in a local Python environment (the in-page runner has no network). Read, copy, and adapt them.</p><div class="code-block"><div class="ch"><span>GET with params, timeout &amp; error handling</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import requests
+result = pipeline.run()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Deduplicate the Harvest</div><div class="pd">Repeated pages return overlapping records; keep the first of each id.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">def dedupe(records, key=&#x27;id&#x27;):
+    # TODO: keep the first record per key value, preserving order
+    return []
+
+print(dedupe([{&#x27;id&#x27;: 1}, {&#x27;id&#x27;: 1}, {&#x27;id&#x27;: 2}]))</code></pre></div><template class="ho-check">assert dedupe([{&#x27;id&#x27;: 1}, {&#x27;id&#x27;: 1}, {&#x27;id&#x27;: 2}]) == [{&#x27;id&#x27;: 1}, {&#x27;id&#x27;: 2}]
+assert dedupe([]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div></div></div><div class="topic" id="s16"><div class="th" onclick="tog(this)"><span>Practice Lab: Requests &amp; FastAPI</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on REST patterns. These depend on the network and web frameworks, so run them in a local Python environment (the in-page runner has no network). Read, copy, and adapt them.</p><div class="code-block"><div class="ch"><span>GET with params, timeout &amp; error handling</span><button onclick="cp('c16_0')">Copy</button></div><pre><code id="c16_0" class="language-python">import requests
 
 def fetch_repo(owner, repo):
     url = f&quot;https://api.github.com/repos/{owner}/{repo}&quot;

@@ -156,7 +156,13 @@ emails = [
 for words, desc in emails:
     prob = classify_email(words, word_probs, P_spam)
     label = &quot;SPAM&quot; if prob &gt; 0.5 else &quot;HAM&quot;
-    print(f&quot;  {desc:15s} words={words} → P(spam)={prob:.4f} [{label}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Probability</div><div class="pd">P(A and B) from P(A) and P(B|A).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">def joint_prob(pa, pb_given_a):
+    print(f&quot;  {desc:15s} words={words} → P(spam)={prob:.4f} [{label}]&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Law of Total Probability</div><div class="pd">Combine conditional probabilities weighted by their priors.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">def total_prob(priors, conds):
+    # TODO: sum(p * c for each prior/conditional pair), rounded to 6
+    return 0.0
+
+print(total_prob([0.3, 0.7], [0.9, 0.2]))</code></pre></div><template class="ho-check">assert total_prob([0.3, 0.7], [0.9, 0.2]) == 0.41
+assert total_prob([1.0], [0.5]) == 0.5
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Joint Probability</div><div class="pd">P(A and B) from P(A) and P(B|A).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def joint_prob(pa, pb_given_a):
     # TODO: multiply the two probabilities
     return 0.0
 
@@ -1182,7 +1188,13 @@ print(&quot;MCMC A/B Test Results&quot;)
 print(f&quot;theta_A: {np.mean(sa):.4f} ({np.percentile(sa, 2.5):.4f}, {np.percentile(sa, 97.5):.4f})&quot;)
 print(f&quot;theta_B: {np.mean(sb):.4f} ({np.percentile(sb, 2.5):.4f}, {np.percentile(sb, 97.5):.4f})&quot;)
 print(f&quot;diff:    {np.mean(diff):.4f} ({np.percentile(diff, 2.5):.4f}, {np.percentile(diff, 97.5):.4f})&quot;)
-print(f&quot;P(B&gt;A):  {np.mean(diff &gt; 0):.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Acceptance Ratio</div><div class="pd">Metropolis acceptance probability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import numpy as np
+print(f&quot;P(B&gt;A):  {np.mean(diff &gt; 0):.4f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Acceptance Ratio</div><div class="pd">Metropolis accepts a proposal with probability min(1, p_new/p_old).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">def accept_ratio(p_new, p_old):
+    # TODO: min(1.0, p_new / p_old), rounded to 6
+    return 0.0
+
+print(accept_ratio(0.5, 1.0), accept_ratio(2.0, 1.0))</code></pre></div><template class="ho-check">assert accept_ratio(0.5, 1.0) == 0.5
+assert accept_ratio(2.0, 1.0) == 1.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Acceptance Ratio</div><div class="pd">Metropolis acceptance probability.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">import numpy as np
 
 def mcmc_acceptance(cur, prop, logp):
     # TODO: min(1, exp(logp(prop) - logp(cur))) as a float
@@ -1324,7 +1336,13 @@ print(f&quot;\nFor 1000 customers:&quot;)
 total_clv = clv_samples * 1000
 print(f&quot;  Expected: ${np.mean(total_clv):&gt;12,.0f}&quot;)
 print(f&quot;  Worst 5%%: ${np.percentile(total_clv, 5):&gt;12,.0f}&quot;)
-print(f&quot;  Best 95%%: ${np.percentile(total_clv, 95):&gt;12,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior Mean After Burn-in</div><div class="pd">Average the trace after discarding burn-in.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import numpy as np
+print(f&quot;  Best 95%%: ${np.percentile(total_clv, 95):&gt;12,.0f}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Burn-In and Thinning</div><div class="pd">Post-process a raw chain the way PyMC&#x27;s samplers do.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">def postprocess(chain, burn, thin):
+    # TODO: drop the first burn draws, then keep every thin-th one
+    return []
+
+print(postprocess([1, 2, 3, 4, 5, 6], 2, 2))</code></pre></div><template class="ho-check">assert postprocess([1, 2, 3, 4, 5, 6], 2, 2) == [3, 5]
+assert postprocess([1, 2, 3], 0, 1) == [1, 2, 3]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Posterior Mean After Burn-in</div><div class="pd">Average the trace after discarding burn-in.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import numpy as np
 
 def trace_mean(samples, burn):
     s = np.asarray(samples, float)
@@ -1399,7 +1417,15 @@ comparison = pd.DataFrame({
     &quot;Bayesian&quot;: [&quot;Degree of belief&quot;, &quot;Random variables&quot;, &quot;Fixed (observed)&quot;,
                  &quot;Credible intervals&quot;, &quot;Yes&quot;, &quot;Works with small N&quot;, &quot;Can be slow&quot;],
 })
-print(comparison.to_string(index=False))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interpretation</div><div class="pd">Which quantity each interval describes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">def credible_vs_confidence(kind):
+print(comparison.to_string(index=False))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Credible Interval</div><div class="pd">A credible interval is just a pair of posterior quantiles.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import numpy as np
+
+def credible_interval(samples, mass=0.95):
+    # TODO: the (1-mass)/2 and (1+mass)/2 quantiles, rounded to 4
+    return (0.0, 0.0)
+
+print(credible_interval(list(range(101)), 0.5))</code></pre></div><template class="ho-check">lo, hi = credible_interval(list(range(101)), 0.5)
+assert lo == 25.0 and hi == 75.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interpretation</div><div class="pd">Which quantity each interval describes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">def credible_vs_confidence(kind):
     # TODO: &quot;probability&quot; for a credible interval, &quot;coverage&quot; otherwise
     return &quot;&quot;
 
@@ -1521,7 +1547,13 @@ for name, model in configs:
 
 best = max(results, key=lambda x: x[1])
 print(f&quot;\nBest: {best[0]} with accuracy {best[1]:.4f}&quot;)
-print(&quot;\nWith Optuna, this search is automated and more efficient!&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Improvement</div><div class="pd">EI acquisition value at a candidate point.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import numpy as np
+print(&quot;\nWith Optuna, this search is automated and more efficient!&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Improvement Pick</div><div class="pd">The acquisition step: take the candidate with the largest score.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">def best_candidate(candidates, scores):
+    # TODO: the candidate whose score is highest
+    return None
+
+print(best_candidate([0.01, 0.1, 1.0], [0.2, 0.9, 0.4]))</code></pre></div><template class="ho-check">assert best_candidate([0.01, 0.1, 1.0], [0.2, 0.9, 0.4]) == 0.1
+assert best_candidate([&#x27;a&#x27;], [1]) == &#x27;a&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Expected Improvement</div><div class="pd">EI acquisition value at a candidate point.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import numpy as np
 from scipy import stats
 
 def expected_improvement(best, mu, sigma):

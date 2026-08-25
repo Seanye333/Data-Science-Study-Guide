@@ -152,6 +152,12 @@ SECTIONS = [
 "title": "1. Probability Foundations Refresher",
 "practices": [
 {
+"title": 'Law of Total Probability',
+"desc": 'Combine conditional probabilities weighted by their priors.',
+"starter": 'def total_prob(priors, conds):\n    # TODO: sum(p * c for each prior/conditional pair), rounded to 6\n    return 0.0\n\nprint(total_prob([0.3, 0.7], [0.9, 0.2]))',
+"check": "assert total_prob([0.3, 0.7], [0.9, 0.2]) == 0.41\nassert total_prob([1.0], [0.5]) == 0.5\nprint('All checks passed \\u2713')",
+},
+{
 "title": 'Joint Probability',
 "desc": 'P(A and B) from P(A) and P(B|A).',
 "starter": 'def joint_prob(pa, pb_given_a):\n    # TODO: multiply the two probabilities\n    return 0.0\n\nprint(joint_prob(0.5, 0.4))',
@@ -1291,6 +1297,12 @@ for w, m, s in zip(future_weeks, means, stds):
 "practices": [
 {
 "title": 'Acceptance Ratio',
+"desc": 'Metropolis accepts a proposal with probability min(1, p_new/p_old).',
+"starter": 'def accept_ratio(p_new, p_old):\n    # TODO: min(1.0, p_new / p_old), rounded to 6\n    return 0.0\n\nprint(accept_ratio(0.5, 1.0), accept_ratio(2.0, 1.0))',
+"check": "assert accept_ratio(0.5, 1.0) == 0.5\nassert accept_ratio(2.0, 1.0) == 1.0\nprint('All checks passed \\u2713')",
+},
+{
+"title": 'Acceptance Ratio',
 "desc": 'Metropolis acceptance probability.',
 "starter": 'import numpy as np\n\ndef mcmc_acceptance(cur, prop, logp):\n    # TODO: min(1, exp(logp(prop) - logp(cur))) as a float\n    return 0.0\n\nprint(mcmc_acceptance(0.0, 0.0, lambda x: -x*x))',
 "check": 'assert abs(mcmc_acceptance(0.0, 0.0, lambda x: -x*x) - 1.0) < 1e-12, "equal density always accepts"\nassert mcmc_acceptance(0.0, 5.0, lambda x: -x*x) < 1e-6, "much worse proposals are rejected"\nprint("All checks passed \\u2713")',
@@ -1454,6 +1466,12 @@ print(f"P(B>A):  {np.mean(diff > 0):.4f}")"""
 "title": "8. Probabilistic Programming with PyMC",
 "practices": [
 {
+"title": 'Burn-In and Thinning',
+"desc": "Post-process a raw chain the way PyMC's samplers do.",
+"starter": 'def postprocess(chain, burn, thin):\n    # TODO: drop the first burn draws, then keep every thin-th one\n    return []\n\nprint(postprocess([1, 2, 3, 4, 5, 6], 2, 2))',
+"check": "assert postprocess([1, 2, 3, 4, 5, 6], 2, 2) == [3, 5]\nassert postprocess([1, 2, 3], 0, 1) == [1, 2, 3]\nprint('All checks passed \\u2713')",
+},
+{
 "title": 'Posterior Mean After Burn-in',
 "desc": 'Average the trace after discarding burn-in.',
 "starter": 'import numpy as np\n\ndef trace_mean(samples, burn):\n    s = np.asarray(samples, float)\n    # TODO: mean of the samples after the first burn entries\n    return 0.0\n\nprint(trace_mean([100, 1, 1, 1], 1))',
@@ -1616,6 +1634,12 @@ print(f"  Best 95%%: ${np.percentile(total_clv, 95):>12,.0f}")"""
 "title": "9. Bayesian vs Frequentist — When to Use Which",
 "practices": [
 {
+"title": 'Credible Interval',
+"desc": 'A credible interval is just a pair of posterior quantiles.',
+"starter": 'import numpy as np\n\ndef credible_interval(samples, mass=0.95):\n    # TODO: the (1-mass)/2 and (1+mass)/2 quantiles, rounded to 4\n    return (0.0, 0.0)\n\nprint(credible_interval(list(range(101)), 0.5))',
+"check": "lo, hi = credible_interval(list(range(101)), 0.5)\nassert lo == 25.0 and hi == 75.0\nprint('All checks passed \\u2713')",
+},
+{
 "title": 'Interpretation',
 "desc": 'Which quantity each interval describes.',
 "starter": 'def credible_vs_confidence(kind):\n    # TODO: "probability" for a credible interval, "coverage" otherwise\n    return ""\n\nprint(credible_vs_confidence("credible"), credible_vs_confidence("confidence"))',
@@ -1704,6 +1728,12 @@ print(comparison.to_string(index=False))"""},
 {
 "title": "10. Bayesian Optimization for Hyperparameter Tuning",
 "practices": [
+{
+"title": 'Expected Improvement Pick',
+"desc": 'The acquisition step: take the candidate with the largest score.',
+"starter": 'def best_candidate(candidates, scores):\n    # TODO: the candidate whose score is highest\n    return None\n\nprint(best_candidate([0.01, 0.1, 1.0], [0.2, 0.9, 0.4]))',
+"check": "assert best_candidate([0.01, 0.1, 1.0], [0.2, 0.9, 0.4]) == 0.1\nassert best_candidate(['a'], [1]) == 'a'\nprint('All checks passed \\u2713')",
+},
 {
 "title": 'Expected Improvement',
 "desc": 'EI acquisition value at a candidate point.',

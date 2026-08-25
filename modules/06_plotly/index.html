@@ -691,7 +691,15 @@ df = px.data.tips()
 #     title=&#x27;Tip Distribution: Lunch vs Dinner&#x27;,
 # )
 # TODO: fig2.update_layout(height=400)
-# TODO: fig2.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.histogram with marginal=&#x27;box&#x27; to add a mini box plot above the histogram</label></li>
+# TODO: fig2.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bin Edges</div><div class="pd">px.histogram picks bin edges; compute the same edges yourself.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">import numpy as np
+
+def bin_edges(v, nbins):
+    # TODO: np.linspace(min, max, nbins+1) rounded to 4 as a list
+    return []
+
+print(bin_edges([0, 10], 2))</code></pre></div><template class="ho-check">assert bin_edges([0, 10], 2) == [0.0, 5.0, 10.0]
+assert len(bin_edges([1, 2, 3], 4)) == 5
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.histogram with marginal=&#x27;box&#x27; to add a mini box plot above the histogram</label></li>
 <li><label><input type="checkbox"> Use px.violin with box=True and points=&#x27;all&#x27; to show the full data distribution</label></li>
 <li><label><input type="checkbox"> Set nbins= on a histogram and compare how bin count affects the shape perception</label></li>
 <li><label><input type="checkbox"> Use facet_col= to compare distributions across multiple groups side by side</label></li>
@@ -998,7 +1006,15 @@ labels = corr.columns.tolist()
 # ))
 # TODO: fig2.update_layout(title=&#x27;Iris Correlation (go.Heatmap + annotations)&#x27;,
 #                          annotations=annotations, height=420)
-# TODO: fig2.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.imshow correlation heatmap with text_auto=&#x27;.2f&#x27; to show values in each cell</label></li>
+# TODO: fig2.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation Cell</div><div class="pd">Every heatmap cell in a scatter matrix is one pairwise correlation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_1')">Copy</button></div><pre><code id="p3_1" class="language-python">import numpy as np
+
+def corr_cell(x, y):
+    # TODO: Pearson correlation of x and y, rounded to 4
+    return 0.0
+
+print(corr_cell([1, 2, 3], [2, 4, 6]))</code></pre></div><template class="ho-check">assert corr_cell([1, 2, 3], [2, 4, 6]) == 1.0
+assert corr_cell([1, 2, 3], [3, 2, 1]) == -1.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.imshow correlation heatmap with text_auto=&#x27;.2f&#x27; to show values in each cell</label></li>
 <li><label><input type="checkbox"> Build a px.scatter_matrix on the iris dataset and hide the upper triangle with showupperhalf=False</label></li>
 <li><label><input type="checkbox"> Try different color scales (RdBu_r, Viridis, Plasma) on a heatmap and note the visual difference</label></li>
 <li><label><input type="checkbox"> Add custom annotations to a go.Heatmap to label each cell with its exact value</label></li>
@@ -1697,7 +1713,13 @@ fig = go.Figure()
 #     yaxis=dict(gridcolor=&#x27;#1e293b&#x27;, title=&#x27;Revenue ($K)&#x27;),
 #     barmode=&#x27;overlay&#x27;, height=430,
 # )
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply template=&#x27;plotly_dark&#x27; to an existing chart and compare it to &#x27;plotly_white&#x27;</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Layout Update</div><div class="pd">fig.update_layout merges a dict of settings into the existing layout.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">def update_layout(layout, changes):
+    # TODO: merge, with changes winning
+    return {}
+
+print(update_layout({&#x27;title&#x27;: &#x27;a&#x27;}, {&#x27;width&#x27;: 700}))</code></pre></div><template class="ho-check">assert update_layout({&#x27;title&#x27;: &#x27;a&#x27;}, {&#x27;width&#x27;: 700}) == {&#x27;title&#x27;: &#x27;a&#x27;, &#x27;width&#x27;: 700}
+assert update_layout({&#x27;w&#x27;: 1}, {&#x27;w&#x27;: 2}) == {&#x27;w&#x27;: 2}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply template=&#x27;plotly_dark&#x27; to an existing chart and compare it to &#x27;plotly_white&#x27;</label></li>
 <li><label><input type="checkbox"> Use update_traces() to change line color, width, and dash style across all line traces</label></li>
 <li><label><input type="checkbox"> Add an add_hline() reference line and an add_annotation() to highlight a key data point</label></li>
 <li><label><input type="checkbox"> Use update_layout() to set plot_bgcolor and paper_bgcolor for a custom dark theme</label></li>
@@ -1894,7 +1916,13 @@ df = px.data.gapminder()
 # )
 # TODO: fig.update_layout(height=500,
 #     coloraxis_colorbar=dict(title=&#x27;Life Exp (years)&#x27;))
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using animation_frame=&#x27;year&#x27; and observe the play button</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Animation Frames</div><div class="pd">An animated chart is a list of frames, one per value of the animation key.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">def frame_keys(rows, key):
+    # TODO: sorted unique values of row[key]
+    return []
+
+print(frame_keys([{&#x27;year&#x27;: 2021}, {&#x27;year&#x27;: 2020}, {&#x27;year&#x27;: 2021}], &#x27;year&#x27;))</code></pre></div><template class="ho-check">assert frame_keys([{&#x27;year&#x27;: 2021}, {&#x27;year&#x27;: 2020}, {&#x27;year&#x27;: 2021}], &#x27;year&#x27;) == [2020, 2021]
+assert frame_keys([], &#x27;year&#x27;) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using animation_frame=&#x27;year&#x27; and observe the play button</label></li>
 <li><label><input type="checkbox"> Slow down animation speed by setting frame duration: fig.layout.updatemenus[0].buttons[0].args[1][&#x27;frame&#x27;][&#x27;duration&#x27;] = 1000</label></li>
 <li><label><input type="checkbox"> Create an animated bar chart using px.bar with animation_frame= and orientation=&#x27;h&#x27;</label></li>
 <li><label><input type="checkbox"> Set range_x= and range_y= on an animated chart to fix axis bounds across all frames</label></li>
@@ -2291,7 +2319,14 @@ df_gap = px.data.gapminder().query(&quot;year == 2007&quot;)
 # TODO: with open(out, &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:
 #     f.write(html_body)
 # TODO: print(f&quot;Report saved: {out} ({os.path.getsize(out)/1024:.1f} KB)&quot;)
-# TODO: os.remove(out)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Export a chart to HTML using fig.write_html(&#x27;chart.html&#x27;, include_plotlyjs=&#x27;cdn&#x27;) and open it</label></li>
+# TODO: os.remove(out)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Export Format</div><div class="pd">write_html and write_image pick their writer from the file extension.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">def export_kind(filename):
+    # TODO: &#x27;html&#x27; for .html, &#x27;image&#x27; for .png/.jpg/.svg/.pdf, else &#x27;unknown&#x27;
+    return &#x27;unknown&#x27;
+
+print(export_kind(&#x27;fig.html&#x27;), export_kind(&#x27;fig.png&#x27;), export_kind(&#x27;fig.txt&#x27;))</code></pre></div><template class="ho-check">assert export_kind(&#x27;fig.html&#x27;) == &#x27;html&#x27;
+assert export_kind(&#x27;fig.png&#x27;) == &#x27;image&#x27; and export_kind(&#x27;a.svg&#x27;) == &#x27;image&#x27;
+assert export_kind(&#x27;fig.txt&#x27;) == &#x27;unknown&#x27;
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Export a chart to HTML using fig.write_html(&#x27;chart.html&#x27;, include_plotlyjs=&#x27;cdn&#x27;) and open it</label></li>
 <li><label><input type="checkbox"> Convert a figure to JSON with fig.to_json() and print the character length of the result</label></li>
 <li><label><input type="checkbox"> Embed two separate charts into one HTML file using fig.to_html(full_html=False) for each</label></li>
 <li><label><input type="checkbox"> Try fig.write_image(&#x27;chart.png&#x27;) after installing kaleido and check the output file size</label></li>
@@ -2370,7 +2405,15 @@ df = pd.DataFrame({
     &#x27;category&#x27;: np.random.choice([&#x27;Electronics&#x27;,&#x27;Clothing&#x27;,&#x27;Food&#x27;], n),
 })
 # TODO: 3D scatter with color by category, size by margin
-# TODO: save to &#x27;globe_sales.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Scatter3d plot with mode=&#x27;markers&#x27; and color markers by a numeric column</label></li>
+# TODO: save to &#x27;globe_sales.html&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Camera Distance</div><div class="pd">The 3D camera sits at a point; its distance from the origin sets the zoom.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">import numpy as np
+
+def camera_distance(eye):
+    # TODO: euclidean norm of (x, y, z), rounded to 4
+    return 0.0
+
+print(camera_distance((1.25, 1.25, 1.25)))</code></pre></div><template class="ho-check">assert camera_distance((3, 4, 0)) == 5.0
+assert camera_distance((0, 0, 0)) == 0.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Scatter3d plot with mode=&#x27;markers&#x27; and color markers by a numeric column</label></li>
 <li><label><input type="checkbox"> Build a go.Surface plot of a mathematical function and rotate it in the browser</label></li>
 <li><label><input type="checkbox"> Add a second Scatter3d trace to a 3D figure using fig.add_trace()</label></li>
 <li><label><input type="checkbox"> Use make_subplots with specs=[[ {&#x27;type&#x27;:&#x27;scatter3d&#x27;}, {&#x27;type&#x27;:&#x27;surface&#x27;} ]] to place 3D charts side by side</label></li>
@@ -2441,7 +2484,13 @@ np.random.seed(42)
 df = pd.DataFrame({&#x27;country&#x27;: countries, &#x27;avg_temp&#x27;: np.random.uniform(5, 30, len(countries))})
 # TODO: choropleth with locations=&#x27;country&#x27;, color=&#x27;avg_temp&#x27;
 # TODO: colorscale=&#x27;RdBu_r&#x27;, color midpoint=15
-# TODO: save to &#x27;world_temp.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a US choropleth using locationmode=&#x27;USA-states&#x27; and color a metric by state</label></li>
+# TODO: save to &#x27;world_temp.html&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Map Bounding Box</div><div class="pd">Fitting a choropleth to its data means finding the bounds of the points.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">def bounding_box(points):
+    # TODO: (min_lat, min_lon, max_lat, max_lon) over (lat, lon) pairs
+    return (0, 0, 0, 0)
+
+print(bounding_box([(10, 20), (30, 5)]))</code></pre></div><template class="ho-check">assert bounding_box([(10, 20), (30, 5)]) == (10, 5, 30, 20)
+assert bounding_box([(1, 1)]) == (1, 1, 1, 1)
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a US choropleth using locationmode=&#x27;USA-states&#x27; and color a metric by state</label></li>
 <li><label><input type="checkbox"> Build a world choropleth with px.choropleth and change the color_continuous_scale</label></li>
 <li><label><input type="checkbox"> Add hover_name= and hover_data= to a scatter_geo map and verify the tooltips</label></li>
 <li><label><input type="checkbox"> Use px.scatter_mapbox with mapbox_style=&#x27;open-street-map&#x27; for a tile-based map</label></li>
@@ -2537,7 +2586,13 @@ growth = [0.03, 0.01, 0.002, 0.01, 0.015]
 # TODO: build frames list (one per year)
 # TODO: each frame: go.Frame with go.Bar showing populations
 # TODO: fig with play button in updatemenus
-# TODO: save to &#x27;population_animation.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using px.scatter with animation_frame=&#x27;year&#x27;</label></li>
+# TODO: save to &#x27;population_animation.html&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interpolate a Frame</div><div class="pd">Smooth transitions interpolate between two frames&#x27; values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">def tween(a, b, t):
+    # TODO: a + (b - a) * t for each pair, rounded to 4
+    return []
+
+print(tween([0, 10], [10, 20], 0.5))</code></pre></div><template class="ho-check">assert tween([0, 10], [10, 20], 0.5) == [5.0, 15.0]
+assert tween([1], [3], 0.0) == [1.0]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Animate the gapminder scatter using px.scatter with animation_frame=&#x27;year&#x27;</label></li>
 <li><label><input type="checkbox"> Build an animated bar chart race using px.bar with animation_frame= and orientation=&#x27;h&#x27;</label></li>
 <li><label><input type="checkbox"> Create an animated choropleth with px.choropleth and animation_frame=&#x27;year&#x27;</label></li>
 <li><label><input type="checkbox"> Use a slider to control a sine wave frequency using go.Figure with frames and sliders</label></li>
@@ -2640,7 +2695,14 @@ def make_fig(year, continent):
 for year, cont in [(1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;)]:
     fig = make_fig(year, cont)
     if fig:
-        fig.write_html(f&#x27;gap_{year}_{cont}.html&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Study the Dash app structure pattern: layout, callback decorator, Input, and Output</label></li>
+        fig.write_html(f&#x27;gap_{year}_{cont}.html&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Callback Signature</div><div class="pd">A Dash callback declares its outputs and inputs by component id and property.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">def callback_spec(outputs, inputs):
+    # TODO: {&#x27;outputs&#x27;: [&#x27;id.prop&#x27;, ...], &#x27;inputs&#x27;: [&#x27;id.prop&#x27;, ...]} from (id, prop) pairs
+    return {}
+
+print(callback_spec([(&#x27;graph&#x27;, &#x27;figure&#x27;)], [(&#x27;slider&#x27;, &#x27;value&#x27;)]))</code></pre></div><template class="ho-check">s = callback_spec([(&#x27;graph&#x27;, &#x27;figure&#x27;)], [(&#x27;slider&#x27;, &#x27;value&#x27;)])
+assert s == {&#x27;outputs&#x27;: [&#x27;graph.figure&#x27;], &#x27;inputs&#x27;: [&#x27;slider.value&#x27;]}
+assert callback_spec([], []) == {&#x27;outputs&#x27;: [], &#x27;inputs&#x27;: []}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Study the Dash app structure pattern: layout, callback decorator, Input, and Output</label></li>
 <li><label><input type="checkbox"> Write a make_fig(category) function returning a filtered px.area chart and call it for 3 categories</label></li>
 <li><label><input type="checkbox"> Trace through the DataTable pattern code and identify props that enable sorting and filtering</label></li>
 <li><label><input type="checkbox"> Review the multi-page Dash routing pattern and note how dash.register_page works</label></li>
@@ -2699,7 +2761,15 @@ np.random.seed(42)
 df = pd.DataFrame({&#x27;state&#x27;:states,&#x27;score&#x27;:np.random.uniform(40,100,len(states))})
 # TODO: px.choropleth locationmode=&#x27;USA-states&#x27;, color=&#x27;score&#x27;, scope=&#x27;usa&#x27;
 # TODO: color_continuous_scale=&#x27;RdYlGn&#x27;
-# TODO: save &#x27;us_choropleth.html&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by gdpPercap</label></li>
+# TODO: save &#x27;us_choropleth.html&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Haversine Distance</div><div class="pd">Great-circle distance between two lat/lon points, in kilometres.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">import numpy as np
+
+def haversine_km(a, b):
+    # TODO: 6371 * 2 * arcsin(sqrt(sin(dlat/2)**2 + cos(lat1)*cos(lat2)*sin(dlon/2)**2)), rounded to 2
+    return 0.0
+
+print(haversine_km((0, 0), (0, 1)))</code></pre></div><template class="ho-check">assert abs(haversine_km((0, 0), (0, 1)) - 111.19) &lt; 0.1
+assert haversine_km((10, 10), (10, 10)) == 0.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by gdpPercap</label></li>
 <li><label><input type="checkbox"> Build a US scatter_geo map using scope=&#x27;usa&#x27; and size= mapped to a revenue column</label></li>
 <li><label><input type="checkbox"> Add animation_frame= to a choropleth to animate it over multiple time periods</label></li>
 <li><label><input type="checkbox"> Create a density mapbox heatmap using px.density_mapbox centered on a city of your choice</label></li>
@@ -2782,7 +2852,15 @@ for i,(cx,cy,cz) in enumerate(centers):
     # TODO: add Scatter3d trace
     pass
 # TODO: update_layout with title, axis labels
-# TODO: fig.write_html(&#x27;clusters_3d.html&#x27;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3D surface of z = sin(sqrt(x^2+y^2)) with contour projections enabled</label></li>
+# TODO: fig.write_html(&#x27;clusters_3d.html&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Surface Grid</div><div class="pd">go.Surface needs a Z matrix evaluated over a meshgrid.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">import numpy as np
+
+def surface_z(n):
+    # TODO: z[i][j] = i + j over an n by n grid, as a nested list of ints
+    return []
+
+print(surface_z(2))</code></pre></div><template class="ho-check">assert surface_z(2) == [[0, 1], [1, 2]]
+assert len(surface_z(3)) == 3
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 3D surface of z = sin(sqrt(x^2+y^2)) with contour projections enabled</label></li>
 <li><label><input type="checkbox"> Build a 3D scatter colored by cluster labels using px.scatter_3d with color= parameter</label></li>
 <li><label><input type="checkbox"> Plot a 3D spiral trajectory and mark the start (green) and end (red) points</label></li>
 <li><label><input type="checkbox"> Add contours to a go.Surface using contours={&#x27;z&#x27;: {&#x27;show&#x27;: True}} and observe the level lines</label></li>
@@ -2919,7 +2997,13 @@ fig = go.Figure()
 fig.update_layout(title=&#x27;Bollinger Bands&#x27;, template=&#x27;plotly_dark&#x27;,
                   xaxis_rangeslider_visible=False)
 fig.write_html(&#x27;bollinger.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Candlestick chart and add a volume bar subplot with shared x-axis</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Candle Direction</div><div class="pd">Each candle is green when it closes at or above its open, red otherwise.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">def candle_colors(opens, closes):
+    # TODO: &#x27;green&#x27; when close &gt;= open, else &#x27;red&#x27;
+    return []
+
+print(candle_colors([10, 10], [11, 9]))</code></pre></div><template class="ho-check">assert candle_colors([10, 10], [11, 9]) == [&#x27;green&#x27;, &#x27;red&#x27;]
+assert candle_colors([5], [5]) == [&#x27;green&#x27;]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Candlestick chart and add a volume bar subplot with shared x-axis</label></li>
 <li><label><input type="checkbox"> Overlay a 20-day and 50-day moving average line on a candlestick chart</label></li>
 <li><label><input type="checkbox"> Add range selector buttons (1M, 3M, 6M, All) and a range slider to an OHLC chart</label></li>
 <li><label><input type="checkbox"> Color each volume bar green when close &gt;= open and red when close &lt; open</label></li>
@@ -3038,7 +3122,13 @@ values  = [0, 0, 0, 0,
 fig = go.Figure()
 fig.update_layout(title=&#x27;File System Sunburst&#x27;)
 fig.write_html(&#x27;filesystem.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.treemap from a flat DataFrame with a 2-level path= hierarchy</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Roll Up the Branches</div><div class="pd">A treemap parent&#x27;s value is the sum of its children.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">def rollup(rows):
+    # TODO: {parent: total value} over {&#x27;parent&#x27;:..., &#x27;value&#x27;:...} rows
+    return {}
+
+print(rollup([{&#x27;parent&#x27;: &#x27;a&#x27;, &#x27;value&#x27;: 1}, {&#x27;parent&#x27;: &#x27;a&#x27;, &#x27;value&#x27;: 2}]))</code></pre></div><template class="ho-check">assert rollup([{&#x27;parent&#x27;: &#x27;a&#x27;, &#x27;value&#x27;: 1}, {&#x27;parent&#x27;: &#x27;a&#x27;, &#x27;value&#x27;: 2}]) == {&#x27;a&#x27;: 3}
+assert rollup([]) == {}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.treemap from a flat DataFrame with a 2-level path= hierarchy</label></li>
 <li><label><input type="checkbox"> Add color= to a treemap to encode a second metric as a color scale</label></li>
 <li><label><input type="checkbox"> Create a 3-level px.sunburst (continent &gt; country &gt; sector) and click to drill down</label></li>
 <li><label><input type="checkbox"> Use go.Treemap directly and set texttemplate to show label and value in each cell</label></li>
@@ -3165,7 +3255,14 @@ data[&#x27;score&#x27;] = data[&#x27;score&#x27;].clip(0, 100)
 fig = go.Figure()
 fig.update_layout(title=&#x27;Exam Score Distributions&#x27;, height=430)
 fig.write_html(&#x27;exam_scores.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.violin with box=True and points=&#x27;all&#x27; to show raw data on a violin plot</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Violin Quartiles</div><div class="pd">A violin&#x27;s inner box marks Q1, the median and Q3.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">import numpy as np
+
+def violin_quartiles(v):
+    # TODO: (Q1, median, Q3) as floats, rounded to 4
+    return (0.0, 0.0, 0.0)
+
+print(violin_quartiles([1, 2, 3, 4, 5]))</code></pre></div><template class="ho-check">assert violin_quartiles([1, 2, 3, 4, 5]) == (2.0, 3.0, 4.0)
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.violin with box=True and points=&#x27;all&#x27; to show raw data on a violin plot</label></li>
 <li><label><input type="checkbox"> Build a split violin using go.Violin with side=&#x27;negative&#x27; and side=&#x27;positive&#x27; for comparison</label></li>
 <li><label><input type="checkbox"> Use px.strip to show individual data points with jitter and add a horizontal mean marker</label></li>
 <li><label><input type="checkbox"> Set meanline_visible=True on a violin to show the mean line inside the distribution</label></li>
@@ -3280,7 +3377,15 @@ except Exception:
 
 # TODO: parallel_coordinates colored by cylinders
 # TODO: parallel_categories with cylinders and origin
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.parallel_coordinates chart on the iris dataset colored by species</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normalize the Axes</div><div class="pd">Parallel coordinates rescale every dimension onto 0..1.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">import numpy as np
+
+def minmax(v):
+    # TODO: (x - min) / (max - min), rounded to 4; all zeros when the range is 0
+    return []
+
+print(minmax([10, 20, 30]))</code></pre></div><template class="ho-check">assert minmax([10, 20, 30]) == [0.0, 0.5, 1.0]
+assert minmax([5, 5]) == [0.0, 0.0]
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.parallel_coordinates chart on the iris dataset colored by species</label></li>
 <li><label><input type="checkbox"> Drag an axis range in the parallel coordinates chart to filter observations interactively</label></li>
 <li><label><input type="checkbox"> Build a px.parallel_categories chart to show flow from region to segment to outcome</label></li>
 <li><label><input type="checkbox"> Use go.Parcoords with custom dimension ranges to constrain each axis independently</label></li>
@@ -3415,7 +3520,13 @@ items   = [&#x27;Budget Total&#x27;] + departments + [&#x27;Overhead&#x27;, &#x2
 fig = go.Figure()
 fig.update_layout(title=&#x27;Budget Variance Waterfall&#x27;, height=430)
 fig.write_html(&#x27;budget_variance.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Funnel chart for a 5-stage sales pipeline and add textinfo=&#x27;value+percent previous&#x27;</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Funnel Conversion</div><div class="pd">Each funnel stage keeps a fraction of the stage above it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">def conversion_rates(counts):
+    # TODO: stage[i] / stage[i-1] as percentages rounded to 2, one per step after the first
+    return []
+
+print(conversion_rates([1000, 500, 250]))</code></pre></div><template class="ho-check">assert conversion_rates([1000, 500, 250]) == [50.0, 50.0]
+assert conversion_rates([10]) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Funnel chart for a 5-stage sales pipeline and add textinfo=&#x27;value+percent previous&#x27;</label></li>
 <li><label><input type="checkbox"> Build a go.Waterfall P&amp;L chart using measure=[&#x27;absolute&#x27;,&#x27;relative&#x27;,&#x27;relative&#x27;,&#x27;total&#x27;] pattern</label></li>
 <li><label><input type="checkbox"> Color waterfall bars green for increases and red for decreases using increasing/decreasing dicts</label></li>
 <li><label><input type="checkbox"> Compare go.Funnel and go.Funnelarea for the same data using a side-by-side subplot</label></li>
@@ -3581,7 +3692,13 @@ for idx, (name, val, max_val, suffix, steps) in enumerate(okrs):
 
 fig.update_layout(title=&#x27;OKR Progress Gauges&#x27;, height=480, template=&#x27;plotly_dark&#x27;)
 fig.write_html(&#x27;okr_gauges.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Indicator with mode=&#x27;number+delta&#x27; and set reference= to compare to last period</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Gauge Delta</div><div class="pd">An indicator shows the change against its reference value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">def gauge_delta(value, reference):
+    # TODO: {&#x27;absolute&#x27;: value - reference, &#x27;percent&#x27;: change vs reference in %, rounded to 2}
+    return {}
+
+print(gauge_delta(120, 100))</code></pre></div><template class="ho-check">assert gauge_delta(120, 100) == {&#x27;absolute&#x27;: 20, &#x27;percent&#x27;: 20.0}
+assert gauge_delta(90, 100)[&#x27;percent&#x27;] == -10.0
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a go.Indicator with mode=&#x27;number+delta&#x27; and set reference= to compare to last period</label></li>
 <li><label><input type="checkbox"> Build a gauge chart using mode=&#x27;gauge+number&#x27; with colored steps for green/yellow/red zones</label></li>
 <li><label><input type="checkbox"> Place 4 KPI indicators in a 2x2 subplot using specs=[[ {&#x27;type&#x27;:&#x27;indicator&#x27;} ]*2]*2</label></li>
 <li><label><input type="checkbox"> Color the delta red when increasing is bad (e.g. churn) by setting increasing color to &#x27;red&#x27;</label></li>
@@ -3745,7 +3862,13 @@ fig = go.Figure()
 fig.update_layout(title=&#x27;Population Pyramid&#x27;, barmode=&#x27;overlay&#x27;,
                   xaxis_title=&#x27;Population (M)&#x27;, height=450)
 fig.write_html(&#x27;population_pyramid.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a bar chart race using go.Figure with frames= and an animated play button</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rank the Frame</div><div class="pd">A bar chart race re-ranks the bars in every frame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">def rank_frame(values):
+    # TODO: names sorted by value, largest first, from a {name: value} dict
+    return []
+
+print(rank_frame({&#x27;a&#x27;: 1, &#x27;b&#x27;: 5}))</code></pre></div><template class="ho-check">assert rank_frame({&#x27;a&#x27;: 1, &#x27;b&#x27;: 5}) == [&#x27;b&#x27;, &#x27;a&#x27;]
+assert rank_frame({}) == []
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a bar chart race using go.Figure with frames= and an animated play button</label></li>
 <li><label><input type="checkbox"> Sort bars within each frame so the highest value always appears at the top</label></li>
 <li><label><input type="checkbox"> Add a sliders= list so users can manually step through each animation frame</label></li>
 <li><label><input type="checkbox"> Create an animated scatter using px.scatter with animation_frame= and animation_group=</label></li>
@@ -3920,7 +4043,12 @@ fig = make_subplots(rows=2, cols=2,
 fig.update_layout(title=&#x27;Sales Dashboard&#x27;, template=&#x27;plotly_dark&#x27;,
                   height=600, showlegend=False)
 fig.write_html(&#x27;dashboard.html&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a custom go.layout.Template with brand colors and register it with pio.templates</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compose Templates</div><div class="pd">Plotly layers a custom template over a base one.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">def compose_template(base, custom):
+    # TODO: merge base into custom, with custom winning
+    return {}
+
+print(compose_template({&#x27;font&#x27;: &#x27;Arial&#x27;, &#x27;bg&#x27;: &#x27;white&#x27;}, {&#x27;bg&#x27;: &#x27;black&#x27;}))</code></pre></div><template class="ho-check">assert compose_template({&#x27;font&#x27;: &#x27;Arial&#x27;, &#x27;bg&#x27;: &#x27;white&#x27;}, {&#x27;bg&#x27;: &#x27;black&#x27;}) == {&#x27;font&#x27;: &#x27;Arial&#x27;, &#x27;bg&#x27;: &#x27;black&#x27;}
+print(&#x27;All checks passed \u2713&#x27;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a custom go.layout.Template with brand colors and register it with pio.templates</label></li>
 <li><label><input type="checkbox"> Set pio.templates.default = &#x27;your_template&#x27; to apply it globally to all new figures</label></li>
 <li><label><input type="checkbox"> Create a dark GitHub-style theme by setting paper_bgcolor=&#x27;#0d1117&#x27; and grid colors</label></li>
 <li><label><input type="checkbox"> Add a confidence interval band using fill=&#x27;tonexty&#x27; between an upper and lower Scatter trace</label></li>
