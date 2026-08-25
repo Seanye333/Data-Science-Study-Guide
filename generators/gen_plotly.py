@@ -26,10 +26,12 @@ def make_html(sections):
         rw_html = (f'<div class="rw"><div class="rh">&#x1F4BC; Real-World: {esc(rw["title"])}</div>'
                    f'<div class="rd">{esc(rw["scenario"])}</div>'
                    f'<pre><code class="language-python">{esc(rw["code"])}</code></pre></div>') if rw else ""
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for _k, practice in enumerate(practices):
+            pid = f"p{i}_{_k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
@@ -40,7 +42,7 @@ def make_html(sections):
                 pex_html += (f'<div class="code-block"><div class="ch"><span>{esc(pex.get("label","Example"))}</span>'
                              f'<button onclick="cp(\'{pcid}\')">Copy</button></div>'
                              f'<pre><code id="{pcid}" class="language-python">{esc(pex["code"])}</code></pre></div>')
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -108,8 +110,7 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        for practice in ([s["practice"]] if s.get("practice") else []) + list(s.get("practices") or []):
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.11.0"}},"nbformat":4,"nbformat_minor":5}
@@ -119,6 +120,32 @@ SECTIONS = [
 
 {
 "title": "1. Plotly Express Basics",
+"practices": [
+{
+"title": 'Trace Dict',
+"desc": 'Build the dict that describes one line trace.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def trace_dict(x, y, name):\n    # TODO: {"x": list(x), "y": list(y), "name": name, "mode": "lines"}\n    return {}\n\nprint(trace_dict([1, 2], [3, 4], "a"))',
+"check": 't = trace_dict([1, 2], [3, 4], "a")\nassert t["name"] == "a" and t["x"] == [1, 2] and t["mode"] == "lines"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Series By Group',
+"desc": 'Split (group, x, y) rows into one series per group.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def series_by_group(rows):\n    d = {}\n    for g, x, y in rows:\n        # TODO: collect x and y into d[g]["x"] / d[g]["y"]\n        pass\n    return d\n\nprint(series_by_group([("a", 1, 2), ("a", 2, 3), ("b", 1, 5)]))',
+"check": 'r = series_by_group([("a", 1, 2), ("a", 2, 3), ("b", 1, 5)])\nassert r["a"]["y"] == [2, 3] and r["b"]["x"] == [1]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Axis Titles',
+"desc": 'Build the layout keys for axis labels.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def axis_titles(x, y):\n    # TODO: {"xaxis_title": x, "yaxis_title": y}\n    return {}\n\nprint(axis_titles("t", "v"))',
+"check": 'assert axis_titles("t", "v") == {"xaxis_title": "t", "yaxis_title": "v"}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Hover Labels',
+"desc": "Format hover text as 'name: value'.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)",
+"starter": 'def hover_labels(names, values):\n    # TODO: ["name: value", ...] pairing the two lists\n    return []\n\nprint(hover_labels(["a", "b"], [1, 2]))',
+"check": 'assert hover_labels(["a"], [1]) == ["a: 1"]\nassert hover_labels(["a", "b"], [1, 2]) == ["a: 1", "b: 2"]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "plotly.express (px) creates interactive charts in one line. Charts are HTML/JavaScript — hover, zoom, and pan by default.",
 "examples": [
 {"label": "First chart: px.scatter", "code":
@@ -383,6 +410,32 @@ fig.show()"""}
 
 {
 "title": "2. Bar & Pie Charts",
+"practices": [
+{
+"title": 'Grouped Bar Data',
+"desc": 'One trace dict per series for a grouped bar.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def grouped_bar_data(cats, series):\n    # TODO: [{"name": key, "x": list(cats), "y": list(values)} for each series]\n    return []\n\nprint(grouped_bar_data(["q1", "q2"], {"2023": [1, 2], "2024": [3, 4]}))',
+"check": 'r = grouped_bar_data(["q1", "q2"], {"2023": [1, 2], "2024": [3, 4]})\nassert len(r) == 2 and r[0]["y"] == [1, 2] and r[0]["x"] == ["q1", "q2"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Sort Bars',
+"desc": 'Sort bars by value descending, ties alphabetical.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def sort_bars(labels, values):\n    # TODO: sort pairs by (-value, label), return (labels, values)\n    return (labels, values)\n\nprint(sort_bars(["a", "b"], [1, 5]))',
+"check": 'assert sort_bars(["a", "b"], [1, 5]) == (["b", "a"], [5, 1])\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Stack Totals',
+"desc": 'Total height of each stacked bar.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'import numpy as np\n\ndef stack_totals(series):\n    # TODO: elementwise sum across all series, as a list\n    return []\n\nprint(stack_totals({"a": [1, 2], "b": [3, 4]}))',
+"check": 'assert stack_totals({"a": [1, 2], "b": [3, 4]}) == [4.0, 6.0]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Percent Stack',
+"desc": 'Convert a stack to percentages of each column.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'import numpy as np\n\ndef pct_stack(series):\n    arrs = np.array([list(v) for v in series.values()], dtype=float)\n    tot = arrs.sum(axis=0)\n    # TODO: arrs / tot * 100, rounded to 2, as a nested list\n    return []\n\nprint(pct_stack({"a": [1], "b": [3]}))',
+"check": 'assert pct_stack({"a": [1], "b": [3]}) == [[25.0], [75.0]]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "px.bar for categorical comparisons; px.pie and px.sunburst for part-to-whole. All support hover, faceting, and animation.",
 "examples": [
 {"label": "px.bar with facets", "code":
@@ -1156,6 +1209,32 @@ fig.show()"""}
 
 {
 "title": "5. 3D Charts",
+"practices": [
+{
+"title": 'Mesh Grid Points',
+"desc": 'All (x, y) pairs of a grid, row by row.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def mesh_grid_points(xs, ys):\n    # TODO: [(x, y) for y in ys for x in xs]\n    return []\n\nprint(mesh_grid_points([1, 2], [3]))',
+"check": 'assert mesh_grid_points([1, 2], [3]) == [(1, 3), (2, 3)]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Z Matrix',
+"desc": 'Evaluate f(x, y) over a grid for a surface.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def z_matrix(f, xs, ys):\n    # TODO: [[f(x, y) for x in xs] for y in ys]\n    return []\n\nprint(z_matrix(lambda x, y: x + y, [1, 2], [10]))',
+"check": 'assert z_matrix(lambda x, y: x + y, [1, 2], [10]) == [[11, 12]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Color Scale Bounds',
+"desc": 'Min and max for a continuous color scale.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'import numpy as np\n\ndef color_scale_bounds(vals):\n    v = np.asarray(vals, float)\n    # TODO: return (float min, float max)\n    return (0.0, 0.0)\n\nprint(color_scale_bounds([3, 1, 9]))',
+"check": 'assert color_scale_bounds([3, 1, 9]) == (1.0, 9.0)\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Annotation',
+"desc": 'Build an annotation dict for a 3D or 2D chart.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def annotation(x, y, text):\n    # TODO: {"x": x, "y": y, "text": text, "showarrow": True}\n    return {}\n\nprint(annotation(1, 2, "hi"))',
+"check": 'a = annotation(1, 2, "hi")\nassert a["text"] == "hi" and a["showarrow"] is True\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Plotly renders true 3D scatter and surface plots in the browser. Drag to rotate, scroll to zoom.",
 "examples": [
 {"label": "3D scatter plot", "code":
@@ -1386,6 +1465,32 @@ fig.show()"""}
 
 {
 "title": "6. Subplots with make_subplots",
+"practices": [
+{
+"title": 'Subplot Positions',
+"desc": '1-based (row, col) cells of a grid.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def subplot_positions(rows, cols):\n    # TODO: [(r+1, c+1) for r in range(rows) for c in range(cols)]\n    return []\n\nprint(subplot_positions(1, 2))',
+"check": 'assert subplot_positions(1, 2) == [(1, 1), (1, 2)]\nassert subplot_positions(2, 2) == [(1, 1), (1, 2), (2, 1), (2, 2)]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Layout Dict',
+"desc": 'Minimal layout dict for a figure.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def layout_dict(title, h):\n    # TODO: {"title": title, "height": h}\n    return {}\n\nprint(layout_dict("t", 400))',
+"check": 'assert layout_dict("t", 400) == {"title": "t", "height": 400}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Legend Names',
+"desc": 'Names shown in the legend, in trace order.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def legend_names(traces):\n    # TODO: the "name" of each trace\n    return []\n\nprint(legend_names([{"name": "a"}, {"name": "b"}]))',
+"check": 'assert legend_names([{"name": "a"}, {"name": "b"}]) == ["a", "b"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Rolling Mean Panel',
+"desc": 'Smoothed series for a comparison panel.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'import numpy as np\n\ndef rolling_mean(vals, w):\n    # TODO: moving average of width w, rounded to 4, as a list\n    return []\n\nprint(rolling_mean([1, 2, 3], 2))',
+"check": 'assert rolling_mean([1, 2, 3], 2) == [1.5, 2.5]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "make_subplots creates multi-panel figures. Mix chart types, share axes, and control spacing — all in one interactive figure.",
 "examples": [
 {"label": "2×2 subplot grid", "code":
@@ -2113,6 +2218,32 @@ fig.show()"""}
 
 {
 "title": "9. Maps & Geographic Charts",
+"practices": [
+{
+"title": 'ISO Codes',
+"desc": 'Map country names to ISO-3 codes for a choropleth.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def iso_codes(names, mapping):\n    # TODO: look each name up in mapping (None when missing)\n    return []\n\nprint(iso_codes(["China", "Nowhere"], {"China": "CHN"}))',
+"check": 'assert iso_codes(["China"], {"China": "CHN"}) == ["CHN"]\nassert iso_codes(["X"], {}) == [None]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Monthly Keys',
+"desc": 'Distinct sorted YYYY-MM keys from dates.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def resample_monthly_keys(dates):\n    # TODO: sorted set of the first 7 characters of each date\n    return []\n\nprint(resample_monthly_keys(["2024-01-05", "2024-01-20", "2024-02-01"]))',
+"check": 'assert resample_monthly_keys(["2024-01-05", "2024-01-20", "2024-02-01"]) == ["2024-01", "2024-02"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Range Bounds',
+"desc": 'First and last date for a range slider.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'def range_slider_bounds(dates):\n    # TODO: (min, max) of the dates\n    return (None, None)\n\nprint(range_slider_bounds(["2024-02-01", "2024-01-01"]))',
+"check": 'assert range_slider_bounds(["2024-02-01", "2024-01-01"]) == ("2024-01-01", "2024-02-01")\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Cumulative Series',
+"desc": 'Running total for a cumulative map/line.\n(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)',
+"starter": 'import numpy as np\n\ndef cumulative(vals):\n    # TODO: running total as a list of floats\n    return []\n\nprint(cumulative([1, 2, 3]))',
+"check": 'assert cumulative([1, 2, 3]) == [1.0, 3.0, 6.0]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "px.choropleth and px.scatter_geo create world or country-level maps. px.scatter_mapbox uses tile maps for city-level data.",
 "examples": [
 {"label": "Choropleth world map", "code":

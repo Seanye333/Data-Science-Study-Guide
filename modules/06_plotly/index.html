@@ -249,7 +249,7 @@ fig.update_layout(
     template=&#x27;plotly_white&#x27;,
     showlegend=False,
 )
-fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">import plotly.express as px
 
 df = px.data.gapminder()
 
@@ -265,7 +265,37 @@ countries = [&#x27;United States&#x27;, &#x27;China&#x27;, &#x27;India&#x27;, &#
 # )
 # TODO: fig.update_traces(marker=dict(size=8))
 # TODO: fig.update_layout(hovermode=&#x27;x unified&#x27;, height=450)
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot with color mapped to a categorical column using the color= parameter</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Trace Dict</div><div class="pd">Build the dict that describes one line trace.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def trace_dict(x, y, name):
+    # TODO: {&quot;x&quot;: list(x), &quot;y&quot;: list(y), &quot;name&quot;: name, &quot;mode&quot;: &quot;lines&quot;}
+    return {}
+
+print(trace_dict([1, 2], [3, 4], &quot;a&quot;))</code></pre></div><template class="ho-check">t = trace_dict([1, 2], [3, 4], &quot;a&quot;)
+assert t[&quot;name&quot;] == &quot;a&quot; and t[&quot;x&quot;] == [1, 2] and t[&quot;mode&quot;] == &quot;lines&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Series By Group</div><div class="pd">Split (group, x, y) rows into one series per group.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_2')">Copy</button></div><pre><code id="p0_2" class="language-python">def series_by_group(rows):
+    d = {}
+    for g, x, y in rows:
+        # TODO: collect x and y into d[g][&quot;x&quot;] / d[g][&quot;y&quot;]
+        pass
+    return d
+
+print(series_by_group([(&quot;a&quot;, 1, 2), (&quot;a&quot;, 2, 3), (&quot;b&quot;, 1, 5)]))</code></pre></div><template class="ho-check">r = series_by_group([(&quot;a&quot;, 1, 2), (&quot;a&quot;, 2, 3), (&quot;b&quot;, 1, 5)])
+assert r[&quot;a&quot;][&quot;y&quot;] == [2, 3] and r[&quot;b&quot;][&quot;x&quot;] == [1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Axis Titles</div><div class="pd">Build the layout keys for axis labels.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_3')">Copy</button></div><pre><code id="p0_3" class="language-python">def axis_titles(x, y):
+    # TODO: {&quot;xaxis_title&quot;: x, &quot;yaxis_title&quot;: y}
+    return {}
+
+print(axis_titles(&quot;t&quot;, &quot;v&quot;))</code></pre></div><template class="ho-check">assert axis_titles(&quot;t&quot;, &quot;v&quot;) == {&quot;xaxis_title&quot;: &quot;t&quot;, &quot;yaxis_title&quot;: &quot;v&quot;}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hover Labels</div><div class="pd">Format hover text as &#x27;name: value&#x27;.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_4')">Copy</button></div><pre><code id="p0_4" class="language-python">def hover_labels(names, values):
+    # TODO: [&quot;name: value&quot;, ...] pairing the two lists
+    return []
+
+print(hover_labels([&quot;a&quot;, &quot;b&quot;], [1, 2]))</code></pre></div><template class="ho-check">assert hover_labels([&quot;a&quot;], [1]) == [&quot;a: 1&quot;]
+assert hover_labels([&quot;a&quot;, &quot;b&quot;], [1, 2]) == [&quot;a: 1&quot;, &quot;b: 2&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a scatter plot with color mapped to a categorical column using the color= parameter</label></li>
 <li><label><input type="checkbox"> Add hover_data to show additional columns when hovering over points</label></li>
 <li><label><input type="checkbox"> Use size= to map a numeric column to marker size and adjust size_max</label></li>
 <li><label><input type="checkbox"> Add a trendline using trendline=&#x27;ols&#x27; and inspect the R-squared value</label></li>
@@ -393,7 +423,7 @@ fig = px.sunburst(
     title=&#x27;Q2 2024 Revenue Drill-Down (Region → Category → SKU)&#x27;,
 )
 fig.update_layout(height=550, coloraxis_showscale=False)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sunburst Drill-Down Chart</div><div class="pd">Build a px.sunburst chart using a DataFrame with three levels: continent -&gt; country -&gt; city (invent 2-3 cities per country). Use population as the values column and color by a numeric metric (e.g. GDP). Add a meaningful title and set height=520.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sunburst Drill-Down Chart</div><div class="pd">Build a px.sunburst chart using a DataFrame with three levels: continent -&gt; country -&gt; city (invent 2-3 cities per country). Use population as the values column and color by a numeric metric (e.g. GDP). Add a meaningful title and set height=520.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import plotly.express as px
 import pandas as pd
 
 # Build a simple hierarchical dataset
@@ -422,7 +452,38 @@ df = pd.DataFrame(rows, columns=[&#x27;continent&#x27;,&#x27;country&#x27;,&#x27
 #     title=&#x27;Population Drill-Down: Continent -&gt; Country -&gt; City&#x27;,
 # )
 # TODO: fig.update_layout(height=520)
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.bar chart with barmode=&#x27;group&#x27; and color= by a category column</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grouped Bar Data</div><div class="pd">One trace dict per series for a grouped bar.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">def grouped_bar_data(cats, series):
+    # TODO: [{&quot;name&quot;: key, &quot;x&quot;: list(cats), &quot;y&quot;: list(values)} for each series]
+    return []
+
+print(grouped_bar_data([&quot;q1&quot;, &quot;q2&quot;], {&quot;2023&quot;: [1, 2], &quot;2024&quot;: [3, 4]}))</code></pre></div><template class="ho-check">r = grouped_bar_data([&quot;q1&quot;, &quot;q2&quot;], {&quot;2023&quot;: [1, 2], &quot;2024&quot;: [3, 4]})
+assert len(r) == 2 and r[0][&quot;y&quot;] == [1, 2] and r[0][&quot;x&quot;] == [&quot;q1&quot;, &quot;q2&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sort Bars</div><div class="pd">Sort bars by value descending, ties alphabetical.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">def sort_bars(labels, values):
+    # TODO: sort pairs by (-value, label), return (labels, values)
+    return (labels, values)
+
+print(sort_bars([&quot;a&quot;, &quot;b&quot;], [1, 5]))</code></pre></div><template class="ho-check">assert sort_bars([&quot;a&quot;, &quot;b&quot;], [1, 5]) == ([&quot;b&quot;, &quot;a&quot;], [5, 1])
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stack Totals</div><div class="pd">Total height of each stacked bar.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">import numpy as np
+
+def stack_totals(series):
+    # TODO: elementwise sum across all series, as a list
+    return []
+
+print(stack_totals({&quot;a&quot;: [1, 2], &quot;b&quot;: [3, 4]}))</code></pre></div><template class="ho-check">assert stack_totals({&quot;a&quot;: [1, 2], &quot;b&quot;: [3, 4]}) == [4.0, 6.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Percent Stack</div><div class="pd">Convert a stack to percentages of each column.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">import numpy as np
+
+def pct_stack(series):
+    arrs = np.array([list(v) for v in series.values()], dtype=float)
+    tot = arrs.sum(axis=0)
+    # TODO: arrs / tot * 100, rounded to 2, as a nested list
+    return []
+
+print(pct_stack({&quot;a&quot;: [1], &quot;b&quot;: [3]}))</code></pre></div><template class="ho-check">assert pct_stack({&quot;a&quot;: [1], &quot;b&quot;: [3]}) == [[25.0], [75.0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a px.bar chart with barmode=&#x27;group&#x27; and color= by a category column</label></li>
 <li><label><input type="checkbox"> Convert a grouped bar chart to a stacked bar chart by changing barmode to &#x27;stack&#x27;</label></li>
 <li><label><input type="checkbox"> Create a px.pie chart with hole=0.4 to make a donut chart</label></li>
 <li><label><input type="checkbox"> Build a px.sunburst with a 3-level hierarchy using path= parameter</label></li>
@@ -609,7 +670,7 @@ fig.update_layout(
     height=500,
     template=&#x27;plotly_white&#x27;,
 )
-fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">import plotly.express as px
 
 df = px.data.tips()
 
@@ -902,7 +963,7 @@ fig = px.scatter(
     range_x=[500, 40000], range_y=[-3, 8],
 )
 fig.update_layout(height=550, title_font_size=15)
-fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 
@@ -1104,7 +1165,7 @@ fig.update_layout(
     ),
     height=520
 )
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Scatter with Size, Color, and Hover</div><div class="pd">Create a 3D scatter plot of 400 random points in three clusters separated along all three axes. Color by cluster label, size the markers by a &#x27;confidence&#x27; column (random 5-20), and add meaningful hover_data. Print a summary of how many points are in each cluster.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Scatter with Size, Color, and Hover</div><div class="pd">Create a 3D scatter plot of 400 random points in three clusters separated along all three axes. Color by cluster label, size the markers by a &#x27;confidence&#x27; column (random 5-20), and add meaningful hover_data. Print a summary of how many points are in each cluster.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -1138,7 +1199,35 @@ def make_cluster(cx, cy, cz, label, n):
 #     title=&#x27;3D Cluster Scatter — Size by Confidence&#x27;,
 # )
 # TODO: fig.update_layout(height=520)
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.scatter_3d with color mapped to a continuous variable and size= for a fourth dimension</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mesh Grid Points</div><div class="pd">All (x, y) pairs of a grid, row by row.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">def mesh_grid_points(xs, ys):
+    # TODO: [(x, y) for y in ys for x in xs]
+    return []
+
+print(mesh_grid_points([1, 2], [3]))</code></pre></div><template class="ho-check">assert mesh_grid_points([1, 2], [3]) == [(1, 3), (2, 3)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Z Matrix</div><div class="pd">Evaluate f(x, y) over a grid for a surface.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">def z_matrix(f, xs, ys):
+    # TODO: [[f(x, y) for x in xs] for y in ys]
+    return []
+
+print(z_matrix(lambda x, y: x + y, [1, 2], [10]))</code></pre></div><template class="ho-check">assert z_matrix(lambda x, y: x + y, [1, 2], [10]) == [[11, 12]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Color Scale Bounds</div><div class="pd">Min and max for a continuous color scale.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">import numpy as np
+
+def color_scale_bounds(vals):
+    v = np.asarray(vals, float)
+    # TODO: return (float min, float max)
+    return (0.0, 0.0)
+
+print(color_scale_bounds([3, 1, 9]))</code></pre></div><template class="ho-check">assert color_scale_bounds([3, 1, 9]) == (1.0, 9.0)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Annotation</div><div class="pd">Build an annotation dict for a 3D or 2D chart.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">def annotation(x, y, text):
+    # TODO: {&quot;x&quot;: x, &quot;y&quot;: y, &quot;text&quot;: text, &quot;showarrow&quot;: True}
+    return {}
+
+print(annotation(1, 2, &quot;hi&quot;))</code></pre></div><template class="ho-check">a = annotation(1, 2, &quot;hi&quot;)
+assert a[&quot;text&quot;] == &quot;hi&quot; and a[&quot;showarrow&quot;] is True
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a px.scatter_3d with color mapped to a continuous variable and size= for a fourth dimension</label></li>
 <li><label><input type="checkbox"> Build a go.Surface plot of z = sin(x) * cos(y) and rotate it interactively in the browser</label></li>
 <li><label><input type="checkbox"> Add contours to a surface plot using contours=dict(z=dict(show=True)) to see level curves</label></li>
 <li><label><input type="checkbox"> Change the camera angle with fig.update_layout(scene=dict(camera=dict(eye=dict(x=1.5,y=-1.5,z=1))))</label></li>
@@ -1321,7 +1410,7 @@ fig.add_trace(go.Scatter(x=sessions, y=cvr.round(3), mode=&#x27;markers+text&#x2
                          marker=dict(size=10, color=&#x27;#FFA15A&#x27;)), row=2, col=2)
 
 fig.update_layout(title=&#x27;Growth Dashboard — 2024&#x27;, height=650)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2×2 Subplot Grid</div><div class="pd">Build a 2x2 subplot figure using make_subplots. Panel (1,1): a scatter of random points colored by a third variable. Panel (1,2): a bar chart of 5 category totals. Panel (2,1): a line with fill=&#x27;tozeroy&#x27; for a time series. Panel (2,2): a histogram of 300 normal values. Give each panel a subtitle and set overall height=550.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5')">Copy</button></div><pre><code id="p5" class="language-python">import plotly.graph_objects as go
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2×2 Subplot Grid</div><div class="pd">Build a 2x2 subplot figure using make_subplots. Panel (1,1): a scatter of random points colored by a third variable. Panel (1,2): a bar chart of 5 category totals. Panel (2,1): a line with fill=&#x27;tozeroy&#x27; for a time series. Panel (2,2): a histogram of 300 normal values. Give each panel a subtitle and set overall height=550.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
@@ -1359,7 +1448,34 @@ ts = 100 + np.cumsum(np.random.randn(24) * 3)
 #     marker_color=&#x27;#EF553B&#x27;, name=&#x27;hist&#x27;), row=2, col=2)
 
 # TODO: fig.update_layout(title=&#x27;My 2x2 Dashboard&#x27;, height=550, showlegend=False)
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 subplot grid using make_subplots and add a different chart type in each panel</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Subplot Positions</div><div class="pd">1-based (row, col) cells of a grid.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">def subplot_positions(rows, cols):
+    # TODO: [(r+1, c+1) for r in range(rows) for c in range(cols)]
+    return []
+
+print(subplot_positions(1, 2))</code></pre></div><template class="ho-check">assert subplot_positions(1, 2) == [(1, 1), (1, 2)]
+assert subplot_positions(2, 2) == [(1, 1), (1, 2), (2, 1), (2, 2)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Layout Dict</div><div class="pd">Minimal layout dict for a figure.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-python">def layout_dict(title, h):
+    # TODO: {&quot;title&quot;: title, &quot;height&quot;: h}
+    return {}
+
+print(layout_dict(&quot;t&quot;, 400))</code></pre></div><template class="ho-check">assert layout_dict(&quot;t&quot;, 400) == {&quot;title&quot;: &quot;t&quot;, &quot;height&quot;: 400}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Legend Names</div><div class="pd">Names shown in the legend, in trace order.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-python">def legend_names(traces):
+    # TODO: the &quot;name&quot; of each trace
+    return []
+
+print(legend_names([{&quot;name&quot;: &quot;a&quot;}, {&quot;name&quot;: &quot;b&quot;}]))</code></pre></div><template class="ho-check">assert legend_names([{&quot;name&quot;: &quot;a&quot;}, {&quot;name&quot;: &quot;b&quot;}]) == [&quot;a&quot;, &quot;b&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rolling Mean Panel</div><div class="pd">Smoothed series for a comparison panel.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-python">import numpy as np
+
+def rolling_mean(vals, w):
+    # TODO: moving average of width w, rounded to 4, as a list
+    return []
+
+print(rolling_mean([1, 2, 3], 2))</code></pre></div><template class="ho-check">assert rolling_mean([1, 2, 3], 2) == [1.5, 2.5]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 subplot grid using make_subplots and add a different chart type in each panel</label></li>
 <li><label><input type="checkbox"> Use shared_xaxes=True on a 2-row subplot to link the x-axis zoom between panels</label></li>
 <li><label><input type="checkbox"> Mix chart types (bar + line) in the same subplot using add_trace() with row= and col=</label></li>
 <li><label><input type="checkbox"> Add subplot_titles= to label each panel and adjust vertical_spacing between rows</label></li>
@@ -1539,7 +1655,7 @@ fig.update_layout(
     legend=dict(orientation=&#x27;h&#x27;, y=1.08),
     height=460,
 )
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branded Dark-Theme KPI Chart</div><div class="pd">Create a go.Figure with two traces: a Bar for actual monthly revenue (12 months, random 50-120) and a Scatter line for the monthly target (fixed at 80). Apply a full dark theme using update_layout (plot_bgcolor, paper_bgcolor, font color, grid color). Add an annotation at the month with the highest revenue. Add an add_hline for the target. Set a centered title.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import plotly.graph_objects as go
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branded Dark-Theme KPI Chart</div><div class="pd">Create a go.Figure with two traces: a Bar for actual monthly revenue (12 months, random 50-120) and a Scatter line for the monthly target (fixed at 80). Apply a full dark theme using update_layout (plot_bgcolor, paper_bgcolor, font color, grid color). Add an annotation at the month with the highest revenue. Add an add_hline for the target. Set a centered title.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 np.random.seed(7)
@@ -1755,7 +1871,7 @@ fig = px.scatter(
     labels={&#x27;gdp_pc&#x27;: &#x27;GDP per Capita ($, log)&#x27;, &#x27;co2_pc&#x27;: &#x27;CO2 per Capita (tonnes)&#x27;},
 )
 fig.update_layout(height=520)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Animated Geographic Scatter</div><div class="pd">Using px.data.gapminder(), create an animated choropleth map (px.choropleth) with animation_frame=&#x27;year&#x27;, coloring countries by lifeExp. Set range_color=[30, 85], use the RdYlGn colorscale, and add hover_data for gdpPercap and pop. Print the number of unique years in the animation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7')">Copy</button></div><pre><code id="p7" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Animated Geographic Scatter</div><div class="pd">Using px.data.gapminder(), create an animated choropleth map (px.choropleth) with animation_frame=&#x27;year&#x27;, coloring countries by lifeExp. Set range_color=[30, 85], use the RdYlGn colorscale, and add hover_data for gdpPercap and pop. Print the number of unique years in the animation.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_0')">Copy</button></div><pre><code id="p7_0" class="language-python">import plotly.express as px
 
 df = px.data.gapminder()
 
@@ -1921,7 +2037,7 @@ fig.update_layout(
     height=480,
     coloraxis_colorbar=dict(title=&#x27;vs Target %&#x27;, ticksuffix=&#x27;%&#x27;)
 )
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Geographic Scatter Plot</div><div class="pd">Build a px.scatter_geo bubble map of at least 8 world cities. Each bubble should represent a metric of your choice (e.g., revenue, population). Color by a second numeric column, add hover_name and hover_data, and use projection=&#x27;natural earth&#x27;. Print the city with the highest metric value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Geographic Scatter Plot</div><div class="pd">Build a px.scatter_geo bubble map of at least 8 world cities. Each bubble should represent a metric of your choice (e.g., revenue, population). Color by a second numeric column, add hover_name and hover_data, and use projection=&#x27;natural earth&#x27;. Print the city with the highest metric value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -1951,7 +2067,34 @@ cities = pd.DataFrame({
 #     size_max=40,
 # )
 # TODO: fig.update_layout(height=460)
-# TODO: fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by a metric</label></li>
+# TODO: fig.show()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: ISO Codes</div><div class="pd">Map country names to ISO-3 codes for a choropleth.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">def iso_codes(names, mapping):
+    # TODO: look each name up in mapping (None when missing)
+    return []
+
+print(iso_codes([&quot;China&quot;, &quot;Nowhere&quot;], {&quot;China&quot;: &quot;CHN&quot;}))</code></pre></div><template class="ho-check">assert iso_codes([&quot;China&quot;], {&quot;China&quot;: &quot;CHN&quot;}) == [&quot;CHN&quot;]
+assert iso_codes([&quot;X&quot;], {}) == [None]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Monthly Keys</div><div class="pd">Distinct sorted YYYY-MM keys from dates.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_2')">Copy</button></div><pre><code id="p8_2" class="language-python">def resample_monthly_keys(dates):
+    # TODO: sorted set of the first 7 characters of each date
+    return []
+
+print(resample_monthly_keys([&quot;2024-01-05&quot;, &quot;2024-01-20&quot;, &quot;2024-02-01&quot;]))</code></pre></div><template class="ho-check">assert resample_monthly_keys([&quot;2024-01-05&quot;, &quot;2024-01-20&quot;, &quot;2024-02-01&quot;]) == [&quot;2024-01&quot;, &quot;2024-02&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Range Bounds</div><div class="pd">First and last date for a range slider.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_3')">Copy</button></div><pre><code id="p8_3" class="language-python">def range_slider_bounds(dates):
+    # TODO: (min, max) of the dates
+    return (None, None)
+
+print(range_slider_bounds([&quot;2024-02-01&quot;, &quot;2024-01-01&quot;]))</code></pre></div><template class="ho-check">assert range_slider_bounds([&quot;2024-02-01&quot;, &quot;2024-01-01&quot;]) == (&quot;2024-01-01&quot;, &quot;2024-02-01&quot;)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Series</div><div class="pd">Running total for a cumulative map/line.
+(Shapes the data behind the chart with the standard library, so it runs in the browser - Plotly itself renders locally.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_4')">Copy</button></div><pre><code id="p8_4" class="language-python">import numpy as np
+
+def cumulative(vals):
+    # TODO: running total as a list of floats
+    return []
+
+print(cumulative([1, 2, 3]))</code></pre></div><template class="ho-check">assert cumulative([1, 2, 3]) == [1.0, 3.0, 6.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a world choropleth using px.choropleth with locations=&#x27;iso_alpha&#x27; and color by a metric</label></li>
 <li><label><input type="checkbox"> Build a px.scatter_geo bubble map with size= and color= mapped to two different numeric columns</label></li>
 <li><label><input type="checkbox"> Use scope=&#x27;usa&#x27; to zoom a scatter_geo or choropleth to just the United States</label></li>
 <li><label><input type="checkbox"> Try px.scatter_mapbox with mapbox_style=&#x27;open-street-map&#x27; for a tile-based city-level map</label></li>
@@ -2115,7 +2258,7 @@ size_kb = os.path.getsize(out) / 1024
 print(f&quot;Report saved: {out} ({size_kb:.0f} KB)&quot;)
 print(&quot;Open in any browser — fully interactive, no server needed.&quot;)
 fig.show()
-os.remove(out)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Chart HTML Report</div><div class="pd">Build three separate figures (a scatter, a bar chart, and a line chart) using any px datasets. Export each with fig.to_html(full_html=False, include_plotlyjs=&#x27;cdn&#x27; for the first, include_plotlyjs=False for the rest). Stitch them together with a custom HTML wrapper and write to &#x27;my_report.html&#x27;. Print the file size and then remove it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import plotly.express as px
+os.remove(out)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Chart HTML Report</div><div class="pd">Build three separate figures (a scatter, a bar chart, and a line chart) using any px datasets. Export each with fig.to_html(full_html=False, include_plotlyjs=&#x27;cdn&#x27; for the first, include_plotlyjs=False for the rest). Stitch them together with a custom HTML wrapper and write to &#x27;my_report.html&#x27;. Print the file size and then remove it.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import plotly.express as px
 import os
 
 # Figure 1: scatter
@@ -2214,7 +2357,7 @@ Z = np.sin(X) * np.cos(Y)
 fig.add_trace(go.Surface(x=X, y=Y, z=Z, colorscale=&#x27;Plasma&#x27;, showscale=False), row=1, col=2)
 fig.update_layout(title=&#x27;3D Subplots&#x27;, height=500)
 fig.write_html(&#x27;3d_subplots.html&#x27;)
-print(&#x27;Saved 3d_subplots.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Sales Globe</div><div class="pd">Create a 3D scatter plot with x=region_id (1-5), y=quarter (1-4), z=revenue. Color points by product category and size them by profit margin. Save to globe_sales.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10')">Copy</button></div><pre><code id="p10" class="language-python">import plotly.graph_objects as go
+print(&#x27;Saved 3d_subplots.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Sales Globe</div><div class="pd">Create a 3D scatter plot with x=region_id (1-5), y=quarter (1-4), z=revenue. Color points by product category and size them by profit margin. Save to globe_sales.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_0')">Copy</button></div><pre><code id="p10_0" class="language-python">import plotly.graph_objects as go
 import numpy as np, pandas as pd
 
 np.random.seed(42)
@@ -2288,7 +2431,7 @@ fig = px.scatter_mapbox(df, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, size=&#x27
                         mapbox_style=&#x27;open-street-map&#x27;,
                         title=&#x27;Random Sites across the US&#x27;)
 fig.write_html(&#x27;mapbox_scatter.html&#x27;)
-print(&#x27;Saved mapbox_scatter.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Global Temperature Map</div><div class="pd">Create a world choropleth showing average temperature by country (simulated). Use a RdBu_r diverging colorscale centered at 15 degrees. Save to world_temp.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import plotly.express as px
+print(&#x27;Saved mapbox_scatter.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Global Temperature Map</div><div class="pd">Create a world choropleth showing average temperature by country (simulated). Use a RdBu_r diverging colorscale centered at 15 degrees. Save to world_temp.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -2382,7 +2525,7 @@ fig.update_layout(
     xaxis_title=&#x27;x&#x27;, yaxis_title=&#x27;sin(f*x)&#x27;, yaxis_range=[-1.2, 1.2]
 )
 fig.write_html(&#x27;slider_sine.html&#x27;)
-print(&#x27;Saved slider_sine.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Growth Animation</div><div class="pd">Create an animated bar chart showing population by continent (in billions) from 2000 to 2023. Each frame = one year. Add a play button. Save to population_animation.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12')">Copy</button></div><pre><code id="p12" class="language-python">import plotly.graph_objects as go
+print(&#x27;Saved slider_sine.html&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Growth Animation</div><div class="pd">Create an animated bar chart showing population by continent (in billions) from 2000 to 2023. Each frame = one year. Add a play button. Save to population_animation.html.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_0')">Copy</button></div><pre><code id="p12_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 continents = [&#x27;Africa&#x27;,&#x27;Asia&#x27;,&#x27;Europe&#x27;,&#x27;Americas&#x27;,&#x27;Oceania&#x27;]
@@ -2485,7 +2628,7 @@ app.layout = html.Div([
     dash.page_container
 ])
 &#x27;&#x27;&#x27;)
-print(&#x27;Each page: dash.register_page(__name__, path=&quot;/route&quot;)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Callback</div><div class="pd">Write a function make_fig(year, continent) that filters gapminder data and returns a scatter of GDP vs life expectancy. Call it for (1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;). Save each as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13')">Copy</button></div><pre><code id="p13" class="language-python">import plotly.express as px
+print(&#x27;Each page: dash.register_page(__name__, path=&quot;/route&quot;)&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Callback</div><div class="pd">Write a function make_fig(year, continent) that filters gapminder data and returns a scatter of GDP vs life expectancy. Call it for (1952,&#x27;Asia&#x27;), (2007,&#x27;Europe&#x27;), (2007,&#x27;All&#x27;). Save each as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_0')">Copy</button></div><pre><code id="p13_0" class="language-python">import plotly.express as px
 
 gap = px.data.gapminder()
 
@@ -2544,7 +2687,7 @@ fig = px.density_mapbox(df, lat=&#x27;lat&#x27;, lon=&#x27;lon&#x27;, z=&#x27;in
                          mapbox_style=&#x27;open-street-map&#x27;,
                          title=&#x27;Event Density (NYC Area)&#x27;, color_continuous_scale=&#x27;Inferno&#x27;)
 fig.write_html(&#x27;density_map.html&#x27;)
-print(f&#x27;Density map saved - {len(df)} events&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: US State Choropleth</div><div class="pd">Create a choropleth of US states using locationmode=&#x27;USA-states&#x27;. Assign random performance_score (0-100) to each state abbreviation. Color with RdYlGn. Save as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14')">Copy</button></div><pre><code id="p14" class="language-python">import plotly.express as px
+print(f&#x27;Density map saved - {len(df)} events&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: US State Choropleth</div><div class="pd">Create a choropleth of US states using locationmode=&#x27;USA-states&#x27;. Assign random performance_score (0-100) to each state abbreviation. Color with RdYlGn. Save as HTML.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_0')">Copy</button></div><pre><code id="p14_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -2626,7 +2769,7 @@ fig = go.Figure([go.Surface(x=X, y=Y, z=Z, colorscale=&#x27;RdYlGn_r&#x27;, opac
                                name=&#x27;GD Path&#x27;)])
 fig.update_layout(title=&#x27;Loss Landscape + Gradient Descent&#x27;, width=750, height=550)
 fig.write_html(&#x27;loss_landscape.html&#x27;)
-print(f&#x27;Loss landscape saved - final loss: {pz_path[-1]:.3f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Cluster Scatter</div><div class="pd">Generate 3 Gaussian clusters at (0,0,0), (3,3,0), (0,3,3) in 3D. Create a 3D scatter with each cluster in a different color. Add axis labels and save as &#x27;clusters_3d.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import plotly.graph_objects as go
+print(f&#x27;Loss landscape saved - final loss: {pz_path[-1]:.3f}&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Cluster Scatter</div><div class="pd">Generate 3 Gaussian clusters at (0,0,0), (3,3,0), (0,3,3) in 3D. Create a 3D scatter with each cluster in a different color. Add axis labels and save as &#x27;clusters_3d.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 np.random.seed(42)
@@ -2755,7 +2898,7 @@ for row, ticker in enumerate(tickers, 1):
 fig.update_xaxes(rangeslider_visible=False)
 fig.update_layout(title=&#x27;Portfolio Overview&#x27;, template=&#x27;plotly_dark&#x27;, height=700)
 fig.write_html(&#x27;portfolio.html&#x27;)
-print(f&#x27;Portfolio chart: {len(tickers)} tickers saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bollinger Bands</div><div class="pd">Generate 90 days of OHLC data (random walk starting at 100). Compute a 20-day rolling mean and ±2 std Bollinger Bands from the close price. Plot as a candlestick with the upper, middle, and lower bands as overlaid lines. Color the bands blue. Save as &#x27;bollinger.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import plotly.graph_objects as go
+print(f&#x27;Portfolio chart: {len(tickers)} tickers saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bollinger Bands</div><div class="pd">Generate 90 days of OHLC data (random walk starting at 100). Compute a 20-day rolling mean and ±2 std Bollinger Bands from the close price. Plot as a candlestick with the upper, middle, and lower bands as overlaid lines. Color the bands blue. Save as &#x27;bollinger.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import plotly.graph_objects as go
 import numpy as np, pandas as pd
 
 np.random.seed(42)
@@ -2875,7 +3018,7 @@ fig.update_traces(
     hovertemplate=&#x27;%{label}&lt;br&gt;Cost: $%{value:,.0f}&lt;br&gt;Growth: %{customdata[0]:.1%}&lt;extra&gt;&lt;/extra&gt;&#x27;,
 )
 fig.write_html(&#x27;it_cost_treemap.html&#x27;)
-print(f&#x27;IT cost treemap saved — {df.cost.sum():,} total spend&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File System Sunburst</div><div class="pd">Build a sunburst showing a simulated file system: root → 3 folders (docs, src, data) → 2-3 files each with sizes (KB). Use go.Sunburst with branchvalues=&#x27;total&#x27;. Color by size. Show label+percent parent as text. Save as &#x27;filesystem.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import plotly.graph_objects as go
+print(f&#x27;IT cost treemap saved — {df.cost.sum():,} total spend&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File System Sunburst</div><div class="pd">Build a sunburst showing a simulated file system: root → 3 folders (docs, src, data) → 2-3 files each with sizes (KB). Use go.Sunburst with branchvalues=&#x27;total&#x27;. Color by size. Show label+percent parent as text. Save as &#x27;filesystem.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import plotly.graph_objects as go
 
 labels  = [&#x27;root&#x27;,&#x27;docs&#x27;,&#x27;src&#x27;,&#x27;data&#x27;,
            &#x27;report.pdf&#x27;,&#x27;slides.pptx&#x27;,
@@ -3003,7 +3146,7 @@ fig.update_layout(title=&#x27;A/B Test: Control vs Variant&#x27;,
                   height=420)
 fig.write_html(&#x27;ab_test_violin.html&#x27;)
 for m, (c, v) in metrics.items():
-    print(f&#x27;{m}: ctrl={c.mean():.1f} | var={v.mean():.1f} | lift={((v.mean()-c.mean())/c.mean())*100:.1f}%&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Group Violin</div><div class="pd">Generate exam scores for 4 subjects (Math, Science, English, History) with 60 students each (different means: 72, 68, 75, 65; std=12). Create a violin plot with box=True, points=&#x27;outliers&#x27;. Color by subject. Add a horizontal dashed line at score=70 (passing threshold). Save as &#x27;exam_scores.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import plotly.express as px
+    print(f&#x27;{m}: ctrl={c.mean():.1f} | var={v.mean():.1f} | lift={((v.mean()-c.mean())/c.mean())*100:.1f}%&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Group Violin</div><div class="pd">Generate exam scores for 4 subjects (Math, Science, English, History) with 60 students each (different means: 72, 68, 75, 65; std=12). Create a violin plot with box=True, points=&#x27;outliers&#x27;. Color by subject. Add a horizontal dashed line at score=70 (passing threshold). Save as &#x27;exam_scores.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np, pandas as pd
 
@@ -3116,7 +3259,7 @@ fig = px.parallel_coordinates(
 )
 fig.update_layout(height=430)
 fig.write_html(&#x27;wine_parallel.html&#x27;)
-print(f&#x27;Wine parallel coords: {len(df)} samples, {len(top_features)} features&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Car Dataset Explorer</div><div class="pd">Using px.data.cars() (or generate synthetic data: mpg, cylinders, horsepower, weight, model_year), create a parallel coordinates chart colored by &#x27;cylinders&#x27;. Add a second chart using px.parallel_categories with columns cylinders and origin. Save both as &#x27;cars_parcoord.html&#x27; and &#x27;cars_parcat.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import plotly.express as px
+print(f&#x27;Wine parallel coords: {len(df)} samples, {len(top_features)} features&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Car Dataset Explorer</div><div class="pd">Using px.data.cars() (or generate synthetic data: mpg, cylinders, horsepower, weight, model_year), create a parallel coordinates chart colored by &#x27;cylinders&#x27;. Add a second chart using px.parallel_categories with columns cylinders and origin. Save both as &#x27;cars_parcoord.html&#x27; and &#x27;cars_parcat.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import plotly.express as px
 import pandas as pd
 import numpy as np
 
@@ -3259,7 +3402,7 @@ fig = go.Figure(go.Waterfall(
 fig.update_layout(title=&#x27;SaaS ARR Waterfall (H1 2024)&#x27;, height=450,
                   template=&#x27;plotly_white&#x27;, xaxis_tickangle=45)
 fig.write_html(&#x27;saas_waterfall.html&#x27;)
-print(&#x27;SaaS waterfall saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Budget Variance Waterfall</div><div class="pd">Create a waterfall chart showing budget vs actuals for 5 departments: start with &#x27;Budget Total&#x27; at 1,000,000. Show each department as a relative bar (some over, some under). End with &#x27;Actual Total&#x27; as a total bar. Color over-budget red, under-budget green. Save as &#x27;budget_variance.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import plotly.graph_objects as go
+print(&#x27;SaaS waterfall saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Budget Variance Waterfall</div><div class="pd">Create a waterfall chart showing budget vs actuals for 5 departments: start with &#x27;Budget Total&#x27; at 1,000,000. Show each department as a relative bar (some over, some under). End with &#x27;Actual Total&#x27; as a total bar. Color over-budget red, under-budget green. Save as &#x27;budget_variance.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import plotly.graph_objects as go
 
 departments = [&#x27;Engineering&#x27;,&#x27;Marketing&#x27;,&#x27;Sales&#x27;,&#x27;Operations&#x27;,&#x27;HR&#x27;]
 budget_each = [200000, 150000, 180000, 120000, 100000]  # sums to 750k; rest is overhead
@@ -3418,7 +3561,7 @@ fig.update_layout(title=&#x27;SaaS Weekly KPI Report&#x27;,
                   height=320, template=&#x27;plotly_dark&#x27;,
                   margin=dict(t=60, b=20))
 fig.write_html(&#x27;saas_kpi.html&#x27;)
-print(&#x27;SaaS KPI report saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: OKR Progress Gauges</div><div class="pd">Create 4 gauge indicators in a 2x2 subplot grid, one per OKR: (1) Revenue Target: 85% achieved (target 100), (2) Customer Satisfaction: 4.2/5, (3) Bug Backlog: 23 (target &lt;30, lower is better), (4) Feature Delivery: 7/10 shipped. Use colored gauge steps (red/yellow/green). Save as &#x27;okr_gauges.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21')">Copy</button></div><pre><code id="p21" class="language-python">import plotly.graph_objects as go
+print(&#x27;SaaS KPI report saved&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: OKR Progress Gauges</div><div class="pd">Create 4 gauge indicators in a 2x2 subplot grid, one per OKR: (1) Revenue Target: 85% achieved (target 100), (2) Customer Satisfaction: 4.2/5, (3) Bug Backlog: 23 (target &lt;30, lower is better), (4) Feature Delivery: 7/10 shipped. Use colored gauge steps (red/yellow/green). Save as &#x27;okr_gauges.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_0')">Copy</button></div><pre><code id="p21_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 fig = make_subplots(rows=2, cols=2,
@@ -3575,7 +3718,7 @@ fig = go.Figure(
     )
 )
 fig.write_html(&#x27;market_share_race.html&#x27;)
-print(f&#x27;Race saved: {len(quarters)} quarters&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Pyramid Animation</div><div class="pd">Generate synthetic population data for age groups (0-9, 10-19, ..., 70+) across 5 decades (1980-2020). Build an animated horizontal bar chart race where each frame is a decade. Use negative values for female population to create a butterfly/pyramid effect. Save as &#x27;population_pyramid.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22')">Copy</button></div><pre><code id="p22" class="language-python">import plotly.graph_objects as go
+print(f&#x27;Race saved: {len(quarters)} quarters&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Population Pyramid Animation</div><div class="pd">Generate synthetic population data for age groups (0-9, 10-19, ..., 70+) across 5 decades (1980-2020). Build an animated horizontal bar chart race where each frame is a decade. Use negative values for female population to create a butterfly/pyramid effect. Save as &#x27;population_pyramid.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_0')">Copy</button></div><pre><code id="p22_0" class="language-python">import plotly.graph_objects as go
 import numpy as np
 
 age_groups = [&#x27;0-9&#x27;,&#x27;10-19&#x27;,&#x27;20-29&#x27;,&#x27;30-39&#x27;,&#x27;40-49&#x27;,&#x27;50-59&#x27;,&#x27;60-69&#x27;,&#x27;70+&#x27;]
@@ -3750,7 +3893,7 @@ fig = px.area(df_melt, x=&#x27;month&#x27;, y=&#x27;leads&#x27;, color=&#x27;cha
               template=&#x27;corporate&#x27;)
 fig.update_traces(opacity=0.8)
 fig.write_html(&#x27;corporate_report.html&#x27;)
-print(f&#x27;Corporate report saved — {df_melt.leads.sum():,} total leads&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Layout</div><div class="pd">Create a 2x2 subplot dashboard using make_subplots: (top-left) line chart of weekly sales, (top-right) bar chart of sales by region, (bottom-left) scatter of spend vs revenue, (bottom-right) pie chart of channel mix. Apply a consistent dark template. Add a main title. Save as &#x27;dashboard.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23')">Copy</button></div><pre><code id="p23" class="language-python">import plotly.graph_objects as go
+print(f&#x27;Corporate report saved — {df_melt.leads.sum():,} total leads&#x27;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dashboard Layout</div><div class="pd">Create a 2x2 subplot dashboard using make_subplots: (top-left) line chart of weekly sales, (top-right) bar chart of sales by region, (bottom-left) scatter of spend vs revenue, (bottom-right) pie chart of channel mix. Apply a consistent dark template. Add a main title. Save as &#x27;dashboard.html&#x27;.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_0')">Copy</button></div><pre><code id="p23_0" class="language-python">import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np, pandas as pd
 
@@ -3794,7 +3937,7 @@ fig = go.Figure()
 fig.add_trace(go.Bar(name=&quot;2023&quot;, x=months, y=[20, 14, 23, 25]))
 fig.add_trace(go.Bar(name=&quot;2024&quot;, x=months, y=[24, 18, 27, 29]))
 fig.update_layout(barmode=&quot;group&quot;, title=&quot;Monthly sales by year&quot;)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Time-Series Line Chart</div><div class="pd">Build an interactive multi-series line chart: one trace per category, a shared x-axis of dates, a title, and a unified hovermode. Run it locally and open the result with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24')">Copy</button></div><pre><code id="p24" class="language-python">import plotly.graph_objects as go
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Time-Series Line Chart</div><div class="pd">Build an interactive multi-series line chart: one trace per category, a shared x-axis of dates, a title, and a unified hovermode. Run it locally and open the result with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_0')">Copy</button></div><pre><code id="p24_0" class="language-python">import plotly.graph_objects as go
 
 dates = [&quot;2024-01&quot;, &quot;2024-02&quot;, &quot;2024-03&quot;, &quot;2024-04&quot;]
 series = {&quot;North&quot;: [10, 14, 13, 18], &quot;South&quot;: [8, 9, 12, 11]}
@@ -3813,7 +3956,7 @@ fig = make_subplots(rows=1, cols=2, subplot_titles=(&quot;Bar&quot;, &quot;Line&
 fig.add_trace(go.Bar(x=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], y=[3, 1, 2]), row=1, col=1)
 fig.add_trace(go.Scatter(x=[1, 2, 3], y=[2, 4, 3], mode=&quot;lines+markers&quot;), row=1, col=2)
 fig.update_layout(title=&quot;Dashboard&quot;, showlegend=False)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x1 Dashboard</div><div class="pd">Build a 1-row, 2-column figure with a bar chart on the left and a line chart on the right, a shared title, and subplot titles. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25')">Copy</button></div><pre><code id="p25" class="language-python">from plotly.subplots import make_subplots
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 2x1 Dashboard</div><div class="pd">Build a 1-row, 2-column figure with a bar chart on the left and a line chart on the right, a shared title, and subplot titles. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_0')">Copy</button></div><pre><code id="p25_0" class="language-python">from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 fig = make_subplots(rows=1, cols=2, subplot_titles=(&quot;Bar&quot;, &quot;Line&quot;))
@@ -3826,7 +3969,7 @@ fig.show()</code></pre></div></div><div class="todo-list"><div class="todo-head"
 df = px.data.tips()
 fig = px.scatter(df, x=&quot;total_bill&quot;, y=&quot;tip&quot;, color=&quot;sex&quot;,
                  facet_col=&quot;time&quot;, trendline=&quot;ols&quot;, title=&quot;Tips by time of day&quot;)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Small Multiples</div><div class="pd">Using px.data.tips(), build a scatter of tip vs total_bill, colored by sex, with one panel per day (facet_col=&#x27;day&#x27;). Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26')">Copy</button></div><pre><code id="p26" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Small Multiples</div><div class="pd">Using px.data.tips(), build a scatter of tip vs total_bill, colored by sex, with one panel per day (facet_col=&#x27;day&#x27;). Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_0')">Copy</button></div><pre><code id="p26_0" class="language-python">import plotly.express as px
 
 df = px.data.tips()
 # TODO: px.scatter(df, x=&quot;total_bill&quot;, y=&quot;tip&quot;, color=&quot;sex&quot;, facet_col=&quot;day&quot;)
@@ -3838,7 +3981,7 @@ fig = None
 df = px.data.iris()
 fig = px.scatter_3d(df, x=&quot;sepal_length&quot;, y=&quot;sepal_width&quot;, z=&quot;petal_length&quot;,
                     color=&quot;species&quot;, title=&quot;Iris in 3D&quot;)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Plot</div><div class="pd">Build a 3D scatter of the iris dataset (sepal_length, sepal_width, petal_length), colored by species. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27')">Copy</button></div><pre><code id="p27" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3D Plot</div><div class="pd">Build a 3D scatter of the iris dataset (sepal_length, sepal_width, petal_length), colored by species. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_0')">Copy</button></div><pre><code id="p27_0" class="language-python">import plotly.express as px
 
 df = px.data.iris()
 # TODO: px.scatter_3d(df, x=&quot;sepal_length&quot;, y=&quot;sepal_width&quot;, z=&quot;petal_length&quot;, color=&quot;species&quot;)
@@ -3849,7 +3992,7 @@ fig = None
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
 fig = px.choropleth(df, locations=&quot;iso_alpha&quot;, color=&quot;lifeExp&quot;,
                     hover_name=&quot;country&quot;, title=&quot;Life expectancy, 2007&quot;)
-fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Map a Metric</div><div class="pd">Using px.data.gapminder() filtered to year 2007, draw a choropleth shading countries by gdpPercap. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28')">Copy</button></div><pre><code id="p28" class="language-python">import plotly.express as px
+fig.show()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Map a Metric</div><div class="pd">Using px.data.gapminder() filtered to year 2007, draw a choropleth shading countries by gdpPercap. Run locally with fig.show().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_0')">Copy</button></div><pre><code id="p28_0" class="language-python">import plotly.express as px
 
 df = px.data.gapminder().query(&quot;year == 2007&quot;)
 # TODO: px.choropleth(df, locations=&quot;iso_alpha&quot;, color=&quot;gdpPercap&quot;, hover_name=&quot;country&quot;)
