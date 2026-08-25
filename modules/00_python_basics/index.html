@@ -172,7 +172,12 @@ is_working_age = ???
 print(f&quot;{name} | Age: {age} | Height: {height}m | Working age: {is_working_age}&quot;)</code></pre></div><template class="ho-check">assert age == 1.75, &quot;After the swap, age should hold the height value (1.75)&quot;
 assert height == 25, &quot;After the swap, height should hold the original age value (25)&quot;
 assert is_working_age is True, &quot;The original age 25 is within 18-65, so this should be True&quot;
-print(&quot;All checks passed ✓&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Declare variables for your name, age, and favorite number — print their types with type()</label></li>
+print(&quot;All checks passed ✓&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Type Name</div><div class="pd">Return the name of a value&#x27;s type.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">def type_name(v):
+    # TODO: type(v).__name__
+    return &quot;&quot;
+
+print(type_name(3), type_name(&quot;a&quot;))</code></pre></div><template class="ho-check">assert type_name(3) == &quot;int&quot; and type_name(&quot;a&quot;) == &quot;str&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Declare variables for your name, age, and favorite number — print their types with type()</label></li>
 <li><label><input type="checkbox"> Convert the string &#x27;3.14&#x27; to float, then to int — explain what happens to the decimal</label></li>
 <li><label><input type="checkbox"> Use f-strings to print a sentence combining an int and a string variable</label></li>
 <li><label><input type="checkbox"> Create a variable holding None and write an if-check for it using &#x27;is None&#x27;</label></li>
@@ -944,7 +949,12 @@ for n in range(1, 31):
 for i in range(0, 30, 10):
     print(&quot;  &quot; + &quot;  &quot;.join(f&quot;{v:8s}&quot; for v in results[i:i+10]))
 
-# Expected row 1: 1  2  Fizz  4  Buzz  Fizz  Zap  8  Fizz  Buzz</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use enumerate() to loop over a list and print each index alongside its value</label></li>
+# Expected row 1: 1  2  Fizz  4  Buzz  Fizz  Zap  8  Fizz  Buzz</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sum Evens</div><div class="pd">Total the even numbers from 1 to n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">def sum_evens(n):
+    # TODO: sum the even values in 1..n
+    return 0
+
+print(sum_evens(10))</code></pre></div><template class="ho-check">assert sum_evens(10) == 30 and sum_evens(1) == 0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use enumerate() to loop over a list and print each index alongside its value</label></li>
 <li><label><input type="checkbox"> Use zip() to loop over two lists simultaneously and print paired values</label></li>
 <li><label><input type="checkbox"> Write a while loop that halves a number each iteration until it drops below 1</label></li>
 <li><label><input type="checkbox"> Use break to exit a for loop early when you find the first number greater than 50</label></li>
@@ -1360,7 +1370,17 @@ print(s)            # Stack([1, 2])
 try:
     Stack().pop()
 except IndexError as e:
-    print(f&quot;Caught: {e}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a BankAccount class with deposit, withdraw, and __str__ — enforce non-negative balance</label></li>
+    print(f&quot;Caught: {e}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Counter Class</div><div class="pd">A class that counts calls to inc().</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">class Counter:
+    def __init__(self):
+        self.n = 0
+    def inc(self):
+        # TODO: increment self.n and return the new value
+        return self.n
+
+c = Counter(); c.inc()
+print(c.inc())</code></pre></div><template class="ho-check">c = Counter(); c.inc()
+assert c.inc() == 2 and c.n == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a BankAccount class with deposit, withdraw, and __str__ — enforce non-negative balance</label></li>
 <li><label><input type="checkbox"> Implement inheritance: make SavingsAccount extend BankAccount with an interest_rate attribute</label></li>
 <li><label><input type="checkbox"> Add a @property to a class that computes a derived value (e.g., full_name from first + last)</label></li>
 <li><label><input type="checkbox"> Use @classmethod to write an alternative constructor (e.g., from_string)</label></li>
@@ -1529,7 +1549,12 @@ test_lines = [
 
 for line in test_lines:
     result = parse_record(line)
-    print(f&quot;  {line!r:25s} -&gt; {result}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Wrap a division by zero in try/except and return a custom error message</label></li>
+    print(f&quot;  {line!r:25s} -&gt; {result}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe Divide</div><div class="pd">Return None instead of raising on divide-by-zero.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">def safe_div(a, b):
+    # TODO: try a/b, return None on ZeroDivisionError
+    return a / b
+
+print(safe_div(4, 2), safe_div(1, 0))</code></pre></div><template class="ho-check">assert safe_div(1, 0) is None and safe_div(4, 2) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Wrap a division by zero in try/except and return a custom error message</label></li>
 <li><label><input type="checkbox"> Create a custom exception InsufficientFundsError that stores the amount and balance</label></li>
 <li><label><input type="checkbox"> Use try/except/else/finally to read a file — handle missing file and always print &#x27;done&#x27;</label></li>
 <li><label><input type="checkbox"> Use contextlib.suppress to silently ignore a FileNotFoundError</label></li>
@@ -1708,7 +1733,14 @@ log_data = &quot;&quot;&quot;2024-01-15 INFO    Server started on port 8080
 # Level counts: {&#x27;INFO&#x27;: 4, &#x27;DEBUG&#x27;: 1, &#x27;WARNING&#x27;: 2, &#x27;ERROR&#x27;: 2, &#x27;CRITICAL&#x27;: 1}
 # Error lines:
 #   2024-01-15 ERROR   Failed to connect to cache: timeout
-#   2024-01-15 ERROR   Database query failed: syntax error</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a file, read it back line by line, and strip newlines — use a with statement</label></li>
+#   2024-01-15 ERROR   Database query failed: syntax error</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Read Non-Empty Lines</div><div class="pd">Split text into lines, dropping blanks.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import io
+
+def read_lines(text):
+    # TODO: read the text and return its non-empty lines
+    return []
+
+print(read_lines(&quot;a\n\nb&quot;))</code></pre></div><template class="ho-check">assert read_lines(&quot;a\n\nb&quot;) == [&quot;a&quot;, &quot;b&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a file, read it back line by line, and strip newlines — use a with statement</label></li>
 <li><label><input type="checkbox"> Parse a JSON string containing a list of dicts and print each item&#x27;s &#x27;name&#x27; field</label></li>
 <li><label><input type="checkbox"> Write a CSV with 3 rows using csv.writer and read it back with csv.DictReader</label></li>
 <li><label><input type="checkbox"> Use pathlib.Path to build a cross-platform file path and check if it exists</label></li>
@@ -1870,7 +1902,12 @@ def high_value(sales, threshold=100):
 # Chain the pipeline
 pipeline = high_value(parse_sales(csv_rows(csv_data)))
 for sale in pipeline:
-    print(f&quot;  {sale[&#x27;date&#x27;]}  {sale[&#x27;product&#x27;]:12s}  ${sale[&#x27;revenue&#x27;]:.2f}&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a list comprehension that creates squares, then rewrite it as a generator expression</label></li>
+    print(f&quot;  {sale[&#x27;date&#x27;]}  {sale[&#x27;product&#x27;]:12s}  ${sale[&#x27;revenue&#x27;]:.2f}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Squares Generator</div><div class="pd">Return a generator of squares below n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def squares_gen(n):
+    # TODO: return a generator expression of i*i for i in range(n)
+    return iter([])
+
+print(list(squares_gen(3)))</code></pre></div><template class="ho-check">assert list(squares_gen(3)) == [0, 1, 4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a list comprehension that creates squares, then rewrite it as a generator expression</label></li>
 <li><label><input type="checkbox"> Implement a generator function fibonacci(n) that yields Fibonacci numbers up to n</label></li>
 <li><label><input type="checkbox"> Use sum() with a generator expression to add squares of odd numbers from 1 to 99</label></li>
 <li><label><input type="checkbox"> Write a dict comprehension that inverts a dictionary (swapping keys and values)</label></li>
@@ -2047,7 +2084,12 @@ scores = [72, 88, 95, 63, 79, 91, 55, 84, 76, 90,
 # print(&quot;Grade bins:&quot;, dict(sorted(bins.items())))
 
 print(&quot;Top 5:   &quot;, top_5)
-print(&quot;Bottom 5:&quot;, bottom_5)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Counter to count word frequencies in a sentence and print the top 3 most common</label></li>
+print(&quot;Bottom 5:&quot;, bottom_5)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Built-in Summary</div><div class="pd">max, min and sum in one dict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">def use_builtins(vals):
+    # TODO: {&quot;max&quot;: ..., &quot;min&quot;: ..., &quot;sum&quot;: ...}
+    return {}
+
+print(use_builtins([1, 3, 2]))</code></pre></div><template class="ho-check">assert use_builtins([1, 3, 2]) == {&quot;max&quot;: 3, &quot;min&quot;: 1, &quot;sum&quot;: 6}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Counter to count word frequencies in a sentence and print the top 3 most common</label></li>
 <li><label><input type="checkbox"> Use defaultdict(list) to group a list of (key, value) pairs by key</label></li>
 <li><label><input type="checkbox"> Create a namedtuple Point(x, y) and compute the distance from origin</label></li>
 <li><label><input type="checkbox"> Use itertools.combinations to list all unique 2-player matchups from a list of 5 names</label></li>
@@ -2188,7 +2230,24 @@ try:
     with DatabaseConnection(&#x27;sqlite:///app.db&#x27;) as db:
         raise ValueError(&#x27;Oops!&#x27;)
 except ValueError:
-    pass</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use a with statement to open a file — observe that it closes automatically even on error</label></li>
+    pass</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Enter and Exit</div><div class="pd">A context manager that logs enter/exit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">class Managed:
+    def __init__(self, log):
+        self.log = log
+    def __enter__(self):
+        # TODO: append &quot;enter&quot; to self.log and return self
+        return self
+    def __exit__(self, *a):
+        # TODO: append &quot;exit&quot; to self.log
+        return False
+
+def run_managed():
+    log = []
+    with Managed(log):
+        log.append(&quot;body&quot;)
+    return log
+
+print(run_managed())</code></pre></div><template class="ho-check">assert run_managed() == [&quot;enter&quot;, &quot;body&quot;, &quot;exit&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use a with statement to open a file — observe that it closes automatically even on error</label></li>
 <li><label><input type="checkbox"> Open two files in one with statement for simultaneous reading and writing</label></li>
 <li><label><input type="checkbox"> Write a class-based context manager with __enter__ and __exit__ that times a code block</label></li>
 <li><label><input type="checkbox"> Use @contextmanager to create a log_section() context manager that prints entry/exit messages</label></li>
@@ -2293,7 +2352,14 @@ MONEY_PATTERN = re.compile(r&#x27;&#x27;)   # TODO
 
 print(&#x27;Emails:&#x27;, EMAIL_PATTERN.findall(text))
 print(&#x27;Phones:&#x27;, PHONE_PATTERN.findall(text))
-print(&#x27;Amounts:&#x27;, MONEY_PATTERN.findall(text))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses from a text string</label></li>
+print(&#x27;Amounts:&#x27;, MONEY_PATTERN.findall(text))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Find Dates</div><div class="pd">Extract ISO dates from text.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">import re
+
+def find_dates(s):
+    # TODO: re.findall for YYYY-MM-DD
+    return []
+
+print(find_dates(&quot;on 2024-01-02 and 2025-12-31&quot;))</code></pre></div><template class="ho-check">assert find_dates(&quot;on 2024-01-02 and 2025-12-31&quot;) == [&quot;2024-01-02&quot;, &quot;2025-12-31&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use re.findall to extract all email addresses from a text string</label></li>
 <li><label><input type="checkbox"> Use re.sub to replace all phone number formats (dashes, dots, spaces) with a normalized NNN-NNN-NNNN format</label></li>
 <li><label><input type="checkbox"> Write a regex with a named group (?P&lt;date&gt;...) to extract date strings from log lines</label></li>
 <li><label><input type="checkbox"> Compile a regex pattern with re.IGNORECASE and reuse it on multiple strings</label></li>
@@ -2447,7 +2513,20 @@ book.add(Person(&#x27;Bob&#x27;, 17, &#x27;bob@example.com&#x27;))
 book.add(Person(&#x27;Carol&#x27;, 25, &#x27;carol@example.com&#x27;, &#x27;555-5678&#x27;))
 
 print(book.find_by_name(&#x27;Alice&#x27;))
-print(&#x27;Adults:&#x27;, [p.name for p in book.adults()])</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add type hints to a function with List, Optional, and Dict return type — verify with mypy</label></li>
+print(&#x27;Adults:&#x27;, [p.name for p in book.adults()])</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dataclass Point</div><div class="pd">Build a Point dataclass instance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">from dataclasses import dataclass
+
+@dataclass
+class Point:
+    x: int = 0
+    y: int = 0
+
+def make_point(x, y):
+    # TODO: return a Point with those coordinates
+    return Point()
+
+print(make_point(1, 2))</code></pre></div><template class="ho-check">p = make_point(1, 2)
+assert p.x == 1 and p.y == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add type hints to a function with List, Optional, and Dict return type — verify with mypy</label></li>
 <li><label><input type="checkbox"> Create a @dataclass for a Product with name, price, and tags — test auto-generated __repr__</label></li>
 <li><label><input type="checkbox"> Use frozen=True on a dataclass to make it hashable and add it to a set</label></li>
 <li><label><input type="checkbox"> Add a __post_init__ to a dataclass to validate that price &gt;= 0</label></li>
@@ -2583,7 +2662,12 @@ async def async_fetch(url):
 # TODO: (1) ThreadPoolExecutor: fetch all URLs, measure time
 # TODO: (2) asyncio.gather: fetch all URLs, measure time
 # TODO: (3) Print speedup vs sequential (sum of delays)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run 5 simulated I/O tasks sequentially vs with ThreadPoolExecutor and measure the speedup</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Map Work Items</div><div class="pd">The synchronous shape of a gather: process every item.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">def gather_sync(items):
+    # TODO: return each item doubled (the sync analogue of asyncio.gather)
+    return []
+
+print(gather_sync([1, 2]))</code></pre></div><template class="ho-check">assert gather_sync([1, 2]) == [2, 4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run 5 simulated I/O tasks sequentially vs with ThreadPoolExecutor and measure the speedup</label></li>
 <li><label><input type="checkbox"> Use asyncio.gather to run 5 async sleep tasks concurrently and print total elapsed time</label></li>
 <li><label><input type="checkbox"> Use concurrent.futures.as_completed to process results as they arrive rather than in order</label></li>
 <li><label><input type="checkbox"> Implement a producer-consumer pattern with threading.Queue between two threads</label></li>
@@ -2780,7 +2864,18 @@ def exporter_factory(fmt: str) -&gt; BaseExporter:
 
 data = [{&#x27;id&#x27;: i, &#x27;value&#x27;: i*2, &#x27;name&#x27;: f&#x27;item_{i}&#x27;} for i in range(100)]
 # TODO: export to &#x27;output.csv&#x27; and &#x27;output.json&#x27;, trigger events
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a Singleton class using __new__ and verify two instances are the same object</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Registry Singleton</div><div class="pd">Return the same object for a repeated key.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">def singleton_registry():
+    reg = {}
+    def get(name):
+        # TODO: create the object once per name, then reuse it
+        return object()
+    return get
+
+g = singleton_registry()
+print(g(&quot;a&quot;) is g(&quot;a&quot;))</code></pre></div><template class="ho-check">g = singleton_registry()
+assert g(&quot;a&quot;) is g(&quot;a&quot;), &quot;same key returns the same object&quot;
+assert g(&quot;a&quot;) is not g(&quot;b&quot;), &quot;different keys differ&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Implement a Singleton class using __new__ and verify two instances are the same object</label></li>
 <li><label><input type="checkbox"> Write a shape_factory(kind, **kwargs) that returns Circle or Rectangle from a string key</label></li>
 <li><label><input type="checkbox"> Implement the Observer pattern: create an EventBus with subscribe/publish and test with 2 listeners</label></li>
 <li><label><input type="checkbox"> Implement the Strategy pattern: write two sort strategies and swap them at runtime on a Sorter</label></li>
@@ -2977,7 +3072,13 @@ def test_no_nulls_fail(): ...  # TODO
 for t in [test_valid_types, test_invalid_type, test_range_pass,
           test_range_fail, test_no_nulls_pass, test_no_nulls_fail]:
     t()
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 pytest-style test functions for an add(a, b) function covering normal, negative, and zero cases</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Approximate Equality</div><div class="pd">Compare floats within a tolerance.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">def assert_close(a, b, tol=1e-9):
+    # TODO: True when |a - b| is under tol
+    return False
+
+print(assert_close(0.1 + 0.2, 0.3))</code></pre></div><template class="ho-check">assert assert_close(0.1 + 0.2, 0.3) is True
+assert assert_close(1.0, 1.1) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 pytest-style test functions for an add(a, b) function covering normal, negative, and zero cases</label></li>
 <li><label><input type="checkbox"> Use parametrize-style manual looping to run the same assertion against multiple (input, expected) pairs</label></li>
 <li><label><input type="checkbox"> Use unittest.mock.patch to mock an external API call and verify the function handles the response</label></li>
 <li><label><input type="checkbox"> Write a test that checks a custom exception is raised with the correct message</label></li>
@@ -3085,7 +3186,14 @@ def keep_small(numbers, limit=100):
     return [n for n in numbers if abs(n) &lt; limit]
 
 process_small = partial(process_data, ...)  # TODO: use partial with keep_small
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use map() to convert a list of strings to integers — handle it with list(map(int, ...))</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compose Many</div><div class="pd">Apply a list of functions left to right.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">import functools
+
+def compose_all(fns):
+    # TODO: return a function applying each fn in order
+    return lambda x: x
+
+print(compose_all([lambda v: v + 1, lambda v: v * 2])(3))</code></pre></div><template class="ho-check">assert compose_all([lambda v: v + 1, lambda v: v * 2])(3) == 8
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use map() to convert a list of strings to integers — handle it with list(map(int, ...))</label></li>
 <li><label><input type="checkbox"> Use filter() to keep only even numbers from a list of integers</label></li>
 <li><label><input type="checkbox"> Chain map and filter: square only the even numbers from a list in one expression</label></li>
 <li><label><input type="checkbox"> Use functools.partial to create a double() function from a general multiply(x, factor) function</label></li>
@@ -3200,7 +3308,12 @@ def batch(iterable, n):
 print(all_pairs([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]))   # 6 pairs
 print(len(team_schedules([&#x27;X&#x27;,&#x27;Y&#x27;,&#x27;Z&#x27;])))  # 6 matchups
 print(list(batch(range(10), 3)))     # [[0,1,2],[3,4,5],[6,7,8],[9]]
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use itertools.chain to iterate over three separate lists as one without creating a combined list</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairwise</div><div class="pd">Consecutive overlapping pairs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">def pairwise_it(seq):
+    # TODO: zip the sequence with itself offset by one
+    return []
+
+print(pairwise_it([1, 2, 3]))</code></pre></div><template class="ho-check">assert pairwise_it([1, 2, 3]) == [(1, 2), (2, 3)]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use itertools.chain to iterate over three separate lists as one without creating a combined list</label></li>
 <li><label><input type="checkbox"> Use itertools.product to generate all (size, color) variants from two lists</label></li>
 <li><label><input type="checkbox"> Use itertools.combinations to list all unique 2-player game matchups from 5 players</label></li>
 <li><label><input type="checkbox"> Use itertools.groupby to group a sorted list of words by their first letter</label></li>
@@ -3340,7 +3453,12 @@ import time
 t0 = time.time()
 print(fib(35))     # should be fast after memoize
 print(f&quot;Time: {time.time()-t0:.4f}s&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function and observe which scope (local/enclosing/global) each variable resolves to</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Make Adder</div><div class="pd">Return a function that adds n.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">def make_adder(n):
+    # TODO: return a closure over n
+    return lambda x: x
+
+print(make_adder(5)(2))</code></pre></div><template class="ho-check">assert make_adder(5)(2) == 7 and make_adder(0)(3) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a function and observe which scope (local/enclosing/global) each variable resolves to</label></li>
 <li><label><input type="checkbox"> Use the nonlocal keyword inside a nested function to increment an enclosing counter</label></li>
 <li><label><input type="checkbox"> Write a make_adder(n) factory and create add5 and add10 — verify they are independent</label></li>
 <li><label><input type="checkbox"> Demonstrate the late-binding closure gotcha with a list of lambdas in a for loop, then fix it</label></li>
@@ -3490,7 +3608,21 @@ print(get_value(&quot;x&quot;))
 print(get_value(&quot;x&quot;))  # should be cache hit
 time.sleep(2.1)
 print(get_value(&quot;x&quot;))  # should re-fetch after TTL
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a simple @timer decorator using functools.wraps and verify __name__ is preserved</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Preserve Metadata</div><div class="pd">A decorator that keeps __name__ via functools.wraps.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">import functools
+
+def timing_decorator(f):
+    # TODO: wrap f, using @functools.wraps(f) so metadata survives
+    def wrapper(*a, **k):
+        return f(*a, **k)
+    return wrapper
+
+@timing_decorator
+def foo():
+    return 42
+
+print(foo(), foo.__name__)</code></pre></div><template class="ho-check">assert foo() == 42
+assert foo.__name__ == &quot;foo&quot;, &quot;functools.wraps preserves the name&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a simple @timer decorator using functools.wraps and verify __name__ is preserved</label></li>
 <li><label><input type="checkbox"> Stack two decorators (@logger and @timer) on one function and observe the call order</label></li>
 <li><label><input type="checkbox"> Write a parameterized @repeat(n) decorator that calls the function n times</label></li>
 <li><label><input type="checkbox"> Create a class-based CallCounter decorator that tracks how many times a function is called</label></li>
@@ -3651,7 +3783,21 @@ def save_all(items):
 
 products = [Product(&quot;apple&quot;, 1.2, 50), Product(&quot;banana&quot;, 0.5, 200)]
 print(save_all(products))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an ABC Shape with abstract area() and perimeter() — implement Circle and Rectangle subclasses</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Implement the ABC</div><div class="pd">Subclass an abstract Shape.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self): ...
+
+class Sq(Shape):
+    def __init__(self, s):
+        self.s = s
+    def area(self):
+        # TODO: return the square area
+        return 0
+
+print(Sq(3).area())</code></pre></div><template class="ho-check">assert Sq(3).area() == 9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an ABC Shape with abstract area() and perimeter() — implement Circle and Rectangle subclasses</label></li>
 <li><label><input type="checkbox"> Try to instantiate the ABC directly and confirm it raises TypeError</label></li>
 <li><label><input type="checkbox"> Define a Protocol Drawable with a draw() method and write a function that accepts any Drawable</label></li>
 <li><label><input type="checkbox"> Use isinstance(obj, Protocol) with @runtime_checkable to check protocol conformance at runtime</label></li>
@@ -3827,7 +3973,22 @@ m.pressure    = 101325.0
 m.humidity    = 65.0
 print(m.temperature)  # Reading(value=22.5, unit=&#x27;C&#x27;)
 print(m.humidity)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a @property to a class that computes fahrenheit from celsius — make it read-only</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Property Setter</div><div class="pd">Expose a value through a property.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">class Temp:
+    def __init__(self):
+        self._c = 0
+    @property
+    def c(self):
+        # TODO: return the stored value
+        return None
+    @c.setter
+    def c(self, v):
+        # TODO: store the value
+        pass
+
+t = Temp(); t.c = 25
+print(t.c)</code></pre></div><template class="ho-check">t = Temp(); t.c = 25
+assert t.c == 25
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a @property to a class that computes fahrenheit from celsius — make it read-only</label></li>
 <li><label><input type="checkbox"> Add a @celsius.setter that raises ValueError if the value is below absolute zero</label></li>
 <li><label><input type="checkbox"> Write a Validated descriptor that enforces min/max constraints on an attribute</label></li>
 <li><label><input type="checkbox"> Use __slots__ on a simple Point class and verify you cannot add arbitrary attributes</label></li>
@@ -3985,7 +4146,13 @@ print(f&quot;Speedup: {t1/t2:.1f}x&quot;)
 
 # Profile trial_division
 cProfile.run(&quot;trial_division(5000)&quot;, sort=&quot;cumulative&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use sys.getsizeof to compare the memory footprint of an int, a list, and a large string</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Sizes</div><div class="pd">Is the first value shorter in repr than the second?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_1')">Copy</button></div><pre><code id="p24_1" class="language-python">def obj_size_order(a, b):
+    # TODO: compare len(str(a)) with len(str(b))
+    return False
+
+print(obj_size_order(1, 100))</code></pre></div><template class="ho-check">assert obj_size_order(1, 100) is True
+assert obj_size_order(1000, 1) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use sys.getsizeof to compare the memory footprint of an int, a list, and a large string</label></li>
 <li><label><input type="checkbox"> Create a reference cycle with two objects pointing to each other, then call gc.collect()</label></li>
 <li><label><input type="checkbox"> Use tracemalloc to snapshot memory before and after creating a large list — compare the diff</label></li>
 <li><label><input type="checkbox"> Use cProfile.run() on a slow function and identify which sub-function takes the most time</label></li>
@@ -4150,7 +4317,20 @@ sample_logs = [
 
 counts = analyze_logs(sample_logs)
 print(&quot;Level counts:&quot;, counts)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up basicConfig with DEBUG level and a custom format, then emit one log at each severity level</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Capture Log Records</div><div class="pd">Collect emitted messages with a custom handler.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_1')">Copy</button></div><pre><code id="p25_1" class="language-python">import logging
+
+def log_messages():
+    out = []
+    class H(logging.Handler):
+        def emit(self, r):
+            # TODO: append the formatted message to out
+            pass
+    lg = logging.getLogger(&quot;demo_capture&quot;); lg.handlers = [H()]; lg.setLevel(logging.INFO)
+    lg.info(&quot;hello&quot;)
+    return out
+
+print(log_messages())</code></pre></div><template class="ho-check">assert log_messages() == [&quot;hello&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up basicConfig with DEBUG level and a custom format, then emit one log at each severity level</label></li>
 <li><label><input type="checkbox"> Create a named logger for a module and attach a StreamHandler with WARNING+ level</label></li>
 <li><label><input type="checkbox"> Log an exception with logger.exception() inside an except block and observe the traceback</label></li>
 <li><label><input type="checkbox"> Silence a noisy library by setting logging.getLogger(&#x27;requests&#x27;).setLevel(logging.WARNING)</label></li>
@@ -4296,7 +4476,17 @@ if args.cmd == &quot;count&quot;:
     cmd_count(args)
 elif args.cmd == &quot;summary&quot;:
     cmd_summary(args)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a basic ArgumentParser with one positional and two optional arguments — print parsed values</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse Arguments</div><div class="pd">Parse a list of CLI args.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_1')">Copy</button></div><pre><code id="p26_1" class="language-python">import argparse
+
+def parse_args_list(argv):
+    p = argparse.ArgumentParser()
+    p.add_argument(&quot;--n&quot;, type=int, default=1)
+    # TODO: parse argv and return the value of n
+    return 0
+
+print(parse_args_list([&quot;--n&quot;, &quot;5&quot;]))</code></pre></div><template class="ho-check">assert parse_args_list([&quot;--n&quot;, &quot;5&quot;]) == 5
+assert parse_args_list([]) == 1, &quot;the default applies&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a basic ArgumentParser with one positional and two optional arguments — print parsed values</label></li>
 <li><label><input type="checkbox"> Add a --verbose flag (store_true) and a --format choice argument with allowed values</label></li>
 <li><label><input type="checkbox"> Add subcommands (subparsers): &#x27;run&#x27; and &#x27;status&#x27;, each with their own arguments</label></li>
 <li><label><input type="checkbox"> Add a custom type validator that ensures a --port argument is between 1 and 65535</label></li>
@@ -4480,7 +4670,14 @@ cfg.save()
 cfg2 = ConfigManager(tmp)
 print(&quot;reloaded font:&quot;, cfg2.get(&quot;font_size&quot;))  # 14
 os.unlink(tmp)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Serialize a Python dict containing a datetime object to JSON using a custom JSONEncoder</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Round Trip</div><div class="pd">Serialize then parse an object back.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_1')">Copy</button></div><pre><code id="p27_1" class="language-python">import json
+
+def json_roundtrip(obj):
+    # TODO: json.dumps then json.loads
+    return obj
+
+print(json_roundtrip({&quot;a&quot;: [1, 2]}))</code></pre></div><template class="ho-check">assert json_roundtrip({&quot;a&quot;: [1, 2]}) == {&quot;a&quot;: [1, 2]}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Serialize a Python dict containing a datetime object to JSON using a custom JSONEncoder</label></li>
 <li><label><input type="checkbox"> Parse a JSON string back to Python and use object_hook to auto-convert ISO date strings</label></li>
 <li><label><input type="checkbox"> Use pickle to round-trip a custom class instance through a BytesIO buffer</label></li>
 <li><label><input type="checkbox"> Read a multi-section .ini config file with configparser and access values with type conversion</label></li>
@@ -4653,7 +4850,15 @@ for i in range(3):
 result = archive_logs(tmp_logs, tmp_archive, days_old=7)
 print(&quot;Archived:&quot;, result)
 shutil.rmtree(tmp_logs); shutil.rmtree(tmp_archive)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Path(&#x27;/some/path/file.csv&#x27;) and print its .name, .stem, .suffix, and .parent</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: File Suffix</div><div class="pd">Extension of a path, including the dot.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_1')">Copy</button></div><pre><code id="p28_1" class="language-python">import pathlib
+
+def path_suffix(p):
+    # TODO: pathlib.Path(p).suffix
+    return &quot;&quot;
+
+print(path_suffix(&quot;a/b/c.csv&quot;))</code></pre></div><template class="ho-check">assert path_suffix(&quot;a/b/c.csv&quot;) == &quot;.csv&quot;
+assert path_suffix(&quot;noext&quot;) == &quot;&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use Path(&#x27;/some/path/file.csv&#x27;) and print its .name, .stem, .suffix, and .parent</label></li>
 <li><label><input type="checkbox"> Build a path with the / operator: base / &#x27;data&#x27; / &#x27;reports&#x27; / &#x27;q1.csv&#x27;</label></li>
 <li><label><input type="checkbox"> Use rglob(&#x27;*.py&#x27;) to find all Python files under a directory and print their relative paths</label></li>
 <li><label><input type="checkbox"> Write and read text to a temp file using Path.write_text and Path.read_text</label></li>
@@ -4810,7 +5015,12 @@ format_invoice(&quot;Acme Corp&quot;, [
     (&quot;Jupyter Setup&quot;,    3,  150.00),
     (&quot;Cloud Credits&quot;,   10,   49.99),
 ], tax_rate=0.09)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format pi to 4 decimal places, in scientific notation, and as a percentage using f-string spec</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Format Currency</div><div class="pd">Thousands separators and two decimals.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_1')">Copy</button></div><pre><code id="p29_1" class="language-python">def fmt_currency(v):
+    # TODO: f-string with :,.2f and a leading $
+    return &quot;&quot;
+
+print(fmt_currency(1234.5))</code></pre></div><template class="ho-check">assert fmt_currency(1234.5) == &quot;$1,234.50&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Format pi to 4 decimal places, in scientific notation, and as a percentage using f-string spec</label></li>
 <li><label><input type="checkbox"> Print a table of items and prices using f-string left/right alignment so columns line up</label></li>
 <li><label><input type="checkbox"> Use :, grouping to display 1234567 as 1,234,567 and :08b to show 42 in binary</label></li>
 <li><label><input type="checkbox"> Use textwrap.fill to wrap a long paragraph at 60 characters</label></li>
@@ -4968,7 +5178,18 @@ def hash_based(lst):
 for name, fn in [(&quot;sort_based&quot;, sort_based), (&quot;hash_based&quot;, hash_based)]:
     t = timeit.timeit(lambda: fn(data), number=100)
     print(f&quot;{name}: {t:.4f}s, found {len(fn(data))} duplicates&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use timeit to compare list.append vs list comprehension for building a list of 10,000 squares</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Memoized Fibonacci</div><div class="pd">Cache recursive calls with lru_cache.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_1')">Copy</button></div><pre><code id="p30_1" class="language-python">import functools
+
+def cached_fib(n):
+    @functools.lru_cache(maxsize=None)
+    def fib(k):
+        # TODO: k when k &lt; 2, else fib(k-1) + fib(k-2)
+        return 0
+    return fib(n)
+
+print(cached_fib(30))</code></pre></div><template class="ho-check">assert cached_fib(30) == 832040
+assert cached_fib(1) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use timeit to compare list.append vs list comprehension for building a list of 10,000 squares</label></li>
 <li><label><input type="checkbox"> Apply @functools.lru_cache to a recursive Fibonacci function and compare speed for fib(35)</label></li>
 <li><label><input type="checkbox"> Use @functools.cached_property to compute an expensive statistic once and cache it on an object</label></li>
 <li><label><input type="checkbox"> Replace a linear O(n) list membership test with a set O(1) lookup and benchmark the difference</label></li>
@@ -5168,7 +5389,13 @@ result = check_dependencies(packages)
 print(&quot;Installed:&quot;, result[&quot;installed&quot;])
 print(&quot;Missing:&quot;,   result[&quot;missing&quot;])
 install_missing(result[&quot;missing&quot;])
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a venv, activate it, install requests, then run pip freeze to see the locked version</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse Version</div><div class="pd">Turn a semver string into a comparable tuple.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_1')">Copy</button></div><pre><code id="p31_1" class="language-python">def parse_version(v):
+    # TODO: tuple of ints split on &quot;.&quot;
+    return ()
+
+print(parse_version(&quot;1.2.3&quot;))</code></pre></div><template class="ho-check">assert parse_version(&quot;1.2.3&quot;) == (1, 2, 3)
+assert parse_version(&quot;2.0.0&quot;) &gt; parse_version(&quot;1.9.9&quot;)
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a venv, activate it, install requests, then run pip freeze to see the locked version</label></li>
 <li><label><input type="checkbox"> Use importlib.import_module(&#x27;math&#x27;) dynamically and call math.sqrt through the returned module</label></li>
 <li><label><input type="checkbox"> Use importlib.util.find_spec(&#x27;numpy&#x27;) to check if numpy is installed before importing it</label></li>
 <li><label><input type="checkbox"> Write a function that tries to import ujson and falls back to json if it&#x27;s not installed</label></li>
@@ -5377,7 +5604,19 @@ for cls in [Vehicle, ElectricCar]:
     print(f&quot;  bases: {info[&#x27;bases&#x27;]}&quot;)
     print(f&quot;  attrs: {info[&#x27;class_attrs&#x27;]}&quot;)
     print(f&quot;  methods: {info[&#x27;methods&#x27;]}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use dir() on an object and filter to only show non-dunder public attributes and methods</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Public Methods</div><div class="pd">Sorted public attribute names of a class.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p32_1')">Copy</button></div><pre><code id="p32_1" class="language-python">def public_methods(cls):
+    # TODO: sorted dir(cls) entries that do not start with &quot;_&quot;
+    return []
+
+class Demo:
+    def area(self): return 1
+    def _hidden(self): return 2
+
+print(public_methods(Demo))</code></pre></div><template class="ho-check">class Demo2:
+    def area(self): return 1
+    def _hidden(self): return 2
+assert public_methods(Demo2) == [&quot;area&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use dir() on an object and filter to only show non-dunder public attributes and methods</label></li>
 <li><label><input type="checkbox"> Use inspect.signature() to print parameter names and defaults for a function you wrote</label></li>
 <li><label><input type="checkbox"> Use getattr/hasattr to dynamically call a method by name from a string</label></li>
 <li><label><input type="checkbox"> Inspect a class&#x27;s __mro__ to see the inheritance chain for a multi-level class hierarchy</label></li>
@@ -5593,7 +5832,14 @@ print(r2.is_err(), r2.unwrap_or(-1))
 print(r1.map(lambda x: x * 2).unwrap())
 try:    r2.unwrap()
 except ValueError as e: print(&quot;Caught:&quot;, e)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a generic Stack[T] class using Generic[T] and annotate push, pop, and peek correctly</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Optional Default</div><div class="pd">Handle an Optional[int] argument.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p33_1')">Copy</button></div><pre><code id="p33_1" class="language-python">from typing import Optional
+
+def optional_default(x: Optional[int] = None) -&gt; int:
+    # TODO: 0 when x is None, else x
+    return -1
+
+print(optional_default(), optional_default(7))</code></pre></div><template class="ho-check">assert optional_default() == 0 and optional_default(7) == 7
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a generic Stack[T] class using Generic[T] and annotate push, pop, and peek correctly</label></li>
 <li><label><input type="checkbox"> Use Literal[&#x27;read&#x27;, &#x27;write&#x27;, &#x27;append&#x27;] to restrict the mode argument of an open_file function</label></li>
 <li><label><input type="checkbox"> Use @overload to define two signatures for a parse() function: str -&gt; int, bytes -&gt; float</label></li>
 <li><label><input type="checkbox"> Define a TypedDict for a user record with required and NotRequired fields</label></li>

@@ -152,6 +152,14 @@ SECTIONS = [
 
 {
 "title": "1. Variables & Data Types",
+"practices": [
+{
+"title": 'Type Name',
+"desc": "Return the name of a value's type.",
+"starter": 'def type_name(v):\n    # TODO: type(v).__name__\n    return ""\n\nprint(type_name(3), type_name("a"))',
+"check": 'assert type_name(3) == "int" and type_name("a") == "str"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python is dynamically typed — you don't declare types, Python infers them. The core types are int, float, str, bool, and NoneType.",
 "examples": [
 {"label": "Basic types and type checking", "code":
@@ -1056,6 +1064,14 @@ for a in applicants:
 
 {
 "title": "6. Loops",
+"practices": [
+{
+"title": 'Sum Evens',
+"desc": 'Total the even numbers from 1 to n.',
+"starter": 'def sum_evens(n):\n    # TODO: sum the even values in 1..n\n    return 0\n\nprint(sum_evens(10))',
+"check": 'assert sum_evens(10) == 30 and sum_evens(1) == 0\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "for iterates over any iterable (list, range, string, dict). while loops run while a condition is True. Use break, continue, and enumerate for control.",
 "examples": [
 {"label": "for loops", "code":
@@ -1439,6 +1455,14 @@ for rec in raw_records:
 
 {
 "title": "8. Classes & OOP",
+"practices": [
+{
+"title": 'Counter Class',
+"desc": 'A class that counts calls to inc().',
+"starter": 'class Counter:\n    def __init__(self):\n        self.n = 0\n    def inc(self):\n        # TODO: increment self.n and return the new value\n        return self.n\n\nc = Counter(); c.inc()\nprint(c.inc())',
+"check": 'c = Counter(); c.inc()\nassert c.inc() == 2 and c.n == 2\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Classes define blueprints for objects. Python supports encapsulation, inheritance, and special (dunder) methods like __str__ and __repr__.",
 "examples": [
 {"label": "Defining a class with __init__ and methods", "code":
@@ -1702,6 +1726,14 @@ cart.checkout("SAVE10")"""}
 
 {
 "title": "9. Error Handling",
+"practices": [
+{
+"title": 'Safe Divide',
+"desc": 'Return None instead of raising on divide-by-zero.',
+"starter": 'def safe_div(a, b):\n    # TODO: try a/b, return None on ZeroDivisionError\n    return a / b\n\nprint(safe_div(4, 2), safe_div(1, 0))',
+"check": 'assert safe_div(1, 0) is None and safe_div(4, 2) == 2\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use try/except/finally to handle exceptions gracefully. Raise custom exceptions to signal application-level errors.",
 "examples": [
 {"label": "try / except / finally", "code":
@@ -1900,6 +1932,14 @@ except KeyError as e:
 
 {
 "title": "10. File I/O",
+"practices": [
+{
+"title": 'Read Non-Empty Lines',
+"desc": 'Split text into lines, dropping blanks.',
+"starter": 'import io\n\ndef read_lines(text):\n    # TODO: read the text and return its non-empty lines\n    return []\n\nprint(read_lines("a\\n\\nb"))',
+"check": 'assert read_lines("a\\n\\nb") == ["a", "b"]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Read and write files using open(). Use the with statement to ensure files are always closed. Python handles text and binary files.",
 "examples": [
 {"label": "Reading and writing text files", "code":
@@ -2101,6 +2141,14 @@ print(json.dumps(report, indent=2))"""}
 
 {
 "title": "11. List Comprehensions & Generators",
+"practices": [
+{
+"title": 'Squares Generator',
+"desc": 'Return a generator of squares below n.',
+"starter": 'def squares_gen(n):\n    # TODO: return a generator expression of i*i for i in range(n)\n    return iter([])\n\nprint(list(squares_gen(3)))',
+"check": 'assert list(squares_gen(3)) == [0, 1, 4]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Comprehensions create lists, dicts, and sets concisely. Generators produce values lazily, saving memory for large sequences.",
 "examples": [
 {"label": "List, dict, and set comprehensions", "code":
@@ -2291,6 +2339,14 @@ for a in alerts:
 
 {
 "title": "12. Modules & Useful Built-ins",
+"practices": [
+{
+"title": 'Built-in Summary',
+"desc": 'max, min and sum in one dict.',
+"starter": 'def use_builtins(vals):\n    # TODO: {"max": ..., "min": ..., "sum": ...}\n    return {}\n\nprint(use_builtins([1, 3, 2]))',
+"check": 'assert use_builtins([1, 3, 2]) == {"max": 3, "min": 1, "sum": 6}\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python's standard library is vast. Key modules: os, sys, datetime, math, random, collections, itertools. Use import to access them.",
 "examples": [
 {"label": "os, datetime, math", "code":
@@ -2497,6 +2553,14 @@ for ip, count in ip_requests.most_common():
 ,
 {
     "title": "13. Context Managers",
+"practices": [
+{
+"title": 'Enter and Exit',
+"desc": 'A context manager that logs enter/exit.',
+"starter": 'class Managed:\n    def __init__(self, log):\n        self.log = log\n    def __enter__(self):\n        # TODO: append "enter" to self.log and return self\n        return self\n    def __exit__(self, *a):\n        # TODO: append "exit" to self.log\n        return False\n\ndef run_managed():\n    log = []\n    with Managed(log):\n        log.append("body")\n    return log\n\nprint(run_managed())',
+"check": 'assert run_managed() == ["enter", "body", "exit"]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Manage resources safely and cleanly with the with statement. Guarantee teardown even when exceptions occur.",
     "examples": [
         {
@@ -2713,6 +2777,14 @@ except ValueError:
 },
 {
     "title": "14. Regular Expressions",
+"practices": [
+{
+"title": 'Find Dates',
+"desc": 'Extract ISO dates from text.',
+"starter": 'import re\n\ndef find_dates(s):\n    # TODO: re.findall for YYYY-MM-DD\n    return []\n\nprint(find_dates("on 2024-01-02 and 2025-12-31"))',
+"check": 'assert find_dates("on 2024-01-02 and 2025-12-31") == ["2024-01-02", "2025-12-31"]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Pattern matching and text extraction with the re module — character classes, groups, lookaheads, and real-world parsing patterns.",
     "examples": [
         {
@@ -2883,6 +2955,14 @@ print('Amounts:', MONEY_PATTERN.findall(text))"""
 },
 {
     "title": "15. Type Hints & Dataclasses",
+"practices": [
+{
+"title": 'Dataclass Point',
+"desc": 'Build a Point dataclass instance.',
+"starter": 'from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int = 0\n    y: int = 0\n\ndef make_point(x, y):\n    # TODO: return a Point with those coordinates\n    return Point()\n\nprint(make_point(1, 2))',
+"check": 'p = make_point(1, 2)\nassert p.x == 1 and p.y == 2\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Write self-documenting, IDE-friendly code with type annotations and eliminate boilerplate from data containers with @dataclass.",
     "examples": [
         {
@@ -3119,6 +3199,14 @@ print('Adults:', [p.name for p in book.adults()])"""
 },
 {
     "title": "16. Concurrency & Async",
+"practices": [
+{
+"title": 'Map Work Items',
+"desc": 'The synchronous shape of a gather: process every item.',
+"starter": 'def gather_sync(items):\n    # TODO: return each item doubled (the sync analogue of asyncio.gather)\n    return []\n\nprint(gather_sync([1, 2]))',
+"check": 'assert gather_sync([1, 2]) == [2, 4]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Speed up I/O-bound tasks with threading and asyncio, CPU-bound tasks with multiprocessing, and understand the GIL. Use concurrent.futures for clean parallel execution.",
     "examples": [
         {
@@ -3316,6 +3404,14 @@ async def async_fetch(url):
 },
 {
     "title": "17. Design Patterns",
+"practices": [
+{
+"title": 'Registry Singleton',
+"desc": 'Return the same object for a repeated key.',
+"starter": 'def singleton_registry():\n    reg = {}\n    def get(name):\n        # TODO: create the object once per name, then reuse it\n        return object()\n    return get\n\ng = singleton_registry()\nprint(g("a") is g("a"))',
+"check": 'g = singleton_registry()\nassert g("a") is g("a"), "same key returns the same object"\nassert g("a") is not g("b"), "different keys differ"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Apply classic Gang-of-Four patterns in Python: Singleton, Factory, Observer, Strategy, and Decorator. Understand when and why to use each.",
     "examples": [
         {
@@ -3587,6 +3683,14 @@ data = [{'id': i, 'value': i*2, 'name': f'item_{i}'} for i in range(100)]
 },
 {
     "title": "18. Testing with pytest",
+"practices": [
+{
+"title": 'Approximate Equality',
+"desc": 'Compare floats within a tolerance.',
+"starter": 'def assert_close(a, b, tol=1e-9):\n    # TODO: True when |a - b| is under tol\n    return False\n\nprint(assert_close(0.1 + 0.2, 0.3))',
+"check": 'assert assert_close(0.1 + 0.2, 0.3) is True\nassert assert_close(1.0, 1.1) is False\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Write unit tests, parametrized tests, fixtures, and mocks with pytest. Apply TDD principles and measure code coverage.",
     "examples": [
         {
@@ -3862,6 +3966,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "19. Functional Programming",
+"practices": [
+{
+"title": 'Compose Many',
+"desc": 'Apply a list of functions left to right.',
+"starter": 'import functools\n\ndef compose_all(fns):\n    # TODO: return a function applying each fn in order\n    return lambda x: x\n\nprint(compose_all([lambda v: v + 1, lambda v: v * 2])(3))',
+"check": 'assert compose_all([lambda v: v + 1, lambda v: v * 2])(3) == 8\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python supports functional programming with map(), filter(), reduce(), and functools. These let you transform data declaratively without explicit loops.",
 "examples": [
         {"label": "map() and filter() for data transformation", "code": "nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# map() applies a function to every element\nsquares = list(map(lambda x: x**2, nums))\nprint(\"Squares:\", squares)\n\n# filter() keeps elements where function returns True\nevens = list(filter(lambda x: x % 2 == 0, nums))\nprint(\"Evens:\", evens)\n\n# Chaining: square the even numbers\nresult = list(map(lambda x: x**2, filter(lambda x: x % 2 == 0, nums)))\nprint(\"Squared evens:\", result)\n\n# map with multiple iterables\na, b = [1, 2, 3], [10, 20, 30]\nsums = list(map(lambda x, y: x + y, a, b))\nprint(\"Pairwise sums:\", sums)"},
@@ -3889,6 +4001,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "20. Itertools in Depth",
+"practices": [
+{
+"title": 'Pairwise',
+"desc": 'Consecutive overlapping pairs.',
+"starter": 'def pairwise_it(seq):\n    # TODO: zip the sequence with itself offset by one\n    return []\n\nprint(pairwise_it([1, 2, 3]))',
+"check": 'assert pairwise_it([1, 2, 3]) == [(1, 2), (2, 3)]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "The itertools module provides fast, memory-efficient tools for working with iterables. Essential for combinatorics, grouping, and chaining data streams.",
 "examples": [
         {"label": "chain, islice, cycle, repeat for sequence control", "code": "import itertools\n\n# chain: join multiple iterables\ncombined = list(itertools.chain([1, 2], [3, 4], [5]))\nprint(\"chain:\", combined)\n\n# islice: slice an iterable (works on generators too)\nfirst5 = list(itertools.islice(range(100), 5))\nprint(\"islice first 5:\", first5)\n\nskip3_take4 = list(itertools.islice(range(100), 3, 7))\nprint(\"islice [3:7]:\", skip3_take4)\n\n# cycle: repeat sequence infinitely — take 7\ncolors = list(itertools.islice(itertools.cycle([\'R\', \'G\', \'B\']), 7))\nprint(\"cycle 7:\", colors)\n\n# repeat: repeat a value n times\nzeros = list(itertools.repeat(0, 5))\nprint(\"repeat:\", zeros)\n\n# accumulate: running totals\nimport itertools\ndata = [1, 3, 2, 5, 4]\nrunning = list(itertools.accumulate(data))\nprint(\"accumulate (sum):\", running)"},
@@ -3916,6 +4036,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "21. Closures & Scoping",
+"practices": [
+{
+"title": 'Make Adder',
+"desc": 'Return a function that adds n.',
+"starter": 'def make_adder(n):\n    # TODO: return a closure over n\n    return lambda x: x\n\nprint(make_adder(5)(2))',
+"check": 'assert make_adder(5)(2) == 7 and make_adder(0)(3) == 3\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python resolves names using the LEGB rule (Local, Enclosing, Global, Built-in). Closures capture variables from enclosing scopes and are the foundation of decorators and factories.",
 "examples": [
         {"label": "LEGB scoping rule", "code": "x = \"global\"\n\ndef outer():\n    x = \"enclosing\"\n\n    def inner():\n        x = \"local\"\n        print(\"inner sees:\", x)       # local\n\n    inner()\n    print(\"outer sees:\", x)           # enclosing\n\nouter()\nprint(\"module sees:\", x)              # global\n\n# Built-in scope: Python\'s built-in names (len, print, etc.)\nprint(\"built-in len:\", len([1,2,3]))  # 3\n\n# global keyword — modify a global from inside a function\ncounter = 0\ndef increment():\n    global counter\n    counter += 1\n\nincrement()\nincrement()\nprint(\"counter:\", counter)  # 2\n\n# nonlocal keyword — modify an enclosing variable\ndef make_counter():\n    count = 0\n    def inc():\n        nonlocal count\n        count += 1\n        return count\n    return inc\n\nc = make_counter()\nprint(c(), c(), c())  # 1 2 3"},
@@ -3943,6 +4071,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "22. Decorators in Depth",
+"practices": [
+{
+"title": 'Preserve Metadata',
+"desc": 'A decorator that keeps __name__ via functools.wraps.',
+"starter": 'import functools\n\ndef timing_decorator(f):\n    # TODO: wrap f, using @functools.wraps(f) so metadata survives\n    def wrapper(*a, **k):\n        return f(*a, **k)\n    return wrapper\n\n@timing_decorator\ndef foo():\n    return 42\n\nprint(foo(), foo.__name__)',
+"check": 'assert foo() == 42\nassert foo.__name__ == "foo", "functools.wraps preserves the name"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Decorators wrap functions or classes to add behavior without modifying their source. Master stacked, parameterized, and class-based decorators.",
 "examples": [
         {"label": "Stacked decorators and functools.wraps", "code": "import functools, time\n\ndef timer(func):\n    @functools.wraps(func)  # preserves __name__, __doc__\n    def wrapper(*args, **kwargs):\n        t0 = time.perf_counter()\n        result = func(*args, **kwargs)\n        print(f\"[timer] {func.__name__} took {(time.perf_counter()-t0)*1000:.2f}ms\")\n        return result\n    return wrapper\n\ndef logger(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"[logger] calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n# Decorators apply bottom-up: logger wraps timer-wrapped function\n@logger\n@timer\ndef compute(n):\n    return sum(range(n))\n\nresult = compute(100_000)\nprint(\"Result:\", result)\nprint(\"Name preserved:\", compute.__name__)  # compute, not wrapper"},
@@ -3970,6 +4106,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "23. Abstract Base Classes & Protocols",
+"practices": [
+{
+"title": 'Implement the ABC',
+"desc": 'Subclass an abstract Shape.',
+"starter": 'from abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self): ...\n\nclass Sq(Shape):\n    def __init__(self, s):\n        self.s = s\n    def area(self):\n        # TODO: return the square area\n        return 0\n\nprint(Sq(3).area())',
+"check": 'assert Sq(3).area() == 9\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "ABCs enforce interface contracts at class creation time. Protocols (PEP 544) enable structural subtyping — duck typing with type-checker support.",
 "examples": [
         {"label": "abc.ABC and @abstractmethod", "code": "from abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self) -> float:\n        pass\n\n    @abstractmethod\n    def perimeter(self) -> float:\n        pass\n\n    def describe(self):\n        # Concrete method shared by all subclasses\n        return f\"{type(self).__name__}: area={self.area():.2f}, perimeter={self.perimeter():.2f}\"\n\nclass Circle(Shape):\n    def __init__(self, r): self.r = r\n    def area(self): return 3.14159 * self.r ** 2\n    def perimeter(self): return 2 * 3.14159 * self.r\n\nclass Rectangle(Shape):\n    def __init__(self, w, h): self.w, self.h = w, h\n    def area(self): return self.w * self.h\n    def perimeter(self): return 2 * (self.w + self.h)\n\nfor shape in [Circle(5), Rectangle(4, 6)]:\n    print(shape.describe())\n\n# Cannot instantiate ABC directly\ntry:\n    s = Shape()\nexcept TypeError as e:\n    print(\"Cannot instantiate:\", e)"},
@@ -3997,6 +4141,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "24. Descriptors & Properties",
+"practices": [
+{
+"title": 'Property Setter',
+"desc": 'Expose a value through a property.',
+"starter": 'class Temp:\n    def __init__(self):\n        self._c = 0\n    @property\n    def c(self):\n        # TODO: return the stored value\n        return None\n    @c.setter\n    def c(self, v):\n        # TODO: store the value\n        pass\n\nt = Temp(); t.c = 25\nprint(t.c)',
+"check": 't = Temp(); t.c = 25\nassert t.c == 25\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Descriptors control attribute access via __get__, __set__, __delete__. The property() built-in is the most common descriptor. __slots__ reduces memory overhead.",
 "examples": [
         {"label": "property getter, setter, deleter", "code": "class Temperature:\n    def __init__(self, celsius=0):\n        self._celsius = celsius  # private storage\n\n    @property\n    def celsius(self):\n        return self._celsius\n\n    @celsius.setter\n    def celsius(self, value):\n        if value < -273.15:\n            raise ValueError(f\"Temperature {value} below absolute zero!\")\n        self._celsius = value\n\n    @celsius.deleter\n    def celsius(self):\n        print(\"Resetting temperature to 0\")\n        self._celsius = 0\n\n    @property\n    def fahrenheit(self):\n        # Read-only computed property\n        return self._celsius * 9/5 + 32\n\nt = Temperature(25)\nprint(f\"{t.celsius}C = {t.fahrenheit}F\")\n\nt.celsius = 100\nprint(f\"Boiling: {t.celsius}C = {t.fahrenheit}F\")\n\ndel t.celsius\nprint(f\"Reset: {t.celsius}C\")\n\ntry:\n    t.celsius = -300\nexcept ValueError as e:\n    print(\"Caught:\", e)"},
@@ -4024,6 +4176,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "25. Memory Management & Profiling",
+"practices": [
+{
+"title": 'Compare Sizes',
+"desc": 'Is the first value shorter in repr than the second?',
+"starter": 'def obj_size_order(a, b):\n    # TODO: compare len(str(a)) with len(str(b))\n    return False\n\nprint(obj_size_order(1, 100))',
+"check": 'assert obj_size_order(1, 100) is True\nassert obj_size_order(1000, 1) is False\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python manages memory via reference counting and a cyclic garbage collector. Use sys, gc, tracemalloc, and cProfile to find memory leaks and performance bottlenecks.",
 "examples": [
         {"label": "sys.getsizeof, id(), and reference counting", "code": "import sys\n\n# Basic sizes\nfor obj in [0, 1, 255, 2**100, 3.14, \"hi\", \"hello world\", [], [1,2,3], {}, {\"a\":1}]:\n    print(f\"  {repr(obj):<25} {sys.getsizeof(obj):>6} bytes\")\n\n# id() returns memory address\na = [1, 2, 3]\nb = a          # same object\nc = a.copy()   # different object\n\nprint(\"a is b:\", a is b)  # True\nprint(\"a is c:\", a is c)  # False\nprint(\"id(a)==id(b):\", id(a) == id(b))  # True\n\n# Small integers are cached\nx, y = 100, 100\nprint(\"100 is 100:\", x is y)  # True (cached)\n\nx, y = 1000, 1000\nprint(\"1000 is 1000:\", x is y)  # False (not cached)\n\n# Nested containers: getsizeof is shallow!\nlst = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nprint(\"Shallow size:\", sys.getsizeof(lst))   # just the list object"},
@@ -4051,6 +4211,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "26. Logging Best Practices",
+"practices": [
+{
+"title": 'Capture Log Records',
+"desc": 'Collect emitted messages with a custom handler.',
+"starter": 'import logging\n\ndef log_messages():\n    out = []\n    class H(logging.Handler):\n        def emit(self, r):\n            # TODO: append the formatted message to out\n            pass\n    lg = logging.getLogger("demo_capture"); lg.handlers = [H()]; lg.setLevel(logging.INFO)\n    lg.info("hello")\n    return out\n\nprint(log_messages())',
+"check": 'assert log_messages() == ["hello"]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use the logging module instead of print() for production code. It supports levels, handlers, formatters, and log rotation — all configurable without code changes.",
 "examples": [
         {"label": "Basic logging setup and levels", "code": "import logging\n\n# Configure root logger\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format=\"%(asctime)s [%(levelname)-8s] %(name)s: %(message)s\",\n    datefmt=\"%H:%M:%S\",\n)\n\nlogger = logging.getLogger(\"myapp\")\n\n# Five standard levels (low to high)\nlogger.debug(\"Detailed info for debugging\")\nlogger.info(\"Normal operation: user logged in\")\nlogger.warning(\"Something unexpected but not fatal\")\nlogger.error(\"A failure occurred — function returned None\")\nlogger.critical(\"Service is down!\")\n\n# Log exceptions with traceback\ntry:\n    result = 1 / 0\nexcept ZeroDivisionError:\n    logger.exception(\"Division failed\")  # includes traceback\n\n# Extra context\nuser_id = 42\nlogger.info(\"Processing order\", extra={\"user\": user_id})\n\n# Check effective level\nprint(\"Effective level:\", logger.getEffectiveLevel())  # 10 = DEBUG"},
@@ -4078,6 +4246,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "27. Argparse & CLI Tools",
+"practices": [
+{
+"title": 'Parse Arguments',
+"desc": 'Parse a list of CLI args.',
+"starter": 'import argparse\n\ndef parse_args_list(argv):\n    p = argparse.ArgumentParser()\n    p.add_argument("--n", type=int, default=1)\n    # TODO: parse argv and return the value of n\n    return 0\n\nprint(parse_args_list(["--n", "5"]))',
+"check": 'assert parse_args_list(["--n", "5"]) == 5\nassert parse_args_list([]) == 1, "the default applies"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "argparse is Python\'s standard library for building command-line interfaces. It handles argument parsing, type validation, help generation, and subcommands.",
 "examples": [
         {"label": "Basic ArgumentParser with positional and optional args", "code": "import argparse\n\n# Simulate command-line arguments (replace sys.argv for demo)\nparser = argparse.ArgumentParser(\n    description=\"Process a data file\",\n    formatter_class=argparse.ArgumentDefaultsHelpFormatter\n)\n\n# Positional argument (required)\nparser.add_argument(\"filename\", help=\"Input CSV file path\")\n\n# Optional arguments\nparser.add_argument(\"-o\", \"--output\",  default=\"output.csv\", help=\"Output file\")\nparser.add_argument(\"-n\", \"--rows\",    type=int, default=100, help=\"Number of rows\")\nparser.add_argument(\"-v\", \"--verbose\", action=\"store_true\",   help=\"Verbose output\")\nparser.add_argument(\"--format\",        choices=[\"csv\",\"json\",\"parquet\"], default=\"csv\")\n\n# Parse a fake argument list\nargs = parser.parse_args([\"data.csv\", \"--rows\", \"500\", \"--verbose\", \"--format\", \"json\"])\n\nprint(f\"File:    {args.filename}\")\nprint(f\"Output:  {args.output}\")\nprint(f\"Rows:    {args.rows}\")\nprint(f\"Verbose: {args.verbose}\")\nprint(f\"Format:  {args.format}\")"},
@@ -4105,6 +4281,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "28. JSON & Data Serialization",
+"practices": [
+{
+"title": 'JSON Round Trip',
+"desc": 'Serialize then parse an object back.',
+"starter": 'import json\n\ndef json_roundtrip(obj):\n    # TODO: json.dumps then json.loads\n    return obj\n\nprint(json_roundtrip({"a": [1, 2]}))',
+"check": 'assert json_roundtrip({"a": [1, 2]}) == {"a": [1, 2]}\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python\'s json module handles serialization to/from JSON. For Python-specific objects, use pickle. For configuration, use configparser or tomllib.",
 "examples": [
         {"label": "json.dumps / loads with custom encoder", "code": "import json\nfrom datetime import datetime, date\nfrom decimal import Decimal\n\n# Basic usage\ndata = {\"name\": \"Alice\", \"scores\": [95, 87, 92], \"active\": True}\ntext = json.dumps(data, indent=2)\nprint(\"JSON string:\")\nprint(text)\n\nloaded = json.loads(text)\nprint(\"Loaded back:\", loaded)\n\n# Custom encoder for non-serializable types\nclass AppEncoder(json.JSONEncoder):\n    def default(self, obj):\n        if isinstance(obj, (datetime, date)):\n            return obj.isoformat()\n        if isinstance(obj, Decimal):\n            return float(obj)\n        if isinstance(obj, set):\n            return sorted(list(obj))\n        return super().default(obj)\n\nrecord = {\n    \"created\": datetime(2024, 1, 15, 9, 30),\n    \"price\":   Decimal(\"29.99\"),\n    \"tags\":    {\"python\", \"data\", \"tutorial\"},\n}\n\nprint(json.dumps(record, cls=AppEncoder, indent=2))"},
@@ -4132,6 +4316,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "29. Pathlib & File System Ops",
+"practices": [
+{
+"title": 'File Suffix',
+"desc": 'Extension of a path, including the dot.',
+"starter": 'import pathlib\n\ndef path_suffix(p):\n    # TODO: pathlib.Path(p).suffix\n    return ""\n\nprint(path_suffix("a/b/c.csv"))',
+"check": 'assert path_suffix("a/b/c.csv") == ".csv"\nassert path_suffix("noext") == ""\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "pathlib.Path is the modern way to handle filesystem paths in Python. It\'s cross-platform, object-oriented, and integrates with all standard file operations.",
 "examples": [
         {"label": "Path manipulation and navigation", "code": "from pathlib import Path\n\n# Create a Path object — cross-platform!\np = Path(\"/home/user/data/sales_2024.csv\")\n\n# Path components\nprint(\"name:       \", p.name)         # sales_2024.csv\nprint(\"stem:       \", p.stem)         # sales_2024\nprint(\"suffix:     \", p.suffix)       # .csv\nprint(\"suffixes:   \", Path(\"a.tar.gz\").suffixes)  # [\'.tar\', \'.gz\']\nprint(\"parent:     \", p.parent)       # /home/user/data\nprint(\"parts:      \", p.parts)\n\n# Building paths with / operator\nbase    = Path(\"/home/user\")\ndata    = base / \"data\"\noutfile = data / \"reports\" / \"q1.xlsx\"\nprint(\"Built path:\", outfile)\n\n# Resolve, absolute, relative_to\ncwd = Path.cwd()\nprint(\"CWD:\", cwd)\nprint(\"Home:\", Path.home())\n\n# Check existence\nprint(\"exists:\", p.exists())\nprint(\"is_file:\", p.is_file())\nprint(\"is_dir: \", p.is_dir())\n\n# Change suffix\nrenamed = p.with_suffix(\".parquet\")\nprint(\"With new suffix:\", renamed)"},
@@ -4159,6 +4351,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "30. String Formatting Mastery",
+"practices": [
+{
+"title": 'Format Currency',
+"desc": 'Thousands separators and two decimals.',
+"starter": 'def fmt_currency(v):\n    # TODO: f-string with :,.2f and a leading $\n    return ""\n\nprint(fmt_currency(1234.5))',
+"check": 'assert fmt_currency(1234.5) == "$1,234.50"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Master Python\'s string formatting mini-language: f-strings, format(), format spec DSL, textwrap, and Template strings for safe user-controlled formatting.",
 "examples": [
         {"label": "f-string advanced features and format spec", "code": "# Format spec: [[fill]align][sign][z][#][0][width][grouping][.precision][type]\npi = 3.14159265358979\n\n# Width, precision, type\nprint(f\"{pi:.2f}\")        # 3.14\nprint(f\"{pi:10.4f}\")      # right-aligned in width 10\nprint(f\"{pi:<10.4f}|\")    # left-aligned\nprint(f\"{pi:^10.4f}|\")    # center-aligned\nprint(f\"{pi:+.3f}\")       # force + sign\n\n# Integer formatting\nn = 1_234_567\nprint(f\"{n:,}\")            # 1,234,567\nprint(f\"{n:_}\")            # 1_234_567\nprint(f\"{n:>15,}\")         # right-aligned width 15\nprint(f\"{255:#x}\")         # 0xff  hex with prefix\nprint(f\"{255:08b}\")        # 11111111  binary, zero-padded\n\n# Percentage\nprint(f\"{0.857:.1%}\")      # 85.7%\n\n# Datetime in f-string\nfrom datetime import datetime\nnow = datetime(2024, 3, 15, 9, 5, 7)\nprint(f\"{now:%Y-%m-%d %H:%M:%S}\")  # 2024-03-15 09:05:07\nprint(f\"{now:%B %d, %Y}\")          # March 15, 2024\n\n# Expression in f-string\ndata = [1, 2, 3, 4, 5]\nprint(f\"Mean: {sum(data)/len(data):.2f}, Max: {max(data)}\")\n\n# Self-documenting expressions (Python 3.8+)\nx = 42\nprint(f\"{x=}\")   # x=42"},
@@ -4186,6 +4386,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "31. Performance Optimization & Caching",
+"practices": [
+{
+"title": 'Memoized Fibonacci',
+"desc": 'Cache recursive calls with lru_cache.',
+"starter": 'import functools\n\ndef cached_fib(n):\n    @functools.lru_cache(maxsize=None)\n    def fib(k):\n        # TODO: k when k < 2, else fib(k-1) + fib(k-2)\n        return 0\n    return fib(n)\n\nprint(cached_fib(30))',
+"check": 'assert cached_fib(30) == 832040\nassert cached_fib(1) == 1\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Profile before optimizing. Use timeit for micro-benchmarks, functools.cache for memoization, __slots__ for memory, and algorithmic improvements for the biggest wins.",
 "examples": [
         {"label": "timeit for micro-benchmarking", "code": "import timeit\n\n# Compare list comprehension vs map() vs for-loop\nsetup = \"data = list(range(10_000))\"\n\nt_comp  = timeit.timeit(\"[x**2 for x in data]\",      setup=setup, number=1000)\nt_map   = timeit.timeit(\"list(map(lambda x: x**2, data))\", setup=setup, number=1000)\nt_loop  = timeit.timeit(\'\'\'\nresult = []\nfor x in data:\n    result.append(x**2)\n\'\'\', setup=setup, number=1000)\n\nprint(f\"List comprehension: {t_comp:.3f}s\")\nprint(f\"map(lambda):        {t_map:.3f}s\")\nprint(f\"for loop + append:  {t_loop:.3f}s\")\n\n# Compare string joining methods\nsetup2 = \"parts = [\'a\'] * 1000\"\nt_join  = timeit.timeit(\"\'\'.join(parts)\",        setup=setup2, number=5000)\nt_plus  = timeit.timeit(\"s=\'\'\nfor p in parts: s += p\", setup=setup2, number=5000)\nprint(f\"join():     {t_join:.4f}s\")\nprint(f\"+=:         {t_plus:.4f}s\")\nprint(f\"join speedup: {t_plus/t_join:.1f}x\")"},
@@ -4213,6 +4421,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "32. Virtual Environments & Package Management",
+"practices": [
+{
+"title": 'Parse Version',
+"desc": 'Turn a semver string into a comparable tuple.',
+"starter": 'def parse_version(v):\n    # TODO: tuple of ints split on "."\n    return ()\n\nprint(parse_version("1.2.3"))',
+"check": 'assert parse_version("1.2.3") == (1, 2, 3)\nassert parse_version("2.0.0") > parse_version("1.9.9")\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Virtual environments isolate project dependencies. pip manages packages, and importlib enables dynamic imports at runtime — essential for building extensible systems.",
 "examples": [
         {"label": "venv and pip (commands and concepts)", "code": "# These commands are run in the terminal (not runnable as Python code)\n# They are shown here as strings for educational purposes\n\nvenv_commands = \'\'\'\n# Create a virtual environment\npython -m venv .venv\n\n# Activate (macOS/Linux)\nsource .venv/bin/activate\n\n# Activate (Windows)\n.venv\\\\Scripts\\\\activate\n\n# Install packages\npip install requests pandas scikit-learn\n\n# Install from requirements file\npip install -r requirements.txt\n\n# Freeze current environment\npip freeze > requirements.txt\n\n# Upgrade a package\npip install --upgrade numpy\n\n# Show installed packages\npip list\npip show numpy\n\n# Deactivate\ndeactivate\n\'\'\'\n\n# requirements.txt format:\nreq_txt = \'\'\'\n# requirements.txt\nnumpy>=1.24,<2.0\npandas==2.1.0\nscikit-learn>=1.3\nrequests>=2.31\nmatplotlib>=3.7; python_version >= \"3.9\"\n\'\'\'\n\n# pyproject.toml format (modern, preferred):\npyproject_toml = \'\'\'\n[project]\nname = \"my-ml-project\"\nversion = \"0.1.0\"\nrequires-python = \">=3.10\"\ndependencies = [\n    \"numpy>=1.24\",\n    \"pandas>=2.1\",\n    \"scikit-learn>=1.3\",\n]\n\n[project.optional-dependencies]\ndev = [\"pytest\", \"black\", \"mypy\"]\n\'\'\'\n\nprint(\"Common venv workflow:\")\nfor cmd in [\"python -m venv .venv\", \"source .venv/bin/activate\", \"pip install -r requirements.txt\"]:\n    print(f\"  $ {cmd}\")"},
@@ -4240,6 +4456,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "33. Introspection & Metaprogramming",
+"practices": [
+{
+"title": 'Public Methods',
+"desc": 'Sorted public attribute names of a class.',
+"starter": 'def public_methods(cls):\n    # TODO: sorted dir(cls) entries that do not start with "_"\n    return []\n\nclass Demo:\n    def area(self): return 1\n    def _hidden(self): return 2\n\nprint(public_methods(Demo))',
+"check": 'class Demo2:\n    def area(self): return 1\n    def _hidden(self): return 2\nassert public_methods(Demo2) == ["area"]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python\'s runtime lets you inspect and modify objects, classes, and functions dynamically. Use inspect, dir(), getattr(), and metaclasses for powerful abstractions.",
 "examples": [
         {"label": "dir(), type(), getattr(), hasattr(), inspect", "code": "import inspect\n\nclass Rectangle:\n    width: float\n    height: float\n\n    def __init__(self, w, h):\n        self.width = w\n        self.height = h\n\n    def area(self):\n        return self.width * self.height\n\n    def perimeter(self):\n        return 2 * (self.width + self.height)\n\nr = Rectangle(4, 6)\n\n# dir() lists all attributes and methods\nattrs = [a for a in dir(r) if not a.startswith(\"_\")]\nprint(\"Public attrs:\", attrs)\n\n# type() and isinstance()\nprint(\"type:\", type(r).__name__)\nprint(\"isinstance(r, Rectangle):\", isinstance(r, Rectangle))\nprint(\"isinstance(r, object):   \", isinstance(r, object))\n\n# getattr / setattr / hasattr / delattr\nfor method in [\"area\", \"perimeter\", \"nonexistent\"]:\n    if hasattr(r, method):\n        fn = getattr(r, method)\n        print(f\"{method}(): {fn()}\")\n    else:\n        print(f\"{method}: not found\")\n\n# inspect module\nprint(\"Source file:\", inspect.getfile(Rectangle))\nsig = inspect.signature(Rectangle.__init__)\nprint(\"Signature:\", sig)\nprint(\"Parameters:\", list(sig.parameters.keys()))"},
@@ -4267,6 +4491,14 @@ for t in [test_valid_types, test_invalid_type, test_range_pass,
 
 {
 "title": "34. Advanced Type Hints",
+"practices": [
+{
+"title": 'Optional Default',
+"desc": 'Handle an Optional[int] argument.',
+"starter": 'from typing import Optional\n\ndef optional_default(x: Optional[int] = None) -> int:\n    # TODO: 0 when x is None, else x\n    return -1\n\nprint(optional_default(), optional_default(7))',
+"check": 'assert optional_default() == 0 and optional_default(7) == 7\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python\'s typing module enables static analysis with TypeVar, Generic, Protocol, overload, and Literal. Well-typed code is self-documenting and catches bugs before runtime.",
 "examples": [
         {"label": "TypeVar and Generic classes", "code": "from typing import TypeVar, Generic, Iterable, Optional\n\nT = TypeVar(\"T\")\nK = TypeVar(\"K\")\nV = TypeVar(\"V\")\n\n# Generic function: type-safe identity\ndef first(items: list[T]) -> Optional[T]:\n    return items[0] if items else None\n\nprint(first([1, 2, 3]))        # int\nprint(first([\"a\", \"b\"]))       # str\nprint(first([]))               # None\n\n# Generic class: type-safe stack\nclass Stack(Generic[T]):\n    def __init__(self) -> None:\n        self._items: list[T] = []\n\n    def push(self, item: T) -> None:\n        self._items.append(item)\n\n    def pop(self) -> T:\n        if not self._items:\n            raise IndexError(\"pop from empty stack\")\n        return self._items.pop()\n\n    def peek(self) -> Optional[T]:\n        return self._items[-1] if self._items else None\n\n    def __len__(self) -> int:\n        return len(self._items)\n\nint_stack: Stack[int] = Stack()\nint_stack.push(1)\nint_stack.push(2)\nint_stack.push(3)\nprint(\"peek:\", int_stack.peek())  # 3\nprint(\"pop: \", int_stack.pop())   # 3\nprint(\"len: \", len(int_stack))    # 2"},
