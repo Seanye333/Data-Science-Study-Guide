@@ -206,7 +206,7 @@ dates = pd.date_range(&#x27;2024-01-01&#x27;, periods=30)
 df = pd.DataFrame({&#x27;DAU&#x27;: np.random.randint(10000, 15000, 30)}, index=dates)
 st.line_chart(df, use_container_width=True)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hello World Plus</div><div class="pd">Build a &#x27;Hello World Plus&#x27; app with: page title &#x27;My First App&#x27;, wide layout, a header with your name, a metric card showing today&#x27;s date, a success message if the user&#x27;s name (text_input) has more than 3 chars — else a warning. Display a simple table of 5 random numbers.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Hello World Plus</div><div class="pd">Build a &#x27;Hello World Plus&#x27; app with: page title &#x27;My First App&#x27;, wide layout, a header with your name, a metric card showing today&#x27;s date, a success message if the user&#x27;s name (text_input) has more than 3 chars — else a warning. Display a simple table of 5 random numbers.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -232,7 +232,21 @@ from datetime import date
 
 # TODO: Display a table of 5 random numbers
 # df = pd.DataFrame({&#x27;Random Numbers&#x27;: np.random.randint(1, 100, 5)})
-# st.table(df)</code></pre></div></div>
+# st.table(df)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Title and Text</div><div class="pd">Add a title, a header and a paragraph. Save as app.py and run: streamlit run app.py</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0_1" class="language-python">import streamlit as st
+
+# TODO: st.title(...), st.header(...), st.write(...)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sidebar</div><div class="pd">Put a control in the sidebar. Save as app.py and run: streamlit run app.py</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0_2" class="language-python">import streamlit as st
+
+# TODO: name = st.sidebar.text_input(&quot;Name&quot;)
+# TODO: st.write(f&quot;Hello {name}&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Columns</div><div class="pd">Split the page into two columns with a metric in each.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0_3" class="language-python">import streamlit as st
+
+# TODO: left, right = st.columns(2)
+# TODO: left.metric(&quot;Users&quot;, 120); right.metric(&quot;Revenue&quot;, &quot;$5k&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rerun Model</div><div class="pd">Show that the script reruns top-to-bottom on every interaction.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p0_4" class="language-python">import streamlit as st
+
+# TODO: add a st.button and write different text depending on whether it was clicked
+</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Install streamlit with pip install streamlit and verify with streamlit --version</label></li>
 <li><label><input type="checkbox"> Run the Hello World app and observe live reloading when you edit the file</label></li>
 <li><label><input type="checkbox"> Add st.title, st.header, and st.text to display your name and a short bio</label></li>
@@ -389,7 +403,7 @@ st.markdown(
 
 st.info(&#x27;Model retrained weekly. Next scheduled run: 2024-01-22.&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Science Cheat Sheet</div><div class="pd">Build a &#x27;Data Science Cheat Sheet&#x27; app with sections for: a header, a markdown table of common pandas functions, a LaTeX mean formula, a Python code block, a caption, and st.info/warning/error/success boxes for tips.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p1" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Science Cheat Sheet</div><div class="pd">Build a &#x27;Data Science Cheat Sheet&#x27; app with sections for: a header, a markdown table of common pandas functions, a LaTeX mean formula, a Python code block, a caption, and st.info/warning/error/success boxes for tips.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p1_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 
 st.set_page_config(page_title=&#x27;DS Cheat Sheet&#x27;, layout=&#x27;wide&#x27;)
@@ -595,7 +609,7 @@ filtered = df[
 st.write(f&#x27;Found **{len(filtered)}** matching stocks&#x27;)
 st.dataframe(filtered, use_container_width=True)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: BMI Calculator</div><div class="pd">Build a &#x27;BMI Calculator&#x27; app with: st.number_input for weight (kg) and height (cm), a &#x27;Calculate&#x27; button, display the BMI result as a metric, show a colored st.progress bar (0-100 scale), and categorize as Underweight/Normal/Overweight/Obese with appropriate st.success/warning/error.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: BMI Calculator</div><div class="pd">Build a &#x27;BMI Calculator&#x27; app with: st.number_input for weight (kg) and height (cm), a &#x27;Calculate&#x27; button, display the BMI result as a metric, show a colored st.progress bar (0-100 scale), and categorize as Underweight/Normal/Overweight/Obese with appropriate st.success/warning/error.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 
 st.set_page_config(page_title=&#x27;BMI Calculator&#x27;, layout=&#x27;centered&#x27;)
@@ -626,7 +640,23 @@ st.title(&#x27;BMI Calculator&#x27;)
 #     elif bmi &lt; 30:
 #         st.warning(&#x27;Category: Overweight&#x27;)
 #     else:
-#         st.error(&#x27;Category: Obese&#x27;)</code></pre></div></div>
+#         st.error(&#x27;Category: Obese&#x27;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Slider</div><div class="pd">Read a numeric slider and use its value.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2_1" class="language-python">import streamlit as st
+
+# TODO: n = st.slider(&quot;How many&quot;, 1, 10, 3)
+# TODO: st.write(&quot;x&quot; * n)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Selectbox</div><div class="pd">Let the user pick from a list.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2_2" class="language-python">import streamlit as st
+
+# TODO: choice = st.selectbox(&quot;Pick one&quot;, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])
+# TODO: st.write(&quot;You picked&quot;, choice)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Checkbox Toggle</div><div class="pd">Show or hide content with a checkbox.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2_3" class="language-python">import streamlit as st
+
+# TODO: if st.checkbox(&quot;Show details&quot;): st.write(&quot;here are the details&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiselect Filter</div><div class="pd">Filter a list by a multiselect.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p2_4" class="language-python">import streamlit as st
+
+items = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+# TODO: picked = st.multiselect(&quot;Fruit&quot;, items, default=items)
+# TODO: st.write(picked)
+</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a st.text_input and display its value live below the widget</label></li>
 <li><label><input type="checkbox"> Create a st.number_input and a st.slider, then show their sum as st.metric</label></li>
 <li><label><input type="checkbox"> Build a st.selectbox and st.multiselect pair and display the selections</label></li>
@@ -801,7 +831,7 @@ if len(low_stock):
 else:
     st.success(&#x27;All stock levels healthy!&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Dashboard Table</div><div class="pd">Build a &#x27;Sales Dashboard Table&#x27; app. Create a DataFrame of 20 sales records (product, revenue, units, growth%). Display with st.dataframe using: NumberColumn for revenue with $ format, ProgressColumn for growth% (0-100 range). Add a text_input search filter to filter rows by product name.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p3" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Dashboard Table</div><div class="pd">Build a &#x27;Sales Dashboard Table&#x27; app. Create a DataFrame of 20 sales records (product, revenue, units, growth%). Display with st.dataframe using: NumberColumn for revenue with $ format, ProgressColumn for growth% (0-100 range). Add a text_input search filter to filter rows by product name.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p3_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -999,7 +1029,7 @@ else:
 
 st.plotly_chart(fig, use_container_width=True)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stock Price Simulator</div><div class="pd">Build a &#x27;Stock Price Simulator&#x27; app with: a sidebar slider for volatility (0.01-0.05) and drift (-0.02 to 0.02), a &#x27;Simulate&#x27; button, generates 252 days of price data (geometric Brownian motion), displays as st.line_chart, shows min/max/final price as st.metric cards.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p4" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stock Price Simulator</div><div class="pd">Build a &#x27;Stock Price Simulator&#x27; app with: a sidebar slider for volatility (0.01-0.05) and drift (-0.02 to 0.02), a &#x27;Simulate&#x27; button, generates 252 days of price data (geometric Brownian motion), displays as st.line_chart, shows min/max/final price as st.metric cards.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p4_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -1202,7 +1232,7 @@ with tab_usr:
     })
     st.plotly_chart(px.pie(df_usr, names=&#x27;segment&#x27;, values=&#x27;users&#x27;, title=&#x27;User Segments&#x27;), use_container_width=True)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Product Catalog</div><div class="pd">Build a &#x27;Product Catalog&#x27; app. Use tabs to separate &#x27;Electronics&#x27; and &#x27;Clothing&#x27; categories. In each tab use 3 columns to show product cards. Each card: product name (st.subheader), price (st.metric), description in st.expander, and a fake &#x27;Add to Cart&#x27; button that shows st.toast.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p5" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Product Catalog</div><div class="pd">Build a &#x27;Product Catalog&#x27; app. Use tabs to separate &#x27;Electronics&#x27; and &#x27;Clothing&#x27; categories. In each tab use 3 columns to show product cards. Each card: product name (st.subheader), price (st.metric), description in st.expander, and a fake &#x27;Add to Cart&#x27; button that shows st.toast.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p5_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 
 st.set_page_config(page_title=&#x27;Product Catalog&#x27;, layout=&#x27;wide&#x27;)
@@ -1412,7 +1442,7 @@ with col2:
     st.divider()
     st.metric(&#x27;Total&#x27;, f&#x27;${total:.2f}&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quiz App</div><div class="pd">Build a &#x27;Quiz App&#x27; with 5 multiple-choice questions stored as a list of dicts. Use session_state to track: current question index, score, and answers given. Show one question at a time with radio buttons, a &#x27;Submit&#x27; button that advances to the next question. At the end, show the final score and a &#x27;Restart&#x27; button that resets session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p6" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Quiz App</div><div class="pd">Build a &#x27;Quiz App&#x27; with 5 multiple-choice questions stored as a list of dicts. Use session_state to track: current question index, score, and answers given. Show one question at a time with radio buttons, a &#x27;Submit&#x27; button that advances to the next question. At the end, show the final score and a &#x27;Restart&#x27; button that resets session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p6_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 
 QUESTIONS = [
@@ -1656,7 +1686,7 @@ if uploaded:
         st.dataframe(cleaned.head())
         st.download_button(&#x27;Download Cleaned CSV&#x27;, cleaned.to_csv(index=False), &#x27;cleaned.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Analyzer</div><div class="pd">Build a &#x27;CSV Analyzer&#x27; app. User uploads a CSV file (st.file_uploader). Show: file name + size, first 5 rows (st.dataframe), column types (st.table), basic stats (df.describe()), and a download button for the describe() output as CSV. Handle the case where no file is uploaded yet with st.info().</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p7" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Analyzer</div><div class="pd">Build a &#x27;CSV Analyzer&#x27; app. User uploads a CSV file (st.file_uploader). Show: file name + size, first 5 rows (st.dataframe), column types (st.table), basic stats (df.describe()), and a download button for the describe() output as CSV. Handle the case where no file is uploaded yet with st.info().</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p7_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 
@@ -1873,7 +1903,7 @@ if st.button(&#x27;Predict&#x27;):
     st.metric(&#x27;Prediction&#x27;, &#x27;Positive&#x27; if pred else &#x27;Negative&#x27;)
     st.write(f&#x27;Confidence: {max(prob):.1%}&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Fetcher with Cache &amp; Form</div><div class="pd">Build a &#x27;Data Fetcher&#x27; app with st.cache_data. The cached function generates a large DataFrame (1000 rows, 10 cols, random data) — it should print &#x27;Fetching data...&#x27; only once. Add a st.form with: date range inputs, a category multiselect, a submit button. On submit, filter the cached data and show results plus a download button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p8" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Data Fetcher with Cache &amp; Form</div><div class="pd">Build a &#x27;Data Fetcher&#x27; app with st.cache_data. The cached function generates a large DataFrame (1000 rows, 10 cols, random data) — it should print &#x27;Fetching data...&#x27; only once. Add a st.form with: date range inputs, a category multiselect, a submit button. On submit, filter the cached data and show results plus a download button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p8_0" class="language-python"># Run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -2098,7 +2128,7 @@ else:
     with tab2:
         st.write(&#x27;Monitor model performance and drift here.&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3-Page App Structure</div><div class="pd">Write the code for a 3-page app structure: main app.py (home page with navigation), pages/1_analytics.py (shows a chart), pages/2_settings.py (form with settings). Each page has a consistent sidebar with st.page_link to all pages. The starter shows the complete file structure and content for all 3 files in one code block.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p9" class="language-python"># Run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 3-Page App Structure</div><div class="pd">Write the code for a 3-page app structure: main app.py (home page with navigation), pages/1_analytics.py (shows a chart), pages/2_settings.py (form with settings). Each page has a consistent sidebar with st.page_link to all pages. The starter shows the complete file structure and content for all 3 files in one code block.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p9_0" class="language-python"># Run with: streamlit run app.py
 # File structure:
 #   app.py
 #   pages/
@@ -2363,7 +2393,7 @@ else:
         f = st.file_uploader(&#x27;CSV file&#x27;, type=&#x27;csv&#x27;)
         if f: st.dataframe(pd.read_csv(f))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Gated Dashboard</div><div class="pd">Create a Streamlit app with: (1) a login form that accepts hardcoded username/password pairs, (2) session_state to persist login across reruns, (3) a viewer page (charts only), (4) an admin page (viewer content + a settings form). Include a Logout button. Test with two different user roles.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p10" class="language-python"># app.py — Multi-role gated dashboard
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Gated Dashboard</div><div class="pd">Create a Streamlit app with: (1) a login form that accepts hardcoded username/password pairs, (2) session_state to persist login across reruns, (3) a viewer page (charts only), (4) an admin page (viewer content + a settings form). Include a Logout button. Test with two different user roles.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p10_0" class="language-python"># app.py — Multi-role gated dashboard
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -2577,7 +2607,7 @@ st.metric(&#x27;Revenue&#x27;, f&quot;${df[&#x27;revenue&#x27;].sum():,.0f}&quot
 st.dataframe(df.head(50))
 st.download_button(&#x27;Export CSV&#x27;, df.to_csv(index=False), &#x27;sales.csv&#x27;, &#x27;text/csv&#x27;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cached Query Dashboard</div><div class="pd">Build a Streamlit app that: (1) creates an in-memory SQLite DB with 2000 rows of (product, region, revenue, month) data, (2) queries it with @st.cache_data(ttl=60), (3) shows a selectbox to filter by region, (4) displays metrics (total revenue, order count, avg revenue) and a bar chart, (5) includes a &#x27;Clear cache&#x27; button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p11" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cached Query Dashboard</div><div class="pd">Build a Streamlit app that: (1) creates an in-memory SQLite DB with 2000 rows of (product, region, revenue, month) data, (2) queries it with @st.cache_data(ttl=60), (3) shows a selectbox to filter by region, (4) displays metrics (total revenue, order count, avg revenue) and a bar chart, (5) includes a &#x27;Clear cache&#x27; button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p11_0" class="language-python">import streamlit as st
 import sqlite3
 import pandas as pd
 import numpy as np
@@ -2780,7 +2810,7 @@ np.random.seed(42)
 df = pd.DataFrame({&#x27;month&#x27;: range(12), &#x27;revenue&#x27;: np.random.exponential(400, 12).cumsum()})
 st.line_chart(df.set_index(&#x27;month&#x27;))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branded KPI Card Component</div><div class="pd">Build a reusable Python function make_kpi_card(title, value, delta, color) that generates HTML/CSS for a styled KPI card. Use it to display 4 KPIs in a 2x2 grid using st.columns. Add custom CSS that changes card border color based on whether delta is positive (green) or negative (red). Include a theme toggle (Dark/Light).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p12" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Branded KPI Card Component</div><div class="pd">Build a reusable Python function make_kpi_card(title, value, delta, color) that generates HTML/CSS for a styled KPI card. Use it to display 4 KPIs in a 2x2 grid using st.columns. Add custom CSS that changes card border color based on whether delta is positive (green) or negative (red). Include a theme toggle (Dark/Light).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p12_0" class="language-python">import streamlit as st
 
 def make_kpi_card(title: str, value: str, delta: str, color: str = &#x27;#00d4ff&#x27;) -&gt; str:
     # TODO: return HTML string for a styled card
@@ -2971,7 +3001,7 @@ st.subheader(&quot;Data Table&quot;)
 st.dataframe(filtered.head(50), use_container_width=True)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Analytics Dashboard</div><div class="pd">Build a Streamlit dashboard with: sidebar filters (segment, country), 4 KPI metrics (total customers, avg LTV, retention, churn rate), two-column layout (bar chart by segment, line chart over time), filterable data table, and a session state query counter.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p13" class="language-python"># Build your own dashboard — run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Customer Analytics Dashboard</div><div class="pd">Build a Streamlit dashboard with: sidebar filters (segment, country), 4 KPI metrics (total customers, avg LTV, retention, churn rate), two-column layout (bar chart by segment, line chart over time), filterable data table, and a session state query counter.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p13_0" class="language-python"># Build your own dashboard — run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -3152,7 +3182,7 @@ fi_df = pd.DataFrame({&quot;Feature&quot;:feature_names, &quot;Importance&quot;:
 st.bar_chart(fi_df.set_index(&quot;Feature&quot;))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Credit Risk ML App</div><div class="pd">Build a Streamlit app with @st.cache_resource model, single prediction form (5 sliders), colored output (success/error), batch CSV upload with predictions download, and feature importance bar chart.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p14" class="language-python"># Build an ML demo app — run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Credit Risk ML App</div><div class="pd">Build a Streamlit app with @st.cache_resource model, single prediction form (5 sliders), colored output (success/error), batch CSV upload with predictions download, and feature importance bar chart.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p14_0" class="language-python"># Build an ML demo app — run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -3338,7 +3368,7 @@ with tab2:
                                values=&quot;users&quot;, names=&quot;region&quot;), use_container_width=True)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Full Analytics Platform</div><div class="pd">Build a Streamlit app with @st.cache_data data, sidebar multiselect filters (region, product + date range), 4 KPI metrics, 3 tabs with Plotly charts (line, bar, pie), CSV download button, and a session-state experiment logger using st.form (max 5 entries).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p15" class="language-python"># Advanced Streamlit app — run with: streamlit run app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Full Analytics Platform</div><div class="pd">Build a Streamlit app with @st.cache_data data, sidebar multiselect filters (region, product + date range), 4 KPI metrics, 3 tabs with Plotly charts (line, bar, pie), CSV download button, and a session-state experiment logger using st.form (max 5 entries).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p15_0" class="language-python"># Advanced Streamlit app — run with: streamlit run app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -3582,7 +3612,7 @@ csv_buffer = filtered.to_csv(index=False).encode()
 st.download_button(&quot;Download Data&quot;, csv_buffer, &quot;sales_data.csv&quot;, &quot;text/csv&quot;)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interactive Chart with Filter</div><div class="pd">Build a Streamlit app with a selectbox to choose chart type (bar/scatter/histogram), filter data by a multiselect widget, and display the chart with st.plotly_chart().</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p16" class="language-python"># my_chart_app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Interactive Chart with Filter</div><div class="pd">Build a Streamlit app with a selectbox to choose chart type (bar/scatter/histogram), filter data by a multiselect widget, and display the chart with st.plotly_chart().</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p16_0" class="language-python"># my_chart_app.py
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -3855,7 +3885,7 @@ elif st.session_state.step == 3:
     if st.button(&quot;Start Over&quot;): st.session_state.step = 1; st.session_state.config = {}; st.rerun()
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Session State Counter</div><div class="pd">Build a Streamlit app with session state that tracks a counter, shows the history as a line chart, and has increment/decrement/reset buttons.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17" class="language-python"># session_counter.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Session State Counter</div><div class="pd">Build a Streamlit app with session state that tracks a counter, shows the history as a line chart, and has increment/decrement/reset buttons.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17_0" class="language-python"># session_counter.py
 import streamlit as st
 import pandas as pd
 
@@ -3866,6 +3896,18 @@ st.title(&quot;Session State Counter&quot;)
 # 3. Update count and append to history on each button click
 # 4. Show st.metric for current count
 # 5. Show st.line_chart of history if it exists
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Counter</div><div class="pd">Keep a counter across reruns with session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17_1" class="language-python">import streamlit as st
+
+# TODO: initialise st.session_state.count if missing, then increment it on a button click
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Persist Input</div><div class="pd">Remember a text input between reruns.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17_2" class="language-python">import streamlit as st
+
+# TODO: store the text_input value in st.session_state and display the stored value
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reset State</div><div class="pd">Add a button that clears the stored state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17_3" class="language-python">import streamlit as st
+
+# TODO: on a &quot;Reset&quot; button, set the stored values back to their defaults
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Callback</div><div class="pd">Use on_click to mutate state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p17_4" class="language-python">import streamlit as st
+
+# TODO: define a callback that updates st.session_state and pass it as on_click=
 </code></pre></div></div>
     
   </div>
@@ -4101,7 +4143,7 @@ pred = model.predict(features)[0]
 st.metric(&quot;Predicted Revenue (Random)&quot;, f&quot;${pred:.2f}&quot;)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cached Data Loader</div><div class="pd">Create a @st.cache_data function that generates a large DataFrame (simulates a slow database query with time.sleep). Show that the second call is instantaneous.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18" class="language-python"># cache_demo.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cached Data Loader</div><div class="pd">Create a @st.cache_data function that generates a large DataFrame (simulates a slow database query with time.sleep). Show that the second call is instantaneous.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18_0" class="language-python"># cache_demo.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -4114,6 +4156,29 @@ import time
 # 2. Call load_data() and time it with time.time()
 # 3. Show st.metric(&quot;Load time&quot;, f&quot;{elapsed:.0f}ms&quot;)
 # 4. Note: first call is slow, subsequent calls are ~0ms
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Data</div><div class="pd">Cache a slow computation with cache_data.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18_1" class="language-python">import streamlit as st
+import time
+
+# TODO: decorate with @st.cache_data and return a value after a time.sleep
+def slow(n):
+    time.sleep(1)
+    return n * 2
+
+st.write(slow(21))
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cache Resource</div><div class="pd">Cache a connection or model as a singleton.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18_2" class="language-python">import streamlit as st
+
+# TODO: decorate with @st.cache_resource so the object is created once
+def get_client():
+    return {&quot;connected&quot;: True}
+
+st.write(get_client())
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clear Caches</div><div class="pd">Offer a button that clears both caches.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18_3" class="language-python">import streamlit as st
+
+# TODO: on a button press call st.cache_data.clear() and st.cache_resource.clear()
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Spinner</div><div class="pd">Show progress while work runs.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p18_4" class="language-python">import streamlit as st
+import time
+
+# TODO: wrap slow work in &quot;with st.spinner(...):&quot;
 </code></pre></div></div>
     
   </div>
@@ -4346,7 +4411,7 @@ if submitted:
         st.plotly_chart(fig, use_container_width=True)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validated Registration Form</div><div class="pd">Build a st.form() with name, email, age fields. Validate that name is non-empty, email matches a regex, and age is between 18-120. Show errors or a success message on submit.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p19" class="language-python"># validated_form.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validated Registration Form</div><div class="pd">Build a st.form() with name, email, age fields. Validate that name is non-empty, email matches a regex, and age is between 18-120. Show errors or a success message on submit.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p19_0" class="language-python"># validated_form.py
 import streamlit as st
 import re
 
@@ -4617,7 +4682,7 @@ if st.button(&quot;Clean Data&quot;):
     st.download_button(&quot;Download Clean Data&quot;, csv, &quot;clean_data.csv&quot;, &quot;text/csv&quot;)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upload, Process &amp; Download</div><div class="pd">Build a Streamlit app that accepts a CSV upload, shows summary stats, lets user select a numeric column to filter by a minimum threshold, and provides a download button for filtered results.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20" class="language-python"># upload_filter_download.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upload, Process &amp; Download</div><div class="pd">Build a Streamlit app that accepts a CSV upload, shows summary stats, lets user select a numeric column to filter by a minimum threshold, and provides a download button for filtered results.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20_0" class="language-python"># upload_filter_download.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -4633,6 +4698,23 @@ if uploaded:
     # 4. Filter df where col &gt;= threshold
     # 5. st.dataframe for filtered result
     # 6. st.download_button for filtered CSV
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upload CSV</div><div class="pd">Accept a CSV and preview it.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20_1" class="language-python">import streamlit as st
+import pandas as pd
+
+# TODO: up = st.file_uploader(&quot;CSV&quot;, type=&quot;csv&quot;); if up is not None: read and st.dataframe it
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Download Result</div><div class="pd">Offer a processed file for download.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20_2" class="language-python">import streamlit as st
+import pandas as pd
+
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3]})
+# TODO: st.download_button(&quot;Download&quot;, df.to_csv(index=False), &quot;out.csv&quot;, &quot;text/csv&quot;)
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Validate Upload</div><div class="pd">Reject a file that lacks required columns.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20_3" class="language-python">import streamlit as st
+import pandas as pd
+
+required = {&quot;id&quot;, &quot;value&quot;}
+# TODO: after reading the upload, check required.issubset(df.columns) and st.error otherwise
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Image Upload</div><div class="pd">Display an uploaded image.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p20_4" class="language-python">import streamlit as st
+
+# TODO: up = st.file_uploader(&quot;Image&quot;, type=[&quot;png&quot;, &quot;jpg&quot;]); if up: st.image(up)
 </code></pre></div></div>
     
   </div>
@@ -4862,7 +4944,7 @@ elif page == &quot;Export&quot;:
     st.download_button(&quot;Download CSV&quot;, filtered.to_csv(index=False).encode(), &quot;report.csv&quot;, &quot;text/csv&quot;)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Page Navigation</div><div class="pd">Create a Streamlit app that simulates 3 pages using a selectbox in the sidebar. Each page shows different content and shares data via session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p21" class="language-python"># multipage_sim.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Page Navigation</div><div class="pd">Create a Streamlit app that simulates 3 pages using a selectbox in the sidebar. Each page shows different content and shares data via session_state.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p21_0" class="language-python"># multipage_sim.py
 import streamlit as st
 import numpy as np
 
@@ -5161,7 +5243,7 @@ for col, model in zip(cols, models):
     &lt;/div&gt;&#x27;&#x27;&#x27;, unsafe_allow_html=True)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Styled Component</div><div class="pd">Build a Streamlit app with a custom CSS-styled progress bar for 3 metrics and colored badges for status labels (Active=green, Inactive=red, Pending=yellow).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p22" class="language-python"># styled_component.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Custom Styled Component</div><div class="pd">Build a Streamlit app with a custom CSS-styled progress bar for 3 metrics and colored badges for status labels (Active=green, Inactive=red, Pending=yellow).</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p22_0" class="language-python"># styled_component.py
 import streamlit as st
 
 st.title(&quot;Custom Styled Components&quot;)
@@ -5512,7 +5594,7 @@ except Exception as e:
     handle_error(e, &quot;main app&quot;)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Deployable Streamlit App</div><div class="pd">Write a production-ready Streamlit app with: @st.cache_data for data loading, @st.cache_resource for a model, a try/except error handler, and a sidebar health check button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p23" class="language-python"># production_app.py
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Deployable Streamlit App</div><div class="pd">Write a production-ready Streamlit app with: @st.cache_data for data loading, @st.cache_resource for a model, a try/except error handler, and a sidebar health check button.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p23_0" class="language-python"># production_app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -5594,7 +5676,7 @@ view = df[df[&quot;city&quot;].isin(city)]
 st.metric(&quot;Total sales&quot;, int(view[&quot;sales&quot;].sum()))
 st.dataframe(view, use_container_width=True)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filtered Dashboard</div><div class="pd">Build a small dashboard: a sidebar multiselect picks cities, the main panel shows the filtered dataframe and a total-sales metric. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p24" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filtered Dashboard</div><div class="pd">Build a small dashboard: a sidebar multiselect picks cities, the main panel shows the filtered dataframe and a total-sales metric. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p24_0" class="language-python">import streamlit as st
 import pandas as pd
 
 df = pd.DataFrame({&quot;city&quot;: [&quot;NY&quot;, &quot;SF&quot;, &quot;LA&quot;, &quot;NY&quot;, &quot;SF&quot;],
@@ -5665,7 +5747,7 @@ with st.form(&quot;params&quot;):
 if run:
     st.write(f&quot;Training with lr={lr}, epochs={epochs} ...&quot;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Signup Form</div><div class="pd">Build a form with a name field and an age number_input, plus a submit button; on submit, show a success message echoing the values. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p25" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Signup Form</div><div class="pd">Build a form with a name field and an age number_input, plus a submit button; on submit, show a success message echoing the values. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p25_0" class="language-python">import streamlit as st
 
 # TODO: with st.form(...): add text_input, number_input, and form_submit_button
 #       then, if submitted, st.success(...) with the values
@@ -5723,7 +5805,7 @@ if up is not None:
     st.write(&quot;Cleaned rows:&quot;, len(df))
     st.download_button(&quot;Download clean CSV&quot;, df.to_csv(index=False), &quot;clean.csv&quot;)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Cleaner</div><div class="pd">Build an app that uploads a CSV, drops missing rows and duplicates, shows the cleaned row count, and offers the cleaned CSV as a download. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p26" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Cleaner</div><div class="pd">Build an app that uploads a CSV, drops missing rows and duplicates, shows the cleaned row count, and offers the cleaned CSV as a download. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p26_0" class="language-python">import streamlit as st
 import pandas as pd
 
 up = st.file_uploader(&quot;Upload CSV&quot;, type=&quot;csv&quot;)
@@ -5783,7 +5865,7 @@ with charts:
 with data:
     st.dataframe(df)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: KPI Dashboard</div><div class="pd">Build a layout with three KPI metrics in a row of columns and two tabs (&#x27;Charts&#x27;, &#x27;Data&#x27;). Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p27" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: KPI Dashboard</div><div class="pd">Build a layout with three KPI metrics in a row of columns and two tabs (&#x27;Charts&#x27;, &#x27;Data&#x27;). Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p27_0" class="language-python">import streamlit as st
 
 st.title(&quot;Dashboard&quot;)
 # TODO: c1, c2, c3 = st.columns(3) with three st.metric calls
@@ -5848,7 +5930,7 @@ def load_model():
 model = load_model()
 st.write(&quot;Serving&quot;, model[&quot;name&quot;], model[&quot;version&quot;])</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Singleton Resource</div><div class="pd">Write a get_connection() cached with st.cache_resource that returns a sqlite3 connection, and show that it is reused. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p28" class="language-python">import streamlit as st
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Singleton Resource</div><div class="pd">Write a get_connection() cached with st.cache_resource that returns a sqlite3 connection, and show that it is reused. Save as app.py and run with streamlit run app.py.</div><div style="border:1px solid #30363d;border-radius:6px;overflow:hidden;margin-top:8px"><div style="padding:7px 12px;background:#161b22;font-size:.78rem;color:#8b949e"><span>Starter Code — save as app.py and run: streamlit run app.py</span></div><pre><code id="p28_0" class="language-python">import streamlit as st
 
 # TODO: decorate get_connection with @st.cache_resource and return a sqlite3 connection
 def get_connection():

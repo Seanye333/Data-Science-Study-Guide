@@ -123,7 +123,7 @@ touch data/raw/.gitkeep data/processed/.gitkeep models/.gitkeep
 # Initial commit
 git add .
 git commit -m &quot;Initial project structure with .gitignore&quot;
-git log --oneline</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Your Own DS Project Repo</div><div class="pd">Initialize a Git repo for a data science project with proper structure, a .gitignore tailored for Python/DS, and an initial commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-bash"># TODO: Create a directory called &quot;practice-project&quot;
+git log --oneline</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create Your Own DS Project Repo</div><div class="pd">Initialize a Git repo for a data science project with proper structure, a .gitignore tailored for Python/DS, and an initial commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-bash"># TODO: Create a directory called &quot;practice-project&quot;
 # TODO: Initialize git
 # TODO: Create folders: data/, notebooks/, src/, tests/
 # TODO: Create a .gitignore that excludes:
@@ -234,7 +234,7 @@ git log --oneline -5
 # abc1234 refactor: extract preprocessing params to config
 # def5678 test: add unit tests for preprocessing pipeline
 # ghi9012 feat: add categorical encoding with target encoder
-# jkl3456 feat: add missing value imputation for numerical columns</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Commit History</div><div class="pd">Create a series of meaningful commits: create 3 Python files, commit each separately with descriptive messages, then use git log and git diff to explore the history.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-bash"># TODO: Create src/load_data.py with a dummy function
+# jkl3456 feat: add missing value imputation for numerical columns</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Commit History</div><div class="pd">Create a series of meaningful commits: create 3 Python files, commit each separately with descriptive messages, then use git log and git diff to explore the history.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-bash"># TODO: Create src/load_data.py with a dummy function
 # TODO: git add and commit with message &quot;feat: add data loading module&quot;
 # TODO: Create src/clean_data.py with a dummy function
 # TODO: git add and commit with message &quot;feat: add data cleaning module&quot;
@@ -242,7 +242,17 @@ git log --oneline -5
 # TODO: git diff to see the changes
 # TODO: git add and commit with message &quot;feat: add CSV validation to data loader&quot;
 # TODO: git log --oneline to see your 3 commits
-# TODO: git log --stat to see files changed per commit</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create 3 files in sequence, committing each with a descriptive message following &#x27;type: description&#x27; format</label></li>
+# TODO: git log --stat to see files changed per commit</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stage and Commit</div><div class="pd">Stage a change and commit it with a clear message.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-bash"># TODO: stage a specific file, then commit with a message
+git status
+# git add &lt;file&gt;
+# git commit -m &quot;...&quot;
+git log --oneline -1</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Inspect a Diff</div><div class="pd">See exactly what changed, staged and unstaged.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-bash"># TODO: show unstaged changes, then staged changes
+git diff
+# git diff --staged</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Amend the Last Commit</div><div class="pd">Fix the previous commit message (before pushing).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-bash"># TODO: amend the last commit
+# git commit --amend -m &quot;Better message&quot;
+git log --oneline -2</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Search History</div><div class="pd">Find which commit touched a file or string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-bash"># TODO: log the commits that touched one file, then search commit contents
+# git log --oneline -- &lt;file&gt;
+# git log -S &quot;some_string&quot; --oneline</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create 3 files in sequence, committing each with a descriptive message following &#x27;type: description&#x27; format</label></li>
 <li><label><input type="checkbox"> Modify a committed file, then use git diff and git diff --staged to see the difference</label></li>
 <li><label><input type="checkbox"> Practice git reset --soft HEAD~1 — undo a commit and recommit with a better message</label></li>
 <li><label><input type="checkbox"> Use git log --grep=&#x27;feat&#x27; to filter only feature commits in your history</label></li>
@@ -352,7 +362,24 @@ git merge --no-ff feature/evaluation
 git branch -d feature/preprocessing feature/model-training feature/evaluation
 
 # View the branch history
-git log --oneline --graph -10</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a branch called &#x27;experiment/test&#x27;, make a commit, then delete it</label></li>
+git log --oneline --graph -10</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Create and Switch</div><div class="pd">Start a feature branch off main.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-bash">git switch main
+git pull --ff-only
+# TODO: create and switch to a new branch
+# git switch -c feature/my-change
+git branch --show-current</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Merge Back</div><div class="pd">Fast-forward merge a finished branch.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-bash"># TODO: switch to main and merge the feature branch with --ff-only
+# git switch main
+# git merge --ff-only feature/my-change
+git log --oneline -3</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resolve a Conflict</div><div class="pd">Walk through a merge conflict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-bash"># TODO: after a conflicting merge, inspect and resolve
+git status
+# edit the conflicted files, then:
+# git add &lt;file&gt;
+# git commit</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Delete Merged Branch</div><div class="pd">Clean up branches that are already merged.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-bash"># TODO: list merged branches, then delete one
+# git branch --merged
+# git branch -d feature/my-change
+git branch</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Compare Branches</div><div class="pd">See what differs between two branches.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-bash"># TODO: list commits on the branch that are not on main
+# git log --oneline main..feature/my-change
+# TODO: see the combined diff
+# git diff main...feature/my-change</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a branch called &#x27;experiment/test&#x27;, make a commit, then delete it</label></li>
 <li><label><input type="checkbox"> Practice a fast-forward merge and a no-ff merge — view git log --graph after each</label></li>
 <li><label><input type="checkbox"> Deliberately create a merge conflict in a file, then resolve it manually</label></li>
 <li><label><input type="checkbox"> Use git branch -a to list all local and remote branches</label></li>
@@ -451,7 +478,7 @@ git push -u origin main
 # On GitHub: Settings → Branches → Add rule for &#x27;main&#x27;:
 #   ✓ Require pull request reviews
 #   ✓ Require status checks to pass
-#   ✓ No direct pushes to main</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Simulate a Collaboration Workflow</div><div class="pd">Create a repo, simulate 2 developers by creating branches, making conflicting changes, and resolving the merge conflict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-bash"># TODO: Create a repo with a file src/config.py containing:
+#   ✓ No direct pushes to main</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Simulate a Collaboration Workflow</div><div class="pd">Create a repo, simulate 2 developers by creating branches, making conflicting changes, and resolving the merge conflict.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-bash"># TODO: Create a repo with a file src/config.py containing:
 #   MODEL_TYPE = &quot;random_forest&quot;
 #   N_ESTIMATORS = 100
 
@@ -697,7 +724,20 @@ git log --all --full-history -- &quot;*.env&quot; --oneline
 
 # Verify no large files currently tracked
 git ls-files | xargs -I{} git cat-file -s HEAD:{} 2&gt;/dev/null | \
-  sort -rn | head -10</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .gitignore from scratch for a Python DS project covering data, models, envs, and OS files</label></li>
+  sort -rn | head -10</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ignore Artifacts</div><div class="pd">Ignore data, checkpoints and virtualenvs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_0')">Copy</button></div><pre><code id="p5_0" class="language-bash"># TODO: add entries to .gitignore for a DS project
+# data/
+# *.ipynb_checkpoints/
+# .venv/
+cat .gitignore</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Check Ignore</div><div class="pd">Confirm why a path is ignored.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-bash"># TODO: ask git which rule ignores a path
+# git check-ignore -v data/raw.csv</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Untrack a Committed File</div><div class="pd">Stop tracking a file that should be ignored.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_2')">Copy</button></div><pre><code id="p5_2" class="language-bash"># TODO: remove from the index but keep it on disk
+# git rm --cached secrets.env
+# then add it to .gitignore and commit</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Global Ignore</div><div class="pd">Ignore editor/OS files across all repos.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_3')">Copy</button></div><pre><code id="p5_3" class="language-bash"># TODO: configure a global ignore file
+# git config --global core.excludesfile ~/.gitignore_global</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ignore Large Outputs</div><div class="pd">Keep notebooks but drop their heavy outputs and caches.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_4')">Copy</button></div><pre><code id="p5_4" class="language-bash"># TODO: add rules for model artifacts and caches
+# *.pkl
+# *.joblib
+# __pycache__/
+# TODO: verify nothing large is staged
+git status --short</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a .gitignore from scratch for a Python DS project covering data, models, envs, and OS files</label></li>
 <li><label><input type="checkbox"> Accidentally commit a .csv file, then use git rm --cached to untrack it without deleting locally</label></li>
 <li><label><input type="checkbox"> Use git check-ignore -v on several file paths to confirm they are properly ignored</label></li>
 <li><label><input type="checkbox"> Use the !negation pattern to ignore all *.h5 files but keep one specific model file</label></li>
@@ -765,7 +805,16 @@ git push -u origin hotfix/data-loader-crash
 git switch feature/train-pipeline
 git stash pop
 # Your changes are back exactly as you left them!
-git status</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make some uncommitted edits, run git stash push -m &#x27;my wip&#x27;, then verify git status is clean</label></li>
+git status</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stash Work</div><div class="pd">Shelve changes to switch context.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-bash"># TODO: stash with a message, then confirm the tree is clean
+# git stash push -m &quot;wip: parser&quot;
+git status</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: List and Apply</div><div class="pd">Bring shelved work back.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-bash"># TODO: list stashes and restore the latest
+# git stash list
+# git stash pop</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stash One File</div><div class="pd">Shelve only a single path.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_2')">Copy</button></div><pre><code id="p6_2" class="language-bash"># TODO: stash just one file
+# git stash push -m &quot;only config&quot; -- config.yaml</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Drop a Stash</div><div class="pd">Discard a stash you no longer need.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_3')">Copy</button></div><pre><code id="p6_3" class="language-bash"># TODO: inspect then drop a stash entry
+# git stash show -p stash@{0}
+# git stash drop stash@{0}</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stash Including Untracked</div><div class="pd">Shelve new files too, not just tracked changes.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_4')">Copy</button></div><pre><code id="p6_4" class="language-bash"># TODO: stash untracked files as well
+# git stash push -u -m &quot;wip incl. new files&quot;
+git stash list</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make some uncommitted edits, run git stash push -m &#x27;my wip&#x27;, then verify git status is clean</label></li>
 <li><label><input type="checkbox"> Create two stashes, list them with git stash list, and apply each one selectively</label></li>
 <li><label><input type="checkbox"> Use git stash show -p stash@{0} to inspect the full diff stored in a stash</label></li>
 <li><label><input type="checkbox"> Stash only a single file using git stash push -- path/to/file.py</label></li>
@@ -914,7 +963,19 @@ git rebase -i HEAD~8
 # Now push the clean branch
 git push origin feature/ml-pipeline
 
-# Your PR will show 3 clean, logical commits instead of 8 messy ones</code></pre></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make 4 small commits (including &#x27;WIP&#x27; and &#x27;fix typo&#x27;), then squash them into 1 with git rebase -i</label></li>
+# Your PR will show 3 clean, logical commits instead of 8 messy ones</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rebase on Main</div><div class="pd">Replay your branch on the latest main.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-bash">git fetch origin
+# TODO: rebase the current branch onto origin/main
+# git rebase origin/main
+git log --oneline -5</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Squash Commits</div><div class="pd">Fold several WIP commits into one.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-bash"># TODO: interactive rebase over the last 3 commits and squash
+# git rebase -i HEAD~3
+git log --oneline -1</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Abort Safely</div><div class="pd">Back out of a rebase that went wrong.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_2')">Copy</button></div><pre><code id="p8_2" class="language-bash"># TODO: abort an in-progress rebase
+# git rebase --abort
+git status</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Recover with Reflog</div><div class="pd">Find a commit lost during a rebase.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_3')">Copy</button></div><pre><code id="p8_3" class="language-bash"># TODO: use the reflog to locate and restore the old tip
+git reflog
+# git reset --hard &lt;sha&gt;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Reorder Commits</div><div class="pd">Change the order of commits during an interactive rebase.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_4')">Copy</button></div><pre><code id="p8_4" class="language-bash"># TODO: start an interactive rebase and move a line up or down in the todo list
+# git rebase -i HEAD~3
+# reordering the &#x27;pick&#x27; lines reorders the commits
+git log --oneline -3</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Make 4 small commits (including &#x27;WIP&#x27; and &#x27;fix typo&#x27;), then squash them into 1 with git rebase -i</label></li>
 <li><label><input type="checkbox"> Use git rebase main on a feature branch and compare the log to a merge-based approach</label></li>
 <li><label><input type="checkbox"> Practice the &#x27;reword&#x27; command in interactive rebase to rename a commit message</label></li>
 <li><label><input type="checkbox"> Use &#x27;drop&#x27; in interactive rebase to delete a commit entirely and verify it&#x27;s gone in git log</label></li>
@@ -995,7 +1056,7 @@ git add notebooks/eda.py          # clean Python diff
 git add notebooks/eda.ipynb       # outputs auto-stripped
 git commit -m &quot;feat: add EDA notebook with correlation analysis&quot;
 
-# Reviewer sees clean diff in eda.py, not messy JSON</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Up Notebook-Friendly Git</div><div class="pd">Configure a repo for clean notebook versioning: install nbstripout, create a .gitattributes for notebooks, and test that outputs are stripped on commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-bash"># TODO: Create a test repo
+# Reviewer sees clean diff in eda.py, not messy JSON</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Set Up Notebook-Friendly Git</div><div class="pd">Configure a repo for clean notebook versioning: install nbstripout, create a .gitattributes for notebooks, and test that outputs are stripped on commit.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-bash"># TODO: Create a test repo
 # TODO: pip install nbstripout
 # TODO: nbstripout --install (in the repo)
 # TODO: Create a simple notebook with some output cells
@@ -1627,7 +1688,7 @@ git revert &lt;sha&gt;
 
 # Recover a &quot;lost&quot; commit after a bad reset
 git reflog                       # find the old HEAD sha
-git reset --hard &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Recover a Lost Commit</div><div class="pd">You ran `git reset --hard HEAD~2` and lost two commits. Using the commands below as a guide, write the sequence that finds the lost commit in the reflog and restores your branch to it. (Try it in a throwaway repo.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-bash"># 1. Inspect recent HEAD positions
+git reset --hard &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Recover a Lost Commit</div><div class="pd">You ran `git reset --hard HEAD~2` and lost two commits. Using the commands below as a guide, write the sequence that finds the lost commit in the reflog and restores your branch to it. (Try it in a throwaway repo.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-bash"># 1. Inspect recent HEAD positions
 git reflog
 
 # 2. TODO: identify the sha from just before the bad reset, then restore to it
@@ -1647,7 +1708,7 @@ git rebase -i HEAD~3
 # Save and close; Git replays the commits with your edits.
 
 # If something goes wrong, bail out cleanly:
-git rebase --abort</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clean Up History</div><div class="pd">You have 3 messy WIP commits. Write the commands to squash them into one well-named commit using interactive rebase. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-bash"># 1. Start the interactive rebase over the last 3 commits
+git rebase --abort</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Clean Up History</div><div class="pd">You have 3 messy WIP commits. Write the commands to squash them into one well-named commit using interactive rebase. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-bash"># 1. Start the interactive rebase over the last 3 commits
 git rebase -i HEAD~3
 
 # 2. TODO: in the editor, keep the first as &#x27;pick&#x27; and mark the other two
@@ -1664,7 +1725,7 @@ git switch -
 git stash pop            # restore the shelved changes
 
 # Copy one specific commit from another branch onto this one
-git cherry-pick &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Move One Commit</div><div class="pd">You committed a fix on the wrong branch. Write the commands to copy just that commit onto main (find its sha, switch to main, cherry-pick it). Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-bash"># 1. Find the sha of the commit you want to move
+git cherry-pick &lt;sha&gt;</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Move One Commit</div><div class="pd">You committed a fix on the wrong branch. Write the commands to copy just that commit onto main (find its sha, switch to main, cherry-pick it). Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-bash"># 1. Find the sha of the commit you want to move
 git log --oneline -5
 
 # 2. TODO: switch to main and cherry-pick that sha
@@ -1682,7 +1743,7 @@ git bisect good v1.0          # this older tag worked
 # Git checks out a commit in the middle; test it, then tell Git:
 git bisect good               # ... or: git bisect bad
 # Repeat until Git prints the first bad commit, then:
-git bisect reset</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pinpoint the Regression</div><div class="pd">A test passes at tag v1.0 but fails now. Write the bisect commands to find the first bad commit. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-bash"># 1. Begin the search
+git bisect reset</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pinpoint the Regression</div><div class="pd">A test passes at tag v1.0 but fails now. Write the bisect commands to find the first bad commit. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-bash"># 1. Begin the search
 git bisect start
 git bisect bad
 git bisect good v1.0
@@ -1701,7 +1762,7 @@ git worktree add ../review-pr feature/login
 cd ../review-pr &amp;&amp; git status
 
 # When done, remove it
-git worktree remove ../review-pr</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Without Stashing</div><div class="pd">You&#x27;re mid-change and need to review branch feature/login. Write the commands to check it out in a separate folder and remove it afterward. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-bash"># 1. Add a worktree for the branch to review
+git worktree remove ../review-pr</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Review Without Stashing</div><div class="pd">You&#x27;re mid-change and need to review branch feature/login. Write the commands to check it out in a separate folder and remove it afterward. Try it in a scratch repo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-bash"># 1. Add a worktree for the branch to review
 git worktree add ../review feature/login
 
 # 2. TODO: cd into ../review, inspect it, then come back

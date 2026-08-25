@@ -179,7 +179,7 @@ print(f'Loaded {df.shape[0]:,} rows x {df.shape[1]} cols')
 print(df.schema)
 print(df.head())</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: DataFrame Construction</div><div class="pd">1) Create a DataFrame from a dict with columns: 'city' (5 cities), 'population' (ints), 'area_km2' (floats). 2) Create the same data from a list of dicts. 3) Parse a CSV string with 3 rows and verify the schema. 4) Add a 'density' column (population / area_km2) and print the result.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: DataFrame Construction</div><div class="pd">1) Create a DataFrame from a dict with columns: 'city' (5 cities), 'population' (ints), 'area_km2' (floats). 2) Create the same data from a list of dicts. 3) Parse a CSV string with 3 rows and verify the schema. 4) Add a 'density' column (population / area_km2) and print the result.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0_0" class="language-python">import polars as pl
 import io
 
 # 1. From dict
@@ -202,7 +202,23 @@ csv_str = 'city,pop,area\nTokyo,13960000,2194.0\nParis,2161000,105.4\nLondon,898
 # TODO: df4 = df.with_columns(
 #     (pl.col('population') / pl.col('area_km2')).round(1).alias('density')
 # )
-# TODO: print(df4)</code></pre></div></div>
+# TODO: print(df4)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: From Dict</div><div class="pd">Build a DataFrame from a dict of columns and print its shape. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0_1" class="language-python">import polars as pl
+
+# TODO: build pl.DataFrame({"a": [1, 2, 3], "b": ["x", "y", "z"]})
+df = None
+print(df)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Read CSV</div><div class="pd">Load a CSV into a DataFrame and inspect the first rows. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0_2" class="language-python">import polars as pl
+
+# TODO: df = pl.read_csv("data.csv")
+# TODO: print(df.head())
+# Tip: pl.read_csv accepts a path or a file-like object</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Schema</div><div class="pd">Print the dtypes of each column. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0_3" class="language-python">import polars as pl
+
+df = pl.DataFrame({"a": [1, 2], "b": ["x", "y"]})
+# TODO: print df.schema to see the column types
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Describe</div><div class="pd">Summary statistics for the numeric columns. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p0_4" class="language-python">import polars as pl
+
+df = pl.DataFrame({"a": [1, 2, 3], "b": [10.0, 20.0, 30.0]})
+# TODO: print(df.describe())
+</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a Polars DataFrame from a Python dict and print its schema with df.schema</label></li>
 <li><label><input type="checkbox"> Create a Series with an explicit dtype (pl.Int32) and call .mean() and .std()</label></li>
 <li><label><input type="checkbox"> Use pl.from_records() with a schema dict to build a typed DataFrame from tuples</label></li>
@@ -349,7 +365,7 @@ enriched = products.with_columns([
 print(enriched.filter(pl.col('low_margin_flag')).head(5))
 print('Low margin products:', enriched['low_margin_flag'].sum())</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Expressions & Conditional Columns</div><div class="pd">Create a DataFrame with columns: 'employee', 'base_salary', 'bonus_pct', 'years_exp'. 1) Add 'total_comp' = base_salary * (1 + bonus_pct/100). 2) Add 'level' using pl.when: 'Junior' if years_exp < 3, 'Mid' if < 7, 'Senior' otherwise. 3) Use pl.sum_horizontal to sum base_salary and a 10000 raise. 4) Filter to show only Senior employees.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Expressions & Conditional Columns</div><div class="pd">Create a DataFrame with columns: 'employee', 'base_salary', 'bonus_pct', 'years_exp'. 1) Add 'total_comp' = base_salary * (1 + bonus_pct/100). 2) Add 'level' using pl.when: 'Junior' if years_exp < 3, 'Mid' if < 7, 'Senior' otherwise. 3) Use pl.sum_horizontal to sum base_salary and a 10000 raise. 4) Filter to show only Senior employees.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1_0" class="language-python">import polars as pl
 
 df = pl.DataFrame({
     'employee': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
@@ -379,7 +395,27 @@ df = pl.DataFrame({
 
 # 4. Filter to Senior only
 # TODO: seniors = df.filter(pl.col('level') == 'Senior')
-# TODO: print(seniors)</code></pre></div></div>
+# TODO: print(seniors)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Select Columns</div><div class="pd">Keep only a subset of columns. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1_1" class="language-python">import polars as pl
+
+df = pl.DataFrame({"a": [1, 2], "b": [3, 4], "c": [5, 6]})
+# TODO: df.select(["a", "c"])
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Derived Column</div><div class="pd">Add a computed column with with_columns. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1_2" class="language-python">import polars as pl
+
+df = pl.DataFrame({"price": [10, 20], "qty": [2, 3]})
+# TODO: add a "total" column equal to price * qty
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rename</div><div class="pd">Rename a column. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1_3" class="language-python">import polars as pl
+
+df = pl.DataFrame({"old": [1, 2]})
+# TODO: df.rename({"old": "new"})
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cast Types</div><div class="pd">Cast a column to another dtype. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p1_4" class="language-python">import polars as pl
+
+df = pl.DataFrame({"a": [1, 2]})
+# TODO: with_columns(pl.col("a").cast(pl.Float64))
+result = df
+print(result)</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Select two columns using pl.col() and add a new computed column with .with_columns()</label></li>
 <li><label><input type="checkbox"> Filter rows where a numeric column is above its mean using pl.col().mean()</label></li>
 <li><label><input type="checkbox"> Chain .filter().select().with_columns() in a single expression</label></li>
@@ -520,7 +556,7 @@ suspects = txns.filter(
 print(f'Suspicious transactions: {len(suspects):,}')
 print(suspects.head(10))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Filter & Sort</div><div class="pd">Create a DataFrame with 'employee', 'dept', 'salary', 'rating' (1.0-5.0), 'remote' (bool). 1) Filter: Engineering dept AND salary > 70000 AND rating >= 4.0. 2) Filter: NOT remote AND salary is_between 50000 and 90000. 3) Sort by dept ascending then salary descending. 4) Get the top-3 rated remote workers.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained Filter & Sort</div><div class="pd">Create a DataFrame with 'employee', 'dept', 'salary', 'rating' (1.0-5.0), 'remote' (bool). 1) Filter: Engineering dept AND salary > 70000 AND rating >= 4.0. 2) Filter: NOT remote AND salary is_between 50000 and 90000. 3) Sort by dept ascending then salary descending. 4) Get the top-3 rated remote workers.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -554,7 +590,28 @@ print(df)
 
 # 4. Top-3 rated remote workers
 # TODO: top_remote = df.filter(pl.col('remote')).top_k(3, by='rating')
-# print('Top remote:', top_remote)</code></pre></div></div>
+# print('Top remote:', top_remote)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Filter Rows</div><div class="pd">Keep rows above a threshold with .gt. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2_1" class="language-python">import polars as pl
+
+df = pl.DataFrame({"v": [1, 5, 9]})
+# TODO: df.filter(pl.col("v").gt(4))
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sort Descending</div><div class="pd">Sort by a column, largest first. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2_2" class="language-python">import polars as pl
+
+df = pl.DataFrame({"v": [3, 1, 2]})
+# TODO: df.sort("v", descending=True)
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Conditions</div><div class="pd">Combine two filters. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2_3" class="language-python">import polars as pl
+
+df = pl.DataFrame({"a": [1, 5, 9], "b": ["x", "y", "x"]})
+# TODO: filter where a is greater than 2 AND b equals "x"
+#       hint: df.filter(pl.col("a").gt(2) and-chain with pl.col("b").eq("x"))
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Top K</div><div class="pd">Take the k largest rows by a column. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p2_4" class="language-python">import polars as pl
+
+df = pl.DataFrame({"v": [3, 1, 9, 5]})
+# TODO: df.top_k(2, by="v")
+result = df
+print(result)</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Filter a DataFrame using two AND conditions and verify row count is correct</label></li>
 <li><label><input type="checkbox"> Use .is_in() to filter by a list of allowed values and check against the full set</label></li>
 <li><label><input type="checkbox"> Sort by two columns (one ascending, one descending) and print the first 5 rows</label></li>
@@ -699,7 +756,7 @@ daily = orders.group_by(['store_id', 'order_date']).agg([
 print(f'Daily summaries: {daily.shape}')
 print(daily.head(8))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Column GroupBy & Multiple Aggregations</div><div class="pd">Generate a sales DataFrame with 'salesperson', 'region', 'product', 'amount', 'qty'. 1) Group by region AND product, compute count, total amount, avg amount, total qty. 2) Find the salesperson with the highest total sales per region. 3) Filter to only groups where count >= 5 and avg amount > 500.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p3" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Column GroupBy & Multiple Aggregations</div><div class="pd">Generate a sales DataFrame with 'salesperson', 'region', 'product', 'amount', 'qty'. 1) Group by region AND product, compute count, total amount, avg amount, total qty. 2) Find the salesperson with the highest total sales per region. 3) Filter to only groups where count >= 5 and avg amount > 500.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p3_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(7)
@@ -888,7 +945,7 @@ print(f'Enriched: {enriched.shape}')
 print(enriched.head(5))
 print('Never ordered:', enriched['last_order_amount'].is_null().sum())</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Left Join & Anti-Join</div><div class="pd">Create 'students' (id, name, grade) and 'enrollments' (student_id, course, score) DataFrames. 1) Left join to show all students with their courses (nulls for unenrolled). 2) Anti-join to find students with no enrollments. 3) Inner join and compute avg score per student. 4) Cross join students with a list of 3 available courses to show all possible assignments.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p4" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Left Join & Anti-Join</div><div class="pd">Create 'students' (id, name, grade) and 'enrollments' (student_id, course, score) DataFrames. 1) Left join to show all students with their courses (nulls for unenrolled). 2) Anti-join to find students with no enrollments. 3) Inner join and compute avg score per student. 4) Cross join students with a list of 3 available courses to show all possible assignments.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p4_0" class="language-python">import polars as pl
 
 students = pl.DataFrame({
     'id': [1, 2, 3, 4, 5],
@@ -1074,7 +1131,7 @@ hourly = enriched.group_by('hour').agg([
 print('Peak hour:', hourly.top_k(1, by='requests')['hour'][0], 'h')
 print('Weekend traffic:', enriched['is_weekend'].mean().__round__(1))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String & DateTime Feature Engineering</div><div class="pd">Create a DataFrame with 'email', 'signup_date' (str), 'username'. 1) Extract domain from email using str.split. 2) Flag emails from 'gmail.com' or 'yahoo.com' with str.contains. 3) Parse signup_date and extract year, month, weekday. 4) Use dt.strftime to create a formatted label. 5) Compute days since signup (use date(2025,1,1) as today).</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p5" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String & DateTime Feature Engineering</div><div class="pd">Create a DataFrame with 'email', 'signup_date' (str), 'username'. 1) Extract domain from email using str.split. 2) Flag emails from 'gmail.com' or 'yahoo.com' with str.contains. 3) Parse signup_date and extract year, month, weekday. 4) Use dt.strftime to create a formatted label. 5) Compute days since signup (use date(2025,1,1) as today).</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p5_0" class="language-python">import polars as pl
 from datetime import date
 
 df = pl.DataFrame({
@@ -1294,7 +1351,7 @@ summary = (
 print('Purchase summary by country:')
 print(summary)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LazyFrame Pipeline with collect()</div><div class="pd">Create a 100k-row DataFrame (in-memory) with 'customer_id', 'category', 'spend', 'is_member'. 1) Convert to lazy. 2) Filter: is_member=True AND spend > 20. 3) Add 'spend_after_discount' = spend * 0.9 for members. 4) GroupBy category: count, total spend, avg spend_after_discount. 5) Sort by total spend descending and collect(). Print the query plan with explain().</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p6" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LazyFrame Pipeline with collect()</div><div class="pd">Create a 100k-row DataFrame (in-memory) with 'customer_id', 'category', 'spend', 'is_member'. 1) Convert to lazy. 2) Filter: is_member=True AND spend > 20. 3) Add 'spend_after_discount' = spend * 0.9 for members. 4) GroupBy category: count, total spend, avg spend_after_discount. 5) Sort by total spend descending and collect(). Print the query plan with explain().</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p6_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(0)
@@ -1491,7 +1548,7 @@ jan = pl.scan_parquet(pq_path).filter(
 print(f'January transactions: {len(jan):,}')
 print(f'Jan revenue: ${jan["amount"].sum():,.2f}')</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Round-Trip and Parquet Query</div><div class="pd">Write a 10,000-row orders DataFrame to CSV and Parquet. Read the CSV back and verify shape. Use scan_parquet (LazyFrame) to filter one region and select specific columns, then collect.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p7" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CSV Round-Trip and Parquet Query</div><div class="pd">Write a 10,000-row orders DataFrame to CSV and Parquet. Read the CSV back and verify shape. Use scan_parquet (LazyFrame) to filter one region and select specific columns, then collect.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p7_0" class="language-python">import polars as pl
 import numpy as np
 import tempfile, os
 
@@ -1653,7 +1710,7 @@ top = result.filter(pl.col('region_rank') == 1).group_by('region').agg(
 print('Top reps by region:')
 print(top)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Trend Analysis with Windows</div><div class="pd">Given 90 days of daily sales data with product and revenue columns, add: (1) 7-day rolling mean of revenue, (2) cumulative units sold, (3) revenue as % of dataset max, (4) rank within each product group by revenue descending. Then print top 3 days per product.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p8" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales Trend Analysis with Windows</div><div class="pd">Given 90 days of daily sales data with product and revenue columns, add: (1) 7-day rolling mean of revenue, (2) cumulative units sold, (3) revenue as % of dataset max, (4) rank within each product group by revenue descending. Then print top 3 days per product.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p8_0" class="language-python">import polars as pl
 import numpy as np
 from datetime import date, timedelta
 
@@ -1855,7 +1912,7 @@ print(f'Polars:  {t_pl:.3f}s')
 print(f'Speedup: {t_pd/t_pl:.1f}x')
 print(pl_result)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rewrite a Pandas Pipeline in Polars</div><div class="pd">A Pandas pipeline filters premium users with spend > $50, groups by product, and aggregates mean/sum/count. Rewrite the exact same logic in Polars using filter, group_by, agg, and sort.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p9" class="language-python">import pandas as pd
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rewrite a Pandas Pipeline in Polars</div><div class="pd">A Pandas pipeline filters premium users with spend > $50, groups by product, and aggregates mean/sum/count. Rewrite the exact same logic in Polars using filter, group_by, agg, and sort.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p9_0" class="language-python">import pandas as pd
 import polars as pl
 import numpy as np
 
@@ -2075,7 +2132,7 @@ print('Top purchases by region:')
 print(result.head(10))
 os.unlink(fname)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lazy Pipeline on Large Simulated Dataset</div><div class="pd">Create a 1M-row DataFrame with columns: user_id, country, product_category, revenue. Using LazyFrame, compute: (1) total revenue per country, (2) top 3 categories per country by revenue. Use .explain() to view the query plan. Compare execution time of eager vs lazy.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p10" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Lazy Pipeline on Large Simulated Dataset</div><div class="pd">Create a 1M-row DataFrame with columns: user_id, country, product_category, revenue. Using LazyFrame, compute: (1) total revenue per country, (2) top 3 categories per country by revenue. Use .explain() to view the query plan. Compare execution time of eager vs lazy.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p10_0" class="language-python">import polars as pl
 import numpy as np
 import time
 
@@ -2232,7 +2289,7 @@ monthly = (
 )
 print(monthly.head(9))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales KPI Dashboard with Window Functions</div><div class="pd">Given daily sales data for 5 products over 6 months, compute for each product: (1) 7-day and 30-day rolling averages, (2) week-over-week growth rate using shift(7), (3) cumulative sales, (4) rank within each week by daily sales. Output a summary showing each product's peak day and best weekly rank.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p11" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sales KPI Dashboard with Window Functions</div><div class="pd">Given daily sales data for 5 products over 6 months, compute for each product: (1) 7-day and 30-day rolling averages, (2) week-over-week growth rate using shift(7), (3) cumulative sales, (4) rank within each week by daily sales. Output a summary showing each product's peak day and best weekly rank.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p11_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -2438,7 +2495,7 @@ t = time.perf_counter() - t0
 print(f'{n:,} rows processed in {t:.2f}s')
 print(result.head(5))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Optimize a Slow Polars Pipeline</div><div class="pd">Given a 1M-row DataFrame with columns (user_id, country, product, revenue, cost), write two versions of the same query: (1) eager, (2) lazy with schema optimization (cast categoricals, float32). The query: filter out cost>revenue rows, group by country+product, compute total profit and count. Benchmark both and report speedup.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p12" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Optimize a Slow Polars Pipeline</div><div class="pd">Given a 1M-row DataFrame with columns (user_id, country, product, revenue, cost), write two versions of the same query: (1) eager, (2) lazy with schema optimization (cast categoricals, float32). The query: filter out cost>revenue rows, group by country+product, compute total profit and count. Benchmark both and report speedup.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p12_0" class="language-python">import polars as pl
 import numpy as np
 import time
 
@@ -2599,7 +2656,7 @@ os.unlink(tmp)
 print(result.head(8))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fraud Transaction Pipeline</div><div class="pd">Process 2M transaction records with LazyFrame: filter frauds, group by category+day_of_week, compute aggregate metrics. Show the query plan, benchmark eager vs lazy, and use streaming=True for collect. Save results to parquet and verify.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p13" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fraud Transaction Pipeline</div><div class="pd">Process 2M transaction records with LazyFrame: filter frauds, group by category+day_of_week, compute aggregate metrics. Show the query plan, benchmark eager vs lazy, and use streaming=True for collect. Save results to parquet and verify.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p13_0" class="language-python">import polars as pl
 import numpy as np
 import time
 np.random.seed(7)
@@ -2754,7 +2811,7 @@ weekly = df.group_by_dynamic("date", every="1w").agg(pl.col("sales").sum().alias
 print(weekly.head(5))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Asset Portfolio Analysis</div><div class="pd">Build a 2-year daily time series for 3 simulated stocks. Add rolling 20/50-day moving averages, daily returns, and 52-week high/low metrics. Resample AAPL to weekly OHLC. Compute monthly summary statistics (avg return, volatility) for all stocks using group_by_dynamic.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p14" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Asset Portfolio Analysis</div><div class="pd">Build a 2-year daily time series for 3 simulated stocks. Add rolling 20/50-day moving averages, daily returns, and 52-week high/low metrics. Resample AAPL to weekly OHLC. Compute monthly summary statistics (avg return, volatility) for all stocks using group_by_dynamic.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p14_0" class="language-python">import polars as pl
 import numpy as np
 np.random.seed(99)
 n = 730  # 2 years daily
@@ -2914,7 +2971,7 @@ print(result.head(5))
 shutil.rmtree(tmpdir)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 1M-Row Partitioned Analytics</div><div class="pd">Write 1M rows of sales data partitioned by date+country using PyArrow. Read only the 2024 US partition with pl.scan_parquet and compute margins. Benchmark whole-file read vs partitioned scan. Convert the result to Arrow and compute gross_margin using pyarrow.compute.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p15" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: 1M-Row Partitioned Analytics</div><div class="pd">Write 1M rows of sales data partitioned by date+country using PyArrow. Read only the 2024 US partition with pl.scan_parquet and compute margins. Benchmark whole-file read vs partitioned scan. Convert the result to Arrow and compute gross_margin using pyarrow.compute.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p15_0" class="language-python">import polars as pl
 import pyarrow as pa
 import pyarrow.parquet as pq
 import numpy as np
@@ -3121,7 +3178,7 @@ print("\nEndpoint Performance:")
 print(slowest)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LazyFrame Pipeline</div><div class="pd">Build a LazyFrame pipeline that filters rows, adds a computed column, groups by a category, and collects the result. Check .explain() before collecting.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p16" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: LazyFrame Pipeline</div><div class="pd">Build a LazyFrame pipeline that filters rows, adds a computed column, groups by a category, and collects the result. Check .explain() before collecting.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p16_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -3300,7 +3357,7 @@ print("\nTop 10 Customers by LTV:")
 print(clv)
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Advanced GroupBy</div><div class="pd">Group a DataFrame by two columns, compute sum, mean, std, and a conditional count. Then pivot the result and sort by the total column.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Advanced GroupBy</div><div class="pd">Group a DataFrame by two columns, compute sum, mean, std, and a conditional count. Then pivot the result and sort by the total column.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -3313,7 +3370,27 @@ df = pl.DataFrame({
 # 1. group_by(["region", "product"])
 # 2. agg sum, mean, std of sales + count of returned
 # 3. Pivot to show product as columns
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Sum</div><div class="pd">Sum a value per group. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17_1" class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 3]})
+# TODO: df.group_by("g").agg(pl.col("v").sum())
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multiple Aggregates</div><div class="pd">Sum and mean in one aggregation. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17_2" class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 3]})
+# TODO: agg both pl.col("v").sum().alias("total") and pl.col("v").mean().alias("avg")
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Per Group</div><div class="pd">Number of rows per group. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17_3" class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"]})
+# TODO: df.group_by("g").agg(pl.len().alias("n"))
+result = df
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Group Then Sort</div><div class="pd">Aggregate, then sort by the aggregate. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p17_4" class="language-python">import polars as pl
+
+df = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 30]})
+# TODO: group_by, sum v, then sort by the summed column descending
+result = df
+print(result)</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Group by two columns and compute sum, mean, std, and a conditional count in one .agg()</label></li>
 <li><label><input type="checkbox"> Use .filter() after .agg() to keep only high-value groups (e.g., total &gt; threshold)</label></li>
 <li><label><input type="checkbox"> Apply group_by_dynamic with a 7-day window to aggregate a daily sales time series</label></li>
@@ -3510,7 +3587,7 @@ print("Customer 360 View (top 10):")
 print(customer360.head(10))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Table Joins</div><div class="pd">Join three DataFrames using inner and left joins, then use an anti-join to find records in one table that have no match in another.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Multi-Table Joins</div><div class="pd">Join three DataFrames using inner and left joins, then use an anti-join to find records in one table that have no match in another.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -3520,7 +3597,31 @@ products = pl.DataFrame({"product_id": range(5), "category": list("AABBC")})
 # 1. Inner join users and orders
 # 2. Left join result with products (on a fake key)
 # 3. Anti-join: find users with no orders
-</code></pre></div></div>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Inner Join</div><div class="pd">Join two frames on a key. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18_1" class="language-python">import polars as pl
+
+left = pl.DataFrame({"id": [1, 2, 3], "v": [10, 20, 30]})
+right = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
+# TODO: left.join(right, on="id", how="inner")
+result = left
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Left Join</div><div class="pd">Keep every left row. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18_2" class="language-python">import polars as pl
+
+left = pl.DataFrame({"id": [1, 2, 3]})
+right = pl.DataFrame({"id": [1], "tag": ["hit"]})
+# TODO: left.join(right, on="id", how="left")
+result = left
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Anti Join</div><div class="pd">Rows in left with no match on the right. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18_3" class="language-python">import polars as pl
+
+left = pl.DataFrame({"id": [1, 2, 3]})
+right = pl.DataFrame({"id": [1]})
+# TODO: left.join(right, on="id", how="anti")
+result = left
+print(result)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Concat</div><div class="pd">Stack two frames vertically. (Polars is not bundled with the in-page runner - run this locally.)</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p18_4" class="language-python">import polars as pl
+
+a = pl.DataFrame({"v": [1, 2]})
+b = pl.DataFrame({"v": [3]})
+# TODO: pl.concat([a, b])
+result = a
+print(result)</code></pre></div></div>
     <div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inner-join two DataFrames on a shared key and count resulting rows vs original</label></li>
 <li><label><input type="checkbox"> Left-join and count nulls in the right-side column to find unmatched left rows</label></li>
 <li><label><input type="checkbox"> Anti-join to find all users with no matching orders in the orders table</label></li>
@@ -3703,7 +3804,7 @@ print(result.group_by("category").agg([
 ]).sort("avg_price", descending=True))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String Extraction Pipeline</div><div class="pd">Given a column of log lines, extract timestamp, severity level, and message into separate columns using .str.extract() with capture groups.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p19" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: String Extraction Pipeline</div><div class="pd">Given a column of log lines, extract timestamp, severity level, and message into separate columns using .str.extract() with capture groups.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p19_0" class="language-python">import polars as pl
 
 logs = pl.DataFrame({"line": [
     "2024-01-15 ERROR Something went wrong",
@@ -3902,7 +4003,7 @@ print("Hourly sensor statistics (first 6 rows):")
 print(hourly.head(6))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: DateTime Resampling</div><div class="pd">Create a DataFrame with minute-level timestamps, resample to daily averages using dt.date() and group_by, then extract year/month/weekday as new columns.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p20" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: DateTime Resampling</div><div class="pd">Create a DataFrame with minute-level timestamps, resample to daily averages using dt.date() and group_by, then extract year/month/weekday as new columns.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p20_0" class="language-python">import polars as pl
 import numpy as np
 from datetime import datetime, timedelta
 
@@ -4106,7 +4207,7 @@ print("\nCustomer summary (top 5):")
 print(summary.head(5))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Window Functions</div><div class="pd">Apply rank, cumulative sum, and lag-1 window functions over a group column. Verify the results have the same row count as the original DataFrame.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p21" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Window Functions</div><div class="pd">Apply rank, cumulative sum, and lag-1 window functions over a group column. Verify the results have the same row count as the original DataFrame.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p21_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -4332,7 +4433,7 @@ print(f"Polars: {pl_time:.0f}ms ({len(result_pl)} rows)")
 print(f"Speedup: {pd_time/pl_time:.1f}x")
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pandas to Polars Migration</div><div class="pd">Convert a pandas pipeline (filter, groupby, merge) to Polars. Verify the results are equivalent and measure the speedup.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p22" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pandas to Polars Migration</div><div class="pd">Convert a pandas pipeline (filter, groupby, merge) to Polars. Verify the results are equivalent and measure the speedup.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p22_0" class="language-python">import polars as pl
 import pandas as pd
 import numpy as np, time
 
@@ -4593,7 +4694,7 @@ print("\nRevenue Summary (top 10):")
 print(summary.sort("total_revenue", descending=True).head(10))
 </code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Production ETL Pipeline</div><div class="pd">Write a Polars ETL function that reads a DataFrame, removes nulls, normalizes a string column to uppercase, joins with a lookup table, and returns aggregated results.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p23" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Production ETL Pipeline</div><div class="pd">Write a Polars ETL function that reads a DataFrame, removes nulls, normalizes a string column to uppercase, joins with a lookup table, and returns aggregated results.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p23_0" class="language-python">import polars as pl
 import numpy as np
 
 np.random.seed(42)
@@ -4658,7 +4759,7 @@ print(agg)</code></pre></div>
          .collect())
 print(res)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Per-Group Totals</div><div class="pd">Using the DataFrame below, write a query that returns one row per group with the sum of val (column named 'total'), sorted by group. Run it locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p24" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Per-Group Totals</div><div class="pd">Using the DataFrame below, write a query that returns one row per group with the sum of val (column named 'total'), sorted by group. Run it locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p24_0" class="language-python">import polars as pl
 
 df = pl.DataFrame({"grp": ["x", "y", "x", "y", "x"],
                    "val": [1, 2, 3, 4, 5]})
@@ -4711,7 +4812,7 @@ orders = pl.DataFrame({"order": [1, 2, 3], "cust": [1, 1, 2]})
 cust = pl.DataFrame({"cust": [1, 2], "tier": ["gold", "silver"]})
 print(orders.join(cust, on="cust", how="left"))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Enrich With Names</div><div class="pd">Inner-join the two frames below on 'id' and select just 'name' and 'val'. Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p25" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Enrich With Names</div><div class="pd">Inner-join the two frames below on 'id' and select just 'name' and 'val'. Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p25_0" class="language-python">import polars as pl
 
 vals = pl.DataFrame({"id": [1, 2, 3], "val": [10, 20, 30]})
 names = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})
@@ -4760,7 +4861,7 @@ df = pl.DataFrame({"g": ["a", "a", "b"], "v": [2, 6, 4]})
 out = df.with_columns((pl.col("v") / pl.col("v").sum().over("g")).alias("share"))
 print(out)</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Total Per Group</div><div class="pd">Add a 'running' column with the cumulative sum of 'v' within each group 'g' (sort by g then v first). Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p26" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Running Total Per Group</div><div class="pd">Add a 'running' column with the cumulative sum of 'v' within each group 'g' (sort by g then v first). Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p26_0" class="language-python">import polars as pl
 
 df = pl.DataFrame({"g": ["a", "a", "b", "b"], "v": [3, 1, 4, 1]})
 
@@ -4805,7 +4906,7 @@ print(df.pivot(values="v", index="a", on="b").fill_null(0))</code></pre></div>
 events = pl.DataFrame({"user": [1, 1, 2], "action": ["click", "buy", "click"], "n": [3, 1, 5]})
 print(events.pivot(values="n", index="user", on="action", aggregate_function="sum").fill_null(0))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Wide Table</div><div class="pd">Pivot the frame so each 'a' is a row and each 'b' a column holding 'v'. Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p27" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Wide Table</div><div class="pd">Pivot the frame so each 'a' is a row and each 'b' a column holding 'v'. Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p27_0" class="language-python">import polars as pl
 
 df = pl.DataFrame({"a": ["x", "x", "y"], "b": ["p", "q", "p"], "v": [1, 2, 3]})
 
@@ -4856,7 +4957,7 @@ print(df.with_columns(pl.col("email").str.split("@").list.first().alias("user"))
 df = pl.DataFrame({"name": ["  Ada  ", "BOB"]})
 print(df.with_columns(pl.col("name").str.strip_chars().str.to_lowercase().alias("clean")))</code></pre></div>
     </div>
-    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upper & Length</div><div class="pd">Add two columns: 'upper' (the uppercased name) and 'len' (its character count). Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p28" class="language-python">import polars as pl
+    <div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Upper & Length</div><div class="pd">Add two columns: 'upper' (the uppercased name) and 'len' (its character count). Run locally.</div><div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code id="p28_0" class="language-python">import polars as pl
 
 df = pl.DataFrame({"name": ["alice", "bob"]})
 

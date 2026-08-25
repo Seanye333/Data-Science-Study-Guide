@@ -10,6 +10,28 @@ ACCENT = "#cd8b00"
 SECTIONS = [
     {
         "title": "Setup & DataFrame Creation",
+"practices": [
+{
+"title": 'From Dict',
+"desc": 'Build a DataFrame from a dict of columns and print its shape. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\n# TODO: build pl.DataFrame({"a": [1, 2, 3], "b": ["x", "y", "z"]})\ndf = None\nprint(df)',
+},
+{
+"title": 'Read CSV',
+"desc": 'Load a CSV into a DataFrame and inspect the first rows. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\n# TODO: df = pl.read_csv("data.csv")\n# TODO: print(df.head())\n# Tip: pl.read_csv accepts a path or a file-like object',
+},
+{
+"title": 'Schema',
+"desc": 'Print the dtypes of each column. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"a": [1, 2], "b": ["x", "y"]})\n# TODO: print df.schema to see the column types\n',
+},
+{
+"title": 'Describe',
+"desc": 'Summary statistics for the numeric columns. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"a": [1, 2, 3], "b": [10.0, 20.0, 30.0]})\n# TODO: print(df.describe())\n',
+},
+],
         "desc": "Install Polars and create DataFrames from dicts, lists, NumPy arrays, and ranges.",
         "code1_title": "Creating DataFrames",
         "code1": (
@@ -156,6 +178,28 @@ SECTIONS = [
     },
     {
         "title": "Select, With Columns & Expressions",
+"practices": [
+{
+"title": 'Select Columns',
+"desc": 'Keep only a subset of columns. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"a": [1, 2], "b": [3, 4], "c": [5, 6]})\n# TODO: df.select(["a", "c"])\nresult = df\nprint(result)',
+},
+{
+"title": 'Derived Column',
+"desc": 'Add a computed column with with_columns. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"price": [10, 20], "qty": [2, 3]})\n# TODO: add a "total" column equal to price * qty\nresult = df\nprint(result)',
+},
+{
+"title": 'Rename',
+"desc": 'Rename a column. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"old": [1, 2]})\n# TODO: df.rename({"old": "new"})\nresult = df\nprint(result)',
+},
+{
+"title": 'Cast Types',
+"desc": 'Cast a column to another dtype. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"a": [1, 2]})\n# TODO: with_columns(pl.col("a").cast(pl.Float64))\nresult = df\nprint(result)',
+},
+],
         "desc": "Polars uses an expression API for column operations — composable, lazy-friendly, and fast.",
         "code1_title": "select() and with_columns()",
         "code1": (
@@ -321,6 +365,28 @@ SECTIONS = [
     },
     {
         "title": "Filtering & Sorting",
+"practices": [
+{
+"title": 'Filter Rows',
+"desc": 'Keep rows above a threshold with .gt. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"v": [1, 5, 9]})\n# TODO: df.filter(pl.col("v").gt(4))\nresult = df\nprint(result)',
+},
+{
+"title": 'Sort Descending',
+"desc": 'Sort by a column, largest first. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"v": [3, 1, 2]})\n# TODO: df.sort("v", descending=True)\nresult = df\nprint(result)',
+},
+{
+"title": 'Multiple Conditions',
+"desc": 'Combine two filters. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"a": [1, 5, 9], "b": ["x", "y", "x"]})\n# TODO: filter where a is greater than 2 AND b equals "x"\n#       hint: df.filter(pl.col("a").gt(2) and-chain with pl.col("b").eq("x"))\nresult = df\nprint(result)',
+},
+{
+"title": 'Top K',
+"desc": 'Take the k largest rows by a column. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"v": [3, 1, 9, 5]})\n# TODO: df.top_k(2, by="v")\nresult = df\nprint(result)',
+},
+],
         "desc": "Filter rows with Boolean expressions and sort by one or multiple columns.",
         "code1_title": "filter() with Boolean Expressions",
         "code1": (
@@ -2946,6 +3012,28 @@ SECTIONS = [
     },
     {
         "title": "18. Advanced GroupBy & Aggregations",
+"practices": [
+{
+"title": 'Group Sum',
+"desc": 'Sum a value per group. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 3]})\n# TODO: df.group_by("g").agg(pl.col("v").sum())\nresult = df\nprint(result)',
+},
+{
+"title": 'Multiple Aggregates',
+"desc": 'Sum and mean in one aggregation. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 3]})\n# TODO: agg both pl.col("v").sum().alias("total") and pl.col("v").mean().alias("avg")\nresult = df\nprint(result)',
+},
+{
+"title": 'Count Per Group',
+"desc": 'Number of rows per group. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"g": ["a", "a", "b"]})\n# TODO: df.group_by("g").agg(pl.len().alias("n"))\nresult = df\nprint(result)',
+},
+{
+"title": 'Group Then Sort',
+"desc": 'Aggregate, then sort by the aggregate. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\ndf = pl.DataFrame({"g": ["a", "a", "b"], "v": [1, 2, 30]})\n# TODO: group_by, sum v, then sort by the summed column descending\nresult = df\nprint(result)',
+},
+],
         "desc": "Polars GroupBy supports parallel multi-aggregation, dynamic grouping, rolling windows, and complex expressions that outperform pandas groupby significantly.",
         "code1_title": "Multi-Column & Complex Aggregations",
         "code1": (
@@ -3124,6 +3212,28 @@ SECTIONS = [
     },
     {
         "title": "19. Joins & Set Operations",
+"practices": [
+{
+"title": 'Inner Join',
+"desc": 'Join two frames on a key. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\nleft = pl.DataFrame({"id": [1, 2, 3], "v": [10, 20, 30]})\nright = pl.DataFrame({"id": [1, 2], "name": ["x", "y"]})\n# TODO: left.join(right, on="id", how="inner")\nresult = left\nprint(result)',
+},
+{
+"title": 'Left Join',
+"desc": 'Keep every left row. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\nleft = pl.DataFrame({"id": [1, 2, 3]})\nright = pl.DataFrame({"id": [1], "tag": ["hit"]})\n# TODO: left.join(right, on="id", how="left")\nresult = left\nprint(result)',
+},
+{
+"title": 'Anti Join',
+"desc": 'Rows in left with no match on the right. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\nleft = pl.DataFrame({"id": [1, 2, 3]})\nright = pl.DataFrame({"id": [1]})\n# TODO: left.join(right, on="id", how="anti")\nresult = left\nprint(result)',
+},
+{
+"title": 'Concat',
+"desc": 'Stack two frames vertically. (Polars is not bundled with the in-page runner - run this locally.)',
+"starter": 'import polars as pl\n\na = pl.DataFrame({"v": [1, 2]})\nb = pl.DataFrame({"v": [3]})\n# TODO: pl.concat([a, b])\nresult = a\nprint(result)',
+},
+],
         "desc": "Polars supports all join types (inner, left, outer, cross, semi, anti) with parallel execution. Join strategies (hash, sort-merge) are auto-selected based on data characteristics.",
         "code1_title": "Inner, Left & Outer Joins",
         "code1": (
@@ -4673,10 +4783,13 @@ def make_html(sections):
             )
         else:
             code4_html = ""
-        practice = s.get("practice", {})
-        if practice:
-            pid = f"p{i}"
-            practice_html = (
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
+        practice_html = ""
+        for _k, practice in enumerate(practices):
+            pid = f"p{i}_{_k}"
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {practice["title"]}</div>'
                 f'<div class="pd">{practice["desc"]}</div>'
@@ -4684,8 +4797,6 @@ def make_html(sections):
                 f'<pre><code id="{pid}" class="language-python">{practice["starter"]}</code></pre></div>'
                 f'</div>'
             )
-        else:
-            practice_html = ""
         todos = s.get("todos", [])
         todos_html = ""
         if todos:
@@ -4805,8 +4916,10 @@ def make_nb(sections):
             cells.append(code(s["code4"]))
         cells.append(md(f"### Real-World Use Case\n\n**Scenario:** {s['rw_scenario']}"))
         cells.append(code(s["rw_code"]))
-        practice = s.get("practice")
-        if practice:
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
+        for practice in practices:
             cells.append(md(f"### Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
 

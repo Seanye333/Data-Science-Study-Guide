@@ -8,6 +8,28 @@ ACCENT = "#ff4b4b"
 SECTIONS = [
     {
         "title": "Setup & First App",
+"practices": [
+{
+"title": 'Title and Text',
+"desc": 'Add a title, a header and a paragraph. Save as app.py and run: streamlit run app.py',
+"starter": 'import streamlit as st\n\n# TODO: st.title(...), st.header(...), st.write(...)\n',
+},
+{
+"title": 'Sidebar',
+"desc": 'Put a control in the sidebar. Save as app.py and run: streamlit run app.py',
+"starter": 'import streamlit as st\n\n# TODO: name = st.sidebar.text_input("Name")\n# TODO: st.write(f"Hello {name}")\n',
+},
+{
+"title": 'Columns',
+"desc": 'Split the page into two columns with a metric in each.',
+"starter": 'import streamlit as st\n\n# TODO: left, right = st.columns(2)\n# TODO: left.metric("Users", 120); right.metric("Revenue", "$5k")\n',
+},
+{
+"title": 'Rerun Model',
+"desc": 'Show that the script reruns top-to-bottom on every interaction.',
+"starter": 'import streamlit as st\n\n# TODO: add a st.button and write different text depending on whether it was clicked\n',
+},
+],
         "desc": "Install Streamlit and build your first interactive web app in minutes.",
         "code1_title": "Hello World App",
         "code1": (
@@ -332,6 +354,28 @@ SECTIONS = [
     },
     {
         "title": "Input Widgets",
+"practices": [
+{
+"title": 'Slider',
+"desc": 'Read a numeric slider and use its value.',
+"starter": 'import streamlit as st\n\n# TODO: n = st.slider("How many", 1, 10, 3)\n# TODO: st.write("x" * n)\n',
+},
+{
+"title": 'Selectbox',
+"desc": 'Let the user pick from a list.',
+"starter": 'import streamlit as st\n\n# TODO: choice = st.selectbox("Pick one", ["a", "b", "c"])\n# TODO: st.write("You picked", choice)\n',
+},
+{
+"title": 'Checkbox Toggle',
+"desc": 'Show or hide content with a checkbox.',
+"starter": 'import streamlit as st\n\n# TODO: if st.checkbox("Show details"): st.write("here are the details")\n',
+},
+{
+"title": 'Multiselect Filter',
+"desc": 'Filter a list by a multiselect.',
+"starter": 'import streamlit as st\n\nitems = ["apple", "banana", "cherry"]\n# TODO: picked = st.multiselect("Fruit", items, default=items)\n# TODO: st.write(picked)\n',
+},
+],
         "desc": "Collect user input with buttons, sliders, text boxes, dropdowns, checkboxes, and more.",
         "code1_title": "Basic Input Widgets",
         "code1": (
@@ -3279,6 +3323,28 @@ SECTIONS = [
     },
     {
         "title": "18. Session State Management",
+"practices": [
+{
+"title": 'Counter',
+"desc": 'Keep a counter across reruns with session_state.',
+"starter": 'import streamlit as st\n\n# TODO: initialise st.session_state.count if missing, then increment it on a button click\n',
+},
+{
+"title": 'Persist Input',
+"desc": 'Remember a text input between reruns.',
+"starter": 'import streamlit as st\n\n# TODO: store the text_input value in st.session_state and display the stored value\n',
+},
+{
+"title": 'Reset State',
+"desc": 'Add a button that clears the stored state.',
+"starter": 'import streamlit as st\n\n# TODO: on a "Reset" button, set the stored values back to their defaults\n',
+},
+{
+"title": 'Callback',
+"desc": 'Use on_click to mutate state.',
+"starter": 'import streamlit as st\n\n# TODO: define a callback that updates st.session_state and pass it as on_click=\n',
+},
+],
         "desc": "Streamlit reruns the script on every interaction. Session state (st.session_state) persists data across reruns, enabling counters, multi-step forms, authentication, and conversation history.",
         "code1_title": "Counter & Persistent Data",
         "code1": (
@@ -3538,6 +3604,28 @@ SECTIONS = [
     },
     {
         "title": "19. Caching & Performance",
+"practices": [
+{
+"title": 'Cache Data',
+"desc": 'Cache a slow computation with cache_data.',
+"starter": 'import streamlit as st\nimport time\n\n# TODO: decorate with @st.cache_data and return a value after a time.sleep\ndef slow(n):\n    time.sleep(1)\n    return n * 2\n\nst.write(slow(21))\n',
+},
+{
+"title": 'Cache Resource',
+"desc": 'Cache a connection or model as a singleton.',
+"starter": 'import streamlit as st\n\n# TODO: decorate with @st.cache_resource so the object is created once\ndef get_client():\n    return {"connected": True}\n\nst.write(get_client())\n',
+},
+{
+"title": 'Clear Caches',
+"desc": 'Offer a button that clears both caches.',
+"starter": 'import streamlit as st\n\n# TODO: on a button press call st.cache_data.clear() and st.cache_resource.clear()\n',
+},
+{
+"title": 'Spinner',
+"desc": 'Show progress while work runs.',
+"starter": 'import streamlit as st\nimport time\n\n# TODO: wrap slow work in "with st.spinner(...):"\n',
+},
+],
         "desc": "Streamlit reruns the entire script on every interaction. @st.cache_data caches function outputs by input arguments. @st.cache_resource caches singleton objects like ML models and DB connections.",
         "code1_title": "@st.cache_data for Data Loading",
         "code1": (
@@ -4026,6 +4114,28 @@ SECTIONS = [
     },
     {
         "title": "21. File Upload & Download",
+"practices": [
+{
+"title": 'Upload CSV',
+"desc": 'Accept a CSV and preview it.',
+"starter": 'import streamlit as st\nimport pandas as pd\n\n# TODO: up = st.file_uploader("CSV", type="csv"); if up is not None: read and st.dataframe it\n',
+},
+{
+"title": 'Download Result',
+"desc": 'Offer a processed file for download.',
+"starter": 'import streamlit as st\nimport pandas as pd\n\ndf = pd.DataFrame({"x": [1, 2, 3]})\n# TODO: st.download_button("Download", df.to_csv(index=False), "out.csv", "text/csv")\n',
+},
+{
+"title": 'Validate Upload',
+"desc": 'Reject a file that lacks required columns.',
+"starter": 'import streamlit as st\nimport pandas as pd\n\nrequired = {"id", "value"}\n# TODO: after reading the upload, check required.issubset(df.columns) and st.error otherwise\n',
+},
+{
+"title": 'Image Upload',
+"desc": 'Display an uploaded image.',
+"starter": 'import streamlit as st\n\n# TODO: up = st.file_uploader("Image", type=["png", "jpg"]); if up: st.image(up)\n',
+},
+],
         "desc": "st.file_uploader() accepts CSV, Excel, images, and arbitrary files. st.download_button() provides one-click download of DataFrames, plots, or any binary content.",
         "code1_title": "File Upload & CSV Processing",
         "code1": (
@@ -5492,11 +5602,13 @@ def make_html(sections):
             )
 
         # Build practice block HTML
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
-            practice_html = (
+        for _k, practice in enumerate(practices):
+            pid = f"p{i}_{_k}"
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -5628,8 +5740,7 @@ def make_nb(sections):
         cells.append(md_cell(f"### Real-World Use Case\n\n**Scenario:** {s['rw_scenario']}"))
         cells.append(code_cell(s["rw_code"]))
 
-        practice = s.get("practice")
-        if practice:
+        for practice in ([s["practice"]] if s.get("practice") else []) + list(s.get("practices") or []):
             cells.append(md_cell(
                 f"### \U0001f3cb\ufe0f Practice: {practice['title']}\n\n"
                 f"> Save as `app.py` and run: `streamlit run app.py`\n\n"

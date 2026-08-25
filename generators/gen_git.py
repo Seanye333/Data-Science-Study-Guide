@@ -37,16 +37,18 @@ def make_html(sections):
                 f'<pre><code class="language-{rw_lang}">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for _k, practice in enumerate(practices):
+            pid = f"p{i}_{_k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
             p_lang = practice.get("lang", "bash")
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -131,8 +133,7 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        for practice in ([s["practice"]] if s.get("practice") else []) + list(s.get("practices") or []):
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -273,6 +274,32 @@ git log --oneline"""
 
 {
 "title": "2. Basic Commands — add, commit, log, diff",
+"practices": [
+{
+"title": 'Stage and Commit',
+"desc": 'Stage a change and commit it with a clear message.',
+"starter": '# TODO: stage a specific file, then commit with a message\ngit status\n# git add <file>\n# git commit -m "..."\ngit log --oneline -1',
+"lang": 'bash',
+},
+{
+"title": 'Inspect a Diff',
+"desc": 'See exactly what changed, staged and unstaged.',
+"starter": '# TODO: show unstaged changes, then staged changes\ngit diff\n# git diff --staged',
+"lang": 'bash',
+},
+{
+"title": 'Amend the Last Commit',
+"desc": 'Fix the previous commit message (before pushing).',
+"starter": '# TODO: amend the last commit\n# git commit --amend -m "Better message"\ngit log --oneline -2',
+"lang": 'bash',
+},
+{
+"title": 'Search History',
+"desc": 'Find which commit touched a file or string.',
+"starter": '# TODO: log the commits that touched one file, then search commit contents\n# git log --oneline -- <file>\n# git log -S "some_string" --oneline',
+"lang": 'bash',
+},
+],
 "desc": "The core Git workflow: make changes, stage them, commit with a message, and review history. These 4 commands are 80% of daily Git usage.",
 "examples": [
 {"label": "Staging and committing", "code":
@@ -412,6 +439,38 @@ git log --oneline -5
 
 {
 "title": "3. Branching & Merging",
+"practices": [
+{
+"title": 'Create and Switch',
+"desc": 'Start a feature branch off main.',
+"starter": 'git switch main\ngit pull --ff-only\n# TODO: create and switch to a new branch\n# git switch -c feature/my-change\ngit branch --show-current',
+"lang": 'bash',
+},
+{
+"title": 'Merge Back',
+"desc": 'Fast-forward merge a finished branch.',
+"starter": '# TODO: switch to main and merge the feature branch with --ff-only\n# git switch main\n# git merge --ff-only feature/my-change\ngit log --oneline -3',
+"lang": 'bash',
+},
+{
+"title": 'Resolve a Conflict',
+"desc": 'Walk through a merge conflict.',
+"starter": '# TODO: after a conflicting merge, inspect and resolve\ngit status\n# edit the conflicted files, then:\n# git add <file>\n# git commit',
+"lang": 'bash',
+},
+{
+"title": 'Delete Merged Branch',
+"desc": 'Clean up branches that are already merged.',
+"starter": '# TODO: list merged branches, then delete one\n# git branch --merged\n# git branch -d feature/my-change\ngit branch',
+"lang": 'bash',
+},
+{
+"title": 'Compare Branches',
+"desc": 'See what differs between two branches.',
+"lang": 'bash',
+"starter": '# TODO: list commits on the branch that are not on main\n# git log --oneline main..feature/my-change\n# TODO: see the combined diff\n# git diff main...feature/my-change',
+},
+],
 "desc": "Branches let you work on features, experiments, or fixes in isolation without affecting the main codebase. Merging combines branches back together.",
 "examples": [
 {"label": "Creating and switching branches", "code":
@@ -808,6 +867,38 @@ gh pr merge --squash"""
 
 {
 "title": "6. .gitignore for Data Science",
+"practices": [
+{
+"title": 'Ignore Artifacts',
+"desc": 'Ignore data, checkpoints and virtualenvs.',
+"starter": '# TODO: add entries to .gitignore for a DS project\n# data/\n# *.ipynb_checkpoints/\n# .venv/\ncat .gitignore',
+"lang": 'bash',
+},
+{
+"title": 'Check Ignore',
+"desc": 'Confirm why a path is ignored.',
+"starter": '# TODO: ask git which rule ignores a path\n# git check-ignore -v data/raw.csv',
+"lang": 'bash',
+},
+{
+"title": 'Untrack a Committed File',
+"desc": 'Stop tracking a file that should be ignored.',
+"starter": '# TODO: remove from the index but keep it on disk\n# git rm --cached secrets.env\n# then add it to .gitignore and commit',
+"lang": 'bash',
+},
+{
+"title": 'Global Ignore',
+"desc": 'Ignore editor/OS files across all repos.',
+"starter": '# TODO: configure a global ignore file\n# git config --global core.excludesfile ~/.gitignore_global',
+"lang": 'bash',
+},
+{
+"title": 'Ignore Large Outputs',
+"desc": 'Keep notebooks but drop their heavy outputs and caches.',
+"lang": 'bash',
+"starter": '# TODO: add rules for model artifacts and caches\n# *.pkl\n# *.joblib\n# __pycache__/\n# TODO: verify nothing large is staged\ngit status --short',
+},
+],
 "desc": "A well-crafted .gitignore prevents large data files, model artifacts, credentials, and OS junk from entering your repository. This is critical for DS projects.",
 "examples": [
 {"label": "Comprehensive DS .gitignore", "code":
@@ -961,6 +1052,38 @@ git ls-files | xargs -I{} git cat-file -s HEAD:{} 2>/dev/null | \\
 
 {
 "title": "7. Git Stash — Saving Work Temporarily",
+"practices": [
+{
+"title": 'Stash Work',
+"desc": 'Shelve changes to switch context.',
+"starter": '# TODO: stash with a message, then confirm the tree is clean\n# git stash push -m "wip: parser"\ngit status',
+"lang": 'bash',
+},
+{
+"title": 'List and Apply',
+"desc": 'Bring shelved work back.',
+"starter": '# TODO: list stashes and restore the latest\n# git stash list\n# git stash pop',
+"lang": 'bash',
+},
+{
+"title": 'Stash One File',
+"desc": 'Shelve only a single path.',
+"starter": '# TODO: stash just one file\n# git stash push -m "only config" -- config.yaml',
+"lang": 'bash',
+},
+{
+"title": 'Drop a Stash',
+"desc": 'Discard a stash you no longer need.',
+"starter": '# TODO: inspect then drop a stash entry\n# git stash show -p stash@{0}\n# git stash drop stash@{0}',
+"lang": 'bash',
+},
+{
+"title": 'Stash Including Untracked',
+"desc": 'Shelve new files too, not just tracked changes.',
+"lang": 'bash',
+"starter": '# TODO: stash untracked files as well\n# git stash push -u -m "wip incl. new files"\ngit stash list',
+},
+],
 "desc": "Stash lets you save uncommitted changes temporarily so you can switch branches, pull updates, or do other work, then come back to your changes later.",
 "examples": [
 {"label": "Basic stash operations", "code":
@@ -1140,6 +1263,38 @@ git checkout model-v2.0.0 -- src/model.py configs/model_config.yaml
 
 {
 "title": "9. Rebase & Interactive Rebase",
+"practices": [
+{
+"title": 'Rebase on Main',
+"desc": 'Replay your branch on the latest main.',
+"starter": 'git fetch origin\n# TODO: rebase the current branch onto origin/main\n# git rebase origin/main\ngit log --oneline -5',
+"lang": 'bash',
+},
+{
+"title": 'Squash Commits',
+"desc": 'Fold several WIP commits into one.',
+"starter": '# TODO: interactive rebase over the last 3 commits and squash\n# git rebase -i HEAD~3\ngit log --oneline -1',
+"lang": 'bash',
+},
+{
+"title": 'Abort Safely',
+"desc": 'Back out of a rebase that went wrong.',
+"starter": '# TODO: abort an in-progress rebase\n# git rebase --abort\ngit status',
+"lang": 'bash',
+},
+{
+"title": 'Recover with Reflog',
+"desc": 'Find a commit lost during a rebase.',
+"starter": '# TODO: use the reflog to locate and restore the old tip\ngit reflog\n# git reset --hard <sha>',
+"lang": 'bash',
+},
+{
+"title": 'Reorder Commits',
+"desc": 'Change the order of commits during an interactive rebase.',
+"lang": 'bash',
+"starter": "# TODO: start an interactive rebase and move a line up or down in the todo list\n# git rebase -i HEAD~3\n# reordering the 'pick' lines reorders the commits\ngit log --oneline -3",
+},
+],
 "desc": "Rebase replays your commits on top of another branch, creating a linear history. Interactive rebase lets you edit, squash, reorder, and clean up commits before sharing.",
 "examples": [
 {"label": "Basic rebase", "code":
