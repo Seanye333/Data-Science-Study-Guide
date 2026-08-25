@@ -32,9 +32,9 @@ def make_html(sections):
                        f'<div class="code-block"><div class="ch"><span>Real-World Code</span>'
                        f'<button onclick="cp(\'{rwid}\')">Copy</button></div>'
                        f'<pre><code id="{rwid}" class="language-python">{esc(rw_code)}</code></pre></div></div>')
-        practices = s.get("practices")
-        if practices is None:
-            practices = [s["practice"]] if s.get("practice") else []
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
         for k, practice in enumerate(practices):
             pid = f"p{i}_{k}"

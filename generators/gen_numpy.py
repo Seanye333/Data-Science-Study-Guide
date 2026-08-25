@@ -39,9 +39,9 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practices = s.get("practices")
-        if practices is None:
-            practices = [s["practice"]] if s.get("practice") else []
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
         for k, practice in enumerate(practices):
             pid = f"p{i}_{k}"
@@ -131,9 +131,9 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practices = s.get("practices")
-        if practices is None:
-            practices = [s["practice"]] if s.get("practice") else []
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         for practice in practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
@@ -338,6 +338,14 @@ print(f"Sample row[:5]: {X_b[0, :5].round(3)}")"""}
 
 {
 "title": "2. Array Attributes & Inspection",
+"practices": [
+{
+"title": 'Number of Dimensions',
+"desc": 'Return how many dimensions an array has.',
+"starter": 'import numpy as np\n\ndef ndim_of(a):\n    # TODO: np.asarray(a).ndim as an int\n    return 0\n\nprint(ndim_of([[1, 2]]))',
+"check": 'assert ndim_of([[1, 2]]) == 2 and ndim_of([1]) == 1\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Every NumPy array carries metadata: shape, dtype, number of dimensions, and memory size. Understanding these prevents bugs.",
 "examples": [
 {"label": "shape, ndim, dtype, size, nbytes", "code":
@@ -1470,6 +1478,14 @@ print(f"At indices:    {outlier_idx}")"""}
 
 {
 "title": "8. Linear Algebra",
+"practices": [
+{
+"title": 'Solve a System',
+"desc": 'Solve Ax = b.',
+"starter": 'import numpy as np\n\ndef solve_system(A, b):\n    # TODO: np.linalg.solve(A, b)\n    return np.zeros(len(b))\n\nprint(solve_system([[2, 0], [0, 4]], [2, 8]).tolist())',
+"check": 'import numpy as np\nassert np.allclose(solve_system([[2, 0], [0, 4]], [2, 8]), [1, 2])\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "numpy.linalg provides matrix operations essential for machine learning, portfolio optimization, and scientific computing.",
 "examples": [
 {"label": "Matrix multiply, inverse, determinant", "code":
@@ -1607,6 +1623,14 @@ print(f"Annualized portfolio vol: {port_std:.4f}")"""}
 
 {
 "title": "9. Array Manipulation",
+"practices": [
+{
+"title": 'Stack Rows',
+"desc": 'Stack two 2-D arrays vertically.',
+"starter": 'import numpy as np\n\ndef concat_rows(a, b):\n    # TODO: np.vstack([a, b])\n    return np.asarray(a)\n\nprint(concat_rows([[1, 2]], [[3, 4]]).tolist())',
+"check": 'assert concat_rows([[1, 2]], [[3, 4]]).tolist() == [[1, 2], [3, 4]]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Reshape, stack, split, and transpose arrays to match the formats expected by algorithms and frameworks.",
 "examples": [
 {"label": "reshape, flatten, transpose", "code":
@@ -1753,6 +1777,14 @@ print(f"Combined:   {combined.shape}")"""}
 
 {
 "title": "10. Random Number Generation",
+"practices": [
+{
+"title": 'Random Integers',
+"desc": 'Draw n integers in [lo, hi) from a seeded generator.',
+"starter": 'import numpy as np\n\ndef random_ints(n, lo, hi, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: rng.integers(lo, hi, n)\n    return np.zeros(n, dtype=int)\n\nprint(random_ints(5, 0, 10).tolist())',
+"check": 'r = random_ints(5, 0, 10)\nassert len(r) == 5 and r.min() >= 0 and r.max() < 10\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "NumPy's random module (use default_rng for new code) generates arrays from many distributions — key for simulations and augmentation.",
 "examples": [
 {"label": "Seeding and common distributions", "code":
@@ -1909,6 +1941,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 ,
 {
     "title": "11. Memory Layout & Strides",
+"practices": [
+{
+"title": 'C-Contiguous?',
+"desc": 'Is the array stored in row-major order?',
+"starter": 'import numpy as np\n\ndef is_c_contiguous(a):\n    # TODO: read the C_CONTIGUOUS flag as a bool\n    return False\n\nprint(is_c_contiguous(np.zeros((2, 2))))',
+"check": 'import numpy as np\nassert is_c_contiguous(np.zeros((2, 2))) is True\nassert is_c_contiguous(np.zeros((2, 2)).T) is False\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Understand how NumPy stores data in memory — C vs Fortran order, strides, views vs copies, and how layout affects performance.",
     "examples": [
         {
@@ -1945,6 +1985,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 },
 {
     "title": "12. Structured Arrays",
+"practices": [
+{
+"title": 'Read a Field',
+"desc": 'Pull one named field out of a structured array.',
+"starter": 'import numpy as np\n\ndef struct_field(arr, name):\n    # TODO: index the structured array by field name\n    return np.asarray(arr)\n\nsa = np.array([(1, 2.0)], dtype=[("i", "i4"), ("f", "f8")])\nprint(struct_field(sa, "i").tolist())',
+"check": 'import numpy as np\nsa = np.array([(1, 2.0)], dtype=[("i", "i4"), ("f", "f8")])\nassert struct_field(sa, "i").tolist() == [1]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Store heterogeneous data (mixed types) in a single NumPy array using structured dtypes — combine ints, floats, and strings like a lightweight in-memory table.",
     "examples": [
         {
@@ -1981,6 +2029,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 },
 {
     "title": "13. Linear Algebra & Polynomial Fitting",
+"practices": [
+{
+"title": 'Fit a Polynomial',
+"desc": 'Least-squares polynomial coefficients.',
+"starter": 'import numpy as np\n\ndef fit_poly(x, y, deg):\n    # TODO: np.polyfit(x, y, deg)\n    return np.zeros(deg + 1)\n\nprint(fit_poly([0, 1, 2], [1, 3, 5], 1).round(3).tolist())',
+"check": 'assert abs(fit_poly([0, 1, 2], [1, 3, 5], 1)[0] - 2) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy's linear algebra routines and polynomial tools — solve systems of equations, compute eigendecompositions, SVD, and fit curves to data.",
     "examples": [
         {
@@ -2017,6 +2073,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 },
 {
     "title": "14. Advanced Indexing & Fancy Indexing",
+"practices": [
+{
+"title": 'Fancy Take',
+"desc": 'Select elements by an index array.',
+"starter": 'import numpy as np\n\ndef take_indices(a, idx):\n    # TODO: index a with the array idx\n    return np.asarray(a)\n\nprint(take_indices([10, 20, 30], [0, 2]).tolist())',
+"check": 'assert take_indices([10, 20, 30], [0, 2]).tolist() == [10, 30]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Use integer arrays, boolean masks, np.where, np.take, and advanced multi-dimensional indexing to select and modify array elements efficiently.",
     "examples": [
         {
@@ -2053,6 +2117,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 },
 {
     "title": "15. NumPy Performance & Vectorization",
+"practices": [
+{
+"title": 'Vectorized Square',
+"desc": 'Square every element without a Python loop.',
+"starter": 'import numpy as np\n\ndef vectorized_square(a):\n    # TODO: elementwise square of the array\n    return np.asarray(a, float)\n\nprint(vectorized_square([1, 2]).tolist())',
+"check": 'assert vectorized_square([1, 2]).tolist() == [1, 4]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Profile NumPy code, replace Python loops with vectorized operations, use einsum, out= parameters, and Numba JIT compilation for maximum speed.",
     "examples": [
         {
@@ -2089,6 +2161,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 },
 {
     "title": "16. Signal Processing with NumPy",
+"practices": [
+{
+"title": 'Convolve Same',
+"desc": 'Convolve keeping the input length.',
+"starter": 'import numpy as np\n\ndef convolve_same(a, k):\n    # TODO: np.convolve with mode="same"\n    return np.asarray(a, float)\n\nprint(convolve_same([1, 2, 3], [1, 1]).tolist())',
+"check": 'assert len(convolve_same([1, 2, 3], [1, 1])) == 3\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Apply Fourier transforms, filtering, convolution, and spectral analysis to 1D and 2D signals using NumPy's FFT routines.",
     "examples": [
         {
@@ -2126,6 +2206,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "17. Sorting, Searching & Partitioning",
+"practices": [
+{
+"title": 'Sort Descending',
+"desc": 'Sort values largest first.',
+"starter": 'import numpy as np\n\ndef sort_desc(a):\n    # TODO: sort ascending then reverse\n    return np.asarray(a)\n\nprint(sort_desc([3, 1, 2]).tolist())',
+"check": 'assert sort_desc([3, 1, 2]).tolist() == [3, 2, 1]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy\'s sort, argsort, searchsorted, and partition give O(n log n) and O(n) ordering operations that operate on arrays without Python loops.",
     "examples": [
         {"label": "sort and argsort", "code": "import numpy as np\n\narr = np.array([3, 1, 4, 1, 5, 9, 2, 6])\n\n# sort: returns sorted copy\nsorted_arr = np.sort(arr)\nprint(\"sorted:\", sorted_arr)\n\n# argsort: indices that would sort the array\nidx = np.argsort(arr)\nprint(\"argsort:\", idx)\nprint(\"verify:\", arr[idx])   # same as sorted_arr\n\n# Sort along an axis (2D)\nm = np.array([[3, 1, 4], [1, 5, 9], [2, 6, 5]])\nprint(\"row-wise sort:\\n\", np.sort(m, axis=1))\nprint(\"col-wise sort:\\n\", np.sort(m, axis=0))\n\n# Stable sort for multi-key sorting\nrecords = np.array([(2, \'b\'), (1, \'a\'), (2, \'a\'), (1, \'b\')],\n                   dtype=[(\'key\', int), (\'val\', \'U1\')])\nrecords.sort(order=[\'key\', \'val\'])\nprint(\"multi-key sort:\", records)"},
@@ -2153,6 +2241,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "18. Set Operations on Arrays",
+"practices": [
+{
+"title": 'Union',
+"desc": 'Sorted union of two arrays.',
+"starter": 'import numpy as np\n\ndef union_of(a, b):\n    # TODO: np.union1d\n    return np.asarray(a)\n\nprint(union_of([1, 2], [2, 3]).tolist())',
+"check": 'assert union_of([1, 2], [2, 3]).tolist() == [1, 2, 3]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy provides unique(), union1d(), intersect1d(), setdiff1d(), and in1d()/isin() for fast set-like operations on 1D arrays using sorted-array algorithms.",
     "examples": [
         {"label": "unique and value counts", "code": "import numpy as np\n\narr = np.array([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5])\n\n# unique: sorted unique values\nu = np.unique(arr)\nprint(\"unique:\", u)\n\n# return_counts: how many times each value appears\nvals, counts = np.unique(arr, return_counts=True)\nprint(\"value counts:\")\nfor v, c in zip(vals, counts):\n    print(f\"  {v}: {c}\")\n\n# return_index: first occurrence index\nvals, idx = np.unique(arr, return_index=True)\nprint(\"first occurrence indices:\", idx)\n\n# return_inverse: reconstruct original from unique\nvals, inv = np.unique(arr, return_inverse=True)\nprint(\"unique:\", vals)\nprint(\"inverse:\", inv)\nprint(\"reconstructed:\", vals[inv])  # should match arr\n\n# Most common value (mode-like)\nmode_val = vals[np.argmax(counts)]\nprint(f\"Mode: {mode_val} (appears {counts.max()} times)\")"},
@@ -2180,6 +2276,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "19. Numerical Stability, NaN & Inf Handling",
+"practices": [
+{
+"title": 'Replace NaN',
+"desc": 'Swap NaNs for a finite value.',
+"starter": 'import numpy as np\n\ndef replace_nan(a, v):\n    a = np.asarray(a, float)\n    # TODO: np.nan_to_num(a, nan=v)\n    return a\n\nprint(replace_nan([1, float("nan")], 0.0).tolist())',
+"check": 'assert replace_nan([1, float("nan")], 0.0).tolist() == [1, 0]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Floating-point arithmetic has precision limits, NaN propagation, and overflow. NumPy provides tools to detect, mask, and safely handle these edge cases.",
     "examples": [
         {"label": "NaN detection and handling", "code": "import numpy as np\n\ndata = np.array([1.0, 2.0, np.nan, 4.0, np.nan, 6.0])\n\n# Detection\nprint(\"isnan:\", np.isnan(data))\nprint(\"Count NaNs:\", np.isnan(data).sum())\nprint(\"Any NaN:\", np.any(np.isnan(data)))\n\n# NaN-safe aggregations\nprint(\"mean with NaN:\", np.mean(data))          # nan\nprint(\"nanmean:\", np.nanmean(data))              # 3.25\nprint(\"nansum:\", np.nansum(data))               # 13.0\nprint(\"nanstd:\", np.nanstd(data).round(4))\nprint(\"nanmin/nanmax:\", np.nanmin(data), np.nanmax(data))\n\n# Replace NaN\nfilled_mean = np.where(np.isnan(data), np.nanmean(data), data)\nprint(\"NaN -> mean:\", filled_mean)\n\nfilled_zero = np.nan_to_num(data, nan=0.0)\nprint(\"NaN -> 0:   \", filled_zero)\n\n# Forward fill (pandas-style, pure numpy)\ndef ffill(arr):\n    mask = np.isnan(arr)\n    idx = np.where(~mask, np.arange(len(arr)), 0)\n    np.maximum.accumulate(idx, out=idx)\n    return arr[idx]\n\nprint(\"Forward fill:\", ffill(data))"},
@@ -2207,6 +2311,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "20. Probability Distributions & Random Sampling",
+"practices": [
+{
+"title": 'Normal Sample Mean',
+"desc": 'Mean of n standard normal draws.',
+"starter": 'import numpy as np\n\ndef normal_sample_mean(n, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: mean of rng.normal(0, 1, n)\n    return 0.0\n\nprint(round(normal_sample_mean(10000), 4))',
+"check": 'assert abs(normal_sample_mean(10000)) < 0.05\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy\'s random module (Generator API) provides reproducible random sampling from dozens of distributions. Essential for simulations, bootstrapping, and synthetic data.",
     "examples": [
         {"label": "Generator API and reproducibility", "code": "import numpy as np\n\n# Modern API: use default_rng (preferred over np.random.seed)\nrng = np.random.default_rng(seed=42)\n\n# Uniform\nu = rng.uniform(low=0, high=10, size=5)\nprint(\"uniform:\", u.round(2))\n\n# Integers\ndice = rng.integers(1, 7, size=10)\nprint(\"dice rolls:\", dice)\n\n# Shuffle and choice\nitems = np.arange(10)\nrng.shuffle(items)\nprint(\"shuffled:\", items)\n\nsample = rng.choice(items, size=5, replace=False)\nprint(\"sample without replacement:\", sample)\n\n# Weighted choice\nweights  = np.array([0.5, 0.3, 0.2])\noutcomes = np.array([\'A\', \'B\', \'C\'])\ndraws    = rng.choice(outcomes, size=20, p=weights)\nvals, counts = np.unique(draws, return_counts=True)\nprint(\"Weighted draws:\", dict(zip(vals, counts)))\n\n# Verify reproducibility\nrng2 = np.random.default_rng(seed=42)\nprint(\"Same sequence:\", np.all(rng2.uniform(size=5) == np.random.default_rng(42).uniform(size=5)))"},
@@ -2234,6 +2346,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "21. Image Arrays & 2D Operations",
+"practices": [
+{
+"title": 'Grayscale',
+"desc": 'Average the RGB channels of an image array.',
+"starter": 'import numpy as np\n\ndef to_grayscale(img):\n    # TODO: mean over the channel axis (axis=2)\n    return np.asarray(img, float)\n\nprint(to_grayscale(np.ones((2, 2, 3))).tolist())',
+"check": 'import numpy as np\nassert to_grayscale(np.ones((2, 2, 3))).tolist() == [[1, 1], [1, 1]]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Images are 2D (grayscale) or 3D (H x W x C) NumPy arrays. Understanding array operations on images builds intuition for convolutions, pooling, and data augmentation.",
     "examples": [
         {"label": "Image as array: channels and pixel operations", "code": "import numpy as np\n\n# Images are (H, W) for grayscale, (H, W, C) for color\nnp.random.seed(42)\nH, W = 64, 64\n\n# Synthetic grayscale (0-255 uint8)\ngray = np.random.randint(0, 256, (H, W), dtype=np.uint8)\nprint(f\"Grayscale shape: {gray.shape}, dtype: {gray.dtype}\")\nprint(f\"Pixel range: [{gray.min()}, {gray.max()}]\")\n\n# Synthetic RGB image\nrgb = np.random.randint(0, 256, (H, W, 3), dtype=np.uint8)\nprint(f\"RGB shape: {rgb.shape}\")\n\n# Extract channels\nR, G, B = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]\nprint(f\"R channel mean: {R.mean():.1f}\")\n\n# RGB to grayscale (luminosity formula)\ngray_from_rgb = (0.2989 * R + 0.5870 * G + 0.1140 * B).astype(np.uint8)\nprint(f\"Converted gray shape: {gray_from_rgb.shape}\")\n\n# Normalize to [0, 1] float\nimg_float = rgb.astype(np.float32) / 255.0\nprint(f\"Normalized range: [{img_float.min():.3f}, {img_float.max():.3f}]\")\n\n# Crop a region\ncrop = rgb[10:40, 15:50, :]\nprint(f\"Crop shape: {crop.shape}\")\n\n# Horizontal flip\nflipped = rgb[:, ::-1, :]\nprint(f\"Flipped shape: {flipped.shape}\")"},
@@ -2261,6 +2381,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "22. Statistical Aggregations",
+"practices": [
+{
+"title": 'Column Stats',
+"desc": 'Mean and std of each column.',
+"starter": 'import numpy as np\n\ndef col_stats(m):\n    m = np.asarray(m, float)\n    # TODO: {"mean": per-column means, "std": per-column stds} as lists\n    return {}\n\nprint(col_stats([[1, 2], [3, 4]]))',
+"check": 'r = col_stats([[1, 2], [3, 4]])\nassert r["mean"] == [2.0, 3.0]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy provides percentiles, histograms, correlation, and covariance for descriptive statistics. These underpin nearly all data analysis workflows.",
     "examples": [
         {"label": "Percentile, quantile, and descriptive stats", "code": "import numpy as np\n\nrng = np.random.default_rng(42)\ndata = rng.lognormal(mean=4.5, sigma=0.8, size=10_000)\n\n# Percentiles and quantiles\np25, p50, p75 = np.percentile(data, [25, 50, 75])\nprint(f\"Q1={p25:.1f}, Median={p50:.1f}, Q3={p75:.1f}\")\nprint(f\"IQR={p75-p25:.1f}\")\n\n# Quantile (equivalent but takes fractions 0-1)\nq  = np.quantile(data, [0, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1.0])\nlabels = [\"0%\", \"25%\", \"50%\", \"75%\", \"90%\", \"95%\", \"99%\", \"100%\"]\nfor l, v in zip(labels, q):\n    print(f\"  {l:>4s}: {v:>8.1f}\")\n\n# Outlier detection via IQR\niqr_mult = 1.5\nlower = p25 - iqr_mult * (p75 - p25)\nupper = p75 + iqr_mult * (p75 - p25)\noutliers = data[(data < lower) | (data > upper)]\nprint(f\"Outliers: {len(outliers)} ({len(outliers)/len(data):.1%})\")\n\n# 2D: percentile per column\nm = rng.normal(0, 1, (100, 5))\ncol_medians = np.median(m, axis=0)\nprint(\"Col medians:\", col_medians.round(2))"},
@@ -2288,6 +2416,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "23. Array I/O (save, load, text, memmap)",
+"practices": [
+{
+"title": 'Save and Load',
+"desc": 'Round-trip an array through an in-memory buffer.',
+"starter": 'import numpy as np, io\n\ndef roundtrip_npy(a):\n    buf = io.BytesIO()\n    # TODO: np.save into buf, seek(0), then np.load and return it\n    return np.asarray(a)\n\nprint(roundtrip_npy([1, 2, 3]).tolist())',
+"check": 'assert roundtrip_npy([1, 2, 3]).tolist() == [1, 2, 3]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy supports binary (.npy, .npz), text (savetxt/genfromtxt), and memory-mapped file formats for efficient large array storage and loading.",
     "examples": [
         {"label": "np.save, np.load, np.savez", "code": "import numpy as np\nimport tempfile, pathlib\n\ntmp = pathlib.Path(tempfile.mkdtemp())\n\n# Save/load single array (.npy)\narr = np.arange(12).reshape(3, 4)\nnp.save(tmp / \'array.npy\', arr)\n\nloaded = np.load(tmp / \'array.npy\')\nprint(\"Loaded:\", loaded)\nprint(\"Same data:\", np.array_equal(arr, loaded))\nprint(\"File size:\", (tmp / \'array.npy\').stat().st_size, \"bytes\")\n\n# Save multiple arrays in one file (.npz = numpy zip)\nx  = np.linspace(0, 10, 100)\ny  = np.sin(x)\ndy = np.cos(x)\nnp.savez(tmp / \'signals.npz\', x=x, y=y, dy=dy)\n\ndata = np.load(tmp / \'signals.npz\')\nprint(\"Keys in npz:\", list(data.keys()))\nprint(\"x[0:3]:\", data[\'x\'][:3].round(3))\n\n# savez_compressed: gzip compression\nnp.savez_compressed(tmp / \'signals_compressed.npz\', **dict(data))\norig_size = (tmp / \'signals.npz\').stat().st_size\ncomp_size = (tmp / \'signals_compressed.npz\').stat().st_size\nprint(f\"Original: {orig_size} bytes, Compressed: {comp_size} bytes ({comp_size/orig_size:.0%})\")\n\nimport shutil; shutil.rmtree(tmp)"},
@@ -2315,6 +2451,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "24. Datetime64 & Time Arithmetic",
+"practices": [
+{
+"title": 'Days Between',
+"desc": 'Whole days between two datetime64 dates.',
+"starter": 'import numpy as np\n\ndef days_between_np(d1, d2):\n    # TODO: subtract np.datetime64 values and divide by np.timedelta64(1, "D")\n    return 0\n\nprint(days_between_np("2024-01-01", "2024-01-10"))',
+"check": 'assert days_between_np("2024-01-01", "2024-01-10") == 9\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy\'s datetime64 and timedelta64 types enable vectorized date/time arithmetic without Python loops. Essential for time series alignment and resampling.",
     "examples": [
         {"label": "datetime64 basics and arithmetic", "code": "import numpy as np\n\n# Create datetime64 scalars and arrays\nd1 = np.datetime64(\'2024-01-15\')\nd2 = np.datetime64(\'2024-03-20\')\nprint(\"d1:\", d1, \"d2:\", d2)\n\n# Arithmetic\ndelta = d2 - d1\nprint(f\"Delta: {delta}\")               # timedelta64\nprint(f\"Days between: {delta.astype(\'timedelta64[D]\').astype(int)}\")\n\n# Add days\nd3 = d1 + np.timedelta64(30, \'D\')\nprint(f\"30 days after d1: {d3}\")\n\n# Date range\ndates = np.arange(\'2024-01\', \'2025-01\', dtype=\'datetime64[M]\')  # monthly\nprint(\"Monthly dates:\", dates)\nprint(\"Count:\", len(dates))\n\n# Different units\ndt_ns = np.datetime64(\'2024-01-15T09:30:00.000000000\', \'ns\')\ndt_s  = np.datetime64(\'2024-01-15T09:30:00\', \'s\')\nprint(\"Nanosecond precision:\", dt_ns)\nprint(\"Second precision:\", dt_s)\n\n# Year, month, day extraction via astype\nday_arr  = np.arange(\'2024-01-01\', \'2024-02-01\', dtype=\'datetime64[D]\')\nmonths   = day_arr.astype(\'datetime64[M]\').astype(int) % 12 + 1\ndom      = (day_arr - day_arr.astype(\'datetime64[M]\')).astype(int) + 1\nprint(\"Days of month:\", dom[:7])"},
@@ -2342,6 +2486,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "25. Meshgrid & Grid Operations",
+"practices": [
+{
+"title": 'Grid Sum',
+"desc": 'Sum of the x and y coordinate grids.',
+"starter": 'import numpy as np\n\ndef grid_sum(xs, ys):\n    X, Y = np.meshgrid(np.asarray(xs, float), np.asarray(ys, float))\n    # TODO: return X + Y\n    return X\n\nprint(grid_sum([1, 2], [10]).tolist())',
+"check": 'assert grid_sum([1, 2], [10]).tolist() == [[11, 12]]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "np.meshgrid, np.ogrid, and np.mgrid create coordinate grids for evaluating functions over 2D/3D spaces — essential for plotting, distance fields, and convolutions.",
     "examples": [
         {"label": "np.meshgrid for 2D function evaluation", "code": "import numpy as np\n\n# meshgrid creates coordinate matrices\nx = np.linspace(-2, 2, 5)\ny = np.linspace(-1, 1, 4)\nX, Y = np.meshgrid(x, y)\n\nprint(\"x:\", x)\nprint(\"y:\", y)\nprint(\"X shape:\", X.shape, \"  Y shape:\", Y.shape)\nprint(\"X:\\n\", X)\nprint(\"Y:\\n\", Y)\n\n# Evaluate a 2D function over the grid\nZ = np.sin(X) * np.exp(-Y**2)\nprint(\"Z shape:\", Z.shape)\nprint(\"Z max:\", Z.max().round(4))\n\n# Find point closest to (1.0, 0.5)\ntarget_x, target_y = 1.0, 0.5\ndist = np.sqrt((X - target_x)**2 + (Y - target_y)**2)\niy, ix = np.unravel_index(dist.argmin(), dist.shape)\nprint(f\"Closest grid point to ({target_x}, {target_y}): ({X[iy,ix]:.1f}, {Y[iy,ix]:.1f})\")\n\n# \'ij\' indexing (matrix-style, transposed from default)\nX_ij, Y_ij = np.meshgrid(x, y, indexing=\'ij\')\nprint(\"With indexing=\'ij\': X shape:\", X_ij.shape)"},
@@ -2369,6 +2521,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "26. Advanced Broadcasting & Pairwise Operations",
+"practices": [
+{
+"title": 'Pairwise Differences',
+"desc": 'Matrix of a[i] - a[j].',
+"starter": 'import numpy as np\n\ndef pairwise_diff(a):\n    a = np.asarray(a, float)\n    # TODO: a[:, None] - a[None, :]\n    return a\n\nprint(pairwise_diff([1, 2]).tolist())',
+"check": 'assert pairwise_diff([1, 2]).tolist() == [[0, -1], [1, 0]]\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Broadcasting rules let NumPy operate on arrays of different shapes without copying data. Master broadcasting for pairwise distances, outer products, and vectorized scoring.",
     "examples": [
         {"label": "Broadcasting rules and shape alignment", "code": "import numpy as np\n\n# Broadcasting rule: align shapes from the right,\n# size-1 dimensions are stretched to match\n\n# Example 1: add row vector to each row of a matrix\nm = np.ones((4, 3))\nv = np.array([10, 20, 30])         # shape (3,)\nprint(\"m + v:\", m + v)             # (4,3) + (3,) -> (4,3)\n\n# Example 2: add column vector to each column\ncol = np.array([[1], [2], [3], [4]])   # shape (4, 1)\nprint(\"m + col:\\n\", m + col)          # (4,3) + (4,1) -> (4,3)\n\n# Example 3: outer product via broadcasting\na = np.array([1, 2, 3])     # shape (3,)\nb = np.array([10, 20])      # shape (2,)\nouter = a[:, np.newaxis] * b[np.newaxis, :]  # (3,1) * (1,2) -> (3,2)\nprint(\"Outer product:\\n\", outer)\nprint(\"Same as np.outer:\", np.array_equal(outer, np.outer(a, b)))\n\n# Shape check\nshapes = [(3, 4, 5), (4, 5), (5,), (1,)]\nbase = np.zeros((3, 4, 5))\nfor s in shapes:\n    arr = np.ones(s)\n    print(f\"(3,4,5) + {s} = {(base + arr).shape}\")"},
@@ -2396,6 +2556,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "27. Universal Functions (ufuncs) in Depth",
+"practices": [
+{
+"title": 'Ufunc Reduce',
+"desc": 'Total using np.add.reduce.',
+"starter": 'import numpy as np\n\ndef ufunc_reduce(a):\n    # TODO: np.add.reduce over the array, as a float\n    return 0.0\n\nprint(ufunc_reduce([1, 2, 3]))',
+"check": 'assert ufunc_reduce([1, 2, 3]) == 6.0\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Ufuncs are vectorized functions that operate element-wise on arrays. They support reduce, accumulate, outer, and reduceat — and you can create custom ufuncs with np.frompyfunc or Numba.",
     "examples": [
         {"label": "Built-in ufunc methods: reduce, accumulate, outer", "code": "import numpy as np\n\narr = np.array([1, 2, 3, 4, 5])\n\n# reduce: apply ufunc repeatedly to reduce array\nprint(\"np.add.reduce:\", np.add.reduce(arr))         # 15 (sum)\nprint(\"np.multiply.reduce:\", np.multiply.reduce(arr))  # 120 (product)\nprint(\"np.maximum.reduce:\", np.maximum.reduce(arr))  # 5\n\n# accumulate: like reduce but keeps intermediate results\nprint(\"np.add.accumulate:\", np.add.accumulate(arr))        # cumsum\nprint(\"np.multiply.accumulate:\", np.multiply.accumulate(arr))  # cumprod\nprint(\"np.maximum.accumulate:\", np.maximum.accumulate(arr))\n\n# outer: compute all pairs\na = np.array([1, 2, 3])\nb = np.array([10, 20, 30])\nprint(\"np.add.outer:\\n\", np.add.outer(a, b))\nprint(\"np.multiply.outer:\\n\", np.multiply.outer(a, b))\n\n# 2D reduce along axis\nm = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])\nprint(\"Row sums:\", np.add.reduce(m, axis=1))       # [6, 15, 24]\nprint(\"Col products:\", np.multiply.reduce(m, axis=0))  # [28, 80, 162]\n\n# reduceat: reduce in segments\ndata = np.arange(10)\n# Reduce segments: [0:3], [3:6], [6:10]\nresult = np.add.reduceat(data, [0, 3, 6])\nprint(\"Segment sums:\", result)   # [0+1+2, 3+4+5, 6+7+8+9]"},
@@ -2423,6 +2591,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "28. Masked Arrays (np.ma)",
+"practices": [
+{
+"title": 'Masked Mean',
+"desc": 'Mean that ignores masked entries.',
+"starter": 'import numpy as np\n\ndef masked_mean(a, mask):\n    m = np.ma.masked_array(np.asarray(a, float), mask=np.asarray(mask, bool))\n    # TODO: return the mean of the masked array as a float\n    return 0.0\n\nprint(masked_mean([1, 2, 100], [False, False, True]))',
+"check": 'assert masked_mean([1, 2, 100], [False, False, True]) == 1.5\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "np.ma.MaskedArray transparently handles missing data by maintaining a boolean mask alongside values. Useful for sensor data with gaps or any dataset with invalid entries.",
     "examples": [
         {"label": "Creating and using masked arrays", "code": "import numpy as np\n\n# Create masked array\ndata = np.array([1.0, 2.0, -999.0, 4.0, -999.0, 6.0])\nmask = data == -999.0\n\nma = np.ma.array(data, mask=mask)\nprint(\"Data:  \", ma)\nprint(\"Mask:  \", ma.mask)\nprint(\"Filled:\", ma.filled(fill_value=0))\n\n# Operations automatically skip masked values\nprint(\"Mean (excludes masked):\", ma.mean())   # (1+2+4+6)/4 = 3.25\nprint(\"Sum:\", ma.sum())                        # 13\nprint(\"Std:\", ma.std().round(4))\n\n# np.ma.masked_where\narr = np.array([10, 25, -5, 0, 8, -1, 15])\nma2 = np.ma.masked_where(arr <= 0, arr)\nprint(\"Masked non-positive:\", ma2)\nprint(\"Log (safe):\", np.log(ma2))   # no error for masked values\n\n# np.ma.masked_invalid: auto-mask NaN and Inf\ndirty = np.array([1.0, np.nan, 3.0, np.inf, 5.0, -np.inf])\nclean = np.ma.masked_invalid(dirty)\nprint(\"Masked invalid:\", clean)\nprint(\"Safe mean:\", clean.mean())"},
@@ -2450,6 +2626,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "29. Memory Layout, Strides & Contiguity",
+"practices": [
+{
+"title": 'Strides',
+"desc": 'Byte strides of an array.',
+"starter": 'import numpy as np\n\ndef strides_of(a):\n    # TODO: return np.asarray(a).strides as a tuple\n    return ()\n\nprint(strides_of(np.zeros((2, 3))))',
+"check": 'import numpy as np\nassert len(strides_of(np.zeros((2, 3)))) == 2\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy arrays store data in contiguous memory blocks. Understanding C/F order, strides, and views vs copies is critical for performance and interoperability with C/Fortran libraries.",
     "examples": [
         {"label": "C vs Fortran order, flags, and strides", "code": "import numpy as np\n\n# C order (row-major): last axis varies fastest (default)\narr_c = np.array([[1, 2, 3], [4, 5, 6]], order=\'C\')\nprint(\"C order strides:\", arr_c.strides)   # (12, 4) for float32\n\n# F order (column-major): first axis varies fastest\narr_f = np.array([[1, 2, 3], [4, 5, 6]], order=\'F\')\nprint(\"F order strides:\", arr_f.strides)   # (4, 8) for float32\n\n# Check flags\nprint(\"C-contiguous:\", arr_c.flags[\'C_CONTIGUOUS\'])   # True\nprint(\"F-contiguous:\", arr_c.flags[\'F_CONTIGUOUS\'])   # False\n\n# Transpose only changes strides, no data copy\nT = arr_c.T\nprint(\"Transposed strides:\", T.strides)\nprint(\"T is view:\", T.base is arr_c)   # True\n\n# ascontiguousarray: ensure C-contiguous copy\nT_c = np.ascontiguousarray(T)\nprint(\"After ascontiguousarray:\", T_c.flags[\'C_CONTIGUOUS\'])\n\n# Strides as bytes\narr = np.arange(24, dtype=np.float64).reshape(2, 3, 4)\nprint(f\"Shape: {arr.shape}, Strides (bytes): {arr.strides}\")\nprint(f\"Itemsize: {arr.itemsize} bytes\")\n# stride[k] = itemsize * product(shape[k+1:])"},
@@ -2477,6 +2661,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "30. Advanced Linear Algebra Operations",
+"practices": [
+{
+"title": 'Matrix Rank',
+"desc": 'Rank of a matrix.',
+"starter": 'import numpy as np\n\ndef matrix_rank(a):\n    # TODO: np.linalg.matrix_rank as an int\n    return 0\n\nprint(matrix_rank([[1, 0], [0, 1]]))',
+"check": 'assert matrix_rank([[1, 0], [0, 1]]) == 2\nassert matrix_rank([[1, 1], [1, 1]]) == 1\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Beyond basic dot products: matrix decompositions (SVD, QR, Cholesky), determinants, null spaces, pseudo-inverse, and Kronecker products for systems of equations and dimensionality reduction.",
     "examples": [
         {"label": "QR decomposition and least squares", "code": "import numpy as np\n\nrng = np.random.default_rng(42)\n\n# QR decomposition: A = Q @ R\nA = rng.standard_normal((6, 4))\nQ, R = np.linalg.qr(A)\nprint(f\"A: {A.shape}, Q: {Q.shape}, R: {R.shape}\")\nprint(\"Q orthonormal:\", np.allclose(Q.T @ Q, np.eye(4)))\nprint(\"A = Q@R:\", np.allclose(A, Q @ R))\n\n# Least squares: solve Ax = b for overdetermined system\nm, n = 100, 5\nA = rng.standard_normal((m, n))\ntrue_x = rng.standard_normal(n)\nb = A @ true_x + rng.normal(0, 0.1, m)   # noisy measurements\n\n# lstsq: minimize ||Ax - b||^2\nx, residuals, rank, sv = np.linalg.lstsq(A, b, rcond=None)\nprint(f\"True x:   {true_x[:3].round(3)}\")\nprint(f\"Solved x: {x[:3].round(3)}\")\nprint(f\"Matrix rank: {rank}, condition number: {sv[0]/sv[-1]:.1f}\")\n\n# Via normal equations (less stable but educational)\nx_normal = np.linalg.solve(A.T @ A, A.T @ b)\nprint(\"Normal eq error:\", np.abs(x - x_normal).max())"},
@@ -2504,6 +2696,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "31. Numerical Differentiation & Optimization",
+"practices": [
+{
+"title": 'Central Difference',
+"desc": 'Numerical derivative of f at x.',
+"starter": 'def central_diff(f, x, h=1e-6):\n    # TODO: (f(x+h) - f(x-h)) / (2h)\n    return 0.0\n\nprint(round(central_diff(lambda v: v**3, 2), 3))',
+"check": 'assert abs(central_diff(lambda v: v**3, 2) - 12) < 1e-3\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Finite differences approximate gradients of black-box functions. Combined with np.gradient, they enable sensitivity analysis, gradient checking, and simple optimization without symbolic math.",
     "examples": [
         {"label": "Finite differences: forward, backward, central", "code": "import numpy as np\n\n# First derivative via finite differences\ndef forward_diff(f, x, h=1e-5):\n    return (f(x + h) - f(x)) / h\n\ndef backward_diff(f, x, h=1e-5):\n    return (f(x) - f(x - h)) / h\n\ndef central_diff(f, x, h=1e-5):\n    return (f(x + h) - f(x - h)) / (2 * h)\n\ndef second_diff(f, x, h=1e-5):\n    return (f(x + h) - 2*f(x) + f(x - h)) / h**2\n\n# Test on f(x) = sin(x), f\'(x) = cos(x)\nf = np.sin\nx = np.pi / 4\ntrue_deriv = np.cos(x)\n\nprint(f\"True f\'(pi/4) = {true_deriv:.10f}\")\nprint(f\"Forward:   {forward_diff(f, x):.10f}  err={abs(forward_diff(f,x)-true_deriv):.2e}\")\nprint(f\"Backward:  {backward_diff(f, x):.10f}  err={abs(backward_diff(f,x)-true_deriv):.2e}\")\nprint(f\"Central:   {central_diff(f, x):.10f}  err={abs(central_diff(f,x)-true_deriv):.2e}\")\nprint(f\"Second:    {second_diff(f, x):.10f}  true=-sin(pi/4)={-np.sin(x):.10f}\")\n\n# Vectorized on array\nx_arr = np.linspace(0, 2*np.pi, 100)\nderiv_arr = central_diff(np.sin, x_arr)\nerror = np.abs(deriv_arr - np.cos(x_arr))\nprint(f\"Max error over array: {error.max():.2e}\")"},
@@ -2531,6 +2731,14 @@ print(f"Probability of loss:      {prob_loss:.1%}")"""}
 
     {
     "title": "32. NumPy in Data Science Workflows",
+"practices": [
+{
+"title": 'Split Indices',
+"desc": 'Shuffle and split indices into train/test.',
+"starter": 'import numpy as np\n\ndef train_test_split_idx(n, frac, seed=0):\n    rng = np.random.default_rng(seed)\n    idx = rng.permutation(n)\n    k = int(n * frac)\n    # TODO: return (idx[:k], idx[k:])\n    return (idx, idx)\n\ntr, te = train_test_split_idx(10, 0.7)\nprint(len(tr), len(te))',
+"check": 'tr, te = train_test_split_idx(10, 0.7)\nassert len(tr) == 7 and len(te) == 3\nassert len(set(tr.tolist()) & set(te.tolist())) == 0, "no overlap"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "NumPy integrates tightly with pandas, scikit-learn, PyTorch, and SciPy. Understanding these bridges — arrays, dtypes, memory sharing — makes you faster at the whole pipeline.",
     "examples": [
         {"label": "NumPy <-> Pandas integration", "code": "import numpy as np\n\n# Simulate what pandas does under the hood\n# A DataFrame is essentially a dict of 1D NumPy arrays\n\n# From numpy to structured array (pandas-like)\nn = 5\nids    = np.arange(1, n+1)\nnames  = np.array([\'Alice\', \'Bob\', \'Carol\', \'Dave\', \'Eve\'])\nscores = np.array([92.5, 78.3, 88.1, 95.0, 70.2])\ngrades = np.where(scores >= 90, \'A\', np.where(scores >= 80, \'B\', \'C\'))\n\n# Operations you\'d do in pandas, using only NumPy\nmean_score = scores.mean()\ntop_scorers = names[scores >= 90]\npassing     = names[scores >= 75]\n\nprint(\"Mean score:\", mean_score.round(2))\nprint(\"Top scorers (A grade):\", top_scorers)\nprint(\"Passing (>=75):\", passing)\n\n# Group by grade\nfor grade in np.unique(grades):\n    mask = grades == grade\n    print(f\"Grade {grade}: {names[mask].tolist()}, avg={scores[mask].mean():.1f}\")\n\n# NumPy array -> pandas DataFrame conversion info\ntry:\n    import pandas as pd\n    df = pd.DataFrame({\'id\': ids, \'name\': names, \'score\': scores, \'grade\': grades})\n    # df.values returns numpy array (may copy depending on dtypes)\n    arr = df[[\'id\', \'score\']].to_numpy()\n    print(\"DataFrame to numpy:\", arr.shape, arr.dtype)\nexcept ImportError:\n    print(\"(pandas not available, but the pattern works)\")"},

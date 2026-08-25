@@ -26,9 +26,9 @@ def make_html(sections):
         rw_html = (f'<div class="rw"><div class="rh">&#x1F4BC; Real-World: {esc(rw["title"])}</div>'
                    f'<div class="rd">{esc(rw["scenario"])}</div>'
                    f'<pre><code class="language-python">{esc(rw["code"])}</code></pre></div>') if rw else ""
-        practices = s.get("practices")
-        if practices is None:
-            practices = [s["practice"]] if s.get("practice") else []
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
         for k, practice in enumerate(practices):
             pid = f"p{i}_{k}"
@@ -103,9 +103,9 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practices = s.get("practices")
-        if practices is None:
-            practices = [s["practice"]] if s.get("practice") else []
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         for practice in practices:
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))

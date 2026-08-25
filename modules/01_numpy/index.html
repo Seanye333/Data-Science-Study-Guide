@@ -283,7 +283,14 @@ for dt in dtypes:
 # Reshape and verify view
 a = np.arange(20, dtype=np.float32).reshape(4, 5)
 # TODO: b = a.reshape(2, 2, 5)
-# TODO: print(&quot;shares_memory:&quot;, np.shares_memory(a, b))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (3, 4) float32 array and print its shape, ndim, dtype, itemsize, and nbytes</label></li>
+# TODO: print(&quot;shares_memory:&quot;, np.shares_memory(a, b))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Number of Dimensions</div><div class="pd">Return how many dimensions an array has.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import numpy as np
+
+def ndim_of(a):
+    # TODO: np.asarray(a).ndim as an int
+    return 0
+
+print(ndim_of([[1, 2]]))</code></pre></div><template class="ho-check">assert ndim_of([[1, 2]]) == 2 and ndim_of([1]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (3, 4) float32 array and print its shape, ndim, dtype, itemsize, and nbytes</label></li>
 <li><label><input type="checkbox"> Reshape np.arange(12) to (3, 4) then use .reshape(2, -1) and verify the shapes</label></li>
 <li><label><input type="checkbox"> Use .astype(np.float32) on an int64 array and compare the nbytes before and after</label></li>
 <li><label><input type="checkbox"> Slice an array to create a view, modify the view, and confirm the original changed</label></li>
@@ -1119,7 +1126,15 @@ b = np.array([8.0, -11.0, -3.0])
 # print(f&quot;det(A) = {det_A:.2f}&quot;)
 
 # TODO: inv_A = np.linalg.inv(A)
-# print(&quot;A @ inv(A) is identity:&quot;, np.allclose(A @ inv_A, np.eye(3)))</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a 2x2 system Ax=b and solve it with np.linalg.solve — verify with A @ x == b</label></li>
+# print(&quot;A @ inv(A) is identity:&quot;, np.allclose(A @ inv_A, np.eye(3)))</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Solve a System</div><div class="pd">Solve Ax = b.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import numpy as np
+
+def solve_system(A, b):
+    # TODO: np.linalg.solve(A, b)
+    return np.zeros(len(b))
+
+print(solve_system([[2, 0], [0, 4]], [2, 8]).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert np.allclose(solve_system([[2, 0], [0, 4]], [2, 8]), [1, 2])
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Set up a 2x2 system Ax=b and solve it with np.linalg.solve — verify with A @ x == b</label></li>
 <li><label><input type="checkbox"> Compute the inverse of a 3x3 matrix and confirm A @ inv(A) == identity using np.allclose</label></li>
 <li><label><input type="checkbox"> Decompose a matrix with np.linalg.svd and reconstruct it from U, s, Vt</label></li>
 <li><label><input type="checkbox"> Compute eigenvalues and eigenvectors of a 2x2 matrix and verify A @ v == lambda * v</label></li>
@@ -1236,7 +1251,14 @@ m3 = np.full((4, 3), 2.0)
 big = np.arange(96).reshape(12, 8)
 # TODO: chunks = np.split(big, 4, axis=0)  # 4 chunks of (3, 8)
 # TODO: result = np.stack(chunks, axis=2)  # (3, 8, 4)
-# print(&quot;Result shape:&quot;, result.shape)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Reshape np.arange(24) to (2, 3, 4) and then transpose to (4, 3, 2) — print both shapes</label></li>
+# print(&quot;Result shape:&quot;, result.shape)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Stack Rows</div><div class="pd">Stack two 2-D arrays vertically.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">import numpy as np
+
+def concat_rows(a, b):
+    # TODO: np.vstack([a, b])
+    return np.asarray(a)
+
+print(concat_rows([[1, 2]], [[3, 4]]).tolist())</code></pre></div><template class="ho-check">assert concat_rows([[1, 2]], [[3, 4]]).tolist() == [[1, 2], [3, 4]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Reshape np.arange(24) to (2, 3, 4) and then transpose to (4, 3, 2) — print both shapes</label></li>
 <li><label><input type="checkbox"> Use np.hstack and np.vstack to join two (3, 4) arrays horizontally and vertically</label></li>
 <li><label><input type="checkbox"> Split np.arange(12) into 3 equal parts with np.split and print each part</label></li>
 <li><label><input type="checkbox"> Use np.pad to add a border of zeros around a (3, 3) array of ones</label></li>
@@ -1362,7 +1384,16 @@ for s in range(2, 13):
 
 # 3. Craps win (7 or 11 on first roll)
 # TODO: craps_win = ((sums == 7) | (sums == 11)).mean()
-# print(f&quot;Craps first-roll win: {craps_win:.4f} (expected 0.2222)&quot;)</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.random.default_rng(42) to generate 1000 uniform samples and verify the mean is ~0.5</label></li>
+# print(f&quot;Craps first-roll win: {craps_win:.4f} (expected 0.2222)&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Random Integers</div><div class="pd">Draw n integers in [lo, hi) from a seeded generator.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import numpy as np
+
+def random_ints(n, lo, hi, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: rng.integers(lo, hi, n)
+    return np.zeros(n, dtype=int)
+
+print(random_ints(5, 0, 10).tolist())</code></pre></div><template class="ho-check">r = random_ints(5, 0, 10)
+assert len(r) == 5 and r.min() &gt;= 0 and r.max() &lt; 10
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.random.default_rng(42) to generate 1000 uniform samples and verify the mean is ~0.5</label></li>
 <li><label><input type="checkbox"> Simulate 10,000 coin flips with rng.integers(0, 2) and compute the empirical P(heads)</label></li>
 <li><label><input type="checkbox"> Generate 1000 values from a normal distribution and verify ~68% fall within one std of the mean</label></li>
 <li><label><input type="checkbox"> Use rng.choice on a list of outcomes with unequal probabilities and check the empirical distribution</label></li>
@@ -1442,7 +1473,16 @@ ts = np.cumsum(np.random.randn(50))  # random walk
 # TODO: create sliding window view with window_size=4
 # TODO: compute mean and std of each window row
 # TODO: stack into feature matrix (n_samples x 3): [window_mean, window_std, last_value]
-# TODO: print shape and first 5 rows</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inspect the .strides of a C-order and F-order version of the same array and compare</label></li>
+# TODO: print shape and first 5 rows</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: C-Contiguous?</div><div class="pd">Is the array stored in row-major order?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">import numpy as np
+
+def is_c_contiguous(a):
+    # TODO: read the C_CONTIGUOUS flag as a bool
+    return False
+
+print(is_c_contiguous(np.zeros((2, 2))))</code></pre></div><template class="ho-check">import numpy as np
+assert is_c_contiguous(np.zeros((2, 2))) is True
+assert is_c_contiguous(np.zeros((2, 2)).T) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Inspect the .strides of a C-order and F-order version of the same array and compare</label></li>
 <li><label><input type="checkbox"> Modify a view and confirm the original array changes — then use .copy() to prevent this</label></li>
 <li><label><input type="checkbox"> Use sliding_window_view on a 1D array of length 10 with window_size=3 and print all windows</label></li>
 <li><label><input type="checkbox"> Apply np.add(a, b, out=result) to avoid allocating a new array in a tight loop</label></li>
@@ -1533,7 +1573,17 @@ students = np.array([
 ], dtype=dtype)
 
 # TODO: sort by gpa descending, print top 3
-# TODO: for each unique grade, compute and print average gpa</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a structured dtype with name (U20), age (i4), score (f8) and create a 4-row array</label></li>
+# TODO: for each unique grade, compute and print average gpa</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Read a Field</div><div class="pd">Pull one named field out of a structured array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">import numpy as np
+
+def struct_field(arr, name):
+    # TODO: index the structured array by field name
+    return np.asarray(arr)
+
+sa = np.array([(1, 2.0)], dtype=[(&quot;i&quot;, &quot;i4&quot;), (&quot;f&quot;, &quot;f8&quot;)])
+print(struct_field(sa, &quot;i&quot;).tolist())</code></pre></div><template class="ho-check">import numpy as np
+sa = np.array([(1, 2.0)], dtype=[(&quot;i&quot;, &quot;i4&quot;), (&quot;f&quot;, &quot;f8&quot;)])
+assert struct_field(sa, &quot;i&quot;).tolist() == [1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Define a structured dtype with name (U20), age (i4), score (f8) and create a 4-row array</label></li>
 <li><label><input type="checkbox"> Access a field by name (data[&#x27;score&#x27;]) and sort the structured array by that field</label></li>
 <li><label><input type="checkbox"> Filter a structured array to keep only rows where dept == &#x27;Eng&#x27;</label></li>
 <li><label><input type="checkbox"> Convert a structured array to a pandas DataFrame and back with to_records()</label></li>
@@ -1621,7 +1671,14 @@ y = np.sin(x) + np.random.randn(60) * 0.2
 #   - compute y_hat with np.polyval
 #   - compute RMSE
 #   - print results
-# TODO: print which degree has lowest RMSE</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Solve a 2x2 linear system with np.linalg.solve and verify the solution with A @ x == b</label></li>
+# TODO: print which degree has lowest RMSE</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fit a Polynomial</div><div class="pd">Least-squares polynomial coefficients.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">import numpy as np
+
+def fit_poly(x, y, deg):
+    # TODO: np.polyfit(x, y, deg)
+    return np.zeros(deg + 1)
+
+print(fit_poly([0, 1, 2], [1, 3, 5], 1).round(3).tolist())</code></pre></div><template class="ho-check">assert abs(fit_poly([0, 1, 2], [1, 3, 5], 1)[0] - 2) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Solve a 2x2 linear system with np.linalg.solve and verify the solution with A @ x == b</label></li>
 <li><label><input type="checkbox"> Compute SVD of a 4x3 matrix and reconstruct it — verify with np.allclose</label></li>
 <li><label><input type="checkbox"> Find eigenvalues of a symmetric matrix and verify they are all real</label></li>
 <li><label><input type="checkbox"> Use np.polyfit to fit a line to noisy data and print slope and intercept</label></li>
@@ -1729,7 +1786,14 @@ print(&#x27;Score matrix shape:&#x27;, scores.shape)
 # TODO: (2) Top 5 students by total score (np.argpartition)
 # TODO: (3) Assign letter grades A/B/C/D/F using np.where
 # TODO: (4) Pass/fail mask (avg &gt;= 70 in at least 3 subjects)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Select rows [0, 2, 4] from a 5x5 array using a list index — verify it creates a copy</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fancy Take</div><div class="pd">Select elements by an index array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">import numpy as np
+
+def take_indices(a, idx):
+    # TODO: index a with the array idx
+    return np.asarray(a)
+
+print(take_indices([10, 20, 30], [0, 2]).tolist())</code></pre></div><template class="ho-check">assert take_indices([10, 20, 30], [0, 2]).tolist() == [10, 30]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Select rows [0, 2, 4] from a 5x5 array using a list index — verify it creates a copy</label></li>
 <li><label><input type="checkbox"> Use (row_idx, col_idx) paired indexing to extract specific cells (one per row) from a 2D array</label></li>
 <li><label><input type="checkbox"> Use np.argpartition to find the top-3 values in a 1D array without fully sorting it</label></li>
 <li><label><input type="checkbox"> Use np.take to reorder rows of a 2D array by a custom index order</label></li>
@@ -1884,7 +1948,14 @@ X = np.random.randn(1000, 5)
 # TODO: (2) NumPy broadcasting: (n,1,d) - (1,n,d), then norm
 # TODO: (3) scipy or einsum approach
 # TODO: Benchmark all three and print speedups
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Time a Python for-loop that sums 1M numbers vs np.sum — report the speedup</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Vectorized Square</div><div class="pd">Square every element without a Python loop.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">import numpy as np
+
+def vectorized_square(a):
+    # TODO: elementwise square of the array
+    return np.asarray(a, float)
+
+print(vectorized_square([1, 2]).tolist())</code></pre></div><template class="ho-check">assert vectorized_square([1, 2]).tolist() == [1, 4]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Time a Python for-loop that sums 1M numbers vs np.sum — report the speedup</label></li>
 <li><label><input type="checkbox"> Replace a nested loop that computes a pairwise operation with a vectorized broadcasting expression</label></li>
 <li><label><input type="checkbox"> Use np.einsum(&#x27;ij,jk-&gt;ik&#x27;, A, B) for matrix multiplication and compare speed with A @ B</label></li>
 <li><label><input type="checkbox"> Use out= parameter with np.sin to write results directly into a pre-allocated buffer</label></li>
@@ -2016,7 +2087,14 @@ noisy = clean + np.random.randn(fs) * 0.8
 # TODO: (3) Reconstruct with ifft
 # TODO: (4) SNR before and after
 # TODO: (5) Compare with 21-pt Gaussian convolution
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 5Hz + 20Hz composite signal and use np.fft.rfft to find dominant frequencies</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Convolve Same</div><div class="pd">Convolve keeping the input length.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">import numpy as np
+
+def convolve_same(a, k):
+    # TODO: np.convolve with mode=&quot;same&quot;
+    return np.asarray(a, float)
+
+print(convolve_same([1, 2, 3], [1, 1]).tolist())</code></pre></div><template class="ho-check">assert len(convolve_same([1, 2, 3], [1, 1])) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a 5Hz + 20Hz composite signal and use np.fft.rfft to find dominant frequencies</label></li>
 <li><label><input type="checkbox"> Implement a low-pass FFT filter: zero out frequency components above a cutoff_hz and reconstruct</label></li>
 <li><label><input type="checkbox"> Use np.convolve with a uniform kernel np.ones(5)/5 to compute a 5-sample moving average</label></li>
 <li><label><input type="checkbox"> Compute a Gaussian smoothing kernel and apply it with np.convolve to a noisy signal</label></li>
@@ -2136,7 +2214,14 @@ top3  = top_k_products(sales, 3)
 bot3  = bottom_k_days(sales, 3)
 print(&quot;Top 3 products (by total):&quot;, top3, &quot;-&gt;&quot;, sales[top3].sum(axis=1))
 print(&quot;Worst 3 days (by avg):   &quot;, bot3, &quot;-&gt;&quot;, sales[:, bot3].mean(axis=0).round(1))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.sort and np.argsort on a 1D array and verify arr[argsort] == sorted array</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Sort Descending</div><div class="pd">Sort values largest first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">import numpy as np
+
+def sort_desc(a):
+    # TODO: sort ascending then reverse
+    return np.asarray(a)
+
+print(sort_desc([3, 1, 2]).tolist())</code></pre></div><template class="ho-check">assert sort_desc([3, 1, 2]).tolist() == [3, 2, 1]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.sort and np.argsort on a 1D array and verify arr[argsort] == sorted array</label></li>
 <li><label><input type="checkbox"> Sort a 2D array along axis=1 (row-wise) and along axis=0 (column-wise) and print results</label></li>
 <li><label><input type="checkbox"> Use np.argpartition to find the top-5 values in a 100-element array — O(n) operation</label></li>
 <li><label><input type="checkbox"> Use np.searchsorted to binary-search a sorted array and find insert positions for new values</label></li>
@@ -2274,7 +2359,14 @@ cohorts = {
 }
 for r in cohort_analysis(cohorts):
     print(r)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.unique with return_counts=True to count how many times each value appears in an array</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Union</div><div class="pd">Sorted union of two arrays.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">import numpy as np
+
+def union_of(a, b):
+    # TODO: np.union1d
+    return np.asarray(a)
+
+print(union_of([1, 2], [2, 3]).tolist())</code></pre></div><template class="ho-check">assert union_of([1, 2], [2, 3]).tolist() == [1, 2, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.unique with return_counts=True to count how many times each value appears in an array</label></li>
 <li><label><input type="checkbox"> Use np.union1d and np.intersect1d to find shared and exclusive elements between two ID arrays</label></li>
 <li><label><input type="checkbox"> Use np.setdiff1d to find elements in array A that are not in array B</label></li>
 <li><label><input type="checkbox"> Use np.isin to mask a large array, keeping only elements that appear in a whitelist array</label></li>
@@ -2422,7 +2514,15 @@ for x in [np.array([1.0, 2.0, 3.0]),
     print(f&quot;  stable: {stable_softmax(x)}&quot;)
     print(f&quot;  log:    {log_softmax(x)}&quot;)
     print(f&quot;  exp(log) == stable: {np.allclose(np.exp(log_softmax(x)), stable_softmax(x))}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect all NaN values in an array and replace them with the column mean using np.nanmean</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Replace NaN</div><div class="pd">Swap NaNs for a finite value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">import numpy as np
+
+def replace_nan(a, v):
+    a = np.asarray(a, float)
+    # TODO: np.nan_to_num(a, nan=v)
+    return a
+
+print(replace_nan([1, float(&quot;nan&quot;)], 0.0).tolist())</code></pre></div><template class="ho-check">assert replace_nan([1, float(&quot;nan&quot;)], 0.0).tolist() == [1, 0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Detect all NaN values in an array and replace them with the column mean using np.nanmean</label></li>
 <li><label><input type="checkbox"> Use np.isfinite to mask both NaN and Inf values in one step</label></li>
 <li><label><input type="checkbox"> Use np.nan_to_num to replace NaN with 0, +Inf with 1e9, and -Inf with -1e9</label></li>
 <li><label><input type="checkbox"> Demonstrate float32 overflow: show that 1e38 * 100 == inf for float32</label></li>
@@ -2573,7 +2673,15 @@ rng = np.random.default_rng(42)
 data = rng.normal(50, 10, 200)
 result = fit_normal(data)
 print(f&quot;Fitted: mu={result[&#x27;mu&#x27;]:.2f}, std={result[&#x27;std&#x27;]:.2f}, KS={result[&#x27;ks&#x27;]:.4f}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use rng.normal(loc=50, scale=10, size=1000) and verify mean/std match the parameters</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Normal Sample Mean</div><div class="pd">Mean of n standard normal draws.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">import numpy as np
+
+def normal_sample_mean(n, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: mean of rng.normal(0, 1, n)
+    return 0.0
+
+print(round(normal_sample_mean(10000), 4))</code></pre></div><template class="ho-check">assert abs(normal_sample_mean(10000)) &lt; 0.05
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use rng.normal(loc=50, scale=10, size=1000) and verify mean/std match the parameters</label></li>
 <li><label><input type="checkbox"> Generate lognormal data and observe its mean &gt; median (positive skew)</label></li>
 <li><label><input type="checkbox"> Simulate 100,000 coin flips with rng.binomial(1, 0.5) and compute empirical P(heads)</label></li>
 <li><label><input type="checkbox"> Run a Monte Carlo Pi estimate: generate uniform (x, y) pairs and check x^2 + y^2 &lt;= 1</label></li>
@@ -2747,7 +2855,15 @@ for k, v in stats.items():
     print(f&quot;{k}: {v}&quot;)
 normed = normalize_contrast(img)
 print(&quot;Normalized range:&quot;, normed.min(), normed.max())
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (64, 64, 3) uint8 image array and extract each RGB channel separately</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grayscale</div><div class="pd">Average the RGB channels of an image array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">import numpy as np
+
+def to_grayscale(img):
+    # TODO: mean over the channel axis (axis=2)
+    return np.asarray(img, float)
+
+print(to_grayscale(np.ones((2, 2, 3))).tolist())</code></pre></div><template class="ho-check">import numpy as np
+assert to_grayscale(np.ones((2, 2, 3))).tolist() == [[1, 1], [1, 1]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a (64, 64, 3) uint8 image array and extract each RGB channel separately</label></li>
 <li><label><input type="checkbox"> Convert an RGB image to grayscale using the luminosity formula: 0.2989*R + 0.5870*G + 0.1140*B</label></li>
 <li><label><input type="checkbox"> Normalize a uint8 image to float [0, 1] and back — verify round-trip preserves values</label></li>
 <li><label><input type="checkbox"> Flip an image horizontally using [:, ::-1, :] and vertically using [::-1, :, :]</label></li>
@@ -2899,7 +3015,16 @@ weights = np.array([5, 1, 1, 1, 1], float)
 print(&quot;Weighted mean:&quot;, weighted_mean(data, weights))   # should be ~1.5
 print(&quot;Weighted std: &quot;, weighted_std(data, weights))
 print(&quot;Weighted 50th:&quot;, weighted_percentile(data, weights, 50))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the Q1, median, Q3, and IQR of a dataset using np.percentile</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Column Stats</div><div class="pd">Mean and std of each column.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">import numpy as np
+
+def col_stats(m):
+    m = np.asarray(m, float)
+    # TODO: {&quot;mean&quot;: per-column means, &quot;std&quot;: per-column stds} as lists
+    return {}
+
+print(col_stats([[1, 2], [3, 4]]))</code></pre></div><template class="ho-check">r = col_stats([[1, 2], [3, 4]])
+assert r[&quot;mean&quot;] == [2.0, 3.0]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the Q1, median, Q3, and IQR of a dataset using np.percentile</label></li>
 <li><label><input type="checkbox"> Use np.histogram to bin 10,000 normal samples and manually verify the counts sum to 10,000</label></li>
 <li><label><input type="checkbox"> Compute the Pearson correlation between two variables and verify the formula manually</label></li>
 <li><label><input type="checkbox"> Use np.digitize to assign salary bins (entry/junior/mid/senior) to an array of salaries</label></li>
@@ -3077,7 +3202,15 @@ print(&quot;Data matches:&quot;, np.allclose(X, data[&#x27;X&#x27;]))
 cache.delete(&#x27;features&#x27;)
 print(&quot;After delete:&quot;, cache.exists(&#x27;features&#x27;))
 shutil.rmtree(tmp)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a (3, 4) array with np.save, reload it, and verify np.array_equal returns True</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Save and Load</div><div class="pd">Round-trip an array through an in-memory buffer.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">import numpy as np, io
+
+def roundtrip_npy(a):
+    buf = io.BytesIO()
+    # TODO: np.save into buf, seek(0), then np.load and return it
+    return np.asarray(a)
+
+print(roundtrip_npy([1, 2, 3]).tolist())</code></pre></div><template class="ho-check">assert roundtrip_npy([1, 2, 3]).tolist() == [1, 2, 3]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Save a (3, 4) array with np.save, reload it, and verify np.array_equal returns True</label></li>
 <li><label><input type="checkbox"> Save multiple arrays in one .npz file with np.savez and inspect the keys after loading</label></li>
 <li><label><input type="checkbox"> Use np.savez_compressed vs np.savez and compare file sizes for a large float array</label></li>
 <li><label><input type="checkbox"> Write a float array to CSV with np.savetxt and read it back with np.genfromtxt</label></li>
@@ -3231,7 +3364,14 @@ print(&quot;First 5:&quot;, trading_days[:5])
 print(&quot;Last 3: &quot;, trading_days[-3:])
 
 print(&quot;Next trading day after 2024-12-24:&quot;, next_trading_day(&#x27;2024-12-24&#x27;, us_holidays_2024))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a datetime64 date range for all days in January 2024 using np.arange with dtype=&#x27;datetime64[D]&#x27;</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Days Between</div><div class="pd">Whole days between two datetime64 dates.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">import numpy as np
+
+def days_between_np(d1, d2):
+    # TODO: subtract np.datetime64 values and divide by np.timedelta64(1, &quot;D&quot;)
+    return 0
+
+print(days_between_np(&quot;2024-01-01&quot;, &quot;2024-01-10&quot;))</code></pre></div><template class="ho-check">assert days_between_np(&quot;2024-01-01&quot;, &quot;2024-01-10&quot;) == 9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a datetime64 date range for all days in January 2024 using np.arange with dtype=&#x27;datetime64[D]&#x27;</label></li>
 <li><label><input type="checkbox"> Compute the number of days between two datetime64 dates by subtracting them</label></li>
 <li><label><input type="checkbox"> Use np.busday_count to count business days between two dates in a given quarter</label></li>
 <li><label><input type="checkbox"> Use np.is_busday on an array of dates to identify which ones fall on weekdays</label></li>
@@ -3374,7 +3514,15 @@ print(f&quot;Standard: max={Z1.max():.4f}, integral={Z1.sum()*dx*dy:.4f}&quot;)
 Z2 = bivariate_gaussian(X, Y, mu_x=0.5, mu_y=-0.5, sigma_x=1.2, sigma_y=0.8, rho=0.7)
 print(f&quot;Correlated: max={Z2.max():.4f}, integral={Z2.sum()*dx*dy:.4f}&quot;)
 print(f&quot;Peak at: ({X.ravel()[Z2.argmax()]:.2f}, {Y.ravel()[Z2.argmax()]:.2f})&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.meshgrid on x = linspace(-2,2,5) and y = linspace(-1,1,4) and evaluate Z = sin(X)*cos(Y)</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Grid Sum</div><div class="pd">Sum of the x and y coordinate grids.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_1')">Copy</button></div><pre><code id="p24_1" class="language-python">import numpy as np
+
+def grid_sum(xs, ys):
+    X, Y = np.meshgrid(np.asarray(xs, float), np.asarray(ys, float))
+    # TODO: return X + Y
+    return X
+
+print(grid_sum([1, 2], [10]).tolist())</code></pre></div><template class="ho-check">assert grid_sum([1, 2], [10]).tolist() == [[11, 12]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.meshgrid on x = linspace(-2,2,5) and y = linspace(-1,1,4) and evaluate Z = sin(X)*cos(Y)</label></li>
 <li><label><input type="checkbox"> Use np.ogrid to create open grids for a 7x7 grid and compute the radial distance from the center</label></li>
 <li><label><input type="checkbox"> Create a circular mask on an 8x8 grid where distance from center &lt;= 3 using mgrid</label></li>
 <li><label><input type="checkbox"> Find the (row, col) grid point nearest to a target (x, y) using argmin on a distance field</label></li>
@@ -3538,7 +3686,15 @@ print(&quot;Single-head output shape:&quot;, out1.shape)  # (10, 64)
 
 out2 = multi_head_attention(Q, K, V, n_heads=8)
 print(&quot;Multi-head output shape:&quot;, out2.shape)   # (10, 64)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar, a (4,) row vector, and a (4,1) column vector to a (3,4) matrix — print all three results</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairwise Differences</div><div class="pd">Matrix of a[i] - a[j].</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_1')">Copy</button></div><pre><code id="p25_1" class="language-python">import numpy as np
+
+def pairwise_diff(a):
+    a = np.asarray(a, float)
+    # TODO: a[:, None] - a[None, :]
+    return a
+
+print(pairwise_diff([1, 2]).tolist())</code></pre></div><template class="ho-check">assert pairwise_diff([1, 2]).tolist() == [[0, -1], [1, 0]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a scalar, a (4,) row vector, and a (4,1) column vector to a (3,4) matrix — print all three results</label></li>
 <li><label><input type="checkbox"> Compute the outer product of two 1D arrays using a[:, None] * b[None, :] and verify with np.outer</label></li>
 <li><label><input type="checkbox"> Compute pairwise Euclidean distances between 5 2D points using (pts[:,None,:] - pts[None,:,:]).norm</label></li>
 <li><label><input type="checkbox"> Implement row-wise softmax using broadcasting: exp(x) / exp(x).sum(axis=1, keepdims=True)</label></li>
@@ -3691,7 +3847,14 @@ print(f&quot;Distances computed: {len(distances)}&quot;)
 print(f&quot;Nearest city: {distances.min():.0f} km&quot;)
 print(f&quot;Farthest city: {distances.max():.0f} km&quot;)
 print(f&quot;Average distance from NYC: {distances.mean():.0f} km&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.add.reduce on an array and verify it equals np.sum</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Ufunc Reduce</div><div class="pd">Total using np.add.reduce.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_1')">Copy</button></div><pre><code id="p26_1" class="language-python">import numpy as np
+
+def ufunc_reduce(a):
+    # TODO: np.add.reduce over the array, as a float
+    return 0.0
+
+print(ufunc_reduce([1, 2, 3]))</code></pre></div><template class="ho-check">assert ufunc_reduce([1, 2, 3]) == 6.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use np.add.reduce on an array and verify it equals np.sum</label></li>
 <li><label><input type="checkbox"> Use np.multiply.accumulate to compute a running product (like cumprod)</label></li>
 <li><label><input type="checkbox"> Use np.add.outer on two 1D arrays to get a 2D addition table</label></li>
 <li><label><input type="checkbox"> Wrap a scalar classify(x) function with np.vectorize and apply it to a 500-element array</label></li>
@@ -3840,7 +4003,15 @@ corr = masked_corrcoef(X)
 print(&quot;Pairwise correlations (with per-pair valid observations):&quot;)
 print(corr.round(3))
 print(&quot;Expected corr(0,1) ~ 0.7:&quot;, corr[0, 1].round(2))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a masked array from a list with np.ma.array and a boolean mask — compute the mean</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Masked Mean</div><div class="pd">Mean that ignores masked entries.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_1')">Copy</button></div><pre><code id="p27_1" class="language-python">import numpy as np
+
+def masked_mean(a, mask):
+    m = np.ma.masked_array(np.asarray(a, float), mask=np.asarray(mask, bool))
+    # TODO: return the mean of the masked array as a float
+    return 0.0
+
+print(masked_mean([1, 2, 100], [False, False, True]))</code></pre></div><template class="ho-check">assert masked_mean([1, 2, 100], [False, False, True]) == 1.5
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a masked array from a list with np.ma.array and a boolean mask — compute the mean</label></li>
 <li><label><input type="checkbox"> Use np.ma.masked_where(arr &lt;= 0, arr) to mask non-positive values and apply np.log safely</label></li>
 <li><label><input type="checkbox"> Use np.ma.masked_invalid to mask NaN and Inf in one step and compute nanmean</label></li>
 <li><label><input type="checkbox"> Fill masked values with the column mean using m.filled(fill_value=col_means)</label></li>
@@ -3997,7 +4168,15 @@ inspect_array(s)
 print(&quot;\n=== Reshape safe (from transposed) ===&quot;)
 r = reshape_safe(T, (24,))
 inspect_array(r)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compare .strides of a C-order array vs its transpose — verify they are just swapped</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Strides</div><div class="pd">Byte strides of an array.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_1')">Copy</button></div><pre><code id="p28_1" class="language-python">import numpy as np
+
+def strides_of(a):
+    # TODO: return np.asarray(a).strides as a tuple
+    return ()
+
+print(strides_of(np.zeros((2, 3))))</code></pre></div><template class="ho-check">import numpy as np
+assert len(strides_of(np.zeros((2, 3)))) == 2
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compare .strides of a C-order array vs its transpose — verify they are just swapped</label></li>
 <li><label><input type="checkbox"> Check arr.flags[&#x27;C_CONTIGUOUS&#x27;] on a normal array, a transposed array, and a non-contiguous slice</label></li>
 <li><label><input type="checkbox"> Confirm that a slice is a view (arr.base is not None) while fancy indexing creates a copy</label></li>
 <li><label><input type="checkbox"> Use np.ascontiguousarray on a transposed array and verify it becomes C-contiguous</label></li>
@@ -4165,7 +4344,15 @@ A3 = np.array([[1, 1], [1, 1+1e-10]])
 b3 = np.array([2.0, 2.0])
 x3, lbl3 = solve_system(A3, b3)
 print(f&quot;{lbl3}: cond={condition_number(A3):.2e}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform QR decomposition of a (6,4) matrix and verify A = Q @ R with np.allclose</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Matrix Rank</div><div class="pd">Rank of a matrix.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_1')">Copy</button></div><pre><code id="p29_1" class="language-python">import numpy as np
+
+def matrix_rank(a):
+    # TODO: np.linalg.matrix_rank as an int
+    return 0
+
+print(matrix_rank([[1, 0], [0, 1]]))</code></pre></div><template class="ho-check">assert matrix_rank([[1, 0], [0, 1]]) == 2
+assert matrix_rank([[1, 1], [1, 1]]) == 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Perform QR decomposition of a (6,4) matrix and verify A = Q @ R with np.allclose</label></li>
 <li><label><input type="checkbox"> Use np.linalg.cholesky on a positive-definite matrix and confirm L @ L.T == S</label></li>
 <li><label><input type="checkbox"> Compute the pseudo-inverse of a non-square matrix and verify M @ pinv @ M == M</label></li>
 <li><label><input type="checkbox"> Implement PCA from scratch: center data, compute SVD, project onto top 2 components</label></li>
@@ -4332,7 +4519,12 @@ result = gradient_check(f_vec, df_vec, x0)
 print(&quot;Jacobian check:&quot;, result)
 print(&quot;Numerical J:\n&quot;, jacobian(f_vec, x0).round(6))
 print(&quot;Analytic J:\n&quot;,  df_vec(x0).round(6))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the forward, backward, and central difference approximations of f&#x27;(x) for f=sin at x=pi/4</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Central Difference</div><div class="pd">Numerical derivative of f at x.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_1')">Copy</button></div><pre><code id="p30_1" class="language-python">def central_diff(f, x, h=1e-6):
+    # TODO: (f(x+h) - f(x-h)) / (2h)
+    return 0.0
+
+print(round(central_diff(lambda v: v**3, 2), 3))</code></pre></div><template class="ho-check">assert abs(central_diff(lambda v: v**3, 2) - 12) &lt; 1e-3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the forward, backward, and central difference approximations of f&#x27;(x) for f=sin at x=pi/4</label></li>
 <li><label><input type="checkbox"> Use np.gradient on a 1D array with known f&#x27;(x)=cos(x) and measure the max approximation error</label></li>
 <li><label><input type="checkbox"> Implement gradient descent for f(x,y)=(x-3)^2 + 2*(y+1)^2 and verify convergence to (3,-1)</label></li>
 <li><label><input type="checkbox"> Compute a numerical Jacobian by applying central differences to each input dimension</label></li>
@@ -4511,7 +4703,20 @@ y = (X[:, 0] + 0.5 * X[:, 1] &gt; 0).astype(int)
 result = k_fold_cv(X, y, threshold_model, k=5)
 print(f&quot;5-fold CV: {result[&#x27;mean&#x27;]:.3f} ± {result[&#x27;std&#x27;]:.3f}&quot;)
 print(f&quot;Per-fold: {[round(s,3) for s in result[&#x27;folds&#x27;]]}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert a pandas DataFrame to a NumPy array with .to_numpy() and verify dtype</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Split Indices</div><div class="pd">Shuffle and split indices into train/test.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_1')">Copy</button></div><pre><code id="p31_1" class="language-python">import numpy as np
+
+def train_test_split_idx(n, frac, seed=0):
+    rng = np.random.default_rng(seed)
+    idx = rng.permutation(n)
+    k = int(n * frac)
+    # TODO: return (idx[:k], idx[k:])
+    return (idx, idx)
+
+tr, te = train_test_split_idx(10, 0.7)
+print(len(tr), len(te))</code></pre></div><template class="ho-check">tr, te = train_test_split_idx(10, 0.7)
+assert len(tr) == 7 and len(te) == 3
+assert len(set(tr.tolist()) &amp; set(te.tolist())) == 0, &quot;no overlap&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Convert a pandas DataFrame to a NumPy array with .to_numpy() and verify dtype</label></li>
 <li><label><input type="checkbox"> Implement Z-score normalization using only NumPy: (X - X.mean(0)) / (X.std(0) + 1e-8)</label></li>
 <li><label><input type="checkbox"> Build one-hot encoded labels from a class index array using broadcasting == arange trick</label></li>
 <li><label><input type="checkbox"> Implement a 2-layer neural network forward pass (relu + softmax) using only NumPy operations</label></li>
