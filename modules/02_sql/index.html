@@ -182,7 +182,21 @@ conn.commit()
 # for r in rows:
 #     print(r)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. SELECT &amp; WHERE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SELECT retrieves columns. WHERE filters rows. Use LIKE, IN, BETWEEN, and IS NULL for flexible filtering.</p><div class="code-block"><div class="ch"><span>Basic SELECT and WHERE</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Count</div><div class="pd">Count all rows in the table.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_1')">Copy</button></div><pre><code id="p0_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: count every row
+query = &quot;&quot;&quot;
+SELECT 0 AS n   -- replace me
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(4,)], &quot;count every row&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s1"><div class="th" onclick="tog(this)"><span>2. SELECT &amp; WHERE</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">SELECT retrieves columns. WHERE filters rows. Use LIKE, IN, BETWEEN, and IS NULL for flexible filtering.</p><div class="code-block"><div class="ch"><span>Basic SELECT and WHERE</span><button onclick="cp('c1_0')">Copy</button></div><pre><code id="c1_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, dept TEXT, salary REAL)&quot;)
@@ -1422,7 +1436,22 @@ def transfer(conn, from_id, to_id, amount):
 # for r in conn.execute(&quot;SELECT owner, balance FROM accounts&quot;).fetchall():
 #     print(f&quot;  {r[0]:8s} ${r[1]:.2f}&quot;)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Indexes &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Indexes dramatically speed up queries on large tables. Use EXPLAIN QUERY PLAN to see whether SQLite uses your indexes.</p><div class="code-block"><div class="ch"><span>Measure index speedup</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import sqlite3, time, random
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count After Delete</div><div class="pd">The NULL-val rows were deleted above; count what remains.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+DELETE FROM t WHERE val IS NULL;
+&quot;&quot;&quot;)
+
+# TODO: count the remaining rows
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(3,)], &quot;count the remaining rows&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Indexes &amp; EXPLAIN</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Indexes dramatically speed up queries on large tables. Use EXPLAIN QUERY PLAN to see whether SQLite uses your indexes.</p><div class="code-block"><div class="ch"><span>Measure index speedup</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import sqlite3, time, random
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE events (id INT, user_id INT, event_type TEXT, ts TEXT)&quot;)
@@ -1602,7 +1631,21 @@ conn.commit()
 # ).fetchall()
 # print(&quot;Query plan:&quot;, plan)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. SQLite with Pandas</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas integrates directly with SQLite: read query results into DataFrames with pd.read_sql(), write DataFrames back with .to_sql().</p><div class="code-block"><div class="ch"><span>read_sql and to_sql</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Find Missing Values</div><div class="pd">List names whose val is NULL.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p7_1')">Copy</button></div><pre><code id="p7_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: names where val IS NULL
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add the NULL test
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;d&#x27;,)], &quot;names where val IS NULL&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s8"><div class="th" onclick="tog(this)"><span>9. SQLite with Pandas</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Pandas integrates directly with SQLite: read query results into DataFrames with pd.read_sql(), write DataFrames back with .to_sql().</p><div class="code-block"><div class="ch"><span>read_sql and to_sql</span><button onclick="cp('c8_0')">Copy</button></div><pre><code id="c8_0" class="language-python">import sqlite3
 import pandas as pd
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
@@ -1765,7 +1808,21 @@ conn.commit()
 # df = pd.read_sql(&quot;SELECT * FROM monthly_summary ORDER BY revenue DESC&quot;, conn)
 # print(df.head(3).to_string(index=False))
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Recursive CTEs &amp; Advanced Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Recursive CTEs traverse hierarchical data (org charts, tree structures). CASE expressions and COALESCE handle conditional logic elegantly.</p><div class="code-block"><div class="ch"><span>Recursive CTE — org hierarchy</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import sqlite3
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Rows Per Category</div><div class="pd">Count rows per category, ordered by category.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: cat and COUNT(*) grouped by cat, ordered by cat
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- GROUP BY with a count
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 2), (&#x27;y&#x27;, 2)], &quot;cat and COUNT(*) grouped by cat, ordered by cat&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Recursive CTEs &amp; Advanced Patterns</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Recursive CTEs traverse hierarchical data (org charts, tree structures). CASE expressions and COALESCE handle conditional logic elegantly.</p><div class="code-block"><div class="ch"><span>Recursive CTE — org hierarchy</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import sqlite3
 
 conn = sqlite3.connect(&quot;:memory:&quot;)
 conn.execute(&quot;CREATE TABLE emp (id INT, name TEXT, mgr_id INT, salary REAL)&quot;)
@@ -1938,7 +1995,21 @@ conn.commit()
 # for r in rows:
 #     print(f&quot;  {r[0]:8s}  total=${r[1]:,}  performance={r[2]}&quot;)
 
-conn.close()</code></pre></div></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Common Table Expressions (CTEs)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write readable, modular SQL with WITH clauses. Break complex queries into named steps and use recursive CTEs for hierarchical data.</p><div class="code-block"><div class="ch"><span>Basic CTE to simplify a complex query</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import sqlite3, pandas as pd
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generate a Series</div><div class="pd">Produce the numbers 1..5 with a recursive CTE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: use a recursive CTE to yield 1 through 5
+query = &quot;&quot;&quot;
+SELECT 1 AS i   -- build the recursive CTE
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(1,), (2,), (3,), (4,), (5,)], &quot;use a recursive CTE to yield 1 through 5&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s10"><div class="th" onclick="tog(this)"><span>11. Common Table Expressions (CTEs)</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Write readable, modular SQL with WITH clauses. Break complex queries into named steps and use recursive CTEs for hierarchical data.</p><div class="code-block"><div class="ch"><span>Basic CTE to simplify a complex query</span><button onclick="cp('c10_0')">Copy</button></div><pre><code id="c10_0" class="language-python">import sqlite3, pandas as pd
 
 conn = sqlite3.connect(&#x27;:memory:&#x27;)
 conn.executescript(&quot;&quot;&quot;
@@ -2075,7 +2146,21 @@ query = &quot;&quot;&quot;
 &quot;&quot;&quot;
 # df = pd.read_sql(query, conn)
 # print(df.to_string(index=False))
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Rewrite a nested subquery as a CTE and verify both produce the same result</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: CTE Count</div><div class="pd">Count the non-NULL rows via a CTE.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: wrap the val IS NOT NULL filter in a WITH clause, then count
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- use a WITH clause
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(3,)], &quot;wrap the val IS NOT NULL filter in a WITH clause, then count&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Rewrite a nested subquery as a CTE and verify both produce the same result</label></li>
 <li><label><input type="checkbox"> Chain two CTEs where the second CTE references the first by name</label></li>
 <li><label><input type="checkbox"> Write a recursive CTE that builds a depth-first org-chart hierarchy</label></li>
 <li><label><input type="checkbox"> Use a CTE to compute a group average, then reference it in the main SELECT for comparison</label></li>
@@ -2184,7 +2269,21 @@ query = &quot;&quot;&quot;
 &quot;&quot;&quot;
 # df = pd.read_sql(query, conn)
 # print(df.to_string(index=False))
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use DENSE_RANK() OVER (PARTITION BY region ORDER BY revenue DESC) and explain ties</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row Number</div><div class="pd">Number the rows in id order and show only the first.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: add ROW_NUMBER() OVER (ORDER BY id), limited to one row
+query = &quot;&quot;&quot;
+SELECT name FROM t LIMIT 1   -- add the window function
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;, 1)], &quot;add ROW_NUMBER() OVER (ORDER BY id), limited to one row&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use DENSE_RANK() OVER (PARTITION BY region ORDER BY revenue DESC) and explain ties</label></li>
 <li><label><input type="checkbox"> Compute a 3-day moving average using AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)</label></li>
 <li><label><input type="checkbox"> Use LAG(revenue) to calculate month-over-month growth as a percentage</label></li>
 <li><label><input type="checkbox"> Use LEAD(revenue) to show what next month&#x27;s revenue will be relative to the current row</label></li>
@@ -2298,7 +2397,21 @@ q = &#x27;SELECT * FROM orders WHERE customer_id = 42&#x27;
 # TODO: time query with index
 # TODO: EXPLAIN QUERY PLAN after index
 # TODO: print speedup factor
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run EXPLAIN QUERY PLAN on a query without an index and identify the &#x27;SCAN TABLE&#x27; step</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Limit and Offset</div><div class="pd">Skip the first row and take the next two names.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: order by id, skip 1, take 2
+query = &quot;&quot;&quot;
+SELECT name FROM t ORDER BY id   -- add LIMIT and OFFSET
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,), (&#x27;c&#x27;,)], &quot;order by id, skip 1, take 2&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run EXPLAIN QUERY PLAN on a query without an index and identify the &#x27;SCAN TABLE&#x27; step</label></li>
 <li><label><input type="checkbox"> Add an index and re-run EXPLAIN QUERY PLAN to confirm it switches to &#x27;SEARCH TABLE&#x27;</label></li>
 <li><label><input type="checkbox"> Rewrite an N+1 pattern as a single JOIN and measure the time difference</label></li>
 <li><label><input type="checkbox"> Compare EXISTS vs IN for a subquery and check which the planner prefers</label></li>
@@ -2387,7 +2500,22 @@ conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: EXPLAIN QUERY PLAN before index
 # TODO: CREATE INDEX idx_cust ON orders(customer_id)
 # TODO: time query with index, print speedup
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use EXPLAIN QUERY PLAN before and after adding an index to compare execution strategy</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Index Then Count</div><div class="pd">An index on cat exists; count the x rows.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+CREATE INDEX idx_cat ON t(cat);
+&quot;&quot;&quot;)
+
+# TODO: count rows where cat is x
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- add the WHERE
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(2,)], &quot;count rows where cat is x&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use EXPLAIN QUERY PLAN before and after adding an index to compare execution strategy</label></li>
 <li><label><input type="checkbox"> Time a 100K-row query with and without an index and print the speedup factor</label></li>
 <li><label><input type="checkbox"> Create a composite index on two filter columns and verify it covers both</label></li>
 <li><label><input type="checkbox"> Find and rewrite an N+1 query pattern in your own code using a single JOIN</label></li>
@@ -2470,7 +2598,21 @@ conn.executemany(&#x27;INSERT INTO rep_sales VALUES (?,?,?)&#x27;, rows)
 # TODO: get distinct quarters dynamically
 # TODO: build CASE WHEN pivot query
 # TODO: read to DataFrame and print
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a pivot using SUM(CASE WHEN quarter=&#x27;Q1&#x27; THEN revenue ELSE 0 END) for each quarter</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Conditional Total</div><div class="pd">Total val for category x using CASE inside SUM.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: sum val only for cat x, using CASE inside SUM
+query = &quot;&quot;&quot;
+SELECT SUM(val) FROM t   -- make it conditional on cat
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(40,)], &quot;sum val only for cat x, using CASE inside SUM&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a pivot using SUM(CASE WHEN quarter=&#x27;Q1&#x27; THEN revenue ELSE 0 END) for each quarter</label></li>
 <li><label><input type="checkbox"> Unpivot a wide table to long format using UNION ALL with a literal label column</label></li>
 <li><label><input type="checkbox"> Dynamically build a pivot query in Python by querying distinct column values first</label></li>
 <li><label><input type="checkbox"> Add a &#x27;Total&#x27; column to the pivot by summing all CASE WHEN columns</label></li>
@@ -2556,7 +2698,24 @@ conn = sqlite3.connect(&#x27;:memory:&#x27;)
 # TODO: CREATE TRIGGER log_large after INSERT on transactions WHEN amount &gt; 1000
 # TODO: enforce non-negative balance via CHECK or trigger
 # TODO: insert test transactions, show results
-conn.close()</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an AFTER UPDATE trigger that writes changed values to an audit log table</label></li>
+conn.close()</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Trigger Fired</div><div class="pd">A trigger logged the insert above; count the log rows.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+CREATE TABLE log(msg TEXT);
+CREATE TRIGGER tr AFTER INSERT ON t BEGIN INSERT INTO log VALUES(&#x27;ins&#x27;); END;
+INSERT INTO t VALUES (5,&#x27;e&#x27;,&#x27;x&#x27;,5,&#x27;2024-04-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: count the rows the trigger wrote into log
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- query log instead
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(1,)], &quot;count the rows the trigger wrote into log&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an AFTER UPDATE trigger that writes changed values to an audit log table</label></li>
 <li><label><input type="checkbox"> Create an AFTER INSERT trigger that deducts from an inventory table automatically</label></li>
 <li><label><input type="checkbox"> Write a trigger that raises an error when a CHECK-like condition is violated</label></li>
 <li><label><input type="checkbox"> Create an INSTEAD OF trigger on a view to intercept and redirect updates</label></li>
@@ -2751,7 +2910,21 @@ print(&quot;=== Cheapest per Category ===&quot;)
 # 3. Categories with avg margin &gt; 30%
 print(&quot;=== High-Margin Categories ===&quot;)
 # TODO: derived table with margin calc, then filter
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a correlated subquery in WHERE to find employees earning above their department average</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Row With The Max</div><div class="pd">Name of the row holding the largest val.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: name where val equals the MAX(val) scalar subquery
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add WHERE with a subquery
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;b&#x27;,)], &quot;name where val equals the MAX(val) scalar subquery&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a correlated subquery in WHERE to find employees earning above their department average</label></li>
 <li><label><input type="checkbox"> Use EXISTS to find rows in one table that have at least one matching row in another</label></li>
 <li><label><input type="checkbox"> Rewrite a correlated subquery as a JOIN and verify both produce the same rows</label></li>
 <li><label><input type="checkbox"> Use a subquery in FROM (derived table) to filter aggregated results with WHERE</label></li>
@@ -2957,7 +3130,21 @@ rows = run(&#x27;&#x27;&#x27;
     FROM people
 &#x27;&#x27;&#x27;)
 for r in rows: print(r)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LOWER(TRIM(email)) to normalize a messy email column in a single query</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Prefix Match</div><div class="pd">Names starting with the letter a.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: names matching LIKE &#x27;a%&#x27;
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add the LIKE test
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;,)], &quot;names matching LIKE &#x27;a%&#x27;&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LOWER(TRIM(email)) to normalize a messy email column in a single query</label></li>
 <li><label><input type="checkbox"> Use SUBSTR and INSTR to extract the domain part from an email address column</label></li>
 <li><label><input type="checkbox"> Chain REPLACE calls to strip parentheses, dashes, and dots from a phone number field</label></li>
 <li><label><input type="checkbox"> Write a LIKE pattern with % and _ wildcards and compare results with an equivalent GLOB pattern</label></li>
@@ -3167,7 +3354,21 @@ for r in rows: print(f&quot;  {r}&quot;)
 
 # 3. TODO: rooms booked &gt; 80% of Q2 days
 # 4. TODO: return visits within 6 months
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use STRFTIME(&#x27;%Y-%m&#x27;, date_col) to bucket rows by month and group them</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Year-Month</div><div class="pd">Format the date of row 1 as YYYY-MM.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: use strftime to format d as YYYY-MM for id 1
+query = &quot;&quot;&quot;
+SELECT d FROM t WHERE id = 1   -- format it
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;2024-01&#x27;,)], &quot;use strftime to format d as YYYY-MM for id 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use STRFTIME(&#x27;%Y-%m&#x27;, date_col) to bucket rows by month and group them</label></li>
 <li><label><input type="checkbox"> Calculate the number of days between two date columns using JULIANDAY(end) - JULIANDAY(start)</label></li>
 <li><label><input type="checkbox"> Use DATE(&#x27;now&#x27;, &#x27;-30 days&#x27;) to filter for rows in the last 30 days</label></li>
 <li><label><input type="checkbox"> Extract year, month, and day from a date column using STRFTIME and verify with sample data</label></li>
@@ -3376,7 +3577,21 @@ for r in rows: print(f&quot;  {r}&quot;)
 # 2. TODO: letter grade + needs_review flag
 # 3. TODO: weakest subject per student
 # 4. TODO: students passing all subjects
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a CASE WHEN to assign letter grades (A/B/C/D/F) from a numeric score column</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Label Rows</div><div class="pd">Label row 1 as hi when val is at least 20, else lo.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: use CASE WHEN on val for id 1
+query = &quot;&quot;&quot;
+SELECT &#x27;lo&#x27; FROM t WHERE id = 1   -- use CASE WHEN
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;lo&#x27;,)], &quot;use CASE WHEN on val for id 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a CASE WHEN to assign letter grades (A/B/C/D/F) from a numeric score column</label></li>
 <li><label><input type="checkbox"> Use SUM(CASE WHEN status=&#x27;completed&#x27; THEN 1 ELSE 0 END) to count a filtered subset</label></li>
 <li><label><input type="checkbox"> Replace CASE WHEN with IIF() (SQLite 3.32+) and confirm the same output</label></li>
 <li><label><input type="checkbox"> Use COALESCE(col, 0) to replace NULLs with zero before aggregating</label></li>
@@ -3613,7 +3828,21 @@ rows = run(&#x27;&#x27;&#x27;
 print(&quot;All unique users:&quot;, [r[0] for r in rows])
 
 # 4. TODO: Exactly 2 of 3 months
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write UNION and UNION ALL on two tables and compare the row counts to understand deduplication</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Union of Categories</div><div class="pd">Combine two category queries with UNION.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: UNION the cat x and cat y selections, ordered
+query = &quot;&quot;&quot;
+SELECT cat FROM t WHERE cat=&#x27;x&#x27;   -- UNION with the y query
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;,), (&#x27;y&#x27;,)], &quot;UNION the cat x and cat y selections, ordered&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write UNION and UNION ALL on two tables and compare the row counts to understand deduplication</label></li>
 <li><label><input type="checkbox"> Use INTERSECT to find customers who placed orders in both January and February</label></li>
 <li><label><input type="checkbox"> Use EXCEPT to find rows in one table that have no match in another table</label></li>
 <li><label><input type="checkbox"> Chain INTERSECT and EXCEPT to solve &#x27;active in 2 of 3 months&#x27; without a GROUP BY</label></li>
@@ -3877,7 +4106,21 @@ rows = run(&#x27;&#x27;&#x27;
 &#x27;&#x27;&#x27;)
 print(&quot;Revenue alerts (&gt;20% below 3-month MA):&quot;)
 for r in rows: print(f&quot;  {r[0]} {r[1]}: ${r[2]} vs MA ${r[3]} ({r[4]}%)&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 chained CTEs where each one builds on the previous step</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chained CTEs</div><div class="pd">Chain two CTEs and count the result.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: chain two WITH clauses, the second keeping val above 15
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- chain two WITH clauses
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(2,)], &quot;chain two WITH clauses, the second keeping val above 15&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write 3 chained CTEs where each one builds on the previous step</label></li>
 <li><label><input type="checkbox"> Use ROW_NUMBER() inside a CTE to filter for only the top row per group</label></li>
 <li><label><input type="checkbox"> Build a multi-step data cleaning pipeline entirely within CTEs (no temp tables)</label></li>
 <li><label><input type="checkbox"> Write a recursive CTE to count the total number of direct and indirect reports per manager</label></li>
@@ -4098,7 +4341,22 @@ print(&quot;=== Regional Summary ===&quot;)
 for r in run(&#x27;SELECT * FROM regional_summary ORDER BY total DESC&#x27;): print(f&quot;  {r}&quot;)
 
 # 3. TODO: top products view
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a VIEW that joins two tables and query it as if it were a regular table</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Query a View</div><div class="pd">Select from the view v defined above.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+CREATE VIEW v AS SELECT name FROM t WHERE cat=&#x27;x&#x27;;
+&quot;&quot;&quot;)
+
+# TODO: select every name from the view v
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- query the view instead
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;,), (&#x27;b&#x27;,)], &quot;select every name from the view v&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create a VIEW that joins two tables and query it as if it were a regular table</label></li>
 <li><label><input type="checkbox"> Query sqlite_master to list all views in a database</label></li>
 <li><label><input type="checkbox"> Simulate a materialized view by creating a physical table with CREATE TABLE AS SELECT</label></li>
 <li><label><input type="checkbox"> Drop a VIEW and verify the underlying base tables are unaffected</label></li>
@@ -4334,7 +4592,22 @@ except Exception as e:
 
 # 3. TODO: UPSERT to create or update an account balance
 print(&quot;Current balance:&quot;, run(&quot;SELECT balance FROM accounts WHERE id=1&quot;)[0][0])
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a CHECK constraint to ensure a price column stays positive and test the violation</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Unique Constraint</div><div class="pd">The duplicate insert was rejected; count what stuck.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE u(id INT PRIMARY KEY, e TEXT UNIQUE NOT NULL);
+INSERT INTO u VALUES (1,&#x27;a&#x27;);
+INSERT OR IGNORE INTO u VALUES (2,&#x27;a&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: count the rows in u
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM u
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(1,)], &quot;count the rows in u&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Add a CHECK constraint to ensure a price column stays positive and test the violation</label></li>
 <li><label><input type="checkbox"> Create a UNIQUE index and try inserting a duplicate to observe the error message</label></li>
 <li><label><input type="checkbox"> Enable PRAGMA foreign_keys = ON and test that a DELETE on a parent row is blocked</label></li>
 <li><label><input type="checkbox"> Use ON DELETE CASCADE on a foreign key and verify child rows are removed automatically</label></li>
@@ -4414,7 +4687,21 @@ for r in rows: print(r)
 runmany(&#x27;INSERT INTO transactions VALUES (?,?,?)&#x27;, [
     (1,&#x27;credit&#x27;,500),(2,&#x27;debit&#x27;,200),(3,&#x27;credit&#x27;,300),(4,&#x27;debit&#x27;,150)])
 # Write your FILTER aggregation query here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use the FILTER(WHERE ...) clause with SUM to compute conditional totals in one query</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Average Per Category</div><div class="pd">Average val per category, ignoring NULLs.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p24_1')">Copy</button></div><pre><code id="p24_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: cat and AVG(val) where val is not null, grouped and ordered by cat
+query = &quot;&quot;&quot;
+SELECT cat FROM t   -- add AVG and GROUP BY
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 20.0), (&#x27;y&#x27;, 20.0)], &quot;cat and AVG(val) where val is not null, grouped and ordered by cat&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use the FILTER(WHERE ...) clause with SUM to compute conditional totals in one query</label></li>
 <li><label><input type="checkbox"> Emulate ROLLUP with UNION ALL to add subtotals and a grand total row</label></li>
 <li><label><input type="checkbox"> Use PERCENT_RANK() or approximate it using RANK() / COUNT(*) OVER() for a relative rank</label></li>
 <li><label><input type="checkbox"> Write multi-dimensional conditional aggregation combining SUM(CASE WHEN) for a pivot</label></li>
@@ -4502,7 +4789,21 @@ runmany(&#x27;INSERT INTO staff VALUES (?,?,?,?)&#x27;, [
     (1,&#x27;Alice&#x27;,&#x27;Eng&#x27;,9000),(2,&#x27;Bob&#x27;,&#x27;Eng&#x27;,7000),
     (3,&#x27;Carol&#x27;,&#x27;HR&#x27;,8000),(4,&#x27;Dave&#x27;,&#x27;HR&#x27;,6000)])
 # Write a non-equi self-join here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a self-join on an employees table to show each employee and their manager&#x27;s name</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairs In A Category</div><div class="pd">Count distinct same-category pairs with a self-join.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p25_1')">Copy</button></div><pre><code id="p25_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: self-join t on matching cat with a.id below b.id, then count
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- self-join instead
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(2,)], &quot;self-join t on matching cat with a.id below b.id, then count&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Write a self-join on an employees table to show each employee and their manager&#x27;s name</label></li>
 <li><label><input type="checkbox"> Use a non-equi join (a.salary &gt; b.salary AND a.dept = b.dept) to find higher earners in each dept</label></li>
 <li><label><input type="checkbox"> Write a range join to match orders to the correct price row based on valid_from / valid_to dates</label></li>
 <li><label><input type="checkbox"> Find overlapping date intervals using a self-join with start &lt; other.end AND end &gt; other.start</label></li>
@@ -4571,7 +4872,21 @@ runmany(&#x27;INSERT INTO visits VALUES (?,?,?)&#x27;, [
     (1,&#x27;2024-01-01&#x27;,5),(1,&#x27;2024-01-05&#x27;,8),(1,&#x27;2024-01-12&#x27;,3),
     (2,&#x27;2024-01-02&#x27;,10),(2,&#x27;2024-01-10&#x27;,7)])
 # Write LAG and MAX window functions here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LAG(close, 1) to compute the daily price change for a stock price series</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Previous Value</div><div class="pd">Name plus the previous row&#x27;s val, first two rows.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p26_1')">Copy</button></div><pre><code id="p26_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: add LAG(val) OVER (ORDER BY id), limited to 2 rows
+query = &quot;&quot;&quot;
+SELECT name FROM t ORDER BY id LIMIT 2   -- add LAG
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;, None), (&#x27;b&#x27;, 10)], &quot;add LAG(val) OVER (ORDER BY id), limited to 2 rows&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use LAG(close, 1) to compute the daily price change for a stock price series</label></li>
 <li><label><input type="checkbox"> Compute a 3-period rolling average with ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</label></li>
 <li><label><input type="checkbox"> Use LEAD to show what next month&#x27;s target is compared to the current month&#x27;s revenue</label></li>
 <li><label><input type="checkbox"> Use FIRST_VALUE and LAST_VALUE with UNBOUNDED PRECEDING/FOLLOWING to anchor comparisons</label></li>
@@ -4667,7 +4982,21 @@ for r in rows: print(r)
 # run(&#x27;&#x27;&#x27;CREATE TABLE products ...&#x27;&#x27;&#x27;)
 # run(&#x27;&#x27;&#x27;CREATE TABLE orders ...&#x27;&#x27;&#x27;)
 # run(&#x27;&#x27;&#x27;CREATE TABLE order_items ...&#x27;&#x27;&#x27;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Identify a 1NF violation in a table with a comma-separated column and split it correctly</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Distinct Categories</div><div class="pd">How many distinct categories exist?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p27_1')">Copy</button></div><pre><code id="p27_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: count the distinct cat values
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- count distinct categories
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(2,)], &quot;count the distinct cat values&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Identify a 1NF violation in a table with a comma-separated column and split it correctly</label></li>
 <li><label><input type="checkbox"> Find a 2NF violation (partial dependency) and move the dependent column to its own table</label></li>
 <li><label><input type="checkbox"> Spot a 3NF violation (transitive dependency) and extract the transitively dependent column</label></li>
 <li><label><input type="checkbox"> Use PRAGMA foreign_key_list(&#x27;table_name&#x27;) to inspect FK relationships programmatically</label></li>
@@ -4750,7 +5079,21 @@ runmany(&#x27;INSERT INTO logs VALUES (?,?)&#x27;, [
     (3,json.dumps({&#x27;level&#x27;:&#x27;ERROR&#x27;,&#x27;message&#x27;:&#x27;Timeout&#x27;,&#x27;timestamp&#x27;:&#x27;2024-01-01T09:10:00&#x27;})),
 ])
 # Write your json_extract filter query here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use json_extract(payload, &#x27;$.user&#x27;) to read a top-level field from a JSON column</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract JSON Field</div><div class="pd">Read a field out of a JSON string.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p28_1')">Copy</button></div><pre><code id="p28_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: use json_extract to read $.a from the JSON literal
+query = &quot;&quot;&quot;
+SELECT 0   -- use json_extract
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(1,)], &quot;use json_extract to read $.a from the JSON literal&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Use json_extract(payload, &#x27;$.user&#x27;) to read a top-level field from a JSON column</label></li>
 <li><label><input type="checkbox"> Access a nested field with json_extract(payload, &#x27;$.meta.ip&#x27;) and verify the output</label></li>
 <li><label><input type="checkbox"> Access the first element of a JSON array with json_extract(payload, &#x27;$.tags[0]&#x27;)</label></li>
 <li><label><input type="checkbox"> Use json_set to modify an existing field and json.loads in Python to confirm the change</label></li>
@@ -4833,7 +5176,21 @@ runmany(&#x27;INSERT INTO recipes VALUES (?,?,?)&#x27;, [
     (&#x27;Stir Fry&#x27;,&#x27;garlic ginger soy sauce vegetables&#x27;,&#x27;stir fry on high heat&#x27;),
 ])
 # Write your FTS5 AND query here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an FTS5 virtual table and insert 5 rows, then run a basic MATCH search</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pattern Class</div><div class="pd">Names matching the GLOB character class.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p29_1')">Copy</button></div><pre><code id="p29_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: names matching GLOB &#x27;[a-b]&#x27;
+query = &quot;&quot;&quot;
+SELECT name FROM t   -- add the GLOB test
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;a&#x27;,), (&#x27;b&#x27;,)], &quot;names matching GLOB &#x27;[a-b]&#x27;&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Create an FTS5 virtual table and insert 5 rows, then run a basic MATCH search</label></li>
 <li><label><input type="checkbox"> Use column-specific FTS5 search with &#x27;title:keyword&#x27; and verify only title matches return</label></li>
 <li><label><input type="checkbox"> Use prefix search (&#x27;key*&#x27;) in FTS5 to match all words beginning with a string</label></li>
 <li><label><input type="checkbox"> Combine AND and OR in a MATCH expression and verify the correct rows are returned</label></li>
@@ -4943,7 +5300,21 @@ plan = run(&#x27;&#x27;&#x27;EXPLAIN QUERY PLAN
     WHERE account_id=5 AND type=&#x27;debit&#x27; ORDER BY created_at&#x27;&#x27;&#x27;)
 for p in plan: print(p)
 # Add your index here
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Benchmark a query on 5,000 rows before and after adding a single-column index</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Count With Filter</div><div class="pd">Count rows above a threshold.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p30_1')">Copy</button></div><pre><code id="p30_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: count rows where val is greater than 15
+query = &quot;&quot;&quot;
+SELECT COUNT(*) FROM t   -- add the WHERE
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(2,)], &quot;count rows where val is greater than 15&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Benchmark a query on 5,000 rows before and after adding a single-column index</label></li>
 <li><label><input type="checkbox"> Run EXPLAIN QUERY PLAN and identify whether the plan says &#x27;SCAN&#x27; or &#x27;SEARCH&#x27;</label></li>
 <li><label><input type="checkbox"> Create a composite index and check if EXPLAIN QUERY PLAN uses it for both filter columns</label></li>
 <li><label><input type="checkbox"> Add a covering index that includes all selected columns to avoid any table access</label></li>
@@ -5054,7 +5425,21 @@ runmany(&#x27;INSERT INTO web_logs VALUES (?,?,?,?,?)&#x27;, [
     (9,2,&#x27;home&#x27;,80,&#x27;2024-01-02&#x27;),(10,3,&#x27;shop&#x27;,50,&#x27;2024-01-02&#x27;),
 ])
 # Write your query: filter &gt;30s, count per user/day, window max
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Ingest a CSV with dirty numeric strings into SQL and clean them using REPLACE and CAST</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Groups Above A Total</div><div class="pd">Categories whose non-NULL total exceeds 25.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p31_1')">Copy</button></div><pre><code id="p31_1" class="language-python">import sqlite3
+con = sqlite3.connect(&quot;:memory:&quot;)
+con.executescript(&quot;&quot;&quot;
+CREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);
+INSERT INTO t VALUES (1,&#x27;a&#x27;,&#x27;x&#x27;,10,&#x27;2024-01-05&#x27;),(2,&#x27;b&#x27;,&#x27;x&#x27;,30,&#x27;2024-02-10&#x27;),(3,&#x27;c&#x27;,&#x27;y&#x27;,20,&#x27;2024-02-20&#x27;),(4,&#x27;d&#x27;,&#x27;y&#x27;,NULL,&#x27;2024-03-01&#x27;);
+&quot;&quot;&quot;)
+
+# TODO: group by cat, sum val ignoring nulls, keep totals above 25
+query = &quot;&quot;&quot;
+SELECT cat, SUM(val) FROM t GROUP BY cat   -- add the filter and HAVING
+&quot;&quot;&quot;
+
+rows = con.execute(query).fetchall()
+print(rows)</code></pre></div><template class="ho-check">assert rows == [(&#x27;x&#x27;, 40)], &quot;group by cat, sum val ignoring nulls, keep totals above 25&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Ingest a CSV with dirty numeric strings into SQL and clean them using REPLACE and CAST</label></li>
 <li><label><input type="checkbox"> Compute monthly totals and a cumulative running total using a CTE and SUM() OVER()</label></li>
 <li><label><input type="checkbox"> Compare each rep&#x27;s total to their regional average using AVG() OVER (PARTITION BY region)</label></li>
 <li><label><input type="checkbox"> Pivot survey data from long to wide format using MAX(CASE WHEN question=&#x27;Q1&#x27; THEN score END)</label></li>

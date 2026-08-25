@@ -117,6 +117,14 @@ SECTIONS = [
 
 {
 "title": "1. Setup with sqlite3",
+"practices": [
+{
+"title": 'Row Count',
+"desc": 'Count all rows in the table.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: count every row\nquery = """\nSELECT 0 AS n   -- replace me\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(4,)], "count every row"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Python's built-in sqlite3 module connects to relational databases — no server needed. Use :memory: for prototyping.",
 "examples": [
 {"label": "Connect, create table, insert rows", "code":
@@ -1358,6 +1366,14 @@ conn.close()"""}
 
 {
 "title": "7. UPDATE & DELETE",
+"practices": [
+{
+"title": 'Count After Delete',
+"desc": 'The NULL-val rows were deleted above; count what remains.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\nDELETE FROM t WHERE val IS NULL;\n""")\n\n# TODO: count the remaining rows\nquery = """\nSELECT COUNT(*) FROM t\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(3,)], "count the remaining rows"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "UPDATE modifies existing rows. DELETE removes rows. Always use WHERE — without it you affect the entire table.",
 "examples": [
 {"label": "UPDATE with conditions", "code":
@@ -1562,6 +1578,14 @@ conn.close()"""}
 
 {
 "title": "8. Indexes & EXPLAIN",
+"practices": [
+{
+"title": 'Find Missing Values',
+"desc": 'List names whose val is NULL.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: names where val IS NULL\nquery = """\nSELECT name FROM t   -- add the NULL test\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'d\',)], "names where val IS NULL"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Indexes dramatically speed up queries on large tables. Use EXPLAIN QUERY PLAN to see whether SQLite uses your indexes.",
 "examples": [
 {"label": "Measure index speedup", "code":
@@ -1775,6 +1799,14 @@ conn.close()"""}
 
 {
 "title": "9. SQLite with Pandas",
+"practices": [
+{
+"title": 'Rows Per Category',
+"desc": 'Count rows per category, ordered by category.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: cat and COUNT(*) grouped by cat, ordered by cat\nquery = """\nSELECT cat FROM t   -- GROUP BY with a count\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 2), (\'y\', 2)], "cat and COUNT(*) grouped by cat, ordered by cat"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Pandas integrates directly with SQLite: read query results into DataFrames with pd.read_sql(), write DataFrames back with .to_sql().",
 "examples": [
 {"label": "read_sql and to_sql", "code":
@@ -1971,6 +2003,14 @@ conn.close()"""}
 
 {
 "title": "10. Recursive CTEs & Advanced Patterns",
+"practices": [
+{
+"title": 'Generate a Series',
+"desc": 'Produce the numbers 1..5 with a recursive CTE.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: use a recursive CTE to yield 1 through 5\nquery = """\nSELECT 1 AS i   -- build the recursive CTE\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(1,), (2,), (3,), (4,), (5,)], "use a recursive CTE to yield 1 through 5"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Recursive CTEs traverse hierarchical data (org charts, tree structures). CASE expressions and COALESCE handle conditional logic elegantly.",
 "examples": [
 {"label": "Recursive CTE — org hierarchy", "code":
@@ -2185,6 +2225,14 @@ conn.close()"""}
         "Benchmark a complex CTE query vs its equivalent subquery version and compare readability",
     ],
     "title": "11. Common Table Expressions (CTEs)",
+"practices": [
+{
+"title": 'CTE Count',
+"desc": 'Count the non-NULL rows via a CTE.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: wrap the val IS NOT NULL filter in a WITH clause, then count\nquery = """\nSELECT COUNT(*) FROM t   -- use a WITH clause\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(3,)], "wrap the val IS NOT NULL filter in a WITH clause, then count"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Write readable, modular SQL with WITH clauses. Break complex queries into named steps and use recursive CTEs for hierarchical data.",
     "examples": [
         {
@@ -2221,6 +2269,14 @@ conn.close()"""}
         "Assign customers to quartiles with NTILE(4) and compare quartile revenue averages",
     ],
     "title": "12. Window Functions",
+"practices": [
+{
+"title": 'Row Number',
+"desc": 'Number the rows in id order and show only the first.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: add ROW_NUMBER() OVER (ORDER BY id), limited to one row\nquery = """\nSELECT name FROM t LIMIT 1   -- add the window function\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\', 1)], "add ROW_NUMBER() OVER (ORDER BY id), limited to one row"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Perform calculations across related rows without collapsing them — rankings, running totals, lag/lead comparisons, and moving averages.",
     "examples": [
         {
@@ -2257,6 +2313,14 @@ conn.close()"""}
         "Create a covering index that includes all columns used by a query and verify no table scan",
     ],
     "title": "13. Query Optimization",
+"practices": [
+{
+"title": 'Limit and Offset',
+"desc": 'Skip the first row and take the next two names.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: order by id, skip 1, take 2\nquery = """\nSELECT name FROM t ORDER BY id   -- add LIMIT and OFFSET\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',), (\'c\',)], "order by id, skip 1, take 2"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Write faster SQL — understand EXPLAIN QUERY PLAN, use indexes effectively, and rewrite slow patterns as efficient alternatives.",
     "examples": [
         {
@@ -2294,6 +2358,14 @@ conn.close()"""}
         "Run ANALYZE after inserting data to update the query planner's row count estimates",
     ],
     "title": "14. Query Optimization & Indexing",
+"practices": [
+{
+"title": 'Index Then Count',
+"desc": 'An index on cat exists; count the x rows.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\nCREATE INDEX idx_cat ON t(cat);\n""")\n\n# TODO: count rows where cat is x\nquery = """\nSELECT COUNT(*) FROM t   -- add the WHERE\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(2,)], "count rows where cat is x"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "EXPLAIN QUERY PLAN",
@@ -2329,6 +2401,14 @@ conn.close()"""}
         "Cross-tabulate a survey with percentage columns using SUM and COUNT in one query",
     ],
     "title": "15. Pivoting & Unpivoting",
+"practices": [
+{
+"title": 'Conditional Total',
+"desc": 'Total val for category x using CASE inside SUM.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: sum val only for cat x, using CASE inside SUM\nquery = """\nSELECT SUM(val) FROM t   -- make it conditional on cat\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(40,)], "sum val only for cat x, using CASE inside SUM"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Pivot with CASE WHEN",
@@ -2364,6 +2444,14 @@ conn.close()"""}
         "Inspect all triggers in a database using SELECT * FROM sqlite_master WHERE type='trigger'",
     ],
     "title": "16. Triggers & Database Automation",
+"practices": [
+{
+"title": 'Trigger Fired',
+"desc": 'A trigger logged the insert above; count the log rows.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\nCREATE TABLE log(msg TEXT);\nCREATE TRIGGER tr AFTER INSERT ON t BEGIN INSERT INTO log VALUES(\'ins\'); END;\nINSERT INTO t VALUES (5,\'e\',\'x\',5,\'2024-04-01\');\n""")\n\n# TODO: count the rows the trigger wrote into log\nquery = """\nSELECT COUNT(*) FROM t   -- query log instead\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(1,)], "count the rows the trigger wrote into log"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Audit log trigger on price UPDATE",
@@ -2399,6 +2487,14 @@ conn.close()"""}
         "Place a scalar subquery in the SELECT list to add a company-wide comparison column",
     ],
     "title": "17. Subqueries in Depth",
+"practices": [
+{
+"title": 'Row With The Max',
+"desc": 'Name of the row holding the largest val.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: name where val equals the MAX(val) scalar subquery\nquery = """\nSELECT name FROM t   -- add WHERE with a subquery\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'b\',)], "name where val equals the MAX(val) scalar subquery"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Subqueries (nested SELECT) can appear in WHERE, FROM, SELECT, and HAVING clauses. Master scalar, column, table, and correlated subqueries for complex filtering and derived metrics.",
     "examples": [
         {"label": "Scalar and column subqueries in WHERE", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE sales (id INTEGER, rep TEXT, amount REAL, region TEXT)\'\'\')\nrunmany(\'INSERT INTO sales VALUES (?,?,?,?)\', [\n    (1,\'Alice\',1200,\'North\'),(2,\'Bob\',800,\'South\'),(3,\'Carol\',1500,\'North\'),\n    (4,\'Dave\',600,\'South\'),(5,\'Eve\',2000,\'North\'),(6,\'Frank\',950,\'East\'),\n])\n\n# Scalar subquery: single value in WHERE\nrows = run(\'\'\'\n    SELECT rep, amount FROM sales\n    WHERE amount > (SELECT AVG(amount) FROM sales)\n    ORDER BY amount DESC\n\'\'\')\nprint(\"Above-average reps:\")\nfor r in rows: print(f\"  {r[0]}: ${r[1]:,.0f}\")\n\n# IN with subquery\nrows = run(\'\'\'\n    SELECT rep, amount FROM sales\n    WHERE region IN (SELECT DISTINCT region FROM sales WHERE amount > 1000)\n    AND amount < 1000\n    ORDER BY amount\n\'\'\')\nprint(\"In high-value regions but low individual amount:\")\nfor r in rows: print(f\"  {r[0]}: ${r[1]:,.0f}\")"},
@@ -2426,6 +2522,14 @@ conn.close()"""}
         "Use LENGTH to find rows where a text column exceeds 100 characters",
     ],
     "title": "18. String Functions & Pattern Matching",
+"practices": [
+{
+"title": 'Prefix Match',
+"desc": 'Names starting with the letter a.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: names matching LIKE \'a%\'\nquery = """\nSELECT name FROM t   -- add the LIKE test\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\',)], "names matching LIKE \'a%\'"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "SQL provides rich string functions: UPPER/LOWER, SUBSTR, TRIM, REPLACE, LENGTH, INSTR, and LIKE/GLOB for pattern matching. Essential for cleaning and searching text data.",
     "examples": [
         {"label": "Core string functions", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE contacts (id INTEGER, name TEXT, email TEXT, phone TEXT)\'\'\')\nrunmany(\'INSERT INTO contacts VALUES (?,?,?,?)\', [\n    (1,\'  Alice Smith  \',\'alice@EXAMPLE.com\',\'(555) 123-4567\'),\n    (2,\'Bob  Jones\',\'bob.jones@mail.com\',\'555.987.6543\'),\n    (3,\'carol lee\',\'CAROL@COMPANY.ORG\',\'5551234567\'),\n    (4,\'DAVE BROWN\',\'dave@test.net\',\'555-111-2222\'),\n])\n\nrows = run(\'\'\'\n    SELECT\n        id,\n        TRIM(name)                              AS name_clean,\n        LOWER(TRIM(name))                       AS name_lower,\n        UPPER(SUBSTR(TRIM(name), 1, 1))         AS initial,\n        LOWER(email)                            AS email_lower,\n        LENGTH(TRIM(name))                      AS name_len,\n        INSTR(TRIM(name), \" \")                  AS space_pos,\n        -- Extract first name (up to first space)\n        SUBSTR(TRIM(name), 1, INSTR(TRIM(name)||\" \", \" \")-1) AS first_name\n    FROM contacts\n\'\'\')\nfor r in rows:\n    print(f\"  ID {r[0]}: \'{r[1]}\' | initial={r[2]} | fname={r[7]}\")"},
@@ -2453,6 +2557,14 @@ conn.close()"""}
         "Flag rows where a date falls within a given range using BETWEEN with ISO date strings",
     ],
     "title": "19. Date & Time Functions",
+"practices": [
+{
+"title": 'Year-Month',
+"desc": 'Format the date of row 1 as YYYY-MM.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: use strftime to format d as YYYY-MM for id 1\nquery = """\nSELECT d FROM t WHERE id = 1   -- format it\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'2024-01\',)], "use strftime to format d as YYYY-MM for id 1"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "SQL date functions compute differences, extract components, and format timestamps. In SQLite, dates are stored as TEXT (ISO), INTEGER (Unix epoch), or REAL (Julian day).",
     "examples": [
         {"label": "Date arithmetic and formatting (SQLite)", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\n# SQLite stores dates as text in ISO format: \'YYYY-MM-DD\'\nrows = run(\'\'\'\n    SELECT\n        DATE(\'now\')                           AS today,\n        DATE(\'now\', \'+7 days\')               AS next_week,\n        DATE(\'now\', \'-30 days\')              AS last_month,\n        DATE(\'now\', \'start of month\')        AS month_start,\n        DATE(\'now\', \'start of year\')         AS year_start,\n        DATE(\'now\', \'+1 year\', \'-1 day\')     AS end_of_next_year,\n        DATETIME(\'now\')                       AS now_dt,\n        STRFTIME(\'%Y-%m-%d %H:%M\', \'now\')    AS formatted\n\'\'\')\nfor key, val in zip([\'today\',\'next_week\',\'last_month\',\'month_start\',\'year_start\',\'eony\',\'now_dt\',\'fmt\'], rows[0]):\n    print(f\"  {key}: {val}\")"},
@@ -2480,6 +2592,14 @@ conn.close()"""}
         "Use NULLIF(col, 0) to turn zeros into NULLs and observe how AVG ignores them",
     ],
     "title": "20. CASE WHEN & Conditional Logic",
+"practices": [
+{
+"title": 'Label Rows',
+"desc": 'Label row 1 as hi when val is at least 20, else lo.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: use CASE WHEN on val for id 1\nquery = """\nSELECT \'lo\' FROM t WHERE id = 1   -- use CASE WHEN\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'lo\',)], "use CASE WHEN on val for id 1"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "CASE WHEN is SQL\'s conditional expression. Use it for bucketing, pivoting, null handling, and complex conditional aggregations. Combined with COALESCE and NULLIF for robust null handling.",
     "examples": [
         {"label": "Simple and searched CASE", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE students (id INTEGER, name TEXT, score INTEGER, grade TEXT)\'\'\')\nrunmany(\'INSERT INTO students VALUES (?,?,?,?)\', [\n    (1,\'Alice\',95,None),(2,\'Bob\',72,None),(3,\'Carol\',88,None),\n    (4,\'Dave\',61,None),(5,\'Eve\',79,None),(6,\'Frank\',55,None),\n])\n\nrows = run(\'\'\'\n    SELECT\n        name, score,\n        -- Searched CASE (most flexible)\n        CASE\n            WHEN score >= 90 THEN \"A\"\n            WHEN score >= 80 THEN \"B\"\n            WHEN score >= 70 THEN \"C\"\n            WHEN score >= 60 THEN \"D\"\n            ELSE \"F\"\n        END AS letter_grade,\n        -- Simple CASE (like switch)\n        CASE ROUND(score/10)*10\n            WHEN 100 THEN \"Perfect\"\n            WHEN 90  THEN \"Excellent\"\n            WHEN 80  THEN \"Good\"\n            WHEN 70  THEN \"Pass\"\n            ELSE \"Fail\"\n        END AS band,\n        -- Boolean expression\n        CASE WHEN score >= 70 THEN 1 ELSE 0 END AS passed\n    FROM students\n    ORDER BY score DESC\n\'\'\')\nfor r in rows:\n    print(f\"  {r[0]}: {r[1]} -> {r[2]} ({r[3]}) passed={r[4]}\")"},
@@ -2507,6 +2627,14 @@ conn.close()"""}
         "Combine UNION ALL with a GROUP BY to aggregate results from two separate tables at once",
     ],
     "title": "21. Set Operations (UNION, INTERSECT, EXCEPT)",
+"practices": [
+{
+"title": 'Union of Categories',
+"desc": 'Combine two category queries with UNION.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: UNION the cat x and cat y selections, ordered\nquery = """\nSELECT cat FROM t WHERE cat=\'x\'   -- UNION with the y query\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\',), (\'y\',)], "UNION the cat x and cat y selections, ordered"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "SQL set operations combine results of multiple SELECT statements: UNION (all unique), UNION ALL (keep duplicates), INTERSECT (common rows), and EXCEPT/MINUS (rows in first but not second).",
     "examples": [
         {"label": "UNION and UNION ALL", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE customers_2023 (id INTEGER, name TEXT, email TEXT)\'\'\')\nrun(\'\'\'CREATE TABLE customers_2024 (id INTEGER, name TEXT, email TEXT)\'\'\')\nrunmany(\'INSERT INTO customers_2023 VALUES (?,?,?)\', [\n    (1,\'Alice\',\'alice@mail.com\'),(2,\'Bob\',\'bob@mail.com\'),\n    (3,\'Carol\',\'carol@mail.com\'),(4,\'Dave\',\'dave@mail.com\'),\n])\nrunmany(\'INSERT INTO customers_2024 VALUES (?,?,?)\', [\n    (3,\'Carol\',\'carol@mail.com\'),(4,\'Dave\',\'dave@mail.com\'),\n    (5,\'Eve\',\'eve@mail.com\'),(6,\'Frank\',\'frank@mail.com\'),\n])\n\n# UNION: unique rows only (deduplicates)\nrows = run(\'\'\'\n    SELECT \"2023\" AS year, name FROM customers_2023\n    UNION\n    SELECT \"2024\" AS year, name FROM customers_2024\n    ORDER BY name\n\'\'\')\nprint(f\"UNION (unique names): {len(rows)} rows\")\nfor r in rows: print(f\"  {r}\")\n\n# UNION ALL: keeps all rows including duplicates\nrows = run(\'\'\'\n    SELECT \"2023\" AS cohort, name FROM customers_2023\n    UNION ALL\n    SELECT \"2024\" AS cohort, name FROM customers_2024\n    ORDER BY name\n\'\'\')\nprint(f\"UNION ALL (all rows): {len(rows)} rows\")\n\n# Useful: combine logs from two tables\nrows = run(\'\'\'\n    SELECT \"new_customer\" AS event, name, \"2023\" AS yr FROM customers_2023\n    UNION ALL\n    SELECT \"new_customer\", name, \"2024\" FROM customers_2024\n    ORDER BY yr, name\n\'\'\')\nprint(\"All customer events:\", len(rows))"},
@@ -2534,6 +2662,14 @@ conn.close()"""}
         "Use a CTE twice in the same query (reference it by name in two different places)",
     ],
     "title": "22. Advanced CTEs & Chaining",
+"practices": [
+{
+"title": 'Chained CTEs',
+"desc": 'Chain two CTEs and count the result.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: chain two WITH clauses, the second keeping val above 15\nquery = """\nSELECT COUNT(*) FROM t   -- chain two WITH clauses\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(2,)], "chain two WITH clauses, the second keeping val above 15"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "CTEs (WITH clauses) can be chained, referenced multiple times, and nested to build complex queries step by step. They replace temp tables in most cases and dramatically improve readability.",
     "examples": [
         {"label": "Multiple CTEs and chaining", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE transactions (id INT, cust_id INT, amount REAL, category TEXT, ts TEXT)\'\'\')\nrunmany(\'INSERT INTO transactions VALUES (?,?,?,?,?)\', [\n    (1,1,150,\'food\',\'2024-01-05\'),(2,1,300,\'tech\',\'2024-01-10\'),\n    (3,2,200,\'food\',\'2024-01-08\'),(4,2,100,\'food\',\'2024-01-12\'),\n    (5,3,500,\'tech\',\'2024-01-03\'),(6,3,250,\'clothing\',\'2024-01-15\'),\n    (7,1,80,\'food\',\'2024-02-01\'),(8,2,600,\'tech\',\'2024-02-05\'),\n    (9,3,120,\'food\',\'2024-02-10\'),\n])\n\nrows = run(\'\'\'\n    WITH\n    -- CTE 1: customer totals\n    cust_totals AS (\n        SELECT cust_id, SUM(amount) AS total_spend,\n               COUNT(*) AS n_transactions, MAX(ts) AS last_purchase\n        FROM transactions GROUP BY cust_id\n    ),\n    -- CTE 2: top category per customer\n    top_cat AS (\n        SELECT cust_id,\n               category,\n               SUM(amount) AS cat_total,\n               ROW_NUMBER() OVER (PARTITION BY cust_id ORDER BY SUM(amount) DESC) AS rn\n        FROM transactions GROUP BY cust_id, category\n    ),\n    -- CTE 3: combine using previous CTEs\n    summary AS (\n        SELECT ct.cust_id, ct.total_spend, ct.n_transactions, ct.last_purchase,\n               tc.category AS top_category\n        FROM cust_totals ct\n        JOIN top_cat tc ON ct.cust_id = tc.cust_id AND tc.rn = 1\n    )\n    SELECT *, ROUND(total_spend / n_transactions, 2) AS avg_txn\n    FROM summary ORDER BY total_spend DESC\n\'\'\')\nprint(\"Customer summary:\")\nfor r in rows:\n    print(f\"  Cust {r[0]}: ${r[1]} total, {r[2]} txns, top={r[4]}, avg=${r[5]}\")"},
@@ -2561,6 +2697,14 @@ conn.close()"""}
         "Create a view that filters rows (e.g., active_users) and use it in a JOIN",
     ],
     "title": "23. Views & Virtual Tables",
+"practices": [
+{
+"title": 'Query a View',
+"desc": 'Select from the view v defined above.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\nCREATE VIEW v AS SELECT name FROM t WHERE cat=\'x\';\n""")\n\n# TODO: select every name from the view v\nquery = """\nSELECT name FROM t   -- query the view instead\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\',), (\'b\',)], "select every name from the view v"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Views are saved SELECT statements that behave like tables. They simplify complex queries, enforce access control, and create stable interfaces over evolving schema.",
     "examples": [
         {"label": "Creating and using views", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nrun(\'\'\'CREATE TABLE employees (id INT, name TEXT, dept TEXT, salary REAL, hire_date TEXT)\'\'\')\nrun(\'\'\'CREATE TABLE departments (id INT, name TEXT, budget REAL)\'\'\')\nrunmany(\'INSERT INTO employees VALUES (?,?,?,?,?)\', [\n    (1,\'Alice\',\'Eng\',90000,\'2020-03-15\'),(2,\'Bob\',\'Eng\',85000,\'2021-06-01\'),\n    (3,\'Carol\',\'Sales\',70000,\'2019-11-20\'),(4,\'Dave\',\'Sales\',72000,\'2022-01-10\'),\n    (5,\'Eve\',\'HR\',65000,\'2020-08-05\'),(6,\'Frank\',\'Eng\',95000,\'2018-04-22\'),\n])\nrunmany(\'INSERT INTO departments VALUES (?,?,?)\', [\n    (1,\'Eng\',500000),(2,\'Sales\',300000),(3,\'HR\',150000),\n])\n\n# Create a view\nrun(\'\'\'\n    CREATE VIEW emp_summary AS\n    SELECT e.id, e.name, e.dept, e.salary,\n           ROUND(100.0 * e.salary / d.budget, 2) AS salary_pct_budget,\n           CAST((JULIANDAY(\"now\") - JULIANDAY(e.hire_date)) / 365.25 AS INT) AS years\n    FROM employees e\n    JOIN departments d ON e.dept = d.name\n\'\'\')\n\n# Query the view like a table\nrows = run(\'SELECT * FROM emp_summary ORDER BY salary DESC\')\nprint(\"Employee summary (from view):\")\nfor r in rows: print(f\"  {r[1]} ({r[2]}): ${r[3]:,}, {r[4]:.2f}% of dept budget, {r[5]} yrs\")\n\n# View within query\nrows = run(\'\'\'\n    SELECT dept, COUNT(*) AS n, ROUND(AVG(salary), 0) AS avg_sal\n    FROM emp_summary\n    GROUP BY dept ORDER BY avg_sal DESC\n\'\'\')\nfor r in rows: print(f\"  {r[0]}: {r[1]} employees, avg ${r[2]:,}\")"},
@@ -2588,6 +2732,14 @@ conn.close()"""}
         "Test ON CONFLICT IGNORE vs ON CONFLICT REPLACE and observe how existing rows are handled",
     ],
     "title": "24. Data Integrity & Constraints",
+"practices": [
+{
+"title": 'Unique Constraint',
+"desc": 'The duplicate insert was rejected; count what stuck.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE u(id INT PRIMARY KEY, e TEXT UNIQUE NOT NULL);\nINSERT INTO u VALUES (1,\'a\');\nINSERT OR IGNORE INTO u VALUES (2,\'a\');\n""")\n\n# TODO: count the rows in u\nquery = """\nSELECT COUNT(*) FROM u\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(1,)], "count the rows in u"\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Constraints (PRIMARY KEY, UNIQUE, NOT NULL, CHECK, FOREIGN KEY) enforce data quality at the database level — the last line of defense against bad data.",
     "examples": [
         {"label": "PRIMARY KEY, UNIQUE, NOT NULL, CHECK", "code": "import sqlite3, contextlib\nconn = sqlite3.connect(\':memory:\')\nconn.execute(\'PRAGMA journal_mode=WAL\')\ndef run(sql, params=()):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.execute(sql, params)\n        if cur.description:\n            return cur.fetchall()\n        conn.commit()\n        return cur.rowcount\ndef runmany(sql, rows):\n    with contextlib.closing(conn.cursor()) as cur:\n        cur.executemany(sql, rows)\n        conn.commit()\nconn.execute(\'PRAGMA foreign_keys = ON\')\n\nrun(\'\'\'CREATE TABLE products (\n    id      INTEGER PRIMARY KEY AUTOINCREMENT,\n    sku     TEXT    NOT NULL UNIQUE,\n    name    TEXT    NOT NULL,\n    price   REAL    NOT NULL CHECK (price > 0),\n    stock   INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),\n    category TEXT   CHECK (category IN (\"food\", \"tech\", \"clothing\"))\n)\'\'\')\n\n# Valid insert\nrun(\"INSERT INTO products (sku, name, price, stock, category) VALUES (\'SKU-001\', \'Apple\', 1.5, 100, \'food\')\")\nrun(\"INSERT INTO products (sku, name, price, stock, category) VALUES (\'SKU-002\', \'Phone\', 699.0, 50, \'tech\')\")\nprint(\"Inserted valid products:\", run(\'SELECT id, sku, name, price FROM products\'))\n\n# Test constraint violations\nimport sqlite3 as _sqlite3\ntests = [\n    (\"Duplicate SKU\",       \"INSERT INTO products (sku, name, price) VALUES (\'SKU-001\', \'Pear\', 0.9)\"),\n    (\"Negative price\",      \"INSERT INTO products (sku, name, price) VALUES (\'SKU-003\', \'X\', -5.0)\"),\n    (\"Negative stock\",      \"INSERT INTO products (sku, name, price, stock) VALUES (\'SKU-004\', \'Y\', 1.0, -10)\"),\n    (\"Invalid category\",    \"INSERT INTO products (sku, name, price, category) VALUES (\'SKU-005\', \'Z\', 2.0, \'toys\')\"),\n    (\"NULL name\",           \"INSERT INTO products (sku, price) VALUES (\'SKU-006\', 3.0)\"),\n]\nfor label, sql in tests:\n    try:\n        run(sql)\n        print(f\"  FAIL: {label} should have been rejected!\")\n    except Exception as e:\n        print(f\"  OK: {label} rejected -> {str(e)[:50]}\")"},
@@ -2615,6 +2767,14 @@ conn.close()"""}
     "Compute a weighted average using SUM(value * weight) / SUM(weight) in a single SELECT",
 ],
 "title": "25. Advanced Aggregations",
+"practices": [
+{
+"title": 'Average Per Category',
+"desc": 'Average val per category, ignoring NULLs.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: cat and AVG(val) where val is not null, grouped and ordered by cat\nquery = """\nSELECT cat FROM t   -- add AVG and GROUP BY\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 20.0), (\'y\', 20.0)], "cat and AVG(val) where val is not null, grouped and ordered by cat"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use FILTER clauses for conditional aggregation, emulate ROLLUP with UNION ALL, and combine window functions for multi-dimensional analysis.",
 "examples": [
         {"label": "FILTER clause – conditional sums per quarter", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\nrun(\'\'\'CREATE TABLE IF NOT EXISTS sales (\n    id INTEGER PRIMARY KEY,\n    region TEXT, product TEXT,\n    amount REAL, q INTEGER)\'\'\')\nrunmany(\'INSERT INTO sales VALUES (?,?,?,?,?)\', [\n    (1,\'North\',\'A\',100,1),(2,\'North\',\'B\',200,1),\n    (3,\'South\',\'A\',150,2),(4,\'South\',\'B\',250,2),\n    (5,\'North\',\'A\',120,3),(6,\'South\',\'B\',300,3)])\n# FILTER clause – conditional aggregation\nrows = run(\'\'\'\n    SELECT\n        region,\n        SUM(amount) AS total,\n        SUM(amount) FILTER(WHERE q=1) AS q1,\n        SUM(amount) FILTER(WHERE q=2) AS q2\n    FROM sales GROUP BY region\'\'\')\nprint(rows)\n"},
@@ -2643,6 +2803,14 @@ conn.close()"""}
     "Explain the difference between a CROSS JOIN and a self-join with a WHERE condition",
 ],
 "title": "26. Self-Joins & Non-Equi Joins",
+"practices": [
+{
+"title": 'Pairs In A Category',
+"desc": 'Count distinct same-category pairs with a self-join.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: self-join t on matching cat with a.id below b.id, then count\nquery = """\nSELECT COUNT(*) FROM t   -- self-join instead\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(2,)], "self-join t on matching cat with a.id below b.id, then count"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use self-joins to query hierarchical data, non-equi joins for range matching, and interval joins to detect overlaps.",
 "examples": [
         {"label": "Self-join: employee-manager hierarchy", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\nrun(\'\'\'CREATE TABLE IF NOT EXISTS employees (\n    id INTEGER PRIMARY KEY, name TEXT,\n    manager_id INTEGER, salary REAL)\'\'\')\nrunmany(\'INSERT INTO employees VALUES (?,?,?,?)\', [\n    (1,\'Alice\',None,9000),(2,\'Bob\',1,7000),\n    (3,\'Carol\',1,7500),(4,\'Dave\',2,5000),(5,\'Eve\',2,5500)])\n# Self-join: each employee with their manager\'s name\nrows = run(\'\'\'\n    SELECT e.name AS employee, m.name AS manager\n    FROM employees e\n    LEFT JOIN employees m ON e.manager_id = m.id\n    ORDER BY e.id\'\'\')\nfor r in rows: print(r)\n"},
@@ -2671,6 +2839,14 @@ conn.close()"""}
     "Bucket revenue rows into tertiles with NTILE(3) and compute average per bucket",
 ],
 "title": "27. Analytical Functions Advanced",
+"practices": [
+{
+"title": 'Previous Value',
+"desc": "Name plus the previous row's val, first two rows.",
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: add LAG(val) OVER (ORDER BY id), limited to 2 rows\nquery = """\nSELECT name FROM t ORDER BY id LIMIT 2   -- add LAG\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\', None), (\'b\', 10)], "add LAG(val) OVER (ORDER BY id), limited to 2 rows"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Go beyond basic ranking: use LAG/LEAD for period comparisons, NTILE for bucketing, FIRST_VALUE/LAST_VALUE for partition anchors, and rolling window frames.",
 "examples": [
         {"label": "LAG: daily price change", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\nrun(\'\'\'CREATE TABLE IF NOT EXISTS stock (\n    dt TEXT, ticker TEXT, close REAL)\'\'\')\nrunmany(\'INSERT INTO stock VALUES (?,?,?)\', [\n    (\'2024-01-01\',\'AAPL\',185.0),(\'2024-01-02\',\'AAPL\',186.5),\n    (\'2024-01-03\',\'AAPL\',184.0),(\'2024-01-04\',\'AAPL\',188.0),\n    (\'2024-01-05\',\'AAPL\',190.0)])\n# Daily return using LAG\nrows = run(\'\'\'\n    SELECT dt, close,\n        LAG(close) OVER(ORDER BY dt) AS prev,\n        ROUND(close - LAG(close) OVER(ORDER BY dt), 2) AS change\n    FROM stock ORDER BY dt\'\'\')\nfor r in rows: print(r)\n"},
@@ -2699,6 +2875,14 @@ conn.close()"""}
     "Redesign a flat orders_flat table into a 3NF schema with customers, products, and orders",
 ],
 "title": "28. Database Design & Normalization",
+"practices": [
+{
+"title": 'Distinct Categories',
+"desc": 'How many distinct categories exist?',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: count the distinct cat values\nquery = """\nSELECT COUNT(*) FROM t   -- count distinct categories\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(2,)], "count the distinct cat values"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Apply 1NF, 2NF, and 3NF to eliminate redundancy, design proper primary and foreign keys, and inspect schemas with SQLite system tables.",
 "examples": [
         {"label": "1NF: atomic values and separate phone table", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\n# 1NF: atomic values, no repeating groups\nrun(\'\'\'CREATE TABLE IF NOT EXISTS contacts (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL,\n    email TEXT NOT NULL)\'\'\')\nrun(\'\'\'CREATE TABLE IF NOT EXISTS contact_phones (\n    contact_id INTEGER,\n    phone TEXT NOT NULL,\n    FOREIGN KEY(contact_id) REFERENCES contacts(id))\'\'\')\nrunmany(\'INSERT INTO contacts VALUES (?,?,?)\', [\n    (1,\'Alice\',\'alice@ex.com\'),(2,\'Bob\',\'bob@ex.com\')])\nrunmany(\'INSERT INTO contact_phones VALUES (?,?)\', [\n    (1,\'555-0001\'),(1,\'555-0002\'),(2,\'555-0003\')])\nprint(run(\'SELECT * FROM contacts\'))\nprint(run(\'SELECT * FROM contact_phones\'))\n"},
@@ -2727,6 +2911,14 @@ conn.close()"""}
     "Filter rows by a JSON field value in WHERE using json_extract and a comparison operator",
 ],
 "title": "29. JSON in SQL",
+"practices": [
+{
+"title": 'Extract JSON Field',
+"desc": 'Read a field out of a JSON string.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: use json_extract to read $.a from the JSON literal\nquery = """\nSELECT 0   -- use json_extract\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(1,)], "use json_extract to read $.a from the JSON literal"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Store, extract, modify, and filter JSON data in SQLite using json_extract, json_set, json_insert, and json_remove.",
 "examples": [
         {"label": "json_extract: read top-level fields", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\nimport json\nrun(\'\'\'CREATE TABLE IF NOT EXISTS events (\n    id INTEGER PRIMARY KEY,\n    payload TEXT)\'\'\')  -- stored as JSON text\ndata = [\n    (1, json.dumps({\'user\':\'alice\',\'action\':\'login\',\'meta\':{\'ip\':\'1.2.3.4\'}})),\n    (2, json.dumps({\'user\':\'bob\',\'action\':\'purchase\',\'meta\':{\'items\':3,\'total\':59.99}})),\n    (3, json.dumps({\'user\':\'alice\',\'action\':\'logout\',\'meta\':{\'ip\':\'1.2.3.4\'}})),\n]\nrunmany(\'INSERT INTO events VALUES (?,?)\', data)\n# Extract top-level field with json_extract\nrows = run(\"SELECT id, json_extract(payload,\'$.user\'), json_extract(payload,\'$.action\') FROM events\")\nfor r in rows: print(r)\n"},
@@ -2755,6 +2947,14 @@ conn.close()"""}
     "Use snippet() to extract a highlighted excerpt from matched rows and print it",
 ],
 "title": "30. Full-Text Search",
+"practices": [
+{
+"title": 'Pattern Class',
+"desc": 'Names matching the GLOB character class.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: names matching GLOB \'[a-b]\'\nquery = """\nSELECT name FROM t   -- add the GLOB test\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'a\',), (\'b\',)], "names matching GLOB \'[a-b]\'"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use SQLite\'s FTS5 virtual tables to perform keyword search, phrase matching, boolean operators, column-specific search, and ranked results with snippets.",
 "examples": [
         {"label": "Create FTS5 table and basic MATCH search", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\n# FTS5 virtual table for full-text search\nrun(\'\'\'CREATE VIRTUAL TABLE IF NOT EXISTS articles\n    USING fts5(title, body, tokenize=\'porter ascii\')\'\'\')\nrunmany(\'INSERT INTO articles VALUES (?,?)\', [\n    (\'SQL Basics\',\'Learn the fundamentals of SQL queries and databases\'),\n    (\'Python for Data\',\'Python is great for data analysis and machine learning\'),\n    (\'Advanced SQL\',\'Window functions and CTEs are powerful SQL features\'),\n    (\'NumPy Guide\',\'NumPy provides fast array operations for numerical data\'),\n])\n# Simple search\nrows = run(\"SELECT title FROM articles WHERE articles MATCH \'SQL\'\")\nfor r in rows: print(r)\n"},
@@ -2783,6 +2983,14 @@ conn.close()"""}
     "Run ANALYZE and verify that EXPLAIN QUERY PLAN changes its strategy on skewed data",
 ],
 "title": "31. Performance Tuning & EXPLAIN",
+"practices": [
+{
+"title": 'Count With Filter',
+"desc": 'Count rows above a threshold.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: count rows where val is greater than 15\nquery = """\nSELECT COUNT(*) FROM t   -- add the WHERE\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(2,)], "count rows where val is greater than 15"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Use EXPLAIN QUERY PLAN to understand query execution, create regular, composite, covering, and partial indexes, and run ANALYZE to update planner statistics.",
 "examples": [
         {"label": "Index impact benchmark: with vs without", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\nimport time\nrun(\'\'\'CREATE TABLE IF NOT EXISTS big (\n    id INTEGER PRIMARY KEY, val INTEGER, cat TEXT)\'\'\')\n# Insert sample data\nimport random; random.seed(42)\nrows = [(i, random.randint(1,1000), random.choice([\'A\',\'B\',\'C\'])) for i in range(1,5001)]\nrunmany(\'INSERT INTO big VALUES (?,?,?)\', rows)\n# Query without index\nt0 = time.perf_counter()\nrun(\'SELECT COUNT(*) FROM big WHERE val > 500\')\nt1 = time.perf_counter()\n# Add index\nrun(\'CREATE INDEX IF NOT EXISTS idx_val ON big(val)\')\nt2 = time.perf_counter()\nrun(\'SELECT COUNT(*) FROM big WHERE val > 500\')\nt3 = time.perf_counter()\nprint(f\'Without index: {(t1-t0)*1000:.2f}ms\')\nprint(f\'With index:    {(t3-t2)*1000:.2f}ms\')\n"},
@@ -2811,6 +3019,14 @@ conn.close()"""}
     "Build a full 4-step pipeline: ingest raw data, clean, aggregate, and export to a DataFrame",
 ],
 "title": "32. SQL for Data Analysis Workflow",
+"practices": [
+{
+"title": 'Groups Above A Total',
+"desc": 'Categories whose non-NULL total exceeds 25.',
+"starter": 'import sqlite3\ncon = sqlite3.connect(":memory:")\ncon.executescript("""\nCREATE TABLE t(id INT, name TEXT, cat TEXT, val INT, d TEXT);\nINSERT INTO t VALUES (1,\'a\',\'x\',10,\'2024-01-05\'),(2,\'b\',\'x\',30,\'2024-02-10\'),(3,\'c\',\'y\',20,\'2024-02-20\'),(4,\'d\',\'y\',NULL,\'2024-03-01\');\n""")\n\n# TODO: group by cat, sum val ignoring nulls, keep totals above 25\nquery = """\nSELECT cat, SUM(val) FROM t GROUP BY cat   -- add the filter and HAVING\n"""\n\nrows = con.execute(query).fetchall()\nprint(rows)',
+"check": 'assert rows == [(\'x\', 40)], "group by cat, sum val ignoring nulls, keep totals above 25"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Apply SQL as a full data analysis tool: ingest and clean dirty data, compute monthly trends with running totals, compare performance vs. group averages, and pivot long-format survey data.",
 "examples": [
         {"label": "Ingest and clean dirty text amounts", "code": "import sqlite3, contextlib\\nconn = sqlite3.connect(\':memory:\')\\nconn.execute(\'PRAGMA journal_mode=WAL\')\\ndef run(sql, params=()):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.execute(sql, params)\\n        if cur.description:\\n            return cur.fetchall()\\n        conn.commit()\\n        return cur.rowcount\\ndef runmany(sql, rows):\\n    with contextlib.closing(conn.cursor()) as cur:\\n        cur.executemany(sql, rows)\\n        conn.commit()\\n# End-to-end: ingest, clean, transform, analyze\nrun(\'\'\'CREATE TABLE IF NOT EXISTS raw_sales (\n    id INTEGER PRIMARY KEY,\n    rep TEXT, region TEXT,\n    amount TEXT,  -- stored as text (dirty data)\n    sale_date TEXT)\'\'\')\nrunmany(\'INSERT INTO raw_sales VALUES (?,?,?,?,?)\', [\n    (1,\'Alice\',\'North\',\'1,200.50\',\'2024-01-15\'),\n    (2,\'Bob\',\'South\',\'800\',\'2024-01-20\'),\n    (3,\'Alice\',\'North\',\'  950.00 \',\'2024-02-01\'),\n    (4,\'Carol\',\'East\',\'\',\'2024-02-10\'),   -- missing amount\n    (5,\'Bob\',\'South\',\'1100.75\',\'2024-02-20\'),\n])\n# Clean: strip whitespace, handle empty, cast\nrows = run(\'\'\'\n    SELECT rep, region,\n        CASE WHEN TRIM(REPLACE(amount,\',\',\'\'))=\'\' THEN NULL\n             ELSE CAST(TRIM(REPLACE(amount,\',\',\'\')) AS REAL)\n        END AS clean_amount,\n        sale_date\n    FROM raw_sales\'\'\')\nfor r in rows: print(r)\n"},
