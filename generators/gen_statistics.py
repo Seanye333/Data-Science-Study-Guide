@@ -269,6 +269,14 @@ daily_sales = np.concatenate([
 
 {
 "title": "2. Probability Distributions",
+"practices": [
+{
+"title": 'Binomial PMF',
+"desc": 'Probability of exactly k successes in n trials.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef binom_pmf(k, n, p):\n    # TODO: stats.binom.pmf(k, n, p) as a float\n    return 0.0\n\nprint(binom_pmf(2, 3, 0.5))',
+"check": 'assert abs(binom_pmf(2, 3, 0.5) - 0.375) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Probability distributions model the likelihood of outcomes. scipy.stats provides a unified interface for continuous distributions (normal, exponential) and discrete distributions (binomial, Poisson) with PDF/PMF, CDF, and random variates.",
 "examples": [
 {"label": "Normal distribution — PDF, CDF, PPF", "code":
@@ -880,6 +888,14 @@ afternoon  = np.random.normal(loc=3.6, scale=0.9, size=25)
 
 {
 "title": "6. ANOVA & Multiple Groups",
+"practices": [
+{
+"title": 'One-Way ANOVA',
+"desc": 'p-value comparing three group means.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef anova_p(*groups):\n    # TODO: stats.f_oneway(*groups).pvalue\n    return 1.0\n\nprint(round(anova_p([1, 2, 3], [4, 5, 6], [7, 8, 9]), 6))',
+"check": 'from scipy import stats\np = anova_p([1, 2, 3], [4, 5, 6], [7, 8, 9])\nassert 0 <= p <= 1 and abs(p - stats.f_oneway([1,2,3],[4,5,6],[7,8,9]).pvalue) < 1e-12\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "ANOVA (Analysis of Variance) tests whether means differ across three or more groups simultaneously, avoiding inflated Type I errors from multiple pairwise t-tests. One-way ANOVA requires normality and equal variances; Kruskal-Wallis is the non-parametric alternative. Post-hoc tests identify which specific pairs differ.",
 "examples": [
 {"label": "One-way ANOVA with scipy.stats.f_oneway", "code":
@@ -1025,6 +1041,14 @@ online  = np.random.normal(74, 10, 30)
 
 {
 "title": "7. Chi-Square Tests",
+"practices": [
+{
+"title": 'Chi-Square Independence',
+"desc": 'p-value for a contingency table.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef chi2_p(table):\n    # TODO: stats.chi2_contingency(table).pvalue\n    return 1.0\n\nprint(round(chi2_p([[10, 20], [20, 10]]), 6))',
+"check": 'p = chi2_p([[10, 20], [20, 10]])\nassert 0 <= p <= 1 and p < 0.05, "this table shows a clear association"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Chi-square tests assess relationships between categorical variables. The goodness-of-fit test checks if observed frequencies match expected. The test of independence checks if two categorical variables are related. scipy.stats.chi2_contingency handles contingency tables directly.",
 "examples": [
 {"label": "Chi-square goodness-of-fit test", "code":
@@ -1335,6 +1359,14 @@ sales    = 2000 + 3.5 * ad_spend + np.random.normal(0, 3000, 52)
 
 {
 "title": "9. Non-Parametric Tests",
+"practices": [
+{
+"title": 'Mann-Whitney U',
+"desc": 'Rank-based two-sample test p-value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef mannwhitney_p(a, b):\n    # TODO: stats.mannwhitneyu(a, b).pvalue\n    return 1.0\n\nprint(round(mannwhitney_p([1, 2, 3], [4, 5, 6]), 6))',
+"check": 'p = mannwhitney_p([1, 2, 3], [4, 5, 6])\nassert 0 <= p <= 1\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Non-parametric tests make no assumptions about the underlying distribution. They operate on ranks rather than raw values, making them robust to outliers and skewed data. Key tests include Mann-Whitney U (two independent groups), Wilcoxon signed-rank (paired), and Shapiro-Wilk (normality check).",
 "examples": [
 {"label": "Shapiro-Wilk normality test", "code":
@@ -1472,6 +1504,14 @@ group_c = np.random.uniform(0, 100, 40)
 
 {
 "title": "10. Effect Size & Power Analysis",
+"practices": [
+{
+"title": "Cohen's d",
+"desc": 'Standardized difference between two group means.',
+"starter": 'import numpy as np\n\ndef cohens_d(a, b):\n    a = np.asarray(a, float); b = np.asarray(b, float)\n    s = np.sqrt(((len(a)-1)*a.var(ddof=1) + (len(b)-1)*b.var(ddof=1)) / (len(a)+len(b)-2))\n    # TODO: (mean(b) - mean(a)) / s\n    return 0.0\n\nprint(round(cohens_d([1, 2, 3], [4, 5, 6]), 4))',
+"check": 'assert cohens_d([1, 2, 3], [4, 5, 6]) > 1, "a large effect"\nassert cohens_d([1, 2, 3], [1, 2, 3]) == 0.0\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Effect size quantifies the practical significance of a result, independent of sample size. Cohen's d measures standardized mean differences. Statistical power (1 - beta) is the probability of detecting a true effect. Power analysis determines the sample size needed to achieve adequate power (typically 0.80).",
 "examples": [
 {"label": "Cohen's d — effect size for two groups", "code":
@@ -1623,6 +1663,14 @@ pooled_std    = 5.0
 },
 {
     "title": "11. Bayesian Inference",
+"practices": [
+{
+"title": 'Beta Posterior Mean',
+"desc": 'Posterior mean after s successes in n trials.',
+"starter": 'def beta_posterior_mean(a, b, s, n):\n    # TODO: (a + s) / (a + b + n)\n    return 0.0\n\nprint(round(beta_posterior_mean(1, 1, 7, 10), 4))',
+"check": 'assert abs(beta_posterior_mean(1, 1, 7, 10) - 8/12) < 1e-9\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Update beliefs with evidence using Bayes' theorem. Compute posterior distributions, credible intervals, and compare Bayesian vs frequentist approaches.",
     "examples": [
         {
@@ -1659,6 +1707,14 @@ pooled_std    = 5.0
 },
 {
     "title": "12. Survival Analysis",
+"practices": [
+{
+"title": 'Survival At Time',
+"desc": 'Fraction still surviving past time t.',
+"starter": 'import numpy as np\n\ndef survival_at(times, t):\n    times = np.asarray(times, float)\n    # TODO: fraction of times greater than t\n    return 0.0\n\nprint(survival_at([1, 2, 3, 4], 2))',
+"check": 'assert survival_at([1, 2, 3, 4], 2) == 0.5\nassert survival_at([1, 2], 5) == 0.0\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Analyze time-to-event data — customer churn, equipment failure, clinical trials — with Kaplan-Meier curves and the log-rank test.",
     "examples": [
         {
@@ -1695,6 +1751,14 @@ pooled_std    = 5.0
 },
 {
     "title": "13. Resampling & Simulation",
+"practices": [
+{
+"title": 'Simulated Mean',
+"desc": 'Mean of n uniform draws.',
+"starter": 'import numpy as np\n\ndef simulate_mean(n, seed=0):\n    rng = np.random.default_rng(seed)\n    # TODO: mean of rng.random(n)\n    return 0.0\n\nprint(round(simulate_mean(100000), 4))',
+"check": 'assert abs(simulate_mean(100000) - 0.5) < 0.01\nprint("All checks passed \\u2713")',
+},
+],
     "desc": "Use bootstrapping, permutation tests, and Monte Carlo simulation to estimate uncertainty and test hypotheses without distributional assumptions.",
     "examples": [
         {
@@ -1732,6 +1796,14 @@ pooled_std    = 5.0
 
     {
         "title": "14. Bootstrap Methods & Resampling",
+"practices": [
+{
+"title": 'Bootstrap CI',
+"desc": 'Percentile bootstrap interval for the mean.',
+"starter": 'import numpy as np\n\ndef bootstrap_ci(data, n_boot=2000, seed=0):\n    rng = np.random.default_rng(seed); d = np.asarray(data, float)\n    b = np.array([rng.choice(d, len(d), replace=True).mean() for _ in range(n_boot)])\n    # TODO: return the 2.5 and 97.5 percentiles of b as floats\n    return (0.0, 0.0)\n\nprint([round(v, 3) for v in bootstrap_ci([1, 2, 3, 4, 5])])',
+"check": 'lo, hi = bootstrap_ci([1, 2, 3, 4, 5])\nassert lo < 3 < hi, "the interval brackets the sample mean"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Percentile Bootstrap CI",
@@ -1763,6 +1835,14 @@ pooled_std    = 5.0
     },
     {
         "title": "15. Multiple Testing & FDR Control",
+"practices": [
+{
+"title": 'Bonferroni',
+"desc": 'Which p-values survive a Bonferroni correction?',
+"starter": 'import numpy as np\n\ndef bonferroni(pvals, alpha=0.05):\n    p = np.asarray(pvals, float)\n    # TODO: mask of p below alpha/len(p), as a list\n    return []\n\nprint(bonferroni([0.001, 0.04, 0.5]))',
+"check": 'assert bonferroni([0.001, 0.04, 0.5]) == [True, False, False]\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "Bonferroni & Holm Corrections",
@@ -1794,6 +1874,14 @@ pooled_std    = 5.0
     },
     {
         "title": "16. Dimensionality Reduction for Statistical Analysis",
+"practices": [
+{
+"title": 'Explained Variance',
+"desc": 'Share of variance held by the top k components.',
+"starter": 'import numpy as np\n\ndef pca_explained(X, k=1):\n    X = np.asarray(X, float); Xc = X - X.mean(axis=0)\n    s = np.linalg.svd(Xc, full_matrices=False)[1]\n    ev = s**2 / (s**2).sum()\n    # TODO: sum of the first k entries of ev, as a float\n    return 0.0\n\nprint(round(pca_explained([[1, 2], [2, 4], [3, 6.1]]), 4))',
+"check": 'v = pca_explained([[1, 2], [2, 4], [3, 6.1]])\nassert 0 < v <= 1 and v > 0.9, "these points are nearly collinear"\nprint("All checks passed \\u2713")',
+},
+],
         "examples": [
             {
                 "label": "PCA for Outlier Detection",
@@ -1825,6 +1913,14 @@ pooled_std    = 5.0
     },
 {
 "title": "17. Hypothesis Testing (t-tests & z-tests)",
+"practices": [
+{
+"title": 'One-Sample t-test',
+"desc": 'p-value against a hypothesized mean.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef ttest_1samp_p(data, mu):\n    # TODO: stats.ttest_1samp(data, mu).pvalue\n    return 1.0\n\nprint(round(ttest_1samp_p([1, 2, 3], 2), 6))',
+"check": 'from scipy import stats\nassert abs(ttest_1samp_p([1,2,3], 2) - stats.ttest_1samp([1,2,3], 2).pvalue) < 1e-12\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Hypothesis testing decides whether observed data supports a null hypothesis H0. One-sample, two-sample, and paired t-tests cover most practical scenarios. Always check assumptions: normality, equal variance.",
 "examples": [
         {"label": "One-sample and two-sample t-tests", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(42)\n\n# One-sample t-test: is the mean different from a known value?\nweights = np.random.normal(70, 8, 30)\nt_stat, p_val = stats.ttest_1samp(weights, popmean=72)\nprint(f\"One-sample t-test: t={t_stat:.3f}, p={p_val:.4f}\")\nprint(f\"  Reject H0 (mean=72)? {p_val < 0.05}\")\n\n# Two-sample t-test: do two groups have different means?\ngroup_a = np.random.normal(75, 10, 40)\ngroup_b = np.random.normal(80, 10, 40)\nt2, p2 = stats.ttest_ind(group_a, group_b)\nprint(f\"Two-sample t-test: t={t2:.3f}, p={p2:.4f}\")\nprint(f\"  Reject H0 (equal means)? {p2 < 0.05}\")\n\n# Welch\'s t-test (unequal variances — safer default)\ngroup_c = np.random.normal(80, 20, 40)  # larger std\nt3, p3 = stats.ttest_ind(group_a, group_c, equal_var=False)\nprint(f\"Welch\'s t-test: t={t3:.3f}, p={p3:.4f}\")\nprint(f\"  Mean A={group_a.mean():.2f}, Mean C={group_c.mean():.2f}\")"},
@@ -1849,6 +1945,14 @@ pooled_std    = 5.0
 
 {
 "title": "18. ANOVA & Post-hoc Tests",
+"practices": [
+{
+"title": 'Pairwise Comparisons',
+"desc": 'How many pairwise tests for k groups?',
+"starter": 'def tukey_pairs(k):\n    # TODO: k choose 2\n    return 0\n\nprint(tukey_pairs(4))',
+"check": 'assert tukey_pairs(4) == 6 and tukey_pairs(3) == 3\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "One-way ANOVA tests whether means differ across 3+ groups in a single factor. Two-way ANOVA adds a second factor and interaction. Post-hoc tests (Tukey, Bonferroni) identify which pairs differ.",
 "examples": [
         {"label": "One-way ANOVA with post-hoc Tukey HSD", "code": "from scipy import stats\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\nimport numpy as np\n\nnp.random.seed(42)\n# Crop yield under 4 fertilizer types\ngroups = {\n    \'Control\':  np.random.normal(50, 8, 20),\n    \'FertA\':    np.random.normal(58, 8, 20),\n    \'FertB\':    np.random.normal(55, 8, 20),\n    \'FertC\':    np.random.normal(62, 8, 20),\n}\n\nf_stat, p_val = stats.f_oneway(*groups.values())\nprint(f\"One-way ANOVA: F={f_stat:.3f}, p={p_val:.4f}\")\nprint(f\"Significant difference exists? {p_val < 0.05}\\n\")\n\n# Tukey HSD post-hoc\nimport numpy as np as _np\nall_data   = np.concatenate(list(groups.values()))\nall_labels = np.repeat(list(groups.keys()), 20)\n\ntukey = pairwise_tukeyhsd(endog=all_data, groups=all_labels, alpha=0.05)\nprint(tukey.summary())"},
@@ -1873,6 +1977,14 @@ pooled_std    = 5.0
 
 {
 "title": "19. Correlation Analysis",
+"practices": [
+{
+"title": 'Spearman Correlation',
+"desc": 'Rank correlation, robust to monotone transforms.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef spearman_r(x, y):\n    # TODO: stats.spearmanr(x, y).statistic\n    return 0.0\n\nprint(round(spearman_r([1, 2, 3], [1, 4, 9]), 4))',
+"check": 'assert abs(spearman_r([1, 2, 3], [1, 4, 9]) - 1) < 1e-9, "monotone -> rank correlation 1"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Pearson measures linear association between continuous variables. Spearman and Kendall are rank-based (robust to outliers and non-linearity). Point-biserial handles binary-continuous pairs.",
 "examples": [
         {"label": "Pearson, Spearman, Kendall correlation", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(42)\nn = 100\n\n# Pearson: linear relationship\nx = np.random.randn(n)\ny_linear = 2 * x + np.random.randn(n) * 0.5\n\nr_p, p_p = stats.pearsonr(x, y_linear)\nr_s, p_s = stats.spearmanr(x, y_linear)\nr_k, p_k = stats.kendalltau(x, y_linear)\nprint(\"Linear relationship:\")\nprint(f\"  Pearson r={r_p:.4f}  Spearman r={r_s:.4f}  Kendall tau={r_k:.4f}\")\n\n# Spearman handles monotonic non-linear relationships\ny_mono = np.exp(x) + np.random.randn(n) * 0.3\nr_p2, _ = stats.pearsonr(x, y_mono)\nr_s2, _ = stats.spearmanr(x, y_mono)\nprint(f\"\\nMonotonic (non-linear):\")\nprint(f\"  Pearson r={r_p2:.4f}  Spearman r={r_s2:.4f}\")\n\n# With outliers: Spearman is robust\ny_outlier = y_linear.copy()\ny_outlier[[5, 10, 15]] = 100  # inject outliers\nr_p3, _ = stats.pearsonr(x, y_outlier)\nr_s3, _ = stats.spearmanr(x, y_outlier)\nprint(f\"\\nWith outliers:\")\nprint(f\"  Pearson r={r_p3:.4f}  Spearman r={r_s3:.4f}  (Spearman more robust)\")"},
@@ -1897,6 +2009,14 @@ pooled_std    = 5.0
 
 {
 "title": "20. Non-Parametric Tests",
+"practices": [
+{
+"title": 'Wilcoxon Signed-Rank',
+"desc": 'Paired non-parametric test p-value.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef wilcoxon_p(a, b):\n    # TODO: stats.wilcoxon(a, b).pvalue\n    return 1.0\n\nprint(round(wilcoxon_p([1, 2, 3, 4, 5], [2, 3, 4, 5, 7]), 6))',
+"check": 'p = wilcoxon_p([1, 2, 3, 4, 5], [2, 3, 4, 5, 7])\nassert 0 <= p <= 1\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Non-parametric tests make no assumptions about distributions. Use them when data is ordinal, heavily skewed, or sample sizes are too small to verify normality. Wilcoxon, Mann-Whitney, and Kolmogorov-Smirnov are the workhorses.",
 "examples": [
         {"label": "Normality tests: Shapiro-Wilk and D\'Agostino", "code": "from scipy import stats\nimport numpy as np\n\nnp.random.seed(42)\n\ndatasets = {\n    \'Normal\':      np.random.normal(50, 10, 50),\n    \'Skewed\':      np.random.exponential(5, 50),\n    \'Heavy-tailed\':np.random.standard_t(df=3, size=50),\n    \'Uniform\':     np.random.uniform(0, 100, 50),\n}\n\nprint(f\"{\'Dataset\':15s}  {\'Shapiro p\':>10s}  {\'D\\\'Agostino p\':>13s}  {\'Normal?\'}\")\nprint(\'-\' * 60)\nfor name, data in datasets.items():\n    _, p_sw  = stats.shapiro(data)\n    _, p_da  = stats.normaltest(data)\n    is_norm  = p_sw > 0.05 and p_da > 0.05\n    print(f\"{name:15s}  {p_sw:10.4f}  {p_da:13.4f}  {str(is_norm)}\")\n\n# Q-Q plot values (manual)\nnormal_data = datasets[\'Normal\']\ntheoretical, observed = stats.probplot(normal_data, dist=\'norm\')[0]\nr = np.corrcoef(theoretical, observed)[0,1]\nprint(f\"\\nQ-Q correlation for Normal: {r:.4f} (close to 1 = normal)\")"},
@@ -1921,6 +2041,14 @@ pooled_std    = 5.0
 
 {
 "title": "21. Bayesian Inference Basics",
+"practices": [
+{
+"title": 'Credible Bounds',
+"desc": 'Central credible interval of a Beta posterior.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef credible_bounds(a, b, conf=0.95):\n    # TODO: stats.beta(a, b).interval(conf) as floats\n    return (0.0, 1.0)\n\nprint([round(v, 3) for v in credible_bounds(8, 4)])',
+"check": 'lo, hi = credible_bounds(8, 4)\nassert lo < 8/12 < hi\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Bayesian inference updates prior beliefs with observed data to produce a posterior distribution. Beta-Binomial and Normal-Normal conjugates let you compute posteriors analytically. Compare to frequentist interpretation of the same data.",
 "examples": [
         {"label": "Beta-Binomial: updating conversion rate beliefs", "code": "from scipy import stats\nimport numpy as np\n\n# Prior: Beta(alpha=2, beta=10) — we expect ~17% conversion\nprior_a, prior_b = 2, 10\n\n# Observed data: 45 conversions out of 200 visits\nobs_conv, obs_total = 45, 200\nobs_failures = obs_total - obs_conv\n\n# Posterior: Beta(alpha + successes, beta + failures) [conjugate]\npost_a = prior_a + obs_conv\npost_b = prior_b + obs_failures\n\nprior     = stats.beta(prior_a, prior_b)\nposterior = stats.beta(post_a, post_b)\n\nprint(f\"Prior:     mean={prior.mean():.3f}, 95% CI: ({prior.ppf(0.025):.3f}, {prior.ppf(0.975):.3f})\")\nprint(f\"Posterior: mean={posterior.mean():.3f}, 95% CI: ({posterior.ppf(0.025):.3f}, {posterior.ppf(0.975):.3f})\")\nprint(f\"MLE (freq): {obs_conv/obs_total:.3f}\")\n\n# Probability that conversion > 25%\nprob_above = 1 - posterior.cdf(0.25)\nprint(f\"P(conversion > 25%): {prob_above:.4f}\")\n\n# Posterior predictive: expected conversions in next 100\npp_mean  = posterior.mean() * 100\npp_sd    = np.sqrt(posterior.var() * 100)\nprint(f\"Expected conversions (next 100): {pp_mean:.1f} ± {pp_sd:.1f}\")"},
@@ -1938,6 +2066,14 @@ pooled_std    = 5.0
 
 {
 "title": "22. Effect Size & Statistical Power",
+"practices": [
+{
+"title": 'Required Sample Size',
+"desc": 'Per-group n for a two-sample z test.',
+"starter": 'import numpy as np\nfrom scipy import stats\n\ndef required_n(effect, alpha=0.05, power=0.8):\n    z_a = stats.norm.ppf(1 - alpha/2); z_b = stats.norm.ppf(power)\n    # TODO: ceil(2 * ((z_a + z_b) / effect)**2) as an int\n    return 0\n\nprint(required_n(0.5))',
+"check": 'n = required_n(0.5)\nassert n > 50, "a medium effect needs a decent sample"\nassert required_n(1.0) < n, "a bigger effect needs fewer samples"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Effect size quantifies the magnitude of a difference independently of sample size. Cohen\'s d, r, eta-squared measure effect for different tests. Power analysis determines the sample size needed to detect a given effect.",
 "examples": [
         {"label": "Cohen\'s d and r for effect size", "code": "from scipy import stats\nimport numpy as np\n\ndef cohens_d(group1, group2):\n    n1, n2 = len(group1), len(group2)\n    s_pooled = np.sqrt(((n1-1)*group1.std()**2 + (n2-1)*group2.std()**2) / (n1+n2-2))\n    return (group1.mean() - group2.mean()) / s_pooled\n\nnp.random.seed(42)\nthresholds = [(\'Small\', 0.2), (\'Medium\', 0.5), (\'Large\', 0.8)]\n\nprint(f\"{\'Effect\':8s}  {\'Cohen d\':>8s}  {\'Interpretation\':>15s}  {\'p-value\':>8s}\")\nprint(\'-\' * 55)\nfor label, target_d in thresholds:\n    a = np.random.normal(0, 1, 50)\n    b = np.random.normal(target_d, 1, 50)\n    d = cohens_d(b, a)\n    _, p = stats.ttest_ind(a, b)\n    print(f\"{label:8s}  {d:8.3f}  {label:>15s}  {p:8.4f}\")\n\n# r from t-statistic\nt_stat = 3.2\nn_total = 80\nr = np.sqrt(t_stat**2 / (t_stat**2 + n_total - 2))\nprint(f\"\\nt={t_stat}, n={n_total} -> r effect size = {r:.3f}\")\n\n# Eta-squared from F (ANOVA)\nF, df_between, df_within = 8.5, 2, 60\neta2 = (F * df_between) / (F * df_between + df_within)\nprint(f\"F={F}, df_b={df_between}, df_w={df_within} -> eta²={eta2:.3f}\")"},
@@ -1955,6 +2091,14 @@ pooled_std    = 5.0
 
 {
 "title": "23. Multiple Testing & FDR Corrections",
+"practices": [
+{
+"title": 'Benjamini-Hochberg',
+"desc": 'How many hypotheses pass the BH threshold?',
+"starter": 'import numpy as np\n\ndef fdr_bh(pvals, q=0.05):\n    p = np.sort(np.asarray(pvals, float)); m = len(p)\n    thresh = q * np.arange(1, m + 1) / m\n    # TODO: count how many sorted p-values fall at or below their threshold\n    return 0\n\nprint(fdr_bh([0.001, 0.008, 0.4]))',
+"check": 'assert fdr_bh([0.001, 0.008, 0.4]) >= 2\nassert fdr_bh([0.9, 0.8]) == 0\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Running many tests inflates the false positive rate. Bonferroni controls family-wise error rate (conservative). Benjamini-Hochberg (BH) controls the false discovery rate — preferred for exploratory studies with many hypotheses.",
 "examples": [
         {"label": "Bonferroni and Holm-Bonferroni corrections", "code": "from statsmodels.stats.multitest import multipletests\nfrom scipy import stats\nimport numpy as np\n\nnp.random.seed(42)\nn_tests = 20\nn_per   = 50\n\n# 20 tests: 3 truly different (true positives), 17 null\ntrue_effect = [0, 0, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0]\nraw_p = []\nfor d in true_effect:\n    a = np.random.normal(0, 1, n_per)\n    b = np.random.normal(d, 1, n_per)\n    _, p = stats.ttest_ind(a, b)\n    raw_p.append(p)\n\nmethods = [\'bonferroni\', \'holm\', \'fdr_bh\', \'fdr_by\']\nprint(f\"{\'Method\':12s}  {\'Rejections\':>11s}  {\'True Pos\':>9s}  {\'False Pos\':>10s}\")\nfor method in methods:\n    reject, p_adj, _, _ = multipletests(raw_p, alpha=0.05, method=method)\n    n_reject = reject.sum()\n    true_pos  = sum(1 for r, d in zip(reject, true_effect) if r and d != 0)\n    false_pos = sum(1 for r, d in zip(reject, true_effect) if r and d == 0)\n    print(f\"{method:12s}  {n_reject:11d}  {true_pos:9d}  {false_pos:10d}\")\n\nprint(f\"\\nUncorrected (p<0.05): {sum(p < 0.05 for p in raw_p)} rejections\")"},
@@ -1972,6 +2116,14 @@ pooled_std    = 5.0
 
 {
 "title": "24. Bootstrap & Permutation Tests",
+"practices": [
+{
+"title": 'Permutation Test',
+"desc": 'p-value by shuffling the group labels.',
+"starter": 'import numpy as np\n\ndef permutation_p(a, b, n_perm=2000, seed=0):\n    rng = np.random.default_rng(seed)\n    a = np.asarray(a, float); b = np.asarray(b, float)\n    obs = abs(a.mean() - b.mean()); pool = np.concatenate([a, b]); cnt = 0\n    for _ in range(n_perm):\n        rng.shuffle(pool)\n        # TODO: count when the shuffled difference is at least as extreme as obs\n        pass\n    return float((cnt + 1) / (n_perm + 1))\n\nprint(round(permutation_p([1, 2, 3], [7, 8, 9]), 4))',
+"check": 'p = permutation_p([1, 2, 3], [7, 8, 9])\nassert 0 < p <= 1\nassert p < 0.2, "well-separated groups give a small p-value"\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Bootstrap resampling estimates confidence intervals for any statistic without distributional assumptions. Permutation tests provide exact p-values for two-sample comparisons by shuffling group labels.",
 "examples": [
         {"label": "Bootstrap confidence intervals", "code": "import numpy as np\nfrom scipy import stats\n\nnp.random.seed(42)\ndata = np.random.exponential(scale=5, size=50)  # skewed data\n\ndef bootstrap_ci(data, statistic, n_boot=5000, ci=0.95):\n    boots = [statistic(np.random.choice(data, len(data), replace=True))\n             for _ in range(n_boot)]\n    alpha = (1 - ci) / 2\n    return np.percentile(boots, [alpha*100, (1-alpha)*100]), np.array(boots)\n\n# Bootstrap CI for mean, median, and std\nfor stat_name, fn in [(\'mean\', np.mean), (\'median\', np.median), (\'std\', np.std)]:\n    ci_boot, boots = bootstrap_ci(data, fn)\n    # Compare to analytical (where available)\n    print(f\"{stat_name:7s}: obs={fn(data):.3f}  boot_CI=({ci_boot[0]:.3f}, {ci_boot[1]:.3f})\")\n\n# Analytical CI for mean (t-interval)\nci_t = stats.t.interval(0.95, df=len(data)-1, loc=data.mean(), scale=stats.sem(data))\nprint(f\"\\nt-interval CI for mean: ({ci_t[0]:.3f}, {ci_t[1]:.3f})\")\nprint(f\"Boot CI for mean: above  (similar for large n, more robust for skewed)\")"},

@@ -277,7 +277,15 @@ wait_times = np.random.exponential(scale=3.0, size=500)
 # TODO: Print fitted scale (mean wait time)
 # TODO: Compute P(wait &gt; 5 minutes) using fitted distribution
 # TODO: Compute 90th percentile wait time
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the PDF, CDF, and PPF of a standard normal distribution for x = [-2,-1,0,1,2]</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Binomial PMF</div><div class="pd">Probability of exactly k successes in n trials.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">import numpy as np
+from scipy import stats
+
+def binom_pmf(k, n, p):
+    # TODO: stats.binom.pmf(k, n, p) as a float
+    return 0.0
+
+print(binom_pmf(2, 3, 0.5))</code></pre></div><template class="ho-check">assert abs(binom_pmf(2, 3, 0.5) - 0.375) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute the PDF, CDF, and PPF of a standard normal distribution for x = [-2,-1,0,1,2]</label></li>
 <li><label><input type="checkbox"> Use stats.binom to compute the probability of exactly 5 heads in 10 fair coin flips</label></li>
 <li><label><input type="checkbox"> Use stats.poisson to compute P(X &gt;= 8) for a Poisson distribution with lambda=5</label></li>
 <li><label><input type="checkbox"> Compute P(-1.96 &lt; Z &lt; 1.96) for the standard normal and verify it is approximately 0.95</label></li>
@@ -838,7 +846,17 @@ online  = np.random.normal(74, 10, 30)
 # TODO: If significant, Bonferroni post-hoc
 # TODO: Kruskal-Wallis test
 # TODO: Compare ANOVA vs Kruskal-Wallis conclusions
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups using stats.f_oneway and interpret the F-statistic and p-value</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Way ANOVA</div><div class="pd">p-value comparing three group means.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p5_1')">Copy</button></div><pre><code id="p5_1" class="language-python">import numpy as np
+from scipy import stats
+
+def anova_p(*groups):
+    # TODO: stats.f_oneway(*groups).pvalue
+    return 1.0
+
+print(round(anova_p([1, 2, 3], [4, 5, 6], [7, 8, 9]), 6))</code></pre></div><template class="ho-check">from scipy import stats
+p = anova_p([1, 2, 3], [4, 5, 6], [7, 8, 9])
+assert 0 &lt;= p &lt;= 1 and abs(p - stats.f_oneway([1,2,3],[4,5,6],[7,8,9]).pvalue) &lt; 1e-12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups using stats.f_oneway and interpret the F-statistic and p-value</label></li>
 <li><label><input type="checkbox"> Apply Tukey HSD post-hoc test to identify which specific group pairs differ significantly</label></li>
 <li><label><input type="checkbox"> Run Levene&#x27;s test to check the equal variance assumption before ANOVA</label></li>
 <li><label><input type="checkbox"> Try two-way ANOVA using statsmodels.formula.api.ols with an interaction term</label></li>
@@ -951,7 +969,16 @@ table = np.array([
 # TODO: Run chi2_contingency
 # TODO: Compute and interpret Cramer&#x27;s V
 # TODO: Also run Fisher&#x27;s exact as a check
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 contingency table and run stats.chi2_contingency, print chi2, p, dof, expected</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chi-Square Independence</div><div class="pd">p-value for a contingency table.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">import numpy as np
+from scipy import stats
+
+def chi2_p(table):
+    # TODO: stats.chi2_contingency(table).pvalue
+    return 1.0
+
+print(round(chi2_p([[10, 20], [20, 10]]), 6))</code></pre></div><template class="ho-check">p = chi2_p([[10, 20], [20, 10]])
+assert 0 &lt;= p &lt;= 1 and p &lt; 0.05, &quot;this table shows a clear association&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Build a 2x2 contingency table and run stats.chi2_contingency, print chi2, p, dof, expected</label></li>
 <li><label><input type="checkbox"> Compute Cramer&#x27;s V from the chi2 statistic to measure the strength of association</label></li>
 <li><label><input type="checkbox"> Run a goodness-of-fit chi-square test to check if a die is fair using stats.chisquare</label></li>
 <li><label><input type="checkbox"> Use stats.proportions_ztest to compare two proportions and interpret the z-statistic</label></li>
@@ -1231,7 +1258,16 @@ group_c = np.random.uniform(0, 100, 40)
 # TODO: For A vs B: t-test and Mann-Whitney
 # TODO: For A vs C: t-test and Mann-Whitney
 # TODO: Discuss which test is appropriate for each pair
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run the Shapiro-Wilk test on normal, exponential, and uniform data samples</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mann-Whitney U</div><div class="pd">Rank-based two-sample test p-value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">import numpy as np
+from scipy import stats
+
+def mannwhitney_p(a, b):
+    # TODO: stats.mannwhitneyu(a, b).pvalue
+    return 1.0
+
+print(round(mannwhitney_p([1, 2, 3], [4, 5, 6]), 6))</code></pre></div><template class="ho-check">p = mannwhitney_p([1, 2, 3], [4, 5, 6])
+assert 0 &lt;= p &lt;= 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run the Shapiro-Wilk test on normal, exponential, and uniform data samples</label></li>
 <li><label><input type="checkbox"> Use stats.mannwhitneyu to compare two exponentially distributed groups</label></li>
 <li><label><input type="checkbox"> Run stats.wilcoxon on paired before/after measurements and compare to stats.ttest_rel</label></li>
 <li><label><input type="checkbox"> Apply stats.ks_2samp to check if two samples come from the same distribution</label></li>
@@ -1359,7 +1395,17 @@ pooled_std    = 5.0
 # TODO: TTestIndPower: find n for power = 0.80, 0.85, 0.90
 # TODO: Simulate 3000 trials with n from 80% power calculation
 # TODO: Report empirical power
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Cohen&#x27;s d for two groups with different means using the pooled standard deviation</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Cohen&#x27;s d</div><div class="pd">Standardized difference between two group means.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_1')">Copy</button></div><pre><code id="p9_1" class="language-python">import numpy as np
+
+def cohens_d(a, b):
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    s = np.sqrt(((len(a)-1)*a.var(ddof=1) + (len(b)-1)*b.var(ddof=1)) / (len(a)+len(b)-2))
+    # TODO: (mean(b) - mean(a)) / s
+    return 0.0
+
+print(round(cohens_d([1, 2, 3], [4, 5, 6]), 4))</code></pre></div><template class="ho-check">assert cohens_d([1, 2, 3], [4, 5, 6]) &gt; 1, &quot;a large effect&quot;
+assert cohens_d([1, 2, 3], [1, 2, 3]) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Cohen&#x27;s d for two groups with different means using the pooled standard deviation</label></li>
 <li><label><input type="checkbox"> Use TTestIndPower.solve_power to find required n for effect_size=0.5 at 80% power</label></li>
 <li><label><input type="checkbox"> Calculate achieved power for d=0.3, n=100 per group at alpha=0.05</label></li>
 <li><label><input type="checkbox"> Find the minimum detectable effect (MDE) for n=200 per group at 80% power</label></li>
@@ -1504,7 +1550,12 @@ alpha_prior, beta_prior = 1, 1
 # TODO: compute posterior mean
 # TODO: compute 90% credible interval (5th and 95th percentile)
 # TODO: compute MLE estimate (conversions/visitors)
-# TODO: print comparison</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Update a Beta(1,1) prior with 7 heads in 10 flips and print the posterior mean and 95% CI</label></li>
+# TODO: print comparison</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Beta Posterior Mean</div><div class="pd">Posterior mean after s successes in n trials.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p10_1')">Copy</button></div><pre><code id="p10_1" class="language-python">def beta_posterior_mean(a, b, s, n):
+    # TODO: (a + s) / (a + b + n)
+    return 0.0
+
+print(round(beta_posterior_mean(1, 1, 7, 10), 4))</code></pre></div><template class="ho-check">assert abs(beta_posterior_mean(1, 1, 7, 10) - 8/12) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Update a Beta(1,1) prior with 7 heads in 10 flips and print the posterior mean and 95% CI</label></li>
 <li><label><input type="checkbox"> Compute P(B &gt; A) via Monte Carlo sampling from two Beta posteriors for an A/B test</label></li>
 <li><label><input type="checkbox"> Start with a Beta(2,10) informative prior and compare the posterior to Beta(1,1) prior</label></li>
 <li><label><input type="checkbox"> Use the Normal-Normal conjugate to estimate the mean of 30 observations with a prior</label></li>
@@ -1685,7 +1736,16 @@ np.random.seed(42)
 # TODO: implement km_curve function (or copy from examples)
 # TODO: plot both KM curves on same figure
 # TODO: compute and print log-rank test p-value
-# TODO: save to &#x27;equipment_survival.png&#x27;</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate survival data with right censoring and compute the Kaplan-Meier estimate</label></li>
+# TODO: save to &#x27;equipment_survival.png&#x27;</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Survival At Time</div><div class="pd">Fraction still surviving past time t.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_1')">Copy</button></div><pre><code id="p11_1" class="language-python">import numpy as np
+
+def survival_at(times, t):
+    times = np.asarray(times, float)
+    # TODO: fraction of times greater than t
+    return 0.0
+
+print(survival_at([1, 2, 3, 4], 2))</code></pre></div><template class="ho-check">assert survival_at([1, 2, 3, 4], 2) == 0.5
+assert survival_at([1, 2], 5) == 0.0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Simulate survival data with right censoring and compute the Kaplan-Meier estimate</label></li>
 <li><label><input type="checkbox"> Compare survival curves for two groups using the log-rank test</label></li>
 <li><label><input type="checkbox"> Print median survival time and 95% CI from the Kaplan-Meier estimator</label></li>
 <li><label><input type="checkbox"> Fit a Cox Proportional Hazards model and print hazard ratios for each covariate</label></li>
@@ -1791,7 +1851,15 @@ group_b = np.random.normal(4.8, 1.5, 50)
 # TODO: compute observed difference
 # TODO: combine groups, run 10000 permutations
 # TODO: compute permutation p-value (two-tailed)
-# TODO: print results</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean using 5000 resamples</label></li>
+# TODO: print results</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Simulated Mean</div><div class="pd">Mean of n uniform draws.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p12_1')">Copy</button></div><pre><code id="p12_1" class="language-python">import numpy as np
+
+def simulate_mean(n, seed=0):
+    rng = np.random.default_rng(seed)
+    # TODO: mean of rng.random(n)
+    return 0.0
+
+print(round(simulate_mean(100000), 4))</code></pre></div><template class="ho-check">assert abs(simulate_mean(100000) - 0.5) &lt; 0.01
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean using 5000 resamples</label></li>
 <li><label><input type="checkbox"> Run a permutation test to compare two group means and compute the p-value</label></li>
 <li><label><input type="checkbox"> Bootstrap the median of a skewed distribution and compare to the analytical t-interval</label></li>
 <li><label><input type="checkbox"> Simulate the bootstrap distribution of the correlation coefficient between two variables</label></li>
@@ -1861,7 +1929,17 @@ B = 10000
 # TODO: Bootstrap CI for 75th percentile LTV
 # TODO: Permutation test: premium vs standard mean LTV
 # TODO: Report Cohen&#x27;s d effect size
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean of an exponential sample (n=50)</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bootstrap CI</div><div class="pd">Percentile bootstrap interval for the mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p13_1')">Copy</button></div><pre><code id="p13_1" class="language-python">import numpy as np
+
+def bootstrap_ci(data, n_boot=2000, seed=0):
+    rng = np.random.default_rng(seed); d = np.asarray(data, float)
+    b = np.array([rng.choice(d, len(d), replace=True).mean() for _ in range(n_boot)])
+    # TODO: return the 2.5 and 97.5 percentiles of b as floats
+    return (0.0, 0.0)
+
+print([round(v, 3) for v in bootstrap_ci([1, 2, 3, 4, 5])])</code></pre></div><template class="ho-check">lo, hi = bootstrap_ci([1, 2, 3, 4, 5])
+assert lo &lt; 3 &lt; hi, &quot;the interval brackets the sample mean&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute a 95% percentile bootstrap CI for the mean of an exponential sample (n=50)</label></li>
 <li><label><input type="checkbox"> Implement a BCa bootstrap CI and compare to the simpler percentile method</label></li>
 <li><label><input type="checkbox"> Run a permutation test comparing two group means and print the two-sided p-value</label></li>
 <li><label><input type="checkbox"> Bootstrap the regression slope and compare to the analytical confidence interval</label></li>
@@ -1960,7 +2038,15 @@ alpha = 0.05
 # TODO: BH FDR correction + reject/accept
 # TODO: Print comparison table
 # TODO: Discuss which method to use and why
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply Bonferroni correction to 20 p-values and count how many are still significant</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bonferroni</div><div class="pd">Which p-values survive a Bonferroni correction?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p14_1')">Copy</button></div><pre><code id="p14_1" class="language-python">import numpy as np
+
+def bonferroni(pvals, alpha=0.05):
+    p = np.asarray(pvals, float)
+    # TODO: mask of p below alpha/len(p), as a list
+    return []
+
+print(bonferroni([0.001, 0.04, 0.5]))</code></pre></div><template class="ho-check">assert bonferroni([0.001, 0.04, 0.5]) == [True, False, False]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Apply Bonferroni correction to 20 p-values and count how many are still significant</label></li>
 <li><label><input type="checkbox"> Apply Benjamini-Hochberg (BH) correction and compare the number of rejections to Bonferroni</label></li>
 <li><label><input type="checkbox"> Manually implement the BH procedure step-by-step on a sorted list of p-values</label></li>
 <li><label><input type="checkbox"> Use multipletests from statsmodels with method=&#x27;fdr_bh&#x27; and print adjusted p-values</label></li>
@@ -2046,7 +2132,18 @@ Xs = scaler.fit_transform(X)
 # TODO: ANOVA on top 3 PCs and 3 original features per cluster
 # TODO: Report eta-squared effect sizes
 # TODO: Plot 2D PCA colored by cluster
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit PCA and print how many components explain at least 90% of the variance</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Explained Variance</div><div class="pd">Share of variance held by the top k components.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_1')">Copy</button></div><pre><code id="p15_1" class="language-python">import numpy as np
+
+def pca_explained(X, k=1):
+    X = np.asarray(X, float); Xc = X - X.mean(axis=0)
+    s = np.linalg.svd(Xc, full_matrices=False)[1]
+    ev = s**2 / (s**2).sum()
+    # TODO: sum of the first k entries of ev, as a float
+    return 0.0
+
+print(round(pca_explained([[1, 2], [2, 4], [3, 6.1]]), 4))</code></pre></div><template class="ho-check">v = pca_explained([[1, 2], [2, 4], [3, 6.1]])
+assert 0 &lt; v &lt;= 1 and v &gt; 0.9, &quot;these points are nearly collinear&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Fit PCA and print how many components explain at least 90% of the variance</label></li>
 <li><label><input type="checkbox"> Run t-SNE with perplexity=30 and print the centroid coordinates of each cluster</label></li>
 <li><label><input type="checkbox"> Run t-tests on each PCA component to check if two groups differ significantly</label></li>
 <li><label><input type="checkbox"> Use PCA reconstruction error to identify outliers in a multivariate dataset</label></li>
@@ -2150,7 +2247,16 @@ n_b, open_b = 800, 117
 rate_a = open_a / n_a
 rate_b = open_b / n_b
 print(f&quot;Rate A: {rate_a:.3f}, Rate B: {rate_b:.3f}&quot;)
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a one-sample t-test on data simulated from normal(70,8) testing if the mean equals 72</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: One-Sample t-test</div><div class="pd">p-value against a hypothesized mean.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_1')">Copy</button></div><pre><code id="p16_1" class="language-python">import numpy as np
+from scipy import stats
+
+def ttest_1samp_p(data, mu):
+    # TODO: stats.ttest_1samp(data, mu).pvalue
+    return 1.0
+
+print(round(ttest_1samp_p([1, 2, 3], 2), 6))</code></pre></div><template class="ho-check">from scipy import stats
+assert abs(ttest_1samp_p([1,2,3], 2) - stats.ttest_1samp([1,2,3], 2).pvalue) &lt; 1e-12
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run a one-sample t-test on data simulated from normal(70,8) testing if the mean equals 72</label></li>
 <li><label><input type="checkbox"> Run a two-sample t-test on two groups and check if the difference is statistically significant</label></li>
 <li><label><input type="checkbox"> Run a paired t-test on before/after measurements and compute a 95% CI for the mean difference</label></li>
 <li><label><input type="checkbox"> Use stats.proportions_ztest to test if two conversion rates are significantly different</label></li>
@@ -2256,7 +2362,12 @@ channels = {&#x27;Email&#x27;:   np.random.normal(120, 25, 25),
 # (2) Tukey HSD if significant
 # (3) eta-squared = SS_between / SS_total
 # SS_total = sum of (xi - grand_mean)^2 across all observations
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups and interpret whether F-statistic and p-value are significant</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Pairwise Comparisons</div><div class="pd">How many pairwise tests for k groups?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_1')">Copy</button></div><pre><code id="p17_1" class="language-python">def tukey_pairs(k):
+    # TODO: k choose 2
+    return 0
+
+print(tukey_pairs(4))</code></pre></div><template class="ho-check">assert tukey_pairs(4) == 6 and tukey_pairs(3) == 3
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Run one-way ANOVA on 3 groups and interpret whether F-statistic and p-value are significant</label></li>
 <li><label><input type="checkbox"> Run pairwise_tukeyhsd and print which group pairs differ at alpha=0.05</label></li>
 <li><label><input type="checkbox"> Run Kruskal-Wallis as the non-parametric alternative and compare the p-value to ANOVA</label></li>
 <li><label><input type="checkbox"> Compute eta-squared (SS_between / SS_total) as the ANOVA effect size</label></li>
@@ -2390,7 +2501,15 @@ df = pd.DataFrame({
 # (2) flag |r| &gt; 0.7 pairs
 # (3) point-biserial for binary vs continuous
 # (4) test significance
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson r between two linearly related variables and check the p-value</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Spearman Correlation</div><div class="pd">Rank correlation, robust to monotone transforms.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_1')">Copy</button></div><pre><code id="p18_1" class="language-python">import numpy as np
+from scipy import stats
+
+def spearman_r(x, y):
+    # TODO: stats.spearmanr(x, y).statistic
+    return 0.0
+
+print(round(spearman_r([1, 2, 3], [1, 4, 9]), 4))</code></pre></div><template class="ho-check">assert abs(spearman_r([1, 2, 3], [1, 4, 9]) - 1) &lt; 1e-9, &quot;monotone -&gt; rank correlation 1&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Compute Pearson r between two linearly related variables and check the p-value</label></li>
 <li><label><input type="checkbox"> Compare Pearson and Spearman correlation on a dataset with a few outliers</label></li>
 <li><label><input type="checkbox"> Build a full correlation matrix for a DataFrame and flag pairs with absolute r &gt; 0.7</label></li>
 <li><label><input type="checkbox"> Compute partial correlation between X and Y controlling for a confound Z</label></li>
@@ -2510,7 +2629,16 @@ skewed_b = np.random.exponential(3, 30)
 
 print(compare_groups(normal_a, normal_b))
 print(compare_groups(skewed_a, skewed_b))
-</code></pre></div></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Test normality on normal, exponential, and uniform samples with Shapiro-Wilk</label></li>
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Wilcoxon Signed-Rank</div><div class="pd">Paired non-parametric test p-value.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_1')">Copy</button></div><pre><code id="p19_1" class="language-python">import numpy as np
+from scipy import stats
+
+def wilcoxon_p(a, b):
+    # TODO: stats.wilcoxon(a, b).pvalue
+    return 1.0
+
+print(round(wilcoxon_p([1, 2, 3, 4, 5], [2, 3, 4, 5, 7]), 6))</code></pre></div><template class="ho-check">p = wilcoxon_p([1, 2, 3, 4, 5], [2, 3, 4, 5, 7])
+assert 0 &lt;= p &lt;= 1
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="todo-list"><div class="todo-head">&#x2705; Practice Checklist</div><ul><li><label><input type="checkbox"> Test normality on normal, exponential, and uniform samples with Shapiro-Wilk</label></li>
 <li><label><input type="checkbox"> Use Mann-Whitney U to compare two exponentially distributed groups</label></li>
 <li><label><input type="checkbox"> Run Wilcoxon signed-rank test on paired before/after data and compare to paired t-test</label></li>
 <li><label><input type="checkbox"> Apply the two-sample KS test to check if two samples share the same distribution</label></li>
@@ -2654,7 +2782,16 @@ for step in range(10, n_flips+1, 10):
     pass
 
 # (5) P(p &gt; 0.5) from final posterior
-</code></pre></div></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Effect Size &amp; Statistical Power</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Effect size quantifies the magnitude of a difference independently of sample size. Cohen&#x27;s d, r, eta-squared measure effect for different tests. Power analysis determines the sample size needed to detect a given effect.</p><div class="code-block"><div class="ch"><span>Cohen&#x27;s d and r for effect size</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">from scipy import stats
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Credible Bounds</div><div class="pd">Central credible interval of a Beta posterior.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_1')">Copy</button></div><pre><code id="p20_1" class="language-python">import numpy as np
+from scipy import stats
+
+def credible_bounds(a, b, conf=0.95):
+    # TODO: stats.beta(a, b).interval(conf) as floats
+    return (0.0, 1.0)
+
+print([round(v, 3) for v in credible_bounds(8, 4)])</code></pre></div><template class="ho-check">lo, hi = credible_bounds(8, 4)
+assert lo &lt; 8/12 &lt; hi
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s21"><div class="th" onclick="tog(this)"><span>22. Effect Size &amp; Statistical Power</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Effect size quantifies the magnitude of a difference independently of sample size. Cohen&#x27;s d, r, eta-squared measure effect for different tests. Power analysis determines the sample size needed to detect a given effect.</p><div class="code-block"><div class="ch"><span>Cohen&#x27;s d and r for effect size</span><button onclick="cp('c21_0')">Copy</button></div><pre><code id="c21_0" class="language-python">from scipy import stats
 import numpy as np
 
 def cohens_d(group1, group2):
@@ -2775,7 +2912,18 @@ print(&quot;\nAchieved power for n=150 per group:&quot;)
 # (3) MDE
 mde = analysis.solve_power(alpha=0.05, power=0.80, nobs1=300)
 print(f&quot;\nMDE for n=300: d={mde:.4f}&quot;)
-</code></pre></div></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Multiple Testing &amp; FDR Corrections</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Running many tests inflates the false positive rate. Bonferroni controls family-wise error rate (conservative). Benjamini-Hochberg (BH) controls the false discovery rate — preferred for exploratory studies with many hypotheses.</p><div class="code-block"><div class="ch"><span>Bonferroni and Holm-Bonferroni corrections</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">from statsmodels.stats.multitest import multipletests
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Required Sample Size</div><div class="pd">Per-group n for a two-sample z test.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p21_1')">Copy</button></div><pre><code id="p21_1" class="language-python">import numpy as np
+from scipy import stats
+
+def required_n(effect, alpha=0.05, power=0.8):
+    z_a = stats.norm.ppf(1 - alpha/2); z_b = stats.norm.ppf(power)
+    # TODO: ceil(2 * ((z_a + z_b) / effect)**2) as an int
+    return 0
+
+print(required_n(0.5))</code></pre></div><template class="ho-check">n = required_n(0.5)
+assert n &gt; 50, &quot;a medium effect needs a decent sample&quot;
+assert required_n(1.0) &lt; n, &quot;a bigger effect needs fewer samples&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s22"><div class="th" onclick="tog(this)"><span>23. Multiple Testing &amp; FDR Corrections</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Running many tests inflates the false positive rate. Bonferroni controls family-wise error rate (conservative). Benjamini-Hochberg (BH) controls the false discovery rate — preferred for exploratory studies with many hypotheses.</p><div class="code-block"><div class="ch"><span>Bonferroni and Holm-Bonferroni corrections</span><button onclick="cp('c22_0')">Copy</button></div><pre><code id="c22_0" class="language-python">from statsmodels.stats.multitest import multipletests
 from scipy import stats
 import numpy as np
 
@@ -2908,7 +3056,17 @@ for d in true_effects:
 # TODO: apply all three corrections
 # TODO: print table showing which metrics are significant under each method
 # TODO: comment on when to prefer BH vs Bonferroni
-</code></pre></div></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Bootstrap &amp; Permutation Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bootstrap resampling estimates confidence intervals for any statistic without distributional assumptions. Permutation tests provide exact p-values for two-sample comparisons by shuffling group labels.</p><div class="code-block"><div class="ch"><span>Bootstrap confidence intervals</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Benjamini-Hochberg</div><div class="pd">How many hypotheses pass the BH threshold?</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p22_1')">Copy</button></div><pre><code id="p22_1" class="language-python">import numpy as np
+
+def fdr_bh(pvals, q=0.05):
+    p = np.sort(np.asarray(pvals, float)); m = len(p)
+    thresh = q * np.arange(1, m + 1) / m
+    # TODO: count how many sorted p-values fall at or below their threshold
+    return 0
+
+print(fdr_bh([0.001, 0.008, 0.4]))</code></pre></div><template class="ho-check">assert fdr_bh([0.001, 0.008, 0.4]) &gt;= 2
+assert fdr_bh([0.9, 0.8]) == 0
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s23"><div class="th" onclick="tog(this)"><span>24. Bootstrap &amp; Permutation Tests</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Bootstrap resampling estimates confidence intervals for any statistic without distributional assumptions. Permutation tests provide exact p-values for two-sample comparisons by shuffling group labels.</p><div class="code-block"><div class="ch"><span>Bootstrap confidence intervals</span><button onclick="cp('c23_0')">Copy</button></div><pre><code id="c23_0" class="language-python">import numpy as np
 from scipy import stats
 
 np.random.seed(42)
@@ -3034,7 +3192,22 @@ for name, data in datasets.items():
     print(f&quot;{name}:&quot;)
     print(f&quot;  Bootstrap mean CI:    ({boot_mean[0]:.3f}, {boot_mean[1]:.3f})&quot;)
     # TODO: print t-interval and bootstrap median CI
-</code></pre></div></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Practice Lab: Tests &amp; Z-Scores</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on statistics challenges that run in your browser (NumPy + SciPy ship with Pyodide). Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Two-sample t-test</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
+</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Permutation Test</div><div class="pd">p-value by shuffling the group labels.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p23_1')">Copy</button></div><pre><code id="p23_1" class="language-python">import numpy as np
+
+def permutation_p(a, b, n_perm=2000, seed=0):
+    rng = np.random.default_rng(seed)
+    a = np.asarray(a, float); b = np.asarray(b, float)
+    obs = abs(a.mean() - b.mean()); pool = np.concatenate([a, b]); cnt = 0
+    for _ in range(n_perm):
+        rng.shuffle(pool)
+        # TODO: count when the shuffled difference is at least as extreme as obs
+        pass
+    return float((cnt + 1) / (n_perm + 1))
+
+print(round(permutation_p([1, 2, 3], [7, 8, 9]), 4))</code></pre></div><template class="ho-check">p = permutation_p([1, 2, 3], [7, 8, 9])
+assert 0 &lt; p &lt;= 1
+assert p &lt; 0.2, &quot;well-separated groups give a small p-value&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s24"><div class="th" onclick="tog(this)"><span>25. Practice Lab: Tests &amp; Z-Scores</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Hands-on statistics challenges that run in your browser (NumPy + SciPy ship with Pyodide). Press Run to try a snippet, then solve the exercise and press Check.</p><div class="code-block"><div class="ch"><span>Two-sample t-test</span><button onclick="cp('c24_0')">Copy</button></div><pre><code id="c24_0" class="language-python">import numpy as np
 from scipy import stats
 
 rng = np.random.default_rng(0)
