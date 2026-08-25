@@ -136,7 +136,38 @@ print(f"pandas {pd.__version__}  |  numpy {np.__version__}")
 print("Environment ready for sales analysis.")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Major Version</div>
+        <div class="pd">Read pandas&#x27; major version number.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def pandas_major():
+    # TODO: int of the first component of pd.__version__
+    return 0
+
+print(pandas_major())</code></pre></div>
+        <template class="ho-check">assert pandas_major() &gt;= 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Make a Series</div>
+        <div class="pd">Turn a list into a Series.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def as_series(vals):
+    # TODO: pd.Series(vals)
+    return None
+
+print(as_series([1, 2]).tolist())</code></pre></div>
+        <template class="ho-check">assert as_series([1, 2]).tolist() == [1, 2]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 2 ─────────────────────────── -->
@@ -204,7 +235,38 @@ print(f"Ann. volatility: {volatility:.1f}%")
 print(f"52-wk high so far: {aapl.max():.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Series From Dict</div>
+        <div class="pd">Build a Series from a dict.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def series_from_dict(d):
+    # TODO: pd.Series(d)
+    return None
+
+print(series_from_dict({&quot;a&quot;: 1, &quot;b&quot;: 2}))</code></pre></div>
+        <template class="ho-check">assert series_from_dict({&quot;a&quot;: 1})[&quot;a&quot;] == 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Scale a Series</div>
+        <div class="pd">Multiply every element by k.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def series_scale(s, k):
+    # TODO: pd.Series(s, dtype=float) * k
+    return None
+
+print(series_scale([1, 2], 3).tolist())</code></pre></div>
+        <template class="ho-check">assert series_scale([1, 2], 3).tolist() == [3, 6]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 3 ─────────────────────────── -->
@@ -266,7 +328,42 @@ print("\nTop-rated products:\n", top_rated.to_string(index=False))
 print(f"\nTotal inventory value: ${inventory_val:,.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Shape</div>
+        <div class="pd">Rows and columns of a DataFrame.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def df_shape(df):
+    # TODO: df.shape
+    return ()
+
+print(df_shape(df))</code></pre></div>
+        <template class="ho-check">assert df_shape(df) == (4, 3)
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Column Names</div>
+        <div class="pd">List the column names.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def col_names(df):
+    # TODO: list(df.columns)
+    return []
+
+print(col_names(df))</code></pre></div>
+        <template class="ho-check">assert col_names(df) == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 4 ─────────────────────────── -->
@@ -339,7 +436,38 @@ print("\nDtypes:\n", df.dtypes)
 print(f"\nTotal revenue: ${df['amount'].sum():,.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Read CSV Text</div>
+        <div class="pd">Parse CSV text into a DataFrame.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd, io
+
+def read_csv_text(text):
+    # TODO: pd.read_csv(io.StringIO(text))
+    return None
+
+print(read_csv_text(&quot;a,b\n1,2&quot;))</code></pre></div>
+        <template class="ho-check">assert len(read_csv_text(&quot;a,b\n1,2&quot;)) == 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Write CSV Text</div>
+        <div class="pd">Serialize a DataFrame to CSV without the index.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def to_csv_text(df):
+    # TODO: df.to_csv(index=False)
+    return &quot;&quot;
+
+print(repr(to_csv_text(pd.DataFrame({&quot;a&quot;: [1]}))))</code></pre></div>
+        <template class="ho-check">assert to_csv_text(pd.DataFrame({&quot;a&quot;: [1]})).strip() == &quot;a\n1&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 5 ─────────────────────────── -->
@@ -398,7 +526,42 @@ print("\nSegment mix:\n", customers["segment"].value_counts())
 print("\nNumeric summary:\n", customers.describe().round(1))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: First N Rows</div>
+        <div class="pd">Return the first n rows.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def first_n(df, n):
+    # TODO: df.head(n)
+    return df
+
+print(first_n(df, 2))</code></pre></div>
+        <template class="ho-check">assert len(first_n(df, 2)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Means From Describe</div>
+        <div class="pd">Pull the mean row out of describe().</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def numeric_summary(df):
+    # TODO: df.describe().loc[&quot;mean&quot;].to_dict()
+    return {}
+
+print(numeric_summary(df))</code></pre></div>
+        <template class="ho-check">assert numeric_summary(df)[&quot;a&quot;] == 2.5
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 6 ─────────────────────────── -->
@@ -766,7 +929,43 @@ print(report.to_string(index=False))
 print(f"\nAvg gross margin: {sales['gross_margin_pct'].mean():.1f}%")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Add a Column</div>
+        <div class="pd">Return a copy with a new column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def add_col(df, name, vals):
+    d = df.copy()
+    # TODO: set d[name] = vals
+    return d
+
+print(add_col(df, &quot;n&quot;, [1, 2, 3, 4]).columns.tolist())</code></pre></div>
+        <template class="ho-check">assert &quot;n&quot; in add_col(df, &quot;n&quot;, [1, 2, 3, 4]).columns
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Drop a Column</div>
+        <div class="pd">Remove a column by name.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def drop_col(df, name):
+    # TODO: df.drop(columns=[name])
+    return df
+
+print(drop_col(df, &quot;b&quot;).columns.tolist())</code></pre></div>
+        <template class="ho-check">assert &quot;b&quot; not in drop_col(df, &quot;b&quot;).columns
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 9 ─────────────────────────── -->
@@ -988,7 +1187,45 @@ print(f"\nTotal debits : ${df[df['type']=='debit']['abs_amount'].sum():.2f}")
 print(f"Total credits: ${df[df['type']=='credit']['abs_amount'].sum():.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Cast to Float</div>
+        <div class="pd">Convert one column to float.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def to_float(df, col):
+    d = df.copy()
+    # TODO: d[col] = d[col].astype(float)
+    return d
+
+print(to_float(df, &quot;a&quot;).dtypes.to_dict())</code></pre></div>
+        <template class="ho-check">assert to_float(df, &quot;a&quot;)[&quot;a&quot;].dtype == float
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Dtype Names</div>
+        <div class="pd">Column dtypes as strings.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def dtypes_dict(df):
+    # TODO: {column: str(dtype)} for every column
+    return {}
+
+print(dtypes_dict(df))</code></pre></div>
+        <template class="ho-check">r = dtypes_dict(df)
+assert set(r) == {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}
+assert r[&quot;c&quot;].startswith(&quot;float&quot;)
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 11 ─────────────────────────── -->
@@ -1043,7 +1280,43 @@ print("\n=== Top 3 Improvers ===")
 print(reps.nlargest(3, "yoy_growth")[["rep","q4_rev","yoy_growth"]].to_string(index=False))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Sort By Column</div>
+        <div class="pd">Sort rows by one column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def sort_by(df, col, asc=True):
+    # TODO: df.sort_values(col, ascending=asc)
+    return df
+
+print(sort_by(df, &quot;a&quot;, False))</code></pre></div>
+        <template class="ho-check">assert sort_by(df, &quot;a&quot;, False).iloc[0][&quot;a&quot;] == 4
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Sort By Several</div>
+        <div class="pd">Sort by multiple columns in order.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def sort_multi(df, cols):
+    # TODO: df.sort_values(cols)
+    return df
+
+print(sort_multi(df, [&quot;b&quot;, &quot;a&quot;]))</code></pre></div>
+        <template class="ho-check">assert len(sort_multi(df, [&quot;b&quot;, &quot;a&quot;])) == 4
+assert sort_multi(df, [&quot;b&quot;, &quot;a&quot;]).iloc[0][&quot;b&quot;] == &quot;w&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 12 ─────────────────────────── -->
@@ -1440,7 +1713,41 @@ best_q = matrix.drop("TOTAL").drop("TOTAL", axis=1).idxmax(axis=1)
 print("\nBest quarter per region:\n", best_q.to_string())</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Pivot Means</div>
+        <div class="pd">Grid of means over two keys.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def pivot_mean(df, i, c, v):
+    # TODO: df.pivot_table(index=i, columns=c, values=v, aggfunc=&quot;mean&quot;)
+    return df
+
+P = pd.DataFrame({&quot;r&quot;: [&quot;a&quot;, &quot;a&quot;], &quot;c&quot;: [&quot;x&quot;, &quot;y&quot;], &quot;v&quot;: [1.0, 3]})
+print(pivot_mean(P, &quot;r&quot;, &quot;c&quot;, &quot;v&quot;))</code></pre></div>
+        <template class="ho-check">import pandas as pd
+P = pd.DataFrame({&quot;r&quot;: [&quot;a&quot;, &quot;a&quot;], &quot;c&quot;: [&quot;x&quot;, &quot;y&quot;], &quot;v&quot;: [1.0, 3]})
+assert pivot_mean(P, &quot;r&quot;, &quot;c&quot;, &quot;v&quot;).loc[&quot;a&quot;, &quot;x&quot;] == 1.0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Crosstab</div>
+        <div class="pd">Frequency table of two categoricals.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def crosstab_counts(a, b):
+    # TODO: pd.crosstab(pd.Series(a), pd.Series(b))
+    return None
+
+print(crosstab_counts([&quot;x&quot;, &quot;x&quot;], [&quot;p&quot;, &quot;q&quot;]))</code></pre></div>
+        <template class="ho-check">assert crosstab_counts([&quot;x&quot;, &quot;x&quot;], [&quot;p&quot;, &quot;q&quot;]).loc[&quot;x&quot;, &quot;p&quot;] == 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 15 ─────────────────────────── -->
@@ -1497,7 +1804,38 @@ contacts["is_personal_email"] = contacts["email_domain"].isin(corp_domains)
 print(contacts[["full_name","email","phone_clean","email_domain","is_personal_email"]].to_string(index=False))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Uppercase</div>
+        <div class="pd">Uppercase a string column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def upper_col(s):
+    # TODO: pd.Series(s).str.upper()
+    return None
+
+print(upper_col([&quot;a&quot;, &quot;b&quot;]).tolist())</code></pre></div>
+        <template class="ho-check">assert upper_col([&quot;a&quot;]).tolist() == [&quot;A&quot;]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Contains</div>
+        <div class="pd">Boolean mask for a substring.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def contains_col(s, sub):
+    # TODO: pd.Series(s).str.contains(sub)
+    return None
+
+print(contains_col([&quot;cat&quot;, &quot;dog&quot;], &quot;a&quot;).tolist())</code></pre></div>
+        <template class="ho-check">assert contains_col([&quot;cat&quot;, &quot;dog&quot;], &quot;a&quot;).tolist() == [True, False]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 16 ─────────────────────────── -->
@@ -1570,7 +1908,38 @@ print(f"\nAt-risk MRR (renewing ≤30d): ${subs[subs['renewing_soon']]['mrr'].su
 print(f"Loyal customers: {subs['loyal'].sum()}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse Dates</div>
+        <div class="pd">Convert strings to datetimes.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def parse_dates(s):
+    # TODO: pd.to_datetime(pd.Series(s))
+    return None
+
+print(parse_dates([&quot;2024-01-02&quot;]).dt.year.tolist())</code></pre></div>
+        <template class="ho-check">assert parse_dates([&quot;2024-01-02&quot;]).dt.year.tolist() == [2024]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Month Numbers</div>
+        <div class="pd">Extract the month from date strings.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def month_of(s):
+    # TODO: parse to datetime, then .dt.month as a list
+    return []
+
+print(month_of([&quot;2024-03-05&quot;]))</code></pre></div>
+        <template class="ho-check">assert month_of([&quot;2024-03-05&quot;]) == [3]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 17 ─────────────────────────── -->
@@ -1644,7 +2013,38 @@ print(orders[["order_id","customer","subtotal","discount_pct","discount_amt","fi
 print(f"\nTotal discounts given: ${orders['discount_amt'].sum():.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Apply a Function</div>
+        <div class="pd">Apply a callable elementwise.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def apply_fn(s, f):
+    # TODO: pd.Series(s).apply(f)
+    return None
+
+print(apply_fn([1, 2], lambda v: v * 2).tolist())</code></pre></div>
+        <template class="ho-check">assert apply_fn([1, 2], lambda v: v * 2).tolist() == [2, 4]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Map Values</div>
+        <div class="pd">Translate values through a dict.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def map_values(s, mapping):
+    # TODO: pd.Series(s).map(mapping)
+    return None
+
+print(map_values([&quot;a&quot;], {&quot;a&quot;: 1}).tolist())</code></pre></div>
+        <template class="ho-check">assert map_values([&quot;a&quot;], {&quot;a&quot;: 1}).tolist() == [1]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 18 ─────────────────────────── -->
@@ -1714,7 +2114,42 @@ heatmap_data = long.pivot(index="feature", columns="user_id", values="rating")
 print("\nHeatmap matrix shape:", heatmap_data.shape)</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Melt to Long</div>
+        <div class="pd">Reshape wide columns into rows.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def melt_df(df, id_vars, value_vars):
+    # TODO: df.melt(id_vars=id_vars, value_vars=value_vars)
+    return df
+
+print(melt_df(df, [&quot;b&quot;], [&quot;a&quot;, &quot;c&quot;]).head())</code></pre></div>
+        <template class="ho-check">assert len(melt_df(df, [&quot;b&quot;], [&quot;a&quot;, &quot;c&quot;])) == 8
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Stack</div>
+        <div class="pd">Stack columns into a Series.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def stack_df(df):
+    # TODO: index by &quot;b&quot;, keep a and c, then .stack()
+    return df
+
+print(len(stack_df(df)))</code></pre></div>
+        <template class="ho-check">assert len(stack_df(df)) == 8
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 19 ─────────────────────────── -->
@@ -1794,7 +2229,44 @@ print(f"Revenue impact (1M visitors, $50 AOV): ${1e6 * (cvr_b-cvr_a)/100 * 50:,.
 print(f"Time→convert corr: {ab['time_on_page'].corr(ab['converted']):.3f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Mean and Std</div>
+        <div class="pd">Mean and population std of a column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def col_mean_std(df, col):
+    s = df[col]
+    # TODO: return (float mean, float std with ddof=0)
+    return (0.0, 0.0)
+
+print(col_mean_std(df, &quot;a&quot;))</code></pre></div>
+        <template class="ho-check">m, sd = col_mean_std(df, &quot;a&quot;)
+assert m == 2.5 and sd &gt; 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Correlation</div>
+        <div class="pd">Correlation between two columns.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def corr_of(df, c1, c2):
+    # TODO: df[c1].corr(df[c2]) as a float
+    return 0.0
+
+print(round(corr_of(df, &quot;a&quot;, &quot;c&quot;), 4))</code></pre></div>
+        <template class="ho-check">assert abs(corr_of(df, &quot;a&quot;, &quot;c&quot;) - 1) &lt; 1e-9
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 20 ─────────────────────────── -->
@@ -1867,7 +2339,40 @@ plt.show()
 print("Dashboard saved.")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Counts For a Bar Chart</div>
+        <div class="pd">Category counts, sorted by category.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def counts_for_bar(s):
+    # TODO: value_counts().sort_index().to_dict()
+    return {}
+
+print(counts_for_bar([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;]))</code></pre></div>
+        <template class="ho-check">assert counts_for_bar([&quot;a&quot;, &quot;a&quot;, &quot;b&quot;]) == {&quot;a&quot;: 2, &quot;b&quot;: 1}
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Cumulative Column</div>
+        <div class="pd">Running total of a column for a line chart.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def cumulative_col(df, col):
+    # TODO: df[col].cumsum() as a list
+    return []
+
+print(cumulative_col(df, &quot;a&quot;))</code></pre></div>
+        <template class="ho-check">assert cumulative_col(df, &quot;a&quot;) == [1, 3, 6, 10]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 21 ─────────────────────────── -->
@@ -1929,7 +2434,47 @@ print(f"\nAfter: {len(crm_clean)} rows")
 print(crm_clean[["email","name","plan","last_updated","source"]].to_string(index=False))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Count Duplicates</div>
+        <div class="pd">How many rows are duplicates?</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def count_dupes(d):
+    # TODO: int of d.duplicated().sum()
+    return 0
+
+import pandas as pd
+print(count_dupes(pd.concat([df, df])))</code></pre></div>
+        <template class="ho-check">import pandas as pd
+assert count_dupes(pd.concat([df, df])) == 4
+assert count_dupes(df) == 0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Drop Duplicates</div>
+        <div class="pd">Keep only the first of each duplicate.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def dedupe(d):
+    # TODO: d.drop_duplicates()
+    return d
+
+import pandas as pd
+print(len(dedupe(pd.concat([df, df]))))</code></pre></div>
+        <template class="ho-check">import pandas as pd
+assert len(dedupe(pd.concat([df, df]))) == 4
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 22 ─────────────────────────── -->
@@ -2010,7 +2555,39 @@ print("\nTier revenue breakdown:")
 print(tier_stats)</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Cut Into Bins</div>
+        <div class="pd">Counts per equal-width bin.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def cut_bins(s, bins):
+    # TODO: pd.cut then value_counts().sort_index() as a list
+    return []
+
+print(cut_bins([1, 2, 3, 4], [0, 2, 4]))</code></pre></div>
+        <template class="ho-check">assert sum(cut_bins([1, 2, 3, 4], [0, 2, 4])) == 4
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Quantile Bins</div>
+        <div class="pd">Bin labels from qcut.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def qcut_labels(s, q):
+    # TODO: pd.qcut(..., labels=False) as a list
+    return []
+
+print(qcut_labels([1, 2, 3, 4], 2))</code></pre></div>
+        <template class="ho-check">r = qcut_labels([1, 2, 3, 4], 2)
+assert len(r) == 4 and set(r) == {0, 1}
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 23 ─────────────────────────── -->
@@ -2104,7 +2681,42 @@ clean = (
 print(clean[["order_id","customer","amount","quantity","revenue","day_of_week"]])</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Assign a Column</div>
+        <div class="pd">Add a derived column with assign.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def assign_total(df):
+    # TODO: df.assign(total=lambda d: d[&quot;a&quot;] * d[&quot;c&quot;])
+    return df
+
+print(assign_total(df)[&quot;total&quot;].tolist())</code></pre></div>
+        <template class="ho-check">assert assign_total(df)[&quot;total&quot;].tolist() == [10, 40, 90, 160]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Pipe</div>
+        <div class="pd">Pass the frame through a function.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def pipe_fn(df, f):
+    # TODO: df.pipe(f)
+    return None
+
+print(pipe_fn(df, lambda d: len(d)))</code></pre></div>
+        <template class="ho-check">assert pipe_fn(df, lambda d: len(d)) == 4
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 24 ─────────────────────────── -->
@@ -2175,7 +2787,42 @@ print(f"Profitable high-margin companies: {len(profitable)}/{n}")
 print(profitable[["company","revenue","gross_margin","net_margin"]].nlargest(5,"net_margin").round(3).to_string(index=False))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Eval an Expression</div>
+        <div class="pd">Compute a column expression with eval.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def eval_expr(df, expr):
+    # TODO: df.eval(expr)
+    return None
+
+print(eval_expr(df, &quot;a * 2&quot;).tolist())</code></pre></div>
+        <template class="ho-check">assert eval_expr(df, &quot;a * 2&quot;).tolist() == [2, 4, 6, 8]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Query Rows</div>
+        <div class="pd">Filter with a query string.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def query_df(df, expr):
+    # TODO: df.query(expr)
+    return df
+
+print(query_df(df, &quot;a &gt; 2&quot;))</code></pre></div>
+        <template class="ho-check">assert len(query_df(df, &quot;a &gt; 2&quot;)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 25 ─────────────────────────── -->
@@ -2253,7 +2900,42 @@ print("\n=== Revenue matrix (stores × quarters) ===")
 print(inv["revenue"].unstack(level="quarter"))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Set a MultiIndex</div>
+        <div class="pd">Index by two columns.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def multi_index(df, cols):
+    # TODO: df.set_index(cols)
+    return df
+
+print(multi_index(df, [&quot;b&quot;, &quot;a&quot;]).index.nlevels)</code></pre></div>
+        <template class="ho-check">assert multi_index(df, [&quot;b&quot;, &quot;a&quot;]).index.nlevels == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Cross-Section</div>
+        <div class="pd">Select one level of a MultiIndex with xs.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def xs_level(df, key):
+    # TODO: set_index([&quot;b&quot;, &quot;a&quot;]) then .xs(key, level=&quot;b&quot;)
+    return df
+
+print(xs_level(df, &quot;w&quot;))</code></pre></div>
+        <template class="ho-check">assert len(xs_level(df, &quot;w&quot;)) == 1
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 26 ─────────────────────────── -->
@@ -2332,7 +3014,38 @@ print("\nSorts correctly by category order:")
 print(survey.sort_values("nps_cat")[["respondent","nps_score","nps_cat"]].to_string(index=False))</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: To Category</div>
+        <div class="pd">Convert a column to the category dtype.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def to_category(s):
+    # TODO: pd.Series(s).astype(&quot;category&quot;)
+    return None
+
+print(to_category([&quot;a&quot;, &quot;b&quot;]).dtype)</code></pre></div>
+        <template class="ho-check">assert str(to_category([&quot;a&quot;, &quot;b&quot;]).dtype) == &quot;category&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Category Codes</div>
+        <div class="pd">Integer codes behind the categories.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def cat_codes(s):
+    # TODO: astype(&quot;category&quot;).cat.codes as a list
+    return []
+
+print(cat_codes([&quot;b&quot;, &quot;a&quot;]))</code></pre></div>
+        <template class="ho-check">assert cat_codes([&quot;b&quot;, &quot;a&quot;]) == [1, 0]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 27 ─────────────────────────── -->
@@ -2412,7 +3125,38 @@ print(ta.tail(10).round(2))
 print(f"\nBuy signals triggered: {ta['buy_signal'].sum()} days")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Expanding Mean</div>
+        <div class="pd">Cumulative average over the series.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def expanding_mean(s):
+    # TODO: expanding().mean() as a list
+    return []
+
+print(expanding_mean([1, 3]))</code></pre></div>
+        <template class="ho-check">assert expanding_mean([1, 3]) == [1.0, 2.0]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: EWM Mean</div>
+        <div class="pd">Exponentially weighted mean.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def ewm_mean(s, alpha):
+    # TODO: ewm(alpha=alpha, adjust=False).mean(), rounded to 4, as a list
+    return []
+
+print(ewm_mean([1, 2], 0.5))</code></pre></div>
+        <template class="ho-check">assert ewm_mean([1, 2], 0.5) == [1.0, 1.5]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 28 ─────────────────────────── -->
@@ -2489,7 +3233,41 @@ with open("weekly_kpis.html", "w") as f:
 print("\nHTML table saved to weekly_kpis.html")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Round for Display</div>
+        <div class="pd">Round every numeric column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def round_cols(df, n):
+    # TODO: df.round(n)
+    return df
+
+print(round_cols(pd.DataFrame({&quot;a&quot;: [1.234]}), 1))</code></pre></div>
+        <template class="ho-check">import pandas as pd
+assert round_cols(pd.DataFrame({&quot;a&quot;: [1.234]}), 1)[&quot;a&quot;].iloc[0] == 1.2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Highlight the Max</div>
+        <div class="pd">Index of the largest value in a column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def idx_of_max(df, col):
+    # TODO: int(df[col].idxmax())
+    return 0
+
+print(idx_of_max(df, &quot;c&quot;))</code></pre></div>
+        <template class="ho-check">assert idx_of_max(df, &quot;c&quot;) == 3
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 29 ─────────────────────────── -->
@@ -2578,7 +3356,40 @@ print(f"After:  {after_mb:.1f} MB")
 print(f"Saved:  {(1 - after_mb/before_mb)*100:.0f}%  ✓")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Memory Usage</div>
+        <div class="pd">Total deep memory of a frame in bytes.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def mem_bytes(df):
+    # TODO: int of df.memory_usage(deep=True).sum()
+    return 0
+
+print(mem_bytes(df) &gt; 0)</code></pre></div>
+        <template class="ho-check">assert mem_bytes(df) &gt; 0
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Downcast Integers</div>
+        <div class="pd">Shrink an int column to the smallest dtype.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def downcast_int(s):
+    # TODO: pd.to_numeric(pd.Series(s), downcast=&quot;integer&quot;)
+    return None
+
+print(downcast_int([1, 2]).dtype)</code></pre></div>
+        <template class="ho-check">assert str(downcast_int([1, 2]).dtype).startswith(&quot;int&quot;)
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 30 ─────────────────────────── -->
@@ -2649,7 +3460,43 @@ for name, split in [("Train", train), ("Val", val), ("Test", test)]:
     print(f"{name:5s}  rows={len(split):4d}  churn={split['churn'].mean():.1%}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Sample N Rows</div>
+        <div class="pd">Reproducible random rows.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def sample_n(df, n, seed=0):
+    # TODO: df.sample(n, random_state=seed)
+    return df
+
+print(len(sample_n(df, 2)))</code></pre></div>
+        <template class="ho-check">assert len(sample_n(df, 2)) == 2
+assert sample_n(df, 2).equals(sample_n(df, 2)), &quot;the seed makes it reproducible&quot;
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Sample a Fraction</div>
+        <div class="pd">Sample a proportion of the rows.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def sample_frac(df, frac, seed=0):
+    # TODO: df.sample(frac=frac, random_state=seed)
+    return df
+
+print(len(sample_frac(df, 0.5)))</code></pre></div>
+        <template class="ho-check">assert len(sample_frac(df, 0.5)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 31 ─────────────────────────── -->
@@ -2725,7 +3572,42 @@ print(f"Max drawdown : {max_dd:.2f}%")
 print(f"Sharpe ratio : {sharpe:.2f}")</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Shift a Column</div>
+        <div class="pd">Lag a column by k rows.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def shift_col(df, col, k):
+    # TODO: df[col].shift(k) as a list
+    return []
+
+print(shift_col(df, &quot;a&quot;, 1))</code></pre></div>
+        <template class="ho-check">assert shift_col(df, &quot;a&quot;, 1)[1:] == [1.0, 2.0, 3.0]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Difference a Column</div>
+        <div class="pd">Row-over-row change, NaN dropped.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3, 4], &quot;b&quot;: [&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;], &quot;c&quot;: [10.0, 20, 30, 40]})
+
+def diff_col(df, col):
+    # TODO: df[col].diff().dropna() as a list
+    return []
+
+print(diff_col(df, &quot;a&quot;))</code></pre></div>
+        <template class="ho-check">assert diff_col(df, &quot;a&quot;) == [1.0, 1.0, 1.0]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ─────────────────────── TOPIC 32 ─────────────────────────── -->
@@ -2799,7 +3681,41 @@ print("\nProducts bought with Webcam:")
 print(items[items["order_id"].isin(webcam_orders)]["product"].value_counts())</code></pre>
         </div>
       </div>
-    </div>
+    
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: Explode Lists</div>
+        <div class="pd">One row per list element.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def explode_col(df, col):
+    # TODO: df.explode(col)
+    return df
+
+E = pd.DataFrame({&quot;k&quot;: [&quot;a&quot;], &quot;v&quot;: [[1, 2]]})
+print(explode_col(E, &quot;v&quot;))</code></pre></div>
+        <template class="ho-check">import pandas as pd
+E = pd.DataFrame({&quot;k&quot;: [&quot;a&quot;], &quot;v&quot;: [[1, 2]]})
+assert len(explode_col(E, &quot;v&quot;)) == 2
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+        <div class="practice">
+        <div class="ph">&#x1F3CB;&#xFE0F; Practice: List Lengths</div>
+        <div class="pd">Length of each list in a column.</div>
+        <div class="code-block">
+        <div class="code-label"><span>Starter Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code class="language-python">import pandas as pd
+
+def list_lengths(s):
+    # TODO: apply len over the series, as a list
+    return []
+
+print(list_lengths([[1, 2], [3]]))</code></pre></div>
+        <template class="ho-check">assert list_lengths([[1, 2], [3]]) == [2, 1]
+print(&quot;All checks passed \u2713&quot;)</template>
+        </div>
+      </div>
   </div>
 
   <!-- ════════════════════ CHEATSHEET ════════════════════ -->
