@@ -109,7 +109,7 @@ def debug_request(url, **kwargs):
 
 # Example: hit a public API
 resp = debug_request(&quot;https://httpbin.org/get&quot;)
-print(f&quot;\nJSON keys: {list(resp.json().keys())}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse &amp; Classify URLs</div><div class="pd">Write a function that takes a list of URLs and returns a dict grouping them by their hostname. Also identify which ones use HTTPS vs HTTP.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0')">Copy</button></div><pre><code id="p0" class="language-python">from urllib.parse import urlparse
+print(f&quot;\nJSON keys: {list(resp.json().keys())}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse &amp; Classify URLs</div><div class="pd">Write a function that takes a list of URLs and returns a dict grouping them by their hostname. Also identify which ones use HTTPS vs HTTP.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p0_0')">Copy</button></div><pre><code id="p0_0" class="language-python">from urllib.parse import urlparse
 
 urls = [
     &quot;https://api.github.com/users/octocat&quot;,
@@ -220,7 +220,7 @@ for date, tmax, tmin, rain in zip(
     daily[&quot;temperature_2m_min&quot;],
     daily[&quot;precipitation_sum&quot;],
 ):
-    print(f&quot;{date}  High: {tmax}°C  Low: {tmin}°C  Rain: {rain}mm&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Multi-City Weather Fetcher</div><div class="pd">Extend the weather example: fetch forecasts for 3 cities, compare their max temperatures, and find which city is warmest on average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1')">Copy</button></div><pre><code id="p1" class="language-python">import requests
+    print(f&quot;{date}  High: {tmax}°C  Low: {tmin}°C  Rain: {rain}mm&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Multi-City Weather Fetcher</div><div class="pd">Extend the weather example: fetch forecasts for 3 cities, compare their max temperatures, and find which city is warmest on average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_0')">Copy</button></div><pre><code id="p1_0" class="language-python">import requests
 
 cities = {
     &quot;New York&quot;: (40.71, -74.01),
@@ -243,7 +243,37 @@ def find_warmest(results):
 
 forecasts = fetch_forecasts(cities)
 warmest = find_warmest(forecasts)
-print(f&quot;Warmest city on average: {warmest}&quot;)</code></pre></div></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Working with JSON Responses</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Most modern APIs return JSON. Python&#x27;s requests library auto-decodes it, and you can navigate nested structures, validate data, and convert to various formats.</p><div class="code-block"><div class="ch"><span>Navigating nested JSON</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import requests, json
+print(f&quot;Warmest city on average: {warmest}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a URL</div><div class="pd">Assemble a URL with encoded query parameters.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_1')">Copy</button></div><pre><code id="p1_1" class="language-python">from urllib.parse import urlencode, urlparse, parse_qs
+
+def build_url(base, params):
+    # TODO: base + &quot;?&quot; + urlencode(params)
+    return base
+
+print(build_url(&quot;https://api.x/items&quot;, {&quot;page&quot;: 2, &quot;q&quot;: &quot;a b&quot;}))</code></pre></div><template class="ho-check">assert build_url(&quot;https://api.x/items&quot;, {&quot;page&quot;: 2, &quot;q&quot;: &quot;a b&quot;}) == &quot;https://api.x/items?page=2&amp;q=a+b&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Parse Query Params</div><div class="pd">Read query parameters back out of a URL.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_2')">Copy</button></div><pre><code id="p1_2" class="language-python">from urllib.parse import urlencode, urlparse, parse_qs
+
+def parse_params(url):
+    # TODO: parse the query into a flat {key: first_value} dict
+    return {}
+
+print(parse_params(&quot;https://a/b?x=1&amp;y=2&quot;))</code></pre></div><template class="ho-check">assert parse_params(&quot;https://a/b?x=1&amp;y=2&quot;) == {&quot;x&quot;: &quot;1&quot;, &quot;y&quot;: &quot;2&quot;}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Path Segments</div><div class="pd">Split a URL path into non-empty segments.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_3')">Copy</button></div><pre><code id="p1_3" class="language-python">from urllib.parse import urlencode, urlparse, parse_qs
+
+def path_parts(url):
+    # TODO: split urlparse(url).path on &quot;/&quot; and drop empties
+    return []
+
+print(path_parts(&quot;https://a/repos/python/cpython&quot;))</code></pre></div><template class="ho-check">assert path_parts(&quot;https://a/repos/python/cpython&quot;) == [&quot;repos&quot;, &quot;python&quot;, &quot;cpython&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Success Status</div><div class="pd">Is an HTTP status a 2xx success?
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p1_4')">Copy</button></div><pre><code id="p1_4" class="language-python">def is_success(status):
+    # TODO: True for 200-299
+    return False
+
+print(is_success(204), is_success(404))</code></pre></div><template class="ho-check">assert is_success(204) is True and is_success(404) is False
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s2"><div class="th" onclick="tog(this)"><span>3. Working with JSON Responses</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">Most modern APIs return JSON. Python&#x27;s requests library auto-decodes it, and you can navigate nested structures, validate data, and convert to various formats.</p><div class="code-block"><div class="ch"><span>Navigating nested JSON</span><button onclick="cp('c2_0')">Copy</button></div><pre><code id="c2_0" class="language-python">import requests, json
 
 # GitHub API returns deeply nested JSON
 resp = requests.get(&quot;https://api.github.com/repos/python/cpython&quot;,
@@ -346,7 +376,7 @@ flat = flatten_crm(api_response)
 for row in flat:
     print(f&quot;  {row[&#x27;company_name&#x27;]:12s} | {row[&#x27;deal_title&#x27;]:20s} | ${row[&#x27;deal_value&#x27;]:&gt;8,}&quot;)
 
-print(f&quot;\nTotal rows: {len(flat)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Response Validator</div><div class="pd">Write a function that validates an API response has the expected structure. Check for required keys, correct types, and non-null values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2')">Copy</button></div><pre><code id="p2" class="language-python">def validate_response(data, schema):
+print(f&quot;\nTotal rows: {len(flat)}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: JSON Response Validator</div><div class="pd">Write a function that validates an API response has the expected structure. Check for required keys, correct types, and non-null values.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_0')">Copy</button></div><pre><code id="p2_0" class="language-python">def validate_response(data, schema):
     &quot;&quot;&quot;Validate that data matches the expected schema.
 
     schema format: {&quot;key&quot;: type, ...} e.g. {&quot;name&quot;: str, &quot;age&quot;: int}
@@ -365,7 +395,37 @@ schema = {&quot;name&quot;: str, &quot;age&quot;: int, &quot;email&quot;: str, &
 valid, errors = validate_response(user_data, schema)
 print(f&quot;Valid: {valid}&quot;)
 for e in errors:
-    print(f&quot;  - {e}&quot;)</code></pre></div></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. JSON to Pandas DataFrame</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The bridge between APIs and data analysis. Learn to convert JSON responses into clean DataFrames ready for analysis, handling nested structures and missing data.</p><div class="code-block"><div class="ch"><span>Simple JSON list → DataFrame</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import pandas as pd
+    print(f&quot;  - {e}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Get Field</div><div class="pd">Read a key from a response dict with a default.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_1')">Copy</button></div><pre><code id="p2_1" class="language-python">def get_field(resp, key, default=None):
+    # TODO: dict.get with the default
+    return None
+
+print(get_field({&quot;a&quot;: 1}, &quot;a&quot;), get_field({}, &quot;b&quot;, &quot;x&quot;))</code></pre></div><template class="ho-check">assert get_field({&quot;a&quot;: 1}, &quot;a&quot;) == 1
+assert get_field({}, &quot;b&quot;, &quot;x&quot;) == &quot;x&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Extract Names</div><div class="pd">Pull one field out of a list of records.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_2')">Copy</button></div><pre><code id="p2_2" class="language-python">def extract_names(items):
+    # TODO: [item[&quot;name&quot;] for item in items]
+    return []
+
+print(extract_names([{&quot;name&quot;: &quot;a&quot;}, {&quot;name&quot;: &quot;b&quot;}]))</code></pre></div><template class="ho-check">assert extract_names([{&quot;name&quot;: &quot;a&quot;}, {&quot;name&quot;: &quot;b&quot;}]) == [&quot;a&quot;, &quot;b&quot;]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Nested Get</div><div class="pd">Safely walk a nested JSON path.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_3')">Copy</button></div><pre><code id="p2_3" class="language-python">def nested_get(d, path, default=None):
+    cur = d
+    for k in path:
+        # TODO: return default if cur is not a dict or k is missing; else descend
+        pass
+    return cur
+
+print(nested_get({&quot;a&quot;: {&quot;b&quot;: {&quot;c&quot;: 7}}}, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]), nested_get({}, [&quot;x&quot;], 0))</code></pre></div><template class="ho-check">assert nested_get({&quot;a&quot;: {&quot;b&quot;: {&quot;c&quot;: 7}}}, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]) == 7
+assert nested_get({}, [&quot;x&quot;], 0) == 0
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Total Pages</div><div class="pd">How many pages for a total at a page size.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p2_4')">Copy</button></div><pre><code id="p2_4" class="language-python">def total_pages(total, per_page):
+    # TODO: ceiling division
+    return 0
+
+print(total_pages(95, 10))</code></pre></div><template class="ho-check">assert total_pages(95, 10) == 10
+assert total_pages(100, 10) == 10
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s3"><div class="th" onclick="tog(this)"><span>4. JSON to Pandas DataFrame</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">The bridge between APIs and data analysis. Learn to convert JSON responses into clean DataFrames ready for analysis, handling nested structures and missing data.</p><div class="code-block"><div class="ch"><span>Simple JSON list → DataFrame</span><button onclick="cp('c3_0')">Copy</button></div><pre><code id="c3_0" class="language-python">import pandas as pd
 import requests
 
 # JSONPlaceholder — free fake API for testing
@@ -480,7 +540,7 @@ def parse_stock_data(response):
 
 df = parse_stock_data(api_data)
 print(df[[&quot;open&quot;, &quot;high&quot;, &quot;low&quot;, &quot;close&quot;, &quot;volume&quot;, &quot;daily_return&quot;]])
-print(f&quot;\nAvg daily return: {df[&#x27;daily_return&#x27;].mean():.4%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: API Response → Analytical DataFrame</div><div class="pd">Fetch posts and users from JSONPlaceholder, merge them, and calculate which user writes the longest posts on average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3')">Copy</button></div><pre><code id="p3" class="language-python">import pandas as pd
+print(f&quot;\nAvg daily return: {df[&#x27;daily_return&#x27;].mean():.4%}&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: API Response → Analytical DataFrame</div><div class="pd">Fetch posts and users from JSONPlaceholder, merge them, and calculate which user writes the longest posts on average.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p3_0')">Copy</button></div><pre><code id="p3_0" class="language-python">import pandas as pd
 import requests
 
 # TODO: Fetch users from https://jsonplaceholder.typicode.com/users
@@ -591,7 +651,7 @@ class SecureAPIClient:
 client = SecureAPIClient(&quot;https://httpbin.org&quot;, &quot;MY_API_KEY&quot;)
 data = client.get(&quot;/get&quot;, params={&quot;test&quot;: &quot;hello&quot;})
 if data:
-    print(f&quot;Success! Got {len(data)} keys&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Environment-Based Config Loader</div><div class="pd">Build a config class that loads API credentials from environment variables with validation. It should warn about missing keys and support a .env fallback.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4')">Copy</button></div><pre><code id="p4" class="language-python">import os
+    print(f&quot;Success! Got {len(data)} keys&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Environment-Based Config Loader</div><div class="pd">Build a config class that loads API credentials from environment variables with validation. It should warn about missing keys and support a .env fallback.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_0')">Copy</button></div><pre><code id="p4_0" class="language-python">import os
 
 class APIConfig:
     REQUIRED_KEYS = [&quot;API_KEY&quot;, &quot;API_SECRET&quot;, &quot;BASE_URL&quot;]
@@ -616,7 +676,32 @@ class APIConfig:
 
 # Test (set env vars first or test with defaults)
 config = APIConfig(&quot;DEMO&quot;)
-print(f&quot;Config valid: {config.is_valid()}&quot;)</code></pre></div></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Sessions &amp; Connection Pooling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">requests.Session reuses the underlying TCP connection across requests, making repeated calls to the same host significantly faster. It also persists headers, cookies, and auth.</p><div class="code-block"><div class="ch"><span>Basic session usage</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import requests
+print(f&quot;Config valid: {config.is_valid()}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Bearer Header</div><div class="pd">Build the Authorization header.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_1')">Copy</button></div><pre><code id="p4_1" class="language-python">def bearer_header(token):
+    # TODO: {&quot;Authorization&quot;: &quot;Bearer &lt;token&gt;&quot;}
+    return {}
+
+print(bearer_header(&quot;abc&quot;))</code></pre></div><template class="ho-check">assert bearer_header(&quot;abc&quot;) == {&quot;Authorization&quot;: &quot;Bearer abc&quot;}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Merge Headers</div><div class="pd">Merge default and per-request headers, request wins.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_2')">Copy</button></div><pre><code id="p4_2" class="language-python">def merge_headers(a, b):
+    # TODO: merge with b overriding a
+    return {}
+
+print(merge_headers({&quot;A&quot;: &quot;1&quot;}, {&quot;B&quot;: &quot;2&quot;, &quot;A&quot;: &quot;9&quot;}))</code></pre></div><template class="ho-check">assert merge_headers({&quot;A&quot;: &quot;1&quot;}, {&quot;B&quot;: &quot;2&quot;, &quot;A&quot;: &quot;9&quot;}) == {&quot;A&quot;: &quot;9&quot;, &quot;B&quot;: &quot;2&quot;}
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Mask Token</div><div class="pd">Show only the first and last two characters of a secret.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_3')">Copy</button></div><pre><code id="p4_3" class="language-python">def mask_token(t):
+    # TODO: first 2 + stars + last 2 when longer than 4, else all stars
+    return t
+
+print(mask_token(&quot;abcdefgh&quot;))</code></pre></div><template class="ho-check">assert mask_token(&quot;abcdefgh&quot;) == &quot;ab****gh&quot;
+assert mask_token(&quot;abc&quot;) == &quot;***&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Has Auth</div><div class="pd">Check whether a request carries credentials.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p4_4')">Copy</button></div><pre><code id="p4_4" class="language-python">def has_auth(headers):
+    # TODO: True when an Authorization header is present
+    return False
+
+print(has_auth({&quot;Authorization&quot;: &quot;x&quot;}), has_auth({}))</code></pre></div><template class="ho-check">assert has_auth({&quot;Authorization&quot;: &quot;x&quot;}) is True and has_auth({}) is False
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s5"><div class="th" onclick="tog(this)"><span>6. Sessions &amp; Connection Pooling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">requests.Session reuses the underlying TCP connection across requests, making repeated calls to the same host significantly faster. It also persists headers, cookies, and auth.</p><div class="code-block"><div class="ch"><span>Basic session usage</span><button onclick="cp('c5_0')">Copy</button></div><pre><code id="c5_0" class="language-python">import requests
 import time
 
 # WITHOUT session — new connection every time
@@ -844,7 +929,7 @@ posts = extract_all(&quot;https://jsonplaceholder.typicode.com/posts&quot;, per_
 
 import os
 if os.path.exists(&quot;checkpoint.json&quot;):
-    os.remove(&quot;checkpoint.json&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generic Paginator Class</div><div class="pd">Build a reusable Paginator class that supports both page-number and offset-based pagination. It should yield batches and track total items fetched.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6')">Copy</button></div><pre><code id="p6" class="language-python">import requests
+    os.remove(&quot;checkpoint.json&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Generic Paginator Class</div><div class="pd">Build a reusable Paginator class that supports both page-number and offset-based pagination. It should yield batches and track total items fetched.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_0')">Copy</button></div><pre><code id="p6_0" class="language-python">import requests
 
 class Paginator:
     def __init__(self, base_url, mode=&quot;page&quot;, per_page=10, max_items=100):
@@ -871,7 +956,33 @@ for batch in Paginator(&quot;https://jsonplaceholder.typicode.com/posts&quot;,
 print(&quot;\nOffset mode:&quot;)
 for batch in Paginator(&quot;https://jsonplaceholder.typicode.com/comments&quot;,
                        mode=&quot;offset&quot;, per_page=50, max_items=150):
-    print(f&quot;  Got {len(batch)} items&quot;)</code></pre></div></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Rate Limiting &amp; Throttling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">APIs enforce rate limits to prevent abuse. You need to respect these limits by reading response headers, implementing backoff strategies, and throttling your requests.</p><div class="code-block"><div class="ch"><span>Reading rate limit headers</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import requests
+    print(f&quot;  Got {len(batch)} items&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Collect Pages</div><div class="pd">Flatten a list of pages into one list.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_1')">Copy</button></div><pre><code id="p6_1" class="language-python">def collect_pages(pages):
+    # TODO: flatten one level
+    return []
+
+print(collect_pages([[1, 2], [3]]))</code></pre></div><template class="ho-check">assert collect_pages([[1, 2], [3]]) == [1, 2, 3]
+assert collect_pages([]) == []
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Next Page</div><div class="pd">Next page number, or None at the end.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_2')">Copy</button></div><pre><code id="p6_2" class="language-python">def next_page(current, total_pages):
+    # TODO: current + 1 while below total_pages, else None
+    return None
+
+print(next_page(1, 3), next_page(3, 3))</code></pre></div><template class="ho-check">assert next_page(1, 3) == 2 and next_page(3, 3) is None
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Chunk Requests</div><div class="pd">Split ids into batches for bulk endpoints.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_3')">Copy</button></div><pre><code id="p6_3" class="language-python">def chunk_requests(ids, size):
+    # TODO: consecutive slices of length size
+    return []
+
+print(chunk_requests([1, 2, 3, 4, 5], 2))</code></pre></div><template class="ho-check">assert chunk_requests([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Dedupe By Id</div><div class="pd">Drop duplicate records, keeping the first.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p6_4')">Copy</button></div><pre><code id="p6_4" class="language-python">def dedupe_by_id(items):
+    seen = set(); out = []
+    # TODO: append items whose &quot;id&quot; has not been seen yet
+    return out
+
+print(dedupe_by_id([{&quot;id&quot;: 1}, {&quot;id&quot;: 1}, {&quot;id&quot;: 2}]))</code></pre></div><template class="ho-check">assert dedupe_by_id([{&quot;id&quot;: 1}, {&quot;id&quot;: 1}, {&quot;id&quot;: 2}]) == [{&quot;id&quot;: 1}, {&quot;id&quot;: 2}]
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s7"><div class="th" onclick="tog(this)"><span>8. Rate Limiting &amp; Throttling</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">APIs enforce rate limits to prevent abuse. You need to respect these limits by reading response headers, implementing backoff strategies, and throttling your requests.</p><div class="code-block"><div class="ch"><span>Reading rate limit headers</span><button onclick="cp('c7_0')">Copy</button></div><pre><code id="c7_0" class="language-python">import requests
 
 resp = requests.get(&quot;https://api.github.com/rate_limit&quot;, timeout=10)
 limits = resp.json()[&quot;rate&quot;]
@@ -1110,7 +1221,7 @@ collector = DataCollector()
 collector.fetch(&quot;users&quot;, &quot;https://jsonplaceholder.typicode.com/users&quot;)
 collector.fetch(&quot;posts&quot;, &quot;https://jsonplaceholder.typicode.com/posts&quot;, params={&quot;_limit&quot;: 5})
 collector.fetch(&quot;broken&quot;, &quot;https://httpbin.org/status/500&quot;)
-collector.summary()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Circuit Breaker</div><div class="pd">Implement a circuit breaker pattern: after N consecutive failures to an API, stop trying for a cooldown period. Track state: CLOSED (normal), OPEN (failing, skip calls), HALF-OPEN (try one request).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8')">Copy</button></div><pre><code id="p8" class="language-python">import time
+collector.summary()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Circuit Breaker</div><div class="pd">Implement a circuit breaker pattern: after N consecutive failures to an API, stop trying for a cooldown period. Track state: CLOSED (normal), OPEN (failing, skip calls), HALF-OPEN (try one request).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_0')">Copy</button></div><pre><code id="p8_0" class="language-python">import time
 import requests
 
 class CircuitBreaker:
@@ -1142,7 +1253,35 @@ for url in urls:
         data = cb.call(url, timeout=5)
         print(f&quot;  OK:   {url.split(&#x27;/&#x27;)[-1]} | state={cb.state}&quot;)
     except Exception as e:
-        print(f&quot;  FAIL: {url.split(&#x27;/&#x27;)[-1]} | {e} | state={cb.state}&quot;)</code></pre></div></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Async API Calls with aiohttp</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When you need to call many APIs concurrently, async IO is dramatically faster than sequential requests. aiohttp is the async equivalent of requests. Install: pip install aiohttp.</p><div class="code-block"><div class="ch"><span>Basic async requests</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import asyncio
+        print(f&quot;  FAIL: {url.split(&#x27;/&#x27;)[-1]} | {e} | state={cb.state}&quot;)</code></pre></div></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Should Retry</div><div class="pd">Retry on 429 and 5xx, not on other errors.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_1')">Copy</button></div><pre><code id="p8_1" class="language-python">def should_retry(status):
+    # TODO: True for 429 and 500-599
+    return False
+
+print(should_retry(429), should_retry(503), should_retry(404))</code></pre></div><template class="ho-check">assert should_retry(429) is True and should_retry(503) is True
+assert should_retry(404) is False
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Backoff Delays</div><div class="pd">Exponential backoff schedule.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_2')">Copy</button></div><pre><code id="p8_2" class="language-python">def backoff_delays(n, base=1):
+    # TODO: [base * 2**i for i in range(n)]
+    return []
+
+print(backoff_delays(4))</code></pre></div><template class="ho-check">assert backoff_delays(4) == [1, 2, 4, 8]
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Classify Status</div><div class="pd">Bucket a status into ok / client_error / server_error.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_3')">Copy</button></div><pre><code id="p8_3" class="language-python">def classify(status):
+    # TODO: &quot;ok&quot; for 2xx, &quot;client_error&quot; for 4xx, &quot;server_error&quot; for 5xx, else &quot;other&quot;
+    return &quot;other&quot;
+
+print(classify(201), classify(404), classify(502))</code></pre></div><template class="ho-check">assert classify(201) == &quot;ok&quot; and classify(404) == &quot;client_error&quot; and classify(502) == &quot;server_error&quot;
+print(&quot;All checks passed \u2713&quot;)</template></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Safe JSON</div><div class="pd">Parse JSON, returning a default on bad input.
+(Pure standard library, so it runs right here in the browser.)</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p8_4')">Copy</button></div><pre><code id="p8_4" class="language-python">import json
+
+def safe_json(text, default=None):
+    # TODO: json.loads in a try/except, returning default on failure
+    return default
+
+print(safe_json(&#x27;{&quot;a&quot;:1}&#x27;), safe_json(&quot;nope&quot;, {}))</code></pre></div><template class="ho-check">assert safe_json(&#x27;{&quot;a&quot;:1}&#x27;) == {&quot;a&quot;: 1}
+assert safe_json(&quot;nope&quot;, {}) == {}
+print(&quot;All checks passed \u2713&quot;)</template></div></div></div><div class="topic" id="s9"><div class="th" onclick="tog(this)"><span>10. Async API Calls with aiohttp</span><span class="arr">&#9660;</span></div><div class="tb"><p class="desc">When you need to call many APIs concurrently, async IO is dramatically faster than sequential requests. aiohttp is the async equivalent of requests. Install: pip install aiohttp.</p><div class="code-block"><div class="ch"><span>Basic async requests</span><button onclick="cp('c9_0')">Copy</button></div><pre><code id="c9_0" class="language-python">import asyncio
 import aiohttp
 import time
 
@@ -1253,7 +1392,7 @@ users = asyncio.run(fetch_users(list(range(1, 11)) * 5, concurrency=10))
 elapsed = time.time() - start
 
 print(f&quot;Fetched {len(users)} user records in {elapsed:.2f}s&quot;)
-print(f&quot;Sample: {users[0][&#x27;name&#x27;]} ({users[0][&#x27;email&#x27;]})&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Async API Stress Tester</div><div class="pd">Build an async function that measures API response times at different concurrency levels (1, 5, 10, 20) and prints a summary table.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9')">Copy</button></div><pre><code id="p9" class="language-python">import asyncio
+print(f&quot;Sample: {users[0][&#x27;name&#x27;]} ({users[0][&#x27;email&#x27;]})&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Async API Stress Tester</div><div class="pd">Build an async function that measures API response times at different concurrency levels (1, 5, 10, 20) and prints a summary table.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p9_0')">Copy</button></div><pre><code id="p9_0" class="language-python">import asyncio
 import aiohttp
 import time
 
@@ -1491,7 +1630,7 @@ def scrape_table(url, table_index=0, headers=None):
 # Demo with httpbin&#x27;s HTML (no table, just showing the pattern)
 # In practice: df = scrape_table(&quot;https://en.wikipedia.org/wiki/...&quot;)
 print(&quot;Pattern: scrape_table(url) → pd.DataFrame&quot;)
-print(&quot;Always respect robots.txt and add delays between requests!&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Web Scraper Pipeline</div><div class="pd">Write a scraper that extracts data from an HTML page, handles missing elements gracefully, and converts results to a DataFrame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11')">Copy</button></div><pre><code id="p11" class="language-python">import requests
+print(&quot;Always respect robots.txt and add delays between requests!&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build a Web Scraper Pipeline</div><div class="pd">Write a scraper that extracts data from an HTML page, handles missing elements gracefully, and converts results to a DataFrame.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p11_0')">Copy</button></div><pre><code id="p11_0" class="language-python">import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -2114,7 +2253,7 @@ posts = collector.collect_source(
 # Source 3: Intentionally broken
 collector.collect_source(&quot;broken&quot;, &quot;https://httpbin.org/status/500&quot;)
 
-collector.report()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build Your Own Data Collection Pipeline</div><div class="pd">Create a complete pipeline that: (1) fetches data from 2+ free APIs, (2) merges them into a single DataFrame, (3) adds derived columns, (4) handles errors gracefully, and (5) prints a quality report.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15')">Copy</button></div><pre><code id="p15" class="language-python">import requests
+collector.report()</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Build Your Own Data Collection Pipeline</div><div class="pd">Create a complete pipeline that: (1) fetches data from 2+ free APIs, (2) merges them into a single DataFrame, (3) adds derived columns, (4) handles errors gracefully, and (5) prints a quality report.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p15_0')">Copy</button></div><pre><code id="p15_0" class="language-python">import requests
 import pandas as pd
 
 class MyPipeline:
@@ -2172,7 +2311,7 @@ def read_item(item_id: int, upper: bool = False):
     name = ITEMS[item_id]
     return {&quot;id&quot;: item_id, &quot;name&quot;: name.upper() if upper else name}
 
-# Run with:  uvicorn app:app --reload</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resilient API Client</div><div class="pd">Write get_json(url, params=None, retries=3) that performs a GET with a 5s timeout, retries on failure with a short backoff, raises for HTTP errors, and returns parsed JSON (or None after exhausting retries). Run it locally against a real endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16')">Copy</button></div><pre><code id="p16" class="language-python">import requests, time
+# Run with:  uvicorn app:app --reload</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Resilient API Client</div><div class="pd">Write get_json(url, params=None, retries=3) that performs a GET with a 5s timeout, retries on failure with a short backoff, raises for HTTP errors, and returns parsed JSON (or None after exhausting retries). Run it locally against a real endpoint.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p16_0')">Copy</button></div><pre><code id="p16_0" class="language-python">import requests, time
 
 def get_json(url, params=None, retries=3):
     for attempt in range(retries):
@@ -2200,7 +2339,7 @@ def create_item(name, token):
     r.raise_for_status()
     return r.json()[&quot;json&quot;]
 
-print(create_item(&quot;widget&quot;, os.environ.get(&quot;API_TOKEN&quot;, &quot;demo&quot;)))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Authenticated POST</div><div class="pd">Write post_json(url, payload, token) that POSTs `payload` as JSON with a bearer token, a 5s timeout, raises for HTTP errors, and returns the parsed response. Run it locally.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17')">Copy</button></div><pre><code id="p17" class="language-python">import requests
+print(create_item(&quot;widget&quot;, os.environ.get(&quot;API_TOKEN&quot;, &quot;demo&quot;)))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Authenticated POST</div><div class="pd">Write post_json(url, payload, token) that POSTs `payload` as JSON with a bearer token, a 5s timeout, raises for HTTP errors, and returns the parsed response. Run it locally.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p17_0')">Copy</button></div><pre><code id="p17_0" class="language-python">import requests
 
 def post_json(url, payload, token):
     # TODO: requests.post with json=payload, an Authorization bearer header,
@@ -2223,7 +2362,7 @@ def fetch_all(base_url, per_page=100):
         page += 1
     return items
 
-# items = fetch_all(&quot;https://api.github.com/repos/python/cpython/issues&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fetch All Pages</div><div class="pd">Write fetch_all(base_url, per_page=100) that pages through a list endpoint (page=1, 2, ...) until an empty page, accumulating and returning every item. Run it locally against a real paginated API.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18')">Copy</button></div><pre><code id="p18" class="language-python">import requests
+# items = fetch_all(&quot;https://api.github.com/repos/python/cpython/issues&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Fetch All Pages</div><div class="pd">Write fetch_all(base_url, per_page=100) that pages through a list endpoint (page=1, 2, ...) until an empty page, accumulating and returning every item. Run it locally against a real paginated API.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p18_0')">Copy</button></div><pre><code id="p18_0" class="language-python">import requests
 
 def fetch_all(base_url, per_page=100):
     items, page = [], 1
@@ -2250,7 +2389,7 @@ def get_with_backoff(url, max_tries=5):
         return r.json()
     raise RuntimeError(&quot;rate limited&quot;)
 
-# data = get_with_backoff(&quot;https://api.example.com/items&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Backoff on 429</div><div class="pd">Write get_with_backoff(url, max_tries=5) that retries on HTTP 429, sleeping for the Retry-After seconds, and returns JSON on success. Run locally.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19')">Copy</button></div><pre><code id="p19" class="language-python">import requests, time
+# data = get_with_backoff(&quot;https://api.example.com/items&quot;)</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Backoff on 429</div><div class="pd">Write get_with_backoff(url, max_tries=5) that retries on HTTP 429, sleeping for the Retry-After seconds, and returns JSON on success. Run locally.</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p19_0')">Copy</button></div><pre><code id="p19_0" class="language-python">import requests, time
 
 def get_with_backoff(url, max_tries=5):
     for _ in range(max_tries):
@@ -2267,7 +2406,7 @@ async def fetch_all(urls):
         responses = await asyncio.gather(*(client.get(u) for u in urls))
         return [r.status_code for r in responses]
 
-# print(asyncio.run(fetch_all([&quot;https://example.com&quot;, &quot;https://httpbin.org/get&quot;])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Concurrent Fetch</div><div class="pd">Write an async fetch_all(urls) that GETs every URL concurrently with httpx and returns the list of status codes. Run locally with asyncio.run(...).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20')">Copy</button></div><pre><code id="p20" class="language-python">import asyncio, httpx
+# print(asyncio.run(fetch_all([&quot;https://example.com&quot;, &quot;https://httpbin.org/get&quot;])))</code></pre></div><div class="practice"><div class="ph">&#x1F3CB;&#xFE0F; Practice: Concurrent Fetch</div><div class="pd">Write an async fetch_all(urls) that GETs every URL concurrently with httpx and returns the list of status codes. Run locally with asyncio.run(...).</div><div class="code-block"><div class="ch"><span>Starter Code</span><button onclick="cp('p20_0')">Copy</button></div><pre><code id="p20_0" class="language-python">import asyncio, httpx
 
 async def fetch_all(urls):
     async with httpx.AsyncClient(timeout=10) as client:

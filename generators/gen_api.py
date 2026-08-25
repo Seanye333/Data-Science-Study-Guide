@@ -35,15 +35,17 @@ def make_html(sections):
                 f'<pre><code class="language-python">{esc(rw["code"])}</code></pre>'
                 f'</div>'
             )
-        practice = s.get("practice", {})
+        practices = list(s.get("practices") or [])
+        if s.get("practice"):
+            practices = [s["practice"]] + practices
         practice_html = ""
-        if practice:
-            pid = f"p{i}"
+        for k, practice in enumerate(practices):
+            pid = f"p{i}_{k}"
             check_html = (
                 f'<template class="ho-check">{esc(practice["check"])}</template>'
                 if practice.get("check") else ""
             )
-            practice_html = (
+            practice_html += (
                 f'<div class="practice">'
                 f'<div class="ph">&#x1F3CB;&#xFE0F; Practice: {esc(practice["title"])}</div>'
                 f'<div class="pd">{esc(practice["desc"])}</div>'
@@ -127,8 +129,7 @@ def make_nb(sections):
         if rw:
             cells.append(md(f"### Real-World: {rw['title']}\n\n> {rw['scenario']}"))
             cells.append(code(rw["code"]))
-        practice = s.get("practice")
-        if practice:
+        for practice in ([s["practice"]] if s.get("practice") else []) + list(s.get("practices") or []):
             cells.append(md(f"### 🏋️ Practice: {practice['title']}\n\n{practice['desc']}"))
             cells.append(code(practice["starter"]))
     return {
@@ -266,6 +267,32 @@ print(f"Secure: {secure}, Insecure: {insecure}")"""
 
 {
 "title": "2. Getting Started with requests",
+"practices": [
+{
+"title": 'Build a URL',
+"desc": 'Assemble a URL with encoded query parameters.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'from urllib.parse import urlencode, urlparse, parse_qs\n\ndef build_url(base, params):\n    # TODO: base + "?" + urlencode(params)\n    return base\n\nprint(build_url("https://api.x/items", {"page": 2, "q": "a b"}))',
+"check": 'assert build_url("https://api.x/items", {"page": 2, "q": "a b"}) == "https://api.x/items?page=2&q=a+b"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Parse Query Params',
+"desc": 'Read query parameters back out of a URL.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'from urllib.parse import urlencode, urlparse, parse_qs\n\ndef parse_params(url):\n    # TODO: parse the query into a flat {key: first_value} dict\n    return {}\n\nprint(parse_params("https://a/b?x=1&y=2"))',
+"check": 'assert parse_params("https://a/b?x=1&y=2") == {"x": "1", "y": "2"}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Path Segments',
+"desc": 'Split a URL path into non-empty segments.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'from urllib.parse import urlencode, urlparse, parse_qs\n\ndef path_parts(url):\n    # TODO: split urlparse(url).path on "/" and drop empties\n    return []\n\nprint(path_parts("https://a/repos/python/cpython"))',
+"check": 'assert path_parts("https://a/repos/python/cpython") == ["repos", "python", "cpython"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Success Status',
+"desc": 'Is an HTTP status a 2xx success?\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def is_success(status):\n    # TODO: True for 200-299\n    return False\n\nprint(is_success(204), is_success(404))',
+"check": 'assert is_success(204) is True and is_success(404) is False\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "The requests library is the standard way to make HTTP calls in Python. It wraps urllib3 with a clean, human-friendly API. Install: pip install requests.",
 "examples": [
 {"label": "Your first GET request", "code":
@@ -414,6 +441,32 @@ print(f"Warmest city on average: {warmest}")"""
 
 {
 "title": "3. Working with JSON Responses",
+"practices": [
+{
+"title": 'Get Field',
+"desc": 'Read a key from a response dict with a default.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def get_field(resp, key, default=None):\n    # TODO: dict.get with the default\n    return None\n\nprint(get_field({"a": 1}, "a"), get_field({}, "b", "x"))',
+"check": 'assert get_field({"a": 1}, "a") == 1\nassert get_field({}, "b", "x") == "x"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Extract Names',
+"desc": 'Pull one field out of a list of records.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def extract_names(items):\n    # TODO: [item["name"] for item in items]\n    return []\n\nprint(extract_names([{"name": "a"}, {"name": "b"}]))',
+"check": 'assert extract_names([{"name": "a"}, {"name": "b"}]) == ["a", "b"]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Nested Get',
+"desc": 'Safely walk a nested JSON path.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def nested_get(d, path, default=None):\n    cur = d\n    for k in path:\n        # TODO: return default if cur is not a dict or k is missing; else descend\n        pass\n    return cur\n\nprint(nested_get({"a": {"b": {"c": 7}}}, ["a", "b", "c"]), nested_get({}, ["x"], 0))',
+"check": 'assert nested_get({"a": {"b": {"c": 7}}}, ["a", "b", "c"]) == 7\nassert nested_get({}, ["x"], 0) == 0\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Total Pages',
+"desc": 'How many pages for a total at a page size.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def total_pages(total, per_page):\n    # TODO: ceiling division\n    return 0\n\nprint(total_pages(95, 10))',
+"check": 'assert total_pages(95, 10) == 10\nassert total_pages(100, 10) == 10\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Most modern APIs return JSON. Python's requests library auto-decodes it, and you can navigate nested structures, validate data, and convert to various formats.",
 "examples": [
 {"label": "Navigating nested JSON", "code":
@@ -728,6 +781,32 @@ import requests
 
 {
 "title": "5. Authentication — API Keys & Tokens",
+"practices": [
+{
+"title": 'Bearer Header',
+"desc": 'Build the Authorization header.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def bearer_header(token):\n    # TODO: {"Authorization": "Bearer <token>"}\n    return {}\n\nprint(bearer_header("abc"))',
+"check": 'assert bearer_header("abc") == {"Authorization": "Bearer abc"}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Merge Headers',
+"desc": 'Merge default and per-request headers, request wins.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def merge_headers(a, b):\n    # TODO: merge with b overriding a\n    return {}\n\nprint(merge_headers({"A": "1"}, {"B": "2", "A": "9"}))',
+"check": 'assert merge_headers({"A": "1"}, {"B": "2", "A": "9"}) == {"A": "9", "B": "2"}\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Mask Token',
+"desc": 'Show only the first and last two characters of a secret.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def mask_token(t):\n    # TODO: first 2 + stars + last 2 when longer than 4, else all stars\n    return t\n\nprint(mask_token("abcdefgh"))',
+"check": 'assert mask_token("abcdefgh") == "ab****gh"\nassert mask_token("abc") == "***"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Has Auth',
+"desc": 'Check whether a request carries credentials.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def has_auth(headers):\n    # TODO: True when an Authorization header is present\n    return False\n\nprint(has_auth({"Authorization": "x"}), has_auth({}))',
+"check": 'assert has_auth({"Authorization": "x"}) is True and has_auth({}) is False\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Most real APIs require authentication. The three most common methods are API keys (in headers or query params), Bearer tokens (OAuth), and Basic auth (username/password).",
 "examples": [
 {"label": "API Key in headers", "code":
@@ -1005,6 +1084,32 @@ client.close()"""
 
 {
 "title": "7. Pagination — Fetching All the Data",
+"practices": [
+{
+"title": 'Collect Pages',
+"desc": 'Flatten a list of pages into one list.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def collect_pages(pages):\n    # TODO: flatten one level\n    return []\n\nprint(collect_pages([[1, 2], [3]]))',
+"check": 'assert collect_pages([[1, 2], [3]]) == [1, 2, 3]\nassert collect_pages([]) == []\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Next Page',
+"desc": 'Next page number, or None at the end.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def next_page(current, total_pages):\n    # TODO: current + 1 while below total_pages, else None\n    return None\n\nprint(next_page(1, 3), next_page(3, 3))',
+"check": 'assert next_page(1, 3) == 2 and next_page(3, 3) is None\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Chunk Requests',
+"desc": 'Split ids into batches for bulk endpoints.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def chunk_requests(ids, size):\n    # TODO: consecutive slices of length size\n    return []\n\nprint(chunk_requests([1, 2, 3, 4, 5], 2))',
+"check": 'assert chunk_requests([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Dedupe By Id',
+"desc": 'Drop duplicate records, keeping the first.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def dedupe_by_id(items):\n    seen = set(); out = []\n    # TODO: append items whose "id" has not been seen yet\n    return out\n\nprint(dedupe_by_id([{"id": 1}, {"id": 1}, {"id": 2}]))',
+"check": 'assert dedupe_by_id([{"id": 1}, {"id": 1}, {"id": 2}]) == [{"id": 1}, {"id": 2}]\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "APIs rarely return all data at once. Pagination splits results across multiple requests. Common patterns: page/per_page, offset/limit, and cursor-based.",
 "examples": [
 {"label": "Page-number pagination", "code":
@@ -1345,6 +1450,32 @@ print(f"\\n{limiter.stats()}")"""
 
 {
 "title": "9. Error Handling & Resilience",
+"practices": [
+{
+"title": 'Should Retry',
+"desc": 'Retry on 429 and 5xx, not on other errors.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def should_retry(status):\n    # TODO: True for 429 and 500-599\n    return False\n\nprint(should_retry(429), should_retry(503), should_retry(404))',
+"check": 'assert should_retry(429) is True and should_retry(503) is True\nassert should_retry(404) is False\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Backoff Delays',
+"desc": 'Exponential backoff schedule.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def backoff_delays(n, base=1):\n    # TODO: [base * 2**i for i in range(n)]\n    return []\n\nprint(backoff_delays(4))',
+"check": 'assert backoff_delays(4) == [1, 2, 4, 8]\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Classify Status',
+"desc": 'Bucket a status into ok / client_error / server_error.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'def classify(status):\n    # TODO: "ok" for 2xx, "client_error" for 4xx, "server_error" for 5xx, else "other"\n    return "other"\n\nprint(classify(201), classify(404), classify(502))',
+"check": 'assert classify(201) == "ok" and classify(404) == "client_error" and classify(502) == "server_error"\nprint("All checks passed \\u2713")',
+},
+{
+"title": 'Safe JSON',
+"desc": 'Parse JSON, returning a default on bad input.\n(Pure standard library, so it runs right here in the browser.)',
+"starter": 'import json\n\ndef safe_json(text, default=None):\n    # TODO: json.loads in a try/except, returning default on failure\n    return default\n\nprint(safe_json(\'{"a":1}\'), safe_json("nope", {}))',
+"check": 'assert safe_json(\'{"a":1}\') == {"a": 1}\nassert safe_json("nope", {}) == {}\nprint("All checks passed \\u2713")',
+},
+],
 "desc": "Production API calls fail. Networks drop, servers error, responses are malformed. Robust code anticipates and handles every failure mode gracefully.",
 "examples": [
 {"label": "Comprehensive error handling", "code":
